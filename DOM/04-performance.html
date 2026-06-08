@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04 — Performance: The Call Stack, Event Loop & Efficient DOM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:800px;margin:0 auto}
+        h1{font-size:42px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#58a6ff;margin-bottom:8px}
+        .subtitle{font-size:18px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        h2{font-size:26px;font-weight:700;color:#f0f6fc;margin-top:64px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #1e2d4a}
+        h2 .n{color:#58a6ff}
+        h3{font-size:20px;font-weight:600;color:#e2e8f0;margin-top:36px;margin-bottom:12px}
+        p{margin-bottom:18px;color:#b0bac9}
+        strong{color:#e2e8f0}em{color:#93aac9}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:16px 0 24px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}
+        .kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.num{color:#79c0ff}.bool{color:#ff7b72}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+        ul,ol{margin:12px 0 22px 24px;color:#b0bac9}li{margin-bottom:8px}li strong{color:#e2e8f0}
+        .co{border-radius:12px;padding:20px 24px;margin:24px 0;font-size:15px;line-height:1.7}
+        .co-b{background:rgba(88,166,255,.06);border-left:4px solid #58a6ff}.co-b strong{color:#58a6ff}
+        .co-g{background:rgba(16,185,129,.06);border-left:4px solid #10b981}.co-g strong{color:#10b981}
+        .co-r{background:rgba(248,81,73,.06);border-left:4px solid #f85149}.co-r strong{color:#f85149}
+        .co-y{background:rgba(245,158,11,.06);border-left:4px solid #f59e0b}.co-y strong{color:#f59e0b}
+        .co-p{background:rgba(139,92,246,.06);border-left:4px solid #a78bfa}.co-p strong{color:#a78bfa}
+        .dg{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.5;color:#8b949e;white-space:pre;overflow-x:auto}
+        .dg .hi{color:#58a6ff;font-weight:700}.dg .gr{color:#10b981}.dg .yl{color:#f59e0b}.dg .rd{color:#f85149}.dg .pr{color:#a78bfa}.dg .wh{color:#f0f6fc}
+        table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
+        th{background:#161b2e;color:#58a6ff;text-align:left;padding:12px 16px;font-weight:600;border:1px solid #1e2d4a}
+        td{padding:12px 16px;border:1px solid #1e2d4a;color:#b0bac9}tr:nth-child(even) td{background:rgba(22,27,46,.5)}
+        .step{display:flex;gap:16px;margin:16px 0}.step-num{background:#58a6ff;color:#0d1117;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;margin-top:2px}.step-content{flex:1}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="lesson-num">Lesson 04</p>
+    <h1>Performance</h1>
+    <p class="subtitle">JavaScript is single-threaded. One thread. One call stack. One thing at a time. Understanding this is the key to writing fast, non-blocking code. This lesson covers the call stack, the event loop, efficient DOM updates, and how the browser renders your page.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">1.</span> Introduction — Why Performance Matters</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>Your page has <strong>16 milliseconds</strong> per frame to do everything — run your JavaScript, calculate styles, lay out elements, and paint pixels. That's 60 frames per second. If your JS takes longer than 16ms, the user sees <strong>jank</strong> — stuttering, freezing, unresponsive UI.</p>
+
+    <div class="dg"><span class="wh">The 16ms Budget (60fps):</span>
+
+  ┌──────────────────────────────────────────────────────────┐
+  │  <span class="yl">JS</span>  │  <span class="pr">Style</span>  │  <span class="hi">Layout</span>  │  <span class="gr">Paint</span>  │  <span class="wh">Composite</span>  │
+  └──────────────────────────────────────────────────────────┘
+  ←──────────── must fit in <span class="rd">16.6ms</span> ────────────────────────→
+
+  If your JS alone takes 50ms:
+  ┌────────────────────────────────────────────────────────────────────────────────┐
+  │  <span class="rd">JS (50ms) ████████████████████████████████████</span>  │  Style │ Layout │ Paint │
+  └────────────────────────────────────────────────────────────────────────────────┘
+  ←──────────── <span class="rd">FRAME DROPPED</span> ── user sees jank ──→</div>
+
+    <p>Performance in the browser comes down to two things:</p>
+    <ol>
+        <li><strong>Don't block the main thread</strong> — keep your JS fast, use async patterns</li>
+        <li><strong>Minimize DOM work</strong> — every DOM change costs time in layout and paint</li>
+    </ol>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">2.</span> The Call Stack</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>JavaScript has <strong>one call stack</strong>. The call stack is a data structure that tracks <strong>which function is currently running and which functions called it</strong>.</p>
+
+    <div class="co co-b">
+        <strong>🧠 Mental Model</strong><br>
+        The call stack is a <strong>stack of plates</strong>. When you call a function, a new plate goes on top. When the function returns, the plate is removed. You can only work on the <strong>top plate</strong> — the currently executing function.
+    </div>
+
+    <h3>How the Stack Works — Step by Step</h3>
+
+    <pre><code><span class="kw">function</span> <span class="fn">multiply</span>(a, b) {
+    <span class="kw">return</span> a * b;
+}
+
+<span class="kw">function</span> <span class="fn">square</span>(n) {
+    <span class="kw">return</span> <span class="fn">multiply</span>(n, n);
+}
+
+<span class="kw">function</span> <span class="fn">printSquare</span>(n) {
+    <span class="kw">const</span> result = <span class="fn">square</span>(n);
+    <span class="fn">console</span>.<span class="fn">log</span>(result);
+}
+
+<span class="fn">printSquare</span>(<span class="num">4</span>);</code></pre>
+
+    <div class="dg"><span class="wh">Call Stack execution trace:</span>
+
+  Step 1:  <span class="hi">printSquare(4)</span> is called → pushed onto stack
+
+    │ <span class="hi">printSquare(4)</span>  │
+    └─────────────────┘
+
+  Step 2:  printSquare calls <span class="yl">square(4)</span> → pushed on top
+
+    │ <span class="yl">square(4)</span>       │
+    │ <span class="hi">printSquare(4)</span>  │
+    └─────────────────┘
+
+  Step 3:  square calls <span class="gr">multiply(4, 4)</span> → pushed on top
+
+    │ <span class="gr">multiply(4, 4)</span> │
+    │ <span class="yl">square(4)</span>       │
+    │ <span class="hi">printSquare(4)</span>  │
+    └─────────────────┘
+
+  Step 4:  multiply returns 16 → <span class="gr">popped off</span>
+
+    │ <span class="yl">square(4)</span>       │  ← multiply returned 16
+    │ <span class="hi">printSquare(4)</span>  │
+    └─────────────────┘
+
+  Step 5:  square returns 16 → <span class="yl">popped off</span>
+
+    │ <span class="hi">printSquare(4)</span>  │  ← square returned 16
+    └─────────────────┘
+
+  Step 6:  console.log(16) runs, printSquare returns → <span class="hi">popped off</span>
+
+    │                  │  ← stack is empty
+    └─────────────────┘
+
+  <span class="wh">Stack empty = JS is idle, ready for next task.</span></div>
+
+    <h3>Stack Overflow — When the Stack Gets Too Full</h3>
+
+    <pre><code><span class="cm">// ❌ This will crash — infinite recursion</span>
+<span class="kw">function</span> <span class="fn">forever</span>() {
+    <span class="fn">forever</span>();  <span class="cm">// calls itself endlessly</span>
+}
+<span class="fn">forever</span>();
+
+<span class="cm">// Error: Maximum call stack size exceeded</span>
+<span class="cm">// (aka "Stack Overflow")</span></code></pre>
+
+    <div class="dg"><span class="wh">What happens:</span>
+
+    │ forever()  │
+    │ forever()  │
+    │ forever()  │
+    │ forever()  │
+    │ forever()  │
+    │ ...×10000  │  ← browser says STOP
+    └────────────┘
+    <span class="rd">💥 Maximum call stack size exceeded</span></div>
+
+    <div class="co co-r">
+        <strong>⚠️ The Blocking Problem</strong><br>
+        While a function is on the call stack, <strong>nothing else can run</strong>. No clicks, no animations, no scrolling. The page is completely frozen. This is what "blocking the main thread" means. If your function takes 3 seconds, the page is frozen for 3 seconds.
+    </div>
+
+    <pre><code><span class="cm">// ❌ This BLOCKS the page for ~3 seconds</span>
+<span class="kw">function</span> <span class="fn">heavyWork</span>() {
+    <span class="kw">let</span> total = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">3_000_000_000</span>; i++) {
+        total += i;
+    }
+    <span class="kw">return</span> total;
+}
+
+<span class="fn">heavyWork</span>();  <span class="cm">// 🧊 Page is FROZEN during this loop</span>
+<span class="cm">// Can't click, can't scroll, can't type</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">3.</span> The Event Loop</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>If JavaScript is single-threaded, how does it handle async operations like <code>setTimeout</code>, <code>fetch</code>, and event listeners without freezing? The answer is the <strong>Event Loop</strong>.</p>
+
+    <div class="co co-b">
+        <strong>🧠 Mental Model</strong><br>
+        Think of a restaurant. The <strong>chef</strong> (call stack) can only cook one dish at a time. But the <strong>waiter</strong> (event loop) takes orders and lines them up. When the chef finishes a dish, the waiter hands them the next order. The chef never stops to wait for an oven timer — the timer is handled by <strong>kitchen helpers</strong> (Web APIs).
+    </div>
+
+    <h3>The Architecture</h3>
+
+    <div class="dg"><span class="wh">JavaScript Runtime Architecture:</span>
+
+  ┌─────────────────────┐     ┌─────────────────────────────┐
+  │   <span class="hi">CALL STACK</span>         │     │   <span class="yl">WEB APIs</span>                   │
+  │                     │     │   (provided by the browser)  │
+  │   (one thing at     │     │                              │
+  │    a time)          │────→│   • setTimeout / setInterval │
+  │                     │     │   • fetch (network requests) │
+  │                     │     │   • DOM events (click, etc.) │
+  └─────────────────────┘     │   • geolocation              │
+           ↑                  │   • requestAnimationFrame    │
+           │                  └──────────────┬───────────────┘
+           │                                 │
+           │                                 ↓
+           │                  ┌──────────────────────────────┐
+           │                  │   <span class="gr">CALLBACK QUEUE</span>              │
+           │                  │   (Task Queue)               │
+           │                  │                              │
+           │                  │   [callback1] [callback2] …  │
+           │                  └──────────────┬───────────────┘
+           │                                 │
+           │         ┌───────────────────────┘
+           │         │
+      ┌────┴─────────┴────┐
+      │   <span class="pr">EVENT LOOP</span>        │
+      │                    │
+      │   "Is the stack    │
+      │    empty? If yes,  │
+      │    take next       │
+      │    callback from   │
+      │    the queue and   │
+      │    push it onto    │
+      │    the stack."     │
+      └────────────────────┘</div>
+
+    <h3>Step-by-Step Example</h3>
+
+    <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"1 — Start"</span>);
+
+<span class="fn">setTimeout</span>(() => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"2 — Timeout"</span>);
+}, <span class="num">0</span>);  <span class="cm">// 0ms delay!</span>
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"3 — End"</span>);
+
+<span class="cm">// Output:</span>
+<span class="cm">// "1 — Start"</span>
+<span class="cm">// "3 — End"</span>
+<span class="cm">// "2 — Timeout"</span>
+<span class="cm">//</span>
+<span class="cm">// Wait... WHY does "3" print before "2"?!</span>
+<span class="cm">// The timeout is 0ms! Shouldn't it be instant?</span></code></pre>
+
+    <div class="dg"><span class="wh">Here's exactly what happens:</span>
+
+  <span class="hi">Step 1:</span> console.log("1 — Start") → runs immediately on the stack
+  Output: <span class="gr">"1 — Start"</span>
+
+  <span class="hi">Step 2:</span> setTimeout(callback, 0)
+  → setTimeout is a <span class="yl">Web API</span>, not JS
+  → The browser takes the callback and starts a 0ms timer
+  → setTimeout itself returns immediately (stack is free)
+
+  <span class="hi">Step 3:</span> console.log("3 — End") → runs immediately on the stack
+  Output: <span class="gr">"3 — End"</span>
+
+  <span class="hi">Step 4:</span> The 0ms timer fires → callback moves to the <span class="gr">Callback Queue</span>
+
+  <span class="hi">Step 5:</span> <span class="pr">Event Loop</span> checks: "Is the stack empty?" → YES
+  → Moves callback from queue to stack
+  → callback runs: console.log("2 — Timeout")
+  Output: <span class="gr">"2 — Timeout"</span></div>
+
+    <div class="co co-y">
+        <strong>💡 Key Insight</strong><br>
+        <code>setTimeout(fn, 0)</code> does NOT mean "run immediately." It means "run <strong>as soon as possible, after the current stack is clear.</strong>" The callback must wait in the queue until all synchronous code finishes. Even with 0ms delay, it goes through the queue.
+    </div>
+
+    <h3>Microtask Queue vs Macrotask Queue</h3>
+
+    <p>There are actually <strong>two queues</strong>, and they have different priorities:</p>
+
+    <table>
+        <tr><th>Microtask Queue (HIGH priority)</th><th>Macrotask Queue (NORMAL priority)</th></tr>
+        <tr><td><code>Promise.then()</code> / <code>.catch()</code> / <code>.finally()</code></td><td><code>setTimeout()</code></td></tr>
+        <tr><td><code>await</code> (after the awaited value resolves)</td><td><code>setInterval()</code></td></tr>
+        <tr><td><code>queueMicrotask()</code></td><td><code>requestAnimationFrame()</code></td></tr>
+        <tr><td><code>MutationObserver</code></td><td>DOM events (click, input, etc.)</td></tr>
+    </table>
+
+    <div class="co co-p">
+        <strong>🧠 The Rule</strong><br>
+        After each task on the call stack finishes, the event loop <strong>drains ALL microtasks</strong> before taking the next macrotask. Microtasks always cut in line.
+    </div>
+
+    <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"1 — sync"</span>);
+
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"2 — macrotask"</span>), <span class="num">0</span>);
+
+<span class="fn">Promise</span>.<span class="fn">resolve</span>().<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"3 — microtask"</span>));
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"4 — sync"</span>);
+
+<span class="cm">// Output:</span>
+<span class="cm">// "1 — sync"       ← call stack (runs immediately)</span>
+<span class="cm">// "4 — sync"       ← call stack (runs immediately)</span>
+<span class="cm">// "3 — microtask"  ← microtask queue (drained BEFORE macrotask)</span>
+<span class="cm">// "2 — macrotask"  ← macrotask queue (runs last)</span></code></pre>
+
+    <div class="dg"><span class="wh">Execution order:</span>
+
+  <span class="hi">CALL STACK</span>          <span class="pr">MICROTASK QUEUE</span>    <span class="yl">MACROTASK QUEUE</span>
+
+  1. log("1")          (empty)             (empty)
+  2. setTimeout(cb)    (empty)             [cb: log("2")]
+  3. Promise.then(cb)  [cb: log("3")]      [cb: log("2")]
+  4. log("4")          [cb: log("3")]      [cb: log("2")]
+  
+  ── stack empty ──
+
+  5. <span class="pr">Drain microtasks</span> → log("3")
+  6. <span class="yl">Next macrotask</span>   → log("2")
+
+  <span class="wh">Priority: Sync > Microtasks > Macrotasks</span></div>
+
+    <h3>Tricky Interview Example</h3>
+
+    <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"A"</span>);
+
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"B"</span>), <span class="num">0</span>);
+
+<span class="fn">Promise</span>.<span class="fn">resolve</span>()
+    .<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"C"</span>))
+    .<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"D"</span>));
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"E"</span>);
+
+<span class="cm">// Output: A, E, C, D, B</span>
+<span class="cm">//</span>
+<span class="cm">// A → sync (stack)</span>
+<span class="cm">// E → sync (stack)</span>
+<span class="cm">// C → microtask (promise .then)</span>
+<span class="cm">// D → microtask (chained .then — added after C runs)</span>
+<span class="cm">// B → macrotask (setTimeout)</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">4.</span> setTimeout & setInterval</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <h3>setTimeout — Run once after a delay</h3>
+
+    <pre><code><span class="cm">// Run callback after 2 seconds</span>
+<span class="kw">const</span> timerId = <span class="fn">setTimeout</span>(() => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"2 seconds later"</span>);
+}, <span class="num">2000</span>);
+
+<span class="cm">// Cancel it before it fires</span>
+<span class="fn">clearTimeout</span>(timerId);</code></pre>
+
+    <h3>setInterval — Run repeatedly</h3>
+
+    <pre><code><span class="cm">// Run every 1 second</span>
+<span class="kw">let</span> count = <span class="num">0</span>;
+<span class="kw">const</span> intervalId = <span class="fn">setInterval</span>(() => {
+    count++;
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Tick ${count}`</span>);
+    <span class="kw">if</span> (count >= <span class="num">5</span>) <span class="fn">clearInterval</span>(intervalId);  <span class="cm">// stop after 5</span>
+}, <span class="num">1000</span>);</code></pre>
+
+    <div class="co co-r">
+        <strong>⚠️ setTimeout delay is a MINIMUM, not a guarantee</strong><br>
+        <code>setTimeout(fn, 1000)</code> means: "After <strong>at least</strong> 1000ms, add the callback to the queue." If the call stack is busy, the callback waits. The actual delay could be 1000ms, 1050ms, or even 2000ms if the stack is blocked.
+    </div>
+
+    <pre><code><span class="cm">// Proof that setTimeout delay isn't exact:</span>
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"timer done"</span>), <span class="num">1000</span>);
+
+<span class="cm">// This blocks the stack for 3 seconds</span>
+<span class="kw">const</span> start = <span class="fn">Date</span>.<span class="fn">now</span>();
+<span class="kw">while</span> (<span class="fn">Date</span>.<span class="fn">now</span>() - start < <span class="num">3000</span>) {} <span class="cm">// busy loop</span>
+
+<span class="cm">// "timer done" prints after ~3 seconds, not 1 second</span>
+<span class="cm">// The callback was READY at 1s, but the stack was busy until 3s</span></code></pre>
+
+    <h3>setTimeout(fn, 0) — The "Defer" Trick</h3>
+
+    <pre><code><span class="cm">// Use setTimeout(fn, 0) to defer work until after the current stack clears</span>
+<span class="cm">// Useful for letting the browser render before continuing heavy work</span>
+
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => {
+    btn.textContent = <span class="str">"Loading..."</span>;
+
+    <span class="cm">// Without setTimeout: browser can't repaint until ALL JS finishes</span>
+    <span class="cm">// The user never sees "Loading..." — it jumps straight to "Done"</span>
+
+    <span class="fn">setTimeout</span>(() => {
+        <span class="cm">// Heavy work here — runs AFTER the browser repaints "Loading..."</span>
+        <span class="fn">heavyComputation</span>();
+        btn.textContent = <span class="str">"Done!"</span>;
+    }, <span class="num">0</span>);
+});</code></pre>
+
+    <h3>requestAnimationFrame — The Right Way for Animations</h3>
+
+    <pre><code><span class="cm">// requestAnimationFrame runs your callback RIGHT BEFORE the next paint</span>
+<span class="cm">// It runs at 60fps (or whatever the monitor refresh rate is)</span>
+<span class="cm">// It PAUSES when the tab is not visible (saves battery)</span>
+
+<span class="kw">let</span> position = <span class="num">0</span>;
+<span class="kw">const</span> box = document.<span class="fn">querySelector</span>(<span class="str">".box"</span>);
+
+<span class="kw">function</span> <span class="fn">animate</span>() {
+    position += <span class="num">2</span>;
+    box.style.transform = <span class="str">`translateX(${position}px)`</span>;
+
+    <span class="kw">if</span> (position < <span class="num">500</span>) {
+        <span class="fn">requestAnimationFrame</span>(animate);  <span class="cm">// schedule next frame</span>
+    }
+}
+
+<span class="fn">requestAnimationFrame</span>(animate);  <span class="cm">// start the animation</span></code></pre>
+
+    <div class="co co-g">
+        <strong>✅ Animation Rule</strong><br>
+        • <strong>Never</strong> use <code>setTimeout</code> / <code>setInterval</code> for animations — they're unreliable and waste battery.<br>
+        • <strong>Always</strong> use <code>requestAnimationFrame</code> — it syncs perfectly with the browser's render cycle.<br>
+        • <strong>Even better</strong>: use CSS transitions/animations when possible — they run on the GPU and don't block the main thread.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">5.</span> Reflow & Repaint</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>When you change the DOM, the browser has to recalculate how everything looks. This happens in stages:</p>
+
+    <div class="dg"><span class="wh">The Browser Rendering Pipeline:</span>
+
+  <span class="hi">JS</span> → <span class="pr">Style</span> → <span class="yl">Layout (Reflow)</span> → <span class="gr">Paint (Repaint)</span> → <span class="wh">Composite</span>
+
+  <span class="hi">JS:</span>         Your code changes the DOM or CSSOM
+  <span class="pr">Style:</span>      Browser recalculates which CSS rules apply
+  <span class="yl">Layout:</span>     Browser calculates WHERE elements are (position, size)
+  <span class="gr">Paint:</span>      Browser draws pixels (colors, text, borders, shadows)
+  <span class="wh">Composite:</span>  Browser combines layers and puts them on screen</div>
+
+    <h3>Reflow (Layout) — The Expensive One</h3>
+
+    <p>A <strong>reflow</strong> happens when the browser recalculates the <strong>geometry</strong> of elements — their position and size. Reflows are <strong>expensive</strong> because changing one element can affect many others.</p>
+
+    <p><strong>What triggers a reflow:</strong></p>
+
+    <table>
+        <tr><th>Action</th><th>Why</th></tr>
+        <tr><td>Adding/removing elements</td><td>Changes the layout tree</td></tr>
+        <tr><td>Changing width, height, padding, margin</td><td>Resizes elements, shifts neighbors</td></tr>
+        <tr><td>Changing font-size</td><td>Changes text flow</td></tr>
+        <tr><td>Changing display (none ↔ block)</td><td>Adds/removes from layout</td></tr>
+        <tr><td>Reading <code>offsetWidth</code>, <code>offsetHeight</code></td><td>Forces the browser to calculate NOW</td></tr>
+        <tr><td>Reading <code>getBoundingClientRect()</code></td><td>Forces immediate layout calculation</td></tr>
+        <tr><td>Window resize</td><td>Everything recalculates</td></tr>
+    </table>
+
+    <h3>Repaint — Less Expensive</h3>
+
+    <p>A <strong>repaint</strong> happens when visual properties change but geometry stays the same (no layout change).</p>
+
+    <p><strong>What triggers only a repaint (no reflow):</strong></p>
+    <ul>
+        <li>Changing <code>color</code>, <code>background-color</code></li>
+        <li>Changing <code>visibility</code> (but not <code>display</code>)</li>
+        <li>Changing <code>box-shadow</code>, <code>border-color</code></li>
+        <li>Changing <code>outline</code></li>
+    </ul>
+
+    <h3>Composite Only — Free! (The Goal)</h3>
+
+    <p>Some changes skip both reflow and repaint. They only trigger <strong>compositing</strong>, which is handled by the GPU:</p>
+
+    <ul>
+        <li><code>transform</code> (translate, scale, rotate)</li>
+        <li><code>opacity</code></li>
+        <li><code>will-change</code></li>
+    </ul>
+
+    <div class="co co-g">
+        <strong>✅ Animation Performance Rule</strong><br>
+        Only animate <code>transform</code> and <code>opacity</code>. These two properties are handled by the GPU compositor and <strong>never trigger reflow or repaint</strong>. Animating <code>top</code>, <code>left</code>, <code>width</code>, <code>height</code> causes reflow on <strong>every single frame</strong>.
+    </div>
+
+    <pre><code><span class="cm">/* ❌ SLOW — triggers reflow every frame */</span>
+.box { transition: left 0.3s, top 0.3s; }
+
+<span class="cm">/* ✅ FAST — GPU compositing, no reflow */</span>
+.box { transition: transform 0.3s, opacity 0.3s; }</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">6.</span> Add Page Content Efficiently</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <h3>❌ The Worst: innerHTML += in a loop</h3>
+
+    <pre><code><span class="cm">// ❌ TERRIBLE — destroys and rebuilds ALL children on every iteration</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">100</span>; i++) {
+    list.innerHTML += <span class="str">`&lt;li&gt;Item ${i}&lt;/li&gt;`</span>;
+    <span class="cm">// Each += : parse ALL HTML → destroy old nodes → create new nodes</span>
+    <span class="cm">// → lose all event listeners → reflow → repaint</span>
+    <span class="cm">// This happens 100 TIMES</span>
+}</code></pre>
+
+    <h3>❌ Bad: appendChild in a loop</h3>
+
+    <pre><code><span class="cm">// ❌ BAD — 100 separate DOM insertions = 100 potential reflows</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">100</span>; i++) {
+    <span class="kw">const</span> li = document.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+    li.textContent = <span class="str">`Item ${i}`</span>;
+    list.<span class="fn">appendChild</span>(li);  <span class="cm">// DOM insertion — potential reflow</span>
+}</code></pre>
+
+    <h3>✅ Good: DocumentFragment</h3>
+
+    <pre><code><span class="cm">// ✅ GOOD — build everything in memory, one DOM insertion</span>
+<span class="kw">const</span> fragment = document.<span class="fn">createDocumentFragment</span>();
+
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">100</span>; i++) {
+    <span class="kw">const</span> li = document.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+    li.textContent = <span class="str">`Item ${i}`</span>;
+    fragment.<span class="fn">appendChild</span>(li);  <span class="cm">// no reflow — fragment is in memory</span>
+}
+
+list.<span class="fn">appendChild</span>(fragment);  <span class="cm">// ONE reflow for all 100 items</span></code></pre>
+
+    <h3>✅ Good: Build a string, set innerHTML once</h3>
+
+    <pre><code><span class="cm">// ✅ GOOD — one parse, one DOM update</span>
+<span class="kw">let</span> html = <span class="str">""</span>;
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">100</span>; i++) {
+    html += <span class="str">`&lt;li&gt;Item ${i}&lt;/li&gt;`</span>;  <span class="cm">// just building a string — no DOM yet</span>
+}
+list.innerHTML = html;  <span class="cm">// ONE DOM update</span></code></pre>
+
+    <h3>✅ Best: insertAdjacentHTML</h3>
+
+    <pre><code><span class="cm">// ✅ BEST — inserts without destroying existing content</span>
+<span class="kw">let</span> html = <span class="str">""</span>;
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">100</span>; i++) {
+    html += <span class="str">`&lt;li&gt;Item ${i}&lt;/li&gt;`</span>;
+}
+list.<span class="fn">insertAdjacentHTML</span>(<span class="str">"beforeend"</span>, html);
+<span class="cm">// Existing children and their listeners are preserved ✅</span></code></pre>
+
+    <div class="dg"><span class="wh">Performance comparison (adding 1000 items):</span>
+
+  <span class="rd">innerHTML +=  in loop</span>     ~800ms   <span class="rd">████████████████████  TERRIBLE</span>
+  <span class="yl">appendChild in loop</span>       ~15ms    <span class="yl">██</span>                    ok
+  <span class="gr">DocumentFragment</span>          ~4ms     <span class="gr">█</span>                     great
+  <span class="gr">Build string + innerHTML</span>  ~3ms     <span class="gr">█</span>                     great
+  <span class="gr">insertAdjacentHTML</span>        ~3ms     <span class="gr">█</span>                     great + safe</div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">7.</span> Forced Reflow — The Hidden Performance Killer</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>The browser is smart — it <strong>batches</strong> DOM changes and does one reflow at the end. But if you <strong>read a layout property right after writing</strong>, the browser is forced to calculate layout immediately. This is called <strong>forced synchronous reflow</strong> (or "layout thrashing").</p>
+
+    <pre><code><span class="cm">// ❌ LAYOUT THRASHING — read/write/read/write cycle</span>
+<span class="kw">const</span> boxes = document.<span class="fn">querySelectorAll</span>(<span class="str">".box"</span>);
+
+boxes.<span class="fn">forEach</span>(box => {
+    <span class="kw">const</span> width = box.offsetWidth;  <span class="cm">// READ — forces layout calculation</span>
+    box.style.width = width + <span class="num">10</span> + <span class="str">"px"</span>;  <span class="cm">// WRITE — invalidates layout</span>
+    <span class="cm">// Next iteration: READ again → forces ANOTHER layout calculation</span>
+    <span class="cm">// This is called "layout thrashing" — reflow on EVERY iteration</span>
+});</code></pre>
+
+    <pre><code><span class="cm">// ✅ FIX — batch all reads, then batch all writes</span>
+<span class="kw">const</span> boxes = document.<span class="fn">querySelectorAll</span>(<span class="str">".box"</span>);
+
+<span class="cm">// Step 1: READ all values first</span>
+<span class="kw">const</span> widths = [...boxes].<span class="fn">map</span>(box => box.offsetWidth);
+
+<span class="cm">// Step 2: WRITE all values (browser batches these into one reflow)</span>
+boxes.<span class="fn">forEach</span>((box, i) => {
+    box.style.width = widths[i] + <span class="num">10</span> + <span class="str">"px"</span>;
+});</code></pre>
+
+    <div class="co co-y">
+        <strong>💡 The Golden Rule</strong><br>
+        <strong>Batch your reads together, then batch your writes together.</strong> Never alternate between reading and writing layout properties in a loop. Read everything first, then write everything.
+    </div>
+
+    <p><strong>Properties that force reflow when read:</strong></p>
+    <ul>
+        <li><code>offsetWidth</code>, <code>offsetHeight</code>, <code>offsetTop</code>, <code>offsetLeft</code></li>
+        <li><code>clientWidth</code>, <code>clientHeight</code>, <code>clientTop</code>, <code>clientLeft</code></li>
+        <li><code>scrollWidth</code>, <code>scrollHeight</code>, <code>scrollTop</code>, <code>scrollLeft</code></li>
+        <li><code>getComputedStyle()</code></li>
+        <li><code>getBoundingClientRect()</code></li>
+    </ul>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">8.</span> Summary</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <h3>The Call Stack</h3>
+    <ul>
+        <li>JavaScript has <strong>one call stack</strong> — one thing at a time</li>
+        <li>Functions are pushed when called, popped when they return</li>
+        <li>If the stack is busy, <strong>nothing else can run</strong> — the page freezes</li>
+        <li>Infinite recursion → Stack Overflow</li>
+    </ul>
+
+    <h3>The Event Loop</h3>
+    <ul>
+        <li>Async callbacks (setTimeout, events, fetch) go to <strong>Web APIs</strong> first, then to a <strong>queue</strong></li>
+        <li>The event loop moves callbacks from the queue to the stack <strong>only when the stack is empty</strong></li>
+        <li><strong>Microtasks</strong> (Promises) always run before <strong>Macrotasks</strong> (setTimeout)</li>
+        <li>Order: <strong>Sync → Microtasks → Macrotasks</strong></li>
+    </ul>
+
+    <h3>setTimeout</h3>
+    <ul>
+        <li>Delay is a <strong>minimum</strong>, not a guarantee</li>
+        <li><code>setTimeout(fn, 0)</code> = "run after the current stack clears"</li>
+        <li>Use <code>requestAnimationFrame</code> for animations, not setTimeout</li>
+    </ul>
+
+    <h3>Reflow & Repaint</h3>
+    <ul>
+        <li><strong>Reflow</strong> = recalculate geometry (size, position) — EXPENSIVE</li>
+        <li><strong>Repaint</strong> = redraw pixels (color, shadow) — less expensive</li>
+        <li><strong>Composite only</strong> = transform + opacity — FREE (GPU)</li>
+        <li>Only animate <code>transform</code> and <code>opacity</code></li>
+    </ul>
+
+    <h3>Efficient DOM Updates</h3>
+    <table>
+        <tr><th>Do This</th><th>Not This</th></tr>
+        <tr><td>DocumentFragment or build HTML string</td><td>innerHTML += in a loop</td></tr>
+        <tr><td>Batch reads, then batch writes</td><td>Read/write/read/write in a loop</td></tr>
+        <tr><td>classList.add/remove/toggle</td><td>element.style.x = "..." repeatedly</td></tr>
+        <tr><td>Event delegation (1 listener on parent)</td><td>One listener per child element</td></tr>
+        <tr><td>Cache DOM queries in variables</td><td>querySelector inside loops</td></tr>
+        <tr><td>requestAnimationFrame for animations</td><td>setTimeout / setInterval</td></tr>
+        <tr><td>Animate transform & opacity</td><td>Animate top, left, width, height</td></tr>
+    </table>
+
+    <hr>
+    <p style="text-align:center;color:#5e6e8a;font-size:14px;margin-top:40px;">
+        🧠 If you understand <strong>call stack + event loop + microtasks vs macrotasks + reflow</strong>, you understand more about browser performance than most working developers.
+    </p>
+
+</div>
+</body>
+</html>

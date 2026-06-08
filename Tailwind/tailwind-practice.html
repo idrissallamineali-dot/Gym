@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS Practice Sandbox — 20 Exercises</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0c10',
+                        cardBg: '#121319',
+                        borderSlate: '#1f222e',
+                        textMuted: '#8e929f'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0b0c10; }
+        ::-webkit-scrollbar-thumb { background: #1f222e; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2a2d3a; }
+
+        /* Textarea styling */
+        textarea:focus { outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.1); }
+
+        /* Smooth transitions */
+        .exercise-card { transition: border-color 0.2s ease; }
+        .exercise-card:hover { border-color: #2a2d3a; }
+
+        /* Badge pulse animation */
+        @keyframes badgePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .badge-pulse { animation: badgePulse 0.6s ease-in-out; }
+
+        /* Preview area grid pattern */
+        .preview-grid {
+            background-image:
+                linear-gradient(45deg, rgba(255,255,255,0.02) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(255,255,255,0.02) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.02) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.02) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+
+        /* Progress bar fill transition */
+        .progress-fill { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body class="bg-darkBg text-white font-sans min-h-screen">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         HEADER & SCORE TRACKER
+         ═══════════════════════════════════════════════════════════════ -->
+    <header class="sticky top-0 z-50 bg-darkBg/90 backdrop-blur-md border-b border-borderSlate">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight">Tailwind Practice Sandbox</h1>
+                <p class="text-textMuted text-sm mt-0.5">20 exercises · Type classes → Run → Pass</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right">
+                    <div class="flex items-center gap-2">
+                        <span id="scoreCount" class="text-2xl font-bold font-mono">0</span>
+                        <span class="text-textMuted text-sm">/ 20</span>
+                    </div>
+                    <p class="text-textMuted text-xs">exercises passed</p>
+                </div>
+                <button onclick="resetAllProgress()"
+                        class="text-xs text-textMuted border border-borderSlate rounded-lg px-3 py-1.5 hover:text-white hover:border-white/20 transition-colors"
+                        title="Reset all progress">
+                    Reset All
+                </button>
+            </div>
+        </div>
+        <!-- Progress bar -->
+        <div class="h-0.5 bg-borderSlate">
+            <div id="progressBar" class="progress-fill h-full bg-white/60" style="width: 0%"></div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MAIN CONTENT
+         ═══════════════════════════════════════════════════════════════ -->
+    <main class="max-w-5xl mx-auto px-6 py-8 space-y-6">
+
+        <!-- Part 1 Header -->
+        <div class="flex items-center gap-3 pt-4 pb-2">
+            <div class="w-8 h-8 rounded-lg bg-white/5 border border-borderSlate flex items-center justify-center text-sm font-bold font-mono">1</div>
+            <div>
+                <h2 class="text-lg font-bold">Spacing & Sizing</h2>
+                <p class="text-textMuted text-sm">Exercises 1–7 · Padding, margin, width, height, gaps</p>
+            </div>
+        </div>
+
+        <!-- ── Exercise 1 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="1">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#01</span>
+                    <h3 class="font-semibold text-[15px]">Add padding of 24px to a box</h3>
+                </div>
+                <span id="badge-1" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Info -->
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Apply <strong class="text-white">24px of padding</strong> on all sides to the preview box.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target class:</p>
+                        <code class="text-sm font-mono text-white/80">p-6</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">padding: 1.5rem; /* 24px */</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-1" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(1)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(1)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <!-- Preview -->
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-start justify-start overflow-auto">
+                    <div id="target-1" class="border border-dashed border-white/20 text-sm text-textMuted font-mono">
+                        Box content
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 2 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="2">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#02</span>
+                    <h3 class="font-semibold text-[15px]">Set width to 200px and height to 100px</h3>
+                </div>
+                <span id="badge-2" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Give the preview box a <strong class="text-white">width of 200px</strong> and a <strong class="text-white">height of 100px</strong> using arbitrary values.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">w-[200px] h-[100px]</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">width: 200px; height: 100px;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-2" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(2)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(2)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-start justify-start overflow-auto">
+                    <div id="target-2" class="border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5">
+                        200 × 100
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 3 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="3">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#03</span>
+                    <h3 class="font-semibold text-[15px]">Center a box horizontally with mx-auto</h3>
+                </div>
+                <span id="badge-3" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Give the box a <strong class="text-white">fixed width of 120px</strong> and <strong class="text-white">center it horizontally</strong> using auto margins.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">w-[120px] mx-auto</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">width: 120px; margin-left: auto; margin-right: auto;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-3" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(3)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(3)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] overflow-auto">
+                    <div id="target-3" class="border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 p-2 text-center">
+                        Centered
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 4 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="4">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#04</span>
+                    <h3 class="font-semibold text-[15px]">Add margin-top of 40px to separate two boxes</h3>
+                </div>
+                <span id="badge-4" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Add <strong class="text-white">40px of top margin</strong> to the second box so it separates from the first.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target class:</p>
+                        <code class="text-sm font-mono text-white/80">mt-10</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">margin-top: 2.5rem; /* 40px */</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-4" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(4)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(4)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] overflow-auto">
+                    <div class="border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 p-2 text-center">Box A</div>
+                    <div id="target-4" class="border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 p-2 text-center">Box B (target)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 5 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="5">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#05</span>
+                    <h3 class="font-semibold text-[15px]">Set max-width to 400px and width to full</h3>
+                </div>
+                <span id="badge-5" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Make the box take <strong class="text-white">full width</strong> but cap it at <strong class="text-white">max-width 400px</strong>.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">max-w-[400px] w-full</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">max-width: 400px; width: 100%;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-5" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(5)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(5)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] overflow-auto">
+                    <div id="target-5" class="border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 p-2 text-center">
+                        Full width, max 400px
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 6 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="6">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#06</span>
+                    <h3 class="font-semibold text-[15px]">Different padding: top 16px, bottom 32px</h3>
+                </div>
+                <span id="badge-6" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Apply <strong class="text-white">16px padding-top</strong> and <strong class="text-white">32px padding-bottom</strong> independently.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">pt-4 pb-8</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">padding-top: 1rem; padding-bottom: 2rem;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-6" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(6)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(6)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-start overflow-auto">
+                    <div id="target-6" class="border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 w-full text-center">
+                        Asymmetric padding
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 7 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="7">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#07</span>
+                    <h3 class="font-semibold text-[15px]">Add gap of 16px between flex children</h3>
+                </div>
+                <span id="badge-7" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        The preview has a flex container with three children. Add a <strong class="text-white">16px gap</strong> between them. The container already has <code class="font-mono text-white/60">flex</code> applied — you only need the gap class.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target class:</p>
+                        <code class="text-sm font-mono text-white/80">gap-4</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">gap: 1rem; /* 16px */</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-7" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(7)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(7)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-start overflow-auto">
+                    <div id="target-7" class="flex w-full">
+                        <div class="border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 p-3 text-center">A</div>
+                        <div class="border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 p-3 text-center">B</div>
+                        <div class="border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 p-3 text-center">C</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 2 Header -->
+        <div class="flex items-center gap-3 pt-8 pb-2">
+            <div class="w-8 h-8 rounded-lg bg-white/5 border border-borderSlate flex items-center justify-center text-sm font-bold font-mono">2</div>
+            <div>
+                <h2 class="text-lg font-bold">Typography & Colors</h2>
+                <p class="text-textMuted text-sm">Exercises 8–12 · Font size, weight, colors, borders, rounding</p>
+            </div>
+        </div>
+
+        <!-- ── Exercise 8 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="8">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#08</span>
+                    <h3 class="font-semibold text-[15px]">Make text 24px, bold, and white</h3>
+                </div>
+                <span id="badge-8" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Style the text to be <strong class="text-white">24px (text-2xl)</strong>, <strong class="text-white">bold</strong>, and <strong class="text-white">white</strong>.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">text-2xl font-bold text-white</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">font-size: 1.5rem; font-weight: 700; color: #fff;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-8" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(8)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(8)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-center justify-center overflow-auto">
+                    <p id="target-8" class="text-textMuted text-sm">Heading Text</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 9 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="9">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#09</span>
+                    <h3 class="font-semibold text-[15px]">Center, uppercase, and letter-space text</h3>
+                </div>
+                <span id="badge-9" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Make the text <strong class="text-white">centered</strong>, <strong class="text-white">uppercase</strong>, with <strong class="text-white">wide letter spacing</strong>.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">text-center uppercase tracking-widest</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">text-align: center; text-transform: uppercase; letter-spacing: 0.1em;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-9" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(9)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(9)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-center justify-center overflow-auto">
+                    <p id="target-9" class="text-textMuted text-sm w-full">section title</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 10 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="10">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#10</span>
+                    <h3 class="font-semibold text-[15px]">Custom dark background with muted text</h3>
+                </div>
+                <span id="badge-10" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Set a <strong class="text-white">custom background color #121319</strong> and <strong class="text-white">text color #8e929f</strong> using arbitrary values.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">bg-[#121319] text-[#8e929f]</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">background-color: #121319; color: #8e929f;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-10" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(10)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(10)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-center justify-center overflow-auto">
+                    <div id="target-10" class="p-6 rounded-xl text-white w-full text-center">
+                        Dark card with muted text
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 11 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="11">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#11</span>
+                    <h3 class="font-semibold text-[15px]">2px white border with rounded corners</h3>
+                </div>
+                <span id="badge-11" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Add a <strong class="text-white">2px solid white border</strong> with <strong class="text-white">extra-large rounded corners</strong>.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">border-2 border-white rounded-xl</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">border: 2px solid #fff; border-radius: 0.75rem;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-11" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(11)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(11)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-center justify-center overflow-auto">
+                    <div id="target-11" class="p-6 text-textMuted text-sm font-mono text-center">
+                        Bordered box
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 12 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="12">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#12</span>
+                    <h3 class="font-semibold text-[15px]">Make a perfect circle from a square div</h3>
+                </div>
+                <span id="badge-12" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Make the box a <strong class="text-white">64×64 px square</strong> and apply <strong class="text-white">fully rounded corners</strong> to form a perfect circle.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">w-16 h-16 rounded-full</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">width: 4rem; height: 4rem; border-radius: 9999px;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-12" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(12)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(12)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-center justify-center overflow-auto">
+                    <div id="target-12" class="bg-white/10 border border-white/20 flex items-center justify-center text-xs font-mono text-textMuted">
+                        AV
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 3 Header -->
+        <div class="flex items-center gap-3 pt-8 pb-2">
+            <div class="w-8 h-8 rounded-lg bg-white/5 border border-borderSlate flex items-center justify-center text-sm font-bold font-mono">3</div>
+            <div>
+                <h2 class="text-lg font-bold">Flexbox</h2>
+                <p class="text-textMuted text-sm">Exercises 13–20 · Flex direction, alignment, grow, shrink, self</p>
+            </div>
+        </div>
+
+        <!-- ── Exercise 13 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="13">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#13</span>
+                    <h3 class="font-semibold text-[15px]">Create a horizontal flex row with centered items</h3>
+                </div>
+                <span id="badge-13" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Make the container a <strong class="text-white">flex row</strong> and <strong class="text-white">vertically center</strong> the items.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">flex items-center</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">display: flex; align-items: center;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-13" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(13)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(13)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] overflow-auto">
+                    <div id="target-13" class="gap-3 w-full">
+                        <div class="bg-white/10 border border-white/20 p-2 px-4 text-sm font-mono text-textMuted">Icon</div>
+                        <div class="bg-white/10 border border-white/20 p-4 px-4 text-sm font-mono text-textMuted">Taller item</div>
+                        <div class="bg-white/10 border border-white/20 p-2 px-4 text-sm font-mono text-textMuted">Text</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 14 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="14">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#14</span>
+                    <h3 class="font-semibold text-[15px]">Push items to opposite ends</h3>
+                </div>
+                <span id="badge-14" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Create a <strong class="text-white">flex row</strong> with items pushed to <strong class="text-white">opposite ends</strong> (space-between).
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">flex justify-between</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">display: flex; justify-content: space-between;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-14" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(14)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(14)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] overflow-auto">
+                    <div id="target-14" class="w-full">
+                        <div class="bg-white/10 border border-white/20 p-2 px-4 text-sm font-mono text-textMuted">Logo</div>
+                        <div class="bg-white/10 border border-white/20 p-2 px-4 text-sm font-mono text-textMuted">Menu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 15 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="15">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#15</span>
+                    <h3 class="font-semibold text-[15px]">Center content both ways</h3>
+                </div>
+                <span id="badge-15" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        <strong class="text-white">Center the child</strong> both horizontally and vertically within the container. The container has a fixed height already.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">flex justify-center items-center</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">display: flex; justify-content: center; align-items: center;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-15" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(15)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(15)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] overflow-auto">
+                    <div id="target-15" class="w-full h-[160px] border border-dashed border-white/10">
+                        <div class="bg-white/10 border border-white/20 p-3 px-6 text-sm font-mono text-textMuted">Centered</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 16 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="16">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#16</span>
+                    <h3 class="font-semibold text-[15px]">Create a vertical flex column with gap</h3>
+                </div>
+                <span id="badge-16" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Stack items <strong class="text-white">vertically</strong> in a <strong class="text-white">flex column</strong> with <strong class="text-white">16px gap</strong>.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">flex flex-col gap-4</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">display: flex; flex-direction: column; gap: 1rem;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-16" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(16)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(16)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] overflow-auto">
+                    <div id="target-16" class="w-full">
+                        <div class="bg-white/10 border border-white/20 p-2 px-4 text-sm font-mono text-textMuted text-center">Row 1</div>
+                        <div class="bg-white/10 border border-white/20 p-2 px-4 text-sm font-mono text-textMuted text-center">Row 2</div>
+                        <div class="bg-white/10 border border-white/20 p-2 px-4 text-sm font-mono text-textMuted text-center">Row 3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 17 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="17">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#17</span>
+                    <h3 class="font-semibold text-[15px]">Make a wrapping flex gallery</h3>
+                </div>
+                <span id="badge-17" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        Create a <strong class="text-white">wrapping flex container</strong> with <strong class="text-white">16px gap</strong>. Items should wrap to new lines.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target classes:</p>
+                        <code class="text-sm font-mono text-white/80">flex flex-wrap gap-4</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">display: flex; flex-wrap: wrap; gap: 1rem;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-17" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(17)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(17)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] overflow-auto">
+                    <div id="target-17" class="w-full">
+                        <div class="bg-white/10 border border-white/20 w-20 h-20 flex items-center justify-center text-xs font-mono text-textMuted">1</div>
+                        <div class="bg-white/10 border border-white/20 w-20 h-20 flex items-center justify-center text-xs font-mono text-textMuted">2</div>
+                        <div class="bg-white/10 border border-white/20 w-20 h-20 flex items-center justify-center text-xs font-mono text-textMuted">3</div>
+                        <div class="bg-white/10 border border-white/20 w-20 h-20 flex items-center justify-center text-xs font-mono text-textMuted">4</div>
+                        <div class="bg-white/10 border border-white/20 w-20 h-20 flex items-center justify-center text-xs font-mono text-textMuted">5</div>
+                        <div class="bg-white/10 border border-white/20 w-20 h-20 flex items-center justify-center text-xs font-mono text-textMuted">6</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 18 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="18">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#18</span>
+                    <h3 class="font-semibold text-[15px]">Prevent an avatar from shrinking</h3>
+                </div>
+                <span id="badge-18" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        The avatar (first child) is squished by the long text. Apply <strong class="text-white">shrink-0</strong> to the avatar element so it keeps its size. The parent already has <code class="font-mono text-white/60">flex items-center gap-3</code>.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target class:</p>
+                        <code class="text-sm font-mono text-white/80">shrink-0</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">flex-shrink: 0;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-18" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(18)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(18)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-start overflow-auto">
+                    <div class="flex items-center gap-3 w-full">
+                        <div id="target-18" class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs font-mono text-textMuted">AV</div>
+                        <p class="text-sm text-textMuted">This is a very long description text that will try to squish the avatar element on the left side of this flex row unless it is protected from shrinking.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 19 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="19">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#19</span>
+                    <h3 class="font-semibold text-[15px]">Make a search bar fill remaining space</h3>
+                </div>
+                <span id="badge-19" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        The search input (middle element) should <strong class="text-white">grow to fill remaining space</strong> in the flex row. The parent already has <code class="font-mono text-white/60">flex items-center gap-3</code>.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target class:</p>
+                        <code class="text-sm font-mono text-white/80">grow</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">flex-grow: 1;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-19" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(19)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(19)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] flex items-start overflow-auto">
+                    <div class="flex items-center gap-3 w-full">
+                        <div class="bg-white/10 border border-white/20 p-2 px-3 text-sm font-mono text-textMuted shrink-0">🔍</div>
+                        <div id="target-19" class="bg-white/5 border border-white/20 p-2 px-3 text-sm font-mono text-textMuted rounded">Search…</div>
+                        <div class="bg-white/10 border border-white/20 p-2 px-3 text-sm font-mono text-textMuted shrink-0">Go</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Exercise 20 ── -->
+        <div class="exercise-card bg-cardBg border border-borderSlate rounded-2xl overflow-hidden" data-exercise="20">
+            <div class="px-6 py-4 border-b border-borderSlate flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-mono text-textMuted bg-white/5 px-2 py-0.5 rounded">#20</span>
+                    <h3 class="font-semibold text-[15px]">Override alignment on a single badge</h3>
+                </div>
+                <span id="badge-20" class="text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted">Pending</span>
+            </div>
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <p class="text-sm text-textMuted leading-relaxed">
+                        The parent is a flex column with <code class="font-mono text-white/60">items-start</code>. Override the badge (target) to align itself to the <strong class="text-white">end (right)</strong>.
+                    </p>
+                    <div class="bg-darkBg rounded-xl p-4 border border-borderSlate">
+                        <p class="text-xs text-textMuted mb-1 font-mono">Target class:</p>
+                        <code class="text-sm font-mono text-white/80">self-end</code>
+                        <p class="text-xs text-textMuted mt-2 font-mono">CSS equivalent:</p>
+                        <code class="text-sm font-mono text-white/50">align-self: flex-end;</code>
+                    </div>
+                    <div class="flex gap-2">
+                        <textarea id="input-20" rows="2" spellcheck="false"
+                                  class="flex-1 bg-darkBg border border-borderSlate rounded-xl px-4 py-2.5 text-sm font-mono text-white resize-none placeholder:text-textMuted/50"
+                                  placeholder="Type Tailwind classes here…"></textarea>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="runExercise(20)" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-xl hover:bg-white/90 transition-colors">Run</button>
+                        <button onclick="resetExercise(20)" class="px-4 py-2 border border-borderSlate text-sm text-textMuted rounded-xl hover:text-white hover:border-white/20 transition-colors">Reset</button>
+                    </div>
+                </div>
+                <div class="preview-grid bg-darkBg rounded-xl border border-borderSlate p-4 min-h-[140px] overflow-auto">
+                    <div class="flex flex-col items-start gap-2 w-full">
+                        <div class="bg-white/10 border border-white/20 p-2 px-4 text-sm font-mono text-textMuted">Title</div>
+                        <div class="bg-white/10 border border-white/20 p-2 px-4 text-sm font-mono text-textMuted">Subtitle</div>
+                        <div id="target-20" class="bg-white/10 border border-white/20 p-1 px-3 text-xs font-mono text-textMuted rounded-full">Badge →</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center py-12 text-textMuted text-sm border-t border-borderSlate mt-8">
+            <p>Tailwind CSS Practice Sandbox · 20 Exercises</p>
+            <p class="mt-1 text-xs">Type classes → Click Run → Check your computed styles</p>
+        </div>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         JAVASCRIPT ENGINE
+         ═══════════════════════════════════════════════════════════════ -->
+    <script>
+        // ─── Storage Key ───────────────────────────────────────────
+        const STORAGE_KEY = 'tw-sandbox-progress';
+
+        // ─── Exercise Definitions ──────────────────────────────────
+        // Each exercise specifies:
+        //   baseClasses  — classes that remain on the target always (structural)
+        //   assertions   — computed style checks: { prop, expected, tolerance? }
+        //                   'expected' can be a value or array of acceptable values
+        const exercises = {
+            1: {
+                baseClasses: 'border border-dashed border-white/20 text-sm text-textMuted font-mono',
+                assertions: [
+                    { prop: 'paddingTop', expected: '24px' },
+                    { prop: 'paddingRight', expected: '24px' },
+                    { prop: 'paddingBottom', expected: '24px' },
+                    { prop: 'paddingLeft', expected: '24px' }
+                ]
+            },
+            2: {
+                baseClasses: 'border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5',
+                assertions: [
+                    { prop: 'width', expected: '200px' },
+                    { prop: 'height', expected: '100px' }
+                ]
+            },
+            3: {
+                baseClasses: 'border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 p-2 text-center',
+                assertions: [
+                    { prop: 'width', expected: '120px' },
+                    { prop: 'marginLeft', expected: 'auto', useRaw: true },
+                    { prop: 'marginRight', expected: 'auto', useRaw: true }
+                ]
+            },
+            4: {
+                baseClasses: 'border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 p-2 text-center',
+                assertions: [
+                    { prop: 'marginTop', expected: '40px' }
+                ]
+            },
+            5: {
+                baseClasses: 'border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 p-2 text-center',
+                assertions: [
+                    { prop: 'maxWidth', expected: '400px' },
+                    { prop: 'width', expected: '100%', useRaw: true }
+                ]
+            },
+            6: {
+                baseClasses: 'border border-dashed border-white/20 text-sm text-textMuted font-mono bg-white/5 w-full text-center',
+                assertions: [
+                    { prop: 'paddingTop', expected: '16px' },
+                    { prop: 'paddingBottom', expected: '32px' }
+                ]
+            },
+            7: {
+                baseClasses: 'flex w-full',
+                assertions: [
+                    { prop: 'gap', expected: '16px' }
+                ]
+            },
+            8: {
+                baseClasses: '',
+                assertions: [
+                    { prop: 'fontSize', expected: '24px' },
+                    { prop: 'fontWeight', expected: ['700', 'bold'] },
+                    { prop: 'color', expected: ['rgb(255, 255, 255)', 'rgba(255, 255, 255, 1)'] }
+                ]
+            },
+            9: {
+                baseClasses: 'text-textMuted text-sm w-full',
+                assertions: [
+                    { prop: 'textAlign', expected: 'center' },
+                    { prop: 'textTransform', expected: 'uppercase' },
+                    { prop: 'letterSpacing', expected: '0.1em', useRaw: true }
+                ]
+            },
+            10: {
+                baseClasses: 'p-6 rounded-xl w-full text-center',
+                assertions: [
+                    { prop: 'backgroundColor', expected: ['rgb(18, 19, 25)', 'rgba(18, 19, 25, 1)'] },
+                    { prop: 'color', expected: ['rgb(142, 146, 159)', 'rgba(142, 146, 159, 1)'] }
+                ]
+            },
+            11: {
+                baseClasses: 'p-6 text-textMuted text-sm font-mono text-center',
+                assertions: [
+                    { prop: 'borderTopWidth', expected: '2px' },
+                    { prop: 'borderColor', expected: ['rgb(255, 255, 255)', 'rgba(255, 255, 255, 1)', 'white'] },
+                    { prop: 'borderRadius', expected: '12px' }
+                ]
+            },
+            12: {
+                baseClasses: 'bg-white/10 border border-white/20 flex items-center justify-center text-xs font-mono text-textMuted',
+                assertions: [
+                    { prop: 'width', expected: '64px' },
+                    { prop: 'height', expected: '64px' },
+                    { prop: 'borderRadius', expected: '9999px' }
+                ]
+            },
+            13: {
+                baseClasses: 'gap-3 w-full',
+                assertions: [
+                    { prop: 'display', expected: 'flex' },
+                    { prop: 'alignItems', expected: 'center' }
+                ]
+            },
+            14: {
+                baseClasses: 'w-full',
+                assertions: [
+                    { prop: 'display', expected: 'flex' },
+                    { prop: 'justifyContent', expected: 'space-between' }
+                ]
+            },
+            15: {
+                baseClasses: 'w-full h-[160px] border border-dashed border-white/10',
+                assertions: [
+                    { prop: 'display', expected: 'flex' },
+                    { prop: 'justifyContent', expected: 'center' },
+                    { prop: 'alignItems', expected: 'center' }
+                ]
+            },
+            16: {
+                baseClasses: 'w-full',
+                assertions: [
+                    { prop: 'display', expected: 'flex' },
+                    { prop: 'flexDirection', expected: 'column' },
+                    { prop: 'gap', expected: '16px' }
+                ]
+            },
+            17: {
+                baseClasses: 'w-full',
+                assertions: [
+                    { prop: 'display', expected: 'flex' },
+                    { prop: 'flexWrap', expected: 'wrap' },
+                    { prop: 'gap', expected: '16px' }
+                ]
+            },
+            18: {
+                baseClasses: 'w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs font-mono text-textMuted',
+                assertions: [
+                    { prop: 'flexShrink', expected: '0' }
+                ]
+            },
+            19: {
+                baseClasses: 'bg-white/5 border border-white/20 p-2 px-3 text-sm font-mono text-textMuted rounded',
+                assertions: [
+                    { prop: 'flexGrow', expected: '1' }
+                ]
+            },
+            20: {
+                baseClasses: 'bg-white/10 border border-white/20 p-1 px-3 text-xs font-mono text-textMuted rounded-full',
+                assertions: [
+                    { prop: 'alignSelf', expected: 'flex-end' }
+                ]
+            }
+        };
+
+        // ─── Progress State ────────────────────────────────────────
+        let progress = loadProgress();
+
+        function loadProgress() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : {};
+            } catch {
+                return {};
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+        }
+
+        // ─── UI Update ────────────────────────────────────────────
+        function updateScoreUI() {
+            const passed = Object.values(progress).filter(p => p.passed).length;
+            document.getElementById('scoreCount').textContent = passed;
+            document.getElementById('progressBar').style.width = `${(passed / 20) * 100}%`;
+        }
+
+        function setBadge(id, passed) {
+            const badge = document.getElementById(`badge-${id}`);
+            if (passed) {
+                badge.textContent = 'Passed';
+                badge.className = 'text-xs font-mono px-2.5 py-0.5 rounded-full border border-green-500/30 text-green-400 bg-green-500/10 badge-pulse';
+            } else {
+                badge.textContent = 'Failed';
+                badge.className = 'text-xs font-mono px-2.5 py-0.5 rounded-full border border-red-500/30 text-red-400 bg-red-500/10 badge-pulse';
+            }
+        }
+
+        function resetBadge(id) {
+            const badge = document.getElementById(`badge-${id}`);
+            badge.textContent = 'Pending';
+            badge.className = 'text-xs font-mono px-2.5 py-0.5 rounded-full border border-borderSlate text-textMuted';
+        }
+
+        // ─── Core Logic ───────────────────────────────────────────
+        function runExercise(id) {
+            const exercise = exercises[id];
+            const input = document.getElementById(`input-${id}`);
+            const target = document.getElementById(`target-${id}`);
+            const userClasses = input.value.trim();
+
+            // Apply: base classes + user classes
+            target.className = exercise.baseClasses + (userClasses ? ' ' + userClasses : '');
+
+            // Force a reflow so Tailwind CDN processes new classes
+            void target.offsetHeight;
+
+            // Small delay to let Tailwind CDN process the classes
+            setTimeout(() => {
+                const style = window.getComputedStyle(target);
+                let allPassed = true;
+
+                for (const assertion of exercise.assertions) {
+                    let actual;
+
+                    if (assertion.useRaw) {
+                        // For things like margin: auto or percentage widths,
+                        // check both computed and raw style
+                        actual = target.style[assertion.prop] || style[assertion.prop];
+                    } else {
+                        actual = style[assertion.prop];
+                    }
+
+                    const expectedList = Array.isArray(assertion.expected) ? assertion.expected : [assertion.expected];
+                    const match = expectedList.some(exp => {
+                        if (assertion.tolerance) {
+                            return Math.abs(parseFloat(actual) - parseFloat(exp)) <= assertion.tolerance;
+                        }
+                        return actual === exp;
+                    });
+
+                    if (!match) {
+                        allPassed = false;
+                        break;
+                    }
+                }
+
+                setBadge(id, allPassed);
+
+                // Save progress
+                progress[id] = {
+                    passed: allPassed,
+                    input: userClasses,
+                    timestamp: Date.now()
+                };
+                saveProgress();
+                updateScoreUI();
+            }, 150);
+        }
+
+        function resetExercise(id) {
+            const exercise = exercises[id];
+            const input = document.getElementById(`input-${id}`);
+            const target = document.getElementById(`target-${id}`);
+
+            input.value = '';
+            target.className = exercise.baseClasses;
+            resetBadge(id);
+
+            // Clear from progress
+            delete progress[id];
+            saveProgress();
+            updateScoreUI();
+        }
+
+        function resetAllProgress() {
+            if (!confirm('Reset all exercises? This clears your saved progress.')) return;
+
+            for (let i = 1; i <= 20; i++) {
+                resetExercise(i);
+            }
+        }
+
+        // ─── Restore Saved Progress on Load ───────────────────────
+        function restoreProgress() {
+            for (const [id, data] of Object.entries(progress)) {
+                const input = document.getElementById(`input-${id}`);
+                if (input && data.input) {
+                    input.value = data.input;
+                    // Re-run to restore visual state
+                    runExercise(parseInt(id));
+                }
+            }
+            updateScoreUI();
+        }
+
+        // ─── Keyboard shortcut: Ctrl+Enter runs the exercise ──────
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                const active = document.activeElement;
+                if (active && active.tagName === 'TEXTAREA' && active.id.startsWith('input-')) {
+                    const id = parseInt(active.id.replace('input-', ''));
+                    runExercise(id);
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // ─── Init ──────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            restoreProgress();
+        });
+    </script>
+
+</body>
+</html>

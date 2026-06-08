@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function Katas — 20 Challenges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16px;padding:40px 20px}.container{max-width:820px;margin:0 auto}h1{font-size:38px;font-weight:700;color:#f0f6fc;margin-bottom:12px}.subtitle{font-size:17px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px}p{margin-bottom:18px;color:#b0bac9}strong{color:#e2e8f0}code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:12px 0 20px;overflow-x:auto}pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}.cm{color:#5e6e8a;font-style:italic}hr{border:none;border-top:1px solid #1e2d4a;margin:36px 0}.kata{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px;margin:24px 0}.kata-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}.kata-num{background:#f59e0b;color:#0d1117;font-size:13px;font-weight:700;padding:4px 12px;border-radius:8px}.kata-diff{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:6px}.diff-easy{background:rgba(16,185,129,.15);color:#10b981}.diff-medium{background:rgba(245,158,11,.15);color:#f59e0b}.diff-hard{background:rgba(248,81,73,.15);color:#f85149}.kata h3{font-size:18px;font-weight:600;color:#f0f6fc;margin-bottom:10px}.kata p{font-size:15px;color:#9aa5b4;margin-bottom:12px}.constraint{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:10px;padding:10px 16px;margin:12px 0;font-size:13px;font-weight:600;color:#a78bfa}.constraint::before{content:'⛔ CONSTRAINT: ';font-weight:700}.solution-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#10b981;font-size:13px;font-weight:600;padding:8px 18px;border-radius:10px;cursor:pointer;transition:.2s;margin-top:8px}.solution-btn:hover{background:rgba(16,185,129,.15)}.solution{display:none;margin-top:16px;padding:16px 20px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}.solution.show{display:block}.solution-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#10b981;margin-bottom:10px}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>⚙️ Function Katas</h1>
+    <p class="subtitle">20 challenges focused on closures, higher-order functions, callbacks, and functional patterns. These test your deep understanding of how functions work.</p>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">01</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>once(fn)</h3>
+    <p>Create a function that wraps <code>fn</code> so it can only execute <strong>once</strong>. Further calls return the first result.</p>
+    <pre><code>const init = once(() => "DB connected!");
+init()  <span class="cm">// "DB connected!"</span>
+init()  <span class="cm">// "DB connected!" (cached, fn not re-executed)</span></code></pre>
+    <div class="constraint">Use a closure with a boolean flag and a result cache.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function once(fn) {
+    let called = false, result;
+    return function(...args) {
+        if (!called) { called = true; result = fn(...args); }
+        return result;
+    };
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">02</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>negate(fn)</h3>
+    <p>Takes a predicate function, returns a new function that returns the opposite boolean.</p>
+    <pre><code>const isOdd = n => n % 2 !== 0;
+const isEven = negate(isOdd);
+isEven(4)  <span class="cm">// true</span>
+isEven(3)  <span class="cm">// false</span></code></pre>
+    <div class="constraint">Must be a one-liner arrow function.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const negate = fn => (...args) => !fn(...args);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">03</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>compose(...fns)</h3>
+    <p>Apply functions right-to-left.</p>
+    <pre><code>const add1 = x => x + 1;
+const double = x => x * 2;
+const composed = compose(double, add1);
+composed(3)  <span class="cm">// 8 → add1(3)=4, double(4)=8</span></code></pre>
+    <div class="constraint">Use reduceRight. One expression.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const compose = (...fns) => val => fns.reduceRight((acc, fn) => fn(acc), val);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">04</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>pipe(...fns)</h3>
+    <p>Apply functions left-to-right (opposite of compose).</p>
+    <pre><code>const add1 = x => x + 1;
+const double = x => x * 2;
+const piped = pipe(add1, double);
+piped(3)  <span class="cm">// 8 → add1(3)=4, double(4)=8</span></code></pre>
+    <div class="constraint">Use reduce. One expression.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const pipe = (...fns) => val => fns.reduce((acc, fn) => fn(acc), val);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">05</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>partial(fn, ...presetArgs)</h3>
+    <p>Return a new function with some arguments pre-filled.</p>
+    <pre><code>const add = (a, b, c) => a + b + c;
+const add5 = partial(add, 5);
+add5(10, 20)  <span class="cm">// 35</span></code></pre>
+    <div class="constraint">Use spread operator and closures.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const partial = (fn, ...presetArgs) =>
+    (...laterArgs) => fn(...presetArgs, ...laterArgs);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">06</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>memoize(fn)</h3>
+    <p>Cache results by argument. If called again with same arg, return cached value.</p>
+    <pre><code>const slow = memoize(n => { console.log("computing"); return n * n; });
+slow(5)  <span class="cm">// "computing" → 25</span>
+slow(5)  <span class="cm">// 25 (no log — cached)</span></code></pre>
+    <div class="constraint">Use an object as cache inside a closure. Use the 'in' operator to check cache.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function memoize(fn) {
+    const cache = {};
+    return function(arg) {
+        if (arg in cache) return cache[arg];
+        cache[arg] = fn(arg);
+        return cache[arg];
+    };
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">07</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>throttle(fn, limit)</h3>
+    <p>Function can only fire once every <code>limit</code> ms. Calls during the cooldown are ignored.</p>
+    <pre><code>const log = throttle(() => console.log("fired"), 1000);
+log()  <span class="cm">// fires</span>
+log()  <span class="cm">// ignored (within 1000ms)</span></code></pre>
+    <div class="constraint">Use Date.now() and a lastRan variable in a closure.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function throttle(fn, limit) {
+    let lastRan = 0;
+    return function(...args) {
+        const now = Date.now();
+        if (now - lastRan >= limit) {
+            lastRan = now;
+            return fn(...args);
+        }
+    };
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">08</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>debounce(fn, delay)</h3>
+    <p>Function only fires after <code>delay</code> ms of silence. Each call resets the timer.</p>
+    <pre><code>const search = debounce(q => console.log("Searching:", q), 300);
+search("h")    <span class="cm">// timer starts</span>
+search("he")   <span class="cm">// timer resets</span>
+search("hel")  <span class="cm">// timer resets — only this one fires after 300ms</span></code></pre>
+    <div class="constraint">Use clearTimeout and setTimeout inside a closure.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function debounce(fn, delay) {
+    let timerId;
+    return function(...args) {
+        clearTimeout(timerId);
+        timerId = setTimeout(() => fn(...args), delay);
+    };
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">09</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>curry(fn)</h3>
+    <p>Auto-curry a function of any arity. Allow calling with any number of args at a time.</p>
+    <pre><code>const add = (a, b, c) => a + b + c;
+const curried = curry(add);
+curried(1)(2)(3)    <span class="cm">// 6</span>
+curried(1, 2)(3)    <span class="cm">// 6</span>
+curried(1)(2, 3)    <span class="cm">// 6</span></code></pre>
+    <div class="constraint">Use fn.length, spread, and recursion.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function curry(fn) {
+    return function curried(...args) {
+        if (args.length >= fn.length) return fn(...args);
+        return (...more) => curried(...args, ...more);
+    };
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">10</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>times(n, fn)</h3>
+    <p>Call <code>fn</code> exactly <code>n</code> times, passing the index (0 to n-1).</p>
+    <pre><code>times(3, i => console.log(i))  <span class="cm">// 0, 1, 2</span></code></pre>
+    <div class="constraint">Use Array.from(). No for loops.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const times = (n, fn) => Array.from({ length: n }, (_, i) => fn(i));</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">11</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>after(n, fn)</h3>
+    <p>Returns a function that only starts executing <code>fn</code> after being called <code>n</code> times. Calls before that return undefined.</p>
+    <pre><code>const log = after(3, () => "ready!");
+log()  <span class="cm">// undefined</span>
+log()  <span class="cm">// undefined</span>
+log()  <span class="cm">// "ready!"</span>
+log()  <span class="cm">// "ready!"</span></code></pre>
+    <div class="constraint">Use a counter in a closure.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function after(n, fn) {
+    let count = 0;
+    return function(...args) {
+        count++;
+        if (count >= n) return fn(...args);
+    };
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">12</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>before(n, fn)</h3>
+    <p>Returns a function that only executes <code>fn</code> for the first <code>n</code> calls. After that, returns the last result.</p>
+    <pre><code>const log = before(3, x => x * 2);
+log(1)  <span class="cm">// 2</span>
+log(2)  <span class="cm">// 4</span>
+log(3)  <span class="cm">// 6</span>
+log(4)  <span class="cm">// 6 (cached, fn not called)</span></code></pre>
+    <div class="constraint">Use a counter and cache the last result in a closure.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function before(n, fn) {
+    let count = 0, lastResult;
+    return function(...args) {
+        if (count < n) { count++; lastResult = fn(...args); }
+        return lastResult;
+    };
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">13</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>flip(fn)</h3>
+    <p>Returns a function that calls <code>fn</code> with its arguments reversed.</p>
+    <pre><code>const div = (a, b) => a / b;
+const flipped = flip(div);
+flipped(2, 10)  <span class="cm">// 5  (calls div(10, 2))</span></code></pre>
+    <div class="constraint">Use spread and .reverse().</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const flip = fn => (...args) => fn(...args.reverse());</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">14</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>unary(fn)</h3>
+    <p>Wraps <code>fn</code> so it only accepts 1 argument. Extra args are ignored.</p>
+    <pre><code>["1","2","3"].map(unary(parseInt))  <span class="cm">// [1, 2, 3]</span>
+<span class="cm">// Without unary: ["1","2","3"].map(parseInt) → [1, NaN, NaN]</span></code></pre>
+    <div class="constraint">One-liner arrow function.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const unary = fn => arg => fn(arg);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">15</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>spreadFn(fn)</h3>
+    <p>Takes a function that expects individual args, returns one that takes an array.</p>
+    <pre><code>const add = (a, b, c) => a + b + c;
+const addArr = spreadFn(add);
+addArr([1, 2, 3])  <span class="cm">// 6</span></code></pre>
+    <div class="constraint">Use the spread operator. One-liner.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const spreadFn = fn => arr => fn(...arr);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">16</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>delay(fn, ms)</h3>
+    <p>Returns a function that, when called, executes <code>fn</code> after <code>ms</code> milliseconds. Pass all arguments through.</p>
+    <pre><code>const greet = delay((name) => console.log("Hi " + name), 1000);
+greet("Idris")  <span class="cm">// logs "Hi Idris" after 1 second</span></code></pre>
+    <div class="constraint">Use setTimeout and spread operator.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const delay = (fn, ms) =>
+    (...args) => setTimeout(() => fn(...args), ms);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">17</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>promisify(fn)</h3>
+    <p>Convert a Node-style callback function <code>fn(arg, (err, result) => {})</code> to return a Promise.</p>
+    <pre><code>const readFile = (path, cb) => cb(null, "file content");
+const readAsync = promisify(readFile);
+readAsync("test.txt").then(data => console.log(data))
+<span class="cm">// "file content"</span></code></pre>
+    <div class="constraint">Use new Promise with resolve/reject.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function promisify(fn) {
+    return function(...args) {
+        return new Promise((resolve, reject) => {
+            fn(...args, (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+        });
+    };
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">18</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>retry(fn, attempts)</h3>
+    <p>Try calling <code>fn</code> up to <code>attempts</code> times. Return result on success. Throw on final failure.</p>
+    <pre><code>let tries = 0;
+const flaky = () => { tries++; if (tries < 3) throw "fail"; return "ok"; };
+retry(flaky, 5)  <span class="cm">// "ok" (succeeds on 3rd attempt)</span></code></pre>
+    <div class="constraint">Use a for loop with try/catch.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function retry(fn, attempts) {
+    for (let i = 0; i < attempts; i++) {
+        try {
+            return fn();
+        } catch (err) {
+            if (i === attempts - 1) throw err;
+        }
+    }
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">19</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>createValidator(rules)</h3>
+    <p>Takes an array of rules <code>{field, test, message}</code>. Returns a function that validates an object and returns error messages.</p>
+    <pre><code>const validate = createValidator([
+    { field: "name", test: v => v.length > 0, message: "Name required" },
+    { field: "age", test: v => v >= 18, message: "Must be 18+" },
+]);
+validate({ name: "", age: 15 })
+<span class="cm">// ["Name required", "Must be 18+"]</span>
+validate({ name: "Idris", age: 25 })
+<span class="cm">// []</span></code></pre>
+    <div class="constraint">Use filter and map inside the returned function.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function createValidator(rules) {
+    return function(obj) {
+        return rules
+            .filter(rule => !rule.test(obj[rule.field]))
+            .map(rule => rule.message);
+    };
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">20</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>createPipeline()</h3>
+    <p>Returns an object with <code>.add(fn)</code> to add a step and <code>.execute(value)</code> to run the pipeline.</p>
+    <pre><code>const p = createPipeline();
+p.add(x => x + 1);
+p.add(x => x * 2);
+p.add(x => x - 3);
+p.execute(5)  <span class="cm">// 9 → (5+1)=6 → (6*2)=12 → (12-3)=9</span></code></pre>
+    <div class="constraint">Use a closure with a mutable array. Execute uses reduce.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function createPipeline() {
+    const steps = [];
+    return {
+        add(fn) { steps.push(fn); },
+        execute(value) {
+            return steps.reduce((acc, fn) => fn(acc), value);
+        }
+    };
+}</code></pre></div></div>
+
+</div>
+<script>
+function toggle(btn){const s=btn.nextElementSibling;s.classList.toggle('show');btn.textContent=s.classList.contains('show')?'Hide Solution':'Show Solution';}
+</script>
+</body>
+</html>

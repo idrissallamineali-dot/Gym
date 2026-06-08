@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula — Launch Faster</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: #e2e8f0;
+            background-color: #0a0a1a;
+        }
+
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(150deg, #0a0a2e 0%, #1a1045 35%, #2d1b69 60%, #1a1045 85%, #0a0a2e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .label-badge {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-bottom: 32px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #c4b5fd;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .label-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #a78bfa;
+            box-shadow: 0 0 8px rgba(167, 139, 250, 0.6);
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.08;
+            letter-spacing: -3px;
+            max-width: 780px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, #a78bfa, #c084fc, #e879f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 19px;
+            font-weight: 400;
+            color: #94a3b8;
+            line-height: 1.7;
+            max-width: 540px;
+            margin-bottom: 44px;
+        }
+
+        .button-row {
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            padding: 16px 36px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.3px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.55);
+        }
+
+        .btn-secondary {
+            padding: 16px 36px;
+            border: 2px solid rgba(148, 163, 184, 0.25);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #cbd5e1;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.3px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(167, 139, 250, 0.45);
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .trusted-section {
+            background: #07071a;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 48px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .trusted-section p {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 32px;
+        }
+
+        .logo-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .logo-item {
+            font-size: 18px;
+            font-weight: 700;
+            color: #334155;
+            letter-spacing: -0.5px;
+            transition: color 0.2s ease;
+        }
+
+        .logo-item:hover {
+            color: #64748b;
+        }
+
+        .logo-item .logo-icon {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="label-badge">
+            <span class="dot"></span>
+            New Release
+        </div>
+        <h1>Build Products <span class="gradient-text">That Matter</span></h1>
+        <p class="subtitle">The modern platform for teams who ship fast. Streamline your workflow, collaborate in real-time, and deliver exceptional experiences.</p>
+        <div class="button-row">
+            <button class="btn-primary">Get Started</button>
+            <button class="btn-secondary">Learn More</button>
+        </div>
+    </section>
+
+    <section class="trusted-section">
+        <p>Trusted by industry leaders</p>
+        <div class="logo-row">
+            <span class="logo-item"><span class="logo-icon">◆</span>Axiom</span>
+            <span class="logo-item"><span class="logo-icon">●</span>Vercel</span>
+            <span class="logo-item"><span class="logo-icon">▲</span>Prisma</span>
+            <span class="logo-item"><span class="logo-icon">■</span>Supabase</span>
+            <span class="logo-item"><span class="logo-icon">⬡</span>Raycast</span>
+        </div>
+    </section>
+</body>
+</html>

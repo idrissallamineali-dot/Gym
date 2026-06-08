@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clone Target — Selector & Box Model Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* BASE RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0c10;
+            color: #d1d4dc;
+            line-height: 1.6;
+            font-size: 14px;
+            padding: 40px 20px;
+        }
+
+        /* HEADER INFO (INSTRUCTIONS FOR THE CLONER) */
+        .clone-header {
+            max-width: 500px;
+            margin: 0 auto 30px auto;
+            text-align: center;
+            border-bottom: 1px solid #1f222e;
+            padding-bottom: 24px;
+        }
+
+        .tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #8e929f;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            font-size: 13px;
+            color: #8e929f;
+        }
+
+        /* ======================================================= */
+        /* THE CLONE TARGET (Replicate this card using ONLY Box Model) */
+        /* ======================================================= */
+        
+        .card {
+            width: 380px;
+            background-color: #121319;
+            border: 1px solid #1f222e;
+            border-radius: 12px;
+            padding: 28px;
+            margin: 40px auto;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background-color: #262936;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            margin: 0 auto 16px auto;
+        }
+
+        #profile-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .role-badge {
+            font-size: 11px;
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #262936;
+            border: 1px solid #3e4255;
+            border-radius: 4px;
+            padding: 4px 10px;
+            width: 140px;
+            text-align: center;
+            margin: 0 auto 16px auto;
+        }
+
+        .bio {
+            font-size: 13px;
+            color: #afb2bb;
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed #1f222e;
+        }
+
+        .section-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #8e929f;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .stats-container {
+            background-color: #07080b;
+            border: 1px solid #1f222e;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            font-size: 12px;
+            color: #d1d4dc;
+            padding: 4px 0;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: #ffffff;
+            float: right; /* A clean way to align right without Flexbox */
+        }
+
+        .spec-list {
+            list-style-type: none;
+            margin-bottom: 24px;
+        }
+
+        .spec-list li {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #afb2bb;
+            background-color: #1a1b23;
+            border-left: 3px solid #3e4255;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+        }
+
+        .btn-action {
+            display: block;
+            background-color: #1f222e;
+            border: 1px solid #2d313f;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-action:hover {
+            background-color: #262936;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="clone-header">
+        <p class="tag">Clone Target 00</p>
+        <h1>🎯 Selectors & Box Model Card</h1>
+        <p class="description">Replicate the card below perfectly. Challenge yourself to build it using <strong>only standard block flow, paddings, margins, borders, and sizing</strong> (strictly NO Flexbox or floats for layout structure, except the simple <code>float: right</code> on the values if desired!).</p>
+    </div>
+
+    <!-- THE TARGET CARD TO CLONE -->
+    <div class="card">
+        <div class="avatar"></div>
+        <h2 id="profile-name">Dev_Console</h2>
+        <div class="role-badge">CORE ENGINEER</div>
+        <p class="bio">Building high-performance terminal compilers and clean grayscale developer environments using minimal system overhead.</p>
+        
+        <p class="section-label">System Specs</p>
+        <div class="stats-container">
+            <div class="stat-item">Core Threads <span class="stat-value">32_x64</span></div>
+            <div class="stat-item">Cache Size <span class="stat-value">64MB</span></div>
+            <div class="stat-item">Bitness <span class="stat-value">64-bit</span></div>
+        </div>
+
+        <p class="section-label">Active Modules</p>
+        <ul class="spec-list">
+            <li>[mod_lexer] — Active</li>
+            <li>[mod_parser] — Idle</li>
+            <li>[mod_compiler] — Active</li>
+        </ul>
+
+        <a href="#" class="btn-action">Initialize Console</a>
+    </div>
+
+</body>
+</html>

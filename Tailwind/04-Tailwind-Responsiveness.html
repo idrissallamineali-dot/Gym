@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorial #4 — Tailwind Responsiveness | LUGX Learning</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg:      '#0b0c10',
+                        cardBg:      '#121319',
+                        borderSlate: '#1f222e',
+                        textMuted:   '#8e929f'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0b0c10; }
+        ::-webkit-scrollbar-thumb { background: #1f222e; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        /* Smooth anchor scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Inline resize handle for spacing demo */
+        .resizable-demo {
+            resize: horizontal;
+            overflow: auto;
+            min-width: 280px;
+            max-width: 100%;
+        }
+
+        /* Breakpoint indicator animation */
+        @keyframes pulseBlue {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .bp-active { animation: pulseBlue 1.5s ease-in-out infinite; }
+    </style>
+</head>
+
+<body class="bg-darkBg font-sans text-white min-h-screen">
+
+    <!-- ═══════════════════════════════════════════════
+         NAVBAR — Responsive with hamburger (mobile) & full links (desktop)
+         Tailwind concept: block lg:hidden / hidden lg:flex
+    ═══════════════════════════════════════════════ -->
+    <nav class="bg-cardBg border-b border-borderSlate sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-sm font-mono">04</span>
+                </div>
+                <div>
+                    <span class="text-white font-bold text-sm">LUGX Learning</span>
+                    <span class="hidden sm:inline text-textMuted text-xs ml-2">/ Responsiveness</span>
+                </div>
+            </div>
+
+            <!-- Desktop Nav Links — hidden on mobile, flex on lg+ -->
+            <div class="hidden lg:flex items-center gap-6 text-sm">
+                <a href="#section1" class="text-textMuted hover:text-white transition-colors">Mobile-First</a>
+                <a href="#section2" class="text-textMuted hover:text-white transition-colors">Breakpoints</a>
+                <a href="#section3" class="text-textMuted hover:text-white transition-colors">Typography</a>
+                <a href="#section4" class="text-textMuted hover:text-white transition-colors">Layout</a>
+                <a href="#section5" class="text-textMuted hover:text-white transition-colors">Spacing</a>
+                <a href="#section6" class="text-textMuted hover:text-white transition-colors">Visibility</a>
+                <a href="#section9" class="text-textMuted hover:text-white transition-colors">LUGX Patterns</a>
+                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full text-xs font-medium">Tutorial #4</span>
+            </div>
+
+            <!-- Hamburger — visible on mobile, hidden on lg+ -->
+            <button id="hamburger-btn" class="lg:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-borderSlate transition-colors" aria-label="Toggle menu">
+                <span id="ham-line1" class="block w-5 h-0.5 bg-white transition-all duration-300"></span>
+                <span id="ham-line2" class="block w-5 h-0.5 bg-white transition-all duration-300"></span>
+                <span id="ham-line3" class="block w-5 h-0.5 bg-white transition-all duration-300"></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Drawer — toggled via JS -->
+        <div id="mobile-menu" class="hidden lg:hidden border-t border-borderSlate bg-cardBg">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-3">
+                <a href="#section1" class="text-textMuted hover:text-white transition-colors py-2 border-b border-borderSlate/50 text-sm" onclick="closeMobileMenu()">📱 Mobile-First Philosophy</a>
+                <a href="#section2" class="text-textMuted hover:text-white transition-colors py-2 border-b border-borderSlate/50 text-sm" onclick="closeMobileMenu()">📐 The 5 Breakpoints</a>
+                <a href="#section3" class="text-textMuted hover:text-white transition-colors py-2 border-b border-borderSlate/50 text-sm" onclick="closeMobileMenu()">🔤 Responsive Typography</a>
+                <a href="#section4" class="text-textMuted hover:text-white transition-colors py-2 border-b border-borderSlate/50 text-sm" onclick="closeMobileMenu()">📦 Responsive Layout</a>
+                <a href="#section5" class="text-textMuted hover:text-white transition-colors py-2 border-b border-borderSlate/50 text-sm" onclick="closeMobileMenu()">📏 Spacing &amp; Sizing</a>
+                <a href="#section6" class="text-textMuted hover:text-white transition-colors py-2 border-b border-borderSlate/50 text-sm" onclick="closeMobileMenu()">👁️ Visibility</a>
+                <a href="#section7" class="text-textMuted hover:text-white transition-colors py-2 border-b border-borderSlate/50 text-sm" onclick="closeMobileMenu()">🔲 Responsive Grid</a>
+                <a href="#section8" class="text-textMuted hover:text-white transition-colors py-2 border-b border-borderSlate/50 text-sm" onclick="closeMobileMenu()">🖼️ Responsive Images</a>
+                <a href="#section9" class="text-textMuted hover:text-white transition-colors py-2 border-b border-borderSlate/50 text-sm" onclick="closeMobileMenu()">🎮 LUGX Patterns</a>
+                <a href="#section10" class="text-textMuted hover:text-white transition-colors py-2 text-sm" onclick="closeMobileMenu()">⚠️ Mistakes &amp; Cheat Sheet</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Live breakpoint badge (top-right, follows scroll) -->
+    <div class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 items-end pointer-events-none">
+        <div class="bg-cardBg border border-borderSlate rounded-lg px-3 py-2 text-xs font-mono flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-blue-500 bp-active"></span>
+            <span class="text-textMuted">Screen:</span>
+            <span class="sm:hidden text-blue-400 font-bold">&lt;sm (mobile)</span>
+            <span class="hidden sm:inline md:hidden text-green-400 font-bold">sm 640px+</span>
+            <span class="hidden md:inline lg:hidden text-yellow-400 font-bold">md 768px+</span>
+            <span class="hidden lg:inline xl:hidden text-orange-400 font-bold">lg 1024px+</span>
+            <span class="hidden xl:inline 2xl:hidden text-pink-400 font-bold">xl 1280px+</span>
+            <span class="hidden 2xl:inline text-purple-400 font-bold">2xl 1536px+</span>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         HERO HEADER
+    ═══════════════════════════════════════════════ -->
+    <header class="border-b border-borderSlate">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-20">
+            <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                <div class="max-w-2xl">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-xs font-mono text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-full px-3 py-1">Tutorial #4 of 10</span>
+                        <span class="text-xs font-mono text-textMuted">prerequisite: #1 #2 #3</span>
+                    </div>
+                    <h1 class="text-3xl md:text-5xl font-bold text-white leading-tight mb-4">
+                        Tailwind<br/>
+                        <span class="text-blue-500">Responsiveness</span>
+                    </h1>
+                    <p class="text-textMuted text-base md:text-lg leading-relaxed">
+                        Master mobile-first design with Tailwind's breakpoint prefixes.
+                        Stop writing <code class="font-mono text-sm bg-borderSlate/60 px-1.5 py-0.5 rounded text-blue-300">@media</code> queries by hand —
+                        learn to think in breakpoint prefixes and build the LUGX responsive layout.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <span class="text-xs bg-cardBg border border-borderSlate rounded-lg px-3 py-2 font-mono text-textMuted">sm: md: lg: xl: 2xl:</span>
+                        <span class="text-xs bg-cardBg border border-borderSlate rounded-lg px-3 py-2 font-mono text-textMuted">hidden lg:flex</span>
+                        <span class="text-xs bg-cardBg border border-borderSlate rounded-lg px-3 py-2 font-mono text-textMuted">grid-cols-1 lg:grid-cols-4</span>
+                        <span class="text-xs bg-cardBg border border-borderSlate rounded-lg px-3 py-2 font-mono text-textMuted">flex-col lg:flex-row</span>
+                    </div>
+                </div>
+                <!-- Decorative responsive diagram -->
+                <div class="flex gap-2 items-end self-center lg:self-auto">
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-8 bg-blue-500/30 border border-blue-500/50 rounded" style="height:100px"></div>
+                        <span class="text-xs font-mono text-blue-400">mobile</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-12 bg-green-500/30 border border-green-500/50 rounded" style="height:120px"></div>
+                        <span class="text-xs font-mono text-green-400">sm</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-16 bg-yellow-500/30 border border-yellow-500/50 rounded" style="height:140px"></div>
+                        <span class="text-xs font-mono text-yellow-400">md</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-20 bg-orange-500/30 border border-orange-500/50 rounded" style="height:160px"></div>
+                        <span class="text-xs font-mono text-orange-400">lg</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-24 bg-pink-500/30 border border-pink-500/50 rounded" style="height:180px"></div>
+                        <span class="text-xs font-mono text-pink-400">xl</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-28 bg-purple-500/30 border border-purple-500/50 rounded" style="height:200px"></div>
+                        <span class="text-xs font-mono text-purple-400">2xl</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════════════ -->
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-12 space-y-20">
+
+        <!-- ─────────────────────────────────────────
+             SECTION 1: Mobile-First Philosophy
+        ───────────────────────────────────────── -->
+        <section id="section1">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-blue-500 font-mono text-sm font-bold">01</span>
+                <div class="flex-1 h-px bg-borderSlate"></div>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Mobile-First Philosophy</h2>
+            <p class="text-textMuted mb-8 max-w-2xl">
+                Tailwind is <strong class="text-white">mobile-first</strong>. A class with no prefix applies to <em>all</em> screen sizes starting from 0px.
+                A prefixed class (e.g. <code class="font-mono text-blue-300 bg-borderSlate/50 px-1 rounded">lg:flex-row</code>) kicks in at that breakpoint and above.
+                You build the mobile layout first, then layer on overrides for larger screens.
+            </p>
+
+            <!-- Core Concept Box -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-6 mb-6">
+                <h3 class="text-white font-semibold mb-4 flex items-center gap-2">
+                    <span class="w-6 h-6 bg-blue-500/20 text-blue-400 rounded flex items-center justify-center text-xs">💡</span>
+                    The Golden Rule
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-darkBg rounded-lg p-4 border border-borderSlate/60">
+                        <p class="text-xs text-textMuted uppercase tracking-wider mb-3 font-mono">No prefix = all screens (0px+)</p>
+                        <code class="font-mono text-sm text-green-400">flex-col</code>
+                        <p class="text-textMuted text-sm mt-2">Column layout from 0px all the way up to infinity — unless overridden.</p>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-4 border border-borderSlate/60">
+                        <p class="text-xs text-textMuted uppercase tracking-wider mb-3 font-mono">Prefix = that width and UP</p>
+                        <code class="font-mono text-sm text-orange-400">lg:flex-row</code>
+                        <p class="text-textMuted text-sm mt-2">Row layout from 1024px upward. Below that, still column.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side-by-side: Raw CSS vs Tailwind -->
+            <div class="grid md:grid-cols-2 gap-4">
+                <!-- Raw CSS -->
+                <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                    <div class="flex items-center justify-between px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                        <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Raw CSS</span>
+                        <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                    </div>
+                    <pre class="p-4 text-sm font-mono overflow-x-auto"><code><span class="text-textMuted">/* Mobile base */</span>
+<span class="text-blue-300">.hero</span> {
+  <span class="text-green-300">display</span>: <span class="text-yellow-300">flex</span>;
+  <span class="text-green-300">flex-direction</span>: <span class="text-yellow-300">column</span>;
+  <span class="text-green-300">font-size</span>: <span class="text-yellow-300">1.25rem</span>;
+  <span class="text-green-300">padding</span>: <span class="text-yellow-300">1rem</span>;
+}
+
+<span class="text-textMuted">/* ≥ 1024px */</span>
+<span class="text-pink-300">@media (min-width: 1024px)</span> {
+  <span class="text-blue-300">.hero</span> {
+    <span class="text-green-300">flex-direction</span>: <span class="text-yellow-300">row</span>;
+    <span class="text-green-300">font-size</span>: <span class="text-yellow-300">3rem</span>;
+    <span class="text-green-300">padding</span>: <span class="text-yellow-300">4rem</span>;
+  }
+}</code></pre>
+                </div>
+
+                <!-- Tailwind Equivalent -->
+                <div class="bg-cardBg border border-blue-500/30 rounded-xl overflow-hidden">
+                    <div class="flex items-center justify-between px-4 py-3 border-b border-blue-500/30 bg-blue-500/5">
+                        <span class="text-xs font-mono text-blue-400 uppercase tracking-wider">Tailwind Equivalent ✓</span>
+                        <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                    </div>
+                    <pre class="p-4 text-sm font-mono overflow-x-auto"><code><span class="text-textMuted">&lt;!-- One element, no CSS file needed --&gt;</span>
+
+<span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"
+  flex flex-col          </span><span class="text-textMuted">← mobile</span>
+<span class="text-green-300">  text-xl                </span><span class="text-textMuted">← mobile</span>
+<span class="text-green-300">  p-4                    </span><span class="text-textMuted">← mobile</span>
+
+<span class="text-green-300">  lg:flex-row            </span><span class="text-textMuted">← ≥1024px</span>
+<span class="text-green-300">  lg:text-5xl            </span><span class="text-textMuted">← ≥1024px</span>
+<span class="text-green-300">  lg:p-16                </span><span class="text-textMuted">← ≥1024px</span>
+<span class="text-green-300">"</span><span class="text-blue-300">&gt;</span>
+<span class="text-textMuted">  ...content...</span>
+<span class="text-blue-300">&lt;/div&gt;</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Live Demo -->
+            <div class="mt-6 bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">🎮 Live Demo — Resize browser to see the change</span>
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-col lg:flex-row items-center gap-6 p-6 bg-darkBg border border-borderSlate rounded-lg">
+                        <div class="w-full lg:w-auto text-xl lg:text-4xl font-bold text-white text-center lg:text-left">
+                            LUGX<br/><span class="text-blue-500">Gaming</span>
+                        </div>
+                        <div class="flex-1 text-textMuted text-sm lg:text-base text-center lg:text-left">
+                            This box is <code class="font-mono text-blue-300">flex-col</code> on mobile and <code class="font-mono text-blue-300">lg:flex-row</code> on desktop. The heading is <code class="font-mono text-blue-300">text-xl lg:text-4xl</code>.
+                        </div>
+                        <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-sm transition-colors whitespace-nowrap">
+                            Play Now
+                        </button>
+                    </div>
+                    <p class="text-xs text-textMuted mt-3 font-mono text-center">↔ Resize your browser window — watch the layout shift at 1024px</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────
+             SECTION 2: The 5 Breakpoints
+        ───────────────────────────────────────── -->
+        <section id="section2">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-blue-500 font-mono text-sm font-bold">02</span>
+                <div class="flex-1 h-px bg-borderSlate"></div>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">The 5 Breakpoints</h2>
+            <p class="text-textMuted mb-8 max-w-2xl">
+                Tailwind ships with 5 named breakpoints (plus 2xl). Each maps to a <code class="font-mono text-blue-300 bg-borderSlate/50 px-1 rounded">min-width</code> media query.
+                You layer classes from smallest to largest — no max-width queries needed.
+            </p>
+
+            <!-- Breakpoint Table -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-6">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Breakpoint Reference Table</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-borderSlate">
+                                <th class="text-left px-4 py-3 text-textMuted font-mono text-xs uppercase tracking-wider">Prefix</th>
+                                <th class="text-left px-4 py-3 text-textMuted font-mono text-xs uppercase tracking-wider">Min-Width</th>
+                                <th class="text-left px-4 py-3 text-textMuted font-mono text-xs uppercase tracking-wider">CSS @media equivalent</th>
+                                <th class="text-left px-4 py-3 text-textMuted font-mono text-xs uppercase tracking-wider">Typical Device</th>
+                                <th class="text-left px-4 py-3 text-textMuted font-mono text-xs uppercase tracking-wider">Example Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-borderSlate/50 hover:bg-darkBg/30 transition-colors">
+                                <td class="px-4 py-3"><span class="font-mono text-textMuted bg-borderSlate/50 px-2 py-0.5 rounded text-xs">(none)</span></td>
+                                <td class="px-4 py-3"><span class="font-mono text-blue-400">0px</span></td>
+                                <td class="px-4 py-3 font-mono text-textMuted text-xs">Always applies (no @media)</td>
+                                <td class="px-4 py-3 text-textMuted">📱 Small phones</td>
+                                <td class="px-4 py-3"><code class="font-mono text-xs bg-darkBg px-2 py-0.5 rounded text-green-300">flex flex-col</code></td>
+                            </tr>
+                            <tr class="border-b border-borderSlate/50 hover:bg-darkBg/30 transition-colors">
+                                <td class="px-4 py-3"><span class="font-mono text-green-400 font-bold bg-green-500/10 px-2 py-0.5 rounded text-xs">sm:</span></td>
+                                <td class="px-4 py-3"><span class="font-mono text-green-400">640px</span></td>
+                                <td class="px-4 py-3 font-mono text-textMuted text-xs">@media (min-width: 640px)</td>
+                                <td class="px-4 py-3 text-textMuted">📱 Large phones / phablets</td>
+                                <td class="px-4 py-3"><code class="font-mono text-xs bg-darkBg px-2 py-0.5 rounded text-green-300">sm:grid-cols-2</code></td>
+                            </tr>
+                            <tr class="border-b border-borderSlate/50 hover:bg-darkBue/30 hover:bg-darkBg/30 transition-colors">
+                                <td class="px-4 py-3"><span class="font-mono text-yellow-400 font-bold bg-yellow-500/10 px-2 py-0.5 rounded text-xs">md:</span></td>
+                                <td class="px-4 py-3"><span class="font-mono text-yellow-400">768px</span></td>
+                                <td class="px-4 py-3 font-mono text-textMuted text-xs">@media (min-width: 768px)</td>
+                                <td class="px-4 py-3 text-textMuted">📟 Tablets (iPad portrait)</td>
+                                <td class="px-4 py-3"><code class="font-mono text-xs bg-darkBg px-2 py-0.5 rounded text-green-300">md:px-8 md:text-2xl</code></td>
+                            </tr>
+                            <tr class="border-b border-borderSlate/50 hover:bg-darkBg/30 transition-colors">
+                                <td class="px-4 py-3"><span class="font-mono text-orange-400 font-bold bg-orange-500/10 px-2 py-0.5 rounded text-xs">lg:</span></td>
+                                <td class="px-4 py-3"><span class="font-mono text-orange-400">1024px</span></td>
+                                <td class="px-4 py-3 font-mono text-textMuted text-xs">@media (min-width: 1024px)</td>
+                                <td class="px-4 py-3 text-textMuted">💻 Laptops / iPad landscape</td>
+                                <td class="px-4 py-3"><code class="font-mono text-xs bg-darkBg px-2 py-0.5 rounded text-green-300">lg:flex-row lg:block</code></td>
+                            </tr>
+                            <tr class="border-b border-borderSlate/50 hover:bg-darkBg/30 transition-colors">
+                                <td class="px-4 py-3"><span class="font-mono text-pink-400 font-bold bg-pink-500/10 px-2 py-0.5 rounded text-xs">xl:</span></td>
+                                <td class="px-4 py-3"><span class="font-mono text-pink-400">1280px</span></td>
+                                <td class="px-4 py-3 font-mono text-textMuted text-xs">@media (min-width: 1280px)</td>
+                                <td class="px-4 py-3 text-textMuted">🖥️ Desktop monitors</td>
+                                <td class="px-4 py-3"><code class="font-mono text-xs bg-darkBg px-2 py-0.5 rounded text-green-300">xl:max-w-7xl xl:px-16</code></td>
+                            </tr>
+                            <tr class="hover:bg-darkBg/30 transition-colors">
+                                <td class="px-4 py-3"><span class="font-mono text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded text-xs">2xl:</span></td>
+                                <td class="px-4 py-3"><span class="font-mono text-purple-400">1536px</span></td>
+                                <td class="px-4 py-3 font-mono text-textMuted text-xs">@media (min-width: 1536px)</td>
+                                <td class="px-4 py-3 text-textMuted">🖥️ Large / ultrawide displays</td>
+                                <td class="px-4 py-3"><code class="font-mono text-xs bg-darkBg px-2 py-0.5 rounded text-green-300">2xl:grid-cols-6</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Visual scale -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-6">
+                <h3 class="text-white font-semibold mb-4 text-sm">Visual Scale — All breakpoints on one ruler</h3>
+                <div class="relative">
+                    <div class="h-8 bg-darkBg rounded-lg overflow-hidden flex">
+                        <div class="bg-blue-500/40 border-r border-blue-500 flex items-center justify-center" style="width:41.7%">
+                            <span class="text-xs font-mono text-blue-300 hidden sm:inline">mobile (0–640px)</span>
+                        </div>
+                        <div class="bg-green-500/30 border-r border-green-500 flex items-center justify-center" style="width:8.3%">
+                            <span class="text-xs font-mono text-green-300 hidden md:inline">sm</span>
+                        </div>
+                        <div class="bg-yellow-500/30 border-r border-yellow-500 flex items-center justify-center" style="width:25%">
+                            <span class="text-xs font-mono text-yellow-300 hidden md:inline">md</span>
+                        </div>
+                        <div class="bg-orange-500/30 border-r border-orange-500 flex items-center justify-center" style="width:16.7%">
+                            <span class="text-xs font-mono text-orange-300 hidden lg:inline">lg</span>
+                        </div>
+                        <div class="bg-pink-500/30 flex items-center justify-center" style="width:8.3%">
+                            <span class="text-xs font-mono text-pink-300 hidden xl:inline">xl+</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-2 text-xs font-mono text-textMuted">
+                        <span>0</span>
+                        <span class="text-green-400">640</span>
+                        <span class="text-yellow-400">768</span>
+                        <span class="text-orange-400">1024</span>
+                        <span class="text-pink-400">1280</span>
+                        <span class="text-purple-400">1536px</span>
+                    </div>
+                </div>
+                <p class="text-xs text-textMuted mt-3">Note: breakpoints are <strong class="text-white">min-width</strong> — each one activates and stays active for all larger sizes too.</p>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────
+             SECTION 3: Responsive Typography
+        ───────────────────────────────────────── -->
+        <section id="section3">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-blue-500 font-mono text-sm font-bold">03</span>
+                <div class="flex-1 h-px bg-borderSlate"></div>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Responsive Typography</h2>
+            <p class="text-textMuted mb-8 max-w-2xl">
+                Control font size, weight, and alignment at every breakpoint. Your page headings should be smaller on
+                mobile (limited space) and larger on desktop (more room, more impact).
+            </p>
+
+            <!-- Font size progression -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-6">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Live Demo — Growing Heading</span>
+                </div>
+                <div class="p-8 bg-darkBg text-center">
+                    <!-- This heading grows: text-xl → md:text-3xl → lg:text-5xl -->
+                    <p class="text-xl md:text-3xl lg:text-5xl font-bold text-white mb-2">
+                        Find Your Next Game
+                    </p>
+                    <p class="text-sm md:text-base lg:text-lg text-textMuted">
+                        Explore thousands of titles across all platforms
+                    </p>
+                </div>
+                <div class="border-t border-borderSlate px-4 py-3 bg-darkBg/30">
+                    <code class="font-mono text-sm text-green-300">text-xl md:text-3xl lg:text-5xl</code>
+                    <span class="text-textMuted text-sm ml-3">→ Heading grows at each breakpoint</span>
+                </div>
+            </div>
+
+            <!-- Typography class reference -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <!-- Font Size -->
+                <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                    <h4 class="text-white font-semibold mb-4 text-sm">Font Size Classes</h4>
+                    <div class="space-y-2 text-xs font-mono">
+                        <div class="flex justify-between"><span class="text-blue-300">text-xs</span><span class="text-textMuted">font-size: 0.75rem</span></div>
+                        <div class="flex justify-between"><span class="text-blue-300">text-sm</span><span class="text-textMuted">font-size: 0.875rem</span></div>
+                        <div class="flex justify-between"><span class="text-blue-300">text-base</span><span class="text-textMuted">font-size: 1rem</span></div>
+                        <div class="flex justify-between"><span class="text-blue-300">text-lg</span><span class="text-textMuted">font-size: 1.125rem</span></div>
+                        <div class="flex justify-between"><span class="text-blue-300">text-xl</span><span class="text-textMuted">font-size: 1.25rem</span></div>
+                        <div class="flex justify-between"><span class="text-blue-300">text-2xl</span><span class="text-textMuted">font-size: 1.5rem</span></div>
+                        <div class="flex justify-between"><span class="text-blue-300">text-3xl</span><span class="text-textMuted">font-size: 1.875rem</span></div>
+                        <div class="flex justify-between"><span class="text-blue-300">text-4xl</span><span class="text-textMuted">font-size: 2.25rem</span></div>
+                        <div class="flex justify-between"><span class="text-blue-300">text-5xl</span><span class="text-textMuted">font-size: 3rem</span></div>
+                        <div class="flex justify-between"><span class="text-blue-300">text-6xl</span><span class="text-textMuted">font-size: 3.75rem</span></div>
+                    </div>
+                </div>
+                <!-- Font Weight -->
+                <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                    <h4 class="text-white font-semibold mb-4 text-sm">Font Weight Classes</h4>
+                    <div class="space-y-2 text-xs font-mono">
+                        <div class="flex justify-between"><span class="text-orange-300">font-thin</span><span class="text-textMuted">font-weight: 100</span></div>
+                        <div class="flex justify-between"><span class="text-orange-300">font-light</span><span class="text-textMuted">font-weight: 300</span></div>
+                        <div class="flex justify-between"><span class="text-orange-300">font-normal</span><span class="text-textMuted">font-weight: 400</span></div>
+                        <div class="flex justify-between"><span class="text-orange-300">font-medium</span><span class="text-textMuted">font-weight: 500</span></div>
+                        <div class="flex justify-between"><span class="text-orange-300">font-semibold</span><span class="text-textMuted">font-weight: 600</span></div>
+                        <div class="flex justify-between"><span class="text-orange-300">font-bold</span><span class="text-textMuted">font-weight: 700</span></div>
+                        <div class="flex justify-between"><span class="text-orange-300">font-extrabold</span><span class="text-textMuted">font-weight: 800</span></div>
+                        <div class="flex justify-between"><span class="text-orange-300">font-black</span><span class="text-textMuted">font-weight: 900</span></div>
+                    </div>
+                </div>
+                <!-- Text Align -->
+                <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                    <h4 class="text-white font-semibold mb-4 text-sm">Text Align + Responsive</h4>
+                    <div class="space-y-3 text-xs font-mono">
+                        <div class="bg-darkBg rounded p-2">
+                            <span class="text-green-300">text-center lg:text-left</span>
+                            <p class="text-textMuted mt-1 font-sans">Centred on mobile, left on desktop</p>
+                        </div>
+                        <div class="bg-darkBg rounded p-2">
+                            <span class="text-green-300">text-sm md:text-base lg:text-xl</span>
+                            <p class="text-textMuted mt-1 font-sans">Small → base → large</p>
+                        </div>
+                        <div class="bg-darkBg rounded p-2">
+                            <span class="text-green-300">font-normal md:font-bold</span>
+                            <p class="text-textMuted mt-1 font-sans">Light mobile, bold desktop</p>
+                        </div>
+                        <div class="bg-darkBg rounded p-2">
+                            <span class="text-green-300">leading-tight lg:leading-normal</span>
+                            <p class="text-textMuted mt-1 font-sans">Tight line-height on mobile</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Responsive alignment demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Live Demo — Responsive Alignment</span>
+                </div>
+                <div class="p-6 bg-darkBg">
+                    <p class="text-center lg:text-left text-sm md:text-lg lg:text-2xl font-normal md:font-bold text-white">
+                        The LUGX Game Store
+                    </p>
+                    <p class="text-center lg:text-left text-xs md:text-sm text-textMuted mt-2">
+                        Centred and small on mobile → Left-aligned and large on desktop
+                    </p>
+                </div>
+                <div class="border-t border-borderSlate px-4 py-3 bg-darkBg/30">
+                    <code class="font-mono text-xs text-green-300">text-center lg:text-left  text-sm md:text-lg lg:text-2xl  font-normal md:font-bold</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────
+             SECTION 4: Responsive Layout
+        ───────────────────────────────────────── -->
+        <section id="section4">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-blue-500 font-mono text-sm font-bold">04</span>
+                <div class="flex-1 h-px bg-borderSlate"></div>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Responsive Layout</h2>
+            <p class="text-textMuted mb-8 max-w-2xl">
+                The most common responsive pattern: stack items vertically on mobile, arrange them side-by-side on desktop.
+                Combine <code class="font-mono text-blue-300 bg-borderSlate/50 px-1 rounded">flex-col</code> with <code class="font-mono text-blue-300 bg-borderSlate/50 px-1 rounded">lg:flex-row</code> or use grid column overrides.
+            </p>
+
+            <!-- Hero section stacking demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-6">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50 flex justify-between items-center">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Live Demo — Hero Stacking (flex-col → lg:flex-row)</span>
+                </div>
+                <div class="p-6 bg-darkBg">
+                    <div class="flex flex-col lg:flex-row items-center gap-8 border border-borderSlate rounded-lg p-6">
+                        <!-- Text content -->
+                        <div class="w-full lg:w-1/2 text-center lg:text-left">
+                            <span class="text-xs text-blue-400 font-mono bg-blue-500/10 px-2 py-1 rounded">New Release</span>
+                            <h3 class="text-2xl lg:text-4xl font-bold text-white mt-3 mb-3">Shadow Legion II</h3>
+                            <p class="text-textMuted text-sm lg:text-base">An epic RPG adventure across 40+ hours of immersive gameplay. Explore vast open worlds, battle fierce enemies, and forge your destiny.</p>
+                            <div class="flex gap-3 mt-4 justify-center lg:justify-start">
+                                <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-sm transition-colors">Buy Now — $49</button>
+                                <button class="px-4 py-2 border border-borderSlate text-textMuted hover:text-white rounded-lg text-sm transition-colors">Wishlist</button>
+                            </div>
+                        </div>
+                        <!-- Image placeholder -->
+                        <div class="w-full lg:w-1/2 h-40 lg:h-56 bg-gradient-to-br from-blue-900/40 to-purple-900/40 border border-borderSlate rounded-xl flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-4xl mb-2">🎮</div>
+                                <span class="text-xs text-textMuted font-mono">Game Cover Art</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-borderSlate px-4 py-3 bg-darkBg/30">
+                    <code class="font-mono text-xs text-green-300">flex flex-col lg:flex-row  |  w-full lg:w-1/2</code>
+                    <span class="text-textMuted text-xs ml-3">→ Column on mobile, row on desktop, each side takes 50%</span>
+                </div>
+            </div>
+
+            <!-- CSS equivalent for flex-col lg:flex-row -->
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                    <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                        <span class="text-xs font-mono text-textMuted">Raw CSS equivalent</span>
+                    </div>
+                    <pre class="p-4 text-xs font-mono overflow-x-auto text-textMuted"><code><span class="text-blue-300">.hero</span> {
+  <span class="text-green-300">display</span>: flex;
+  <span class="text-green-300">flex-direction</span>: <span class="text-yellow-300">column</span>; <span class="text-textMuted">/* mobile */</span>
+  <span class="text-green-300">align-items</span>: center;
+  <span class="text-green-300">gap</span>: 2rem;
+}
+<span class="text-pink-300">@media (min-width: 1024px)</span> {
+  <span class="text-blue-300">.hero</span> {
+    <span class="text-green-300">flex-direction</span>: <span class="text-yellow-300">row</span>;
+    <span class="text-green-300">align-items</span>: center;
+  }
+  <span class="text-blue-300">.hero-content</span>, <span class="text-blue-300">.hero-image</span> {
+    <span class="text-green-300">width</span>: <span class="text-yellow-300">50%</span>;
+  }
+}</code></pre>
+                </div>
+                <div class="bg-cardBg border border-blue-500/20 rounded-xl overflow-hidden">
+                    <div class="px-4 py-3 border-b border-blue-500/20 bg-blue-500/5">
+                        <span class="text-xs font-mono text-blue-400">Tailwind equivalent</span>
+                    </div>
+                    <pre class="p-4 text-xs font-mono overflow-x-auto"><code><span class="text-textMuted">&lt;!-- Parent --&gt;</span>
+<span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"flex flex-col lg:flex-row items-center gap-8"</span><span class="text-blue-300">&gt;</span>
+
+  <span class="text-textMuted">&lt;!-- Text side --&gt;</span>
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"w-full lg:w-1/2"</span><span class="text-blue-300">&gt;</span>
+    <span class="text-textMuted">...text content...</span>
+  <span class="text-blue-300">&lt;/div&gt;</span>
+
+  <span class="text-textMuted">&lt;!-- Image side --&gt;</span>
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"w-full lg:w-1/2"</span><span class="text-blue-300">&gt;</span>
+    <span class="text-textMuted">...image...</span>
+  <span class="text-blue-300">&lt;/div&gt;</span>
+
+<span class="text-blue-300">&lt;/div&gt;</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Grid responsive demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Live Demo — Responsive Grid (1 → 2 → 4 columns)</span>
+                </div>
+                <div class="p-6 bg-darkBg">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-cardBg border border-borderSlate rounded-xl p-4 text-center">
+                            <div class="text-2xl mb-2">⚔️</div>
+                            <p class="text-white text-sm font-semibold">Action</p>
+                            <p class="text-textMuted text-xs">1,284 games</p>
+                        </div>
+                        <div class="bg-cardBg border border-borderSlate rounded-xl p-4 text-center">
+                            <div class="text-2xl mb-2">🏎️</div>
+                            <p class="text-white text-sm font-semibold">Racing</p>
+                            <p class="text-textMuted text-xs">432 games</p>
+                        </div>
+                        <div class="bg-cardBg border border-borderSlate rounded-xl p-4 text-center">
+                            <div class="text-2xl mb-2">🧙</div>
+                            <p class="text-white text-sm font-semibold">RPG</p>
+                            <p class="text-textMuted text-xs">876 games</p>
+                        </div>
+                        <div class="bg-cardBg border border-borderSlate rounded-xl p-4 text-center">
+                            <div class="text-2xl mb-2">🔫</div>
+                            <p class="text-white text-sm font-semibold">Shooter</p>
+                            <p class="text-textMuted text-xs">654 games</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-borderSlate px-4 py-3 bg-darkBg/30">
+                    <code class="font-mono text-xs text-green-300">grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4</code>
+                    <span class="text-textMuted text-xs ml-3">→ 1 column → 2 columns at sm → 4 columns at lg</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────
+             SECTION 5: Responsive Spacing & Sizing
+        ───────────────────────────────────────── -->
+        <section id="section5">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-blue-500 font-mono text-sm font-bold">05</span>
+                <div class="flex-1 h-px bg-borderSlate"></div>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Responsive Spacing &amp; Sizing</h2>
+            <p class="text-textMuted mb-8 max-w-2xl">
+                Padding, margins, and widths all take breakpoint prefixes. Use small padding on mobile (tight space),
+                larger padding on wider screens for breathing room. Width classes control fluid vs fixed sizing.
+            </p>
+
+            <!-- Padding live demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-6">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Live Demo — Growing Padding Container</span>
+                </div>
+                <div class="p-6 bg-darkBg">
+                    <div class="border-2 border-dashed border-blue-500/40 rounded-xl">
+                        <div class="px-4 md:px-8 lg:px-16 py-6 bg-blue-500/5 rounded-xl">
+                            <p class="text-white text-sm font-semibold">This container has responsive horizontal padding</p>
+                            <p class="text-textMuted text-xs mt-1">px-4 on mobile → md:px-8 → lg:px-16</p>
+                            <p class="text-textMuted text-xs mt-1">Equivalent to: padding-left/right grows from 1rem → 2rem → 4rem</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-textMuted mt-3 text-center">Watch the inner content shift inward as screen gets wider</p>
+                </div>
+                <div class="border-t border-borderSlate px-4 py-3 bg-darkBg/30">
+                    <code class="font-mono text-xs text-green-300">px-4 md:px-8 lg:px-16</code>
+                    <span class="text-textMuted text-xs ml-3">→ 16px → 32px → 64px horizontal padding</span>
+                </div>
+            </div>
+
+            <!-- Spacing reference table -->
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                    <h4 class="text-white font-semibold mb-4 text-sm">Common Responsive Padding Patterns</h4>
+                    <div class="space-y-3 text-xs font-mono">
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-green-300">px-4 md:px-6 lg:px-8</code>
+                            <p class="text-textMuted font-sans mt-1">Section horizontal padding (1rem→1.5rem→2rem)</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-green-300">py-8 md:py-12 lg:py-20</code>
+                            <p class="text-textMuted font-sans mt-1">Section vertical padding (2rem→3rem→5rem)</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-green-300">p-4 lg:p-8</code>
+                            <p class="text-textMuted font-sans mt-1">Card padding (1rem→2rem)</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-green-300">gap-4 lg:gap-8</code>
+                            <p class="text-textMuted font-sans mt-1">Grid/Flex gap grows on desktop</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                    <h4 class="text-white font-semibold mb-4 text-sm">Common Responsive Width Patterns</h4>
+                    <div class="space-y-3 text-xs font-mono">
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-orange-300">w-full lg:w-1/2</code>
+                            <p class="text-textMuted font-sans mt-1">Full width mobile → half width desktop</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-orange-300">w-full sm:w-auto</code>
+                            <p class="text-textMuted font-sans mt-1">Full on mobile → shrink-to-fit on sm+</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-orange-300">max-w-sm md:max-w-2xl lg:max-w-7xl</code>
+                            <p class="text-textMuted font-sans mt-1">Max-width grows with screen</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-orange-300">h-48 md:h-64 lg:h-96</code>
+                            <p class="text-textMuted font-sans mt-1">Height: 192px → 256px → 384px</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS equivalent side by side -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Spacing: Tailwind vs Raw CSS</span>
+                </div>
+                <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-borderSlate">
+                    <pre class="p-4 text-xs font-mono overflow-x-auto"><code><span class="text-textMuted">/* Raw CSS */</span>
+<span class="text-blue-300">.section</span> {
+  <span class="text-green-300">padding</span>: 2rem 1rem; <span class="text-textMuted">/* py-8 px-4 */</span>
+}
+<span class="text-pink-300">@media (min-width: 768px)</span> {
+  <span class="text-blue-300">.section</span> {
+    <span class="text-green-300">padding</span>: 3rem 2rem; <span class="text-textMuted">/* md:py-12 md:px-8 */</span>
+  }
+}
+<span class="text-pink-300">@media (min-width: 1024px)</span> {
+  <span class="text-blue-300">.section</span> {
+    <span class="text-green-300">padding</span>: 5rem 4rem; <span class="text-textMuted">/* lg:py-20 lg:px-16 */</span>
+  }
+}</code></pre>
+                    <pre class="p-4 text-xs font-mono overflow-x-auto"><code><span class="text-textMuted">&lt;!-- Tailwind --&gt;</span>
+
+<span class="text-blue-300">&lt;section</span>
+  <span class="text-yellow-300">class</span>=<span class="text-green-300">"
+    py-8 px-4
+    md:py-12 md:px-8
+    lg:py-20 lg:px-16
+  "</span>
+<span class="text-blue-300">&gt;</span>
+  <span class="text-textMuted">...content...</span>
+<span class="text-blue-300">&lt;/section&gt;</span>
+
+<span class="text-textMuted">
+No separate CSS file.
+No class names to invent.
+No @media rules to write.
+</span></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────
+             SECTION 6: Responsive Visibility
+        ───────────────────────────────────────── -->
+        <section id="section6">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-blue-500 font-mono text-sm font-bold">06</span>
+                <div class="flex-1 h-px bg-borderSlate"></div>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Responsive Visibility</h2>
+            <p class="text-textMuted mb-8 max-w-2xl">
+                Show or hide elements depending on screen size. This is how navbars work — hamburger icon on mobile,
+                full link list on desktop. The key utility is <code class="font-mono text-blue-300 bg-borderSlate/50 px-1 rounded">hidden</code> combined with display utilities.
+            </p>
+
+            <!-- Visibility patterns table -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-6">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Visibility Patterns Reference</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-borderSlate">
+                                <th class="text-left px-4 py-3 text-textMuted font-mono text-xs uppercase tracking-wider">Tailwind Class</th>
+                                <th class="text-left px-4 py-3 text-textMuted font-mono text-xs uppercase tracking-wider">Raw CSS Equivalent</th>
+                                <th class="text-left px-4 py-3 text-textMuted font-mono text-xs uppercase tracking-wider">Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-borderSlate/50">
+                                <td class="px-4 py-3 font-mono text-xs"><span class="text-green-300">hidden lg:block</span></td>
+                                <td class="px-4 py-3 font-mono text-xs text-textMuted">display:none → @media lg: display:block</td>
+                                <td class="px-4 py-3 text-textMuted text-sm">Hidden on mobile, visible on lg+</td>
+                            </tr>
+                            <tr class="border-b border-borderSlate/50">
+                                <td class="px-4 py-3 font-mono text-xs"><span class="text-green-300">block lg:hidden</span></td>
+                                <td class="px-4 py-3 font-mono text-xs text-textMuted">display:block → @media lg: display:none</td>
+                                <td class="px-4 py-3 text-textMuted text-sm">Visible on mobile, hidden on lg+</td>
+                            </tr>
+                            <tr class="border-b border-borderSlate/50">
+                                <td class="px-4 py-3 font-mono text-xs"><span class="text-green-300">hidden lg:flex</span></td>
+                                <td class="px-4 py-3 font-mono text-xs text-textMuted">display:none → @media lg: display:flex</td>
+                                <td class="px-4 py-3 text-textMuted text-sm">Flex container hidden until lg</td>
+                            </tr>
+                            <tr class="border-b border-borderSlate/50">
+                                <td class="px-4 py-3 font-mono text-xs"><span class="text-green-300">flex lg:hidden</span></td>
+                                <td class="px-4 py-3 font-mono text-xs text-textMuted">display:flex → @media lg: display:none</td>
+                                <td class="px-4 py-3 text-textMuted text-sm">Flex visible on mobile, gone on lg</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono text-xs"><span class="text-green-300">hidden sm:hidden md:block</span></td>
+                                <td class="px-4 py-3 font-mono text-xs text-textMuted">none → none → @media md: block</td>
+                                <td class="px-4 py-3 text-textMuted text-sm">Only visible on tablet (md) and up</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Live Navbar Demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">🎮 Live Demo — Navbar with Hamburger vs Full Links</span>
+                </div>
+                <div class="p-6 bg-darkBg">
+                    <!-- Mini demo navbar -->
+                    <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                        <nav class="px-4 py-3 flex items-center justify-between">
+                            <!-- Logo -->
+                            <div class="text-white font-bold text-lg">LUGX<span class="text-blue-500">.</span></div>
+
+                            <!-- Desktop links: hidden on mobile, flex on lg+ -->
+                            <div class="hidden lg:flex items-center gap-6 text-sm">
+                                <a href="#" class="text-textMuted hover:text-white transition-colors">Home</a>
+                                <a href="#" class="text-textMuted hover:text-white transition-colors">Games</a>
+                                <a href="#" class="text-textMuted hover:text-white transition-colors">Trending</a>
+                                <a href="#" class="text-textMuted hover:text-white transition-colors">About</a>
+                                <button class="px-4 py-1.5 bg-blue-500 text-white rounded-lg text-sm font-semibold">Sign In</button>
+                            </div>
+
+                            <!-- Hamburger: block on mobile, hidden on lg+ -->
+                            <button class="lg:hidden flex flex-col gap-1 p-2">
+                                <span class="w-5 h-0.5 bg-white"></span>
+                                <span class="w-5 h-0.5 bg-white"></span>
+                                <span class="w-5 h-0.5 bg-white"></span>
+                            </button>
+                        </nav>
+                    </div>
+                    <p class="text-xs text-textMuted mt-4 text-center">On mobile: hamburger shows, links hidden. On desktop (lg+): links show, hamburger hidden.</p>
+                </div>
+                <div class="border-t border-borderSlate px-4 py-3 bg-darkBg/30 space-y-1">
+                    <div><code class="font-mono text-xs text-green-300">hidden lg:flex</code><span class="text-textMuted text-xs ml-2">← desktop nav links</span></div>
+                    <div><code class="font-mono text-xs text-orange-300">lg:hidden</code><span class="text-textMuted text-xs ml-2">← hamburger icon</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────
+             SECTION 7: Responsive Grid
+        ───────────────────────────────────────── -->
+        <section id="section7">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-blue-500 font-mono text-sm font-bold">07</span>
+                <div class="flex-1 h-px bg-borderSlate"></div>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Responsive Grid</h2>
+            <p class="text-textMuted mb-8 max-w-2xl">
+                CSS Grid + Tailwind breakpoint prefixes = the most powerful responsive layout tool.
+                Start with 1 column on mobile, grow to 4+ on desktop. Used everywhere on LUGX for game card galleries.
+            </p>
+
+            <!-- Grid pattern reference -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-6">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Grid Column Patterns</span>
+                </div>
+                <div class="grid md:grid-cols-2 gap-0 divide-y md:divide-y-0 md:divide-x divide-borderSlate">
+                    <div class="p-5 space-y-3">
+                        <h4 class="text-white font-semibold text-sm mb-3">Common Patterns</h4>
+                        <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                            <code class="text-green-300">grid-cols-1 sm:grid-cols-2 lg:grid-cols-4</code>
+                            <p class="text-textMuted font-sans mt-1">1 → 2 → 4 (Game cards, feature icons)</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                            <code class="text-green-300">grid-cols-1 md:grid-cols-2 lg:grid-cols-3</code>
+                            <p class="text-textMuted font-sans mt-1">1 → 2 → 3 (Blog cards, team members)</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                            <code class="text-green-300">grid-cols-2 lg:grid-cols-6</code>
+                            <p class="text-textMuted font-sans mt-1">2 → 6 (Small icon grids, tags)</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                            <code class="text-green-300">grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8</code>
+                            <p class="text-textMuted font-sans mt-1">Responsive columns AND gap</p>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="text-white font-semibold text-sm mb-3">Raw CSS Equivalent</h4>
+                        <pre class="text-xs font-mono text-textMuted overflow-x-auto"><code><span class="text-blue-300">.game-grid</span> {
+  <span class="text-green-300">display</span>: grid;
+  <span class="text-green-300">grid-template-columns</span>:
+    <span class="text-yellow-300">1fr</span>; <span class="text-textMuted">/* mobile: 1 col */</span>
+  <span class="text-green-300">gap</span>: 1rem;
+}
+<span class="text-pink-300">@media (min-width: 640px)</span> {
+  <span class="text-blue-300">.game-grid</span> {
+    <span class="text-green-300">grid-template-columns</span>:
+      <span class="text-yellow-300">repeat(2, 1fr)</span>; <span class="text-textMuted">/* sm: 2 cols */</span>
+  }
+}
+<span class="text-pink-300">@media (min-width: 1024px)</span> {
+  <span class="text-blue-300">.game-grid</span> {
+    <span class="text-green-300">grid-template-columns</span>:
+      <span class="text-yellow-300">repeat(4, 1fr)</span>; <span class="text-textMuted">/* lg: 4 cols */</span>
+  }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live game card gallery demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">🎮 Live Demo — Game Card Gallery (grid-cols-1 sm:grid-cols-2 lg:grid-cols-4)</span>
+                </div>
+                <div class="p-6 bg-darkBg">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Card 1 -->
+                        <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden group hover:border-blue-500/50 transition-colors">
+                            <div class="h-36 bg-gradient-to-br from-blue-900/50 to-indigo-900/50 flex items-center justify-center">
+                                <span class="text-4xl group-hover:scale-110 transition-transform">🗡️</span>
+                            </div>
+                            <div class="p-3">
+                                <span class="text-xs text-blue-400 font-mono">RPG</span>
+                                <p class="text-white font-semibold text-sm mt-1">Shadow Blade</p>
+                                <p class="text-textMuted text-xs mt-1">$29.99</p>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden group hover:border-blue-500/50 transition-colors">
+                            <div class="h-36 bg-gradient-to-br from-green-900/50 to-emerald-900/50 flex items-center justify-center">
+                                <span class="text-4xl group-hover:scale-110 transition-transform">🏎️</span>
+                            </div>
+                            <div class="p-3">
+                                <span class="text-xs text-green-400 font-mono">Racing</span>
+                                <p class="text-white font-semibold text-sm mt-1">Neon Drift X</p>
+                                <p class="text-textMuted text-xs mt-1">$19.99</p>
+                            </div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden group hover:border-blue-500/50 transition-colors">
+                            <div class="h-36 bg-gradient-to-br from-purple-900/50 to-pink-900/50 flex items-center justify-center">
+                                <span class="text-4xl group-hover:scale-110 transition-transform">🔫</span>
+                            </div>
+                            <div class="p-3">
+                                <span class="text-xs text-purple-400 font-mono">Shooter</span>
+                                <p class="text-white font-semibold text-sm mt-1">Zero Protocol</p>
+                                <p class="text-textMuted text-xs mt-1">$39.99</p>
+                            </div>
+                        </div>
+                        <!-- Card 4 -->
+                        <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden group hover:border-blue-500/50 transition-colors">
+                            <div class="h-36 bg-gradient-to-br from-orange-900/50 to-red-900/50 flex items-center justify-center">
+                                <span class="text-4xl group-hover:scale-110 transition-transform">⚡</span>
+                            </div>
+                            <div class="p-3">
+                                <span class="text-xs text-orange-400 font-mono">Action</span>
+                                <p class="text-white font-semibold text-sm mt-1">Thunder Strike</p>
+                                <p class="text-textMuted text-xs mt-1">$24.99</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-borderSlate px-4 py-3 bg-darkBg/30">
+                    <code class="font-mono text-xs text-green-300">grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4</code>
+                    <span class="text-textMuted text-xs ml-3">→ Resize to see columns collapse</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────
+             SECTION 8: Responsive Images
+        ───────────────────────────────────────── -->
+        <section id="section8">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-blue-500 font-mono text-sm font-bold">08</span>
+                <div class="flex-1 h-px bg-borderSlate"></div>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Responsive Images</h2>
+            <p class="text-textMuted mb-8 max-w-2xl">
+                Control image size, height, and visibility responsively. Use <code class="font-mono text-blue-300 bg-borderSlate/50 px-1 rounded">object-cover</code> to fill a
+                container without distortion, and responsive height utilities to make hero images taller on desktop.
+            </p>
+
+            <!-- Image utility reference -->
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                    <h4 class="text-white font-semibold mb-4 text-sm">Responsive Image Classes</h4>
+                    <div class="space-y-3 text-xs font-mono">
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-green-300">w-full lg:w-1/2</code>
+                            <p class="text-textMuted font-sans mt-1">Full width on mobile, half on desktop</p>
+                            <p class="text-textMuted font-sans">width: 100% → 50%</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-green-300">h-48 md:h-64 lg:h-96</code>
+                            <p class="text-textMuted font-sans mt-1">Height: 192px → 256px → 384px</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-green-300">object-cover</code>
+                            <p class="text-textMuted font-sans mt-1">object-fit: cover (fills container, no squish)</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-green-300">object-center object-top</code>
+                            <p class="text-textMuted font-sans mt-1">object-position: center / top</p>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3">
+                            <code class="text-green-300">hidden lg:block</code>
+                            <p class="text-textMuted font-sans mt-1">Decorative images only on desktop</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                    <h4 class="text-white font-semibold mb-4 text-sm">Raw CSS Equivalent</h4>
+                    <pre class="text-xs font-mono text-textMuted overflow-x-auto"><code><span class="text-blue-300">img</span> {
+  <span class="text-green-300">width</span>: <span class="text-yellow-300">100%</span>;
+  <span class="text-green-300">height</span>: <span class="text-yellow-300">12rem</span>; <span class="text-textMuted">/* h-48 */</span>
+  <span class="text-green-300">object-fit</span>: <span class="text-yellow-300">cover</span>;
+  <span class="text-green-300">object-position</span>: <span class="text-yellow-300">center</span>;
+}
+<span class="text-pink-300">@media (min-width: 768px)</span> {
+  <span class="text-blue-300">img</span> {
+    <span class="text-green-300">height</span>: <span class="text-yellow-300">16rem</span>; <span class="text-textMuted">/* md:h-64 */</span>
+  }
+}
+<span class="text-pink-300">@media (min-width: 1024px)</span> {
+  <span class="text-blue-300">img</span> {
+    <span class="text-green-300">width</span>: <span class="text-yellow-300">50%</span>; <span class="text-textMuted">/* lg:w-1/2 */</span>
+    <span class="text-green-300">height</span>: <span class="text-yellow-300">24rem</span>; <span class="text-textMuted">/* lg:h-96 */</span>
+  }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Live image sizing demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50">
+                    <span class="text-xs font-mono text-textMuted uppercase tracking-wider">Live Demo — Responsive Image Height</span>
+                </div>
+                <div class="p-6 bg-darkBg">
+                    <div class="w-full h-48 md:h-64 lg:h-80 bg-gradient-to-r from-blue-900/60 via-purple-900/60 to-indigo-900/60 rounded-xl border border-borderSlate flex items-center justify-center overflow-hidden relative">
+                        <!-- Simulated image content -->
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(59,130,246,0.15)_0%,_transparent_60%)]"></div>
+                        <div class="text-center z-10">
+                            <div class="text-5xl mb-3">🎮</div>
+                            <p class="text-white font-semibold">Hero Banner</p>
+                            <p class="text-textMuted text-xs mt-1">h-48 → md:h-64 → lg:h-80</p>
+                            <p class="text-textMuted text-xs">192px → 256px → 320px tall</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-borderSlate px-4 py-3 bg-darkBg/30">
+                    <code class="font-mono text-xs text-green-300">w-full h-48 md:h-64 lg:h-80 object-cover</code>
+                    <span class="text-textMuted text-xs ml-3">→ Height grows as screen gets wider</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────
+             SECTION 9: Real LUGX Gaming Patterns
+        ───────────────────────────────────────── -->
+        <section id="section9">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-blue-500 font-mono text-sm font-bold">09</span>
+                <div class="flex-1 h-px bg-borderSlate"></div>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Real LUGX Gaming Patterns</h2>
+            <p class="text-textMuted mb-8 max-w-2xl">
+                Enough theory — here's how the actual LUGX Gaming website uses these concepts. Every pattern below
+                is something you'll build when cloning the site. Study the responsive classes.
+            </p>
+
+            <!-- Pattern 1: Navbar -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-6">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50 flex items-center gap-3">
+                    <span class="w-6 h-6 bg-blue-500/20 text-blue-400 rounded flex items-center justify-center text-xs font-bold">1</span>
+                    <span class="text-white font-semibold text-sm">LUGX Navbar</span>
+                    <span class="text-xs text-textMuted font-mono ml-auto">hidden lg:flex | lg:hidden</span>
+                </div>
+                <div class="p-5 bg-darkBg">
+                    <!-- Live navbar preview -->
+                    <div class="bg-cardBg border border-borderSlate rounded-xl mb-4">
+                        <div class="px-6 py-4 flex items-center justify-between">
+                            <div class="text-white font-black text-xl tracking-tight">LUGX<span class="text-blue-500">.</span></div>
+                            <!-- Desktop: hidden on mobile -->
+                            <div class="hidden lg:flex items-center gap-8 text-sm font-medium">
+                                <a href="#" class="text-white hover:text-blue-400 transition-colors">Home</a>
+                                <a href="#" class="text-textMuted hover:text-white transition-colors">Games</a>
+                                <a href="#" class="text-textMuted hover:text-white transition-colors">Trending</a>
+                                <a href="#" class="text-textMuted hover:text-white transition-colors">Contact</a>
+                            </div>
+                            <div class="hidden lg:flex items-center gap-3">
+                                <button class="text-textMuted hover:text-white text-sm transition-colors">Log In</button>
+                                <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm font-semibold transition-colors">Sign Up</button>
+                            </div>
+                            <!-- Mobile: visible, hidden on lg -->
+                            <button class="lg:hidden text-textMuted hover:text-white">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <pre class="text-xs font-mono text-textMuted overflow-x-auto bg-darkBg/50 rounded-lg p-4"><code><span class="text-blue-300">&lt;nav</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"px-6 py-4 flex items-center justify-between"</span><span class="text-blue-300">&gt;</span>
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"text-white font-black text-xl"</span><span class="text-blue-300">&gt;</span>LUGX<span class="text-blue-300">&lt;/div&gt;</span>
+
+  <span class="text-textMuted">&lt;!-- Nav links: only on lg+ --&gt;</span>
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"<span class="text-orange-300">hidden lg:flex</span> items-center gap-8 text-sm"</span><span class="text-blue-300">&gt;</span>
+    <span class="text-textMuted">&lt;a&gt;Home&lt;/a&gt; &lt;a&gt;Games&lt;/a&gt; &lt;a&gt;Trending&lt;/a&gt;</span>
+  <span class="text-blue-300">&lt;/div&gt;</span>
+
+  <span class="text-textMuted">&lt;!-- Hamburger: only on mobile --&gt;</span>
+  <span class="text-blue-300">&lt;button</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"<span class="text-orange-300">lg:hidden</span>"</span><span class="text-blue-300">&gt;</span>☰<span class="text-blue-300">&lt;/button&gt;</span>
+<span class="text-blue-300">&lt;/nav&gt;</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 2: Hero Section -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-6">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50 flex items-center gap-3">
+                    <span class="w-6 h-6 bg-blue-500/20 text-blue-400 rounded flex items-center justify-center text-xs font-bold">2</span>
+                    <span class="text-white font-semibold text-sm">LUGX Hero Section</span>
+                    <span class="text-xs text-textMuted font-mono ml-auto">flex-col lg:flex-row | w-full lg:w-1/2</span>
+                </div>
+                <div class="p-5 bg-darkBg">
+                    <!-- Live hero preview -->
+                    <div class="flex flex-col lg:flex-row items-center gap-8 bg-cardBg border border-borderSlate rounded-xl p-6 mb-4">
+                        <div class="w-full lg:w-1/2 text-center lg:text-left">
+                            <span class="text-xs text-blue-400 font-mono bg-blue-500/10 border border-blue-500/20 rounded-full px-3 py-1"># Games Store</span>
+                            <h2 class="text-2xl lg:text-4xl font-black text-white mt-4 mb-3 leading-tight">
+                                Discover &amp; Download<br/>
+                                <span class="text-blue-500">Top Rated Games</span>
+                            </h2>
+                            <p class="text-textMuted text-sm lg:text-base">Browse our curated collection of the most acclaimed games across every genre.</p>
+                            <div class="flex gap-3 mt-5 justify-center lg:justify-start">
+                                <button class="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-semibold text-sm transition-colors">Explore Now</button>
+                                <button class="px-6 py-2.5 border border-borderSlate hover:border-blue-500/50 text-textMuted hover:text-white rounded-xl text-sm transition-colors">Learn More</button>
+                            </div>
+                        </div>
+                        <div class="w-full lg:w-1/2 h-40 lg:h-56 bg-gradient-to-br from-blue-900/40 to-purple-900/30 rounded-xl border border-borderSlate flex items-center justify-center">
+                            <span class="text-5xl">🎮</span>
+                        </div>
+                    </div>
+                    <pre class="text-xs font-mono text-textMuted overflow-x-auto bg-darkBg/50 rounded-lg p-4"><code><span class="text-textMuted">&lt;!-- Hero: column on mobile, row on desktop --&gt;</span>
+<span class="text-blue-300">&lt;section</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"flex <span class="text-orange-300">flex-col lg:flex-row</span> items-center gap-8 py-20 px-6"</span><span class="text-blue-300">&gt;</span>
+
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"<span class="text-orange-300">w-full lg:w-1/2</span> text-center lg:text-left"</span><span class="text-blue-300">&gt;</span>
+    <span class="text-blue-300">&lt;h1</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"text-2xl <span class="text-orange-300">lg:text-5xl</span> font-black"</span><span class="text-blue-300">&gt;</span>...<span class="text-blue-300">&lt;/h1&gt;</span>
+  <span class="text-blue-300">&lt;/div&gt;</span>
+
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"<span class="text-orange-300">w-full lg:w-1/2</span> h-40 <span class="text-orange-300">lg:h-96</span>"</span><span class="text-blue-300">&gt;</span>
+    <span class="text-blue-300">&lt;img</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"w-full h-full object-cover"</span> <span class="text-blue-300">/&gt;</span>
+  <span class="text-blue-300">&lt;/div&gt;</span>
+
+<span class="text-blue-300">&lt;/section&gt;</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 3: Feature Cards Grid -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-6">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50 flex items-center gap-3">
+                    <span class="w-6 h-6 bg-blue-500/20 text-blue-400 rounded flex items-center justify-center text-xs font-bold">3</span>
+                    <span class="text-white font-semibold text-sm">Feature Cards Section</span>
+                    <span class="text-xs text-textMuted font-mono ml-auto">grid-cols-1 sm:grid-cols-2 lg:grid-cols-4</span>
+                </div>
+                <div class="p-5 bg-darkBg">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                        <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                            <div class="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center mb-3">🎯</div>
+                            <h4 class="text-white font-semibold text-sm mb-1">Best Prices</h4>
+                            <p class="text-textMuted text-xs">Guaranteed lowest prices on all titles</p>
+                        </div>
+                        <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                            <div class="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center mb-3">⚡</div>
+                            <h4 class="text-white font-semibold text-sm mb-1">Instant Download</h4>
+                            <p class="text-textMuted text-xs">Play within minutes of purchase</p>
+                        </div>
+                        <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                            <div class="w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center mb-3">🔒</div>
+                            <h4 class="text-white font-semibold text-sm mb-1">Secure Checkout</h4>
+                            <p class="text-textMuted text-xs">256-bit encrypted transactions</p>
+                        </div>
+                        <div class="bg-cardBg border border-borderSlate rounded-xl p-5">
+                            <div class="w-10 h-10 bg-orange-500/20 rounded-xl flex items-center justify-center mb-3">🎮</div>
+                            <h4 class="text-white font-semibold text-sm mb-1">10,000+ Games</h4>
+                            <p class="text-textMuted text-xs">Every genre, every platform</p>
+                        </div>
+                    </div>
+                    <pre class="text-xs font-mono text-textMuted overflow-x-auto bg-darkBg/50 rounded-lg p-4"><code><span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"grid <span class="text-orange-300">grid-cols-1 sm:grid-cols-2 lg:grid-cols-4</span> gap-6"</span><span class="text-blue-300">&gt;</span>
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"bg-cardBg border border-borderSlate rounded-xl p-5"</span><span class="text-blue-300">&gt;</span>
+    <span class="text-textMuted">&lt;!-- icon, title, text --&gt;</span>
+  <span class="text-blue-300">&lt;/div&gt;</span>
+  <span class="text-textMuted">&lt;!-- repeat × 4 --&gt;</span>
+<span class="text-blue-300">&lt;/div&gt;</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 4: Trending / CTA 3-card section -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-6">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50 flex items-center gap-3">
+                    <span class="w-6 h-6 bg-blue-500/20 text-blue-400 rounded flex items-center justify-center text-xs font-bold">4</span>
+                    <span class="text-white font-semibold text-sm">Trending Game Cards</span>
+                    <span class="text-xs text-textMuted font-mono ml-auto">grid-cols-1 md:grid-cols-2 lg:grid-cols-3</span>
+                </div>
+                <div class="p-5 bg-darkBg">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-4">
+                        <div class="bg-cardBg border border-borderSlate rounded-2xl overflow-hidden group">
+                            <div class="relative h-48 bg-gradient-to-br from-blue-900/60 to-indigo-900/60">
+                                <div class="absolute inset-0 flex items-center justify-center text-6xl">🗡️</div>
+                                <span class="absolute top-3 left-3 bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">TRENDING</span>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs text-blue-400 font-mono">RPG</span>
+                                    <div class="flex gap-0.5">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <h4 class="text-white font-bold">Shadow Legion II</h4>
+                                <div class="flex items-center justify-between mt-3">
+                                    <span class="text-white font-bold text-lg">$49.99</span>
+                                    <button class="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs font-semibold transition-colors">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-cardBg border border-borderSlate rounded-2xl overflow-hidden group">
+                            <div class="relative h-48 bg-gradient-to-br from-purple-900/60 to-pink-900/60">
+                                <div class="absolute inset-0 flex items-center justify-center text-6xl">🔫</div>
+                                <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">NEW</span>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs text-purple-400 font-mono">Shooter</span>
+                                    <div class="flex gap-0.5">⭐⭐⭐⭐</div>
+                                </div>
+                                <h4 class="text-white font-bold">Zero Protocol</h4>
+                                <div class="flex items-center justify-between mt-3">
+                                    <span class="text-white font-bold text-lg">$39.99</span>
+                                    <button class="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs font-semibold transition-colors">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-cardBg border border-borderSlate rounded-2xl overflow-hidden group">
+                            <div class="relative h-48 bg-gradient-to-br from-green-900/60 to-emerald-900/60">
+                                <div class="absolute inset-0 flex items-center justify-center text-6xl">🏎️</div>
+                                <span class="absolute top-3 left-3 bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">SALE</span>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs text-green-400 font-mono">Racing</span>
+                                    <div class="flex gap-0.5">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <h4 class="text-white font-bold">Neon Drift X</h4>
+                                <div class="flex items-center justify-between mt-3">
+                                    <span class="text-white font-bold text-lg">$19.99</span>
+                                    <button class="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs font-semibold transition-colors">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <pre class="text-xs font-mono text-textMuted overflow-x-auto bg-darkBg/50 rounded-lg p-4"><code><span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"grid <span class="text-orange-300">grid-cols-1 md:grid-cols-2 lg:grid-cols-3</span> gap-6"</span><span class="text-blue-300">&gt;</span>
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"bg-cardBg border border-borderSlate rounded-2xl overflow-hidden"</span><span class="text-blue-300">&gt;</span>
+    <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"<span class="text-orange-300">h-48 lg:h-56</span> relative overflow-hidden"</span><span class="text-blue-300">&gt;</span>
+      <span class="text-blue-300">&lt;img</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"w-full h-full object-cover"</span> <span class="text-blue-300">/&gt;</span>
+    <span class="text-blue-300">&lt;/div&gt;</span>
+    <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"p-4 lg:p-5"</span><span class="text-blue-300">&gt;</span>...<span class="text-blue-300">&lt;/div&gt;</span>
+  <span class="text-blue-300">&lt;/div&gt;</span>
+<span class="text-blue-300">&lt;/div&gt;</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 5: CTA 3-card overlapping -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-4 py-3 border-b border-borderSlate bg-darkBg/50 flex items-center gap-3">
+                    <span class="w-6 h-6 bg-blue-500/20 text-blue-400 rounded flex items-center justify-center text-xs font-bold">5</span>
+                    <span class="text-white font-semibold text-sm">CTA 3-Card Section (with z-index layering)</span>
+                    <span class="text-xs text-textMuted font-mono ml-auto">flex-col lg:flex-row | lg:-mr-6 lg:z-10</span>
+                </div>
+                <div class="p-5 bg-darkBg">
+                    <!-- Live CTA section preview -->
+                    <div class="flex flex-col lg:flex-row items-center gap-4 lg:gap-0 mb-4">
+                        <div class="w-full lg:w-1/3 relative lg:z-10 lg:-mr-6">
+                            <div class="bg-blue-600 rounded-2xl p-6 text-center border border-blue-500/50 shadow-2xl shadow-blue-500/20">
+                                <div class="text-3xl mb-3">🎯</div>
+                                <h4 class="text-white font-bold text-lg mb-2">Join & Save</h4>
+                                <p class="text-blue-200 text-sm mb-4">Get exclusive member discounts up to 40% off</p>
+                                <button class="w-full py-2 bg-white text-blue-600 rounded-xl font-bold text-sm hover:bg-blue-50 transition-colors">Get Started</button>
+                            </div>
+                        </div>
+                        <div class="w-full lg:w-1/3 relative z-0">
+                            <div class="bg-cardBg rounded-2xl p-6 text-center border border-borderSlate py-8 lg:py-10">
+                                <div class="text-3xl mb-3">🏆</div>
+                                <h4 class="text-white font-bold mb-2">Tournament Mode</h4>
+                                <p class="text-textMuted text-sm mb-4">Compete in weekly gaming tournaments</p>
+                                <button class="w-full py-2 border border-borderSlate text-textMuted rounded-xl text-sm hover:text-white hover:border-blue-500/50 transition-colors">Learn More</button>
+                            </div>
+                        </div>
+                        <div class="w-full lg:w-1/3 relative lg:z-10 lg:-ml-6">
+                            <div class="bg-cardBg rounded-2xl p-6 text-center border border-borderSlate">
+                                <div class="text-3xl mb-3">🎁</div>
+                                <h4 class="text-white font-bold mb-2">Gift Cards</h4>
+                                <p class="text-textMuted text-sm mb-4">The perfect gift for every gamer</p>
+                                <button class="w-full py-2 border border-borderSlate text-textMuted rounded-xl text-sm hover:text-white hover:border-blue-500/50 transition-colors">Shop Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <pre class="text-xs font-mono text-textMuted overflow-x-auto bg-darkBg/50 rounded-lg p-4"><code><span class="text-textMuted">&lt;!-- 3-card overlapping CTA section --&gt;</span>
+<span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"flex <span class="text-orange-300">flex-col lg:flex-row</span> items-center"</span><span class="text-blue-300">&gt;</span>
+
+  <span class="text-textMuted">&lt;!-- Left card: overlaps center with negative margin --&gt;</span>
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"w-full <span class="text-orange-300">lg:w-1/3 lg:z-10 lg:-mr-6</span>"</span><span class="text-blue-300">&gt;</span>...<span class="text-blue-300">&lt;/div&gt;</span>
+
+  <span class="text-textMuted">&lt;!-- Center card: behind, taller py --&gt;</span>
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"w-full <span class="text-orange-300">lg:w-1/3 z-0</span> py-10"</span><span class="text-blue-300">&gt;</span>...<span class="text-blue-300">&lt;/div&gt;</span>
+
+  <span class="text-textMuted">&lt;!-- Right card: overlaps center from the other side --&gt;</span>
+  <span class="text-blue-300">&lt;div</span> <span class="text-yellow-300">class</span>=<span class="text-green-300">"w-full <span class="text-orange-300">lg:w-1/3 lg:z-10 lg:-ml-6</span>"</span><span class="text-blue-300">&gt;</span>...<span class="text-blue-300">&lt;/div&gt;</span>
+
+<span class="text-blue-300">&lt;/div&gt;</span></code></pre>
+                    <p class="text-xs text-textMuted mt-3 flex items-center gap-1.5">
+                        <span class="text-yellow-400">⚠</span>
+                        The <code class="font-mono text-blue-300">lg:-mr-6</code> and <code class="font-mono text-blue-300">lg:-ml-6</code> are <strong class="text-white">negative margin utilities</strong> — they pull cards into each other to create the overlapping depth effect.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────
+             SECTION 10: Common Mistakes + Cheat Sheet
+        ───────────────────────────────────────── -->
+        <section id="section10">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="text-blue-500 font-mono text-sm font-bold">10</span>
+                <div class="flex-1 h-px bg-borderSlate"></div>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Common Mistakes &amp; Quick Reference</h2>
+            <p class="text-textMuted mb-8 max-w-2xl">
+                Before you build: bookmark these mistakes every beginner makes, then use the cheat sheet while coding.
+            </p>
+
+            <!-- Mistakes grid -->
+            <div class="grid md:grid-cols-2 gap-4 mb-8">
+                <!-- Mistake 1 -->
+                <div class="bg-cardBg border border-red-500/20 rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-red-400 text-lg">✗</span>
+                        <h4 class="text-white font-semibold text-sm">Thinking Mobile-Last</h4>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-3 mb-3 font-mono text-xs">
+                        <div class="text-red-400 mb-1">❌ Wrong thinking:</div>
+                        <code class="text-textMuted">"I'll add sm: to make it work on mobile"</code>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                        <div class="text-green-400 mb-1">✓ Right thinking:</div>
+                        <code class="text-textMuted">"No prefix = mobile. I add lg: to override for desktop"</code>
+                    </div>
+                    <p class="text-textMuted text-xs mt-3">Tailwind is min-width based. Start mobile, override upward.</p>
+                </div>
+
+                <!-- Mistake 2 -->
+                <div class="bg-cardBg border border-red-500/20 rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-red-400 text-lg">✗</span>
+                        <h4 class="text-white font-semibold text-sm">Using Max-Width Breakpoints</h4>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-3 mb-3 font-mono text-xs">
+                        <div class="text-red-400 mb-1">❌ Trying to do this:</div>
+                        <code class="text-textMuted">@media (max-width: 768px) { ... }</code>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                        <div class="text-green-400 mb-1">✓ Tailwind way:</div>
+                        <code class="text-green-300">flex-col md:flex-row</code>
+                        <p class="text-textMuted mt-1">Column by default, row at md+. No max-width needed.</p>
+                    </div>
+                </div>
+
+                <!-- Mistake 3 -->
+                <div class="bg-cardBg border border-red-500/20 rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-red-400 text-lg">✗</span>
+                        <h4 class="text-white font-semibold text-sm">Forgetting to hide the hamburger on desktop</h4>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-3 mb-3 font-mono text-xs">
+                        <div class="text-red-400 mb-1">❌ Bug:</div>
+                        <code class="text-textMuted">&lt;button&gt;☰&lt;/button&gt;</code>
+                        <p class="text-textMuted mt-1">Hamburger shows on all screens!</p>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                        <div class="text-green-400 mb-1">✓ Fix:</div>
+                        <code class="text-green-300">&lt;button class="<span class="text-orange-300">lg:hidden</span>"&gt;☰&lt;/button&gt;</code>
+                    </div>
+                </div>
+
+                <!-- Mistake 4 -->
+                <div class="bg-cardBg border border-red-500/20 rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-red-400 text-lg">✗</span>
+                        <h4 class="text-white font-semibold text-sm">Using hidden without restoring display type</h4>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-3 mb-3 font-mono text-xs">
+                        <div class="text-red-400 mb-1">❌ Bug:</div>
+                        <code class="text-textMuted">hidden lg:block  ← but it was flex before!</code>
+                        <p class="text-textMuted mt-1">Using lg:block on a flex container breaks layout</p>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                        <div class="text-green-400 mb-1">✓ Fix — match the display type:</div>
+                        <code class="text-green-300">hidden <span class="text-orange-300">lg:flex</span></code>
+                        <p class="text-textMuted mt-1">Restore to flex, not block, if container uses flexbox</p>
+                    </div>
+                </div>
+
+                <!-- Mistake 5 -->
+                <div class="bg-cardBg border border-red-500/20 rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-red-400 text-lg">✗</span>
+                        <h4 class="text-white font-semibold text-sm">Not testing at real breakpoints</h4>
+                    </div>
+                    <p class="text-textMuted text-sm mb-3">Always test at exactly 639px, 640px, 767px, 768px, 1023px, 1024px — right at the boundary.</p>
+                    <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                        <div class="text-green-400 mb-1">✓ Use browser DevTools:</div>
+                        <code class="text-textMuted">F12 → Toggle device toolbar → set exact width</code>
+                    </div>
+                </div>
+
+                <!-- Mistake 6 -->
+                <div class="bg-cardBg border border-red-500/20 rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-red-400 text-lg">✗</span>
+                        <h4 class="text-white font-semibold text-sm">Skipping breakpoints (sm before lg)</h4>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-3 mb-3 font-mono text-xs">
+                        <div class="text-red-400 mb-1">❌ Bug:</div>
+                        <code class="text-textMuted">grid-cols-1 lg:grid-cols-4</code>
+                        <p class="text-textMuted mt-1">Jumps straight from 1→4, awkward at sm/md</p>
+                    </div>
+                    <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                        <div class="text-green-400 mb-1">✓ Better:</div>
+                        <code class="text-green-300">grid-cols-1 sm:grid-cols-2 lg:grid-cols-4</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHEAT SHEET -->
+            <div class="bg-cardBg border border-blue-500/30 rounded-xl overflow-hidden">
+                <div class="px-4 py-3 border-b border-blue-500/30 bg-blue-500/5 flex items-center gap-2">
+                    <span class="text-blue-400 font-bold">📋</span>
+                    <span class="text-white font-semibold">Responsiveness Cheat Sheet</span>
+                    <span class="ml-auto text-xs text-textMuted font-mono">save this page!</span>
+                </div>
+                <div class="p-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Column 1: Breakpoints -->
+                    <div>
+                        <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-3 pb-2 border-b border-borderSlate">Breakpoints</h5>
+                        <div class="space-y-1.5 text-xs font-mono">
+                            <div class="flex justify-between"><span class="text-textMuted">(none)</span><span class="text-blue-300">0px+ (mobile)</span></div>
+                            <div class="flex justify-between"><span class="text-green-400">sm:</span><span class="text-blue-300">640px+</span></div>
+                            <div class="flex justify-between"><span class="text-yellow-400">md:</span><span class="text-blue-300">768px+</span></div>
+                            <div class="flex justify-between"><span class="text-orange-400">lg:</span><span class="text-blue-300">1024px+</span></div>
+                            <div class="flex justify-between"><span class="text-pink-400">xl:</span><span class="text-blue-300">1280px+</span></div>
+                            <div class="flex justify-between"><span class="text-purple-400">2xl:</span><span class="text-blue-300">1536px+</span></div>
+                        </div>
+                    </div>
+                    <!-- Column 2: Layout -->
+                    <div>
+                        <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-3 pb-2 border-b border-borderSlate">Layout</h5>
+                        <div class="space-y-1.5 text-xs font-mono">
+                            <div class="text-green-300">flex flex-col lg:flex-row</div>
+                            <div class="text-green-300">grid-cols-1 sm:grid-cols-2 lg:grid-cols-4</div>
+                            <div class="text-green-300">w-full lg:w-1/2</div>
+                            <div class="text-green-300">max-w-7xl mx-auto</div>
+                            <div class="text-green-300">gap-4 lg:gap-8</div>
+                        </div>
+                    </div>
+                    <!-- Column 3: Visibility -->
+                    <div>
+                        <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-3 pb-2 border-b border-borderSlate">Visibility</h5>
+                        <div class="space-y-1.5 text-xs font-mono">
+                            <div><span class="text-green-300">hidden lg:block</span><span class="text-textMuted ml-2">→ show on lg</span></div>
+                            <div><span class="text-green-300">block lg:hidden</span><span class="text-textMuted ml-2">→ hide on lg</span></div>
+                            <div><span class="text-green-300">hidden lg:flex</span><span class="text-textMuted ml-2">→ flex on lg</span></div>
+                            <div><span class="text-green-300">lg:hidden</span><span class="text-textMuted ml-2">→ gone on lg</span></div>
+                        </div>
+                    </div>
+                    <!-- Column 4: Typography -->
+                    <div>
+                        <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-3 pb-2 border-b border-borderSlate">Typography</h5>
+                        <div class="space-y-1.5 text-xs font-mono">
+                            <div class="text-green-300">text-xl md:text-3xl lg:text-5xl</div>
+                            <div class="text-green-300">text-center lg:text-left</div>
+                            <div class="text-green-300">text-sm md:text-base lg:text-lg</div>
+                            <div class="text-green-300">font-normal md:font-bold</div>
+                        </div>
+                    </div>
+                    <!-- Column 5: Spacing -->
+                    <div>
+                        <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-3 pb-2 border-b border-borderSlate">Spacing</h5>
+                        <div class="space-y-1.5 text-xs font-mono">
+                            <div class="text-green-300">px-4 md:px-8 lg:px-16</div>
+                            <div class="text-green-300">py-8 md:py-12 lg:py-20</div>
+                            <div class="text-green-300">p-4 lg:p-8</div>
+                            <div class="text-green-300">mt-4 lg:mt-0</div>
+                        </div>
+                    </div>
+                    <!-- Column 6: Images -->
+                    <div>
+                        <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-3 pb-2 border-b border-borderSlate">Images / Sizing</h5>
+                        <div class="space-y-1.5 text-xs font-mono">
+                            <div class="text-green-300">w-full h-48 md:h-64 lg:h-96</div>
+                            <div class="text-green-300">object-cover object-center</div>
+                            <div class="text-green-300">hidden lg:block</div>
+                            <div class="text-green-300">w-full lg:w-1/2</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- LUGX Specific -->
+                <div class="border-t border-borderSlate p-6">
+                    <h5 class="text-white font-semibold text-xs uppercase tracking-wider mb-4">LUGX Gaming — Responsive Class Combinations</h5>
+                    <div class="grid sm:grid-cols-2 gap-3">
+                        <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                            <div class="text-textMuted mb-1">Navbar links:</div>
+                            <code class="text-green-300">hidden lg:flex items-center gap-8</code>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                            <div class="text-textMuted mb-1">Hamburger:</div>
+                            <code class="text-green-300">lg:hidden flex flex-col gap-1</code>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                            <div class="text-textMuted mb-1">Hero section:</div>
+                            <code class="text-green-300">flex flex-col lg:flex-row items-center</code>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                            <div class="text-textMuted mb-1">Feature grid:</div>
+                            <code class="text-green-300">grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4</code>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                            <div class="text-textMuted mb-1">Game card gallery:</div>
+                            <code class="text-green-300">grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3</code>
+                        </div>
+                        <div class="bg-darkBg rounded-lg p-3 font-mono text-xs">
+                            <div class="text-textMuted mb-1">CTA overlapping cards:</div>
+                            <code class="text-green-300">flex flex-col lg:flex-row lg:-mr-6 lg:z-10</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────
+             NEXT STEPS FOOTER
+        ───────────────────────────────────────── -->
+        <section>
+            <div class="bg-cardBg border border-borderSlate rounded-2xl p-8 text-center">
+                <div class="text-4xl mb-4">🎮</div>
+                <h3 class="text-2xl font-bold text-white mb-3">Ready to Build the LUGX Navbar?</h3>
+                <p class="text-textMuted max-w-lg mx-auto mb-6">
+                    You now understand mobile-first breakpoints, responsive layout patterns, visibility toggling,
+                    and the exact Tailwind combinations used on LUGX Gaming. Next up: putting it all together
+                    and building the actual responsive navbar from scratch.
+                </p>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <div class="px-4 py-2 bg-darkBg border border-borderSlate rounded-xl text-sm text-textMuted font-mono">
+                        ← <a href="03-Tailwind-Spacing-and-Sizing.html" class="hover:text-white transition-colors">#3 Spacing &amp; Sizing</a>
+                    </div>
+                    <div class="px-4 py-2 bg-blue-500 rounded-xl text-sm text-white font-semibold">
+                        #4 Responsiveness ← You are here
+                    </div>
+                    <div class="px-4 py-2 bg-darkBg border border-borderSlate rounded-xl text-sm text-textMuted font-mono">
+                        <a href="05-Tailwind-Components.html" class="hover:text-white transition-colors">#5 Components →</a>
+                    </div>
+                </div>
+
+                <!-- Key takeaways -->
+                <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+                    <div class="bg-darkBg border border-borderSlate rounded-xl p-4">
+                        <div class="text-blue-400 font-bold text-sm mb-1">✓ Learned</div>
+                        <p class="text-textMuted text-xs">Mobile-first philosophy: no prefix = all screens</p>
+                    </div>
+                    <div class="bg-darkBg border border-borderSlate rounded-xl p-4">
+                        <div class="text-blue-400 font-bold text-sm mb-1">✓ Learned</div>
+                        <p class="text-textMuted text-xs">5 breakpoints: sm md lg xl 2xl and their pixel values</p>
+                    </div>
+                    <div class="bg-darkBg border border-borderSlate rounded-xl p-4">
+                        <div class="text-blue-400 font-bold text-sm mb-1">✓ Learned</div>
+                        <p class="text-textMuted text-xs">Responsive grid, flex, typography, visibility, spacing</p>
+                    </div>
+                    <div class="bg-darkBg border border-borderSlate rounded-xl p-4">
+                        <div class="text-blue-400 font-bold text-sm mb-1">✓ Learned</div>
+                        <p class="text-textMuted text-xs">Real LUGX patterns: navbar, hero, cards, CTA section</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════
+         FOOTER
+    ═══════════════════════════════════════════════ -->
+    <footer class="border-t border-borderSlate mt-20">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 bg-blue-500 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-xs">04</span>
+                </div>
+                <span class="text-textMuted text-sm">Tailwind Responsiveness — LUGX Learning Series</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-mono text-textMuted">
+                <span>bg-[#0b0c10]</span>
+                <span class="w-1 h-1 rounded-full bg-borderSlate"></span>
+                <span>Inter + JetBrains Mono</span>
+                <span class="w-1 h-1 rounded-full bg-borderSlate"></span>
+                <span>Tailwind CSS CDN</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════
+         JAVASCRIPT — Hamburger menu toggle
+    ═══════════════════════════════════════════════ -->
+    <script>
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu   = document.getElementById('mobile-menu');
+        const hamLine1     = document.getElementById('ham-line1');
+        const hamLine2     = document.getElementById('ham-line2');
+        const hamLine3     = document.getElementById('ham-line3');
+
+        let menuOpen = false;
+
+        hamburgerBtn.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+
+            if (menuOpen) {
+                mobileMenu.classList.remove('hidden');
+                // Animate to X
+                hamLine1.style.transform = 'translateY(8px) rotate(45deg)';
+                hamLine2.style.opacity = '0';
+                hamLine3.style.transform = 'translateY(-8px) rotate(-45deg)';
+            } else {
+                closeMobileMenu();
+            }
+        });
+
+        function closeMobileMenu() {
+            menuOpen = false;
+            mobileMenu.classList.add('hidden');
+            // Reset hamburger lines
+            hamLine1.style.transform = '';
+            hamLine2.style.opacity = '';
+            hamLine3.style.transform = '';
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (menuOpen && !hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close menu on resize to lg+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024 && menuOpen) {
+                closeMobileMenu();
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML — The Complete Deep Dive Refresher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:900px;margin:0 auto}
+        h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#10b981;margin-bottom:8px}
+        .subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        .section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+        .section-num{background:#1e2d4a;color:#10b981;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+        h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #10b981;padding-left:14px}
+        h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+        p{margin-bottom:20px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+        .tag{color:#7ee787}.attr{color:#d2a8ff}.val{color:#a5d6ff}.cm{color:#5e6e8a;font-style:italic}.txt{color:#c9d1d9}
+        ul,ol{margin:12px 0 24px 24px;color:#b0bac9}li{margin-bottom:10px}li strong{color:#e2e8f0}
+        .co{border-radius:12px;padding:24px;margin:32px 0;font-size:15.5px;line-height:1.7;border:1px solid rgba(255,255,255,0.05)}
+        .co-r{background:rgba(248,81,73,.04);border-left:4px solid #f85149}.co-r strong{color:#f85149}
+        .co-g{background:rgba(16,185,129,.04);border-left:4px solid #10b981}.co-g strong{color:#10b981}
+        .co-p{background:rgba(139,92,246,.04);border-left:4px solid #a78bfa}.co-p strong{color:#a78bfa}
+        .co-y{background:rgba(245,158,11,.04);border-left:4px solid #f59e0b}.co-y strong{color:#f59e0b}
+        .co-b{background:rgba(88,166,255,.04);border-left:4px solid #58a6ff}.co-b strong{color:#58a6ff}
+        table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14.5px}
+        th{background:#161b2e;color:#10b981;text-align:left;padding:14px 18px;font-weight:600;border:1px solid #1e2d4a}
+        td{padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9}tr:nth-child(even) td{background:rgba(22,27,46,.5)}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+
+        /* Live rendered HTML demos */
+        .demo{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px;margin:28px 0 36px;box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+        .demo-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#10b981;margin-bottom:16px}
+        .demo-box{border:2px dashed rgba(16,185,129,.3);border-radius:10px;padding:16px;background:rgba(16,185,129,.02)}
+        .demo-box *{color:#c9d1d9}
+        .demo-box h1,.demo-box h2,.demo-box h3,.demo-box h4,.demo-box h5,.demo-box h6{color:#f0f6fc;border:none;padding:0;margin:8px 0;font-size:revert;font-weight:revert;letter-spacing:normal}
+        .demo-box p{margin:8px 0;color:#b0bac9}
+        .demo-box a{color:#7dd3fc;text-decoration:underline}
+        .demo-box ul,.demo-box ol{margin:8px 0 8px 24px}
+        .demo-box li{margin-bottom:4px}
+        .demo-box img{max-width:100%;border-radius:8px}
+        .demo-box table{margin:8px 0}
+        .demo-box input,.demo-box textarea,.demo-box select,.demo-box button{font-family:'Inter',sans-serif;background:#0d1117;color:#c9d1d9;border:1px solid #1e2d4a;border-radius:6px;padding:8px 12px;font-size:14px;margin:4px 0}
+        .demo-box button{background:#10b981;color:#0f111a;border:none;cursor:pointer;font-weight:600;padding:8px 20px}
+        .demo-box label{display:block;margin:8px 0 4px;font-weight:500;color:#e2e8f0;font-size:14px}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="lesson-num">Complete Refresher</p>
+    <h1>HTML: The Deep Dive</h1>
+    <p class="subtitle">Every HTML element you need to build real websites — from the document skeleton to semantic layout, forms, media, and tables. Each element is shown as code AND rendered live so you can see exactly what it produces.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1</span> The HTML Document Skeleton</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>The Boilerplate</h3>
+    <p>Every HTML page starts with this exact structure. Memorize it — you'll type it hundreds of times.</p>
+
+    <pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>                <span class="cm">&lt;!-- Tells the browser: "This is HTML5" --&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"en"</span><span class="tag">&gt;</span>              <span class="cm">&lt;!-- Root element. lang="en" helps screen readers --&gt;</span>
+<span class="tag">&lt;head&gt;</span>                          <span class="cm">&lt;!-- Invisible metadata — NOT rendered on screen --&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>     <span class="cm">&lt;!-- Character encoding (supports all languages) --&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+                                  <span class="cm">&lt;!-- Makes the page responsive on mobile --&gt;</span>
+    <span class="tag">&lt;title&gt;</span>My Page<span class="tag">&lt;/title&gt;</span>        <span class="cm">&lt;!-- Text shown in browser tab --&gt;</span>
+    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>  <span class="cm">&lt;!-- External CSS file --&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>                          <span class="cm">&lt;!-- Everything visible lives here --&gt;</span>
+    <span class="cm">&lt;!-- Your content goes here --&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+
+    <div class="co co-g">
+        <strong>💡 Pro Tip: VS Code Shortcut</strong><br>
+        Type <code>!</code> and press Tab in VS Code — it auto-generates this entire boilerplate instantly.
+    </div>
+
+    <h3>What Goes Inside <code>&lt;head&gt;</code>?</h3>
+    <table>
+        <tr><th>Tag</th><th>Purpose</th><th>Example</th></tr>
+        <tr><td><code>&lt;title&gt;</code></td><td>Browser tab text + SEO title</td><td><code>&lt;title&gt;My Site&lt;/title&gt;</code></td></tr>
+        <tr><td><code>&lt;meta&gt;</code></td><td>Metadata (charset, viewport, description)</td><td><code>&lt;meta name="description" content="..."&gt;</code></td></tr>
+        <tr><td><code>&lt;link&gt;</code></td><td>External resources (CSS, fonts, icons)</td><td><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></td></tr>
+        <tr><td><code>&lt;style&gt;</code></td><td>Inline CSS inside the HTML file</td><td><code>&lt;style&gt; body { color: red; } &lt;/style&gt;</code></td></tr>
+        <tr><td><code>&lt;script&gt;</code></td><td>JavaScript (also works before &lt;/body&gt;)</td><td><code>&lt;script src="app.js"&gt;&lt;/script&gt;</code></td></tr>
+    </table>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">2</span> Text Content Elements</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>Headings (h1 → h6)</h3>
+    <p>HTML has 6 heading levels. <code>&lt;h1&gt;</code> is the most important (one per page for SEO), <code>&lt;h6&gt;</code> is the least. They define your document's content hierarchy.</p>
+
+    <pre><code><span class="tag">&lt;h1&gt;</span>Main Page Title<span class="tag">&lt;/h1&gt;</span>        <span class="cm">&lt;!-- Only ONE per page --&gt;</span>
+<span class="tag">&lt;h2&gt;</span>Section Heading<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;h3&gt;</span>Subsection Heading<span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;h4&gt;</span>Minor Heading<span class="tag">&lt;/h4&gt;</span>
+<span class="tag">&lt;h5&gt;</span>Sub-minor Heading<span class="tag">&lt;/h5&gt;</span>
+<span class="tag">&lt;h6&gt;</span>Smallest Heading<span class="tag">&lt;/h6&gt;</span></code></pre>
+
+    <div class="demo">
+        <p class="demo-label">Rendered Headings</p>
+        <div class="demo-box">
+            <h1>h1 — Main Title</h1>
+            <h2>h2 — Section</h2>
+            <h3>h3 — Subsection</h3>
+            <h4>h4 — Minor</h4>
+            <h5>h5 — Sub-minor</h5>
+            <h6>h6 — Smallest</h6>
+        </div>
+    </div>
+
+    <hr>
+
+    <h3>Paragraphs, Breaks & Emphasis</h3>
+    <pre><code><span class="tag">&lt;p&gt;</span>This is a paragraph. Browsers add spacing above and below automatically.<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p&gt;</span>Second paragraph. Use <span class="tag">&lt;br&gt;</span> for a line<span class="tag">&lt;br&gt;</span>break inside a paragraph.<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;strong&gt;</span>Bold / important text<span class="tag">&lt;/strong&gt;</span>    <span class="cm">&lt;!-- Semantic: indicates importance --&gt;</span>
+<span class="tag">&lt;em&gt;</span>Italic / emphasized text<span class="tag">&lt;/em&gt;</span>       <span class="cm">&lt;!-- Semantic: indicates emphasis --&gt;</span>
+<span class="tag">&lt;b&gt;</span>Bold (visual only)<span class="tag">&lt;/b&gt;</span>             <span class="cm">&lt;!-- No semantic meaning --&gt;</span>
+<span class="tag">&lt;i&gt;</span>Italic (visual only)<span class="tag">&lt;/i&gt;</span>           <span class="cm">&lt;!-- No semantic meaning --&gt;</span>
+<span class="tag">&lt;mark&gt;</span>Highlighted text<span class="tag">&lt;/mark&gt;</span>
+<span class="tag">&lt;small&gt;</span>Small print / fine text<span class="tag">&lt;/small&gt;</span>
+<span class="tag">&lt;del&gt;</span>Deleted / strikethrough<span class="tag">&lt;/del&gt;</span>
+<span class="tag">&lt;u&gt;</span>Underlined text<span class="tag">&lt;/u&gt;</span>
+<span class="tag">&lt;code&gt;</span>Inline code snippet<span class="tag">&lt;/code&gt;</span></code></pre>
+
+    <div class="demo">
+        <p class="demo-label">Rendered Text Formatting</p>
+        <div class="demo-box">
+            <p>This is a <strong>bold important</strong> word and an <em>emphasized italic</em> word.</p>
+            <p>This is <mark style="background:#f59e0b;color:#0f111a;padding:2px 4px;border-radius:3px;">highlighted</mark>, <small>small print</small>, <del>deleted</del>, and <u>underlined</u>.</p>
+            <p>Use <code style="background:#1e2d4a;padding:2px 6px;border-radius:4px;">code tags</code> for inline code.</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h3>Links</h3>
+    <p>The <code>&lt;a&gt;</code> (anchor) tag creates clickable links — the backbone of the web.</p>
+
+    <pre><code><span class="cm">&lt;!-- Basic link --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://google.com"</span><span class="tag">&gt;</span>Go to Google<span class="tag">&lt;/a&gt;</span>
+
+<span class="cm">&lt;!-- Open in new tab --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"https://google.com"</span> <span class="attr">target</span>=<span class="val">"_blank"</span> <span class="attr">rel</span>=<span class="val">"noopener noreferrer"</span><span class="tag">&gt;</span>New Tab<span class="tag">&lt;/a&gt;</span>
+
+<span class="cm">&lt;!-- Link to same-page section --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#about"</span><span class="tag">&gt;</span>Jump to About<span class="tag">&lt;/a&gt;</span>
+...
+<span class="tag">&lt;section</span> <span class="attr">id</span>=<span class="val">"about"</span><span class="tag">&gt;</span>Content here<span class="tag">&lt;/section&gt;</span>
+
+<span class="cm">&lt;!-- Link to another page in your site --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"about.html"</span><span class="tag">&gt;</span>About Page<span class="tag">&lt;/a&gt;</span>
+
+<span class="cm">&lt;!-- Email link --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"mailto:hello@example.com"</span><span class="tag">&gt;</span>Email Us<span class="tag">&lt;/a&gt;</span>
+
+<span class="cm">&lt;!-- Phone link --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"tel:+1234567890"</span><span class="tag">&gt;</span>Call Us<span class="tag">&lt;/a&gt;</span></code></pre>
+
+    <hr>
+
+    <h3>Lists</h3>
+    <pre><code><span class="cm">&lt;!-- Unordered list (bullet points) --&gt;</span>
+<span class="tag">&lt;ul&gt;</span>
+    <span class="tag">&lt;li&gt;</span>HTML<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>CSS<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>JavaScript<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span>
+
+<span class="cm">&lt;!-- Ordered list (numbered) --&gt;</span>
+<span class="tag">&lt;ol&gt;</span>
+    <span class="tag">&lt;li&gt;</span>First step<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Second step<span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Third step<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span>
+
+<span class="cm">&lt;!-- Nested list --&gt;</span>
+<span class="tag">&lt;ul&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Frontend
+        <span class="tag">&lt;ul&gt;</span>
+            <span class="tag">&lt;li&gt;</span>HTML<span class="tag">&lt;/li&gt;</span>
+            <span class="tag">&lt;li&gt;</span>CSS<span class="tag">&lt;/li&gt;</span>
+        <span class="tag">&lt;/ul&gt;</span>
+    <span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;li&gt;</span>Backend<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></code></pre>
+
+    <div class="demo">
+        <p class="demo-label">Rendered Lists</p>
+        <div class="demo-box">
+            <ul><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+            <ol><li>First step</li><li>Second step</li><li>Third step</li></ol>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">3</span> Semantic Layout Elements</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>Why Semantic HTML Matters</h3>
+    <p>Semantic elements describe the <strong>meaning</strong> of your content — not just how it looks. A <code>&lt;nav&gt;</code> tells the browser "this is navigation," while a <code>&lt;div&gt;</code> means nothing. Search engines, screen readers, and browser tools all benefit from semantic markup.</p>
+
+    <div class="co co-y">
+        <strong>🏗️ The Golden Rule</strong><br>
+        Use <code>&lt;div&gt;</code> only when no semantic element fits. If your content IS a header, call it <code>&lt;header&gt;</code>. If it IS navigation, call it <code>&lt;nav&gt;</code>. If it IS the main content, call it <code>&lt;main&gt;</code>.
+    </div>
+
+    <h3>Full Page Structure</h3>
+    <pre><code><span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;header&gt;</span>            <span class="cm">&lt;!-- Top of page: logo, site title, nav --&gt;</span>
+        <span class="tag">&lt;nav&gt;</span>            <span class="cm">&lt;!-- Navigation links --&gt;</span>
+            <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;</span>
+            <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/about"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;</span>
+            <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/contact"</span><span class="tag">&gt;</span>Contact<span class="tag">&lt;/a&gt;</span>
+        <span class="tag">&lt;/nav&gt;</span>
+    <span class="tag">&lt;/header&gt;</span>
+
+    <span class="tag">&lt;main&gt;</span>              <span class="cm">&lt;!-- Primary content (ONE per page) --&gt;</span>
+        <span class="tag">&lt;section&gt;</span>        <span class="cm">&lt;!-- A thematic group of content --&gt;</span>
+            <span class="tag">&lt;h2&gt;</span>About Us<span class="tag">&lt;/h2&gt;</span>
+            <span class="tag">&lt;p&gt;</span>Our story...<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;/section&gt;</span>
+
+        <span class="tag">&lt;section&gt;</span>
+            <span class="tag">&lt;h2&gt;</span>Blog Posts<span class="tag">&lt;/h2&gt;</span>
+            <span class="tag">&lt;article&gt;</span>    <span class="cm">&lt;!-- Self-contained content (a blog post, product, comment) --&gt;</span>
+                <span class="tag">&lt;h3&gt;</span>Post Title<span class="tag">&lt;/h3&gt;</span>
+                <span class="tag">&lt;p&gt;</span>Post content...<span class="tag">&lt;/p&gt;</span>
+            <span class="tag">&lt;/article&gt;</span>
+        <span class="tag">&lt;/section&gt;</span>
+
+        <span class="tag">&lt;aside&gt;</span>          <span class="cm">&lt;!-- Sidebar content (tangentially related) --&gt;</span>
+            <span class="tag">&lt;h3&gt;</span>Related Links<span class="tag">&lt;/h3&gt;</span>
+        <span class="tag">&lt;/aside&gt;</span>
+    <span class="tag">&lt;/main&gt;</span>
+
+    <span class="tag">&lt;footer&gt;</span>            <span class="cm">&lt;!-- Bottom of page: copyright, links, legal --&gt;</span>
+        <span class="tag">&lt;p&gt;</span>&amp;copy; 2026 My Site<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/footer&gt;</span>
+<span class="tag">&lt;/body&gt;</span></code></pre>
+
+    <h3>Semantic Elements Cheat Sheet</h3>
+    <table>
+        <tr><th>Element</th><th>Meaning</th><th>When to Use</th></tr>
+        <tr><td><code>&lt;header&gt;</code></td><td>Introductory content</td><td>Top of page or section (logo, title, nav)</td></tr>
+        <tr><td><code>&lt;nav&gt;</code></td><td>Navigation</td><td>Main site navigation, sidebar nav, breadcrumbs</td></tr>
+        <tr><td><code>&lt;main&gt;</code></td><td>Primary content</td><td>The core content of the page (ONE per page)</td></tr>
+        <tr><td><code>&lt;section&gt;</code></td><td>Thematic grouping</td><td>A section of content with its own heading</td></tr>
+        <tr><td><code>&lt;article&gt;</code></td><td>Self-contained content</td><td>Blog post, product card, comment, news story</td></tr>
+        <tr><td><code>&lt;aside&gt;</code></td><td>Side content</td><td>Sidebar, pull quotes, related links</td></tr>
+        <tr><td><code>&lt;footer&gt;</code></td><td>Closing content</td><td>Bottom of page or section (copyright, links)</td></tr>
+        <tr><td><code>&lt;figure&gt;</code></td><td>Illustration</td><td>Images, diagrams, code blocks with captions</td></tr>
+        <tr><td><code>&lt;figcaption&gt;</code></td><td>Caption for figure</td><td>Text describing a figure</td></tr>
+    </table>
+
+    <h3>The <code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> — Generic Containers</h3>
+    <pre><code><span class="cm">&lt;!-- div = Block container (takes full width, stacks vertically) --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;h3&gt;</span>Card Title<span class="tag">&lt;/h3&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Card content...<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- span = Inline container (flows within text, no line break) --&gt;</span>
+<span class="tag">&lt;p&gt;</span>My favorite color is <span class="tag">&lt;span</span> <span class="attr">style</span>=<span class="val">"color: red;"</span><span class="tag">&gt;</span>red<span class="tag">&lt;/span&gt;</span>.<span class="tag">&lt;/p&gt;</span></code></pre>
+
+    <div class="co co-r">
+        <strong>⚠️ Block vs. Inline</strong><br>
+        <strong>Block elements</strong> (<code>div</code>, <code>h1-h6</code>, <code>p</code>, <code>section</code>, <code>header</code>, <code>ul</code>) take the full width and start on a new line.<br>
+        <strong>Inline elements</strong> (<code>span</code>, <code>a</code>, <code>strong</code>, <code>em</code>, <code>code</code>, <code>img</code>) flow within text and do NOT start a new line.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">4</span> Images & Media</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>Images</h3>
+    <pre><code><span class="cm">&lt;!-- Basic image (self-closing tag — no closing tag!) --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"photo.jpg"</span> <span class="attr">alt</span>=<span class="val">"A sunset over the ocean"</span><span class="tag">&gt;</span>
+
+<span class="cm">&lt;!-- With explicit dimensions --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"logo.png"</span> <span class="attr">alt</span>=<span class="val">"Company Logo"</span> <span class="attr">width</span>=<span class="val">"200"</span> <span class="attr">height</span>=<span class="val">"100"</span><span class="tag">&gt;</span>
+
+<span class="cm">&lt;!-- Image with figure + caption --&gt;</span>
+<span class="tag">&lt;figure&gt;</span>
+    <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"chart.png"</span> <span class="attr">alt</span>=<span class="val">"Revenue chart showing 40% growth"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;figcaption&gt;</span>Revenue growth in Q4 2025<span class="tag">&lt;/figcaption&gt;</span>
+<span class="tag">&lt;/figure&gt;</span></code></pre>
+
+    <div class="co co-p">
+        <strong>🌐 The <code>alt</code> Attribute is MANDATORY</strong><br>
+        The <code>alt</code> attribute describes the image for:<br>
+        1. <strong>Screen readers</strong> (accessibility for visually impaired users)<br>
+        2. <strong>SEO</strong> (search engines read it to understand image content)<br>
+        3. <strong>Broken images</strong> (displayed when the image fails to load)<br>
+        If the image is purely decorative, use <code>alt=""</code> (empty alt).
+    </div>
+
+    <hr>
+
+    <h3>Video & Audio</h3>
+    <pre><code><span class="cm">&lt;!-- Video (controls = play/pause/volume bar) --&gt;</span>
+<span class="tag">&lt;video</span> <span class="attr">src</span>=<span class="val">"intro.mp4"</span> <span class="attr">controls</span> <span class="attr">width</span>=<span class="val">"600"</span><span class="tag">&gt;</span>
+    Your browser does not support video.
+<span class="tag">&lt;/video&gt;</span>
+
+<span class="cm">&lt;!-- Audio --&gt;</span>
+<span class="tag">&lt;audio</span> <span class="attr">src</span>=<span class="val">"song.mp3"</span> <span class="attr">controls</span><span class="tag">&gt;</span><span class="tag">&lt;/audio&gt;</span>
+
+<span class="cm">&lt;!-- Embed YouTube / external content --&gt;</span>
+<span class="tag">&lt;iframe</span> <span class="attr">src</span>=<span class="val">"https://www.youtube.com/embed/VIDEO_ID"</span>
+    <span class="attr">width</span>=<span class="val">"560"</span> <span class="attr">height</span>=<span class="val">"315"</span>
+    <span class="attr">frameborder</span>=<span class="val">"0"</span>
+    <span class="attr">allowfullscreen</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/iframe&gt;</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">5</span> Forms & Inputs</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>The Form Element</h3>
+    <p>Forms collect user input. The <code>&lt;form&gt;</code> element wraps all input fields. When submitted, it sends data to a server via the <code>action</code> URL using the <code>method</code> (GET or POST).</p>
+
+    <pre><code><span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="val">"/submit"</span> <span class="attr">method</span>=<span class="val">"POST"</span><span class="tag">&gt;</span>
+
+    <span class="cm">&lt;!-- Text input --&gt;</span>
+    <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="val">"name"</span><span class="tag">&gt;</span>Name:<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"name"</span> <span class="attr">name</span>=<span class="val">"name"</span> <span class="attr">placeholder</span>=<span class="val">"Enter your name"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+
+    <span class="cm">&lt;!-- Email (validates email format) --&gt;</span>
+    <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="val">"email"</span><span class="tag">&gt;</span>Email:<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"email"</span> <span class="attr">id</span>=<span class="val">"email"</span> <span class="attr">name</span>=<span class="val">"email"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+
+    <span class="cm">&lt;!-- Password (hidden characters) --&gt;</span>
+    <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="val">"pass"</span><span class="tag">&gt;</span>Password:<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"password"</span> <span class="attr">id</span>=<span class="val">"pass"</span> <span class="attr">name</span>=<span class="val">"password"</span> <span class="attr">minlength</span>=<span class="val">"8"</span><span class="tag">&gt;</span>
+
+    <span class="cm">&lt;!-- Number --&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"number"</span> <span class="attr">min</span>=<span class="val">"1"</span> <span class="attr">max</span>=<span class="val">"100"</span> <span class="attr">value</span>=<span class="val">"25"</span><span class="tag">&gt;</span>
+
+    <span class="cm">&lt;!-- Textarea (multi-line text) --&gt;</span>
+    <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="val">"msg"</span><span class="tag">&gt;</span>Message:<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;textarea</span> <span class="attr">id</span>=<span class="val">"msg"</span> <span class="attr">name</span>=<span class="val">"message"</span> <span class="attr">rows</span>=<span class="val">"4"</span> <span class="attr">placeholder</span>=<span class="val">"Write here..."</span><span class="tag">&gt;&lt;/textarea&gt;</span>
+
+    <span class="cm">&lt;!-- Select dropdown --&gt;</span>
+    <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="val">"role"</span><span class="tag">&gt;</span>Role:<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;select</span> <span class="attr">id</span>=<span class="val">"role"</span> <span class="attr">name</span>=<span class="val">"role"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="val">""</span><span class="tag">&gt;</span>Choose...<span class="tag">&lt;/option&gt;</span>
+        <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="val">"dev"</span><span class="tag">&gt;</span>Developer<span class="tag">&lt;/option&gt;</span>
+        <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="val">"design"</span><span class="tag">&gt;</span>Designer<span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;/select&gt;</span>
+
+    <span class="cm">&lt;!-- Checkbox --&gt;</span>
+    <span class="tag">&lt;label&gt;</span><span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"checkbox"</span> <span class="attr">name</span>=<span class="val">"agree"</span><span class="tag">&gt;</span> I agree to the terms<span class="tag">&lt;/label&gt;</span>
+
+    <span class="cm">&lt;!-- Radio buttons (same name = only one can be selected) --&gt;</span>
+    <span class="tag">&lt;label&gt;</span><span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"radio"</span> <span class="attr">name</span>=<span class="val">"plan"</span> <span class="attr">value</span>=<span class="val">"free"</span><span class="tag">&gt;</span> Free<span class="tag">&lt;/label&gt;</span>
+    <span class="tag">&lt;label&gt;</span><span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"radio"</span> <span class="attr">name</span>=<span class="val">"plan"</span> <span class="attr">value</span>=<span class="val">"pro"</span><span class="tag">&gt;</span> Pro<span class="tag">&lt;/label&gt;</span>
+
+    <span class="cm">&lt;!-- Submit button --&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="tag">&gt;</span>Send<span class="tag">&lt;/button&gt;</span>
+
+<span class="tag">&lt;/form&gt;</span></code></pre>
+
+    <div class="demo">
+        <p class="demo-label">Rendered Form</p>
+        <div class="demo-box">
+            <form onsubmit="return false;">
+                <label for="d-name">Name:</label>
+                <input type="text" id="d-name" placeholder="Enter your name" style="width:100%">
+
+                <label for="d-email">Email:</label>
+                <input type="email" id="d-email" placeholder="you@example.com" style="width:100%">
+
+                <label for="d-msg">Message:</label>
+                <textarea id="d-msg" rows="3" placeholder="Write here..." style="width:100%;resize:vertical"></textarea>
+
+                <label for="d-role">Role:</label>
+                <select id="d-role" style="width:100%">
+                    <option value="">Choose...</option>
+                    <option value="dev">Developer</option>
+                    <option value="design">Designer</option>
+                </select>
+
+                <div style="margin:12px 0">
+                    <label style="display:inline"><input type="checkbox"> I agree to the terms</label>
+                </div>
+
+                <div style="margin:8px 0">
+                    <label style="display:inline;margin-right:16px"><input type="radio" name="d-plan" value="free"> Free</label>
+                    <label style="display:inline"><input type="radio" name="d-plan" value="pro"> Pro</label>
+                </div>
+
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <h3>All Input Types Cheat Sheet</h3>
+    <table>
+        <tr><th>Type</th><th>Purpose</th><th>Example</th></tr>
+        <tr><td><code>text</code></td><td>Single-line text</td><td>Name, username</td></tr>
+        <tr><td><code>email</code></td><td>Email with validation</td><td>user@site.com</td></tr>
+        <tr><td><code>password</code></td><td>Hidden text</td><td>Login password</td></tr>
+        <tr><td><code>number</code></td><td>Numeric only</td><td>Age, quantity</td></tr>
+        <tr><td><code>tel</code></td><td>Phone number</td><td>+1 234 567 890</td></tr>
+        <tr><td><code>url</code></td><td>URL with validation</td><td>https://site.com</td></tr>
+        <tr><td><code>date</code></td><td>Date picker</td><td>Birthday</td></tr>
+        <tr><td><code>time</code></td><td>Time picker</td><td>Meeting time</td></tr>
+        <tr><td><code>color</code></td><td>Color picker</td><td>Theme color</td></tr>
+        <tr><td><code>range</code></td><td>Slider</td><td>Volume, brightness</td></tr>
+        <tr><td><code>file</code></td><td>File upload</td><td>Avatar, documents</td></tr>
+        <tr><td><code>checkbox</code></td><td>Multi-select toggle</td><td>Agree to terms</td></tr>
+        <tr><td><code>radio</code></td><td>Single-select from group</td><td>Choose a plan</td></tr>
+        <tr><td><code>search</code></td><td>Search bar</td><td>Site search</td></tr>
+        <tr><td><code>hidden</code></td><td>Invisible data</td><td>CSRF tokens, user IDs</td></tr>
+        <tr><td><code>submit</code></td><td>Submit button</td><td>Send form</td></tr>
+    </table>
+
+    <div class="co co-b">
+        <strong>🔗 The <code>&lt;label&gt;</code> + <code>for</code> Connection</strong><br>
+        Always pair every input with a <code>&lt;label&gt;</code>. The label's <code>for</code> attribute must match the input's <code>id</code>. This does two things:<br>
+        1. <strong>Accessibility</strong>: Screen readers announce the label when the input is focused.<br>
+        2. <strong>UX</strong>: Clicking the label text focuses or toggles the input (especially useful for checkboxes/radios).
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">6</span> Tables</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>Table Structure</h3>
+    <pre><code><span class="tag">&lt;table&gt;</span>
+    <span class="tag">&lt;thead&gt;</span>                       <span class="cm">&lt;!-- Table header group --&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>                       <span class="cm">&lt;!-- Table Row --&gt;</span>
+            <span class="tag">&lt;th&gt;</span>Name<span class="tag">&lt;/th&gt;</span>           <span class="cm">&lt;!-- Table Header cell (bold by default) --&gt;</span>
+            <span class="tag">&lt;th&gt;</span>Age<span class="tag">&lt;/th&gt;</span>
+            <span class="tag">&lt;th&gt;</span>Role<span class="tag">&lt;/th&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;/thead&gt;</span>
+    <span class="tag">&lt;tbody&gt;</span>                       <span class="cm">&lt;!-- Table body group --&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;td&gt;</span>Idris<span class="tag">&lt;/td&gt;</span>          <span class="cm">&lt;!-- Table Data cell --&gt;</span>
+            <span class="tag">&lt;td&gt;</span>25<span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span>Developer<span class="tag">&lt;/td&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+        <span class="tag">&lt;tr&gt;</span>
+            <span class="tag">&lt;td&gt;</span>Sara<span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span>28<span class="tag">&lt;/td&gt;</span>
+            <span class="tag">&lt;td&gt;</span>Designer<span class="tag">&lt;/td&gt;</span>
+        <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;/tbody&gt;</span>
+<span class="tag">&lt;/table&gt;</span></code></pre>
+
+    <div class="demo">
+        <p class="demo-label">Rendered Table</p>
+        <div class="demo-box">
+            <table>
+                <thead><tr><th>Name</th><th>Age</th><th>Role</th></tr></thead>
+                <tbody>
+                    <tr><td>Idris</td><td>25</td><td>Developer</td></tr>
+                    <tr><td>Sara</td><td>28</td><td>Designer</td></tr>
+                    <tr><td>Ahmed</td><td>32</td><td>Manager</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">7</span> HTML Attributes & Global Properties</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>Essential Attributes</h3>
+    <table>
+        <tr><th>Attribute</th><th>Used On</th><th>Purpose</th></tr>
+        <tr><td><code>id</code></td><td>Any element</td><td>Unique identifier (one per page). Used for CSS targeting and JavaScript.</td></tr>
+        <tr><td><code>class</code></td><td>Any element</td><td>Reusable CSS class name. Multiple elements can share the same class.</td></tr>
+        <tr><td><code>style</code></td><td>Any element</td><td>Inline CSS styles directly on the element.</td></tr>
+        <tr><td><code>src</code></td><td>img, video, audio, script, iframe</td><td>Source file path or URL.</td></tr>
+        <tr><td><code>href</code></td><td>a, link</td><td>Hyperlink destination URL.</td></tr>
+        <tr><td><code>alt</code></td><td>img</td><td>Alternative text description for accessibility.</td></tr>
+        <tr><td><code>placeholder</code></td><td>input, textarea</td><td>Ghost text shown when the field is empty.</td></tr>
+        <tr><td><code>required</code></td><td>input, textarea, select</td><td>Field must be filled before form submission.</td></tr>
+        <tr><td><code>disabled</code></td><td>input, button, select</td><td>Element is visible but cannot be interacted with.</td></tr>
+        <tr><td><code>hidden</code></td><td>Any element</td><td>Completely hides the element from the page.</td></tr>
+        <tr><td><code>title</code></td><td>Any element</td><td>Tooltip text shown on hover.</td></tr>
+        <tr><td><code>data-*</code></td><td>Any element</td><td>Custom data storage (e.g. <code>data-user-id="42"</code>).</td></tr>
+    </table>
+
+    <pre><code><span class="cm">&lt;!-- id vs class --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="val">"hero"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>             <span class="cm">&lt;!-- Unique — only ONE element with this id --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span>         <span class="cm">&lt;!-- Reusable — many elements can share this class --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card featured"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span> <span class="cm">&lt;!-- Multiple classes separated by spaces --&gt;</span>
+
+<span class="cm">&lt;!-- Custom data attributes --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">data-product-id</span>=<span class="val">"42"</span> <span class="attr">data-action</span>=<span class="val">"buy"</span><span class="tag">&gt;</span>Buy Now<span class="tag">&lt;/button&gt;</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">8</span> Putting It Together: Real Website HTML Skeleton</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>Complete Website Structure</h3>
+    <p>Here's the full HTML skeleton for a typical modern website. This is the exact structure you'll use to clone the practice websites:</p>
+
+    <pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"en"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span>My Website<span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+
+    <span class="cm">&lt;!-- ═══ NAVIGATION ═══ --&gt;</span>
+    <span class="tag">&lt;header&gt;</span>
+        <span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span>🔥 Brand<span class="tag">&lt;/div&gt;</span>
+            <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"nav-links"</span><span class="tag">&gt;</span>
+                <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#home"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;</span>
+                <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#about"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;</span>
+                <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#services"</span><span class="tag">&gt;</span>Services<span class="tag">&lt;/a&gt;</span>
+                <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#contact"</span><span class="tag">&gt;</span>Contact<span class="tag">&lt;/a&gt;</span>
+            <span class="tag">&lt;/div&gt;</span>
+            <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="val">"cta-btn"</span><span class="tag">&gt;</span>Sign Up<span class="tag">&lt;/button&gt;</span>
+        <span class="tag">&lt;/nav&gt;</span>
+    <span class="tag">&lt;/header&gt;</span>
+
+    <span class="tag">&lt;main&gt;</span>
+        <span class="cm">&lt;!-- ═══ HERO SECTION ═══ --&gt;</span>
+        <span class="tag">&lt;section</span> <span class="attr">id</span>=<span class="val">"home"</span> <span class="attr">class</span>=<span class="val">"hero"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;h1&gt;</span>Build Something Amazing<span class="tag">&lt;/h1&gt;</span>
+            <span class="tag">&lt;p&gt;</span>Subtitle text goes here.<span class="tag">&lt;/p&gt;</span>
+            <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"hero-buttons"</span><span class="tag">&gt;</span>
+                <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span> <span class="attr">class</span>=<span class="val">"btn btn-primary"</span><span class="tag">&gt;</span>Get Started<span class="tag">&lt;/a&gt;</span>
+                <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span> <span class="attr">class</span>=<span class="val">"btn btn-secondary"</span><span class="tag">&gt;</span>Learn More<span class="tag">&lt;/a&gt;</span>
+            <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;/section&gt;</span>
+
+        <span class="cm">&lt;!-- ═══ FEATURES SECTION ═══ --&gt;</span>
+        <span class="tag">&lt;section</span> <span class="attr">id</span>=<span class="val">"services"</span> <span class="attr">class</span>=<span class="val">"features"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;h2&gt;</span>Our Services<span class="tag">&lt;/h2&gt;</span>
+            <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"cards"</span><span class="tag">&gt;</span>
+                <span class="tag">&lt;article</span> <span class="attr">class</span>=<span class="val">"card"</span><span class="tag">&gt;</span>
+                    <span class="tag">&lt;h3&gt;</span>Web Design<span class="tag">&lt;/h3&gt;</span>
+                    <span class="tag">&lt;p&gt;</span>Beautiful responsive websites.<span class="tag">&lt;/p&gt;</span>
+                <span class="tag">&lt;/article&gt;</span>
+                <span class="tag">&lt;article</span> <span class="attr">class</span>=<span class="val">"card"</span><span class="tag">&gt;</span>
+                    <span class="tag">&lt;h3&gt;</span>Development<span class="tag">&lt;/h3&gt;</span>
+                    <span class="tag">&lt;p&gt;</span>Clean, maintainable code.<span class="tag">&lt;/p&gt;</span>
+                <span class="tag">&lt;/article&gt;</span>
+                <span class="tag">&lt;article</span> <span class="attr">class</span>=<span class="val">"card"</span><span class="tag">&gt;</span>
+                    <span class="tag">&lt;h3&gt;</span>SEO<span class="tag">&lt;/h3&gt;</span>
+                    <span class="tag">&lt;p&gt;</span>Search engine optimization.<span class="tag">&lt;/p&gt;</span>
+                <span class="tag">&lt;/article&gt;</span>
+            <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;/section&gt;</span>
+
+        <span class="cm">&lt;!-- ═══ CONTACT SECTION ═══ --&gt;</span>
+        <span class="tag">&lt;section</span> <span class="attr">id</span>=<span class="val">"contact"</span> <span class="attr">class</span>=<span class="val">"contact"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;h2&gt;</span>Contact Us<span class="tag">&lt;/h2&gt;</span>
+            <span class="tag">&lt;form&gt;</span>
+                <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">placeholder</span>=<span class="val">"Name"</span><span class="tag">&gt;</span>
+                <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"email"</span> <span class="attr">placeholder</span>=<span class="val">"Email"</span><span class="tag">&gt;</span>
+                <span class="tag">&lt;textarea</span> <span class="attr">placeholder</span>=<span class="val">"Message"</span><span class="tag">&gt;&lt;/textarea&gt;</span>
+                <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="tag">&gt;</span>Send<span class="tag">&lt;/button&gt;</span>
+            <span class="tag">&lt;/form&gt;</span>
+        <span class="tag">&lt;/section&gt;</span>
+    <span class="tag">&lt;/main&gt;</span>
+
+    <span class="cm">&lt;!-- ═══ FOOTER ═══ --&gt;</span>
+    <span class="tag">&lt;footer&gt;</span>
+        <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"footer-columns"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;div&gt;</span>
+                <span class="tag">&lt;h4&gt;</span>About<span class="tag">&lt;/h4&gt;</span>
+                <span class="tag">&lt;p&gt;</span>We build amazing things.<span class="tag">&lt;/p&gt;</span>
+            <span class="tag">&lt;/div&gt;</span>
+            <span class="tag">&lt;div&gt;</span>
+                <span class="tag">&lt;h4&gt;</span>Links<span class="tag">&lt;/h4&gt;</span>
+                <span class="tag">&lt;ul&gt;</span>
+                    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+                    <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;&lt;/li&gt;</span>
+                <span class="tag">&lt;/ul&gt;</span>
+            <span class="tag">&lt;/div&gt;</span>
+            <span class="tag">&lt;div&gt;</span>
+                <span class="tag">&lt;h4&gt;</span>Contact<span class="tag">&lt;/h4&gt;</span>
+                <span class="tag">&lt;p&gt;</span>hello@example.com<span class="tag">&lt;/p&gt;</span>
+            <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+        <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="val">"copyright"</span><span class="tag">&gt;</span>&amp;copy; 2026 Brand. All rights reserved.<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/footer&gt;</span>
+
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+
+    <div class="co co-g">
+        <strong>✅ This is the pattern you'll use for EVERY clone target</strong><br>
+        1. <code>&lt;header&gt;</code> with <code>&lt;nav&gt;</code> → navbar with logo + links + CTA<br>
+        2. <code>&lt;main&gt;</code> with <code>&lt;section&gt;</code>s → hero, features, testimonials, etc.<br>
+        3. <code>&lt;article&gt;</code> → individual cards, posts, products<br>
+        4. <code>&lt;footer&gt;</code> → columns of links + copyright<br>
+        5. Style everything with classes → <code>.navbar</code>, <code>.hero</code>, <code>.card</code>, <code>.btn</code>
+    </div>
+
+</div>
+</body>
+</html>

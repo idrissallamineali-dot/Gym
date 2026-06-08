@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 — Creating & Manipulating Content With JS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:800px;margin:0 auto}
+        h1{font-size:42px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#58a6ff;margin-bottom:8px}
+        .subtitle{font-size:18px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        h2{font-size:26px;font-weight:700;color:#f0f6fc;margin-top:64px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #1e2d4a}
+        h2 .n{color:#58a6ff}
+        h3{font-size:20px;font-weight:600;color:#e2e8f0;margin-top:36px;margin-bottom:12px}
+        h4{font-size:16px;font-weight:600;color:#93aac9;margin-top:24px;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+        p{margin-bottom:18px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        em{color:#93aac9}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:16px 0 24px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}
+        .kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.num{color:#79c0ff}.bool{color:#ff7b72}.tag{color:#7ee787}.attr{color:#79c0ff}.val{color:#a5d6ff}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+        ul,ol{margin:12px 0 22px 24px;color:#b0bac9}
+        li{margin-bottom:8px}
+        li strong{color:#e2e8f0}
+
+        .callout{border-radius:12px;padding:20px 24px;margin:24px 0;font-size:15px;line-height:1.7}
+        .callout-blue{background:rgba(88,166,255,0.06);border-left:4px solid #58a6ff}
+        .callout-blue strong{color:#58a6ff}
+        .callout-green{background:rgba(16,185,129,0.06);border-left:4px solid #10b981}
+        .callout-green strong{color:#10b981}
+        .callout-red{background:rgba(248,81,73,0.06);border-left:4px solid #f85149}
+        .callout-red strong{color:#f85149}
+        .callout-yellow{background:rgba(245,158,11,0.06);border-left:4px solid #f59e0b}
+        .callout-yellow strong{color:#f59e0b}
+        .callout-purple{background:rgba(139,92,246,0.06);border-left:4px solid #a78bfa}
+        .callout-purple strong{color:#a78bfa}
+
+        .diagram{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.5;color:#8b949e;white-space:pre;overflow-x:auto}
+        .diagram .hi{color:#58a6ff;font-weight:700}
+        .diagram .gr{color:#10b981}
+        .diagram .yl{color:#f59e0b}
+        .diagram .rd{color:#f85149}
+        .diagram .pr{color:#a78bfa}
+        .diagram .wh{color:#f0f6fc}
+
+        table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
+        th{background:#161b2e;color:#58a6ff;text-align:left;padding:12px 16px;font-weight:600;border:1px solid #1e2d4a}
+        td{padding:12px 16px;border:1px solid #1e2d4a;color:#b0bac9}
+        tr:nth-child(even) td{background:rgba(22,27,46,0.5)}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="lesson-num">Lesson 02</p>
+    <h1>Creating & Manipulating Content</h1>
+    <p class="subtitle">This is where JavaScript becomes visual. You'll learn to create elements from nothing, insert them into the page, change their appearance, remove them, clone them, and build entire interfaces from pure JavaScript.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">1.</span> Creating Elements</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>The starting point: <code>document.createElement()</code>. This creates a brand new element <strong>in memory</strong> — it does NOT appear on the page yet.</p>
+
+    <pre><code><span class="cm">// Step 1: CREATE the element (exists in memory only)</span>
+<span class="kw">const</span> div = document.<span class="fn">createElement</span>(<span class="str">"div"</span>);
+
+<span class="cm">// At this point, div is a real DOM element object</span>
+<span class="cm">// but it's floating in memory — NOT attached to the page</span>
+<span class="fn">console</span>.<span class="fn">log</span>(div);  <span class="cm">// &lt;div&gt;&lt;/div&gt; — empty, invisible, detached</span></code></pre>
+
+    <div class="callout callout-blue">
+        <strong>🧠 Mental Model</strong><br>
+        Think of <code>createElement</code> like building a LEGO piece in your hand. It exists, it's real, but it's not on the board yet. You have to <strong>place it</strong> somewhere on the page for it to appear.
+    </div>
+
+    <h3>Step 2: Configure the element</h3>
+
+    <p>After creating, you give it content, classes, attributes — everything it needs before placing it on the page:</p>
+
+    <pre><code><span class="kw">const</span> card = document.<span class="fn">createElement</span>(<span class="str">"div"</span>);
+
+<span class="cm">// Add classes</span>
+card.classList.<span class="fn">add</span>(<span class="str">"card"</span>, <span class="str">"card-primary"</span>);
+
+<span class="cm">// Set text content</span>
+card.textContent = <span class="str">"Hello World"</span>;
+
+<span class="cm">// Set an attribute</span>
+card.<span class="fn">setAttribute</span>(<span class="str">"data-id"</span>, <span class="str">"42"</span>);
+
+<span class="cm">// Set an ID</span>
+card.id = <span class="str">"main-card"</span>;
+
+<span class="cm">// Set inline styles</span>
+card.style.backgroundColor = <span class="str">"#1a1a2e"</span>;
+card.style.padding = <span class="str">"20px"</span>;
+card.style.borderRadius = <span class="str">"12px"</span>;
+
+<span class="cm">// At this point, card is fully configured but still NOT on the page</span></code></pre>
+
+    <h3>Step 3: Insert into the page</h3>
+
+    <p>Now you <strong>attach</strong> the element to the DOM tree. It appears on screen the instant you do this:</p>
+
+    <pre><code><span class="cm">// Append as the LAST child of body</span>
+document.body.<span class="fn">appendChild</span>(card);
+
+<span class="cm">// NOW the card is visible on the page ✅</span></code></pre>
+
+    <div class="diagram"><span class="wh">The 3-Step Pattern (memorize this):</span>
+
+  <span class="hi">1. CREATE</span>    → document.createElement("tag")
+  <span class="yl">2. CONFIGURE</span> → set text, classes, attributes, styles
+  <span class="gr">3. INSERT</span>    → parent.appendChild(element)
+
+  <span class="cm">This pattern is used every single time you build UI with JS.</span></div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">2.</span> All The Ways To Insert Elements</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>There are many methods to insert an element. Each one places the element in a different position relative to the parent:</p>
+
+    <div class="diagram"><span class="wh">Given this structure:</span>
+
+  <span class="hi">&lt;div id="parent"&gt;</span>
+      <span class="gr">&lt;p&gt;First&lt;/p&gt;</span>
+      <span class="gr">&lt;p&gt;Second&lt;/p&gt;</span>
+      <span class="gr">&lt;p&gt;Third&lt;/p&gt;</span>
+  <span class="hi">&lt;/div&gt;</span>
+
+<span class="wh">Insertion positions:</span>
+
+  <span class="rd">beforebegin</span>        ← before the parent itself
+  <span class="hi">&lt;div id="parent"&gt;</span>
+      <span class="yl">afterbegin</span>     ← first child position
+      <span class="gr">&lt;p&gt;First&lt;/p&gt;</span>
+      <span class="gr">&lt;p&gt;Second&lt;/p&gt;</span>
+      <span class="gr">&lt;p&gt;Third&lt;/p&gt;</span>
+      <span class="yl">beforeend</span>      ← last child position
+  <span class="hi">&lt;/div&gt;</span>
+  <span class="rd">afterend</span>           ← after the parent itself</div>
+
+    <h3>Modern Methods (use these)</h3>
+
+    <pre><code><span class="kw">const</span> parent = document.<span class="fn">querySelector</span>(<span class="str">"#parent"</span>);
+<span class="kw">const</span> newEl = document.<span class="fn">createElement</span>(<span class="str">"p"</span>);
+newEl.textContent = <span class="str">"New paragraph"</span>;
+
+<span class="cm">// ── INSIDE the parent ──────────────────────────────────</span>
+
+parent.<span class="fn">append</span>(newEl);           <span class="cm">// Insert as LAST child</span>
+parent.<span class="fn">prepend</span>(newEl);          <span class="cm">// Insert as FIRST child</span>
+
+<span class="cm">// ── OUTSIDE the parent ─────────────────────────────────</span>
+
+parent.<span class="fn">before</span>(newEl);           <span class="cm">// Insert BEFORE parent (as sibling)</span>
+parent.<span class="fn">after</span>(newEl);            <span class="cm">// Insert AFTER parent (as sibling)</span>
+
+<span class="cm">// ── RELATIVE TO A SPECIFIC CHILD ───────────────────────</span>
+
+<span class="kw">const</span> second = parent.children[<span class="num">1</span>];
+second.<span class="fn">before</span>(newEl);           <span class="cm">// Insert before the second child</span>
+second.<span class="fn">after</span>(newEl);            <span class="cm">// Insert after the second child</span></code></pre>
+
+    <h3>append vs appendChild — What's the difference?</h3>
+
+    <table>
+        <tr><th>Feature</th><th>appendChild()</th><th>append()</th></tr>
+        <tr><td>Insert element</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Insert text string</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Insert multiple things</td><td>❌ (one at a time)</td><td>✅</td></tr>
+        <tr><td>Returns</td><td>The inserted element</td><td>undefined</td></tr>
+    </table>
+
+    <pre><code><span class="cm">// appendChild — the old way (one element at a time)</span>
+parent.<span class="fn">appendChild</span>(newEl);
+
+<span class="cm">// append — the modern way (multiple items, text included)</span>
+parent.<span class="fn">append</span>(newEl, <span class="str">" some text"</span>, anotherEl);
+
+<span class="cm">// prepend — same as append but at the beginning</span>
+parent.<span class="fn">prepend</span>(<span class="str">"Title: "</span>, titleEl);</code></pre>
+
+    <div class="callout callout-green">
+        <strong>✅ Rule</strong><br>
+        Use <code>append()</code> / <code>prepend()</code> / <code>before()</code> / <code>after()</code> — the modern methods. They're cleaner, accept multiple arguments, and accept text strings. <code>appendChild</code> is the old way.
+    </div>
+
+    <h3>replaceWith() — Swap an element</h3>
+
+    <pre><code><span class="kw">const</span> oldEl = document.<span class="fn">querySelector</span>(<span class="str">".old"</span>);
+<span class="kw">const</span> newEl = document.<span class="fn">createElement</span>(<span class="str">"div"</span>);
+newEl.textContent = <span class="str">"I replaced the old element"</span>;
+
+oldEl.<span class="fn">replaceWith</span>(newEl);  <span class="cm">// oldEl is gone, newEl takes its place</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">3.</span> Inserting HTML Strings</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>Sometimes you want to insert raw HTML strings instead of creating elements one by one. Two approaches:</p>
+
+    <h3>innerHTML — Replace all content</h3>
+
+    <pre><code><span class="kw">const</span> container = document.<span class="fn">querySelector</span>(<span class="str">"#container"</span>);
+
+<span class="cm">// ⚠️ This REPLACES everything inside the container</span>
+container.innerHTML = <span class="str">`
+    &lt;h2&gt;New Title&lt;/h2&gt;
+    &lt;p&gt;New paragraph&lt;/p&gt;
+    &lt;button class="btn"&gt;Click me&lt;/button&gt;
+`</span>;
+
+<span class="cm">// ADD to existing content (don't replace)</span>
+container.innerHTML += <span class="str">`&lt;p&gt;Added paragraph&lt;/p&gt;`</span>;</code></pre>
+
+    <div class="callout callout-red">
+        <strong>⚠️ innerHTML Problems</strong><br>
+        1. <strong>Security:</strong> Never use innerHTML with user input (XSS attack risk).<br>
+        2. <strong>Performance:</strong> Using <code>innerHTML +=</code> destroys ALL existing children and recreates them. Any event listeners on those children are <strong>lost</strong>.<br>
+        3. <strong>Lost state:</strong> Input values, scroll positions, video playback — all reset.
+    </div>
+
+    <h3>insertAdjacentHTML — Insert at a specific position</h3>
+
+    <p>This is the <strong>best of both worlds</strong> — you write HTML strings, but you insert at a specific position without destroying existing content:</p>
+
+    <pre><code><span class="kw">const</span> list = document.<span class="fn">querySelector</span>(<span class="str">"ul"</span>);
+
+<span class="cm">// Insert as first child</span>
+list.<span class="fn">insertAdjacentHTML</span>(<span class="str">"afterbegin"</span>, <span class="str">`&lt;li&gt;First item&lt;/li&gt;`</span>);
+
+<span class="cm">// Insert as last child</span>
+list.<span class="fn">insertAdjacentHTML</span>(<span class="str">"beforeend"</span>, <span class="str">`&lt;li&gt;Last item&lt;/li&gt;`</span>);
+
+<span class="cm">// Insert before the element itself</span>
+list.<span class="fn">insertAdjacentHTML</span>(<span class="str">"beforebegin"</span>, <span class="str">`&lt;h3&gt;My List&lt;/h3&gt;`</span>);
+
+<span class="cm">// Insert after the element itself</span>
+list.<span class="fn">insertAdjacentHTML</span>(<span class="str">"afterend"</span>, <span class="str">`&lt;p&gt;End of list&lt;/p&gt;`</span>);</code></pre>
+
+    <div class="callout callout-blue">
+        <strong>🧠 When to use what?</strong><br>
+        • <strong>createElement + append</strong> — when building complex interactive elements with event listeners.<br>
+        • <strong>insertAdjacentHTML</strong> — when you need to insert quick static HTML at a specific position.<br>
+        • <strong>innerHTML</strong> — only when you want to replace ALL content inside an element and don't care about losing listeners.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">4.</span> Removing Elements</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <pre><code><span class="kw">const</span> el = document.<span class="fn">querySelector</span>(<span class="str">".card"</span>);
+
+<span class="cm">// Modern way — simple and clean</span>
+el.<span class="fn">remove</span>();
+
+<span class="cm">// Old way — remove through the parent</span>
+el.parentElement.<span class="fn">removeChild</span>(el);
+
+<span class="cm">// Remove ALL children of an element</span>
+<span class="kw">const</span> container = document.<span class="fn">querySelector</span>(<span class="str">"#container"</span>);
+container.innerHTML = <span class="str">""</span>;   <span class="cm">// quick but destroys listeners</span>
+
+<span class="cm">// Safer way to clear all children</span>
+<span class="kw">while</span> (container.firstChild) {
+    container.firstChild.<span class="fn">remove</span>();
+}
+
+<span class="cm">// Modern one-liner to clear</span>
+container.<span class="fn">replaceChildren</span>();  <span class="cm">// removes all children — clean and safe</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">5.</span> Cloning Elements</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>Sometimes you want to duplicate an existing element rather than building a new one from scratch:</p>
+
+    <pre><code><span class="kw">const</span> original = document.<span class="fn">querySelector</span>(<span class="str">".card"</span>);
+
+<span class="cm">// Shallow clone — copies the element but NOT its children</span>
+<span class="kw">const</span> shallow = original.<span class="fn">cloneNode</span>(<span class="bool">false</span>);
+
+<span class="cm">// Deep clone — copies the element AND all its children</span>
+<span class="kw">const</span> deep = original.<span class="fn">cloneNode</span>(<span class="bool">true</span>);
+
+<span class="cm">// The clone is detached — you still need to insert it</span>
+document.body.<span class="fn">append</span>(deep);</code></pre>
+
+    <div class="callout callout-yellow">
+        <strong>⚡ Important</strong><br>
+        <code>cloneNode</code> copies the HTML structure but does <strong>NOT copy event listeners</strong>. If the original card had a click handler, the clone won't have it. You'll need to add listeners again.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">6.</span> Modifying Styles</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <h3>Inline styles — the style property</h3>
+
+    <pre><code><span class="kw">const</span> box = document.<span class="fn">querySelector</span>(<span class="str">".box"</span>);
+
+<span class="cm">// Set individual styles (camelCase, not kebab-case!)</span>
+box.style.backgroundColor = <span class="str">"#1a1a2e"</span>;    <span class="cm">// background-color → backgroundColor</span>
+box.style.fontSize = <span class="str">"18px"</span>;               <span class="cm">// font-size → fontSize</span>
+box.style.borderRadius = <span class="str">"12px"</span>;           <span class="cm">// border-radius → borderRadius</span>
+box.style.padding = <span class="str">"20px"</span>;
+box.style.color = <span class="str">"white"</span>;
+
+<span class="cm">// Read a style</span>
+<span class="fn">console</span>.<span class="fn">log</span>(box.style.color);  <span class="cm">// "white"</span>
+
+<span class="cm">// Remove a style</span>
+box.style.color = <span class="str">""</span>;  <span class="cm">// set to empty string to remove</span>
+
+<span class="cm">// Set multiple styles at once with cssText</span>
+box.style.cssText = <span class="str">`
+    background: #1a1a2e;
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+`</span>;
+<span class="cm">// ⚠️ cssText REPLACES all existing inline styles</span></code></pre>
+
+    <div class="callout callout-red">
+        <strong>⚠️ style only reads INLINE styles</strong><br>
+        <code>element.style.color</code> only returns a value if the style was set <strong>inline</strong> (via JS or the <code>style</code> attribute). It does NOT read styles from CSS stylesheets. To read the <strong>computed</strong> (final) style, use <code>getComputedStyle()</code>:
+    </div>
+
+    <pre><code><span class="cm">// Read the ACTUAL computed style (from CSS + inline)</span>
+<span class="kw">const</span> computed = <span class="fn">getComputedStyle</span>(box);
+<span class="fn">console</span>.<span class="fn">log</span>(computed.color);           <span class="cm">// "rgb(255, 255, 255)"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(computed.fontSize);        <span class="cm">// "18px"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(computed.backgroundColor);  <span class="cm">// "rgb(26, 26, 46)"</span></code></pre>
+
+    <h3>classList — The Professional Way to Style</h3>
+
+    <p>In real projects, you <strong>almost never set inline styles from JS</strong>. Instead, you define CSS classes in your stylesheet and <strong>toggle classes</strong> with JavaScript:</p>
+
+    <pre><code><span class="kw">const</span> btn = document.<span class="fn">querySelector</span>(<span class="str">".btn"</span>);
+
+<span class="cm">// ── ADD a class ───────────────────────────</span>
+btn.classList.<span class="fn">add</span>(<span class="str">"active"</span>);
+btn.classList.<span class="fn">add</span>(<span class="str">"primary"</span>, <span class="str">"large"</span>);  <span class="cm">// multiple at once</span>
+
+<span class="cm">// ── REMOVE a class ────────────────────────</span>
+btn.classList.<span class="fn">remove</span>(<span class="str">"active"</span>);
+btn.classList.<span class="fn">remove</span>(<span class="str">"primary"</span>, <span class="str">"large"</span>);
+
+<span class="cm">// ── TOGGLE — add if missing, remove if present ──</span>
+btn.classList.<span class="fn">toggle</span>(<span class="str">"active"</span>);
+<span class="cm">// Returns true if class was added, false if removed</span>
+
+<span class="cm">// ── Force toggle with second argument ─────</span>
+btn.classList.<span class="fn">toggle</span>(<span class="str">"active"</span>, <span class="bool">true</span>);   <span class="cm">// always ADD</span>
+btn.classList.<span class="fn">toggle</span>(<span class="str">"active"</span>, <span class="bool">false</span>);  <span class="cm">// always REMOVE</span>
+
+<span class="cm">// ── CHECK if a class exists ──────────────</span>
+btn.classList.<span class="fn">contains</span>(<span class="str">"active"</span>);  <span class="cm">// true or false</span>
+
+<span class="cm">// ── REPLACE one class with another ────────</span>
+btn.classList.<span class="fn">replace</span>(<span class="str">"old-class"</span>, <span class="str">"new-class"</span>);</code></pre>
+
+    <div class="callout callout-green">
+        <strong>✅ The Professional Pattern</strong><br>
+        1. Define all your visual states in CSS (<code>.active</code>, <code>.hidden</code>, <code>.error</code>, <code>.loading</code>)<br>
+        2. In JavaScript, just toggle classes: <code>element.classList.toggle("active")</code><br>
+        3. <strong>Never</strong> write <code>element.style.display = "none"</code> — use <code>element.classList.add("hidden")</code> instead.
+    </div>
+
+    <h3>Real Example: Dark Mode Toggle</h3>
+
+    <pre><code><span class="cm">/* CSS */</span>
+<span class="cm">/*
+body { background: white; color: black; transition: 0.3s; }
+body.dark-mode { background: #0f111a; color: #c9d1d9; }
+*/</span>
+
+<span class="cm">// JavaScript — one line!</span>
+<span class="kw">const</span> toggleBtn = document.<span class="fn">querySelector</span>(<span class="str">"#dark-toggle"</span>);
+
+toggleBtn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => {
+    document.body.classList.<span class="fn">toggle</span>(<span class="str">"dark-mode"</span>);
+});</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">7.</span> Modifying Attributes</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <pre><code><span class="kw">const</span> img = document.<span class="fn">querySelector</span>(<span class="str">"img"</span>);
+<span class="kw">const</span> link = document.<span class="fn">querySelector</span>(<span class="str">"a"</span>);
+
+<span class="cm">// ── Standard attributes — use properties directly ────</span>
+img.src = <span class="str">"new-image.jpg"</span>;
+img.alt = <span class="str">"Description"</span>;
+img.width = <span class="num">300</span>;
+
+link.href = <span class="str">"https://example.com"</span>;
+link.target = <span class="str">"_blank"</span>;
+
+<span class="cm">// ── Any attribute — use getAttribute/setAttribute ────</span>
+img.<span class="fn">setAttribute</span>(<span class="str">"loading"</span>, <span class="str">"lazy"</span>);
+img.<span class="fn">getAttribute</span>(<span class="str">"src"</span>);     <span class="cm">// "new-image.jpg"</span>
+img.<span class="fn">hasAttribute</span>(<span class="str">"alt"</span>);     <span class="cm">// true</span>
+img.<span class="fn">removeAttribute</span>(<span class="str">"width"</span>);
+
+<span class="cm">// ── Boolean attributes (no value needed) ─────────────</span>
+<span class="kw">const</span> input = document.<span class="fn">querySelector</span>(<span class="str">"input"</span>);
+input.disabled = <span class="bool">true</span>;    <span class="cm">// adds the disabled attribute</span>
+input.disabled = <span class="bool">false</span>;   <span class="cm">// removes it</span>
+input.required = <span class="bool">true</span>;
+
+<span class="cm">// ── data-* attributes — use dataset ──────────────────</span>
+<span class="kw">const</span> card = document.<span class="fn">querySelector</span>(<span class="str">".card"</span>);
+card.dataset.userId = <span class="str">"42"</span>;         <span class="cm">// creates data-user-id="42"</span>
+card.dataset.role = <span class="str">"admin"</span>;         <span class="cm">// creates data-role="admin"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(card.dataset.userId);    <span class="cm">// "42"</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">8.</span> Building Real UI — Complete Examples</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p class="section-intro" style="color:#93aac9;font-style:italic;margin-bottom:24px">Let's combine everything into real-world patterns you'll use every day.</p>
+
+    <h3>Example 1: Build a Card Component</h3>
+
+    <pre><code><span class="kw">function</span> <span class="fn">createCard</span>({ title, body, image }) {
+    <span class="cm">// 1. CREATE</span>
+    <span class="kw">const</span> card = document.<span class="fn">createElement</span>(<span class="str">"div"</span>);
+    <span class="kw">const</span> img = document.<span class="fn">createElement</span>(<span class="str">"img"</span>);
+    <span class="kw">const</span> h3 = document.<span class="fn">createElement</span>(<span class="str">"h3"</span>);
+    <span class="kw">const</span> p = document.<span class="fn">createElement</span>(<span class="str">"p"</span>);
+
+    <span class="cm">// 2. CONFIGURE</span>
+    card.classList.<span class="fn">add</span>(<span class="str">"card"</span>);
+    img.src = image;
+    img.alt = title;
+    h3.textContent = title;
+    p.textContent = body;
+
+    <span class="cm">// 3. ASSEMBLE (build the tree)</span>
+    card.<span class="fn">append</span>(img, h3, p);
+
+    <span class="cm">// 4. RETURN (let the caller decide where to insert)</span>
+    <span class="kw">return</span> card;
+}
+
+<span class="cm">// Usage:</span>
+<span class="kw">const</span> myCard = <span class="fn">createCard</span>({
+    title: <span class="str">"JavaScript"</span>,
+    body: <span class="str">"The language of the web"</span>,
+    image: <span class="str">"js-logo.png"</span>
+});
+
+document.<span class="fn">querySelector</span>(<span class="str">"#app"</span>).<span class="fn">append</span>(myCard);</code></pre>
+
+    <div class="callout callout-purple">
+        <strong>🏗️ Factory Pattern</strong><br>
+        Notice how <code>createCard</code> is a <strong>factory function</strong> for DOM elements. It takes data, builds a complete element tree, and returns it. The caller decides where to put it. This is how professional code is structured.
+    </div>
+
+    <h3>Example 2: Render a List from Data</h3>
+
+    <pre><code><span class="kw">const</span> users = [
+    { name: <span class="str">"Alice"</span>, role: <span class="str">"Developer"</span> },
+    { name: <span class="str">"Bob"</span>, role: <span class="str">"Designer"</span> },
+    { name: <span class="str">"Charlie"</span>, role: <span class="str">"Manager"</span> }
+];
+
+<span class="kw">function</span> <span class="fn">renderUserList</span>(users, container) {
+    <span class="kw">const</span> ul = document.<span class="fn">createElement</span>(<span class="str">"ul"</span>);
+    ul.classList.<span class="fn">add</span>(<span class="str">"user-list"</span>);
+
+    users.<span class="fn">forEach</span>(user => {
+        <span class="kw">const</span> li = document.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+        li.textContent = <span class="str">`${user.name} — ${user.role}`</span>;
+        li.dataset.role = user.role;  <span class="cm">// store metadata</span>
+        ul.<span class="fn">append</span>(li);
+    });
+
+    container.<span class="fn">append</span>(ul);
+}
+
+<span class="fn">renderUserList</span>(users, document.<span class="fn">querySelector</span>(<span class="str">"#app"</span>));</code></pre>
+
+    <h3>Example 3: Dynamic Table from Array of Objects</h3>
+
+    <pre><code><span class="kw">const</span> products = [
+    { name: <span class="str">"Laptop"</span>, price: <span class="num">999</span>, stock: <span class="num">12</span> },
+    { name: <span class="str">"Phone"</span>, price: <span class="num">699</span>, stock: <span class="num">34</span> },
+    { name: <span class="str">"Tablet"</span>, price: <span class="num">499</span>, stock: <span class="num">0</span> }
+];
+
+<span class="kw">function</span> <span class="fn">createTable</span>(data) {
+    <span class="kw">const</span> table = document.<span class="fn">createElement</span>(<span class="str">"table"</span>);
+
+    <span class="cm">// Header row</span>
+    <span class="kw">const</span> thead = document.<span class="fn">createElement</span>(<span class="str">"thead"</span>);
+    <span class="kw">const</span> headerRow = document.<span class="fn">createElement</span>(<span class="str">"tr"</span>);
+    <span class="fn">Object</span>.<span class="fn">keys</span>(data[<span class="num">0</span>]).<span class="fn">forEach</span>(key => {
+        <span class="kw">const</span> th = document.<span class="fn">createElement</span>(<span class="str">"th"</span>);
+        th.textContent = key.toUpperCase();
+        headerRow.<span class="fn">append</span>(th);
+    });
+    thead.<span class="fn">append</span>(headerRow);
+
+    <span class="cm">// Data rows</span>
+    <span class="kw">const</span> tbody = document.<span class="fn">createElement</span>(<span class="str">"tbody"</span>);
+    data.<span class="fn">forEach</span>(item => {
+        <span class="kw">const</span> row = document.<span class="fn">createElement</span>(<span class="str">"tr"</span>);
+        <span class="fn">Object</span>.<span class="fn">values</span>(item).<span class="fn">forEach</span>(value => {
+            <span class="kw">const</span> td = document.<span class="fn">createElement</span>(<span class="str">"td"</span>);
+            td.textContent = value;
+            row.<span class="fn">append</span>(td);
+        });
+        <span class="cm">// Highlight out-of-stock rows</span>
+        <span class="kw">if</span> (item.stock === <span class="num">0</span>) row.classList.<span class="fn">add</span>(<span class="str">"out-of-stock"</span>);
+        tbody.<span class="fn">append</span>(row);
+    });
+
+    table.<span class="fn">append</span>(thead, tbody);
+    <span class="kw">return</span> table;
+}
+
+document.<span class="fn">querySelector</span>(<span class="str">"#app"</span>).<span class="fn">append</span>(<span class="fn">createTable</span>(products));</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">9.</span> DocumentFragment — Batch Insertions</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>Every time you append an element to the DOM, the browser <strong>recalculates layout and repaints</strong>. If you're adding 100 items in a loop, that's 100 reflows. Slow.</p>
+
+    <p><code>DocumentFragment</code> is an invisible container — you build everything inside it, then insert it all at once (1 reflow instead of 100):</p>
+
+    <pre><code><span class="kw">const</span> fragment = document.<span class="fn">createDocumentFragment</span>();
+
+<span class="cm">// Build 1000 items in the fragment (no reflow yet)</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">1000</span>; i++) {
+    <span class="kw">const</span> li = document.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+    li.textContent = <span class="str">`Item ${i + <span class="num">1</span>}`</span>;
+    fragment.<span class="fn">append</span>(li);  <span class="cm">// appending to fragment — NOT the DOM</span>
+}
+
+<span class="cm">// One single DOM insertion — one reflow</span>
+document.<span class="fn">querySelector</span>(<span class="str">"ul"</span>).<span class="fn">append</span>(fragment);</code></pre>
+
+    <div class="diagram"><span class="wh">Without Fragment (slow):</span>
+
+  <span class="rd">append li → reflow</span>
+  <span class="rd">append li → reflow</span>
+  <span class="rd">append li → reflow</span>
+  <span class="rd">... × 1000 = 1000 reflows 🐌</span>
+
+<span class="wh">With Fragment (fast):</span>
+
+  <span class="gr">append li to fragment (no reflow)</span>
+  <span class="gr">append li to fragment (no reflow)</span>
+  <span class="gr">append li to fragment (no reflow)</span>
+  <span class="gr">... × 1000</span>
+  <span class="hi">append fragment to DOM → 1 reflow 🚀</span></div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">10.</span> Template Literals + createElement Patterns</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>In real projects, you'll see different patterns. Here are the 3 most common:</p>
+
+    <h3>Pattern 1: Pure createElement (verbose but safe)</h3>
+    <pre><code><span class="kw">function</span> <span class="fn">createButton</span>(text, onClick) {
+    <span class="kw">const</span> btn = document.<span class="fn">createElement</span>(<span class="str">"button"</span>);
+    btn.textContent = text;
+    btn.classList.<span class="fn">add</span>(<span class="str">"btn"</span>);
+    btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, onClick);
+    <span class="kw">return</span> btn;
+}</code></pre>
+
+    <h3>Pattern 2: insertAdjacentHTML (quick, no listeners)</h3>
+    <pre><code><span class="kw">function</span> <span class="fn">addCard</span>(container, title, body) {
+    container.<span class="fn">insertAdjacentHTML</span>(<span class="str">"beforeend"</span>, <span class="str">`
+        &lt;div class="card"&gt;
+            &lt;h3&gt;${title}&lt;/h3&gt;
+            &lt;p&gt;${body}&lt;/p&gt;
+        &lt;/div&gt;
+    `</span>);
+}</code></pre>
+
+    <h3>Pattern 3: Helper function (clean and reusable)</h3>
+    <pre><code><span class="cm">// A tiny helper that makes createElement less verbose</span>
+<span class="kw">function</span> <span class="fn">el</span>(tag, attrs = {}, ...children) {
+    <span class="kw">const</span> element = document.<span class="fn">createElement</span>(tag);
+
+    <span class="cm">// Apply attributes</span>
+    <span class="kw">for</span> (<span class="kw">const</span> [key, value] <span class="kw">of</span> <span class="fn">Object</span>.<span class="fn">entries</span>(attrs)) {
+        <span class="kw">if</span> (key === <span class="str">"class"</span>) element.className = value;
+        <span class="kw">else if</span> (key === <span class="str">"dataset"</span>) <span class="fn">Object</span>.<span class="fn">assign</span>(element.dataset, value);
+        <span class="kw">else if</span> (key.<span class="fn">startsWith</span>(<span class="str">"on"</span>)) element.<span class="fn">addEventListener</span>(key.<span class="fn">slice</span>(<span class="num">2</span>), value);
+        <span class="kw">else</span> element[key] = value;
+    }
+
+    <span class="cm">// Append children (elements or strings)</span>
+    element.<span class="fn">append</span>(...children);
+    <span class="kw">return</span> element;
+}
+
+<span class="cm">// Usage — reads like a component tree:</span>
+<span class="kw">const</span> card = <span class="fn">el</span>(<span class="str">"div"</span>, { class: <span class="str">"card"</span> },
+    <span class="fn">el</span>(<span class="str">"h3"</span>, {}, <span class="str">"Card Title"</span>),
+    <span class="fn">el</span>(<span class="str">"p"</span>, {}, <span class="str">"Card description here"</span>),
+    <span class="fn">el</span>(<span class="str">"button"</span>, { class: <span class="str">"btn"</span>, onclick: () => <span class="fn">alert</span>(<span class="str">"clicked!"</span>) }, <span class="str">"Click Me"</span>)
+);
+
+document.<span class="fn">querySelector</span>(<span class="str">"#app"</span>).<span class="fn">append</span>(card);</code></pre>
+
+    <div class="callout callout-green">
+        <strong>✅ Pro Tip</strong><br>
+        The <code>el()</code> helper above is essentially what React and other frameworks do behind the scenes. Understanding this pattern is the first step to understanding how UI frameworks work.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">11.</span> Working With Forms</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <pre><code><span class="cm">// ── Reading values ────────────────────────────────────</span>
+<span class="kw">const</span> nameInput = document.<span class="fn">querySelector</span>(<span class="str">"#name"</span>);
+nameInput.value;            <span class="cm">// the current text in the input</span>
+nameInput.value = <span class="str">""</span>;       <span class="cm">// clear the input</span>
+
+<span class="kw">const</span> checkbox = document.<span class="fn">querySelector</span>(<span class="str">"#agree"</span>);
+checkbox.checked;           <span class="cm">// true or false</span>
+
+<span class="kw">const</span> select = document.<span class="fn">querySelector</span>(<span class="str">"select"</span>);
+select.value;               <span class="cm">// the selected option's value</span>
+
+<span class="cm">// ── Getting all form data at once ─────────────────────</span>
+<span class="kw">const</span> form = document.<span class="fn">querySelector</span>(<span class="str">"form"</span>);
+<span class="kw">const</span> formData = <span class="kw">new</span> <span class="fn">FormData</span>(form);
+
+<span class="cm">// Convert to a plain object</span>
+<span class="kw">const</span> data = <span class="fn">Object</span>.<span class="fn">fromEntries</span>(formData);
+<span class="fn">console</span>.<span class="fn">log</span>(data);  <span class="cm">// { name: "Idris", email: "a@b.com", ... }</span>
+
+<span class="cm">// ── Form submission ──────────────────────────────────</span>
+form.<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, (e) => {
+    e.<span class="fn">preventDefault</span>();  <span class="cm">// STOP the page from reloading</span>
+
+    <span class="kw">const</span> data = <span class="fn">Object</span>.<span class="fn">fromEntries</span>(<span class="kw">new</span> <span class="fn">FormData</span>(form));
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Submitted:"</span>, data);
+
+    form.<span class="fn">reset</span>();  <span class="cm">// clear all fields</span>
+});</code></pre>
+
+    <div class="callout callout-yellow">
+        <strong>💡 preventDefault()</strong><br>
+        By default, a form submission <strong>reloads the page</strong> (it sends an HTTP request). In modern apps, we handle submissions with JavaScript instead — so we call <code>e.preventDefault()</code> to stop the reload, then process the data ourselves.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">12.</span> Real-World Pattern: Todo List</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>This combines <strong>everything</strong> — createElement, append, remove, classList, events, forms:</p>
+
+    <pre><code><span class="cm">/* HTML needed:
+   &lt;form id="todo-form"&gt;
+       &lt;input id="todo-input" placeholder="Add a task..."&gt;
+       &lt;button type="submit"&gt;Add&lt;/button&gt;
+   &lt;/form&gt;
+   &lt;ul id="todo-list"&gt;&lt;/ul&gt;
+*/</span>
+
+<span class="kw">const</span> form = document.<span class="fn">querySelector</span>(<span class="str">"#todo-form"</span>);
+<span class="kw">const</span> input = document.<span class="fn">querySelector</span>(<span class="str">"#todo-input"</span>);
+<span class="kw">const</span> list = document.<span class="fn">querySelector</span>(<span class="str">"#todo-list"</span>);
+
+<span class="kw">function</span> <span class="fn">createTodo</span>(text) {
+    <span class="kw">const</span> li = document.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+    li.classList.<span class="fn">add</span>(<span class="str">"todo-item"</span>);
+
+    <span class="kw">const</span> span = document.<span class="fn">createElement</span>(<span class="str">"span"</span>);
+    span.textContent = text;
+
+    <span class="kw">const</span> doneBtn = document.<span class="fn">createElement</span>(<span class="str">"button"</span>);
+    doneBtn.textContent = <span class="str">"✓"</span>;
+    doneBtn.classList.<span class="fn">add</span>(<span class="str">"btn-done"</span>);
+    doneBtn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => {
+        li.classList.<span class="fn">toggle</span>(<span class="str">"completed"</span>);  <span class="cm">// toggle strikethrough</span>
+    });
+
+    <span class="kw">const</span> deleteBtn = document.<span class="fn">createElement</span>(<span class="str">"button"</span>);
+    deleteBtn.textContent = <span class="str">"✕"</span>;
+    deleteBtn.classList.<span class="fn">add</span>(<span class="str">"btn-delete"</span>);
+    deleteBtn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => {
+        li.<span class="fn">remove</span>();  <span class="cm">// remove from DOM</span>
+    });
+
+    li.<span class="fn">append</span>(span, doneBtn, deleteBtn);
+    <span class="kw">return</span> li;
+}
+
+form.<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, (e) => {
+    e.<span class="fn">preventDefault</span>();
+
+    <span class="kw">const</span> text = input.value.<span class="fn">trim</span>();
+    <span class="kw">if</span> (!text) <span class="kw">return</span>;  <span class="cm">// guard clause: don't add empty todos</span>
+
+    list.<span class="fn">append</span>(<span class="fn">createTodo</span>(text));
+    input.value = <span class="str">""</span>;       <span class="cm">// clear input</span>
+    input.<span class="fn">focus</span>();           <span class="cm">// refocus for next entry</span>
+});</code></pre>
+
+    <div class="diagram"><span class="wh">What this code does:</span>
+
+  <span class="hi">User types "Learn JS"</span> → <span class="yl">submits form</span>
+
+  <span class="gr">1. preventDefault()</span>        — stops page reload
+  <span class="gr">2. input.value.trim()</span>       — get text, remove whitespace
+  <span class="gr">3. createTodo("Learn JS")</span>  — builds: &lt;li&gt; &lt;span&gt; &lt;button ✓&gt; &lt;button ✕&gt;
+  <span class="gr">4. list.append(li)</span>         — adds to page
+  <span class="gr">5. input.value = ""</span>        — clears input
+  <span class="gr">6. input.focus()</span>           — ready for next entry
+
+  <span class="yl">Click ✓</span> → toggles "completed" class (strikethrough)
+  <span class="rd">Click ✕</span> → li.remove() — element disappears</div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">13.</span> Performance Tips</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <table>
+        <tr><th>❌ Slow</th><th>✅ Fast</th><th>Why</th></tr>
+        <tr><td><code>innerHTML +=</code> in a loop</td><td>Build in fragment, insert once</td><td>+= destroys & rebuilds everything</td></tr>
+        <tr><td>Read layout → write → read layout</td><td>Batch reads, then batch writes</td><td>Avoids forced reflows</td></tr>
+        <tr><td>Query the same element repeatedly</td><td>Cache in a variable</td><td>querySelector is not free</td></tr>
+        <tr><td>One listener per element</td><td>One listener on parent (delegation)</td><td>Less memory, works with dynamic elements</td></tr>
+        <tr><td><code>element.style.x = "..."</code> many times</td><td><code>element.classList.add("x")</code></td><td>One style recalculation instead of many</td></tr>
+    </table>
+
+    <pre><code><span class="cm">// ❌ DON'T — querying inside a loop</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">100</span>; i++) {
+    document.<span class="fn">querySelector</span>(<span class="str">"#list"</span>).<span class="fn">append</span>(...)  <span class="cm">// queries 100 times!</span>
+}
+
+<span class="cm">// ✅ DO — cache the element</span>
+<span class="kw">const</span> list = document.<span class="fn">querySelector</span>(<span class="str">"#list"</span>);  <span class="cm">// query once</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">100</span>; i++) {
+    list.<span class="fn">append</span>(...)  <span class="cm">// reuse the cached reference</span>
+}</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">14.</span> Summary Cheat Sheet</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <h3>Creating</h3>
+    <table>
+        <tr><th>What</th><th>Code</th></tr>
+        <tr><td>Create element</td><td><code>document.createElement("div")</code></td></tr>
+        <tr><td>Create text</td><td><code>document.createTextNode("hello")</code></td></tr>
+        <tr><td>Create fragment</td><td><code>document.createDocumentFragment()</code></td></tr>
+        <tr><td>Clone element</td><td><code>element.cloneNode(true)</code></td></tr>
+    </table>
+
+    <h3>Inserting</h3>
+    <table>
+        <tr><th>What</th><th>Code</th></tr>
+        <tr><td>Last child</td><td><code>parent.append(el)</code></td></tr>
+        <tr><td>First child</td><td><code>parent.prepend(el)</code></td></tr>
+        <tr><td>Before element</td><td><code>sibling.before(el)</code></td></tr>
+        <tr><td>After element</td><td><code>sibling.after(el)</code></td></tr>
+        <tr><td>Replace element</td><td><code>old.replaceWith(new)</code></td></tr>
+        <tr><td>Insert HTML string</td><td><code>el.insertAdjacentHTML(pos, html)</code></td></tr>
+    </table>
+
+    <h3>Removing</h3>
+    <table>
+        <tr><th>What</th><th>Code</th></tr>
+        <tr><td>Remove element</td><td><code>element.remove()</code></td></tr>
+        <tr><td>Clear all children</td><td><code>parent.replaceChildren()</code></td></tr>
+    </table>
+
+    <h3>Modifying</h3>
+    <table>
+        <tr><th>What</th><th>Code</th></tr>
+        <tr><td>Set text</td><td><code>el.textContent = "..."</code></td></tr>
+        <tr><td>Set HTML</td><td><code>el.innerHTML = "..."</code></td></tr>
+        <tr><td>Add class</td><td><code>el.classList.add("x")</code></td></tr>
+        <tr><td>Remove class</td><td><code>el.classList.remove("x")</code></td></tr>
+        <tr><td>Toggle class</td><td><code>el.classList.toggle("x")</code></td></tr>
+        <tr><td>Check class</td><td><code>el.classList.contains("x")</code></td></tr>
+        <tr><td>Set attribute</td><td><code>el.setAttribute("key", "val")</code></td></tr>
+        <tr><td>Set data attribute</td><td><code>el.dataset.key = "val"</code></td></tr>
+        <tr><td>Set inline style</td><td><code>el.style.propName = "val"</code></td></tr>
+        <tr><td>Read computed style</td><td><code>getComputedStyle(el).prop</code></td></tr>
+    </table>
+
+    <hr>
+    <p style="text-align:center;color:#5e6e8a;font-size:14px;margin-top:40px;">
+        📖 Next lesson: <strong>Events & Event Delegation</strong> — addEventListener, the event object, bubbling, capturing, and the delegation pattern.
+    </p>
+
+</div>
+</body>
+</html>

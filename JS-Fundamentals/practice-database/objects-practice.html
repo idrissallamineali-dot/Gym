@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Fundamentals — Practice Database: Objects (30 Challenges)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0b0c10; color: #d1d4dc; line-height: 1.6; font-size: 15px; padding: 60px 20px; }
+        .container { max-width: 860px; margin: 0 auto; }
+        .header { margin-bottom: 40px; border-bottom: 1px solid #1f222e; padding-bottom: 24px; }
+        .tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #8e929f; margin-bottom: 6px; }
+        h1 { font-size: 32px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; margin-bottom: 8px; }
+        .subtitle { font-size: 15px; color: #8e929f; }
+        
+        .score { display: flex; gap: 20px; margin: 20px 0 40px; flex-wrap: wrap; }
+        .score-box { background: #121319; border: 1px solid #1f222e; border-radius: 8px; padding: 14px 20px; text-align: center; flex: 1; min-width: 120px; }
+        .score-num { font-size: 28px; font-weight: 800; color: #ffffff; font-family: 'JetBrains Mono', monospace; }
+        .score-label { font-size: 10px; color: #8e929f; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+        .exercise { background-color: #121319; border: 1px solid #1f222e; border-radius: 8px; padding: 24px; margin: 20px 0; }
+        .exercise-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .exercise-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #ffffff; background: #262936; padding: 3px 8px; border-radius: 4px; }
+        .exercise-title { font-size: 16px; font-weight: 600; color: #ffffff; flex: 1; margin-left: 12px; }
+        
+        .status-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; }
+        .status-pending { background: #262936; color: #8e929f; }
+        .status-passed { background: #1c2820; color: #52c480; }
+        .status-failed { background: #2d1a1e; color: #e55361; }
+
+        .description { font-size: 14px; color: #afb2bb; margin-bottom: 16px; }
+        .io-box { background: #07080b; border: 1px solid #181922; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+        .io-line { display: flex; margin-bottom: 4px; }
+        .io-line:last-child { margin-bottom: 0; }
+        .label { color: #8e929f; width: 80px; flex-shrink: 0; }
+        .value { color: #ffffff; }
+        
+        .code-editor { width: 100%; height: 120px; background: #07080b; border: 1px solid #1f222e; border-radius: 6px; padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #ffffff; margin-top: 12px; resize: vertical; outline: none; }
+        .code-editor:focus { border-color: #3e4255; }
+        
+        .controls { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+        .run-btn { font-family: 'Inter', sans-serif; background: #1f222e; border: 1px solid #2d313f; color: #e1e3eb; font-size: 12px; font-weight: 600; padding: 8px 18px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .run-btn:hover { background: #262936; border-color: #3e4255; }
+        
+        .result-message { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; flex: 1; }
+        .res-success { color: #52c480; }
+        .res-error { color: #e55361; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <p class="tag">JavaScript Fundamentals</p>
+        <h1>💎 Object Practice Database</h1>
+        <p class="subtitle">Exactly 30 progressive exercises to master object manipulation, keys, values, nesting, and validation. Write your solutions inside the code editors, click 'Run Tests', and check your progress in real-time!</p>
+    </div>
+
+    <div class="score">
+        <div class="score-box"><div class="score-num" id="done">0</div><div class="score-label">Completed</div></div>
+        <div class="score-box"><div class="score-num">30</div><div class="score-label">Total</div></div>
+    </div>
+
+    <!-- 01 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">01</span>
+            <h3 class="exercise-title">Create Object & Access Property</h3>
+            <span class="status-badge status-pending" id="status-01">Pending</span>
+        </div>
+        <p class="description">Write a function that creates a simple user object containing <code>name</code> and <code>age</code> properties, and returns the user's <code>name</code> property.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Idris", 25</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Idris"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-01" spellcheck="false">function getUserName(name, age) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(1)">Run Tests</button>
+            <span class="result-message" id="result-01"></span>
+        </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">02</span>
+            <h3 class="exercise-title">Add Property Dynamically</h3>
+            <span class="status-badge status-pending" id="status-02">Pending</span>
+        </div>
+        <p class="description">Write a function that accepts an object, a <code>key</code> string, and a <code>value</code>, and adds the key-value pair to the object, returning the updated object.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris" }, "role", "admin"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ name: "Idris", role: "admin" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-02" spellcheck="false">function addProperty(obj, key, value) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(2)">Run Tests</button>
+            <span class="result-message" id="result-02"></span>
+        </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">03</span>
+            <h3 class="exercise-title">Delete Property</h3>
+            <span class="status-badge status-pending" id="status-03">Pending</span>
+        </div>
+        <p class="description">Write a function that deletes a specified key/property from an object and returns the updated object.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", age: 25 }, "age"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ name: "Idris" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-03" spellcheck="false">function removeProperty(obj, key) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(3)">Run Tests</button>
+            <span class="result-message" id="result-03"></span>
+        </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">04</span>
+            <h3 class="exercise-title">Check Key Existence</h3>
+            <span class="status-badge status-pending" id="status-04">Pending</span>
+        </div>
+        <p class="description">Write a function that checks if an object contains a specified key and returns <code>true</code> or <code>false</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris" }, "email"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">false</span></div>
+        </div>
+        <textarea class="code-editor" id="code-04" spellcheck="false">function hasKey(obj, key) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(4)">Run Tests</button>
+            <span class="result-message" id="result-04"></span>
+        </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">05</span>
+            <h3 class="exercise-title">Get All Keys</h3>
+            <span class="status-badge status-pending" id="status-05">Pending</span>
+        </div>
+        <p class="description">Write a function that extracts and returns an array of all keys (property names) in a given object.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ id: 101, name: "Shirt", price: 29 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">["id", "name", "price"]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-05" spellcheck="false">function getAllKeys(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(5)">Run Tests</button>
+            <span class="result-message" id="result-05"></span>
+        </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">06</span>
+            <h3 class="exercise-title">Get All Values</h3>
+            <span class="status-badge status-pending" id="status-06">Pending</span>
+        </div>
+        <p class="description">Write a function that extracts and returns an array of all values in a given object.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ id: 101, name: "Shirt", price: 29 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[101, "Shirt", 29]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-06" spellcheck="false">function getAllValues(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(6)">Run Tests</button>
+            <span class="result-message" id="result-06"></span>
+        </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">07</span>
+            <h3 class="exercise-title">Count Object Properties</h3>
+            <span class="status-badge status-pending" id="status-07">Pending</span>
+        </div>
+        <p class="description">Write a function that counts and returns the total number of properties declared inside an object.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ a: 1, b: 2, c: 3 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">3</span></div>
+        </div>
+        <textarea class="code-editor" id="code-07" spellcheck="false">function countProperties(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(7)">Run Tests</button>
+            <span class="result-message" id="result-07"></span>
+        </div>
+    </div>
+
+    <!-- 08 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">08</span>
+            <h3 class="exercise-title">Merge Two Objects</h3>
+            <span class="status-badge status-pending" id="status-08">Pending</span>
+        </div>
+        <p class="description">Write a function that merges two objects together into a single combined object. If duplicate keys exist, the second object's property value should win.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ a: 1, b: 2 }, { b: 10, c: 20 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ a: 1, b: 10, c: 20 }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-08" spellcheck="false">function mergeObjects(obj1, obj2) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(8)">Run Tests</button>
+            <span class="result-message" id="result-08"></span>
+        </div>
+    </div>
+
+    <!-- 09 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">09</span>
+            <h3 class="exercise-title">Shallow Copy Object</h3>
+            <span class="status-badge status-pending" id="status-09">Pending</span>
+        </div>
+        <p class="description">Write a function that returns a shallow copy of an object (creates a new object pointing to different top-level references). Do NOT mutate original.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ a: 1, b: 2 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ a: 1, b: 2 } (but obj !== copy)</span></div>
+        </div>
+        <textarea class="code-editor" id="code-09" spellcheck="false">function shallowCopy(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(9)">Run Tests</button>
+            <span class="result-message" id="result-09"></span>
+        </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">10</span>
+            <h3 class="exercise-title">Deep Clone Object</h3>
+            <span class="status-badge status-pending" id="status-10">Pending</span>
+        </div>
+        <p class="description">Write a function that creates a complete **deep clone** of an object, copying all nested objects recursively so that modifying the copy has no effect on the original.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ user: { name: "Idris", roles: ["admin"] } }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Deep copy (nested objects do not share references)</span></div>
+        </div>
+        <textarea class="code-editor" id="code-10" spellcheck="false">function deepClone(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(10)">Run Tests</button>
+            <span class="result-message" id="result-10"></span>
+        </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">11</span>
+            <h3 class="exercise-title">Object to Query String</h3>
+            <span class="status-badge status-pending" id="status-11">Pending</span>
+        </div>
+        <p class="description">Write a function that converts a flat object representing key-value settings into a formatted URL query parameter string.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ search: "js", limit: 10, filter: "active" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"search=js&limit=10&filter=active"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-11" spellcheck="false">function toQueryString(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(11)">Run Tests</button>
+            <span class="result-message" id="result-11"></span>
+        </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">12</span>
+            <h3 class="exercise-title">Query String to Object</h3>
+            <span class="status-badge status-pending" id="status-12">Pending</span>
+        </div>
+        <p class="description">Write a function that does the reverse of Challenge 11. It takes a URL query parameter string and converts it back into an object literal.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"search=js&limit=10"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ search: "js", limit: "10" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-12" spellcheck="false">function parseQuery(queryString) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(12)">Run Tests</button>
+            <span class="result-message" id="result-12"></span>
+        </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">13</span>
+            <h3 class="exercise-title">Invert Object Keys & Values</h3>
+            <span class="status-badge status-pending" id="status-13">Pending</span>
+        </div>
+        <p class="description">Write a function that swaps the keys and values of an object, creating a new object where the old values are the keys, and the old keys are the values.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", role: "admin" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ Idris: "name", admin: "role" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-13" spellcheck="false">function invertObject(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(13)">Run Tests</button>
+            <span class="result-message" id="result-13"></span>
+        </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">14</span>
+            <h3 class="exercise-title">Filter Object Properties</h3>
+            <span class="status-badge status-pending" id="status-14">Pending</span>
+        </div>
+        <p class="description">Write a function <code>filterProps(obj, predicate)</code> that filters an object's keys based on a predicate callback function, returning a new object with only the matching key-value pairs.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ a: 1, b: "hello", c: 42 }, (val) => typeof val === "number"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ a: 1, c: 42 }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-14" spellcheck="false">function filterProps(obj, predicate) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(14)">Run Tests</button>
+            <span class="result-message" id="result-14"></span>
+        </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">15</span>
+            <h3 class="exercise-title">Map Object Values</h3>
+            <span class="status-badge status-pending" id="status-15">Pending</span>
+        </div>
+        <p class="description">Write a function <code>mapObject(obj, transformer)</code> that maps the values of an object using a callback function, returning a new object with the modified values.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ a: 1, b: 2, c: 3 }, (val) => val * 10</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ a: 10, b: 20, c: 30 }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-15" spellcheck="false">function mapObject(obj, transformer) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(15)">Run Tests</button>
+            <span class="result-message" id="result-15"></span>
+        </div>
+    </div>
+
+    <!-- 16 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">16</span>
+            <h3 class="exercise-title">Deep Equality Check</h3>
+            <span class="status-badge status-pending" id="status-16">Pending</span>
+        </div>
+        <p class="description">Write a function that checks if two objects are deeply equal (contain identical keys and values, including deeply nested objects and arrays).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ a: { b: 1 } }, { a: { b: 1 } }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-16" spellcheck="false">function areDeepEqual(obj1, obj2) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(16)">Run Tests</button>
+            <span class="result-message" id="result-16"></span>
+        </div>
+    </div>
+
+    <!-- 17 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">17</span>
+            <h3 class="exercise-title">Freeze Object</h3>
+            <span class="status-badge status-pending" id="status-17">Pending</span>
+        </div>
+        <p class="description">Write a function that freezes an object to make it completely immutable (prevents adding properties, deleting properties, or changing existing property values).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ timeout: 5000 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Object returned is completely frozen</span></div>
+        </div>
+        <textarea class="code-editor" id="code-17" spellcheck="false">function freezeObj(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(17)">Run Tests</button>
+            <span class="result-message" id="result-17"></span>
+        </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">18</span>
+            <h3 class="exercise-title">Seal Object</h3>
+            <span class="status-badge status-pending" id="status-18">Pending</span>
+        </div>
+        <p class="description">Write a function that seals an object. It should prevent new properties from being added or deleted, but should still allow editing of existing property values.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ theme: "dark" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Object is sealed (can edit theme, but cannot add new keys)</span></div>
+        </div>
+        <textarea class="code-editor" id="code-18" spellcheck="false">function sealObj(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(18)">Run Tests</button>
+            <span class="result-message" id="result-18"></span>
+        </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">19</span>
+            <h3 class="exercise-title">Object From Pairs</h3>
+            <span class="status-badge status-pending" id="status-19">Pending</span>
+        </div>
+        <p class="description">Write a function that takes an array of <code>[key, value]</code> pairs and converts them into a flat object literal.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[["name", "Idris"], ["role", "admin"]]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ name: "Idris", role: "admin" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-19" spellcheck="false">function fromPairs(pairs) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(19)">Run Tests</button>
+            <span class="result-message" id="result-19"></span>
+        </div>
+    </div>
+
+    <!-- 20 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">20</span>
+            <h3 class="exercise-title">Object to Pairs Array</h3>
+            <span class="status-badge status-pending" id="status-20">Pending</span>
+        </div>
+        <p class="description">Write a function that does the reverse of Challenge 19. It takes an object and converts it into a flat array of <code>[key, value]</code> pairs.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", role: "admin" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[["name", "Idris"], ["role", "admin"]]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-20" spellcheck="false">function toPairs(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(20)">Run Tests</button>
+            <span class="result-message" id="result-20"></span>
+        </div>
+    </div>
+
+    <!-- 21 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">21</span>
+            <h3 class="exercise-title">Find Key with Max Value</h3>
+            <span class="status-badge status-pending" id="status-21">Pending</span>
+        </div>
+        <p class="description">Write a function that parses an object containing numerical values and returns the key name of the largest property value. If empty, return <code>null</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ gold: 120, silver: 80, bronze: 140 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"bronze"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-21" spellcheck="false">function getMaxKey(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(21)">Run Tests</button>
+            <span class="result-message" id="result-21"></span>
+        </div>
+    </div>
+
+    <!-- 22 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">22</span>
+            <h3 class="exercise-title">Group Objects by Property</h3>
+            <span class="status-badge status-pending" id="status-22">Pending</span>
+        </div>
+        <p class="description">Write a function that groups an array of objects together based on a specified common key property value, returning a dictionary object.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{ n: "A", r: "user" }, { n: "B", r: "admin" }, { n: "C", r: "user" }], "r"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ user: [{ n: "A", r: "user" }, { n: "C", r: "user" }], admin: [{ ... }] }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-22" spellcheck="false">function groupBy(arr, key) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(22)">Run Tests</button>
+            <span class="result-message" id="result-22"></span>
+        </div>
+    </div>
+
+    <!-- 23 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">23</span>
+            <h3 class="exercise-title">Group and Sum Values</h3>
+            <span class="status-badge status-pending" id="status-23">Pending</span>
+        </div>
+        <p class="description">Write a function that groups an array of transaction objects by a specific property and sums up their numerical amounts, returning a dictionary object.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{ category: "Food", amt: 15 }, { category: "Rent", amt: 800 }, { category: "Food", amt: 20 }]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ Food: 35, Rent: 800 }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-23" spellcheck="false">function groupAndSum(transactions) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(23)">Run Tests</button>
+            <span class="result-message" id="result-23"></span>
+        </div>
+    </div>
+
+    <!-- 24 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">24</span>
+            <h3 class="exercise-title">Safe Nested Lookup</h3>
+            <span class="status-badge status-pending" id="status-24">Pending</span>
+        </div>
+        <p class="description">Write a function that performs a safe nested property lookup in an object using a dot-notation key string (e.g. <code>"user.profile.age"</code>). If any parent property is undefined, return <code>undefined</code> instead of crashing.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ user: { profile: { age: 25 } } }, "user.profile.age"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">25 (lookup "user.profile.location" → returns undefined safely)</span></div>
+        </div>
+        <textarea class="code-editor" id="code-24" spellcheck="false">function getNested(obj, pathString) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(24)">Run Tests</button>
+            <span class="result-message" id="result-24"></span>
+        </div>
+    </div>
+
+    <!-- 25 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">25</span>
+            <h3 class="exercise-title">Find Object Difference</h3>
+            <span class="status-badge status-pending" id="status-25">Pending</span>
+        </div>
+        <p class="description">Write a function that compares two shallow objects and returns a new object showing only the properties that have changed, been added, or been removed in the second object compared to the first.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ a: 1, b: 2 }, { b: 20, c: 3 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ b: 20, c: 3 } (since a is unchanged, b is changed, c is added)</span></div>
+        </div>
+        <textarea class="code-editor" id="code-25" spellcheck="false">function diffObjects(obj1, obj2) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(25)">Run Tests</button>
+            <span class="result-message" id="result-25"></span>
+        </div>
+    </div>
+
+    <!-- 26 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">26</span>
+            <h3 class="exercise-title">Pick Object Properties</h3>
+            <span class="status-badge status-pending" id="status-26">Pending</span>
+        </div>
+        <p class="description">Write a function that takes an object and an array of keys, and returns a new object containing ONLY the properties corresponding to the specified keys.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ a: 1, b: 2, c: 3, d: 4 }, ["a", "c"]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ a: 1, c: 3 }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-26" spellcheck="false">function pickProps(obj, keysArray) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(26)">Run Tests</button>
+            <span class="result-message" id="result-26"></span>
+        </div>
+    </div>
+
+    <!-- 27 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">27</span>
+            <h3 class="exercise-title">Omit Object Properties</h3>
+            <span class="status-badge status-pending" id="status-27">Pending</span>
+        </div>
+        <p class="description">Write a function that does the reverse of Challenge 26. It takes an object and an array of keys, and returns a new object containing all properties EXCEPT the specified keys.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ a: 1, b: 2, c: 3, d: 4 }, ["b", "d"]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ a: 1, c: 3 }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-27" spellcheck="false">function omitProps(obj, keysArray) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(27)">Run Tests</button>
+            <span class="result-message" id="result-27"></span>
+        </div>
+    </div>
+
+    <!-- 28 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">28</span>
+            <h3 class="exercise-title">Dot-Notation to Nested</h3>
+            <span class="status-badge status-pending" id="status-28">Pending</span>
+        </div>
+        <p class="description">Write a function that takes a flat object with dot-notation keys (e.g. <code>"user.age"</code>) and expands it into a fully nested object structure.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ "user.name": "Idris", "user.profile.age": 25 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ user: { name: "Idris", profile: { age: 25 } } }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-28" spellcheck="false">function expandObject(flatObj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(28)">Run Tests</button>
+            <span class="result-message" id="result-28"></span>
+        </div>
+    </div>
+
+    <!-- 29 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">29</span>
+            <h3 class="exercise-title">Flatten Nested Object</h3>
+            <span class="status-badge status-pending" id="status-29">Pending</span>
+        </div>
+        <p class="description">Write a function that does the reverse of Challenge 28. It takes a nested object structure and flattens it down into a single-level object with dot-notation keys.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ user: { name: "Idris", profile: { age: 25 } } }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ "user.name": "Idris", "user.profile.age": 25 }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-29" spellcheck="false">function flattenObject(nestedObj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(29)">Run Tests</button>
+            <span class="result-message" id="result-29"></span>
+        </div>
+    </div>
+
+    <!-- 30 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">30</span>
+            <h3 class="exercise-title">Object Schema Validator</h3>
+            <span class="status-badge status-pending" id="status-30">Pending</span>
+        </div>
+        <p class="description">Write a function that accepts an input object and a schema definition (mapping keys to their expected typeof string, e.g. <code>"number"</code> or <code>"string"</code>). It should return <code>true</code> if all keys exist and match types, and <code>false</code> otherwise.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", age: 25 }, { name: "string", age: "number" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-30" spellcheck="false">function validateSchema(obj, schema) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(30)">Run Tests</button>
+            <span class="result-message" id="result-30"></span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// Deep equality helper for objects and arrays
+function deepEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (typeof a !== typeof b) return false;
+    if (typeof a === 'object') {
+        if (Array.isArray(a) !== Array.isArray(b)) return false;
+        if (Array.isArray(a)) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (!deepEqual(a[i], b[i])) return false;
+            }
+            return true;
+        } else {
+            const keysA = Object.keys(a);
+            const keysB = Object.keys(b);
+            if (keysA.length !== keysB.length) return false;
+            for (const key of keysA) {
+                if (!keysB.includes(key) || !deepEqual(a[key], b[key])) return false;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+// Safe deep cloning helper that preserves functions
+function safeClone(val) {
+    if (val === null || val === undefined) return val;
+    if (typeof val === 'function') return val;
+    if (Array.isArray(val)) {
+        return val.map(safeClone);
+    }
+    if (typeof val === 'object') {
+        const res = {};
+        for (const k in val) {
+            res[k] = safeClone(val[k]);
+        }
+        return res;
+    }
+    return val;
+}
+
+// Test cases database
+const testCases = {
+    1: {
+        functionName: "getUserName",
+        cases: [
+            { input: ["Idris", 25], expected: "Idris" },
+            { input: ["John", 40], expected: "John" },
+            { input: ["", 0], expected: "" }
+        ]
+    },
+    2: {
+        functionName: "addProperty",
+        cases: [
+            { input: [{}, "role", "admin"], expected: { role: "admin" } },
+            { input: [{ name: "Idris" }, "age", 25], expected: { name: "Idris", age: 25 } },
+            { input: [{ a: 1 }, "b", 2], expected: { a: 1, b: 2 } }
+        ]
+    },
+    3: {
+        functionName: "removeProperty",
+        cases: [
+            { input: [{ name: "Idris", age: 25 }, "age"], expected: { name: "Idris" } },
+            { input: [{ a: 1, b: 2 }, "c"], expected: { a: 1, b: 2 } },
+            { input: [{}, "a"], expected: {} }
+        ]
+    },
+    4: {
+        functionName: "hasKey",
+        cases: [
+            { input: [{ name: "Idris" }, "email"], expected: false },
+            { input: [{ name: "Idris" }, "name"], expected: true },
+            { input: [{ a: undefined }, "a"], expected: true }
+        ]
+    },
+    5: {
+        functionName: "getAllKeys",
+        cases: [
+            { input: [{ id: 101, name: "Shirt" }], expected: ["id", "name"] },
+            { input: [{}], expected: [] },
+            { input: [{ a: 1, b: 2, c: 3 }], expected: ["a", "b", "c"] }
+        ]
+    },
+    6: {
+        functionName: "getAllValues",
+        cases: [
+            { input: [{ id: 101, name: "Shirt", price: 29 }], expected: [101, "Shirt", 29] },
+            { input: [{}], expected: [] },
+            { input: [{ a: 1, b: 2 }], expected: [1, 2] }
+        ]
+    },
+    7: {
+        functionName: "countProperties",
+        cases: [
+            { input: [{ a: 1, b: 2, c: 3 }], expected: 3 },
+            { input: [{}], expected: 0 },
+            { input: [{ x: undefined }], expected: 1 }
+        ]
+    },
+    8: {
+        functionName: "mergeObjects",
+        cases: [
+            { input: [{ a: 1, b: 2 }, { b: 10, c: 20 }], expected: { a: 1, b: 10, c: 20 } },
+            { input: [{}, { a: 1 }], expected: { a: 1 } },
+            { input: [{ a: 1 }, {}], expected: { a: 1 } }
+        ]
+    },
+    9: {
+        functionName: "shallowCopy",
+        cases: [
+            {
+                input: [{ a: 1, b: 2 }],
+                expected: (got, args) => got !== args[0] && deepEqual(got, args[0])
+            }
+        ]
+    },
+    10: {
+        functionName: "deepClone",
+        cases: [
+            {
+                input: [{ user: { name: "Idris", roles: ["admin"] } }],
+                expected: (got, args) => got !== args[0] && got.user !== args[0].user && got.user.roles !== args[0].user.roles && deepEqual(got, args[0])
+            }
+        ]
+    },
+    11: {
+        functionName: "toQueryString",
+        cases: [
+            { input: [{ search: "js", limit: 10, filter: "active" }], expected: "search=js&limit=10&filter=active" },
+            { input: [{ q: "hello" }], expected: "q=hello" },
+            { input: [{}], expected: "" }
+        ]
+    },
+    12: {
+        functionName: "parseQuery",
+        cases: [
+            { input: ["search=js&limit=10"], expected: { search: "js", limit: "10" } },
+            { input: ["q=hello"], expected: { q: "hello" } },
+            { input: [""], expected: {} }
+        ]
+    },
+    13: {
+        functionName: "invertObject",
+        cases: [
+            { input: [{ name: "Idris", role: "admin" }], expected: { Idris: "name", admin: "role" } },
+            { input: [{ a: "1", b: "2" }], expected: { 1: "a", 2: "b" } },
+            { input: [{}], expected: {} }
+        ]
+    },
+    14: {
+        functionName: "filterProps",
+        cases: [
+            { input: [{ a: 1, b: "hello", c: 42 }, (val) => typeof val === "number"], expected: { a: 1, c: 42 } },
+            { input: [{ name: "Idris", age: 25 }, (val) => typeof val === "string"], expected: { name: "Idris" } },
+            { input: [{ a: 1 }, (val) => false], expected: {} }
+        ]
+    },
+    15: {
+        functionName: "mapObject",
+        cases: [
+            { input: [{ a: 1, b: 2, c: 3 }, (val) => val * 10], expected: { a: 10, b: 20, c: 30 } },
+            { input: [{ name: "idris" }, (val) => val.toUpperCase()], expected: { name: "IDRIS" } },
+            { input: [{}, (val) => val], expected: {} }
+        ]
+    },
+    16: {
+        functionName: "areDeepEqual",
+        cases: [
+            { input: [{ a: { b: 1 } }, { a: { b: 1 } }], expected: true },
+            { input: [{ a: { b: 1 } }, { a: { b: 2 } }], expected: false },
+            { input: [{ a: [1, 2] }, { a: [1, 2] }], expected: true }
+        ]
+    },
+    17: {
+        functionName: "freezeObj",
+        cases: [
+            {
+                input: [{ timeout: 5000 }],
+                expected: (got) => Object.isFrozen(got) && got.timeout === 5000
+            }
+        ]
+    },
+    18: {
+        functionName: "sealObj",
+        cases: [
+            {
+                input: [{ theme: "dark" }],
+                expected: (got) => Object.isSealed(got) && !Object.isFrozen(got) && got.theme === "dark"
+            }
+        ]
+    },
+    19: {
+        functionName: "fromPairs",
+        cases: [
+            { input: [[["name", "Idris"], ["role", "admin"]]], expected: { name: "Idris", role: "admin" } },
+            { input: [[]], expected: {} },
+            { input: [[["a", 1], ["b", 2]]], expected: { a: 1, b: 2 } }
+        ]
+    },
+    20: {
+        functionName: "toPairs",
+        cases: [
+            { input: [{ name: "Idris", role: "admin" }], expected: [["name", "Idris"], ["role", "admin"]] },
+            { input: [{誇: 123}], expected: [["誇", 123]] }, // test with unicode or simple keys
+            { input: [{}], expected: [] }
+        ]
+    },
+    21: {
+        functionName: "getMaxKey",
+        cases: [
+            { input: [{ gold: 120, silver: 80, bronze: 140 }], expected: "bronze" },
+            { input: [{}], expected: null },
+            { input: [{ a: -5, b: -2 }], expected: "b" }
+        ]
+    },
+    22: {
+        functionName: "groupBy",
+        cases: [
+            { input: [[{ n: "A", r: "user" }, { n: "B", r: "admin" }, { n: "C", r: "user" }], "r"], expected: { user: [{ n: "A", r: "user" }, { n: "C", r: "user" }], admin: [{ n: "B", r: "admin" }] } },
+            { input: [[{ age: 20 }, { age: 30 }], "age"], expected: { 20: [{ age: 20 }], 30: [{ age: 30 }] } },
+            { input: [[], "key"], expected: {} }
+        ]
+    },
+    23: {
+        functionName: "groupAndSum",
+        cases: [
+            { input: [[{ category: "Food", amt: 15 }, { category: "Rent", amt: 800 }, { category: "Food", amt: 20 }]], expected: { Food: 35, Rent: 800 } },
+            { input: [[{ category: "Travel", amt: 100 }]], expected: { Travel: 100 } },
+            { input: [[]], expected: {} }
+        ]
+    },
+    24: {
+        functionName: "getNested",
+        cases: [
+            { input: [{ user: { profile: { age: 25 } } }, "user.profile.age"], expected: 25 },
+            { input: [{ user: { profile: { age: 25 } } }, "user.profile.location"], expected: undefined },
+            { input: [{ a: { b: 2 } }, "a.b"], expected: 2 }
+        ]
+    },
+    25: {
+        functionName: "diffObjects",
+        cases: [
+            { input: [{ a: 1, b: 2 }, { b: 20, c: 3 }], expected: { b: 20, c: 3 } },
+            { input: [{ a: 1 }, { a: 1 }], expected: {} },
+            { input: [{ a: 1 }, { a: 2, b: 3 }], expected: { a: 2, b: 3 } }
+        ]
+    },
+    26: {
+        functionName: "pickProps",
+        cases: [
+            { input: [{ a: 1, b: 2, c: 3, d: 4 }, ["a", "c"]], expected: { a: 1, c: 3 } },
+            { input: [{ a: 1 }, ["b"]], expected: {} },
+            { input: [{ a: 1, b: 2 }, []], expected: {} }
+        ]
+    },
+    27: {
+        functionName: "omitProps",
+        cases: [
+            { input: [{ a: 1, b: 2, c: 3, d: 4 }, ["b", "d"]], expected: { a: 1, c: 3 } },
+            { input: [{ a: 1, b: 2 }, ["a"]], expected: { b: 2 } },
+            { input: [{ a: 1 }, []], expected: { a: 1 } }
+        ]
+    },
+    28: {
+        functionName: "expandObject",
+        cases: [
+            { input: [{ "user.name": "Idris", "user.profile.age": 25 }], expected: { user: { name: "Idris", profile: { age: 25 } } } },
+            { input: [{ "a.b.c": 42 }], expected: { a: { b: { c: 42 } } } },
+            { input: [{}], expected: {} }
+        ]
+    },
+    29: {
+        functionName: "flattenObject",
+        cases: [
+            { input: [{ user: { name: "Idris", profile: { age: 25 } } }], expected: { "user.name": "Idris", "user.profile.age": 25 } },
+            { input: [{ a: { b: { c: 42 } } }], expected: { "a.b.c": 42 } },
+            { input: [{}], expected: {} }
+        ]
+    },
+    30: {
+        functionName: "validateSchema",
+        cases: [
+            { input: [{ name: "Idris", age: 25 }, { name: "string", age: "number" }], expected: true },
+            { input: [{ name: "Idris", age: "25" }, { name: "string", age: "number" }], expected: false },
+            { input: [{ name: "Idris" }, { name: "string", age: "number" }], expected: false }
+        ]
+    }
+};
+
+function runTest(id) {
+    const padId = id.toString().padStart(2, '0');
+    const code = document.getElementById(`code-${padId}`).value;
+    const testInfo = testCases[id];
+    const resultElement = document.getElementById(`result-${padId}`);
+    const statusElement = document.getElementById(`status-${padId}`);
+    
+    try {
+        // Compile the code into a sandbox function
+        const scriptFunc = new Function(code + `\nreturn ${testInfo.functionName};`);
+        const userFunc = scriptFunc();
+        
+        if (typeof userFunc !== 'function') {
+            throw new Error(`Function '${testInfo.functionName}' is not defined. Make sure you haven't renamed it!`);
+        }
+        
+        // Execute all test cases
+        for (let i = 0; i < testInfo.cases.length; i++) {
+            const tc = testInfo.cases[i];
+            
+            // Deep clone arguments to avoid parameter mutations during assertions
+            const inputArgs = safeClone(tc.input);
+            const got = userFunc(...inputArgs);
+            
+            if (typeof tc.expected === 'function') {
+                if (!tc.expected(got, inputArgs)) {
+                    throw new Error(`Test Case ${i + 1} Failed!\nInput: ${JSON.stringify(tc.input)}\nGot unexpected result: ${JSON.stringify(got)}`);
+                }
+            } else {
+                if (!deepEqual(got, tc.expected)) {
+                    throw new Error(`Test Case ${i + 1} Failed!\nInput: ${JSON.stringify(tc.input)}\nExpected: ${JSON.stringify(tc.expected)}\nGot: ${JSON.stringify(got)}`);
+                }
+            }
+        }
+        
+        // Mark as passed
+        resultElement.className = "result-message res-success";
+        resultElement.innerHTML = "✅ All tests passed successfully!";
+        statusElement.className = "status-badge status-passed";
+        statusElement.textContent = "Passed";
+        updateProgress();
+        
+    } catch (err) {
+        // Mark as failed
+        resultElement.className = "result-message res-error";
+        resultElement.innerHTML = "❌ " + err.message.replace(/\n/g, '<br>');
+        statusElement.className = "status-badge status-failed";
+        statusElement.textContent = "Failed";
+        updateProgress();
+    }
+}
+
+function updateProgress() {
+    const passed = document.querySelectorAll('.status-badge.status-passed').length;
+    document.getElementById('done').textContent = passed;
+}
+</script>
+</body>
+</html>

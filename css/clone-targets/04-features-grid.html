@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features — Why Choose Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fafbfc;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 24px 100px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        header .overline {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0ea5e9;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 12px;
+        }
+
+        header h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -1.5px;
+            margin-bottom: 16px;
+        }
+
+        header p {
+            font-size: 17px;
+            color: #64748b;
+            max-width: 520px;
+            line-height: 1.7;
+            margin: 0 auto;
+        }
+
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            max-width: 1060px;
+            width: 100%;
+        }
+
+        .feature-card {
+            flex: 1 1 300px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid #f1f5f9;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            cursor: default;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.07);
+        }
+
+        .icon-wrapper {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+
+        .icon-wrapper.blue {
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+        }
+
+        .icon-wrapper.purple {
+            background: linear-gradient(135deg, #ede9fe, #f5f3ff);
+        }
+
+        .icon-wrapper.green {
+            background: linear-gradient(135deg, #dcfce7, #f0fdf4);
+        }
+
+        .icon-wrapper.orange {
+            background: linear-gradient(135deg, #ffedd5, #fff7ed);
+        }
+
+        .icon-wrapper.pink {
+            background: linear-gradient(135deg, #fce7f3, #fdf2f8);
+        }
+
+        .icon-wrapper.cyan {
+            background: linear-gradient(135deg, #cffafe, #ecfeff);
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.75;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <p class="overline">Features</p>
+        <h1>Why Choose Us</h1>
+        <p>Everything you need to build, launch, and scale your next project — all in one powerful platform.</p>
+    </header>
+
+    <main class="features-container">
+        <article class="feature-card">
+            <div class="icon-wrapper blue">⚡</div>
+            <h3>Lightning Fast</h3>
+            <p>Optimized for performance with sub-second load times and instant interactions across every device.</p>
+        </article>
+
+        <article class="feature-card">
+            <div class="icon-wrapper purple">🔒</div>
+            <h3>Secure by Default</h3>
+            <p>Enterprise-grade encryption and access controls keep your data protected at every layer of the stack.</p>
+        </article>
+
+        <article class="feature-card">
+            <div class="icon-wrapper green">📊</div>
+            <h3>Smart Analytics</h3>
+            <p>Actionable insights and real-time dashboards help you make data-driven decisions with confidence.</p>
+        </article>
+
+        <article class="feature-card">
+            <div class="icon-wrapper orange">🔗</div>
+            <h3>Easy Integrations</h3>
+            <p>Connect with hundreds of tools you already use through our flexible API and native integrations.</p>
+        </article>
+
+        <article class="feature-card">
+            <div class="icon-wrapper pink">🎨</div>
+            <h3>Beautiful Design</h3>
+            <p>Pixel-perfect components and thoughtful layouts that make your product stand out from the crowd.</p>
+        </article>
+
+        <article class="feature-card">
+            <div class="icon-wrapper cyan">🤝</div>
+            <h3>Team Collaboration</h3>
+            <p>Work together seamlessly with real-time editing, comments, and shared workspaces for every team.</p>
+        </article>
+    </main>
+</body>
+</html>

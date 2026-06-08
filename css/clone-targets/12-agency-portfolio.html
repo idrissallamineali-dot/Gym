@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embark Studio — We Build Brands That Matter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0d0d0d;
+            --bg-secondary: #141414;
+            --bg-card: #1a1a1a;
+            --bg-card-hover: #222222;
+            --accent: #e11d48;
+            --accent-dark: #be123c;
+            --accent-light: #fb7185;
+            --accent-bg: rgba(225, 29, 72, 0.1);
+            --accent-border: rgba(225, 29, 72, 0.25);
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --text-muted: #737373;
+            --border-color: rgba(255,255,255,0.07);
+            --border-hover: rgba(255,255,255,0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 48px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0 48px;
+            background: rgba(13, 13, 13, 0.8);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1280px;
+            margin: 0 auto;
+            height: 76px;
+        }
+
+        .navbar-logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-logo .logo-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+        }
+
+        .navbar-links a {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .navbar-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 24px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(225, 29, 72, 0.3);
+        }
+
+        .btn-accent:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(225, 29, 72, 0.45);
+        }
+
+        .btn-large {
+            padding: 16px 36px;
+            font-size: 0.95rem;
+            border-radius: 12px;
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-hover);
+        }
+
+        .btn-outline-light:hover {
+            border-color: var(--accent);
+            color: var(--accent-light);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 48px 80px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(225,29,72,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-overline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-light);
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-overline::before,
+        .hero-overline::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--accent);
+            opacity: 0.5;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem;
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -3px;
+            max-width: 900px;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 .accent {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin-bottom: 44px;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .scroll-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .scroll-indicator .line {
+            width: 1px;
+            height: 48px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            animation: scroll-pulse 2s infinite;
+        }
+
+        @keyframes scroll-pulse {
+            0%, 100% { opacity: 1; transform: scaleY(1); }
+            50% { opacity: 0.4; transform: scaleY(0.6); }
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-section {
+            padding: 120px 48px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .about-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .about-text h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .about-text p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            margin-bottom: 16px;
+        }
+
+        .about-stats {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            flex: 1 1 calc(50% - 10px);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            border-color: var(--accent-border);
+            transform: translateY(-4px);
+        }
+
+        .stat-item .stat-number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* ===== SERVICES ===== */
+        .services-section {
+            background: var(--bg-secondary);
+            padding: 120px 48px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .services-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: flex;
+            gap: 20px;
+        }
+
+        .service-card {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent-border);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 60px rgba(225, 29, 72, 0.08);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(225, 29, 72, 0.15);
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        .service-icon {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .service-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 24px;
+            flex: 1;
+        }
+
+        .service-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s;
+        }
+
+        .service-link:hover {
+            gap: 14px;
+        }
+
+        /* ===== PORTFOLIO ===== */
+        .portfolio-section {
+            padding: 120px 48px;
+        }
+
+        .portfolio-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .portfolio-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .portfolio-item {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 260px;
+            transition: all 0.4s ease;
+        }
+
+        .portfolio-item:nth-child(1) {
+            flex-basis: calc(55% - 8px);
+            min-height: 320px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+
+        .portfolio-item:nth-child(2) {
+            flex-basis: calc(45% - 8px);
+            min-height: 320px;
+            background: linear-gradient(135deg, #2d1b30, #1a1a2e);
+        }
+
+        .portfolio-item:nth-child(3) {
+            flex-basis: calc(33.333% - 11px);
+            background: linear-gradient(135deg, #1b2d1a, #1a2e1a);
+        }
+
+        .portfolio-item:nth-child(4) {
+            flex-basis: calc(33.333% - 11px);
+            background: linear-gradient(135deg, #2e1a1a, #1a1a2e);
+        }
+
+        .portfolio-item:nth-child(5) {
+            flex-basis: calc(33.333% - 11px);
+            background: linear-gradient(135deg, #1a2e2d, #1a1a2e);
+        }
+
+        .portfolio-item:nth-child(6) {
+            flex-basis: 100%;
+            min-height: 200px;
+            background: linear-gradient(135deg, #1a1a2e, #2e2a1a);
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.02);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(225, 29, 72, 0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.4s ease;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            background: rgba(225, 29, 72, 0.75);
+        }
+
+        .portfolio-overlay h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease 0.1s;
+        }
+
+        .portfolio-overlay span {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease 0.2s;
+        }
+
+        .portfolio-item:hover .portfolio-overlay h4,
+        .portfolio-item:hover .portfolio-overlay span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portfolio-emoji {
+            font-size: 3.5rem;
+            opacity: 0.4;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials-section {
+            background: var(--bg-secondary);
+            padding: 120px 48px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .testimonials-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .testimonial-quote-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 28px;
+            opacity: 0.5;
+        }
+
+        .testimonial-quote {
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.7;
+            color: var(--text-primary);
+            margin-bottom: 40px;
+            letter-spacing: -0.3px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .testimonial-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .testimonial-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .testimonial-info span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== TEAM ===== */
+        .team-section {
+            padding: 120px 48px;
+        }
+
+        .team-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .team-grid {
+            display: flex;
+            gap: 24px;
+        }
+
+        .team-card {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px 28px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            border-color: var(--accent-border);
+            transform: translateY(-6px);
+        }
+
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .team-card:nth-child(1) .team-avatar { background: linear-gradient(135deg, #e11d48, #be123c); }
+        .team-card:nth-child(2) .team-avatar { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+        .team-card:nth-child(3) .team-avatar { background: linear-gradient(135deg, #0891b2, #0e7490); }
+        .team-card:nth-child(4) .team-avatar { background: linear-gradient(135deg, #ea580c, #c2410c); }
+
+        .team-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .team-role {
+            font-size: 0.82rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .team-bio {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .team-socials {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .team-socials a {
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .team-socials a:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+            background: var(--accent-bg);
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-section {
+            background: var(--bg-secondary);
+            padding: 120px 48px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .contact-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            gap: 80px;
+        }
+
+        .contact-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-info h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
+        }
+
+        .contact-info > p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 420px;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .contact-detail .detail-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-bg);
+            border: 1px solid var(--accent-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-detail .detail-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-detail .detail-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .contact-detail .detail-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .contact-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 13px 18px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-color);
+            padding: 72px 48px 0;
+        }
+
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .footer-columns {
+            display: flex;
+            gap: 64px;
+            margin-bottom: 56px;
+        }
+
+        .footer-brand {
+            flex: 1.5;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand h3 .footer-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .footer-brand p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-width: 300px;
+        }
+
+        .footer-col {
+            flex: 1;
+        }
+
+        .footer-col h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .footer-col ul li a {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 28px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-copyright {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .footer-socials {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-socials a {
+            width: 38px;
+            height: 38px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .footer-socials a:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+            background: var(--accent-bg);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="#" class="navbar-logo">
+                <span class="logo-dot"></span>
+                Embark Studio
+            </a>
+            <div class="navbar-links">
+                <a href="#">About</a>
+                <a href="#">Services</a>
+                <a href="#">Portfolio</a>
+                <a href="#">Team</a>
+                <a href="#">Blog</a>
+            </div>
+            <button class="btn btn-accent">Contact Us</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <span class="hero-overline">Award-Winning Creative Agency</span>
+        <h1>We Build <span class="accent">Brands</span> That Matter</h1>
+        <p class="hero-subtitle">
+            We craft bold digital experiences, iconic identities, and strategic campaigns that transform businesses and captivate audiences worldwide.
+        </p>
+        <div class="hero-actions">
+            <button class="btn btn-accent btn-large">View Our Work →</button>
+            <button class="btn btn-outline-light btn-large">Book a Call</button>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="about-inner">
+            <div class="about-text">
+                <span class="section-label">About Us</span>
+                <h2>Crafting Digital Excellence Since 2014</h2>
+                <p>Embark Studio is a full-service creative agency specializing in brand strategy, digital design, and immersive experiences. We partner with ambitious companies to build brands that stand out, connect deeply, and drive measurable results.</p>
+                <p>Our multidisciplinary team blends strategy, creativity, and technology to deliver solutions that don't just look beautiful — they perform.</p>
+            </div>
+            <div class="about-stats">
+                <div class="stat-item">
+                    <span class="stat-number">240+</span>
+                    <span class="stat-label">Projects Delivered</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Client Satisfaction</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">15</span>
+                    <span class="stat-label">Design Awards</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Years of Experience</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services-section">
+        <div class="services-inner">
+            <div class="section-header">
+                <span class="section-label">What We Do</span>
+                <h2>Our Services</h2>
+                <p>End-to-end creative solutions designed to elevate your brand at every touchpoint.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-number">01</span>
+                    <span class="service-icon">🎨</span>
+                    <h3>Brand Identity</h3>
+                    <p>We create distinctive visual identities — logos, color systems, typography, and brand guidelines that become the foundation of your brand's story.</p>
+                    <a href="#" class="service-link">Learn More →</a>
+                </div>
+                <div class="service-card">
+                    <span class="service-number">02</span>
+                    <span class="service-icon">💻</span>
+                    <h3>Web Design & Dev</h3>
+                    <p>Custom websites built with precision. From sleek landing pages to complex platforms, we design and develop digital experiences that convert.</p>
+                    <a href="#" class="service-link">Learn More →</a>
+                </div>
+                <div class="service-card">
+                    <span class="service-number">03</span>
+                    <span class="service-icon">📱</span>
+                    <h3>Digital Marketing</h3>
+                    <p>Strategic campaigns across social media, search, and content marketing that build awareness, drive engagement, and fuel sustainable growth.</p>
+                    <a href="#" class="service-link">Learn More →</a>
+                </div>
+                <div class="service-card">
+                    <span class="service-number">04</span>
+                    <span class="service-icon">🎬</span>
+                    <h3>Motion & Video</h3>
+                    <p>Compelling motion graphics, brand videos, and animated content that bring your message to life and make your brand unforgettable.</p>
+                    <a href="#" class="service-link">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section class="portfolio-section">
+        <div class="portfolio-inner">
+            <div class="section-header">
+                <span class="section-label">Our Work</span>
+                <h2>Featured Projects</h2>
+                <p>A curated selection of our most impactful work across industries.</p>
+            </div>
+            <div class="portfolio-gallery">
+                <div class="portfolio-item">
+                    <span class="portfolio-emoji">🏢</span>
+                    <div class="portfolio-overlay">
+                        <h4>Nexus Financial</h4>
+                        <span>Brand Identity & Website</span>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <span class="portfolio-emoji">🎧</span>
+                    <div class="portfolio-overlay">
+                        <h4>SoundWave App</h4>
+                        <span>UI/UX Design & Development</span>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <span class="portfolio-emoji">🌿</span>
+                    <div class="portfolio-overlay">
+                        <h4>Evergreen Co.</h4>
+                        <span>Brand Strategy</span>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <span class="portfolio-emoji">🍷</span>
+                    <div class="portfolio-overlay">
+                        <h4>Maison Rouge</h4>
+                        <span>Packaging Design</span>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <span class="portfolio-emoji">🏔️</span>
+                    <div class="portfolio-overlay">
+                        <h4>Alpine Adventures</h4>
+                        <span>Digital Campaign</span>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <span class="portfolio-emoji">✈️</span>
+                    <div class="portfolio-overlay">
+                        <h4>Horizon Airlines</h4>
+                        <span>Complete Rebrand</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+        <div class="testimonials-inner">
+            <span class="section-label">Testimonials</span>
+            <div class="testimonial-quote-icon">❝</div>
+            <p class="testimonial-quote">
+                "Embark Studio didn't just redesign our brand — they transformed how we think about our entire business. The strategy, creativity, and execution were nothing short of world-class. Our revenue grew 140% in the year following our rebrand."
+            </p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">DK</div>
+                <div class="testimonial-info">
+                    <h4>Daniel Kovacs</h4>
+                    <span>CEO, Nexus Financial Group</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section class="team-section">
+        <div class="team-inner">
+            <div class="section-header">
+                <span class="section-label">Our Team</span>
+                <h2>The Minds Behind the Magic</h2>
+                <p>A talented crew of strategists, designers, developers, and storytellers.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">👩</div>
+                    <h3>Elena Vasquez</h3>
+                    <span class="team-role">Creative Director</span>
+                    <p class="team-bio">15+ years leading brand transformations for Fortune 500 companies. Obsessed with typography and color theory.</p>
+                    <div class="team-socials">
+                        <a href="#">𝕏</a>
+                        <a href="#">in</a>
+                        <a href="#">🌐</a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👨</div>
+                    <h3>Marcus Chen</h3>
+                    <span class="team-role">Lead Developer</span>
+                    <p class="team-bio">Full-stack engineer with a passion for performance, accessibility, and elegant code architecture.</p>
+                    <div class="team-socials">
+                        <a href="#">𝕏</a>
+                        <a href="#">in</a>
+                        <a href="#">⌘</a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👩</div>
+                    <h3>Priya Sharma</h3>
+                    <span class="team-role">Strategy Lead</span>
+                    <p class="team-bio">MBA from Wharton, ex-McKinsey. Translates business goals into creative briefs that spark breakthrough ideas.</p>
+                    <div class="team-socials">
+                        <a href="#">𝕏</a>
+                        <a href="#">in</a>
+                        <a href="#">🌐</a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👨</div>
+                    <h3>James Okafor</h3>
+                    <span class="team-role">Motion Designer</span>
+                    <p class="team-bio">Award-winning motion designer bringing brands to life through animation, video, and immersive visual storytelling.</p>
+                    <div class="team-socials">
+                        <a href="#">𝕏</a>
+                        <a href="#">in</a>
+                        <a href="#">▶</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact-section">
+        <div class="contact-inner">
+            <div class="contact-info">
+                <span class="section-label">Get in Touch</span>
+                <h2>Let's Create Something Extraordinary</h2>
+                <p>Have a project in mind? We'd love to hear about it. Fill out the form and our team will get back to you within 24 hours.</p>
+                <div class="contact-details">
+                    <div class="contact-detail">
+                        <div class="detail-icon">📧</div>
+                        <div class="detail-text">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value">hello@embarkstudio.com</span>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="detail-icon">📞</div>
+                        <div class="detail-text">
+                            <span class="detail-label">Phone</span>
+                            <span class="detail-value">+1 (555) 234-5678</span>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="detail-icon">📍</div>
+                        <div class="detail-text">
+                            <span class="detail-label">Office</span>
+                            <span class="detail-value">412 Design District, Austin TX</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form class="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" placeholder="John">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" placeholder="Doe">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="john@company.com">
+                </div>
+                <div class="form-group">
+                    <label>Service Interested In</label>
+                    <select>
+                        <option value="" disabled selected>Select a service...</option>
+                        <option>Brand Identity</option>
+                        <option>Web Design & Development</option>
+                        <option>Digital Marketing</option>
+                        <option>Motion & Video</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Project Details</label>
+                    <textarea placeholder="Tell us about your project, goals, and timeline..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-accent btn-large" style="align-self: flex-start;">Send Message →</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-columns">
+                <div class="footer-brand">
+                    <h3>
+                        <span class="footer-dot"></span>
+                        Embark Studio
+                    </h3>
+                    <p>Award-winning creative agency crafting bold brands and digital experiences that move people and markets.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Brand Identity</a></li>
+                        <li><a href="#">Web Design</a></li>
+                        <li><a href="#">Marketing</a></li>
+                        <li><a href="#">Motion Design</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-copyright">© 2026 Embark Studio. All rights reserved.</span>
+                <div class="footer-socials">
+                    <a href="#">𝕏</a>
+                    <a href="#">in</a>
+                    <a href="#">📸</a>
+                    <a href="#">▶</a>
+                    <a href="#">🎨</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

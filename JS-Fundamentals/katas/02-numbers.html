@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Katas — 20 Challenges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16px;padding:40px 20px}.container{max-width:820px;margin:0 auto}h1{font-size:38px;font-weight:700;color:#f0f6fc;margin-bottom:12px}.subtitle{font-size:17px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px}p{margin-bottom:18px;color:#b0bac9}strong{color:#e2e8f0}code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:12px 0 20px;overflow-x:auto}pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}.cm{color:#5e6e8a;font-style:italic}hr{border:none;border-top:1px solid #1e2d4a;margin:36px 0}.kata{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px;margin:24px 0}.kata-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}.kata-num{background:#f59e0b;color:#0d1117;font-size:13px;font-weight:700;padding:4px 12px;border-radius:8px}.kata-diff{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:6px}.diff-easy{background:rgba(16,185,129,.15);color:#10b981}.diff-medium{background:rgba(245,158,11,.15);color:#f59e0b}.diff-hard{background:rgba(248,81,73,.15);color:#f85149}.kata h3{font-size:18px;font-weight:600;color:#f0f6fc;margin-bottom:10px}.kata p{font-size:15px;color:#9aa5b4;margin-bottom:12px}.constraint{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:10px;padding:10px 16px;margin:12px 0;font-size:13px;font-weight:600;color:#a78bfa}.constraint::before{content:'⛔ CONSTRAINT: ';font-weight:700}.solution-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#10b981;font-size:13px;font-weight:600;padding:8px 18px;border-radius:10px;cursor:pointer;transition:.2s;margin-top:8px}.solution-btn:hover{background:rgba(16,185,129,.15)}.solution{display:none;margin-top:16px;padding:16px 20px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}.solution.show{display:block}.solution-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#10b981;margin-bottom:10px}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔢 Number Katas</h1>
+    <p class="subtitle">20 challenges focused on numbers and math logic. Each kata has a constraint that forces you to think differently.</p>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">01</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Is Even Without Modulo</h3>
+    <p>Write <code>isEven(n)</code> that checks if a number is even.</p>
+    <pre><code>isEven(4)   <span class="cm">// true</span>
+isEven(7)   <span class="cm">// false</span></code></pre>
+    <div class="constraint">Do NOT use the % operator. Use bitwise AND (&).</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const isEven = n => (n & 1) === 0;
+// Bitwise AND with 1: even numbers have 0 as last bit, odd have 1.</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">02</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Factorial (Recursive)</h3>
+    <p>Write <code>factorial(n)</code>.</p>
+    <pre><code>factorial(5)   <span class="cm">// 120</span>
+factorial(0)   <span class="cm">// 1</span></code></pre>
+    <div class="constraint">Use recursion. No loops.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function factorial(n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">03</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Factorial (Iterative)</h3>
+    <p>Write <code>factorialLoop(n)</code>.</p>
+    <pre><code>factorialLoop(5)   <span class="cm">// 120</span></code></pre>
+    <div class="constraint">Use a for loop. No recursion.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function factorialLoop(n) {
+    let result = 1;
+    for (let i = 2; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">04</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Fibonacci N-th</h3>
+    <p>Write <code>fib(n)</code> that returns the n-th Fibonacci number (0-indexed).</p>
+    <pre><code>fib(0)   <span class="cm">// 0</span>
+fib(1)   <span class="cm">// 1</span>
+fib(6)   <span class="cm">// 8  (0,1,1,2,3,5,8)</span></code></pre>
+    <div class="constraint">Use a for loop with only two variables (prev, curr). No arrays, no recursion.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function fib(n) {
+    if (n <= 0) return 0;
+    let prev = 0, curr = 1;
+    for (let i = 2; i <= n; i++) {
+        [prev, curr] = [curr, prev + curr];
+    }
+    return curr;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">05</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Sum of Digits</h3>
+    <p>Write <code>digitSum(n)</code>.</p>
+    <pre><code>digitSum(1234)   <span class="cm">// 10</span>
+digitSum(99)     <span class="cm">// 18</span></code></pre>
+    <div class="constraint">Convert to string, split, reduce back to number. One chain.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const digitSum = n =>
+    String(Math.abs(n)).split("").reduce((sum, d) => sum + Number(d), 0);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">06</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Is Prime</h3>
+    <p>Write <code>isPrime(n)</code>.</p>
+    <pre><code>isPrime(2)    <span class="cm">// true</span>
+isPrime(17)   <span class="cm">// true</span>
+isPrime(4)    <span class="cm">// false</span>
+isPrime(1)    <span class="cm">// false</span></code></pre>
+    <div class="constraint">Only loop up to Math.sqrt(n). Use a for loop. Use guard clauses for edge cases.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function isPrime(n) {
+    if (n < 2) return false;
+    if (n === 2) return true;
+    if (n % 2 === 0) return false;
+    for (let i = 3; i <= Math.sqrt(n); i += 2) {
+        if (n % i === 0) return false;
+    }
+    return true;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">07</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Prime Factors</h3>
+    <p>Write <code>primeFactors(n)</code>.</p>
+    <pre><code>primeFactors(12)   <span class="cm">// [2, 2, 3]</span>
+primeFactors(100)  <span class="cm">// [2, 2, 5, 5]</span></code></pre>
+    <div class="constraint">Use a while loop and start dividing from 2 upwards.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function primeFactors(n) {
+    const factors = [];
+    let d = 2;
+    while (n > 1) {
+        while (n % d === 0) {
+            factors.push(d);
+            n /= d;
+        }
+        d++;
+    }
+    return factors;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">08</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>GCD (Greatest Common Divisor)</h3>
+    <p>Write <code>gcd(a, b)</code>.</p>
+    <pre><code>gcd(12, 8)    <span class="cm">// 4</span>
+gcd(100, 75)  <span class="cm">// 25</span></code></pre>
+    <div class="constraint">Use the Euclidean algorithm with recursion.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function gcd(a, b) {
+    if (b === 0) return a;
+    return gcd(b, a % b);
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">09</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>LCM (Least Common Multiple)</h3>
+    <p>Write <code>lcm(a, b)</code>.</p>
+    <pre><code>lcm(4, 6)    <span class="cm">// 12</span>
+lcm(3, 7)    <span class="cm">// 21</span></code></pre>
+    <div class="constraint">Use your gcd() function. Formula: lcm = (a * b) / gcd(a, b).</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
+const lcm = (a, b) => (a * b) / gcd(a, b);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">10</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Power Without Math.pow</h3>
+    <p>Write <code>power(base, exp)</code>. Handle exp = 0.</p>
+    <pre><code>power(2, 10)  <span class="cm">// 1024</span>
+power(5, 0)   <span class="cm">// 1</span>
+power(3, 3)   <span class="cm">// 27</span></code></pre>
+    <div class="constraint">Use recursion. No loops, no Math.pow, no ** operator.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function power(base, exp) {
+    if (exp === 0) return 1;
+    return base * power(base, exp - 1);
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">11</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Integer to Roman</h3>
+    <p>Write <code>toRoman(num)</code>. Handle 1–3999.</p>
+    <pre><code>toRoman(3)     <span class="cm">// "III"</span>
+toRoman(49)    <span class="cm">// "XLIX"</span>
+toRoman(1994)  <span class="cm">// "MCMXCIV"</span></code></pre>
+    <div class="constraint">Use an array of [value, symbol] pairs and a while loop.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function toRoman(num) {
+    const pairs = [
+        [1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],
+        [100,"C"],[90,"XC"],[50,"L"],[40,"XL"],
+        [10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]
+    ];
+    let result = "";
+    for (const [value, symbol] of pairs) {
+        while (num >= value) {
+            result += symbol;
+            num -= value;
+        }
+    }
+    return result;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">12</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Roman to Integer</h3>
+    <p>Write <code>fromRoman(str)</code>.</p>
+    <pre><code>fromRoman("III")      <span class="cm">// 3</span>
+fromRoman("XLIX")     <span class="cm">// 49</span>
+fromRoman("MCMXCIV")  <span class="cm">// 1994</span></code></pre>
+    <div class="constraint">Use a lookup object. If current symbol is less than the next, subtract it instead of adding.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function fromRoman(str) {
+    const map = { I:1, V:5, X:10, L:50, C:100, D:500, M:1000 };
+    let total = 0;
+    for (let i = 0; i < str.length; i++) {
+        if (map[str[i]] < map[str[i + 1]]) {
+            total -= map[str[i]];
+        } else {
+            total += map[str[i]];
+        }
+    }
+    return total;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">13</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Decimal to Binary</h3>
+    <p>Write <code>toBinary(n)</code>.</p>
+    <pre><code>toBinary(10)   <span class="cm">// "1010"</span>
+toBinary(255)  <span class="cm">// "11111111"</span></code></pre>
+    <div class="constraint">Do NOT use .toString(2). Use a while loop dividing by 2 and collecting remainders.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function toBinary(n) {
+    if (n === 0) return "0";
+    let result = "";
+    while (n > 0) {
+        result = (n % 2) + result;
+        n = Math.floor(n / 2);
+    }
+    return result;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">14</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Binary to Decimal</h3>
+    <p>Write <code>fromBinary(str)</code>.</p>
+    <pre><code>fromBinary("1010")      <span class="cm">// 10</span>
+fromBinary("11111111")  <span class="cm">// 255</span></code></pre>
+    <div class="constraint">Do NOT use parseInt(str, 2). Use .split() and .reduce() with powers of 2.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const fromBinary = str =>
+    str.split("").reduce((total, bit) => total * 2 + Number(bit), 0);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">15</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Number to Words (0–999)</h3>
+    <p>Write <code>toWords(n)</code>.</p>
+    <pre><code>toWords(0)     <span class="cm">// "zero"</span>
+toWords(42)    <span class="cm">// "forty two"</span>
+toWords(115)   <span class="cm">// "one hundred fifteen"</span>
+toWords(999)   <span class="cm">// "nine hundred ninety nine"</span></code></pre>
+    <div class="constraint">Use lookup arrays for ones, teens, and tens. No external libraries.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function toWords(n) {
+    if (n === 0) return "zero";
+    const ones = ["","one","two","three","four","five","six","seven","eight","nine",
+                  "ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen",
+                  "seventeen","eighteen","nineteen"];
+    const tens = ["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+
+    let result = "";
+    if (n >= 100) {
+        result += ones[Math.floor(n / 100)] + " hundred ";
+        n %= 100;
+    }
+    if (n >= 20) {
+        result += tens[Math.floor(n / 10)] + " ";
+        n %= 10;
+    }
+    if (n > 0) {
+        result += ones[n];
+    }
+    return result.trim();
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">16</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Collatz Conjecture</h3>
+    <p>Write <code>collatz(n)</code> that counts steps to reach 1. If even: n/2. If odd: 3n+1.</p>
+    <pre><code>collatz(1)   <span class="cm">// 0</span>
+collatz(6)   <span class="cm">// 8</span>
+collatz(12)  <span class="cm">// 9</span></code></pre>
+    <div class="constraint">Use a while loop and a counter.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function collatz(n) {
+    let steps = 0;
+    while (n !== 1) {
+        n = n % 2 === 0 ? n / 2 : 3 * n + 1;
+        steps++;
+    }
+    return steps;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">17</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Sum of Multiples</h3>
+    <p>Write <code>sumMultiples(n)</code>. Sum all multiples of 3 or 5 below n.</p>
+    <pre><code>sumMultiples(10)   <span class="cm">// 23</span>
+sumMultiples(20)   <span class="cm">// 78</span></code></pre>
+    <div class="constraint">Use Array.from() to generate the range, then filter + reduce. No for loops.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const sumMultiples = n =>
+    Array.from({ length: n }, (_, i) => i)
+         .filter(i => i % 3 === 0 || i % 5 === 0)
+         .reduce((sum, i) => sum + i, 0);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">18</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Perfect Number</h3>
+    <p>Write <code>isPerfect(n)</code>. A perfect number equals the sum of its proper divisors (exclude itself).</p>
+    <pre><code>isPerfect(6)     <span class="cm">// true  (1+2+3 = 6)</span>
+isPerfect(28)    <span class="cm">// true  (1+2+4+7+14 = 28)</span>
+isPerfect(12)    <span class="cm">// false</span></code></pre>
+    <div class="constraint">Use a for loop up to n/2 to find divisors.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function isPerfect(n) {
+    if (n < 2) return false;
+    let sum = 1;
+    for (let i = 2; i <= n / 2; i++) {
+        if (n % i === 0) sum += i;
+    }
+    return sum === n;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">19</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Armstrong Number</h3>
+    <p>Write <code>isArmstrong(n)</code>. An Armstrong number equals the sum of its digits raised to the power of the digit count.</p>
+    <pre><code>isArmstrong(153)   <span class="cm">// true  (1³+5³+3³ = 153)</span>
+isArmstrong(370)   <span class="cm">// true</span>
+isArmstrong(10)    <span class="cm">// false</span></code></pre>
+    <div class="constraint">Use String(), split(), map(), reduce(). No manual loops.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function isArmstrong(n) {
+    const digits = String(n).split("");
+    const len = digits.length;
+    const sum = digits.map(Number).reduce((acc, d) => acc + d ** len, 0);
+    return sum === n;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">20</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Sum of Even Fibonacci</h3>
+    <p>Write <code>evenFibSum(limit)</code>. Sum all even Fibonacci numbers below <code>limit</code>.</p>
+    <pre><code>evenFibSum(100)   <span class="cm">// 44  (2+8+34)</span>
+evenFibSum(60)    <span class="cm">// 44</span>
+evenFibSum(10)    <span class="cm">// 10  (2+8)</span></code></pre>
+    <div class="constraint">Use a while loop and an accumulator. Generate Fibonacci inline — no arrays.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function evenFibSum(limit) {
+    let sum = 0;
+    let prev = 0, curr = 1;
+    while (curr < limit) {
+        if (curr % 2 === 0) sum += curr;
+        [prev, curr] = [curr, prev + curr];
+    }
+    return sum;
+}</code></pre></div></div>
+
+</div>
+<script>
+function toggle(btn){const s=btn.nextElementSibling;s.classList.toggle('show');btn.textContent=s.classList.contains('show')?'Hide Solution':'Show Solution';}
+</script>
+</body>
+</html>

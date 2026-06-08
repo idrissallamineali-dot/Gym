@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES6 Katas — Session 2: Functions & Array Methods (30 Challenges)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0b0c10; color: #d1d4dc; line-height: 1.6; font-size: 15px; padding: 60px 20px; }
+        .container { max-width: 860px; margin: 0 auto; }
+        .header { margin-bottom: 40px; border-bottom: 1px solid #1f222e; padding-bottom: 24px; }
+        .tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #8e929f; margin-bottom: 6px; }
+        h1 { font-size: 32px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; margin-bottom: 8px; }
+        .subtitle { font-size: 15px; color: #8e929f; }
+        
+        .score { display: flex; gap: 20px; margin: 20px 0 40px; flex-wrap: wrap; }
+        .score-box { background: #121319; border: 1px solid #1f222e; border-radius: 8px; padding: 14px 20px; text-align: center; flex: 1; min-width: 120px; }
+        .score-num { font-size: 28px; font-weight: 800; color: #ffffff; font-family: 'JetBrains Mono', monospace; }
+        .score-label { font-size: 10px; color: #8e929f; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+        .exercise { background-color: #121319; border: 1px solid #1f222e; border-radius: 8px; padding: 24px; margin: 20px 0; }
+        .exercise-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .exercise-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #ffffff; background: #262936; padding: 3px 8px; border-radius: 4px; }
+        .exercise-title { font-size: 16px; font-weight: 600; color: #ffffff; flex: 1; margin-left: 12px; }
+        
+        .status-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; }
+        .status-pending { background: #262936; color: #8e929f; }
+        .status-passed { background: #1c2820; color: #52c480; }
+        .status-failed { background: #2d1a1e; color: #e55361; }
+
+        .description { font-size: 14px; color: #afb2bb; margin-bottom: 16px; }
+        .io-box { background: #07080b; border: 1px solid #181922; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+        .io-line { display: flex; margin-bottom: 4px; }
+        .io-line:last-child { margin-bottom: 0; }
+        .label { color: #8e929f; width: 80px; flex-shrink: 0; }
+        .value { color: #ffffff; }
+        
+        .code-editor { width: 100%; height: 120px; background: #07080b; border: 1px solid #1f222e; border-radius: 6px; padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #ffffff; margin-top: 12px; resize: vertical; outline: none; }
+        .code-editor:focus { border-color: #3e4255; }
+        
+        .controls { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+        .run-btn { font-family: 'Inter', sans-serif; background: #1f222e; border: 1px solid #2d313f; color: #e1e3eb; font-size: 12px; font-weight: 600; padding: 8px 18px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .run-btn:hover { background: #262936; border-color: #3e4255; }
+        
+        .result-message { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; flex: 1; }
+        .res-success { color: #52c480; }
+        .res-error { color: #e55361; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <p class="tag">ES6 Katas — Session 2</p>
+        <h1>⚡ Functions & Array Methods</h1>
+        <p class="subtitle">Exactly 30 progressive exercises covering arrow functions, callbacks, map/filter/reduce, and ES6 classes. Solve them inside the interactive editors below!</p>
+    </div>
+
+    <div class="score">
+        <div class="score-box"><div class="score-num" id="done">0</div><div class="score-label">Completed</div></div>
+        <div class="score-box"><div class="score-num">30</div><div class="score-label">Total</div></div>
+    </div>
+
+    <!-- 01 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">01</span>
+            <h3 class="exercise-title">Basic Arrow Conversion</h3>
+            <span class="status-badge status-pending" id="status-01">Pending</span>
+        </div>
+        <p class="description">Convert this standard function declaration into a clean arrow function named <code>square</code> using an **implicit return**.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">5</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">25</span></div>
+        </div>
+        <textarea class="code-editor" id="code-01" spellcheck="false">const square = (n) => {
+    // Make this a one-line implicit arrow function!
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(1)">Run Tests</button>
+            <span class="result-message" id="result-01"></span>
+        </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">02</span>
+            <h3 class="exercise-title">Single Parameter Parentheses</h3>
+            <span class="status-badge status-pending" id="status-02">Pending</span>
+        </div>
+        <p class="description">Write an arrow function named <code>isPositive</code> that takes a single number <code>n</code> and returns a boolean indicating if it is strictly greater than 0, omitting parentheses around the parameter list.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">4</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-02" spellcheck="false">const isPositive = n => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(2)">Run Tests</button>
+            <span class="result-message" id="result-02"></span>
+        </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">03</span>
+            <h3 class="exercise-title">Implicit Object Return</h3>
+            <span class="status-badge status-pending" id="status-03">Pending</span>
+        </div>
+        <p class="description">Write an arrow function named <code>makeCoords</code> that accepts <code>x</code> and <code>y</code> coordinates and returns an object literal <code>{ x, y }</code> implicitly using property shorthand.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">10, 20</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ x: 10, y: 20 }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-03" spellcheck="false">const makeCoords = (x, y) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(3)">Run Tests</button>
+            <span class="result-message" id="result-03"></span>
+        </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">04</span>
+            <h3 class="exercise-title">Default Parameter Greeting</h3>
+            <span class="status-badge status-pending" id="status-04">Pending</span>
+        </div>
+        <p class="description">Write an arrow function named <code>greet</code> that takes a <code>name</code> and a <code>greeting</code>. The <code>greeting</code> should default to <code>"Hello"</code>, returning `"[greeting], [name]!"`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Idris"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Hello, Idris!"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-04" spellcheck="false">const greet = (name, greeting) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(4)">Run Tests</button>
+            <span class="result-message" id="result-04"></span>
+        </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">05</span>
+            <h3 class="exercise-title">Curried Multiplier</h3>
+            <span class="status-badge status-pending" id="status-05">Pending</span>
+        </div>
+        <p class="description">Write a curried arrow function named <code>multiply</code> that takes a <code>factor</code>, returns a function that takes a <code>num</code>, and returns their product using consecutive arrow bindings.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">multiply(2)(5)</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">10</span></div>
+        </div>
+        <textarea class="code-editor" id="code-05" spellcheck="false">const multiply = {
+    // Make this consecutive arrow bindings!
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(5)">Run Tests</button>
+            <span class="result-message" id="result-05"></span>
+        </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">06</span>
+            <h3 class="exercise-title">Destructured Parameters</h3>
+            <span class="status-badge status-pending" id="status-06">Pending</span>
+        </div>
+        <p class="description">Write an arrow function named <code>getFullName</code> that takes an object with <code>firstName</code> and <code>lastName</code> properties, destructuring them directly inside the parameter signature to return <code>"firstName lastName"</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ firstName: "Idris", lastName: "Ahmed" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Idris Ahmed"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-06" spellcheck="false">const getFullName = ({ firstName, lastName }) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(6)">Run Tests</button>
+            <span class="result-message" id="result-06"></span>
+        </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">07</span>
+            <h3 class="exercise-title">Rest Parameter Collector</h3>
+            <span class="status-badge status-pending" id="status-07">Pending</span>
+        </div>
+        <p class="description">Write a function named <code>countArgs</code> that gathers all passed arguments into an array using the rest parameter <code>...args</code> and returns their count.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"a", "b", "c"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">3</span></div>
+        </div>
+        <textarea class="code-editor" id="code-07" spellcheck="false">function countArgs() {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(7)">Run Tests</button>
+            <span class="result-message" id="result-07"></span>
+        </div>
+    </div>
+
+    <!-- 08 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">08</span>
+            <h3 class="exercise-title">Conditional Ternary Arrow</h3>
+            <span class="status-badge status-pending" id="status-08">Pending</span>
+        </div>
+        <p class="description">Write an arrow function named <code>getDiscount</code> that takes a customer type (<code>"vip"</code> or <code>"regular"</code>) and returns <code>0.2</code> for VIP, and <code>0</code> otherwise, using a ternary expression with implicit return.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"vip"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">0.2</span></div>
+        </div>
+        <textarea class="code-editor" id="code-08" spellcheck="false">const getDiscount = (type) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(8)">Run Tests</button>
+            <span class="result-message" id="result-08"></span>
+        </div>
+    </div>
+
+    <!-- 09 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">09</span>
+            <h3 class="exercise-title">Default Config Merger</h3>
+            <span class="status-badge status-pending" id="status-09">Pending</span>
+        </div>
+        <p class="description">Write an arrow function named <code>getSettings</code> that takes custom settings, spreads them over default settings of `{ theme: "dark", debug: false }`, and sets an empty object default for the parameter.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ debug: true }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ theme: "dark", debug: true }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-09" spellcheck="false">const getSettings = (custom) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(9)">Run Tests</button>
+            <span class="result-message" id="result-09"></span>
+        </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">10</span>
+            <h3 class="exercise-title">Arrow IIFE</h3>
+            <span class="status-badge status-pending" id="status-10">Pending</span>
+        </div>
+        <p class="description">Declare a variable <code>totalPoints</code> holding the result of an arrow IIFE (Immediately Invoked Function Expression) that sums `150` and `250` and executes immediately.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">totalPoints</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">400</span></div>
+        </div>
+        <textarea class="code-editor" id="code-10" spellcheck="false">const totalPoints = (() => {
+    // Write the immediate arrow execution!
+})();</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(10)">Run Tests</button>
+            <span class="result-message" id="result-10"></span>
+        </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">11</span>
+            <h3 class="exercise-title">The Recipe Executor</h3>
+            <span class="status-badge status-pending" id="status-11">Pending</span>
+        </div>
+        <p class="description">Write a function named <code>runTwice</code> that accepts a **callback function** and a **value**, executing the callback on the value twice sequentially: `callback(callback(value))`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">n => n * 2, 5</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">20</span></div>
+        </div>
+        <textarea class="code-editor" id="code-11" spellcheck="false">function runTwice(callback, val) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(11)">Run Tests</button>
+            <span class="result-message" id="result-11"></span>
+        </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">12</span>
+            <h3 class="exercise-title">Manual Array Multiplier</h3>
+            <span class="status-badge status-pending" id="status-12">Pending</span>
+        </div>
+        <p class="description">Write a function <code>doubleAll(arr)</code> that takes an array, loops manually with a <code>for</code> loop, doubles each number, and returns the combined results in a new array. Do NOT use `.map()`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[1, 2, 3]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[2, 4, 6]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-12" spellcheck="false">function doubleAll(arr) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(12)">Run Tests</button>
+            <span class="result-message" id="result-12"></span>
+        </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">13</span>
+            <h3 class="exercise-title">Manual Array Filterer</h3>
+            <span class="status-badge status-pending" id="status-13">Pending</span>
+        </div>
+        <p class="description">Write a function <code>getEvens(arr)</code> that loops over an array manually, keeping only even integers and returning them in a new array. Do NOT use `.filter()`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[1, 2, 3, 4]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[2, 4]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-13" spellcheck="false">function getEvens(arr) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(13)">Run Tests</button>
+            <span class="result-message" id="result-13"></span>
+        </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">14</span>
+            <h3 class="exercise-title">Modern Map Doubler</h3>
+            <span class="status-badge status-pending" id="status-14">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>doubleMap(arr)</code> that maps over all elements, doubling each using the built-in <code>.map()</code> array method.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[1, 2, 3]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[2, 4, 6]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-14" spellcheck="false">const doubleMap = (arr) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(14)">Run Tests</button>
+            <span class="result-message" id="result-14"></span>
+        </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">15</span>
+            <h3 class="exercise-title">Capitalize All Strings</h3>
+            <span class="status-badge status-pending" id="status-15">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>capitalizeAll(arr)</code> that maps strings to uppercase using `.map()` and the string `.toUpperCase()` method.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">["gym", "js"]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">["GYM", "JS"]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-15" spellcheck="false">const capitalizeAll = (arr) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(15)">Run Tests</button>
+            <span class="result-message" id="result-15"></span>
+        </div>
+    </div>
+
+    <!-- 16 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">16</span>
+            <h3 class="exercise-title">Extract Object Property</h3>
+            <span class="status-badge status-pending" id="status-16">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>getAges(users)</code> that maps an array of user objects to extract and return a flat array of their age properties.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{ name: "Idris", age: 25 }, { name: "Ali", age: 30 }]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[25, 30]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-16" spellcheck="false">const getAges = (users) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(16)">Run Tests</button>
+            <span class="result-message" id="result-16"></span>
+        </div>
+    </div>
+
+    <!-- 17 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">17</span>
+            <h3 class="exercise-title">Filter Odd Numbers</h3>
+            <span class="status-badge status-pending" id="status-17">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>getOdds(arr)</code> that takes an array of numbers and keeps only the odd ones using the built-in <code>.filter()</code> method.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[1, 2, 3, 4, 5]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[1, 3, 5]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-17" spellcheck="false">const getOdds = (arr) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(17)">Run Tests</button>
+            <span class="result-message" id="result-17"></span>
+        </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">18</span>
+            <h3 class="exercise-title">Filter Active Users</h3>
+            <span class="status-badge status-pending" id="status-18">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>getActiveUsers(users)</code> that takes an array of user objects and returns only the active ones (`active: true`) using `.filter()`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{ name: "A", active: true }, { name: "B", active: false }]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[{ name: "A", active: true }]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-18" spellcheck="false">const getActiveUsers = (users) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(18)">Run Tests</button>
+            <span class="result-message" id="result-18"></span>
+        </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">19</span>
+            <h3 class="exercise-title">Find First Admin</h3>
+            <span class="status-badge status-pending" id="status-19">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>findAdmin(users)</code> that searches through users and returns the first user object with role <code>"admin"</code> using `.find()`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{ name: "A", role: "user" }, { name: "B", role: "admin" }]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ name: "B", role: "admin" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-19" spellcheck="false">const findAdmin = (users) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(19)">Run Tests</button>
+            <span class="result-message" id="result-19"></span>
+        </div>
+    </div>
+
+    <!-- 20 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">20</span>
+            <h3 class="exercise-title">Find Index of Target</h3>
+            <span class="status-badge status-pending" id="status-20">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>findUserIndex(users, targetId)</code> that returns the array index of the user whose `id` matches `targetId` using `.findIndex()` .</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{ id: 101 }, { id: 102 }], 102</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">1</span></div>
+        </div>
+        <textarea class="code-editor" id="code-20" spellcheck="false">const findUserIndex = (users, targetId) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(20)">Run Tests</button>
+            <span class="result-message" id="result-20"></span>
+        </div>
+    </div>
+
+    <!-- 21 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">21</span>
+            <h3 class="exercise-title">Has Negative Score</h3>
+            <span class="status-badge status-pending" id="status-21">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>hasNegative(scores)</code> that returns `true` if at least one score in the array is strictly negative using `.some()`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[10, 20, -5, 40]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-21" spellcheck="false">const hasNegative = (scores) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(21)">Run Tests</button>
+            <span class="result-message" id="result-21"></span>
+        </div>
+    </div>
+
+    <!-- 22 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">22</span>
+            <h3 class="exercise-title">All Users Verified</h3>
+            <span class="status-badge status-pending" id="status-22">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>allVerified(users)</code> that checks if every single user object has `verified: true` using `.every()`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{ verified: true }, { verified: false }]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">false</span></div>
+        </div>
+        <textarea class="code-editor" id="code-22" spellcheck="false">const allVerified = (users) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(22)">Run Tests</button>
+            <span class="result-message" id="result-22"></span>
+        </div>
+    </div>
+
+    <!-- 23 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">23</span>
+            <h3 class="exercise-title">Sum of Array</h3>
+            <span class="status-badge status-pending" id="status-23">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>sum(arr)</code> that takes an array of numbers and sums them together using the built-in <code>.reduce()</code> method.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[10, 20, 30]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">60</span></div>
+        </div>
+        <textarea class="code-editor" id="code-23" spellcheck="false">const sum = (arr) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(23)">Run Tests</button>
+            <span class="result-message" id="result-23"></span>
+        </div>
+    </div>
+
+    <!-- 24 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">24</span>
+            <h3 class="exercise-title">Chained Adults</h3>
+            <span class="status-badge status-pending" id="status-24">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>getAdultNames(users)</code> that filters for adults (`age >= 18`) and maps to their names in a single chained statement.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{ name: "A", age: 15 }, { name: "B", age: 20 }]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">["B"]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-24" spellcheck="false">const getAdultNames = (users) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(24)">Run Tests</button>
+            <span class="result-message" id="result-24"></span>
+        </div>
+    </div>
+
+    <!-- 25 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">25</span>
+            <h3 class="exercise-title">Fruit Inventory Counter</h3>
+            <span class="status-badge status-pending" id="status-25">Pending</span>
+        </div>
+        <p class="description">Write an arrow function <code>countInventory(inventory)</code> that sums up the total quantity `qty` of items from an array of objects using `.reduce()`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{ qty: 5 }, { qty: 10 }]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">15</span></div>
+        </div>
+        <textarea class="code-editor" id="code-25" spellcheck="false">const countInventory = (inventory) => {
+    // Your code here
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(25)">Run Tests</button>
+            <span class="result-message" id="result-25"></span>
+        </div>
+    </div>
+
+    <!-- 26 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">26</span>
+            <h3 class="exercise-title">Basic Class Blueprint</h3>
+            <span class="status-badge status-pending" id="status-26">Pending</span>
+        </div>
+        <p class="description">Create an ES6 class named <code>User</code> that accepts <code>name</code> and <code>role</code> in its constructor, with a method <code>describe()</code> returning <code>"Name: [name], Role: [role]"</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">new User("Idris", "Admin").describe()</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Name: Idris, Role: Admin"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-26" spellcheck="false">class User {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(26)">Run Tests</button>
+            <span class="result-message" id="result-26"></span>
+        </div>
+    </div>
+
+    <!-- 27 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">27</span>
+            <h3 class="exercise-title">Class Getter</h3>
+            <span class="status-badge status-pending" id="status-27">Pending</span>
+        </div>
+        <p class="description">Create a class <code>Product</code> whose constructor accepts `name`, `price`, and a default `discount = 0`. Include a getter named <code>salePrice</code> returning `price - discount`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">new Product("Shirt", 50, 10).salePrice</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">40</span></div>
+        </div>
+        <textarea class="code-editor" id="code-27" spellcheck="false">class Product {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(27)">Run Tests</button>
+            <span class="result-message" id="result-27"></span>
+        </div>
+    </div>
+
+    <!-- 28 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">28</span>
+            <h3 class="exercise-title">Subclassing (extends & super)</h3>
+            <span class="status-badge status-pending" id="status-28">Pending</span>
+        </div>
+        <p class="description">Create a class <code>Animal</code> with constructor `(name)`. Then extend it to create a subclass <code>Dog</code> accepting both `name` and `breed` using <code>super()</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">new Dog("Rex", "Husky").breed</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Husky"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-28" spellcheck="false">class Animal {
+    constructor(name) { this.name = name; }
+}
+
+class Dog extends Animal {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(28)">Run Tests</button>
+            <span class="result-message" id="result-28"></span>
+        </div>
+    </div>
+
+    <!-- 29 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">29</span>
+            <h3 class="exercise-title">Method Overriding</h3>
+            <span class="status-badge status-pending" id="status-29">Pending</span>
+        </div>
+        <p class="description">Declare a method <code>makeSound()</code> returning <code>"Some noise"</code> on class `Animal`. On subclass `Dog`, override it to return <code>"Woof!"</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">new Dog("Rex").makeSound()</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Woof!"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-29" spellcheck="false">class Animal {
+    constructor(name) { this.name = name; }
+    makeSound() { return "Some noise"; }
+}
+
+class Dog extends Animal {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(29)">Run Tests</button>
+            <span class="result-message" id="result-29"></span>
+        </div>
+    </div>
+
+    <!-- 30 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">30</span>
+            <h3 class="exercise-title">Arrow Method Bind Trap</h3>
+            <span class="status-badge status-pending" id="status-30">Pending</span>
+        </div>
+        <p class="description">Create a class <code>Button</code> with constructor `(label)`. Declare a `click` method using an **arrow function property** so `this` remains permanently bound even when extracted.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">const click = new Button("Add").click; click()</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Clicked Add"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-30" spellcheck="false">class Button {
+    constructor(label) { this.label = label; }
+    // Declare click as an arrow property!
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(30)">Run Tests</button>
+            <span class="result-message" id="result-30"></span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// Deep equality helper for objects and arrays
+function deepEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (typeof a !== typeof b) return false;
+    if (typeof a === 'object') {
+        if (Array.isArray(a) !== Array.isArray(b)) return false;
+        if (Array.isArray(a)) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (!deepEqual(a[i], b[i])) return false;
+            }
+            return true;
+        } else {
+            const keysA = Object.keys(a);
+            const keysB = Object.keys(b);
+            if (keysA.length !== keysB.length) return false;
+            for (const key of keysA) {
+                if (!keysB.includes(key) || !deepEqual(a[key], b[key])) return false;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+// Safe deep cloning helper that preserves functions
+function safeClone(val) {
+    if (val === null || val === undefined) return val;
+    if (typeof val === 'function') return val;
+    if (Array.isArray(val)) {
+        return val.map(safeClone);
+    }
+    if (typeof val === 'object') {
+        const res = {};
+        for (const k in val) {
+            res[k] = safeClone(val[k]);
+        }
+        return res;
+    }
+    return val;
+}
+
+// Test cases database
+const testCases = {
+    1: {
+        functionName: "square",
+        cases: [
+            { input: [5], expected: 25 },
+            { input: [-3], expected: 9 }
+        ]
+    },
+    2: {
+        functionName: "isPositive",
+        cases: [
+            { input: [4], expected: true },
+            { input: [-1], expected: false },
+            { input: [0], expected: false }
+        ]
+    },
+    3: {
+        functionName: "makeCoords",
+        cases: [
+            { input: [10, 20], expected: { x: 10, y: 20 } }
+        ]
+    },
+    4: {
+        functionName: "greet",
+        cases: [
+            { input: ["Idris"], expected: "Hello, Idris!" },
+            { input: ["Ali", "Welcome"], expected: "Welcome, Ali!" }
+        ]
+    },
+    5: {
+        functionName: "multiply",
+        cases: [
+            {
+                input: [],
+                expected: (got) => got(2)(5) === 10 && got(10)(3) === 30
+            }
+        ]
+    },
+    6: {
+        functionName: "getFullName",
+        cases: [
+            { input: [{ firstName: "Idris", lastName: "Ahmed" }], expected: "Idris Ahmed" }
+        ]
+    },
+    7: {
+        functionName: "countArgs",
+        cases: [
+            { input: ["a", "b", "c"], expected: 3 },
+            { input: [], expected: 0 }
+        ]
+    },
+    8: {
+        functionName: "getDiscount",
+        cases: [
+            { input: ["vip"], expected: 0.2 },
+            { input: ["regular"], expected: 0 }
+        ]
+    },
+    9: {
+        functionName: "getSettings",
+        cases: [
+            { input: [{ debug: true }], expected: { theme: "dark", debug: true } },
+            { input: [], expected: { theme: "dark", debug: false } }
+        ]
+    },
+    10: {
+        functionName: "totalPoints",
+        cases: [
+            {
+                input: [],
+                expected: (got) => got === 400
+            }
+        ]
+    },
+    11: {
+        functionName: "runTwice",
+        cases: [
+            { input: [n => n * 2, 5], expected: 20 }
+        ]
+    },
+    12: {
+        functionName: "doubleAll",
+        cases: [
+            { input: [[1, 2, 3]], expected: [2, 4, 6] }
+        ]
+    },
+    13: {
+        functionName: "getEvens",
+        cases: [
+            { input: [[1, 2, 3, 4]], expected: [2, 4] }
+        ]
+    },
+    14: {
+        functionName: "doubleMap",
+        cases: [
+            { input: [[1, 2, 3]], expected: [2, 4, 6] }
+        ]
+    },
+    15: {
+        functionName: "capitalizeAll",
+        cases: [
+            { input: [["gym", "js"]], expected: ["GYM", "JS"] }
+        ]
+    },
+    16: {
+        functionName: "getAges",
+        cases: [
+            { input: [[{ name: "Idris", age: 25 }, { name: "Ali", age: 30 }]], expected: [25, 30] }
+        ]
+    },
+    17: {
+        functionName: "getOdds",
+        cases: [
+            { input: [[1, 2, 3, 4, 5]], expected: [1, 3, 5] }
+        ]
+    },
+    18: {
+        functionName: "getActiveUsers",
+        cases: [
+            { input: [[{ name: "A", active: true }, { name: "B", active: false }]], expected: [{ name: "A", active: true }] }
+        ]
+    },
+    19: {
+        functionName: "findAdmin",
+        cases: [
+            { input: [[{ name: "Ali", role: "user" }, { name: "Idris", role: "admin" }]], expected: { name: "Idris", role: "admin" } }
+        ]
+    },
+    20: {
+        functionName: "findUserIndex",
+        cases: [
+            { input: [[{ id: 101 }, { id: 102 }], 102], expected: 1 }
+        ]
+    },
+    21: {
+        functionName: "hasNegative",
+        cases: [
+            { input: [[10, 20, -5, 40]], expected: true },
+            { input: [[10, 20, 30]], expected: false }
+        ]
+    },
+    22: {
+        functionName: "allVerified",
+        cases: [
+            { input: [[{ verified: true }, { verified: false }]], expected: false },
+            { input: [[{ verified: true }, { verified: true }]], expected: true }
+        ]
+    },
+    23: {
+        functionName: "sum",
+        cases: [
+            { input: [[10, 20, 30]], expected: 60 }
+        ]
+    },
+    24: {
+        functionName: "getAdultNames",
+        cases: [
+            { input: [[{ name: "A", age: 15 }, { name: "B", age: 20 }]], expected: ["B"] }
+        ]
+    },
+    25: {
+        functionName: "countInventory",
+        cases: [
+            { input: [[{ qty: 5 }, { qty: 10 }]], expected: 15 }
+        ]
+    },
+    26: {
+        functionName: "User",
+        cases: [
+            {
+                input: [],
+                expected: (UserClass) => {
+                    const u = new UserClass("Idris", "Admin");
+                    return u.name === "Idris" && u.role === "Admin" && u.describe() === "Name: Idris, Role: Admin";
+                }
+            }
+        ]
+    },
+    27: {
+        functionName: "Product",
+        cases: [
+            {
+                input: [],
+                expected: (ProductClass) => {
+                    const p = new ProductClass("Shirt", 50, 10);
+                    const p2 = new ProductClass("Hat", 20);
+                    return p.salePrice === 40 && p2.salePrice === 20;
+                }
+            }
+        ]
+    },
+    28: {
+        functionName: "Dog",
+        cases: [
+            {
+                input: [],
+                expected: (DogClass) => {
+                    const d = new DogClass("Rex", "Husky");
+                    return d.name === "Rex" && d.breed === "Husky";
+                }
+            }
+        ]
+    },
+    29: {
+        functionName: "Dog",
+        cases: [
+            {
+                input: [],
+                expected: (DogClass) => {
+                    const d = new DogClass("Rex");
+                    return d.makeSound() === "Woof!";
+                }
+            }
+        ]
+    },
+    30: {
+        functionName: "Button",
+        cases: [
+            {
+                input: [],
+                expected: (ButtonClass) => {
+                    const b = new ButtonClass("Add");
+                    const clickFn = b.click;
+                    return clickFn() === "Clicked Add";
+                }
+            }
+        ]
+    }
+};
+
+function runTest(id) {
+    const padId = id.toString().padStart(2, '0');
+    const code = document.getElementById(`code-${padId}`).value;
+    const testInfo = testCases[id];
+    const resultElement = document.getElementById(`result-${padId}`);
+    const statusElement = document.getElementById(`status-${padId}`);
+    
+    try {
+        // Compile the code into a sandbox function
+        let scriptFunc;
+        if (id === 10) {
+            scriptFunc = new Function(code + `\nreturn totalPoints;`);
+        } else {
+            scriptFunc = new Function(code + `\nreturn ${testInfo.functionName};`);
+        }
+        const userFunc = scriptFunc();
+        
+        if (id !== 10 && typeof userFunc !== 'function' && typeof userFunc !== 'object') {
+            throw new Error(`Definition is not loaded. Make sure you haven't renamed the target class or function!`);
+        }
+        
+        // Execute all test cases
+        for (let i = 0; i < testInfo.cases.length; i++) {
+            const tc = testInfo.cases[i];
+            
+            // Deep clone arguments to avoid parameter mutations during assertions
+            const inputArgs = safeClone(tc.input);
+            
+            let got;
+            if (id === 5 || id === 26 || id === 27 || id === 28 || id === 29 || id === 30) {
+                // Return the class / curried function directly to the validator
+                got = userFunc;
+            } else if (id === 10) {
+                got = userFunc; // totalPoints value
+            } else {
+                got = userFunc(...inputArgs);
+            }
+            
+            if (typeof tc.expected === 'function') {
+                if (!tc.expected(got, inputArgs)) {
+                    throw new Error(`Test Case ${i + 1} Failed!\nInput: ${JSON.stringify(tc.input)}\nGot unexpected result: ${JSON.stringify(got)}`);
+                }
+            } else {
+                if (!deepEqual(got, tc.expected)) {
+                    throw new Error(`Test Case ${i + 1} Failed!\nInput: ${JSON.stringify(tc.input)}\nExpected: ${JSON.stringify(tc.expected)}\nGot: ${JSON.stringify(got)}`);
+                }
+            }
+        }
+        
+        // Mark as passed
+        resultElement.className = "result-message res-success";
+        resultElement.innerHTML = "✅ All tests passed successfully!";
+        statusElement.className = "status-badge status-passed";
+        statusElement.textContent = "Passed";
+        updateProgress();
+        
+    } catch (err) {
+        // Mark as failed
+        resultElement.className = "result-message res-error";
+        resultElement.innerHTML = "❌ " + err.message.replace(/\n/g, '<br>');
+        statusElement.className = "status-badge status-failed";
+        statusElement.textContent = "Failed";
+        updateProgress();
+    }
+}
+
+function updateProgress() {
+    const passed = document.querySelectorAll('.status-badge.status-passed').length;
+    document.getElementById('done').textContent = passed;
+}
+</script>
+</body>
+</html>

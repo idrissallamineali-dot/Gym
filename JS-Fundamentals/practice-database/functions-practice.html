@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Fundamentals — Practice Database: Functions (30 Challenges)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0b0c10; color: #d1d4dc; line-height: 1.6; font-size: 15px; padding: 60px 20px; }
+        .container { max-width: 860px; margin: 0 auto; }
+        .header { margin-bottom: 40px; border-bottom: 1px solid #1f222e; padding-bottom: 24px; }
+        .tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #8e929f; margin-bottom: 6px; }
+        h1 { font-size: 32px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; margin-bottom: 8px; }
+        .subtitle { font-size: 15px; color: #8e929f; }
+        
+        .score { display: flex; gap: 20px; margin: 20px 0 40px; flex-wrap: wrap; }
+        .score-box { background: #121319; border: 1px solid #1f222e; border-radius: 8px; padding: 14px 20px; text-align: center; flex: 1; min-width: 120px; }
+        .score-num { font-size: 28px; font-weight: 800; color: #ffffff; font-family: 'JetBrains Mono', monospace; }
+        .score-label { font-size: 10px; color: #8e929f; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+        .exercise { background-color: #121319; border: 1px solid #1f222e; border-radius: 8px; padding: 24px; margin: 20px 0; }
+        .exercise-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .exercise-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #ffffff; background: #262936; padding: 3px 8px; border-radius: 4px; }
+        .exercise-title { font-size: 16px; font-weight: 600; color: #ffffff; flex: 1; margin-left: 12px; }
+        
+        .status-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; }
+        .status-pending { background: #262936; color: #8e929f; }
+        .status-passed { background: #1c2820; color: #52c480; }
+        .status-failed { background: #2d1a1e; color: #e55361; }
+
+        .description { font-size: 14px; color: #afb2bb; margin-bottom: 16px; }
+        .io-box { background: #07080b; border: 1px solid #181922; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+        .io-line { display: flex; margin-bottom: 4px; }
+        .io-line:last-child { margin-bottom: 0; }
+        .label { color: #8e929f; width: 80px; flex-shrink: 0; }
+        .value { color: #ffffff; }
+        
+        .code-editor { width: 100%; height: 120px; background: #07080b; border: 1px solid #1f222e; border-radius: 6px; padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #ffffff; margin-top: 12px; resize: vertical; outline: none; }
+        .code-editor:focus { border-color: #3e4255; }
+        
+        .controls { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+        .run-btn { font-family: 'Inter', sans-serif; background: #1f222e; border: 1px solid #2d313f; color: #e1e3eb; font-size: 12px; font-weight: 600; padding: 8px 18px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .run-btn:hover { background: #262936; border-color: #3e4255; }
+        
+        .result-message { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; flex: 1; }
+        .res-success { color: #52c480; }
+        .res-error { color: #e55361; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <p class="tag">JavaScript Fundamentals</p>
+        <h1>⚡ Function Practice Database</h1>
+        <p class="subtitle">Exactly 30 progressive exercises to master functions, closures, and callbacks. Write your solutions inside the code editors, click 'Run Tests', and check your progress in real-time!</p>
+    </div>
+
+    <div class="score">
+        <div class="score-box"><div class="score-num" id="done">0</div><div class="score-label">Completed</div></div>
+        <div class="score-box"><div class="score-num">30</div><div class="score-label">Total</div></div>
+    </div>
+
+    <!-- 01 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">01</span>
+            <h3 class="exercise-title">Basic Addition Function</h3>
+            <span class="status-badge status-pending" id="status-01">Pending</span>
+        </div>
+        <p class="description">Write a function named <code>add</code> that takes two numbers and returns their sum.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">5, 7</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">12</span></div>
+        </div>
+        <textarea class="code-editor" id="code-01" spellcheck="false">function add(a, b) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(1)">Run Tests</button>
+            <span class="result-message" id="result-01"></span>
+        </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">02</span>
+            <h3 class="exercise-title">Minutes to Seconds</h3>
+            <span class="status-badge status-pending" id="status-02">Pending</span>
+        </div>
+        <p class="description">Write a function that takes an integer representing minutes and converts it to seconds.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">5</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">300</span></div>
+        </div>
+        <textarea class="code-editor" id="code-02" spellcheck="false">function toSeconds(minutes) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(2)">Run Tests</button>
+            <span class="result-message" id="result-02"></span>
+        </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">03</span>
+            <h3 class="exercise-title">Area of Triangle</h3>
+            <span class="status-badge status-pending" id="status-03">Pending</span>
+        </div>
+        <p class="description">Write a function that calculates and returns the area of a triangle given its base and height.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">10, 5</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">25</span></div>
+        </div>
+        <textarea class="code-editor" id="code-03" spellcheck="false">function triangleArea(base, height) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(3)">Run Tests</button>
+            <span class="result-message" id="result-03"></span>
+        </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">04</span>
+            <h3 class="exercise-title">Check Even Number</h3>
+            <span class="status-badge status-pending" id="status-04">Pending</span>
+        </div>
+        <p class="description">Write a function that returns <code>true</code> if an integer is even, and <code>false</code> if it is odd.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">42</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-04" spellcheck="false">function isEven(num) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(4)">Run Tests</button>
+            <span class="result-message" id="result-04"></span>
+        </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">05</span>
+            <h3 class="exercise-title">Calculate Factorial</h3>
+            <span class="status-badge status-pending" id="status-05">Pending</span>
+        </div>
+        <p class="description">Write a function that calculates and returns the mathematical factorial of a positive integer (e.g. <code>5! = 5 * 4 * 3 * 2 * 1</code>).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">5</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">120</span></div>
+        </div>
+        <textarea class="code-editor" id="code-05" spellcheck="false">function factorial(num) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(5)">Run Tests</button>
+            <span class="result-message" id="result-05"></span>
+        </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">06</span>
+            <h3 class="exercise-title">Is Leap Year?</h3>
+            <span class="status-badge status-pending" id="status-06">Pending</span>
+        </div>
+        <p class="description">Write a function that checks if a year is a leap year. A leap year is divisible by 4, but not by 100 unless also divisible by 400.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">2024</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-06" spellcheck="false">function isLeapYear(year) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(6)">Run Tests</button>
+            <span class="result-message" id="result-06"></span>
+        </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">07</span>
+            <h3 class="exercise-title">Celsius to Fahrenheit</h3>
+            <span class="status-badge status-pending" id="status-07">Pending</span>
+        </div>
+        <p class="description">Write a function that converts temperature in Celsius to Fahrenheit using the formula <code>F = C * 1.8 + 32</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">25</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">77</span></div>
+        </div>
+        <textarea class="code-editor" id="code-07" spellcheck="false">function celsiusToFahrenheit(c) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(7)">Run Tests</button>
+            <span class="result-message" id="result-07"></span>
+        </div>
+    </div>
+
+    <!-- 08 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">08</span>
+            <h3 class="exercise-title">Generate Random Number</h3>
+            <span class="status-badge status-pending" id="status-08">Pending</span>
+        </div>
+        <p class="description">Write a function that generates and returns a random integer between a <code>min</code> value and a <code>max</code> value (both inclusive).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">1, 10</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Any integer from 1 to 10</span></div>
+        </div>
+        <textarea class="code-editor" id="code-08" spellcheck="false">function randomBetween(min, max) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(8)">Run Tests</button>
+            <span class="result-message" id="result-08"></span>
+        </div>
+    </div>
+
+    <!-- 09 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">09</span>
+            <h3 class="exercise-title">Compound Interest Calculator</h3>
+            <span class="status-badge status-pending" id="status-09">Pending</span>
+        </div>
+        <p class="description">Write a function that calculates total accrued money with compound interest given: principal amount (<code>P</code>), annual interest rate (<code>r</code>), compounding frequency per year (<code>n</code>), and time in years (<code>t</code>).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">1000, 0.05, 12, 5</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">1283.36 (approx, rounded to 2 decimal places)</span></div>
+        </div>
+        <textarea class="code-editor" id="code-09" spellcheck="false">function compoundInterest(p, r, n, t) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(9)">Run Tests</button>
+            <span class="result-message" id="result-09"></span>
+        </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">10</span>
+            <h3 class="exercise-title">Greatest Common Divisor</h3>
+            <span class="status-badge status-pending" id="status-10">Pending</span>
+        </div>
+        <p class="description">Write a function that calculates and returns the Greatest Common Divisor (GCD) of two integers using the Euclidean algorithm.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">48, 18</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">6</span></div>
+        </div>
+        <textarea class="code-editor" id="code-10" spellcheck="false">function getGCD(a, b) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(10)">Run Tests</button>
+            <span class="result-message" id="result-10"></span>
+        </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">11</span>
+            <h3 class="exercise-title">Execute Callback N Times</h3>
+            <span class="status-badge status-pending" id="status-11">Pending</span>
+        </div>
+        <p class="description">Write a function that accepts a callback function and an integer <code>n</code>, and invokes the callback exactly <code>n</code> times.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">callback, 3</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Invokes callback exactly 3 times</span></div>
+        </div>
+        <textarea class="code-editor" id="code-11" spellcheck="false">function runNTimes(callback, n) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(11)">Run Tests</button>
+            <span class="result-message" id="result-11"></span>
+        </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">12</span>
+            <h3 class="exercise-title">Callback Brancher</h3>
+            <span class="status-badge status-pending" id="status-12">Pending</span>
+        </div>
+        <p class="description">Write a function that accepts a boolean condition, a <code>successCallback</code>, and a <code>failureCallback</code>. It should execute the success callback if condition is true, otherwise the failure callback.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">condition, successFn, failFn</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Invokes appropriate callback function</span></div>
+        </div>
+        <textarea class="code-editor" id="code-12" spellcheck="false">function branch(condition, successCallback, failureCallback) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(12)">Run Tests</button>
+            <span class="result-message" id="result-12"></span>
+        </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">13</span>
+            <h3 class="exercise-title">Function Memoizer</h3>
+            <span class="status-badge status-pending" id="status-13">Pending</span>
+        </div>
+        <p class="description">Write a function that takes a single-argument function and returns a new version of it that **caches (memoizes)** its inputs and outputs. If called with a cached input, return output from cache immediately without running function again.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">memoFactorial = memoize(factorial)</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Returns memoized function with caching behavior</span></div>
+        </div>
+        <textarea class="code-editor" id="code-13" spellcheck="false">function memoize(fn) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(13)">Run Tests</button>
+            <span class="result-message" id="result-13"></span>
+        </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">14</span>
+            <h3 class="exercise-title">Function Composer</h3>
+            <span class="status-badge status-pending" id="status-14">Pending</span>
+        </div>
+        <p class="description">Write a function that takes two functions <code>f</code> and <code>g</code>, and returns a new function representing their composition: <code>f(g(x))</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">double, add5</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">A function that applies f(g(x))</span></div>
+        </div>
+        <textarea class="code-editor" id="code-14" spellcheck="false">function compose(f, g) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(14)">Run Tests</button>
+            <span class="result-message" id="result-14"></span>
+        </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">15</span>
+            <h3 class="exercise-title">Curry Binary Function</h3>
+            <span class="status-badge status-pending" id="status-15">Pending</span>
+        </div>
+        <p class="description">Write a higher-order function that takes a binary function (takes exactly 2 arguments) and returns a curried version of it (e.g. <code>curry(f)(a)(b)</code>).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">sum</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">A curried function that executes as f(a)(b)</span></div>
+        </div>
+        <textarea class="code-editor" id="code-15" spellcheck="false">function curry(fn) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(15)">Run Tests</button>
+            <span class="result-message" id="result-15"></span>
+        </div>
+    </div>
+
+    <!-- 16 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">16</span>
+            <h3 class="exercise-title">Call Limit Decorator</h3>
+            <span class="status-badge status-pending" id="status-16">Pending</span>
+        </div>
+        <p class="description">Write a function that takes a callback function and a limit integer <code>n</code>, and returns a decorated function that can only be invoked up to <code>n</code> times. All subsequent calls should return the result of the last valid call.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">fn, limit</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">A function restricted to n calls</span></div>
+        </div>
+        <textarea class="code-editor" id="code-16" spellcheck="false">function limitCalls(fn, limit) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(16)">Run Tests</button>
+            <span class="result-message" id="result-16"></span>
+        </div>
+    </div>
+
+    <!-- 17 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">17</span>
+            <h3 class="exercise-title">Delayed Execution Callback</h3>
+            <span class="status-badge status-pending" id="status-17">Pending</span>
+        </div>
+        <p class="description">Write a function that accepts a callback function and a delay time in milliseconds, and runs the callback asynchronously after the delay.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">callback, 1500</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Asynchronously calls callback after delay</span></div>
+        </div>
+        <textarea class="code-editor" id="code-17" spellcheck="false">function delayExecute(callback, delayMs) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(17)">Run Tests</button>
+            <span class="result-message" id="result-17"></span>
+        </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">18</span>
+            <h3 class="exercise-title">Partial Application</h3>
+            <span class="status-badge status-pending" id="status-18">Pending</span>
+        </div>
+        <p class="description">Write a function that takes a function and pre-fills its first argument, returning a new function that takes the remaining arguments.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">greet, "Hello"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">A partially applied function</span></div>
+        </div>
+        <textarea class="code-editor" id="code-18" spellcheck="false">function partial(fn, preFilledArg) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(18)">Run Tests</button>
+            <span class="result-message" id="result-18"></span>
+        </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">19</span>
+            <h3 class="exercise-title">Self-Counting Function</h3>
+            <span class="status-badge status-pending" id="status-19">Pending</span>
+        </div>
+        <p class="description">Write a higher-order function that takes a callback and returns a new function that acts identical to the callback but keeps track of how many times it has been called, returning the count on a <code>.getCallCount()</code> method attached to it.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">callback</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Function with .getCallCount() method</span></div>
+        </div>
+        <textarea class="code-editor" id="code-19" spellcheck="false">function makeCallCounter(callback) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(19)">Run Tests</button>
+            <span class="result-message" id="result-19"></span>
+        </div>
+    </div>
+
+    <!-- 20 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">20</span>
+            <h3 class="exercise-title">Schema Object Validator</h3>
+            <span class="status-badge status-pending" id="status-20">Pending</span>
+        </div>
+        <p class="description">Write a function that accepts an input object and a schema validator object (mapping keys to boolean validator functions). It should return <code>true</code> if every key in the object passes its validator, and <code>false</code> otherwise.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ age: 25 }, { age: n => n >= 18 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-20" spellcheck="false">function validateObj(obj, schema) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(20)">Run Tests</button>
+            <span class="result-message" id="result-20"></span>
+        </div>
+    </div>
+
+    <!-- 21 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">21</span>
+            <h3 class="exercise-title">Private Counter Closure</h3>
+            <span class="status-badge status-pending" id="status-21">Pending</span>
+        </div>
+        <p class="description">Write a function that returns a closure object with two methods: <code>increment()</code> and <code>decrement()</code>, which modify a private local <code>count</code> variable that cannot be accessed directly from outside.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">No arguments</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Object with increment() and decrement() methods</span></div>
+        </div>
+        <textarea class="code-editor" id="code-21" spellcheck="false">function createCounter() {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(21)">Run Tests</button>
+            <span class="result-message" id="result-21"></span>
+        </div>
+    </div>
+
+    <!-- 22 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">22</span>
+            <h3 class="exercise-title">Custom Validation Rule Checker</h3>
+            <span class="status-badge status-pending" id="status-22">Pending</span>
+        </div>
+        <p class="description">Write a function <code>isValid(value, rules)</code> that takes a value and an array of validator functions (rules), and returns <code>true</code> if the value passes all of them, or <code>false</code> if it fails even one.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"hello", [s => s.length > 3, s => s.startsWith("h")]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-22" spellcheck="false">function isValid(value, rules) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(22)">Run Tests</button>
+            <span class="result-message" id="result-22"></span>
+        </div>
+    </div>
+
+    <!-- 23 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">23</span>
+            <h3 class="exercise-title">Custom Array Filter</h3>
+            <span class="status-badge status-pending" id="status-23">Pending</span>
+        </div>
+        <p class="description">Write a function <code>myFilter(arr, predicate)</code> that acts exactly like the built-in <code>.filter()</code> method. Loop over the array manually and execute the predicate callback on each item. Do NOT use <code>.filter()</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[1, 2, 3, 4], n => n % 2 === 0</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[2, 4]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-23" spellcheck="false">function myFilter(arr, predicate) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(23)">Run Tests</button>
+            <span class="result-message" id="result-23"></span>
+        </div>
+    </div>
+
+    <!-- 24 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">24</span>
+            <h3 class="exercise-title">Custom Array Map</h3>
+            <span class="status-badge status-pending" id="status-24">Pending</span>
+        </div>
+        <p class="description">Write a function <code>myMap(arr, transformer)</code> that acts exactly like the built-in <code>.map()</code> method. Loop manually and execute the transformer callback on each item. Do NOT use <code>.map()</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[1, 2, 3], n => n * 10</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[10, 20, 30]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-24" spellcheck="false">function myMap(arr, transformer) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(24)">Run Tests</button>
+            <span class="result-message" id="result-24"></span>
+        </div>
+    </div>
+
+    <!-- 25 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">25</span>
+            <h3 class="exercise-title">Custom Array Reduce</h3>
+            <span class="status-badge status-pending" id="status-25">Pending</span>
+        </div>
+        <p class="description">Write a function <code>myReduce(arr, accumulatorFn, initialValue)</code> that acts exactly like the built-in <code>.reduce()</code> method. Do NOT use <code>.reduce()</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[1, 2, 3], (sum, n) => sum + n, 0</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">6</span></div>
+        </div>
+        <textarea class="code-editor" id="code-25" spellcheck="false">function myReduce(arr, accumulatorFn, initialValue) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(25)">Run Tests</button>
+            <span class="result-message" id="result-25"></span>
+        </div>
+    </div>
+
+    <!-- 26 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">26</span>
+            <h3 class="exercise-title">Function Debouncer</h3>
+            <span class="status-badge status-pending" id="status-26">Pending</span>
+        </div>
+        <p class="description">Write a function that takes a callback and a wait time in milliseconds, and returns a **debounced** version of that function. The debounced function delays execution until after `wait` milliseconds have elapsed since the last time it was invoked.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">callback, 300</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">A debounced function</span></div>
+        </div>
+        <textarea class="code-editor" id="code-26" spellcheck="false">function debounce(fn, waitMs) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(26)">Run Tests</button>
+            <span class="result-message" id="result-26"></span>
+        </div>
+    </div>
+
+    <!-- 27 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">27</span>
+            <h3 class="exercise-title">Function Throttler</h3>
+            <span class="status-badge status-pending" id="status-27">Pending</span>
+        </div>
+        <p class="description">Write a function that takes a callback and a limit time in milliseconds, and returns a **throttled** version of that function. The throttled function will only invoke the callback at most once per `limit` milliseconds.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">callback, 500</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">A throttled function</span></div>
+        </div>
+        <textarea class="code-editor" id="code-27" spellcheck="false">function throttle(fn, limitMs) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(27)">Run Tests</button>
+            <span class="result-message" id="result-27"></span>
+        </div>
+    </div>
+
+    <!-- 28 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">28</span>
+            <h3 class="exercise-title">Check Prime Number</h3>
+            <span class="status-badge status-pending" id="status-28">Pending</span>
+        </div>
+        <p class="description">Write an efficient function that checks if a positive integer is a prime number (has no divisors other than 1 and itself).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">17</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-28" spellcheck="false">function isPrime(num) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(28)">Run Tests</button>
+            <span class="result-message" id="result-28"></span>
+        </div>
+    </div>
+
+    <!-- 29 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">29</span>
+            <h3 class="exercise-title">Nth Fibonacci Number</h3>
+            <span class="status-badge status-pending" id="status-29">Pending</span>
+        </div>
+        <p class="description">Write a function that returns the Nth Fibonacci number in the sequence <code>0, 1, 1, 2, 3, 5, 8, 13...</code> where each number is the sum of the two preceding ones. Solve recursively or iteratively.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">7</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">13</span></div>
+        </div>
+        <textarea class="code-editor" id="code-29" spellcheck="false">function fibonacci(n) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(29)">Run Tests</button>
+            <span class="result-message" id="result-29"></span>
+        </div>
+    </div>
+
+    <!-- 30 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">30</span>
+            <h3 class="exercise-title">Recursive Power</h3>
+            <span class="status-badge status-pending" id="status-30">Pending</span>
+        </div>
+        <p class="description">Write a recursive function that calculates and returns the base raised to the exponent power (e.g. <code>power(2, 5) = 32</code>). Do NOT use <code>Math.pow()</code> or the exponential operator <code>**</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">2, 5</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">32</span></div>
+        </div>
+        <textarea class="code-editor" id="code-30" spellcheck="false">function power(base, exponent) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(30)">Run Tests</button>
+            <span class="result-message" id="result-30"></span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// Deep equality helper for objects and arrays
+function deepEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (typeof a !== typeof b) return false;
+    if (typeof a === 'object') {
+        if (Array.isArray(a) !== Array.isArray(b)) return false;
+        if (Array.isArray(a)) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (!deepEqual(a[i], b[i])) return false;
+            }
+            return true;
+        } else {
+            const keysA = Object.keys(a);
+            const keysB = Object.keys(b);
+            if (keysA.length !== keysB.length) return false;
+            for (const key of keysA) {
+                if (!keysB.includes(key) || !deepEqual(a[key], b[key])) return false;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+// Safe deep cloning helper that preserves functions
+function safeClone(val) {
+    if (val === null || val === undefined) return val;
+    if (typeof val === 'function') return val;
+    if (Array.isArray(val)) {
+        return val.map(safeClone);
+    }
+    if (typeof val === 'object') {
+        const res = {};
+        for (const k in val) {
+            res[k] = safeClone(val[k]);
+        }
+        return res;
+    }
+    return val;
+}
+
+// Global spying variables for callback tests
+let memoCalls = 0;
+let limitCallsCount = 0;
+let debounceCount = 0;
+let throttleCount = 0;
+
+// Test cases database
+const testCases = {
+    1: {
+        functionName: "add",
+        cases: [
+            { input: [5, 7], expected: 12 },
+            { input: [-1, 1], expected: 0 },
+            { input: [0, 0], expected: 0 }
+        ]
+    },
+    2: {
+        functionName: "toSeconds",
+        cases: [
+            { input: [5], expected: 300 },
+            { input: [0], expected: 0 },
+            { input: [10], expected: 600 }
+        ]
+    },
+    3: {
+        functionName: "triangleArea",
+        cases: [
+            { input: [10, 5], expected: 25 },
+            { input: [6, 4], expected: 12 },
+            { input: [0, 5], expected: 0 }
+        ]
+    },
+    4: {
+        functionName: "isEven",
+        cases: [
+            { input: [42], expected: true },
+            { input: [7], expected: false },
+            { input: [0], expected: true }
+        ]
+    },
+    5: {
+        functionName: "factorial",
+        cases: [
+            { input: [5], expected: 120 },
+            { input: [0], expected: 1 },
+            { input: [3], expected: 6 }
+        ]
+    },
+    6: {
+        functionName: "isLeapYear",
+        cases: [
+            { input: [2024], expected: true },
+            { input: [2100], expected: false },
+            { input: [2000], expected: true }
+        ]
+    },
+    7: {
+        functionName: "celsiusToFahrenheit",
+        cases: [
+            { input: [25], expected: 77 },
+            { input: [0], expected: 32 },
+            { input: [-40], expected: -40 }
+        ]
+    },
+    8: {
+        functionName: "randomBetween",
+        cases: [
+            { input: [1, 10], expected: got => got >= 1 && got <= 10 && Number.isInteger(got) },
+            { input: [5, 5], expected: got => got === 5 },
+            { input: [-5, 0], expected: got => got >= -5 && got <= 0 && Number.isInteger(got) }
+        ]
+    },
+    9: {
+        functionName: "compoundInterest",
+        cases: [
+            { input: [1000, 0.05, 12, 5], expected: got => Math.abs(got - 1283.36) < 0.05 },
+            { input: [5000, 0.08, 4, 3], expected: got => Math.abs(got - 6341.21) < 0.05 },
+            { input: [100, 0.02, 1, 10], expected: got => Math.abs(got - 121.90) < 0.05 }
+        ]
+    },
+    10: {
+        functionName: "getGCD",
+        cases: [
+            { input: [48, 18], expected: 6 },
+            { input: [1071, 462], expected: 21 },
+            { input: [7, 3], expected: 1 }
+        ]
+    },
+    11: {
+        functionName: "runNTimes",
+        cases: [
+            {
+                input: [() => { window.runNCount = (window.runNCount || 0) + 1; }, 3],
+                expected: (got, args) => {
+                    window.runNCount = 0;
+                    args[0](); // executing user callback n times happens inside the user's function
+                    // Wait, we need to let the user's function execute the callback!
+                    // In runTest:got = userFunc(...args);
+                    // Since args[0] increments window.runNCount, we check if it is 3!
+                    return window.runNCount === 3;
+                }
+            },
+            {
+                input: [() => { window.runNCount2 = (window.runNCount2 || 0) + 1; }, 0],
+                expected: (got, args) => {
+                    window.runNCount2 = 0;
+                    return window.runNCount2 === 0;
+                }
+            },
+            {
+                input: [() => { window.runNCount3 = (window.runNCount3 || 0) + 1; }, 1],
+                expected: (got, args) => {
+                    window.runNCount3 = 0;
+                    return window.runNCount3 === 1;
+                }
+            }
+        ]
+    },
+    12: {
+        functionName: "branch",
+        cases: [
+            {
+                input: [true, () => "success", () => "failure"],
+                expected: got => got === "success"
+            },
+            {
+                input: [false, () => "success", () => "failure"],
+                expected: got => got === "failure"
+            },
+            {
+                input: [5 > 10, () => 1, () => 2],
+                expected: got => got === 2
+            }
+        ]
+    },
+    13: {
+        functionName: "memoize",
+        cases: [
+            {
+                input: [(x) => { memoCalls++; return x * 2; }],
+                expected: (memoized) => {
+                    memoCalls = 0;
+                    if (memoized(5) !== 10) return false;
+                    if (memoized(5) !== 10) return false;
+                    if (memoCalls !== 1) return false; // Pulled from cache!
+                    if (memoized(10) !== 20) return false;
+                    return memoCalls === 2;
+                }
+            }
+        ]
+    },
+    14: {
+        functionName: "compose",
+        cases: [
+            {
+                input: [x => x * 2, x => x + 5],
+                expected: (composed) => composed(10) === 30 && composed(3) === 16
+            },
+            {
+                input: [x => x - 1, x => x * x],
+                expected: (composed) => composed(5) === 24 && composed(3) === 8
+            }
+        ]
+    },
+    15: {
+        functionName: "curry",
+        cases: [
+            {
+                input: [(a, b) => a + b],
+                expected: (curried) => curried(5)(10) === 15 && curried(1)(2) === 3
+            },
+            {
+                input: [(x, y) => x * y],
+                expected: (curried) => curried(4)(5) === 20
+            }
+        ]
+    },
+    16: {
+        functionName: "limitCalls",
+        cases: [
+            {
+                input: [() => { limitCallsCount++; return "Hi"; }, 2],
+                expected: (limited) => {
+                    limitCallsCount = 0;
+                    if (limited() !== "Hi") return false;
+                    if (limited() !== "Hi") return false;
+                    if (limited() !== "Hi") return false;
+                    return limitCallsCount === 2; // only executed twice, third call was cached return!
+                }
+            }
+        ]
+    },
+    17: {
+        functionName: "delayExecute",
+        cases: [
+            {
+                input: [],
+                expected: (delayExecuteFn) => {
+                    let called = false;
+                    let capturedDelay = 0;
+                    const originalSetTimeout = window.setTimeout;
+                    window.setTimeout = (cb, delay) => {
+                        capturedDelay = delay;
+                        cb();
+                    };
+                    try {
+                        delayExecuteFn(() => { called = true; }, 1500);
+                    } finally {
+                        window.setTimeout = originalSetTimeout;
+                    }
+                    return called && capturedDelay === 1500;
+                }
+            }
+        ]
+    },
+    18: {
+        functionName: "partial",
+        cases: [
+            {
+                input: [(g, name) => `${g}, ${name}!`, "Hello"],
+                expected: (partially) => partially("Idris") === "Hello, Idris!" && partially("World") === "Hello, World!"
+            },
+            {
+                input: [(a, b) => a * b, 10],
+                expected: (partially) => partially(5) === 50
+            }
+        ]
+    },
+    19: {
+        functionName: "makeCallCounter",
+        cases: [
+            {
+                input: [() => "test"],
+                expected: (c) => {
+                    c(); c();
+                    return typeof c.getCallCount === 'function' && c.getCallCount() === 2;
+                }
+            }
+        ]
+    },
+    20: {
+        functionName: "validateObj",
+        cases: [
+            { input: [{ age: 25, name: "Idris" }, { age: n => n >= 18, name: s => typeof s === 'string' }], expected: true },
+            { input: [{ age: 15, name: "Idris" }, { age: n => n >= 18, name: s => typeof s === 'string' }], expected: false },
+            { input: [{ age: 25 }, { age: n => n >= 18, name: s => typeof s === 'string' }], expected: false }
+        ]
+    },
+    21: {
+        functionName: "createCounter",
+        cases: [
+            {
+                input: [],
+                expected: (counter) => {
+                    const a = counter.increment();
+                    const b = counter.increment();
+                    const c = counter.decrement();
+                    return a === 1 && b === 2 && c === 1 && counter.count === undefined;
+                }
+            }
+        ]
+    },
+    22: {
+        functionName: "isValid",
+        cases: [
+            { input: ["hello", [s => s.length > 3, s => s.startsWith("h")]], expected: true },
+            { input: ["hi", [s => s.length > 3, s => s.startsWith("h")]], expected: false },
+            { input: ["world", [s => s.length > 3, s => s.startsWith("h")]], expected: false }
+        ]
+    },
+    23: {
+        functionName: "myFilter",
+        cases: [
+            { input: [[1, 2, 3, 4], n => n % 2 === 0], expected: [2, 4] },
+            { input: [[5, 6, 7], n => n > 10], expected: [] },
+            { input: [[], n => true], expected: [] }
+        ]
+    },
+    24: {
+        functionName: "myMap",
+        cases: [
+            { input: [[1, 2, 3], n => n * 10], expected: [10, 20, 30] },
+            { input: [["a", "b"], s => s.toUpperCase()], expected: ["A", "B"] },
+            { input: [[], x => x], expected: [] }
+        ]
+    },
+    25: {
+        functionName: "myReduce",
+        cases: [
+            { input: [[1, 2, 3], (sum, n) => sum + n, 0], expected: 6 },
+            { input: [["a", "b", "c"], (str, char) => str + char, ""], expected: "abc" },
+            { input: [[2, 3, 4], (prod, n) => prod * n, 1], expected: 24 }
+        ]
+    },
+    26: {
+        functionName: "debounce",
+        cases: [
+            {
+                input: [() => { debounceCount++; }, 300],
+                expected: (debounced) => {
+                    debounceCount = 0;
+                    let timeoutCb = null;
+                    let capturedDelay = 0;
+                    let cleared = 0;
+                    const originalSetTimeout = window.setTimeout;
+                    const originalClearTimeout = window.clearTimeout;
+                    window.setTimeout = (cb, delay) => {
+                        timeoutCb = cb;
+                        capturedDelay = delay;
+                        return 999;
+                    };
+                    window.clearTimeout = (id) => {
+                        if (id === 999) cleared++;
+                    };
+                    try {
+                        debounced();
+                        debounced();
+                        debounced();
+                        if (cleared !== 2) return false;
+                        if (timeoutCb) timeoutCb();
+                    } finally {
+                        window.setTimeout = originalSetTimeout;
+                        window.clearTimeout = originalClearTimeout;
+                    }
+                    return debounceCount === 1 && capturedDelay === 300;
+                }
+            }
+        ]
+    },
+    27: {
+        functionName: "throttle",
+        cases: [
+            {
+                input: [() => { throttleCount++; }, 500],
+                expected: (throttled) => {
+                    throttleCount = 0;
+                    let currentTime = 1000;
+                    const originalDateNow = Date.now;
+                    Date.now = () => currentTime;
+                    try {
+                        throttled(); // executes immediately (currentTime = 1000)
+                        throttled(); // throttled (currentTime = 1000)
+                        currentTime = 1200;
+                        throttled(); // throttled (currentTime = 1200)
+                        currentTime = 1600;
+                        throttled(); // executes (currentTime = 1600)
+                    } finally {
+                        Date.now = originalDateNow;
+                    }
+                    return throttleCount === 2;
+                }
+            }
+        ]
+    },
+    28: {
+        functionName: "isPrime",
+        cases: [
+            { input: [17], expected: true },
+            { input: [4], expected: false },
+            { input: [1], expected: false }
+        ]
+    },
+    29: {
+        functionName: "fibonacci",
+        cases: [
+            { input: [7], expected: 13 },
+            { input: [0], expected: 0 },
+            { input: [1], expected: 1 }
+        ]
+    },
+    30: {
+        functionName: "power",
+        cases: [
+            { input: [2, 5], expected: 32 },
+            { input: [5, 3], expected: 125 },
+            { input: [3, 0], expected: 1 }
+        ]
+    }
+};
+
+function runTest(id) {
+    const padId = id.toString().padStart(2, '0');
+    const code = document.getElementById(`code-${padId}`).value;
+    const testInfo = testCases[id];
+    const resultElement = document.getElementById(`result-${padId}`);
+    const statusElement = document.getElementById(`status-${padId}`);
+    
+    try {
+        // Compile the code into a sandbox function
+        const scriptFunc = new Function(code + `\nreturn ${testInfo.functionName};`);
+        const userFunc = scriptFunc();
+        
+        if (typeof userFunc !== 'function') {
+            throw new Error(`Function '${testInfo.functionName}' is not defined. Make sure you haven't renamed it!`);
+        }
+        
+        // Execute all test cases
+        for (let i = 0; i < testInfo.cases.length; i++) {
+            const tc = testInfo.cases[i];
+            
+            // Deep clone arguments to avoid parameter mutations during assertions
+            const inputArgs = safeClone(tc.input);
+            const got = userFunc(...inputArgs);
+            
+            if (typeof tc.expected === 'function') {
+                if (!tc.expected(got, inputArgs)) {
+                    throw new Error(`Test Case ${i + 1} Failed!\nInput: ${JSON.stringify(tc.input)}\nGot unexpected result: ${got}`);
+                }
+            } else {
+                if (!deepEqual(got, tc.expected)) {
+                    throw new Error(`Test Case ${i + 1} Failed!\nInput: ${JSON.stringify(tc.input)}\nExpected: ${JSON.stringify(tc.expected)}\nGot: ${JSON.stringify(got)}`);
+                }
+            }
+        }
+        
+        // Mark as passed
+        resultElement.className = "result-message res-success";
+        resultElement.innerHTML = "✅ All tests passed successfully!";
+        statusElement.className = "status-badge status-passed";
+        statusElement.textContent = "Passed";
+        updateProgress();
+        
+    } catch (err) {
+        // Mark as failed
+        resultElement.className = "result-message res-error";
+        resultElement.innerHTML = "❌ " + err.message.replace(/\n/g, '<br>');
+        statusElement.className = "status-badge status-failed";
+        statusElement.textContent = "Failed";
+        updateProgress();
+    }
+}
+
+function updateProgress() {
+    const passed = document.querySelectorAll('.status-badge.status-passed').length;
+    document.getElementById('done').textContent = passed;
+}
+</script>
+</body>
+</html>

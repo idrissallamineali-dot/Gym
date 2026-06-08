@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04 — Loops</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+        .container { max-width: 820px; margin: 0 auto; }
+        .doc-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; margin-bottom: 48px; }
+        .doc-nav span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #5e6e8a; }
+        .doc-nav a { color: #58a6ff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 8px 18px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 10px; transition: 0.2s; }
+        .doc-nav a:hover { background: rgba(88,166,255,0.15); }
+        h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+        h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+        h2 .num { color: #58a6ff; }
+        h3 { font-size: 19px; font-weight: 600; color: #e2e8f0; margin-top: 36px; margin-bottom: 12px; }
+        h4 { font-size: 16px; font-weight: 600; color: #d0d8e4; margin-top: 28px; margin-bottom: 10px; }
+        p { margin-bottom: 18px; color: #b0bac9; }
+        strong { color: #e2e8f0; }
+        em { color: #93aac9; font-style: italic; }
+        code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+        pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 16px 0 24px 0; overflow-x: auto; position: relative; }
+        pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+        .code-label { position: absolute; top: 10px; right: 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #3d4f6f; }
+        .kw { color: #ff7b72; } .str { color: #a5d6ff; } .fn { color: #d2a8ff; } .cm { color: #5e6e8a; font-style: italic; } .num-lit { color: #79c0ff; } .bool { color: #ff7b72; }
+        table { width: 100%; border-collapse: collapse; margin: 18px 0 28px 0; }
+        th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5e6e8a; padding: 12px 18px; border-bottom: 2px solid #1e2d4a; }
+        td { padding: 14px 18px; border-bottom: 1px solid #141a2e; font-size: 15px; }
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(88,166,255,0.03); }
+        .callout { border-left: 4px solid; border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 22px 0; font-size: 14.5px; }
+        .callout-blue { background: rgba(88,166,255,0.06); border-color: #58a6ff; }
+        .callout-amber { background: rgba(245,158,11,0.06); border-color: #f59e0b; }
+        .callout-green { background: rgba(16,185,129,0.06); border-color: #10b981; }
+        .callout-red { background: rgba(248,81,73,0.06); border-color: #f85149; }
+        .callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-blue strong { color: #58a6ff; } .callout-amber strong { color: #f59e0b; } .callout-green strong { color: #10b981; } .callout-red strong { color: #f85149; }
+        hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+        ul, ol { margin: 12px 0 20px 24px; color: #b0bac9; }
+        li { margin-bottom: 8px; }
+        .flow-diagram { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 24px; margin: 20px 0 28px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; color: #8b949e; white-space: pre; overflow-x: auto; }
+        .fd-yes { color: #10b981; font-weight: 700; } .fd-no { color: #f85149; font-weight: 700; } .fd-box { color: #58a6ff; } .fd-action { color: #d2a8ff; }
+        .iter-table { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+        .iter-table td, .iter-table th { padding: 8px 14px; }
+        .bottom-nav { margin-top: 64px; display: flex; justify-content: space-between; gap: 16px; }
+        .bottom-nav a { flex: 1; padding: 20px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; text-decoration: none; transition: 0.2s; }
+        .bottom-nav a:hover { border-color: #58a6ff; }
+        .bottom-nav .label { font-size: 12px; color: #5e6e8a; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        .bottom-nav .title { font-size: 16px; font-weight: 600; color: #58a6ff; }
+        .bottom-nav .prev { text-align: left; } .bottom-nav .next { text-align: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <nav class="doc-nav">
+            <span>JS Fundamentals</span>
+            <a href="03-conditionals.html">← Prev</a>
+            <span>Lesson 04</span>
+        </nav>
+
+        <h1>04 — Loops</h1>
+        <p class="subtitle">How to repeat actions efficiently. Loops are the engine behind processing lists, building UIs, and handling data at scale.</p>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">1.</span> What Is a Loop?</h2>
+
+        <p>A loop is a structure that <strong>repeats a block of code</strong> as long as a condition remains true. Without loops, you would need to write the same code over and over for every item:</p>
+
+        <pre><code><span class="cm">// Without a loop (repetitive, fragile, does not scale):</span>
+<span class="fn">console</span>.<span class="fn">log</span>(students[<span class="num-lit">0</span>]);
+<span class="fn">console</span>.<span class="fn">log</span>(students[<span class="num-lit">1</span>]);
+<span class="fn">console</span>.<span class="fn">log</span>(students[<span class="num-lit">2</span>]);
+<span class="fn">console</span>.<span class="fn">log</span>(students[<span class="num-lit">3</span>]);
+<span class="cm">// What if there are 10,000 students?</span>
+
+<span class="cm">// With a loop (scalable, clean):</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num-lit">0</span>; i < students.length; i++) {
+    <span class="fn">console</span>.<span class="fn">log</span>(students[i]);
+}</code></pre>
+
+        <p>Every loop has three core elements:</p>
+        <ol>
+            <li><strong>Initialization</strong> — setting a starting point (e.g., counter = 0).</li>
+            <li><strong>Condition</strong> — checked before each iteration; if false, the loop stops.</li>
+            <li><strong>Update</strong> — modifying the counter so the loop eventually ends.</li>
+        </ol>
+
+        <div class="flow-diagram"><span class="fd-box">[ Initialize counter ]</span>
+         │
+         ▼
+    ┌──────────────────┐
+    │ <span class="fd-box">Is condition true?</span> │◄──────────────┐
+    └──────────────────┘               │
+         │              │              │
+       <span class="fd-yes">YES</span>            <span class="fd-no">NO</span>            │
+         │              │              │
+         ▼              ▼              │
+  <span class="fd-action">[ Execute body ]</span>   <span class="fd-box">[ Exit loop ]</span>   │
+         │                             │
+         ▼                             │
+  <span class="fd-action">[ Update counter ]</span> ────────────────┘</div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">2.</span> The <code>for</code> Loop (The Classic)</h2>
+
+        <p>The most common loop. All three elements (initialization, condition, update) are declared on a single line.</p>
+
+        <pre><code><span class="cm">//     initialization;  condition;    update</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num-lit">0</span>;        i < <span class="num-lit">5</span>;        i++) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Iteration:"</span>, i);
+}
+<span class="cm">// Output: 0, 1, 2, 3, 4</span></code></pre>
+
+        <h4>Step-by-step execution trace:</h4>
+
+        <table class="iter-table">
+            <thead>
+                <tr><th>Step</th><th><code>i</code></th><th>Condition <code>i < 5</code></th><th>Action</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>0</td><td>true</td><td>Execute body, log 0, then i++ → i becomes 1</td></tr>
+                <tr><td>2</td><td>1</td><td>true</td><td>Execute body, log 1, then i++ → i becomes 2</td></tr>
+                <tr><td>3</td><td>2</td><td>true</td><td>Execute body, log 2, then i++ → i becomes 3</td></tr>
+                <tr><td>4</td><td>3</td><td>true</td><td>Execute body, log 3, then i++ → i becomes 4</td></tr>
+                <tr><td>5</td><td>4</td><td>true</td><td>Execute body, log 4, then i++ → i becomes 5</td></tr>
+                <tr><td>6</td><td>5</td><td>false</td><td><strong>Loop exits</strong></td></tr>
+            </tbody>
+        </table>
+
+        <h3>2.1 — Looping Through an Array</h3>
+
+        <p>This is by far the most common use case for <code>for</code> loops:</p>
+
+        <pre><code><span class="kw">const</span> colors = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>];
+
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num-lit">0</span>; i < colors.length; i++) {
+    <span class="fn">console</span>.<span class="fn">log</span>(colors[i]);
+}
+<span class="cm">// "red", "green", "blue"</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>Why i < array.length and not i <= array.length?</strong>
+            Arrays are <strong>zero-indexed</strong>: the first element is at index 0, the last is at index <code>length - 1</code>. If you use <code><=</code>, you will access one index beyond the array, which returns <code>undefined</code>.
+            <br><br>
+            <code>["a", "b", "c"]</code> → length is 3, valid indices are 0, 1, 2.
+        </div>
+
+        <h3>2.2 — Looping Backwards</h3>
+
+        <pre><code><span class="kw">const</span> nums = [<span class="num-lit">10</span>, <span class="num-lit">20</span>, <span class="num-lit">30</span>];
+
+<span class="kw">for</span> (<span class="kw">let</span> i = nums.length - <span class="num-lit">1</span>; i >= <span class="num-lit">0</span>; i--) {
+    <span class="fn">console</span>.<span class="fn">log</span>(nums[i]);
+}
+<span class="cm">// 30, 20, 10</span></code></pre>
+
+        <h3>2.3 — Nested Loops</h3>
+
+        <p>A loop inside a loop. The inner loop runs <strong>completely</strong> for each single iteration of the outer loop.</p>
+
+        <pre><code><span class="kw">for</span> (<span class="kw">let</span> row = <span class="num-lit">1</span>; row <= <span class="num-lit">3</span>; row++) {
+    <span class="kw">for</span> (<span class="kw">let</span> col = <span class="num-lit">1</span>; col <= <span class="num-lit">3</span>; col++) {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Row ${row}, Col ${col}`</span>);
+    }
+}
+<span class="cm">// Row 1 Col 1, Row 1 Col 2, Row 1 Col 3,</span>
+<span class="cm">// Row 2 Col 1, Row 2 Col 2, Row 2 Col 3,</span>
+<span class="cm">// Row 3 Col 1, Row 3 Col 2, Row 3 Col 3</span></code></pre>
+
+        <div class="callout callout-red">
+            <strong>Performance warning</strong>
+            Nested loops multiply iterations. An outer loop of 1,000 × an inner loop of 1,000 = <strong>1,000,000 iterations</strong>. Be careful with nested loops on large datasets.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">3.</span> The <code>while</code> Loop</h2>
+
+        <p>The <code>while</code> loop checks the condition <strong>before</strong> each iteration. If the condition is false from the start, the body never executes.</p>
+
+        <pre><code><span class="kw">let</span> count = <span class="num-lit">0</span>;
+
+<span class="kw">while</span> (count < <span class="num-lit">5</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Count:"</span>, count);
+    count++;  <span class="cm">// Don't forget to update! Otherwise → infinite loop</span>
+}
+<span class="cm">// 0, 1, 2, 3, 4</span></code></pre>
+
+        <h4>When to use <code>while</code> instead of <code>for</code>:</h4>
+        <p>Use <code>while</code> when you <strong>don't know in advance</strong> how many iterations you need — the loop continues until a condition changes.</p>
+
+        <pre><code><span class="cm">// Example: keep asking for input until valid</span>
+<span class="kw">let</span> password = <span class="str">""</span>;
+
+<span class="kw">while</span> (password !== <span class="str">"secret123"</span>) {
+    password = <span class="fn">prompt</span>(<span class="str">"Enter password:"</span>);
+}
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Access granted!"</span>);</code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">4.</span> The <code>do...while</code> Loop</h2>
+
+        <p>The <code>do...while</code> loop checks the condition <strong>after</strong> each iteration. This guarantees the body executes <strong>at least once</strong>, even if the condition is false.</p>
+
+        <pre><code><span class="kw">let</span> num = <span class="num-lit">10</span>;
+
+<span class="kw">do</span> {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"This runs at least once! num ="</span>, num);
+    num++;
+} <span class="kw">while</span> (num < <span class="num-lit">5</span>);
+
+<span class="cm">// Output: "This runs at least once! num = 10"</span>
+<span class="cm">// The condition (10 < 5) is false, but the body already ran once</span></code></pre>
+
+        <h4>Comparison:</h4>
+        <table>
+            <thead>
+                <tr><th>Feature</th><th><code>while</code></th><th><code>do...while</code></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Condition checked</td><td>Before the body</td><td>After the body</td></tr>
+                <tr><td>Minimum executions</td><td>0 (if condition is false immediately)</td><td>1 (body always runs at least once)</td></tr>
+            </tbody>
+        </table>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">5.</span> <code>break</code> and <code>continue</code></h2>
+
+        <p>These two keywords give you <strong>fine-grained control</strong> over loop execution.</p>
+
+        <h3>5.1 — <code>break</code>: Exit the Loop Immediately</h3>
+
+        <p>When the engine hits <code>break</code>, it stops the loop entirely, no matter how many iterations are left.</p>
+
+        <pre><code><span class="kw">const</span> numbers = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">4</span>, <span class="num-lit">5</span>, <span class="num-lit">6</span>, <span class="num-lit">7</span>, <span class="num-lit">8</span>];
+
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num-lit">0</span>; i < numbers.length; i++) {
+    <span class="kw">if</span> (numbers[i] === <span class="num-lit">5</span>) {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Found 5! Stopping."</span>);
+        <span class="kw">break</span>;  <span class="cm">// Exit the loop immediately</span>
+    }
+    <span class="fn">console</span>.<span class="fn">log</span>(numbers[i]);
+}
+<span class="cm">// Output: 1, 2, 3, 4, "Found 5! Stopping."</span>
+<span class="cm">// 6, 7, 8 are never processed</span></code></pre>
+
+        <h3>5.2 — <code>continue</code>: Skip to the Next Iteration</h3>
+
+        <p><code>continue</code> skips the <strong>rest of the current iteration</strong> and jumps straight to the next one.</p>
+
+        <pre><code><span class="kw">for</span> (<span class="kw">let</span> i = <span class="num-lit">1</span>; i <= <span class="num-lit">10</span>; i++) {
+    <span class="kw">if</span> (i % <span class="num-lit">2</span> !== <span class="num-lit">0</span>) {
+        <span class="kw">continue</span>;  <span class="cm">// Skip odd numbers</span>
+    }
+    <span class="fn">console</span>.<span class="fn">log</span>(i);
+}
+<span class="cm">// Output: 2, 4, 6, 8, 10 (only even numbers)</span></code></pre>
+
+        <div class="callout callout-blue">
+            <strong>When to use each</strong>
+            <code>break</code> = you found what you needed, no reason to keep looping.<br>
+            <code>continue</code> = this particular item is not relevant, skip it and check the next one.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">6.</span> <code>for...in</code> Loop (Iterating Over Object Keys)</h2>
+
+        <p>The <code>for...in</code> loop iterates over the <strong>enumerable property names (keys)</strong> of an object.</p>
+
+        <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    age: <span class="num-lit">25</span>,
+    role: <span class="str">"Developer"</span>
+};
+
+<span class="kw">for</span> (<span class="kw">let</span> key <span class="kw">in</span> user) {
+    <span class="fn">console</span>.<span class="fn">log</span>(key, <span class="str">"→"</span>, user[key]);
+}
+<span class="cm">// "name → Idris"</span>
+<span class="cm">// "age → 25"</span>
+<span class="cm">// "role → Developer"</span></code></pre>
+
+        <div class="callout callout-red">
+            <strong>Do NOT use for...in on arrays</strong>
+            <code>for...in</code> iterates over <strong>keys</strong> (which for arrays are the string indices "0", "1", "2"...). It can also pick up inherited prototype properties. Use <code>for...of</code> or a standard <code>for</code> loop for arrays instead.
+        </div>
+
+        <pre><code><span class="cm">// ❌ BAD — for...in on an array</span>
+<span class="kw">const</span> arr = [<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>];
+<span class="kw">for</span> (<span class="kw">let</span> index <span class="kw">in</span> arr) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> index);  <span class="cm">// "string" — indices are strings, not numbers!</span>
+}
+
+<span class="cm">// ✅ GOOD — for...of on an array</span>
+<span class="kw">for</span> (<span class="kw">let</span> value <span class="kw">of</span> arr) {
+    <span class="fn">console</span>.<span class="fn">log</span>(value);  <span class="cm">// "a", "b", "c"</span>
+}</code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">7.</span> <code>for...of</code> Loop (ES6 — Iterating Over Values)</h2>
+
+        <p>The <code>for...of</code> loop iterates over <strong>iterable objects</strong> — arrays, strings, Maps, Sets, and more. It gives you the <strong>values</strong> directly, not the indices.</p>
+
+        <pre><code><span class="kw">const</span> fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>];
+
+<span class="kw">for</span> (<span class="kw">const</span> fruit <span class="kw">of</span> fruits) {
+    <span class="fn">console</span>.<span class="fn">log</span>(fruit);
+}
+<span class="cm">// "apple", "banana", "cherry"</span></code></pre>
+
+        <h4>Works on strings (iterates over each character):</h4>
+
+        <pre><code><span class="kw">for</span> (<span class="kw">const</span> char <span class="kw">of</span> <span class="str">"Hello"</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(char);
+}
+<span class="cm">// "H", "e", "l", "l", "o"</span></code></pre>
+
+        <h4>Supports <code>break</code> and <code>continue</code> (unlike <code>forEach</code>!):</h4>
+
+        <pre><code><span class="kw">const</span> nums = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">4</span>, <span class="num-lit">5</span>];
+
+<span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> nums) {
+    <span class="kw">if</span> (n === <span class="num-lit">3</span>) <span class="kw">break</span>;    <span class="cm">// ✅ Works! Stops the loop</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(n);
+}
+<span class="cm">// 1, 2</span></code></pre>
+
+        <div class="callout callout-green">
+            <strong>for...of is the modern standard for iterating arrays</strong>
+            It is cleaner than a <code>for</code> loop (no index management), and more powerful than <code>forEach</code> (supports <code>break</code>/<code>continue</code>). This is your go-to for arrays in ES6 code.
+        </div>
+
+        <h4>If you also need the index, use <code>entries()</code>:</h4>
+
+        <pre><code><span class="kw">const</span> colors = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>];
+
+<span class="kw">for</span> (<span class="kw">const</span> [index, color] <span class="kw">of</span> colors.<span class="fn">entries</span>()) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${index}: ${color}`</span>);
+}
+<span class="cm">// "0: red", "1: green", "2: blue"</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">8.</span> The Complete Loop Comparison</h2>
+
+        <table>
+            <thead>
+                <tr><th>Loop</th><th>Best For</th><th>Gives You</th><th><code>break</code>/<code>continue</code></th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>for</code></td><td>When you need index control or specific iteration count</td><td>Index</td><td>✅</td></tr>
+                <tr><td><code>while</code></td><td>When you don't know how many iterations in advance</td><td>Depends on your code</td><td>✅</td></tr>
+                <tr><td><code>do...while</code></td><td>When the body must execute at least once</td><td>Depends on your code</td><td>✅</td></tr>
+                <tr><td><code>for...in</code></td><td>Iterating over <strong>object keys</strong> (NOT arrays)</td><td>Property names (keys)</td><td>✅</td></tr>
+                <tr><td><code>for...of</code></td><td>Iterating over <strong>array/string values</strong> (ES6)</td><td>Values directly</td><td>✅</td></tr>
+                <tr><td><code>forEach</code></td><td>Running a function on each array item</td><td>Value, index, array</td><td>❌ Cannot break</td></tr>
+            </tbody>
+        </table>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">9.</span> Infinite Loops</h2>
+
+        <p>An <strong>infinite loop</strong> runs forever because the condition never becomes false. This freezes your browser tab or crashes your Node.js process.</p>
+
+        <pre><code><span class="cm">// ❌ INFINITE LOOP — condition is always true</span>
+<span class="kw">let</span> i = <span class="num-lit">0</span>;
+<span class="kw">while</span> (i < <span class="num-lit">5</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(i);
+    <span class="cm">// FORGOT i++ → i is always 0 → 0 < 5 is always true → FOREVER</span>
+}
+
+<span class="cm">// ❌ INFINITE LOOP — wrong update direction</span>
+<span class="kw">for</span> (<span class="kw">let</span> j = <span class="num-lit">10</span>; j > <span class="num-lit">0</span>; j++) {
+    <span class="fn">console</span>.<span class="fn">log</span>(j);
+    <span class="cm">// j starts at 10 and INCREASES → j > 0 is always true</span>
+}</code></pre>
+
+        <div class="callout callout-red">
+            <strong>How to prevent infinite loops</strong>
+            1. Always make sure your condition will eventually become <code>false</code>.<br>
+            2. Double-check that your update step (<code>i++</code>, <code>i--</code>) moves the counter <strong>toward</strong> the exit condition.<br>
+            3. If your browser freezes, close the tab immediately — the JavaScript engine is stuck in the loop.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">10.</span> Common Loop Patterns You Will Use Forever</h2>
+
+        <h3>10.1 — Accumulator Pattern (Summing Values)</h3>
+
+        <pre><code><span class="kw">const</span> prices = [<span class="num-lit">29.99</span>, <span class="num-lit">9.99</span>, <span class="num-lit">49.99</span>, <span class="num-lit">19.99</span>];
+<span class="kw">let</span> total = <span class="num-lit">0</span>;  <span class="cm">// The accumulator — starts at 0</span>
+
+<span class="kw">for</span> (<span class="kw">const</span> price <span class="kw">of</span> prices) {
+    total += price;  <span class="cm">// Add each price to the running total</span>
+}
+
+<span class="fn">console</span>.<span class="fn">log</span>(total);  <span class="cm">// 109.96</span></code></pre>
+
+        <h3>10.2 — Search Pattern (Finding a Specific Item)</h3>
+
+        <pre><code><span class="kw">const</span> users = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Idris"</span>, <span class="str">"Diana"</span>];
+<span class="kw">let</span> found = <span class="bool">null</span>;
+
+<span class="kw">for</span> (<span class="kw">const</span> user <span class="kw">of</span> users) {
+    <span class="kw">if</span> (user === <span class="str">"Idris"</span>) {
+        found = user;
+        <span class="kw">break</span>;  <span class="cm">// No need to check the rest</span>
+    }
+}
+
+<span class="fn">console</span>.<span class="fn">log</span>(found);  <span class="cm">// "Idris"</span></code></pre>
+
+        <h3>10.3 — Filter Pattern (Building a New Array From Criteria)</h3>
+
+        <pre><code><span class="kw">const</span> scores = [<span class="num-lit">45</span>, <span class="num-lit">82</span>, <span class="num-lit">93</span>, <span class="num-lit">31</span>, <span class="num-lit">76</span>, <span class="num-lit">88</span>];
+<span class="kw">const</span> passing = [];  <span class="cm">// New array to collect results</span>
+
+<span class="kw">for</span> (<span class="kw">const</span> score <span class="kw">of</span> scores) {
+    <span class="kw">if</span> (score >= <span class="num-lit">70</span>) {
+        passing.<span class="fn">push</span>(score);  <span class="cm">// Add passing scores to the new array</span>
+    }
+}
+
+<span class="fn">console</span>.<span class="fn">log</span>(passing);  <span class="cm">// [82, 93, 76, 88]</span></code></pre>
+
+        <h3>10.4 — Transform Pattern (Converting Each Item)</h3>
+
+        <pre><code><span class="kw">const</span> names = [<span class="str">"alice"</span>, <span class="str">"bob"</span>, <span class="str">"charlie"</span>];
+<span class="kw">const</span> capitalized = [];
+
+<span class="kw">for</span> (<span class="kw">const</span> name <span class="kw">of</span> names) {
+    capitalized.<span class="fn">push</span>(name[<span class="num-lit">0</span>].<span class="fn">toUpperCase</span>() + name.<span class="fn">slice</span>(<span class="num-lit">1</span>));
+}
+
+<span class="fn">console</span>.<span class="fn">log</span>(capitalized);  <span class="cm">// ["Alice", "Bob", "Charlie"]</span></code></pre>
+
+        <div class="callout callout-green">
+            <strong>These patterns are the DNA of programming</strong>
+            Accumulate, search, filter, and transform — nearly every algorithm you will ever write is a combination of these four patterns. Once you can recognize them, Codewars problems become much easier to approach.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">11.</span> Key Vocabulary Summary</h2>
+
+        <table>
+            <thead>
+                <tr><th>Term</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Iteration</strong></td><td>A single pass through the loop body</td></tr>
+                <tr><td><strong>Counter / Iterator</strong></td><td>The variable that tracks the current position (usually <code>i</code>)</td></tr>
+                <tr><td><strong>Initialization</strong></td><td>Setting the starting value of the counter</td></tr>
+                <tr><td><strong>Condition</strong></td><td>The boolean expression checked before each iteration</td></tr>
+                <tr><td><strong>Update</strong></td><td>The expression that modifies the counter after each iteration (<code>i++</code>, <code>i--</code>)</td></tr>
+                <tr><td><strong>break</strong></td><td>Immediately exits the entire loop</td></tr>
+                <tr><td><strong>continue</strong></td><td>Skips the rest of the current iteration and proceeds to the next one</td></tr>
+                <tr><td><strong>Infinite loop</strong></td><td>A loop whose condition never becomes false — runs forever</td></tr>
+                <tr><td><strong>Iterable</strong></td><td>An object that can be looped over with <code>for...of</code> (arrays, strings, Maps, Sets)</td></tr>
+                <tr><td><strong>Enumerable</strong></td><td>A property that shows up when iterated with <code>for...in</code></td></tr>
+                <tr><td><strong>Accumulator</strong></td><td>A variable that collects a running result across iterations</td></tr>
+                <tr><td><strong>Zero-indexed</strong></td><td>Counting starts from 0, not 1 (first element = index 0)</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="bottom-nav">
+            <a href="03-conditionals.html" class="prev">
+                <span class="label">← Previous</span>
+                <span class="title">03 — Conditionals & Logic</span>
+            </a>
+            <a href="#" class="next">
+                <span class="label">Next →</span>
+                <span class="title">05 — Functions</span>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

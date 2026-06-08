@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Katas — 20 Challenges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16px;padding:40px 20px}.container{max-width:820px;margin:0 auto}h1{font-size:38px;font-weight:700;color:#f0f6fc;margin-bottom:12px}.subtitle{font-size:17px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px}p{margin-bottom:18px;color:#b0bac9}strong{color:#e2e8f0}code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:12px 0 20px;overflow-x:auto}pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}.cm{color:#5e6e8a;font-style:italic}hr{border:none;border-top:1px solid #1e2d4a;margin:36px 0}.kata{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px;margin:24px 0}.kata-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}.kata-num{background:#f59e0b;color:#0d1117;font-size:13px;font-weight:700;padding:4px 12px;border-radius:8px}.kata-diff{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:6px}.diff-easy{background:rgba(16,185,129,.15);color:#10b981}.diff-medium{background:rgba(245,158,11,.15);color:#f59e0b}.diff-hard{background:rgba(248,81,73,.15);color:#f85149}.kata h3{font-size:18px;font-weight:600;color:#f0f6fc;margin-bottom:10px}.kata p{font-size:15px;color:#9aa5b4;margin-bottom:12px}.constraint{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:10px;padding:10px 16px;margin:12px 0;font-size:13px;font-weight:600;color:#a78bfa}.constraint::before{content:'⛔ CONSTRAINT: ';font-weight:700}.solution-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#10b981;font-size:13px;font-weight:600;padding:8px 18px;border-radius:10px;cursor:pointer;transition:.2s;margin-top:8px}.solution-btn:hover{background:rgba(16,185,129,.15)}.solution{display:none;margin-top:16px;padding:16px 20px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}.solution.show{display:block}.solution-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#10b981;margin-bottom:10px}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📦 Array Katas</h1>
+    <p class="subtitle">20 challenges focused on array manipulation. Constraints force you to use specific methods — map, filter, reduce, and more.</p>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">01</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Implement map() from scratch</h3>
+    <p>Write <code>myMap(arr, fn)</code> that works like <code>Array.prototype.map</code>.</p>
+    <pre><code>myMap([1,2,3], n => n * 2)   <span class="cm">// [2, 4, 6]</span></code></pre>
+    <div class="constraint">Use a for loop. Do NOT use .map().</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function myMap(arr, fn) {
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+        result.push(fn(arr[i], i, arr));
+    }
+    return result;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">02</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Implement filter() from scratch</h3>
+    <p>Write <code>myFilter(arr, fn)</code> that works like <code>Array.prototype.filter</code>.</p>
+    <pre><code>myFilter([1,2,3,4], n => n % 2 === 0)   <span class="cm">// [2, 4]</span></code></pre>
+    <div class="constraint">Use a for loop. Do NOT use .filter().</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function myFilter(arr, fn) {
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (fn(arr[i], i, arr)) result.push(arr[i]);
+    }
+    return result;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">03</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Implement reduce() from scratch</h3>
+    <p>Write <code>myReduce(arr, fn, init)</code>. Handle missing initial value.</p>
+    <pre><code>myReduce([1,2,3], (acc, n) => acc + n, 0)   <span class="cm">// 6</span>
+myReduce([1,2,3], (acc, n) => acc + n)       <span class="cm">// 6 (no init → first element)</span></code></pre>
+    <div class="constraint">Do NOT use .reduce(). Handle the case where init is undefined (start from arr[0], loop from index 1).</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function myReduce(arr, fn, init) {
+    let acc = init !== undefined ? init : arr[0];
+    let start = init !== undefined ? 0 : 1;
+    for (let i = start; i < arr.length; i++) {
+        acc = fn(acc, arr[i], i, arr);
+    }
+    return acc;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">04</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Flatten One Level</h3>
+    <p>Write <code>flatOne(arr)</code>.</p>
+    <pre><code>flatOne([1, [2, 3], [4, [5]]])   <span class="cm">// [1, 2, 3, 4, [5]]</span></code></pre>
+    <div class="constraint">Use only reduce and concat. No .flat().</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const flatOne = arr => arr.reduce((acc, item) => acc.concat(item), []);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">05</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Deep Flatten</h3>
+    <p>Write <code>deepFlat(arr)</code>. Flatten any depth.</p>
+    <pre><code>deepFlat([1, [2, [3, [4]]]])   <span class="cm">// [1, 2, 3, 4]</span></code></pre>
+    <div class="constraint">Use recursion and reduce. No .flat().</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const deepFlat = arr =>
+    arr.reduce((acc, item) =>
+        acc.concat(Array.isArray(item) ? deepFlat(item) : item), []);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">06</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Chunk Array</h3>
+    <p>Write <code>chunk(arr, size)</code>.</p>
+    <pre><code>chunk([1,2,3,4,5], 2)   <span class="cm">// [[1,2], [3,4], [5]]</span></code></pre>
+    <div class="constraint">Use a for loop with .slice().</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function chunk(arr, size) {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+        result.push(arr.slice(i, i + size));
+    }
+    return result;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">07</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Rotate Array</h3>
+    <p>Write <code>rotate(arr, k)</code>. Rotate right by k positions.</p>
+    <pre><code>rotate([1,2,3,4,5], 2)   <span class="cm">// [4, 5, 1, 2, 3]</span></code></pre>
+    <div class="constraint">Use slice and spread only. No loops.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function rotate(arr, k) {
+    const pivot = arr.length - (k % arr.length);
+    return [...arr.slice(pivot), ...arr.slice(0, pivot)];
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">08</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Zip Arrays</h3>
+    <p>Write <code>zip(a, b)</code>.</p>
+    <pre><code>zip([1,2,3], ["a","b","c"])   <span class="cm">// [[1,"a"], [2,"b"], [3,"c"]]</span></code></pre>
+    <div class="constraint">Use .map() with index.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const zip = (a, b) => a.map((item, i) => [item, b[i]]);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">09</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Unzip Arrays</h3>
+    <p>Write <code>unzip(pairs)</code>. Reverse of zip.</p>
+    <pre><code>unzip([[1,"a"], [2,"b"], [3,"c"]])   <span class="cm">// [[1,2,3], ["a","b","c"]]</span></code></pre>
+    <div class="constraint">Use reduce.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const unzip = pairs =>
+    pairs.reduce((acc, [a, b]) => {
+        acc[0].push(a);
+        acc[1].push(b);
+        return acc;
+    }, [[], []]);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">10</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Remove Falsy Values</h3>
+    <p>Write <code>compact(arr)</code>.</p>
+    <pre><code>compact([0, 1, false, 2, "", 3, null, undefined, NaN])   <span class="cm">// [1, 2, 3]</span></code></pre>
+    <div class="constraint">Use filter with Boolean. One line only.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const compact = arr => arr.filter(Boolean);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">11</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Unique Values</h3>
+    <p>Write <code>unique(arr)</code>.</p>
+    <pre><code>unique([1, 2, 2, 3, 3, 3])   <span class="cm">// [1, 2, 3]</span></code></pre>
+    <div class="constraint">Use Set and spread. One line.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const unique = arr => [...new Set(arr)];</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">12</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Unique by Key</h3>
+    <p>Write <code>uniqueBy(arr, key)</code>. Remove duplicate objects by a property value.</p>
+    <pre><code>const users = [
+    { id: 1, name: "Alice" },
+    { id: 2, name: "Bob" },
+    { id: 1, name: "Alice copy" }
+];
+uniqueBy(users, "id")  <span class="cm">// first two only</span></code></pre>
+    <div class="constraint">Use reduce with a Set to track seen keys.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function uniqueBy(arr, key) {
+    const seen = new Set();
+    return arr.reduce((result, item) => {
+        if (!seen.has(item[key])) {
+            seen.add(item[key]);
+            result.push(item);
+        }
+        return result;
+    }, []);
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">13</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Intersection</h3>
+    <p>Write <code>intersection(...arrays)</code>. Find common elements across all arrays.</p>
+    <pre><code>intersection([1,2,3], [2,3,4], [3,4,5])   <span class="cm">// [3]</span></code></pre>
+    <div class="constraint">Use reduce and filter.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const intersection = (...arrays) =>
+    arrays.reduce((acc, arr) => acc.filter(item => arr.includes(item)));</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">14</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Difference</h3>
+    <p>Write <code>difference(a, b)</code>. Elements in a that are NOT in b.</p>
+    <pre><code>difference([1,2,3,4], [2,4])   <span class="cm">// [1, 3]</span></code></pre>
+    <div class="constraint">Use filter and includes.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const difference = (a, b) => a.filter(item => !b.includes(item));</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">15</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Sum Nested Arrays</h3>
+    <p>Write <code>sumNested(arr)</code>.</p>
+    <pre><code>sumNested([[1,2], [3,4], [5]])   <span class="cm">// 15</span></code></pre>
+    <div class="constraint">Use .flat() then .reduce(). One chain.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const sumNested = arr => arr.flat().reduce((sum, n) => sum + n, 0);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">16</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Partition</h3>
+    <p>Write <code>partition(arr, fn)</code>. Split into two arrays: elements that pass the test and those that don't.</p>
+    <pre><code>partition([1,2,3,4,5], n => n % 2 === 0)
+<span class="cm">// [[2, 4], [1, 3, 5]]</span></code></pre>
+    <div class="constraint">Use reduce with a [truthy, falsy] array as accumulator.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function partition(arr, fn) {
+    return arr.reduce(([pass, fail], item) => {
+        return fn(item) ? [[...pass, item], fail] : [pass, [...fail, item]];
+    }, [[], []]);
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">17</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Moving Average</h3>
+    <p>Write <code>movingAvg(arr, window)</code>. Return array of averages for each window.</p>
+    <pre><code>movingAvg([1,2,3,4,5], 3)   <span class="cm">// [2, 3, 4]  (avg of [1,2,3], [2,3,4], [3,4,5])</span></code></pre>
+    <div class="constraint">Use map with slice. Compute count of windows first.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function movingAvg(arr, window) {
+    return Array.from(
+        { length: arr.length - window + 1 },
+        (_, i) => {
+            const slice = arr.slice(i, i + window);
+            return slice.reduce((sum, n) => sum + n, 0) / window;
+        }
+    );
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">18</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Sort by Property</h3>
+    <p>Write <code>sortBy(arr, key)</code>.</p>
+    <pre><code>sortBy([{n:"C",a:3},{n:"A",a:1},{n:"B",a:2}], "a")
+<span class="cm">// [{n:"A",a:1}, {n:"B",a:2}, {n:"C",a:3}]</span></code></pre>
+    <div class="constraint">Use .sort() with bracket notation for dynamic key access. Do NOT mutate the original.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const sortBy = (arr, key) =>
+    [...arr].sort((a, b) => a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">19</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Frequency Map</h3>
+    <p>Write <code>frequency(arr)</code>. Count occurrences of each value.</p>
+    <pre><code>frequency(["a","b","a","c","b","a"])
+<span class="cm">// { a: 3, b: 2, c: 1 }</span></code></pre>
+    <div class="constraint">Use reduce only. No loops.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const frequency = arr =>
+    arr.reduce((acc, item) => {
+        acc[item] = (acc[item] || 0) + 1;
+        return acc;
+    }, {});</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">20</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Matrix Transpose</h3>
+    <p>Write <code>transpose(matrix)</code>. Flip rows and columns.</p>
+    <pre><code>transpose([[1,2,3],[4,5,6]])
+<span class="cm">// [[1,4], [2,5], [3,6]]</span></code></pre>
+    <div class="constraint">Use map with index access. One expression.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const transpose = matrix =>
+    matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));</code></pre></div></div>
+
+</div>
+<script>
+function toggle(btn){const s=btn.nextElementSibling;s.classList.toggle('show');btn.textContent=s.classList.contains('show')?'Hide Solution':'Show Solution';}
+</script>
+</body>
+</html>

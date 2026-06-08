@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 Challenge Katas — Think Before You Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+        .container { max-width: 820px; margin: 0 auto; }
+        h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; }
+        .subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+        h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+        h2 .num { color: #58a6ff; }
+        p { margin-bottom: 18px; color: #b0bac9; }
+        strong { color: #e2e8f0; }
+        em { color: #93aac9; font-style: italic; }
+        code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+        pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 12px 0 20px 0; overflow-x: auto; }
+        pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+        .kw { color: #ff7b72; } .str { color: #a5d6ff; } .fn { color: #d2a8ff; } .cm { color: #5e6e8a; font-style: italic; } .num-lit { color: #79c0ff; } .bool { color: #ff7b72; }
+        hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+        ul, ol { margin: 12px 0 20px 24px; color: #b0bac9; }
+        li { margin-bottom: 8px; }
+
+        /* Kata card */
+        .kata {
+            background: #161b2e;
+            border: 1px solid #1e2d4a;
+            border-radius: 14px;
+            padding: 28px;
+            margin: 24px 0;
+        }
+        .kata-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .kata-num {
+            background: #262936;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 8px;
+        }
+        .kata-type {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+        .type-predict { background: #1f222e; color: #8e929f; border: 1px solid #2d313f; }
+        .type-build { background: #1f222e; color: #8e929f; border: 1px solid #2d313f; }
+        .type-debug { background: #1f222e; color: #8e929f; border: 1px solid #2d313f; }
+        .type-trick { background: #1f222e; color: #8e929f; border: 1px solid #2d313f; }
+
+        .kata h3 { font-size: 18px; font-weight: 600; color: #f0f6fc; margin-bottom: 10px; }
+        .kata p { font-size: 15px; color: #9aa5b4; margin-bottom: 12px; }
+
+        .hint-btn, .answer-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+            margin-right: 8px;
+            border: 1px solid #2d313f;
+            background: #1f222e;
+            color: #e1e3eb;
+        }
+        .hint-btn:hover, .answer-btn:hover { background: #262936; border-color: #3e4255; }
+
+        .hint, .answer {
+            display: none;
+            margin-top: 16px;
+            padding: 16px 20px;
+            border-radius: 10px;
+            font-size: 14.5px;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 3px solid #3e4255;
+        }
+        .hint.show, .answer.show { display: block; }
+        .hint strong { color: #ffffff; display: block; margin-bottom: 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .answer strong { color: #ffffff; display: block; margin-bottom: 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .callout-red {
+            border-left: 4px solid #8e929f;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 22px 0;
+            font-size: 14.5px;
+            color: #afb2bb;
+        }
+        .callout-red strong { color: #ffffff; display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>🔥 Challenge Katas</h1>
+        <p class="subtitle">These are NOT simple exercises. These are <strong>tricky problems</strong> that test if you truly understand JavaScript. Predict the output, find the bug, and solve problems that require real thinking. No shortcuts — think first, then check.</p>
+
+        <div class="callout-red">
+            <strong>Rules</strong>
+            1. <strong>Do NOT run the code first.</strong> Read it, trace it in your head, predict the output, THEN run it to verify.<br>
+            2. Use the <strong>Hint</strong> if you're stuck — it points you in the right direction without giving the answer.<br>
+            3. Use the <strong>Answer</strong> only after you've committed to your own answer.<br>
+            4. If you get it wrong — <strong>good</strong>. That's where learning happens. Read the explanation carefully.
+        </div>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">A.</span> What's The Output? (Predict)</h2>
+        <!-- ============================================================ -->
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">01</span>
+                <span class="kata-type type-predict">Predict Output</span>
+            </div>
+            <h3>Hoisting Chaos</h3>
+            <p>What does this print? Write down your answer BEFORE running it.</p>
+            <pre><code><span class="fn">console</span>.<span class="fn">log</span>(a);
+<span class="fn">console</span>.<span class="fn">log</span>(b);
+<span class="fn">console</span>.<span class="fn">log</span>(c);
+
+<span class="kw">var</span> a = <span class="num-lit">1</span>;
+<span class="kw">let</span> b = <span class="num-lit">2</span>;
+<span class="kw">const</span> c = <span class="num-lit">3</span>;</code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>Remember how <code>var</code>, <code>let</code>, and <code>const</code> behave differently during the Creation Phase. One gets initialized to <code>undefined</code>, the other two are placed in the TDZ.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="fn">console</span>.<span class="fn">log</span>(a);  <span class="cm">// undefined — var is hoisted and initialized to undefined</span>
+<span class="fn">console</span>.<span class="fn">log</span>(b);  <span class="cm">// ❌ ReferenceError: Cannot access 'b' before initialization</span>
+<span class="cm">// Line 3 never runs — the script crashes at line 2</span></code></pre>
+                <p><code>var</code> is hoisted + initialized to <code>undefined</code>. <code>let</code> and <code>const</code> are hoisted but in the <strong>Temporal Dead Zone</strong> — accessing them before declaration throws an error. The script stops at line 2 and <strong>line 3 never executes</strong>.</p>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">02</span>
+                <span class="kata-type type-predict">Predict Output</span>
+            </div>
+            <h3>The Equality Nightmare</h3>
+            <p>Predict <code>true</code> or <code>false</code> for each line:</p>
+            <pre><code><span class="fn">console</span>.<span class="fn">log</span>([] == []);
+<span class="fn">console</span>.<span class="fn">log</span>([] == ![]);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">""</span> == <span class="bool">false</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"0"</span> == <span class="bool">false</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="bool">null</span> == <span class="bool">undefined</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="bool">null</span> === <span class="bool">undefined</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="num-lit">NaN</span> === <span class="num-lit">NaN</span>);</code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong><code>==</code> does type coercion. Objects are compared by <strong>reference</strong>. <code>![]</code> converts the array to a boolean first (<code>[]</code> is truthy, so <code>![]</code> is <code>false</code>). <code>NaN</code> is the only value not equal to itself.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code>[] == []            <span class="cm">// false — two different objects in memory (different references)</span>
+[] == ![]           <span class="cm">// true  — ![] is false, [] coerces to "", "" coerces to 0, false is 0. 0 == 0</span>
+<span class="str">""</span> == <span class="bool">false</span>         <span class="cm">// true  — both coerce to 0</span>
+<span class="str">"0"</span> == <span class="bool">false</span>        <span class="cm">// true  — "0" coerces to 0, false is 0</span>
+<span class="bool">null</span> == <span class="bool">undefined</span>   <span class="cm">// true  — special rule: they are loosely equal to each other and nothing else</span>
+<span class="bool">null</span> === <span class="bool">undefined</span>  <span class="cm">// false — strict: different types (null vs undefined)</span>
+<span class="num-lit">NaN</span> === <span class="num-lit">NaN</span>         <span class="cm">// false — NaN is NEVER equal to anything, including itself</span></code></pre>
+                <p>This is why you <strong>always use <code>===</code></strong>. The <code>==</code> results above are almost impossible to predict without memorizing coercion tables.</p>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">03</span>
+                <span class="kata-type type-predict">Predict Output</span>
+            </div>
+            <h3>Closure Trap</h3>
+            <pre><code><span class="kw">function</span> <span class="fn">createFunctions</span>() {
+    <span class="kw">const</span> result = [];
+    <span class="kw">for</span> (<span class="kw">var</span> i = <span class="num-lit">0</span>; i < <span class="num-lit">3</span>; i++) {
+        result.<span class="fn">push</span>(<span class="kw">function</span>() {
+            <span class="kw">return</span> i;
+        });
+    }
+    <span class="kw">return</span> result;
+}
+
+<span class="kw">const</span> fns = <span class="fn">createFunctions</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(fns[<span class="num-lit">0</span>]());
+<span class="fn">console</span>.<span class="fn">log</span>(fns[<span class="num-lit">1</span>]());
+<span class="fn">console</span>.<span class="fn">log</span>(fns[<span class="num-lit">2</span>]());</code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong><code>var</code> is function-scoped, not block-scoped. All three closures share the <strong>same</strong> <code>i</code> variable. What is the value of <code>i</code> when the loop finishes?</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code>fns[<span class="num-lit">0</span>]()  <span class="cm">// 3</span>
+fns[<span class="num-lit">1</span>]()  <span class="cm">// 3</span>
+fns[<span class="num-lit">2</span>]()  <span class="cm">// 3 — ALL return 3!</span></code></pre>
+                <p>Because <code>var i</code> is function-scoped, there is <strong>one single <code>i</code></strong> shared by all three closures. When the loop ends, <code>i</code> is <code>3</code>. All three functions close over that same variable. <strong>Fix:</strong> replace <code>var</code> with <code>let</code> — each iteration gets its own block-scoped <code>i</code>.</p>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">04</span>
+                <span class="kata-type type-predict">Predict Output</span>
+            </div>
+            <h3>this Gone Wrong</h3>
+            <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    greet: () => {
+        <span class="kw">return</span> <span class="str">`Hello, ${<span class="kw">this</span>.name}`</span>;
+    },
+    farewell() {
+        <span class="kw">return</span> <span class="str">`Goodbye, ${<span class="kw">this</span>.name}`</span>;
+    }
+};
+
+<span class="fn">console</span>.<span class="fn">log</span>(user.<span class="fn">greet</span>());
+<span class="fn">console</span>.<span class="fn">log</span>(user.<span class="fn">farewell</span>());
+
+<span class="kw">const</span> fn = user.farewell;
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">fn</span>());</code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>Arrow functions inherit <code>this</code> from the surrounding scope (the module/global). Regular methods get <code>this</code> from the object that <strong>calls</strong> them. When you extract a method into a standalone variable, what is calling it?</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code>user.<span class="fn">greet</span>()     <span class="cm">// "Hello, undefined" — arrow function, this = global/module scope</span>
+user.<span class="fn">farewell</span>()  <span class="cm">// "Goodbye, Idris" — regular method, this = user</span>
+<span class="fn">fn</span>()             <span class="cm">// "Goodbye, undefined" — standalone call, this = global/undefined</span></code></pre>
+                <p>Three different <code>this</code> traps in one exercise. The arrow function never gets <code>user</code> as <code>this</code>. The extracted method loses its <code>this</code> binding because it's no longer called as <code>user.farewell()</code>.</p>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">05</span>
+                <span class="kata-type type-predict">Predict Output</span>
+            </div>
+            <h3>Type Coercion Madness</h3>
+            <p>Predict each result:</p>
+            <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"5"</span> + <span class="num-lit">3</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"5"</span> - <span class="num-lit">3</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"5"</span> * <span class="str">"2"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="bool">true</span> + <span class="bool">true</span> + <span class="bool">true</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="bool">true</span> + <span class="str">"1"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>([] + []);
+<span class="fn">console</span>.<span class="fn">log</span>([] + {});
+<span class="fn">console</span>.<span class="fn">log</span>({} + []);</code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>The <code>+</code> operator does string concatenation if <strong>either side is a string</strong>. For <code>-</code>, <code>*</code>, <code>/</code> it always converts to numbers. Arrays and objects are converted using <code>.toString()</code> first: <code>[].toString()</code> is <code>""</code>, <code>{}.toString()</code> is <code>"[object Object]"</code>.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="str">"5"</span> + <span class="num-lit">3</span>             <span class="cm">// "53" — string wins, concatenation</span>
+<span class="str">"5"</span> - <span class="num-lit">3</span>             <span class="cm">// 2 — minus forces number conversion</span>
+<span class="str">"5"</span> * <span class="str">"2"</span>           <span class="cm">// 10 — multiply forces number conversion</span>
+<span class="bool">true</span> + <span class="bool">true</span> + <span class="bool">true</span>  <span class="cm">// 3 — true is 1 in numeric context: 1 + 1 + 1</span>
+<span class="bool">true</span> + <span class="str">"1"</span>          <span class="cm">// "true1" — string wins, true becomes "true"</span>
+[] + []             <span class="cm">// "" — both become "", "" + "" = ""</span>
+[] + {}             <span class="cm">// "[object Object]" — "" + "[object Object]"</span>
+{} + []             <span class="cm">// 0 — {} is parsed as an empty block, then +[] is +""  which is 0</span>
+                    <span class="cm">// (In the console it may show "[object Object]" — context-dependent)</span></code></pre>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">06</span>
+                <span class="kata-type type-predict">Predict Output</span>
+            </div>
+            <h3>Reference vs Value</h3>
+            <pre><code><span class="kw">let</span> a = { x: <span class="num-lit">1</span> };
+<span class="kw">let</span> b = a;
+b.x = <span class="num-lit">99</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(a.x);
+
+<span class="kw">let</span> c = { x: <span class="num-lit">1</span> };
+<span class="kw">let</span> d = c;
+d = { x: <span class="num-lit">99</span> };
+<span class="fn">console</span>.<span class="fn">log</span>(c.x);</code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong><code>b.x = 99</code> mutates the object that both <code>a</code> and <code>b</code> point to. <code>d = { x: 99 }</code> creates a <strong>brand new object</strong> and points <code>d</code> to it — it does NOT mutate the original.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code>a.x  <span class="cm">// 99 — b mutated the shared object</span>
+c.x  <span class="cm">// 1  — d was reassigned to a NEW object, c still points to the old one</span></code></pre>
+                <p><strong>Mutation</strong> (<code>b.x = 99</code>) changes the object in memory — affects all references. <strong>Reassignment</strong> (<code>d = { }</code>) makes the variable point to a new object — the old one is untouched.</p>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">07</span>
+                <span class="kata-type type-predict">Predict Output</span>
+            </div>
+            <h3>Scope Chain Puzzle</h3>
+            <pre><code><span class="kw">let</span> x = <span class="num-lit">10</span>;
+
+<span class="kw">function</span> <span class="fn">outer</span>() {
+    <span class="kw">let</span> x = <span class="num-lit">20</span>;
+
+    <span class="kw">function</span> <span class="fn">inner</span>() {
+        x++;
+        <span class="fn">console</span>.<span class="fn">log</span>(x);
+    }
+
+    <span class="fn">inner</span>();
+    <span class="fn">console</span>.<span class="fn">log</span>(x);
+}
+
+<span class="fn">outer</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(x);</code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong><code>inner()</code> modifies the <code>x</code> it finds through its scope chain. Which <code>x</code> is that — the one in <code>outer</code> or the global one? Does the global <code>x</code> change?</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="cm">// inner()  → 21  (x++ modifies outer's x from 20 to 21)</span>
+<span class="cm">// outer()  → 21  (same outer x, now 21)</span>
+<span class="cm">// global   → 10  (global x was never touched — inner found x in outer's scope first)</span></code></pre>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">08</span>
+                <span class="kata-type type-predict">Predict Output</span>
+            </div>
+            <h3>setTimeout Order</h3>
+            <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"A"</span>);
+
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"B"</span>), <span class="num-lit">0</span>);
+
+<span class="fn">Promise</span>.<span class="fn">resolve</span>().<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"C"</span>));
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"D"</span>);</code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>JavaScript is single-threaded with an Event Loop. Synchronous code runs first. Then microtasks (Promises) run before macrotasks (setTimeout). Even <code>setTimeout(..., 0)</code> doesn't mean "immediately."</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="cm">// A — synchronous, runs first</span>
+<span class="cm">// D — synchronous, runs second</span>
+<span class="cm">// C — microtask (Promise), runs before macrotasks</span>
+<span class="cm">// B — macrotask (setTimeout), runs last even with 0ms delay</span></code></pre>
+                <p>The Event Loop processes: <strong>Call Stack</strong> (sync) → <strong>Microtask Queue</strong> (Promises) → <strong>Macrotask Queue</strong> (setTimeout, setInterval). <code>setTimeout(fn, 0)</code> doesn't mean "now" — it means "as soon as the queues allow."</p>
+            </div>
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">B.</span> Find The Bug (Debug)</h2>
+        <!-- ============================================================ -->
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">09</span>
+                <span class="kata-type type-debug">Find the bug</span>
+            </div>
+            <h3>The Filter That Returns Nothing</h3>
+            <p>This code should return users older than 18, but it returns an empty array. Why? Fix it.</p>
+            <pre><code><span class="kw">const</span> users = [
+    { name: <span class="str">"Alice"</span>, age: <span class="num-lit">25</span> },
+    { name: <span class="str">"Bob"</span>, age: <span class="num-lit">17</span> },
+    { name: <span class="str">"Charlie"</span>, age: <span class="num-lit">30</span> }
+];
+
+<span class="kw">const</span> adults = users.<span class="fn">filter</span>(user => {
+    user.age > <span class="num-lit">18</span>;
+});
+
+<span class="fn">console</span>.<span class="fn">log</span>(adults);  <span class="cm">// [] ← WHY?</span></code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>Look at the arrow function. It uses <code>{ }</code> curly braces. What does that mean for the return value?</div>
+            <div class="answer"><strong>Answer</strong>
+                <p>The arrow function has curly braces <code>{ }</code> but <strong>no <code>return</code> statement</strong>. It implicitly returns <code>undefined</code>, which is falsy, so every element is filtered out.</p>
+                <pre><code><span class="cm">// Fix 1: Add return</span>
+<span class="kw">const</span> adults = users.<span class="fn">filter</span>(user => {
+    <span class="kw">return</span> user.age > <span class="num-lit">18</span>;
+});
+
+<span class="cm">// Fix 2: Remove curly braces (implicit return)</span>
+<span class="kw">const</span> adults = users.<span class="fn">filter</span>(user => user.age > <span class="num-lit">18</span>);</code></pre>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">10</span>
+                <span class="kata-type type-debug">Find the bug</span>
+            </div>
+            <h3>The Broken Copy</h3>
+            <p>The developer thought they made an independent copy. Why does the original change?</p>
+            <pre><code><span class="kw">const</span> original = {
+    name: <span class="str">"Idris"</span>,
+    scores: [<span class="num-lit">90</span>, <span class="num-lit">85</span>, <span class="num-lit">92</span>]
+};
+
+<span class="kw">const</span> copy = { ...original };
+copy.name = <span class="str">"Changed"</span>;
+copy.scores.<span class="fn">push</span>(<span class="num-lit">100</span>);
+
+<span class="fn">console</span>.<span class="fn">log</span>(original.name);    <span class="cm">// "Idris" ✅</span>
+<span class="fn">console</span>.<span class="fn">log</span>(original.scores);  <span class="cm">// [90, 85, 92, 100] ← WHY?</span></code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>Spread creates a <strong>shallow</strong> copy. Primitives (<code>name</code>) are duplicated. But what about the array inside?</div>
+            <div class="answer"><strong>Answer</strong>
+                <p>Spread <code>{ ...obj }</code> is a <strong>shallow copy</strong>. The <code>scores</code> array is an object — only the <strong>reference</strong> was copied, not the array itself. Both <code>original.scores</code> and <code>copy.scores</code> point to the <strong>same array</strong>.</p>
+                <pre><code><span class="cm">// Fix: deep copy</span>
+<span class="kw">const</span> copy = <span class="fn">structuredClone</span>(original);
+
+<span class="cm">// Or manually spread nested values:</span>
+<span class="kw">const</span> copy = { ...original, scores: [...original.scores] };</code></pre>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">11</span>
+                <span class="kata-type type-debug">Find the bug</span>
+            </div>
+            <h3>The Sort Surprise</h3>
+            <p>This sorts numbers. It looks correct. What's wrong?</p>
+            <pre><code><span class="kw">const</span> original = [<span class="num-lit">3</span>, <span class="num-lit">1</span>, <span class="num-lit">4</span>, <span class="num-lit">1</span>, <span class="num-lit">5</span>];
+<span class="kw">const</span> sorted = original.<span class="fn">sort</span>((a, b) => a - b);
+
+<span class="fn">console</span>.<span class="fn">log</span>(sorted);    <span class="cm">// [1, 1, 3, 4, 5] ✅</span>
+<span class="fn">console</span>.<span class="fn">log</span>(original);  <span class="cm">// ??? — What do you expect here?</span>
+<span class="fn">console</span>.<span class="fn">log</span>(sorted === original);  <span class="cm">// ???</span></code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>Is <code>.sort()</code> a mutating or non-mutating method?</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code>original  <span class="cm">// [1, 1, 3, 4, 5] — MUTATED! sort() changes the original array</span>
+sorted === original  <span class="cm">// true — they are the SAME array, same reference</span></code></pre>
+                <p><code>.sort()</code> is a <strong>mutating</strong> method. It sorts in place and returns the same array — not a new one. Fix: <code>const sorted = [...original].sort((a,b) => a - b);</code></p>
+            </div>
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">C.</span> Algorithmic Katas (Build)</h2>
+        <!-- ============================================================ -->
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">12</span>
+                <span class="kata-type type-build">Build</span>
+                <span class="kata-type type-trick">Think Hard</span>
+            </div>
+            <h3>Digital Root</h3>
+            <p>Write a function <code>digitalRoot(n)</code> that keeps summing the digits of a number until it becomes a single digit.</p>
+            <pre><code><span class="fn">digitalRoot</span>(<span class="num-lit">493193</span>);  <span class="cm">// 4+9+3+1+9+3 = 29 → 2+9 = 11 → 1+1 = 2 → return 2</span>
+<span class="fn">digitalRoot</span>(<span class="num-lit">0</span>);       <span class="cm">// 0</span>
+<span class="fn">digitalRoot</span>(<span class="num-lit">99</span>);      <span class="cm">// 9</span></code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>Two approaches: 1) Convert number to string, split into digits, sum them, repeat while result >= 10. 2) There's a pure math formula: <code>(n - 1) % 9 + 1</code> for n > 0.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="cm">// Recursive approach:</span>
+<span class="kw">function</span> <span class="fn">digitalRoot</span>(n) {
+    <span class="kw">if</span> (n < <span class="num-lit">10</span>) <span class="kw">return</span> n;
+    <span class="kw">const</span> sum = <span class="fn">String</span>(n).<span class="fn">split</span>(<span class="str">""</span>).<span class="fn">reduce</span>((acc, d) => acc + <span class="fn">Number</span>(d), <span class="num-lit">0</span>);
+    <span class="kw">return</span> <span class="fn">digitalRoot</span>(sum);
+}
+
+<span class="cm">// Math shortcut:</span>
+<span class="kw">const</span> <span class="fn">digitalRoot</span> = n => n === <span class="num-lit">0</span> ? <span class="num-lit">0</span> : <span class="num-lit">1</span> + ((n - <span class="num-lit">1</span>) % <span class="num-lit">9</span>);</code></pre>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">13</span>
+                <span class="kata-type type-build">Build</span>
+                <span class="kata-type type-trick">Think Hard</span>
+            </div>
+            <h3>Longest Consecutive Sequence</h3>
+            <p>Given an unsorted array of numbers, find the length of the <strong>longest consecutive sequence</strong>. Must run efficiently (don't just sort it).</p>
+            <pre><code><span class="fn">longestConsecutive</span>([<span class="num-lit">100</span>, <span class="num-lit">4</span>, <span class="num-lit">200</span>, <span class="num-lit">1</span>, <span class="num-lit">3</span>, <span class="num-lit">2</span>]);  <span class="cm">// 4 (sequence: 1,2,3,4)</span>
+<span class="fn">longestConsecutive</span>([<span class="num-lit">0</span>, <span class="num-lit">3</span>, <span class="num-lit">7</span>, <span class="num-lit">2</span>, <span class="num-lit">5</span>, <span class="num-lit">8</span>, <span class="num-lit">4</span>, <span class="num-lit">6</span>, <span class="num-lit">1</span>]);  <span class="cm">// 9</span></code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>Put all numbers in a <code>Set</code> for O(1) lookups. A sequence starts at a number that has <strong>no predecessor</strong> (n-1 not in the set). From that start, count consecutive numbers upward.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="kw">function</span> <span class="fn">longestConsecutive</span>(nums) {
+    <span class="kw">const</span> numSet = <span class="kw">new</span> <span class="fn">Set</span>(nums);
+    <span class="kw">let</span> longest = <span class="num-lit">0</span>;
+
+    <span class="kw">for</span> (<span class="kw">const</span> num <span class="kw">of</span> numSet) {
+        <span class="cm">// Only start counting if num is the START of a sequence</span>
+        <span class="kw">if</span> (!numSet.<span class="fn">has</span>(num - <span class="num-lit">1</span>)) {
+            <span class="kw">let</span> current = num;
+            <span class="kw">let</span> streak = <span class="num-lit">1</span>;
+
+            <span class="kw">while</span> (numSet.<span class="fn">has</span>(current + <span class="num-lit">1</span>)) {
+                current++;
+                streak++;
+            }
+            longest = <span class="fn">Math</span>.<span class="fn">max</span>(longest, streak);
+        }
+    }
+    <span class="kw">return</span> longest;
+}</code></pre>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">14</span>
+                <span class="kata-type type-build">Build</span>
+                <span class="kata-type type-trick">Think Hard</span>
+            </div>
+            <h3>Curry Any Function</h3>
+            <p>Write a function <code>curry(fn)</code> that transforms a function so it can be called with one argument at a time.</p>
+            <pre><code><span class="kw">function</span> <span class="fn">add</span>(a, b, c) { <span class="kw">return</span> a + b + c; }
+
+<span class="kw">const</span> curriedAdd = <span class="fn">curry</span>(add);
+
+curriedAdd(<span class="num-lit">1</span>)(<span class="num-lit">2</span>)(<span class="num-lit">3</span>);     <span class="cm">// 6</span>
+curriedAdd(<span class="num-lit">1</span>, <span class="num-lit">2</span>)(<span class="num-lit">3</span>);    <span class="cm">// 6</span>
+curriedAdd(<span class="num-lit">1</span>)(<span class="num-lit">2</span>, <span class="num-lit">3</span>);    <span class="cm">// 6</span>
+curriedAdd(<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>);   <span class="cm">// 6</span></code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>The curried function needs to collect arguments until it has enough (>= <code>fn.length</code>). If not enough, return a new function that collects more. If enough, call the original function. Use recursion and the spread operator.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="kw">function</span> <span class="fn">curry</span>(fn) {
+    <span class="kw">return</span> <span class="kw">function</span> <span class="fn">curried</span>(...args) {
+        <span class="kw">if</span> (args.length >= fn.length) {
+            <span class="kw">return</span> <span class="fn">fn</span>(...args);
+        }
+        <span class="kw">return</span> (...moreArgs) => <span class="fn">curried</span>(...args, ...moreArgs);
+    };
+}</code></pre>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">15</span>
+                <span class="kata-type type-build">Build</span>
+                <span class="kata-type type-trick">Think Hard</span>
+            </div>
+            <h3>Debounce</h3>
+            <p>Write a function <code>debounce(fn, delay)</code> that returns a new function. That function, no matter how many times it's called, will only execute <code>fn</code> after <code>delay</code> milliseconds of silence (no further calls).</p>
+            <pre><code><span class="kw">const</span> <span class="fn">log</span> = <span class="fn">debounce</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Fired!"</span>), <span class="num-lit">500</span>);
+
+<span class="fn">log</span>();  <span class="cm">// starts 500ms timer</span>
+<span class="fn">log</span>();  <span class="cm">// resets timer</span>
+<span class="fn">log</span>();  <span class="cm">// resets timer — only this one fires after 500ms</span></code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>Use <code>setTimeout</code> and <code>clearTimeout</code>. Store the timer ID in a closure. Each call clears the previous timer and starts a new one.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="kw">function</span> <span class="fn">debounce</span>(fn, delay) {
+    <span class="kw">let</span> timeoutId;
+
+    <span class="kw">return</span> <span class="kw">function</span>(...args) {
+        <span class="fn">clearTimeout</span>(timeoutId);
+        timeoutId = <span class="fn">setTimeout</span>(() => <span class="fn">fn</span>(...args), delay);
+    };
+}</code></pre>
+                <p>This uses a closure to keep <code>timeoutId</code> private. Every call clears the previous timer and starts fresh. The function only fires when you stop calling it for <code>delay</code> ms. Used everywhere: search inputs, scroll handlers, resize listeners.</p>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">16</span>
+                <span class="kata-type type-build">Build</span>
+                <span class="kata-type type-trick">Think Hard</span>
+            </div>
+            <h3>Pipe with Validation</h3>
+            <p>Write a function <code>pipe(value, ...fns)</code> that passes a value through a series of functions left-to-right, but <strong>stops immediately</strong> if any function returns <code>null</code> or <code>undefined</code>.</p>
+            <pre><code><span class="kw">const</span> <span class="fn">double</span> = x => x * <span class="num-lit">2</span>;
+<span class="kw">const</span> <span class="fn">addTen</span> = x => x + <span class="num-lit">10</span>;
+<span class="kw">const</span> <span class="fn">crash</span> = x => <span class="bool">null</span>;
+<span class="kw">const</span> <span class="fn">triple</span> = x => x * <span class="num-lit">3</span>;
+
+<span class="fn">pipe</span>(<span class="num-lit">5</span>, double, addTen);           <span class="cm">// 20</span>
+<span class="fn">pipe</span>(<span class="num-lit">5</span>, double, crash, triple);     <span class="cm">// null (stops at crash, triple never runs)</span></code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>Use <code>reduce</code>. In each step, check if the accumulator is <code>null</code> or <code>undefined</code> before calling the next function.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="kw">function</span> <span class="fn">pipe</span>(value, ...fns) {
+    <span class="kw">return</span> fns.<span class="fn">reduce</span>((acc, fn) => {
+        <span class="kw">if</span> (acc === <span class="bool">null</span> || acc === <span class="bool">undefined</span>) <span class="kw">return</span> acc;
+        <span class="kw">return</span> <span class="fn">fn</span>(acc);
+    }, value);
+}
+
+<span class="cm">// Or using nullish coalescing style:</span>
+<span class="kw">const</span> <span class="fn">pipe</span> = (value, ...fns) =>
+    fns.<span class="fn">reduce</span>((acc, fn) => acc != <span class="bool">null</span> ? <span class="fn">fn</span>(acc) : acc, value);</code></pre>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">17</span>
+                <span class="kata-type type-build">Build</span>
+                <span class="kata-type type-trick">Think Hard</span>
+            </div>
+            <h3>Implement Array.prototype.reduce From Scratch</h3>
+            <p>Write your own <code>myReduce(arr, callback, initialValue)</code> without using the built-in <code>.reduce()</code>.</p>
+            <pre><code><span class="fn">myReduce</span>([<span class="num-lit">1</span>,<span class="num-lit">2</span>,<span class="num-lit">3</span>,<span class="num-lit">4</span>], (acc, curr) => acc + curr, <span class="num-lit">0</span>);       <span class="cm">// 10</span>
+<span class="fn">myReduce</span>([<span class="num-lit">1</span>,<span class="num-lit">2</span>,<span class="num-lit">3</span>,<span class="num-lit">4</span>], (acc, curr) => acc + curr);          <span class="cm">// 10 (no initial → first element is initial)</span>
+<span class="fn">myReduce</span>([<span class="num-lit">5</span>,<span class="num-lit">3</span>,<span class="num-lit">8</span>,<span class="num-lit">1</span>], (acc, n) => n > acc ? n : acc, <span class="num-lit">0</span>); <span class="cm">// 8</span></code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>If no initial value is given, use <code>arr[0]</code> as the accumulator and start the loop at index 1. The callback receives <code>(accumulator, currentElement, currentIndex, array)</code>.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="kw">function</span> <span class="fn">myReduce</span>(arr, callback, initialValue) {
+    <span class="kw">let</span> acc = initialValue !== <span class="bool">undefined</span> ? initialValue : arr[<span class="num-lit">0</span>];
+    <span class="kw">let</span> startIndex = initialValue !== <span class="bool">undefined</span> ? <span class="num-lit">0</span> : <span class="num-lit">1</span>;
+
+    <span class="kw">for</span> (<span class="kw">let</span> i = startIndex; i < arr.length; i++) {
+        acc = <span class="fn">callback</span>(acc, arr[i], i, arr);
+    }
+    <span class="kw">return</span> acc;
+}</code></pre>
+            </div>
+        </div>
+
+
+        <div class="kata">
+            <div class="kata-header">
+                <span class="kata-num">18</span>
+                <span class="kata-type type-build">Build</span>
+                <span class="kata-type type-trick">Think Hard</span>
+            </div>
+            <h3>Event Emitter</h3>
+            <p>Build a mini event system. Create a class or factory function that supports <code>on(event, callback)</code>, <code>emit(event, ...data)</code>, and <code>off(event, callback)</code>.</p>
+            <pre><code><span class="kw">const</span> emitter = <span class="fn">createEmitter</span>();
+
+<span class="kw">const</span> <span class="fn">onHello</span> = name => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Hello, ${name}!`</span>);
+
+emitter.<span class="fn">on</span>(<span class="str">"greet"</span>, onHello);
+emitter.<span class="fn">emit</span>(<span class="str">"greet"</span>, <span class="str">"Idris"</span>);  <span class="cm">// "Hello, Idris!"</span>
+emitter.<span class="fn">emit</span>(<span class="str">"greet"</span>, <span class="str">"Alice"</span>);  <span class="cm">// "Hello, Alice!"</span>
+emitter.<span class="fn">off</span>(<span class="str">"greet"</span>, onHello);
+emitter.<span class="fn">emit</span>(<span class="str">"greet"</span>, <span class="str">"Bob"</span>);    <span class="cm">// (nothing — listener removed)</span></code></pre>
+            <button class="hint-btn" onclick="toggle(this, 'hint')">Hint</button>
+            <button class="answer-btn" onclick="toggle(this, 'answer')">Answer</button>
+            <div class="hint"><strong>Hint</strong>Use an object where each key is an event name and the value is an array of callback functions. <code>on</code> pushes to the array, <code>emit</code> calls every function in the array, <code>off</code> filters it out.</div>
+            <div class="answer"><strong>Answer</strong>
+                <pre><code><span class="kw">function</span> <span class="fn">createEmitter</span>() {
+    <span class="kw">const</span> events = {};
+
+    <span class="kw">return</span> {
+        on(event, cb) {
+            <span class="kw">if</span> (!events[event]) events[event] = [];
+            events[event].<span class="fn">push</span>(cb);
+        },
+        off(event, cb) {
+            <span class="kw">if</span> (!events[event]) <span class="kw">return</span>;
+            events[event] = events[event].<span class="fn">filter</span>(fn => fn !== cb);
+        },
+        emit(event, ...args) {
+            <span class="kw">if</span> (!events[event]) <span class="kw">return</span>;
+            events[event].<span class="fn">forEach</span>(cb => <span class="fn">cb</span>(...args));
+        }
+    };
+}</code></pre>
+                <p>This combines closures (private <code>events</code> object), higher-order functions, rest parameters, spread, and array methods. It's a simplified version of Node.js EventEmitter and the browser's addEventListener.</p>
+            </div>
+        </div>
+
+
+        <hr>
+        <p style="text-align:center; color:#5e6e8a; font-size:14px; margin-top:40px;">
+            🧠 If you can solve every kata here without peeking, you <strong>truly understand</strong> JS fundamentals.<br>
+            Come back to the ones you got wrong after a few days — spaced repetition is the key.
+        </p>
+
+    </div>
+
+    <script>
+        function toggle(btn, type) {
+            const el = btn.closest('.kata').querySelector('.' + type);
+            el.classList.toggle('show');
+            if (type === 'hint') {
+                btn.textContent = el.classList.contains('show') ? 'Hide Hint' : 'Hint';
+            } else {
+                btn.textContent = el.classList.contains('show') ? 'Hide Answer' : 'Answer';
+            }
+        }
+    </script>
+</body>
+</html>

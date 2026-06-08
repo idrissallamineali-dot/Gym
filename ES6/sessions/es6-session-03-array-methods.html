@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ES6 Session 3: Array Methods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+  .container{max-width:1000px;margin:0 auto}
+  h1{font-size:42px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+  .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#f59e0b;margin-bottom:8px}
+  .subtitle{font-size:18px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+  h2.section-title{font-size:28px;font-weight:800;color:#f0f6fc;margin:56px 0 24px;display:flex;align-items:center;gap:14px}
+  h2.section-title .section-num{background:#f59e0b;color:#0f111a;font-size:14px;font-weight:800;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  h3.sub-title{font-size:18px;font-weight:700;color:#e2e8f0;margin:32px 0 10px}
+  .concept{font-size:17px;color:#e2e8f0;margin:20px 0 16px;padding:12px 16px;background:#161b2e;border-left:4px solid #f59e0b;border-radius:0 8px 8px 0}
+  .concept code{font-family:'JetBrains Mono',monospace;color:#f59e0b;font-size:15px}
+  .example-row{display:flex;flex-wrap:wrap;gap:16px;margin:16px 0 36px;align-items:flex-start}
+  .example-item{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;overflow:hidden;min-width:140px;flex:1}
+  .example-label{background:#1e2d4a;color:#f59e0b;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;padding:8px 12px;text-align:center;word-break:break-word}
+  .example-render{padding:16px;display:flex;justify-content:center;align-items:center;min-height:80px;flex-direction:column;gap:6px;text-align:center}
+  .vs-row{display:flex;gap:24px;margin:16px 0 36px;flex-wrap:wrap}
+  .vs-item{flex:1;border-radius:12px;overflow:hidden;border:1px solid #1e2d4a;min-width:280px}
+  .vs-bad{border-color:rgba(248,81,73,0.3)}
+  .vs-good{border-color:rgba(245,158,11,0.35)}
+  .vs-label{padding:10px 16px;font-size:13px;font-weight:700;text-align:center;font-family:'JetBrains Mono',monospace}
+  .vs-label-bad{background:rgba(248,81,73,0.08);color:#f85149}
+  .vs-label-good{background:rgba(245,158,11,0.08);color:#f59e0b}
+  .vs-content{padding:16px 20px;background:#0d1117;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.9}
+  .diagram{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:16px 0 28px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;color:#7dd3fc;white-space:pre;overflow-x:auto}
+  .note{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.25);border-radius:10px;padding:14px 18px;margin:12px 0 20px;font-size:14px;color:#fcd34d}
+  .note::before{content:'💡 ';font-size:16px}
+  pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:10px;padding:20px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;overflow-x:auto;color:#e2e8f0;margin:12px 0 28px}
+  code.inline{font-family:'JetBrains Mono',monospace;background:#1e2d4a;color:#f59e0b;padding:2px 7px;border-radius:5px;font-size:14px}
+  .kw{color:#f59e0b} .fn{color:#60a5fa} .str{color:#a3e635} .cm{color:#4a5568;font-style:italic} .num{color:#fb923c} .arr{color:#c084fc}
+  .output-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#4a5568;margin-bottom:4px}
+  .output-val{font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635;word-break:break-all}
+  .tag-box{display:inline-block;background:#1e2d4a;border-radius:6px;padding:2px 8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#c084fc;margin:2px}
+  .num-bubble{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;margin:3px}
+  .arrow{color:#f59e0b;font-size:18px;margin:0 4px}
+  .section-divider{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+  /* Challenges */
+  .challenge{background:#161b2e;border:2px solid #f59e0b;border-radius:16px;padding:32px;margin:48px 0}
+  .challenge-title{font-size:24px;font-weight:800;color:#f59e0b;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+  .challenge-target{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:16px 0;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8}
+  .challenge-task{background:#0a0d16;border:1px solid #1e2d4a;border-radius:10px;padding:18px 20px;margin:12px 0}
+  .challenge-task-num{color:#f59e0b;font-weight:800;margin-right:8px}
+  .solution-btn{font-family:'Inter',sans-serif;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);color:#f59e0b;font-size:13px;font-weight:600;padding:8px 18px;border-radius:10px;cursor:pointer;transition:0.2s;margin-top:10px;display:block}
+  .solution-btn:hover{background:rgba(245,158,11,0.15)}
+  .solution{display:none;margin-top:14px;border-left:3px solid #f59e0b;border-radius:0 10px 10px 0;overflow:hidden}
+  .solution.show{display:block}
+  .solution-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#f59e0b;background:rgba(245,158,11,0.08);padding:8px 16px}
+  .solution pre{margin:0;border-radius:0;border:none;border-top:1px solid #1e2d4a;background:rgba(245,158,11,0.03)}
+  .hint-btn{font-family:'Inter',sans-serif;background:rgba(96,165,250,0.07);border:1px solid rgba(96,165,250,0.2);color:#60a5fa;font-size:12px;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer;transition:0.2s;margin-top:8px;display:inline-block}
+  .hint-btn:hover{background:rgba(96,165,250,0.13)}
+  .hint{display:none;margin-top:10px;padding:12px 16px;background:rgba(96,165,250,0.05);border:1px solid rgba(96,165,250,0.15);border-radius:8px;font-size:14px;color:#93c5fd}
+  .hint.show{display:block}
+  /* chain diagram */
+  .chain-box{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:20px;margin:14px 0 28px;overflow-x:auto}
+  .chain-step{display:flex;align-items:flex-start;gap:14px;margin:8px 0;flex-wrap:wrap}
+  .chain-method{background:#1e2d4a;color:#f59e0b;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;white-space:nowrap}
+  .chain-desc{color:#7a8599;font-size:13px;align-self:center}
+  .chain-result{font-family:'JetBrains Mono',monospace;font-size:12px;color:#a3e635;align-self:center}
+  .chain-arrow{color:#f59e0b;font-size:18px;align-self:center}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="lesson-num">ES6 by Examples</div>
+  <h1>ES6 Session 3: Array Methods</h1>
+  <p class="subtitle">The most used JavaScript tools. Every example is real-world.<br>
+  <span style="font-size:15px">forEach · map · filter · reduce · find · some · every · flat · flatMap · Array.from</span></p>
+
+  <!-- ===================== SECTION 1: forEach ===================== -->
+  <h2 class="section-title"><span class="section-num">1</span>.forEach() — Iterate, don't return</h2>
+
+  <p class="concept"><code>.forEach()</code> — Runs a function for every item. Returns <strong>undefined</strong>. Use it for side effects, not transformations.</p>
+
+  <!-- Ex 1: Basic -->
+  <h3 class="sub-title">① Basic: print each item</h3>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">['🍎','🍌','🍇'].forEach(console.log)</div>
+      <div class="example-render">
+        <div class="output-tag">console output</div>
+        <div class="output-val">🍎<br>🍌<br>🍇</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">nums.forEach(n => total += n)</div>
+      <div class="example-render">
+        <div class="output-tag">side effect: total</div>
+        <div class="output-val">total = 15<br><span style="color:#4a5568;font-size:11px">(1+2+3+4+5)</span></div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">items.forEach(item => list.push(item))</div>
+      <div class="example-render">
+        <div class="output-tag">mutates list</div>
+        <div class="output-val">list = ['a','b','c']</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 2: With index -->
+  <h3 class="sub-title">② With index: (item, i) =&gt; ...</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">forEach((item, index) => ...)</div>
+      <div class="example-render" style="flex-direction:row;flex-wrap:wrap;gap:8px;min-height:100px">
+        <div style="text-align:center">
+          <div style="font-size:11px;color:#4a5568">idx 0</div>
+          <div style="background:#1e2d4a;border-radius:8px;padding:8px 14px;font-family:'JetBrains Mono',monospace;color:#f59e0b;font-weight:700">A</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:11px;color:#4a5568">idx 1</div>
+          <div style="background:#1e2d4a;border-radius:8px;padding:8px 14px;font-family:'JetBrains Mono',monospace;color:#f59e0b;font-weight:700">B</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:11px;color:#4a5568">idx 2</div>
+          <div style="background:#1e2d4a;border-radius:8px;padding:8px 14px;font-family:'JetBrains Mono',monospace;color:#f59e0b;font-weight:700">C</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:11px;color:#4a5568">idx 3</div>
+          <div style="background:#1e2d4a;border-radius:8px;padding:8px 14px;font-family:'JetBrains Mono',monospace;color:#f59e0b;font-weight:700">D</div>
+        </div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:3">
+      <div class="example-label">fruits.forEach((fruit, i) => `${i+1}. ${fruit}`)</div>
+      <div class="example-render" style="flex-direction:column;align-items:flex-start;min-height:100px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#e2e8f0;line-height:2">
+          <span style="color:#f59e0b">1.</span> Apple<br>
+          <span style="color:#f59e0b">2.</span> Banana<br>
+          <span style="color:#f59e0b">3.</span> Cherry
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 3: Objects -->
+  <h3 class="sub-title">③ With objects: access properties</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">users.forEach(u => console.log(u.name))</div>
+      <div class="example-render" style="flex-direction:column;align-items:flex-start">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635;line-height:2">
+          "Alice"<br>"Bob"<br>"Charlie"
+        </div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:3">
+      <div class="example-label">products.forEach(p => total += p.price)</div>
+      <div class="example-render" style="flex-direction:column;gap:8px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+          <div style="background:#1e2d4a;border-radius:8px;padding:6px 12px;font-size:13px;font-family:'JetBrains Mono',monospace">$9.99</div>
+          <div style="background:#1e2d4a;border-radius:8px;padding:6px 12px;font-size:13px;font-family:'JetBrains Mono',monospace">$24.99</div>
+          <div style="background:#1e2d4a;border-radius:8px;padding:6px 12px;font-size:13px;font-family:'JetBrains Mono',monospace">$14.99</div>
+        </div>
+        <div style="color:#f59e0b;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700">total = $49.97</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 4: forEach vs for loop -->
+  <h3 class="sub-title">④ forEach vs for loop — same result</h3>
+  <div class="vs-row">
+    <div class="vs-item">
+      <div class="vs-label vs-label-bad">for loop</div>
+      <div class="vs-content">
+        <span class="kw">const</span> arr = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];<br>
+        <span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; arr.length; i++) {<br>
+        &nbsp;&nbsp;console.<span class="fn">log</span>(arr[i]);<br>
+        }<br>
+        <span class="cm">// 1, 2, 3</span>
+      </div>
+    </div>
+    <div class="vs-item vs-good">
+      <div class="vs-label vs-label-good">forEach — cleaner</div>
+      <div class="vs-content">
+        <span class="kw">const</span> arr = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];<br><br>
+        arr.<span class="fn">forEach</span>(n => console.<span class="fn">log</span>(n));<br><br>
+        <span class="cm">// 1, 2, 3</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 5: String accumulator -->
+  <h3 class="sub-title">⑤ Build a string accumulator with forEach</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:3">
+      <div class="example-label">['Sun','Mon','Tue'].forEach((d,i) => str += `${i}:${d} `)</div>
+      <div class="example-render" style="flex-direction:column;gap:6px">
+        <div style="color:#4a5568;font-size:12px">result:</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#a3e635;background:#161b2e;border-radius:8px;padding:10px 16px">"0:Sun 1:Mon 2:Tue "</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">tags.forEach(t => html += `&lt;li&gt;${t}&lt;/li&gt;`)</div>
+      <div class="example-render" style="flex-direction:column;align-items:flex-start">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#c084fc;line-height:2">
+          &lt;li&gt;JS&lt;/li&gt;<br>&lt;li&gt;CSS&lt;/li&gt;<br>&lt;li&gt;HTML&lt;/li&gt;
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 6: No break -->
+  <h3 class="sub-title">⑥ Cannot use break — forEach always runs all items</h3>
+  <div class="vs-row">
+    <div class="vs-item vs-bad">
+      <div class="vs-label vs-label-bad">❌ break inside forEach — ERROR</div>
+      <div class="vs-content">
+        [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>].<span class="fn">forEach</span>(n => {<br>
+        &nbsp;&nbsp;<span class="kw">if</span> (n === <span class="num">2</span>) <span class="kw">break</span>; <span class="cm">// SyntaxError!</span><br>
+        });<br><br>
+        <span style="color:#f85149">⚡ Illegal break statement</span>
+      </div>
+    </div>
+    <div class="vs-item vs-good">
+      <div class="vs-label vs-label-good">✅ Use for...of if you need break</div>
+      <div class="vs-content">
+        <span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>]) {<br>
+        &nbsp;&nbsp;<span class="kw">if</span> (n === <span class="num">2</span>) <span class="kw">break</span>; <span class="cm">// ✅ works!</span><br>
+        &nbsp;&nbsp;console.<span class="fn">log</span>(n);<br>
+        }<br>
+        <span class="cm">// 1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 7: No return -->
+  <h3 class="sub-title">⑦ Cannot return a value from forEach</h3>
+  <div class="vs-row">
+    <div class="vs-item vs-bad">
+      <div class="vs-label vs-label-bad">❌ forEach returns undefined</div>
+      <div class="vs-content">
+        <span class="kw">const</span> result = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>]<br>
+        &nbsp;&nbsp;.<span class="fn">forEach</span>(n => n * <span class="num">2</span>);<br><br>
+        console.<span class="fn">log</span>(result); <span class="cm">// undefined ⚠️</span>
+      </div>
+    </div>
+    <div class="vs-item vs-good">
+      <div class="vs-label vs-label-good">✅ Use .map() to get a new array</div>
+      <div class="vs-content">
+        <span class="kw">const</span> result = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>]<br>
+        &nbsp;&nbsp;.<span class="fn">map</span>(n => n * <span class="num">2</span>);<br><br>
+        console.<span class="fn">log</span>(result); <span class="cm">// [2, 4, 6] ✅</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 8: When NOT to use forEach -->
+  <h3 class="sub-title">⑧ When NOT to use forEach</h3>
+  <div class="example-row">
+    <div class="example-item" style="min-width:200px;flex:1">
+      <div class="example-label" style="background:rgba(248,81,73,0.1);color:#f85149">Use forEach when...</div>
+      <div class="example-render" style="flex-direction:column;align-items:flex-start;gap:4px;min-height:100px">
+        <div style="font-size:13px;color:#a3e635">✅ Logging items</div>
+        <div style="font-size:13px;color:#a3e635">✅ DOM updates</div>
+        <div style="font-size:13px;color:#a3e635">✅ Pushing to another array</div>
+        <div style="font-size:13px;color:#a3e635">✅ Side effects only</div>
+      </div>
+    </div>
+    <div class="example-item" style="min-width:200px;flex:1">
+      <div class="example-label" style="background:rgba(245,158,11,0.1);color:#f59e0b">Use map/filter/reduce when...</div>
+      <div class="example-render" style="flex-direction:column;align-items:flex-start;gap:4px;min-height:100px">
+        <div style="font-size:13px;color:#a3e635">✅ You need a new array</div>
+        <div style="font-size:13px;color:#a3e635">✅ You need to transform</div>
+        <div style="font-size:13px;color:#a3e635">✅ You need to filter</div>
+        <div style="font-size:13px;color:#a3e635">✅ You need a single value</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ===================== SECTION 2: map ===================== -->
+  <h2 class="section-title"><span class="section-num">2</span>.map() — Transform every item, get a new array</h2>
+
+  <p class="concept"><code>.map(fn)</code> — Returns a <strong>new array</strong> of the same length where each item has been transformed by <code>fn</code>. Never mutates the original.</p>
+
+  <!-- Ex 1: Double numbers -->
+  <h3 class="sub-title">① Double numbers</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:1">
+      <div class="example-label">input</div>
+      <div class="example-render" style="flex-direction:row;gap:6px;flex-wrap:wrap">
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">1</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">2</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">3</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">4</span>
+      </div>
+    </div>
+    <div class="example-item" style="flex:1">
+      <div class="example-label">.map(n => n * 2)</div>
+      <div class="example-render">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:18px;color:#f59e0b">n × 2</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:1">
+      <div class="example-label">output</div>
+      <div class="example-render" style="flex-direction:row;gap:6px;flex-wrap:wrap">
+        <span class="num-bubble" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44">2</span>
+        <span class="num-bubble" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44">4</span>
+        <span class="num-bubble" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44">6</span>
+        <span class="num-bubble" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44">8</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 2: Get one property -->
+  <h3 class="sub-title">② Extract one property from objects</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">users.map(u => u.name)</div>
+      <div class="example-render" style="flex-direction:column;gap:6px">
+        <div style="font-size:12px;color:#4a5568">objects in → strings out</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635">["Alice", "Bob", "Charlie"]</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">products.map(p => p.price)</div>
+      <div class="example-render" style="flex-direction:column;gap:6px">
+        <div style="font-size:12px;color:#4a5568">objects → number array</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635">[9.99, 24.99, 49.99]</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">items.map(i => i.id)</div>
+      <div class="example-render" style="flex-direction:column;gap:6px">
+        <div style="font-size:12px;color:#4a5568">extract IDs</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635">[101, 102, 103]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 3: Transform objects -->
+  <h3 class="sub-title">③ Transform objects — spread + override</h3>
+  <pre><span class="kw">const</span> products = [
+  { name: <span class="str">'Shirt'</span>, price: <span class="num">20</span> },
+  { name: <span class="str">'Pants'</span>, price: <span class="num">50</span> },
+];
+
+<span class="kw">const</span> withTax = products.<span class="fn">map</span>(p => ({
+  ...p,                         <span class="cm">// spread all existing props</span>
+  price: p.price * <span class="num">1.1</span>         <span class="cm">// override price with +10%</span>
+}));
+
+<span class="cm">// [{ name:'Shirt', price:22 }, { name:'Pants', price:55 }]</span></pre>
+
+  <!-- Ex 4: Add property -->
+  <h3 class="sub-title">④ Add a new property to every object</h3>
+  <pre><span class="kw">const</span> items = [{ name: <span class="str">'A'</span> }, { name: <span class="str">'B'</span> }, { name: <span class="str">'C'</span> }];
+
+<span class="kw">const</span> withIds = items.<span class="fn">map</span>((item, i) => ({
+  ...item,
+  id: i + <span class="num">1</span>,                  <span class="cm">// add sequential id</span>
+  createdAt: <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toISOString</span>()
+}));
+<span class="cm">// [{name:'A', id:1, createdAt:'...'}, ...]</span></pre>
+
+  <!-- Ex 5: To HTML strings -->
+  <h3 class="sub-title">⑤ Map to HTML strings</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">items.map(item => `&lt;li&gt;${item}&lt;/li&gt;`).join('')</div>
+      <div class="example-render" style="flex-direction:column;align-items:flex-start;gap:4px">
+        <span class="tag-box">&lt;li&gt;Apple&lt;/li&gt;</span>
+        <span class="tag-box">&lt;li&gt;Banana&lt;/li&gt;</span>
+        <span class="tag-box">&lt;li&gt;Cherry&lt;/li&gt;</span>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">users.map(u => `&lt;option value="${u.id}"&gt;${u.name}&lt;/option&gt;`)</div>
+      <div class="example-render" style="flex-direction:column;align-items:flex-start;gap:4px">
+        <span class="tag-box">&lt;option value="1"&gt;Alice&lt;/option&gt;</span>
+        <span class="tag-box">&lt;option value="2"&gt;Bob&lt;/option&gt;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 6: Format numbers -->
+  <h3 class="sub-title">⑥ Format numbers — prices, percentages</h3>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">n => '$' + n.toFixed(2)</div>
+      <div class="example-render" style="flex-direction:column;gap:4px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#4a5568">[9.9, 24.999, 5]</div>
+        <div style="color:#f59e0b;font-size:18px">↓</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635">["$9.90","$25.00","$5.00"]</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">n => (n * 100).toFixed(1) + '%'</div>
+      <div class="example-render" style="flex-direction:column;gap:4px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#4a5568">[0.1, 0.25, 0.5]</div>
+        <div style="color:#f59e0b;font-size:18px">↓</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635">["10.0%","25.0%","50.0%"]</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">n.toLocaleString('en-US')</div>
+      <div class="example-render" style="flex-direction:column;gap:4px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#4a5568">[1000, 2500000]</div>
+        <div style="color:#f59e0b;font-size:18px">↓</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635">["1,000","2,500,000"]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 7: Celsius to Fahrenheit -->
+  <h3 class="sub-title">⑦ Celsius → Fahrenheit</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:1">
+      <div class="example-label">input °C</div>
+      <div class="example-render" style="flex-direction:row;gap:8px;flex-wrap:wrap">
+        <div style="background:#1e2d4a;border-radius:8px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:13px">0°C</div>
+        <div style="background:#1e2d4a;border-radius:8px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:13px">20°C</div>
+        <div style="background:#1e2d4a;border-radius:8px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:13px">100°C</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:1">
+      <div class="example-label">c => c * 9/5 + 32</div>
+      <div class="example-render">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#f59e0b">c × 9/5 + 32</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:1">
+      <div class="example-label">output °F</div>
+      <div class="example-render" style="flex-direction:row;gap:8px;flex-wrap:wrap">
+        <div style="background:#f59e0b22;border:1px solid #f59e0b44;border-radius:8px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#f59e0b">32°F</div>
+        <div style="background:#f59e0b22;border:1px solid #f59e0b44;border-radius:8px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#f59e0b">68°F</div>
+        <div style="background:#f59e0b22;border:1px solid #f59e0b44;border-radius:8px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#f59e0b">212°F</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 8: Chained with filter -->
+  <h3 class="sub-title">⑧ Chained with filter — active users' names</h3>
+  <pre><span class="kw">const</span> users = [
+  { name: <span class="str">'Alice'</span>, active: <span class="kw">true</span> },
+  { name: <span class="str">'Bob'</span>,   active: <span class="kw">false</span> },
+  { name: <span class="str">'Carol'</span>, active: <span class="kw">true</span> },
+];
+
+<span class="kw">const</span> activeNames = users
+  .<span class="fn">filter</span>(u => u.active)        <span class="cm">// keep active</span>
+  .<span class="fn">map</span>(u => u.name);           <span class="cm">// extract names</span>
+
+<span class="cm">// ['Alice', 'Carol']</span></pre>
+
+  <!-- Ex 9: Array of arrays -->
+  <h3 class="sub-title">⑨ Map on array of arrays</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">matrix.map(row => row.map(n => n * 2))</div>
+      <div class="example-render" style="flex-direction:column;gap:8px;font-family:'JetBrains Mono',monospace;font-size:13px">
+        <div style="color:#4a5568">[[1,2],[3,4],[5,6]]</div>
+        <div style="color:#f59e0b">↓ double each</div>
+        <div style="color:#a3e635">[[2,4],[6,8],[10,12]]</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">pairs.map(([key, val]) => `${key}=${val}`)</div>
+      <div class="example-render" style="flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:13px">
+        <div style="color:#4a5568">[['a',1],['b',2]]</div>
+        <div style="color:#f59e0b">↓ destructure</div>
+        <div style="color:#a3e635">['a=1', 'b=2']</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 10: Select options -->
+  <h3 class="sub-title">⑩ Build &lt;select&gt; options dynamically</h3>
+  <pre><span class="kw">const</span> countries = [<span class="str">'USA'</span>, <span class="str">'UK'</span>, <span class="str">'Canada'</span>];
+
+<span class="kw">const</span> options = countries
+  .<span class="fn">map</span>(c => `&lt;option value="${c.toLowerCase()}"&gt;${c}&lt;/option&gt;`)
+  .<span class="fn">join</span>(<span class="str">''</span>);
+
+selectEl.innerHTML = `&lt;option&gt;Choose...&lt;/option&gt;` + options;
+<span class="cm">// Renders 4 options in the &lt;select&gt;</span></pre>
+
+  <hr class="section-divider">
+
+  <!-- ===================== SECTION 3: filter ===================== -->
+  <h2 class="section-title"><span class="section-num">3</span>.filter() — Keep items that pass a test</h2>
+
+  <p class="concept"><code>.filter(fn)</code> — Returns a <strong>new array</strong> containing only items where <code>fn</code> returns truthy. Original array is untouched.</p>
+
+  <!-- Ex 1: Evens -->
+  <h3 class="sub-title">① Keep evens</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:1">
+      <div class="example-label">input</div>
+      <div class="example-render" style="flex-direction:row;gap:6px;flex-wrap:wrap">
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">1</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">2</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">3</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">4</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">5</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">6</span>
+      </div>
+    </div>
+    <div class="example-item" style="flex:1">
+      <div class="example-label">.filter(n => n % 2 === 0)</div>
+      <div class="example-render">
+        <div style="font-size:13px;color:#7a8599;text-align:center">keep if remainder<br>when divided by 2 is 0</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:1">
+      <div class="example-label">output — evens only</div>
+      <div class="example-render" style="flex-direction:row;gap:6px;flex-wrap:wrap">
+        <span class="num-bubble" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44">2</span>
+        <span class="num-bubble" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44">4</span>
+        <span class="num-bubble" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44">6</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 2: Threshold -->
+  <h3 class="sub-title">② Above a threshold</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">prices.filter(p => p > 50)</div>
+      <div class="example-render" style="flex-direction:column;gap:6px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+          <span style="background:#1e2d4a;border-radius:8px;padding:4px 10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#f85149;opacity:0.5">$20</span>
+          <span style="background:#f59e0b22;border:1px solid #f59e0b;border-radius:8px;padding:4px 10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#f59e0b">$75</span>
+          <span style="background:#1e2d4a;border-radius:8px;padding:4px 10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#f85149;opacity:0.5">$35</span>
+          <span style="background:#f59e0b22;border:1px solid #f59e0b;border-radius:8px;padding:4px 10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#f59e0b">$120</span>
+          <span style="background:#f59e0b22;border:1px solid #f59e0b;border-radius:8px;padding:4px 10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#f59e0b">$99</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635">result: [75, 120, 99]</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">scores.filter(s => s >= 90)</div>
+      <div class="example-render" style="flex-direction:column;gap:6px;font-family:'JetBrains Mono',monospace;font-size:13px">
+        <div style="color:#4a5568">[72, 95, 88, 91, 60, 98]</div>
+        <div style="color:#f59e0b">↓ >= 90</div>
+        <div style="color:#a3e635">[95, 91, 98]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 3: Boolean property -->
+  <h3 class="sub-title">③ Filter by boolean property</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">users.filter(u => u.isActive)</div>
+      <div class="example-render" style="flex-direction:column;gap:6px;font-family:'JetBrains Mono',monospace;font-size:13px">
+        <div style="color:#4a5568">// isActive: true/false</div>
+        <div style="color:#a3e635">[Alice, Carol] ← active only</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">products.filter(p => p.inStock)</div>
+      <div class="example-render" style="flex-direction:column;gap:6px;font-family:'JetBrains Mono',monospace;font-size:13px">
+        <div style="color:#4a5568">// inStock: true/false</div>
+        <div style="color:#a3e635">in-stock products only</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">posts.filter(p => !p.isDraft)</div>
+      <div class="example-render" style="flex-direction:column;gap:6px;font-family:'JetBrains Mono',monospace;font-size:13px">
+        <div style="color:#4a5568">// negate: NOT draft</div>
+        <div style="color:#a3e635">published posts only</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 4: String includes -->
+  <h3 class="sub-title">④ String search with .includes()</h3>
+  <pre><span class="kw">const</span> items = [<span class="str">'blue shirt'</span>, <span class="str">'red shoes'</span>, <span class="str">'white shirt'</span>, <span class="str">'black jeans'</span>];
+
+<span class="kw">const</span> shirts = items.<span class="fn">filter</span>(i => i.<span class="fn">includes</span>(<span class="str">'shirt'</span>));
+<span class="cm">// ['blue shirt', 'white shirt']</span></pre>
+
+  <!-- Ex 5: Filter Boolean -->
+  <h3 class="sub-title">⑤ Filter out all falsy values</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">arr.filter(Boolean)</div>
+      <div class="example-render" style="flex-direction:column;gap:8px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#4a5568">[0, 'hello', '', null, 42, undefined, false, 'world']</div>
+        <div style="color:#f59e0b;font-size:18px">↓ filter(Boolean)</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635">['hello', 42, 'world']</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:1">
+      <div class="example-label">removes falsy</div>
+      <div class="example-render" style="flex-direction:column;align-items:flex-start;gap:4px;font-family:'JetBrains Mono',monospace;font-size:12px">
+        <div style="color:#f85149">0 ❌</div>
+        <div style="color:#f85149">'' ❌</div>
+        <div style="color:#f85149">null ❌</div>
+        <div style="color:#f85149">undefined ❌</div>
+        <div style="color:#f85149">false ❌</div>
+        <div style="color:#a3e635">any truthy ✅</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 6: Multiple conditions -->
+  <h3 class="sub-title">⑥ Multiple conditions</h3>
+  <pre><span class="kw">const</span> users = [
+  { name: <span class="str">'Alice'</span>, age: <span class="num">25</span>, role: <span class="str">'admin'</span> },
+  { name: <span class="str">'Bob'</span>,   age: <span class="num">16</span>, role: <span class="str">'admin'</span> },
+  { name: <span class="str">'Carol'</span>, age: <span class="num">30</span>, role: <span class="str">'user'</span>  },
+];
+
+<span class="kw">const</span> eligibleAdmins = users.<span class="fn">filter</span>(u =>
+  u.age > <span class="num">18</span> && u.role === <span class="str">'admin'</span>
+);
+<span class="cm">// [{ name: 'Alice', age: 25, role: 'admin' }]</span></pre>
+
+  <!-- Ex 7: Filter + map -->
+  <h3 class="sub-title">⑦ filter + map — prices of in-stock products</h3>
+  <pre><span class="kw">const</span> products = [
+  { name: <span class="str">'Widget'</span>, price: <span class="num">9.99</span>,  inStock: <span class="kw">true</span>  },
+  { name: <span class="str">'Gadget'</span>, price: <span class="num">49.99</span>, inStock: <span class="kw">false</span> },
+  { name: <span class="str">'Doohickey'</span>, price: <span class="num">24.99</span>, inStock: <span class="kw">true</span> },
+];
+
+<span class="kw">const</span> inStockPrices = products
+  .<span class="fn">filter</span>(p => p.inStock)      <span class="cm">// keep in-stock</span>
+  .<span class="fn">map</span>(p => p.price);          <span class="cm">// grab prices</span>
+
+<span class="cm">// [9.99, 24.99]</span></pre>
+
+  <!-- Ex 8: Case-insensitive search -->
+  <h3 class="sub-title">⑧ Case-insensitive search</h3>
+  <pre><span class="kw">const</span> books = [<span class="str">'JavaScript Basics'</span>, <span class="str">'CSS Mastery'</span>, <span class="str">'javascript patterns'</span>];
+<span class="kw">const</span> query = <span class="str">'javascript'</span>;
+
+<span class="kw">const</span> results = books.<span class="fn">filter</span>(b =>
+  b.<span class="fn">toLowerCase</span>().<span class="fn">includes</span>(query.<span class="fn">toLowerCase</span>())
+);
+<span class="cm">// ['JavaScript Basics', 'javascript patterns']  ← both match!</span></pre>
+
+  <!-- Ex 9: Date range -->
+  <h3 class="sub-title">⑨ Date range filter</h3>
+  <pre><span class="kw">const</span> events = [
+  { title: <span class="str">'Conference'</span>, date: <span class="str">'2024-01-15'</span> },
+  { title: <span class="str">'Meetup'</span>,     date: <span class="str">'2024-03-10'</span> },
+  { title: <span class="str">'Workshop'</span>,   date: <span class="str">'2024-02-20'</span> },
+];
+
+<span class="kw">const</span> q1Events = events.<span class="fn">filter</span>(e => {
+  <span class="kw">const</span> d = <span class="kw">new</span> <span class="fn">Date</span>(e.date);
+  <span class="kw">return</span> d >= <span class="kw">new</span> <span class="fn">Date</span>(<span class="str">'2024-01-01'</span>) && d <= <span class="kw">new</span> <span class="fn">Date</span>(<span class="str">'2024-03-31'</span>);
+});
+<span class="cm">// All three events (they're all in Q1 2024)</span></pre>
+
+  <!-- Ex 10: Remove by id -->
+  <h3 class="sub-title">⑩ Remove an item by id — the immutable way</h3>
+  <div class="vs-row">
+    <div class="vs-item vs-bad">
+      <div class="vs-label vs-label-bad">❌ splice — mutates original</div>
+      <div class="vs-content">
+        <span class="kw">const</span> idx = items.<span class="fn">findIndex</span>(i => i.id === <span class="num">3</span>);<br>
+        items.<span class="fn">splice</span>(idx, <span class="num">1</span>); <span class="cm">// mutates array ⚠️</span>
+      </div>
+    </div>
+    <div class="vs-item vs-good">
+      <div class="vs-label vs-label-good">✅ filter — returns new array</div>
+      <div class="vs-content">
+        <span class="kw">const</span> remaining = items<br>
+        &nbsp;&nbsp;.<span class="fn">filter</span>(item => item.id !== <span class="num">3</span>);<br>
+        <span class="cm">// original unchanged ✅</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ===================== SECTION 4: reduce ===================== -->
+  <h2 class="section-title"><span class="section-num">4</span>.reduce() — Boil an array down to one value</h2>
+
+  <p class="concept"><code>.reduce(fn, initialValue)</code> — Starts with <code>initialValue</code>, then for each item calls <code>fn(accumulator, item)</code>. Whatever you return becomes the new accumulator. Returns the final accumulator.</p>
+
+  <!-- Mental Model Diagram -->
+  <div class="diagram">reduce mental model:
+  
+  array:        [  1,    2,    3,    4  ]
+  initialValue:  0
+  
+  Step 1:  acc=0  +  item=1  →  returns 1
+  Step 2:  acc=1  +  item=2  →  returns 3
+  Step 3:  acc=3  +  item=3  →  returns 6
+  Step 4:  acc=6  +  item=4  →  returns 10   ← final result
+
+  [1,2,3,4].reduce((acc, item) => acc + item, 0)  →  10</div>
+
+  <!-- Ex 1: Sum -->
+  <h3 class="sub-title">① Sum</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">[1,2,3,4].reduce((sum,n) => sum+n, 0)</div>
+      <div class="example-render" style="flex-direction:row;gap:6px;flex-wrap:wrap;justify-content:center">
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">1</span>
+        <span style="color:#f59e0b;font-size:20px;align-self:center">+</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">2</span>
+        <span style="color:#f59e0b;font-size:20px;align-self:center">+</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">3</span>
+        <span style="color:#f59e0b;font-size:20px;align-self:center">+</span>
+        <span class="num-bubble" style="background:#1e2d4a;color:#c9d1d9">4</span>
+        <span style="color:#f59e0b;font-size:20px;align-self:center">=</span>
+        <span class="num-bubble" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44;width:48px;height:48px;font-size:20px">10</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 2: Product -->
+  <h3 class="sub-title">② Product — multiply all values</h3>
+  <pre><span class="kw">const</span> nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>];
+<span class="kw">const</span> product = nums.<span class="fn">reduce</span>((prod, n) => prod * n, <span class="num">1</span>);
+<span class="cm">// 1*1=1 → 1*2=2 → 2*3=6 → 6*4=24 → 24*5=120</span>
+console.<span class="fn">log</span>(product); <span class="cm">// 120</span></pre>
+
+  <!-- Ex 3: Max value -->
+  <h3 class="sub-title">③ Max value — no Math.max needed</h3>
+  <pre><span class="kw">const</span> scores = [<span class="num">72</span>, <span class="num">95</span>, <span class="num">88</span>, <span class="num">61</span>, <span class="num">99</span>, <span class="num">74</span>];
+<span class="kw">const</span> max = scores.<span class="fn">reduce</span>((m, n) => n > m ? n : m, -<span class="fn">Infinity</span>);
+<span class="cm">// 99</span>
+
+<span class="kw">const</span> min = scores.<span class="fn">reduce</span>((m, n) => n &lt; m ? n : m, <span class="fn">Infinity</span>);
+<span class="cm">// 61</span></pre>
+
+  <!-- Ex 4: Count occurrences -->
+  <h3 class="sub-title">④ Count occurrences — tally map</h3>
+  <pre><span class="kw">const</span> fruits = [<span class="str">'apple'</span>, <span class="str">'banana'</span>, <span class="str">'apple'</span>, <span class="str">'cherry'</span>, <span class="str">'banana'</span>, <span class="str">'apple'</span>];
+
+<span class="kw">const</span> counts = fruits.<span class="fn">reduce</span>((acc, item) => ({
+  ...acc,
+  [item]: (acc[item] || <span class="num">0</span>) + <span class="num">1</span>
+}), {});
+
+<span class="cm">// { apple: 3, banana: 2, cherry: 1 }</span></pre>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">apple</div>
+      <div class="example-render"><div style="font-size:36px;font-weight:800;color:#f59e0b">3</div></div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">banana</div>
+      <div class="example-render"><div style="font-size:36px;font-weight:800;color:#60a5fa">2</div></div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">cherry</div>
+      <div class="example-render"><div style="font-size:36px;font-weight:800;color:#c084fc">1</div></div>
+    </div>
+  </div>
+
+  <!-- Ex 5: Group by -->
+  <h3 class="sub-title">⑤ Group by property — users by role</h3>
+  <pre><span class="kw">const</span> users = [
+  { name: <span class="str">'Alice'</span>, role: <span class="str">'admin'</span> },
+  { name: <span class="str">'Bob'</span>,   role: <span class="str">'user'</span>  },
+  { name: <span class="str">'Carol'</span>, role: <span class="str">'admin'</span> },
+  { name: <span class="str">'Dave'</span>,  role: <span class="str">'user'</span>  },
+];
+
+<span class="kw">const</span> grouped = users.<span class="fn">reduce</span>((acc, user) => {
+  <span class="kw">const</span> key = user.role;
+  <span class="kw">if</span> (!acc[key]) acc[key] = [];
+  acc[key].<span class="fn">push</span>(user);
+  <span class="kw">return</span> acc;
+}, {});
+
+<span class="cm">// {</span>
+<span class="cm">//   admin: [Alice, Carol],</span>
+<span class="cm">//   user:  [Bob, Dave]</span>
+<span class="cm">// }</span></pre>
+
+  <!-- Ex 6: Flatten -->
+  <h3 class="sub-title">⑥ Flatten nested arrays</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">[[1,2],[3,4],[5,6]].reduce((flat,arr) => [...flat,...arr], [])</div>
+      <div class="example-render" style="flex-direction:column;gap:8px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#4a5568">nested array</div>
+        <div style="color:#f59e0b;font-size:16px">↓ spread each sub-array into acc</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635">[1, 2, 3, 4, 5, 6]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 7: Sum object property -->
+  <h3 class="sub-title">⑦ Sum a property across objects</h3>
+  <pre><span class="kw">const</span> orders = [
+  { id: <span class="num">1</span>, price: <span class="num">29.99</span> },
+  { id: <span class="num">2</span>, price: <span class="num">14.50</span> },
+  { id: <span class="num">3</span>, price: <span class="num">89.00</span> },
+];
+
+<span class="kw">const</span> total = orders.<span class="fn">reduce</span>((sum, o) => sum + o.price, <span class="num">0</span>);
+console.<span class="fn">log</span>(<span class="str">`Total: $</span>${total.<span class="fn">toFixed</span>(<span class="num">2</span>)}<span class="str">`</span>); <span class="cm">// Total: $133.49</span></pre>
+
+  <!-- Ex 8: Build object from array -->
+  <h3 class="sub-title">⑧ Build an object from an array of keys</h3>
+  <pre><span class="kw">const</span> permissions = [<span class="str">'read'</span>, <span class="str">'write'</span>, <span class="str">'delete'</span>];
+
+<span class="kw">const</span> permMap = permissions.<span class="fn">reduce</span>((obj, perm) => ({
+  ...obj,
+  [perm]: <span class="kw">true</span>
+}), {});
+
+<span class="cm">// { read: true, write: true, delete: true }</span>
+<span class="cm">// Now: permMap.read → true, permMap.execute → undefined</span></pre>
+
+  <!-- Ex 9: Pipeline -->
+  <h3 class="sub-title">⑨ Pipeline — apply an array of functions in sequence</h3>
+  <pre><span class="kw">const</span> pipeline = [
+  x => x * <span class="num">2</span>,
+  x => x + <span class="num">10</span>,
+  x => x.<span class="fn">toString</span>(),
+  x => <span class="str">'Result: '</span> + x
+];
+
+<span class="kw">const</span> result = pipeline.<span class="fn">reduce</span>((val, fn) => <span class="fn">fn</span>(val), <span class="num">5</span>);
+<span class="cm">// 5 → 10 → 20 → '20' → 'Result: 20'</span>
+console.<span class="fn">log</span>(result); <span class="cm">// 'Result: 20'</span></pre>
+
+  <!-- Ex 10: Count with condition -->
+  <h3 class="sub-title">⑩ Count items that match a condition</h3>
+  <pre><span class="kw">const</span> tasks = [
+  { name: <span class="str">'Write tests'</span>,   done: <span class="kw">true</span>  },
+  { name: <span class="str">'Fix bug'</span>,       done: <span class="kw">false</span> },
+  { name: <span class="str">'Deploy'</span>,        done: <span class="kw">true</span>  },
+  { name: <span class="str">'Write docs'</span>,    done: <span class="kw">false</span> },
+];
+
+<span class="kw">const</span> doneCount = tasks.<span class="fn">reduce</span>(
+  (count, task) => task.done ? count + <span class="num">1</span> : count, <span class="num">0</span>
+);
+console.<span class="fn">log</span>(doneCount); <span class="cm">// 2</span></pre>
+
+  <hr class="section-divider">
+
+  <!-- ===================== SECTION 5: find & findIndex ===================== -->
+  <h2 class="section-title"><span class="section-num">5</span>.find() &amp; .findIndex() — Locate a specific item</h2>
+
+  <p class="concept"><code>.find(fn)</code> returns the <strong>first</strong> matching item (or <code>undefined</code>). <code>.findIndex(fn)</code> returns its <strong>index</strong> (or <code>-1</code>).</p>
+
+  <!-- Ex 1: Find by id -->
+  <h3 class="sub-title">① Find by id</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:3">
+      <div class="example-label">users.find(u => u.id === 2)</div>
+      <div class="example-render" style="flex-direction:row;gap:10px;flex-wrap:wrap;justify-content:center">
+        <div style="background:#1e2d4a;border-radius:8px;padding:8px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;opacity:0.5">id:1 Alice</div>
+        <div style="background:#f59e0b22;border:2px solid #f59e0b;border-radius:8px;padding:8px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#f59e0b">id:2 Bob ✓</div>
+        <div style="background:#1e2d4a;border-radius:8px;padding:8px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;opacity:0.5">id:3 Carol</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">returns THE OBJECT</div>
+      <div class="example-render" style="flex-direction:column;gap:4px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#a3e635">{ id: 2, name: 'Bob' }</div>
+        <div style="font-size:12px;color:#4a5568">not an array — the item itself</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 2: First above threshold -->
+  <h3 class="sub-title">② Find first item above a threshold</h3>
+  <pre><span class="kw">const</span> temps = [<span class="num">18</span>, <span class="num">22</span>, <span class="num">31</span>, <span class="num">19</span>, <span class="num">35</span>];
+<span class="kw">const</span> firstHot = temps.<span class="fn">find</span>(t => t > <span class="num">30</span>);
+<span class="cm">// 31  ← first match, stops immediately (not 35)</span></pre>
+
+  <!-- Ex 3: find vs filter -->
+  <h3 class="sub-title">③ .find() vs .filter() — one vs array</h3>
+  <div class="vs-row">
+    <div class="vs-item">
+      <div class="vs-label" style="background:#1e2d4a;color:#60a5fa">.find() — stops at first match</div>
+      <div class="vs-content">
+        users.<span class="fn">find</span>(u => u.role === <span class="str">'admin'</span>)<br><br>
+        <span class="cm">// → { name: 'Alice', role: 'admin' }</span><br>
+        <span class="cm">// ONE object (or undefined)</span><br>
+        <span class="cm">// Stops searching after first match ✅</span>
+      </div>
+    </div>
+    <div class="vs-item vs-good">
+      <div class="vs-label vs-label-good">.filter() — collects ALL matches</div>
+      <div class="vs-content">
+        users.<span class="fn">filter</span>(u => u.role === <span class="str">'admin'</span>)<br><br>
+        <span class="cm">// → [Alice, Carol, Dave]</span><br>
+        <span class="cm">// ARRAY (possibly empty [])</span><br>
+        <span class="cm">// Scans entire array</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 4: findIndex -->
+  <h3 class="sub-title">④ findIndex — get position to update/remove</h3>
+  <pre><span class="kw">const</span> cart = [
+  { id: <span class="num">1</span>, name: <span class="str">'Shirt'</span>, qty: <span class="num">1</span> },
+  { id: <span class="num">2</span>, name: <span class="str">'Pants'</span>, qty: <span class="num">2</span> },
+  { id: <span class="num">3</span>, name: <span class="str">'Hat'</span>,   qty: <span class="num">1</span> },
+];
+
+<span class="kw">const</span> idx = cart.<span class="fn">findIndex</span>(item => item.id === <span class="num">2</span>);
+console.<span class="fn">log</span>(idx); <span class="cm">// 1  (second item)</span></pre>
+
+  <!-- Ex 5: Not found -->
+  <h3 class="sub-title">⑤ Not found: undefined / -1</h3>
+  <div class="example-row">
+    <div class="example-item" style="flex:1">
+      <div class="example-label">find() — not found</div>
+      <div class="example-render" style="flex-direction:column;gap:4px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#f85149">undefined</div>
+        <div style="font-size:12px;color:#4a5568">check before using!</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:1">
+      <div class="example-label">findIndex() — not found</div>
+      <div class="example-render" style="flex-direction:column;gap:4px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:16px;color:#f85149">-1</div>
+        <div style="font-size:12px;color:#4a5568">check idx !== -1</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">safe pattern</div>
+      <div class="example-render" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#e2e8f0;line-height:2;text-align:left">
+        <span class="kw">const</span> user = users.<span class="fn">find</span>(...);<br>
+        <span class="kw">if</span> (user) { <span class="cm">/* use it */</span> }
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 6: Update using findIndex -->
+  <h3 class="sub-title">⑥ Update an item using findIndex + spread</h3>
+  <pre><span class="kw">const</span> users = [
+  { id: <span class="num">1</span>, name: <span class="str">'Alice'</span>, score: <span class="num">80</span> },
+  { id: <span class="num">2</span>, name: <span class="str">'Bob'</span>,   score: <span class="num">65</span> },
+];
+
+<span class="kw">const</span> idx = users.<span class="fn">findIndex</span>(u => u.id === <span class="num">2</span>);
+<span class="kw">const</span> updatedUsers = [
+  ...users.<span class="fn">slice</span>(<span class="num">0</span>, idx),
+  { ...users[idx], score: <span class="num">90</span> }, <span class="cm">// updated item</span>
+  ...users.<span class="fn">slice</span>(idx + <span class="num">1</span>),
+];
+<span class="cm">// [{ id:1, Alice, 80 }, { id:2, Bob, 90 }]  ← immutable update</span></pre>
+
+  <hr class="section-divider">
+
+  <!-- ===================== SECTION 6: Quick methods ===================== -->
+  <h2 class="section-title"><span class="section-num">6</span>Quick Methods — some, every, includes, flat, flatMap, Array.from</h2>
+
+  <!-- some() -->
+  <h3 class="sub-title">.some() — is there at least one match?</h3>
+  <p class="concept"><code>.some(fn)</code> — Returns <code>true</code> if <strong>any</strong> item passes. Short-circuits on first match.</p>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">[1,2,3].some(n => n > 2)</div>
+      <div class="example-render"><div style="font-size:28px;font-weight:800;color:#a3e635">true</div></div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">[1,2,3].some(n => n > 10)</div>
+      <div class="example-render"><div style="font-size:28px;font-weight:800;color:#f85149">false</div></div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">users.some(u => u.isAdmin)</div>
+      <div class="example-render" style="flex-direction:column;gap:4px;font-size:13px;text-align:left;align-items:flex-start">
+        <div style="color:#a3e635">→ true if ANY user is admin</div>
+        <div style="color:#4a5568;font-size:12px">use case: show admin panel?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- every() -->
+  <h3 class="sub-title">.every() — do ALL items match?</h3>
+  <p class="concept"><code>.every(fn)</code> — Returns <code>true</code> only if <strong>every</strong> item passes. Short-circuits on first failure.</p>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">[2,4,6].every(n => n%2===0)</div>
+      <div class="example-render"><div style="font-size:28px;font-weight:800;color:#a3e635">true</div></div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">[2,3,6].every(n => n%2===0)</div>
+      <div class="example-render"><div style="font-size:28px;font-weight:800;color:#f85149">false</div></div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">fields.every(f => f.value !== '')</div>
+      <div class="example-render" style="flex-direction:column;gap:4px;font-size:13px;text-align:left;align-items:flex-start">
+        <div style="color:#a3e635">→ form validation!</div>
+        <div style="color:#4a5568;font-size:12px">enable Submit only if all filled</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- includes() -->
+  <h3 class="sub-title">.includes() — does array contain this exact value?</h3>
+  <p class="concept"><code>.includes(val)</code> — Strict equality check (<code>===</code>). Works great for primitives.</p>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">['a','b','c'].includes('b')</div>
+      <div class="example-render"><div style="font-size:28px;font-weight:800;color:#a3e635">true</div></div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">['a','b','c'].includes('z')</div>
+      <div class="example-render"><div style="font-size:28px;font-weight:800;color:#f85149">false</div></div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">allowedRoles.includes(user.role)</div>
+      <div class="example-render" style="flex-direction:column;gap:4px;font-size:13px;text-align:left;align-items:flex-start">
+        <div style="color:#a3e635">→ permission check!</div>
+        <div style="color:#4a5568;font-size:12px">['admin','mod'].includes('admin') → true</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- flat() -->
+  <h3 class="sub-title">.flat() — flatten nested arrays</h3>
+  <p class="concept"><code>.flat(depth)</code> — Flattens nested arrays. Default depth is 1. Use <code>Infinity</code> for any depth.</p>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">[[1,2],[3,4]].flat()</div>
+      <div class="example-render" style="flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:13px">
+        <div style="color:#4a5568">[[1,2],[3,4]]</div>
+        <div style="color:#f59e0b">↓ depth: 1</div>
+        <div style="color:#a3e635">[1, 2, 3, 4]</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">[1,[2,[3,[4]]]].flat(Infinity)</div>
+      <div class="example-render" style="flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:13px">
+        <div style="color:#4a5568">[1,[2,[3,[4]]]]</div>
+        <div style="color:#f59e0b">↓ depth: Infinity</div>
+        <div style="color:#a3e635">[1, 2, 3, 4]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- flatMap() -->
+  <h3 class="sub-title">.flatMap() — map then flatten (depth 1)</h3>
+  <p class="concept"><code>.flatMap(fn)</code> — Like <code>.map()</code> but flattens the result one level. Great when your map returns arrays.</p>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">sentences.flatMap(s => s.split(' '))</div>
+      <div class="example-render" style="flex-direction:column;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px">
+        <div style="color:#4a5568">['Hello world', 'foo bar']</div>
+        <div style="color:#f59e0b">↓ split each, then flatten</div>
+        <div style="color:#a3e635">['Hello','world','foo','bar']</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">users.flatMap(u => u.hobbies)</div>
+      <div class="example-render" style="flex-direction:column;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px">
+        <div style="color:#4a5568">each user has hobbies array</div>
+        <div style="color:#f59e0b">↓ collect all hobbies flat</div>
+        <div style="color:#a3e635">['coding','gaming','reading',...]</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Array.from() -->
+  <h3 class="sub-title">Array.from() — convert to a real array</h3>
+  <p class="concept"><code>Array.from()</code> — Turns NodeLists, Sets, Maps, strings, and any iterable into a real array.</p>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">Array.from('hello')</div>
+      <div class="example-render" style="flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:12px">
+        <div style="color:#a3e635">['h','e','l','l','o']</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">Array.from({length:5},(_,i)=>i)</div>
+      <div class="example-render" style="flex-direction:column;gap:4px;font-family:'JetBrains Mono',monospace;font-size:12px">
+        <div style="color:#a3e635">[0, 1, 2, 3, 4]</div>
+        <div style="color:#4a5568;font-size:11px">range trick!</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">Array.from(document.querySelectorAll('p'))</div>
+      <div class="example-render" style="flex-direction:column;gap:4px;font-size:12px">
+        <div style="color:#a3e635">real Array (can .map!)</div>
+        <div style="color:#4a5568;font-size:11px">NodeList → Array</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Set trick -->
+  <h3 class="sub-title">[...new Set(arr)] — remove duplicates</h3>
+  <p class="concept">A <code>Set</code> only stores unique values. Spreading it back into an array gives you a deduplicated array instantly.</p>
+  <div class="example-row">
+    <div class="example-item" style="flex:2">
+      <div class="example-label">[...new Set([1,2,2,3,3,3])]</div>
+      <div class="example-render" style="flex-direction:column;gap:6px;font-family:'JetBrains Mono',monospace;font-size:13px">
+        <div style="color:#4a5568">[1, 2, 2, 3, 3, 3]</div>
+        <div style="color:#f59e0b">↓ new Set → {1,2,3} → spread</div>
+        <div style="color:#a3e635">[1, 2, 3]</div>
+      </div>
+    </div>
+    <div class="example-item" style="flex:2">
+      <div class="example-label">[...new Set(tags)]</div>
+      <div class="example-render" style="flex-direction:column;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px">
+        <div style="color:#4a5568">['js','css','js','html','css']</div>
+        <div style="color:#f59e0b">↓ unique only</div>
+        <div style="color:#a3e635">['js', 'css', 'html']</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ===================== SECTION 7: Chaining ===================== -->
+  <h2 class="section-title"><span class="section-num">7</span>Chaining — Power combos</h2>
+
+  <p class="concept">Each array method returns a new array, so you can chain them. Read top-to-bottom: each step feeds into the next.</p>
+
+  <!-- Chain 1 -->
+  <h3 class="sub-title">① Active users' names, sorted A→Z</h3>
+  <div class="chain-box">
+    <div class="chain-step">
+      <span class="chain-method">.filter(u => u.active)</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-result">[Alice, Carol, Eve]</span>
+      <span class="chain-desc">keep active only</span>
+    </div>
+    <div class="chain-step">
+      <span class="chain-method">.map(u => u.name)</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-result">['Alice','Carol','Eve']</span>
+      <span class="chain-desc">extract names</span>
+    </div>
+    <div class="chain-step">
+      <span class="chain-method">.sort()</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-result">['Alice','Carol','Eve']</span>
+      <span class="chain-desc">alphabetical</span>
+    </div>
+    <div class="chain-step">
+      <span class="chain-method">.join(', ')</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-result">"Alice, Carol, Eve"</span>
+      <span class="chain-desc">one string</span>
+    </div>
+  </div>
+  <pre><span class="kw">const</span> result = users
+  .<span class="fn">filter</span>(u => u.active)
+  .<span class="fn">map</span>(u => u.name)
+  .<span class="fn">sort</span>()
+  .<span class="fn">join</span>(<span class="str">', '</span>);
+<span class="cm">// "Alice, Carol, Eve"</span></pre>
+
+  <!-- Chain 2 -->
+  <h3 class="sub-title">② Top 3 most expensive in-stock products</h3>
+  <div class="chain-box">
+    <div class="chain-step">
+      <span class="chain-method">.filter(p => p.inStock)</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-desc">keep available items</span>
+    </div>
+    <div class="chain-step">
+      <span class="chain-method">.sort((a,b) => b.price - a.price)</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-desc">expensive first</span>
+    </div>
+    <div class="chain-step">
+      <span class="chain-method">.slice(0, 3)</span>
+      <span class="chain-arrow">→</span>
+      <span class="chain-desc">first 3 only</span>
+    </div>
+  </div>
+  <pre><span class="kw">const</span> top3 = products
+  .<span class="fn">filter</span>(p => p.inStock)
+  .<span class="fn">sort</span>((a, b) => b.price - a.price)
+  .<span class="fn">slice</span>(<span class="num">0</span>, <span class="num">3</span>);</pre>
+
+  <!-- Chain 3 -->
+  <h3 class="sub-title">③ Search and format results</h3>
+  <pre><span class="kw">const</span> searchResults = products
+  .<span class="fn">filter</span>(p => p.name.<span class="fn">toLowerCase</span>().<span class="fn">includes</span>(query.<span class="fn">toLowerCase</span>()))
+  .<span class="fn">map</span>(p => ({
+    ...p,
+    displayPrice: <span class="str">'$'</span> + p.price.<span class="fn">toFixed</span>(<span class="num">2</span>),
+    highlight: p.name.<span class="fn">replace</span>(<span class="kw">new</span> <span class="fn">RegExp</span>(query, <span class="str">'gi'</span>), m => <span class="str">`&lt;mark&gt;${m}&lt;/mark&gt;`</span>)
+  }))
+  .<span class="fn">slice</span>(<span class="num">0</span>, <span class="num">10</span>); <span class="cm">// max 10 results</span></pre>
+
+  <!-- Chain 4 -->
+  <h3 class="sub-title">④ Total revenue from completed orders</h3>
+  <pre><span class="kw">const</span> revenue = orders
+  .<span class="fn">filter</span>(o => o.status === <span class="str">'completed'</span>)
+  .<span class="fn">reduce</span>((sum, o) => sum + o.total, <span class="num">0</span>);
+
+console.<span class="fn">log</span>(<span class="str">`Revenue: $</span>${revenue.<span class="fn">toFixed</span>(<span class="num">2</span>)}<span class="str">`</span>);</pre>
+
+  <!-- Chain 5 -->
+  <h3 class="sub-title">⑤ Frequency map sorted by count (most common first)</h3>
+  <pre><span class="kw">const</span> words = [<span class="str">'cat'</span>, <span class="str">'dog'</span>, <span class="str">'cat'</span>, <span class="str">'bird'</span>, <span class="str">'dog'</span>, <span class="str">'cat'</span>];
+
+<span class="kw">const</span> sorted = <span class="fn">Object</span>.<span class="fn">entries</span>(
+  words.<span class="fn">reduce</span>((acc, w) => ({...acc, [w]: (acc[w]||<span class="num">0</span>)+<span class="num">1</span>}), {})
+)
+  .<span class="fn">sort</span>(([,a],[,b]) => b - a)  <span class="cm">// sort by count desc</span>
+  .<span class="fn">map</span>(([word, count]) => <span class="str">`${word}: ${count}`</span>);
+
+<span class="cm">// ['cat: 3', 'dog: 2', 'bird: 1']</span></pre>
+
+  <!-- Chain 6 -->
+  <h3 class="sub-title">⑥ Transform an API response</h3>
+  <pre><span class="kw">const</span> cleanUsers = apiResponse.data
+  .<span class="fn">filter</span>(u => u.is_active)                    <span class="cm">// active only</span>
+  .<span class="fn">map</span>(u => ({                                  <span class="cm">// reshape</span>
+    id: u.user_id,
+    name: u.full_name.<span class="fn">trim</span>(),
+    email: u.email_address.<span class="fn">toLowerCase</span>(),
+    joinedAt: <span class="kw">new</span> <span class="fn">Date</span>(u.created_at)
+  }))
+  .<span class="fn">sort</span>((a, b) => a.name.<span class="fn">localeCompare</span>(b.name)); <span class="cm">// A→Z</span></pre>
+
+  <hr class="section-divider">
+
+  <!-- ===================== CHALLENGE 1 ===================== -->
+  <div class="challenge">
+    <div class="challenge-title">🏆 Clone Challenge 1: Product Filter</div>
+    <p style="color:#c9d1d9;margin-bottom:16px">Use array methods only — no loops, no if statements outside the callbacks.</p>
+
+    <div class="challenge-target">
+<span class="kw">const</span> products = [
+  { id:<span class="num">1</span>, name:<span class="str">'Gaming Mouse'</span>,      price:<span class="num">49.99</span>,  category:<span class="str">'peripherals'</span>, inStock:<span class="kw">true</span>,  rating:<span class="num">4.5</span> },
+  { id:<span class="num">2</span>, name:<span class="str">'Mechanical Keyboard'</span>, price:<span class="num">129.99</span>, category:<span class="str">'peripherals'</span>, inStock:<span class="kw">true</span>,  rating:<span class="num">4.8</span> },
+  { id:<span class="num">3</span>, name:<span class="str">'Gaming Chair'</span>,        price:<span class="num">299.99</span>, category:<span class="str">'furniture'</span>,   inStock:<span class="kw">false</span>, rating:<span class="num">4.2</span> },
+  { id:<span class="num">4</span>, name:<span class="str">'Monitor 27in'</span>,        price:<span class="num">399.99</span>, category:<span class="str">'displays'</span>,    inStock:<span class="kw">true</span>,  rating:<span class="num">4.6</span> },
+  { id:<span class="num">5</span>, name:<span class="str">'Mousepad XL'</span>,         price:<span class="num">24.99</span>,  category:<span class="str">'peripherals'</span>, inStock:<span class="kw">true</span>,  rating:<span class="num">4.0</span> },
+  { id:<span class="num">6</span>, name:<span class="str">'Headset Pro'</span>,         price:<span class="num">89.99</span>,  category:<span class="str">'audio'</span>,       inStock:<span class="kw">true</span>,  rating:<span class="num">4.7</span> },
+];</div>
+
+    <!-- Task 1 -->
+    <div class="challenge-task">
+      <span class="challenge-task-num">Task 1</span> Names of all in-stock products
+      <br><span style="color:#7a8599;font-size:13px">Expected: ['Gaming Mouse', 'Mechanical Keyboard', 'Monitor 27in', 'Mousepad XL', 'Headset Pro']</span>
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Hint</button>
+      <div class="hint">Use <code class="inline">.filter(p => p.inStock)</code> then <code class="inline">.map(p => p.name)</code></div>
+      <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+      <div class="solution">
+        <div class="solution-label">SOLUTION</div>
+        <pre><span class="kw">const</span> inStockNames = products
+  .<span class="fn">filter</span>(p => p.inStock)
+  .<span class="fn">map</span>(p => p.name);
+<span class="cm">// ['Gaming Mouse', 'Mechanical Keyboard', 'Monitor 27in', 'Mousepad XL', 'Headset Pro']</span></pre>
+      </div>
+    </div>
+
+    <!-- Task 2 -->
+    <div class="challenge-task">
+      <span class="challenge-task-num">Task 2</span> Total price of all in-stock products
+      <br><span style="color:#7a8599;font-size:13px">Expected: $694.95</span>
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Hint</button>
+      <div class="hint">Filter in-stock first, then <code class="inline">.reduce((sum, p) => sum + p.price, 0)</code></div>
+      <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+      <div class="solution">
+        <div class="solution-label">SOLUTION</div>
+        <pre><span class="kw">const</span> total = products
+  .<span class="fn">filter</span>(p => p.inStock)
+  .<span class="fn">reduce</span>((sum, p) => sum + p.price, <span class="num">0</span>);
+console.<span class="fn">log</span>(<span class="str">'$'</span> + total.<span class="fn">toFixed</span>(<span class="num">2</span>)); <span class="cm">// $694.95</span></pre>
+      </div>
+    </div>
+
+    <!-- Task 3 -->
+    <div class="challenge-task">
+      <span class="challenge-task-num">Task 3</span> Products rated above 4.5, sorted by rating descending
+      <br><span style="color:#7a8599;font-size:13px">Expected: [Headset Pro(4.7), Mechanical Keyboard(4.8), Monitor 27in(4.6)] — sorted desc</span>
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Hint</button>
+      <div class="hint">Filter <code class="inline">p.rating > 4.5</code>, then <code class="inline">.sort((a,b) => b.rating - a.rating)</code></div>
+      <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+      <div class="solution">
+        <div class="solution-label">SOLUTION</div>
+        <pre><span class="kw">const</span> topRated = products
+  .<span class="fn">filter</span>(p => p.rating > <span class="num">4.5</span>)
+  .<span class="fn">sort</span>((a, b) => b.rating - a.rating);
+<span class="cm">// Mechanical Keyboard(4.8), Headset Pro(4.7), Monitor 27in(4.6)</span></pre>
+      </div>
+    </div>
+
+    <!-- Task 4 -->
+    <div class="challenge-task">
+      <span class="challenge-task-num">Task 4</span> Group products by category using reduce
+      <br><span style="color:#7a8599;font-size:13px">Expected: { peripherals: [...], furniture: [...], displays: [...], audio: [...] }</span>
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Hint</button>
+      <div class="hint">Use <code class="inline">.reduce((acc, p) => { ... acc[p.category] = [...(acc[p.category]||[]), p] ... }, {})</code></div>
+      <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+      <div class="solution">
+        <div class="solution-label">SOLUTION</div>
+        <pre><span class="kw">const</span> byCategory = products.<span class="fn">reduce</span>((acc, p) => {
+  <span class="kw">const</span> cat = p.category;
+  <span class="kw">return</span> {
+    ...acc,
+    [cat]: [...(acc[cat] || []), p]
+  };
+}, {});
+<span class="cm">// { peripherals: [Mouse, Keyboard, Mousepad], furniture: [Chair], ... }</span></pre>
+      </div>
+    </div>
+
+    <!-- Task 5 -->
+    <div class="challenge-task">
+      <span class="challenge-task-num">Task 5</span> Cheapest in-stock product
+      <br><span style="color:#7a8599;font-size:13px">Expected: { name: 'Mousepad XL', price: 24.99, ... }</span>
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Hint</button>
+      <div class="hint">Filter in-stock, then <code class="inline">.reduce((cheapest, p) => p.price &lt; cheapest.price ? p : cheapest)</code></div>
+      <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+      <div class="solution">
+        <div class="solution-label">SOLUTION</div>
+        <pre><span class="kw">const</span> cheapest = products
+  .<span class="fn">filter</span>(p => p.inStock)
+  .<span class="fn">reduce</span>((min, p) => p.price &lt; min.price ? p : min);
+<span class="cm">// { id:5, name:'Mousepad XL', price:24.99, ... }</span></pre>
+      </div>
+    </div>
+
+    <!-- Task 6 -->
+    <div class="challenge-task">
+      <span class="challenge-task-num">Task 6</span> Build a summary string: <code class="inline">"6 products, 5 in stock, avg: $XXX.XX"</code>
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Hint</button>
+      <div class="hint">Use <code class="inline">.filter(...).length</code> for count, <code class="inline">.reduce()</code> for total, then divide by length for avg.</div>
+      <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+      <div class="solution">
+        <div class="solution-label">SOLUTION</div>
+        <pre><span class="kw">const</span> inStock = products.<span class="fn">filter</span>(p => p.inStock);
+<span class="kw">const</span> total = inStock.<span class="fn">reduce</span>((sum, p) => sum + p.price, <span class="num">0</span>);
+<span class="kw">const</span> avg = (total / inStock.length).<span class="fn">toFixed</span>(<span class="num">2</span>);
+
+<span class="kw">const</span> summary = <span class="str">`${products.length} products, ${inStock.length} in stock, avg: $${avg}`</span>;
+<span class="cm">// "6 products, 5 in stock, avg: $138.99"</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CHALLENGE 2 ===================== -->
+  <div class="challenge">
+    <div class="challenge-title">🔁 Clone Challenge 2: Data Transformer</div>
+    <p style="color:#c9d1d9;margin-bottom:16px">
+      Raw API data arrives messy: snake_case keys, string numbers, 0/1 booleans, inactive users mixed in.<br>
+      Transform it to clean, ready-to-use format using a single <code class="inline">.filter().map()</code> chain.
+    </p>
+
+    <div class="challenge-target">
+<span class="cm">// Raw data from API (messy)</span>
+<span class="kw">const</span> rawData = [
+  { user_id: <span class="str">'1'</span>, full_name: <span class="str">'alice smith'</span>,   email_addr: <span class="str">'ALICE@EMAIL.COM'</span>, is_active: <span class="num">1</span>, age_years: <span class="str">'28'</span>, score: <span class="str">'95.5'</span> },
+  { user_id: <span class="str">'2'</span>, full_name: <span class="str">'bob jones'</span>,     email_addr: <span class="str">'BOB@EMAIL.COM'</span>,   is_active: <span class="num">0</span>, age_years: <span class="str">'34'</span>, score: <span class="str">'72.0'</span> },
+  { user_id: <span class="str">'3'</span>, full_name: <span class="str">'carol white'</span>,   email_addr: <span class="str">'CAROL@EMAIL.COM'</span>, is_active: <span class="num">1</span>, age_years: <span class="str">'22'</span>, score: <span class="str">'88.3'</span> },
+  { user_id: <span class="str">'4'</span>, full_name: <span class="str">'dave brown'</span>,    email_addr: <span class="str">'DAVE@EMAIL.COM'</span>,  is_active: <span class="num">0</span>, age_years: <span class="str">'45'</span>, score: <span class="str">'61.1'</span> },
+  { user_id: <span class="str">'5'</span>, full_name: <span class="str">'eve green'</span>,     email_addr: <span class="str">'EVE@EMAIL.COM'</span>,   is_active: <span class="num">1</span>, age_years: <span class="str">'31'</span>, score: <span class="str">'99.0'</span> },
+];
+
+<span class="cm">// Target clean format:</span>
+<span class="cm">// [</span>
+<span class="cm">//   { id: 1, name: 'Alice Smith', email: 'alice@email.com', isActive: true, age: 28, score: 95.5 },</span>
+<span class="cm">//   { id: 3, name: 'Carol White', email: 'carol@email.com', isActive: true, age: 22, score: 88.3 },</span>
+<span class="cm">//   { id: 5, name: 'Eve Green',   email: 'eve@email.com',   isActive: true, age: 31, score: 99.0 },</span>
+<span class="cm">// ]</span></div>
+
+    <div style="margin:12px 0;font-size:14px;color:#7a8599">
+      Requirements:<br>
+      &nbsp;&nbsp;✅ Keep active users only (is_active === 1)<br>
+      &nbsp;&nbsp;✅ Convert user_id to number → id<br>
+      &nbsp;&nbsp;✅ Capitalize full_name → name ('alice smith' → 'Alice Smith')<br>
+      &nbsp;&nbsp;✅ Lowercase email_addr → email<br>
+      &nbsp;&nbsp;✅ Convert is_active (0/1) to boolean → isActive<br>
+      &nbsp;&nbsp;✅ Parse age_years string → number → age<br>
+      &nbsp;&nbsp;✅ Parse score string → float → score
+    </div>
+
+    <button class="hint-btn" onclick="toggleHint(this)">💡 Hint: capitalize function</button>
+    <div class="hint">
+      To capitalize each word: <code class="inline">str.split(' ').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')</code>
+    </div>
+
+    <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <div class="solution-label">SOLUTION</div>
+      <pre><span class="kw">const</span> <span class="fn">capitalize</span> = str =>
+  str.<span class="fn">split</span>(<span class="str">' '</span>)
+     .<span class="fn">map</span>(w => w[<span class="num">0</span>].<span class="fn">toUpperCase</span>() + w.<span class="fn">slice</span>(<span class="num">1</span>))
+     .<span class="fn">join</span>(<span class="str">' '</span>);
+
+<span class="kw">const</span> cleanData = rawData
+  .<span class="fn">filter</span>(u => u.is_active === <span class="num">1</span>)
+  .<span class="fn">map</span>(u => ({
+    id:       <span class="fn">Number</span>(u.user_id),
+    name:     <span class="fn">capitalize</span>(u.full_name),
+    email:    u.email_addr.<span class="fn">toLowerCase</span>(),
+    isActive: u.is_active === <span class="num">1</span>,
+    age:      <span class="fn">parseInt</span>(u.age_years),
+    score:    <span class="fn">parseFloat</span>(u.score),
+  }));
+
+console.<span class="fn">log</span>(cleanData);
+<span class="cm">// [</span>
+<span class="cm">//   { id:1, name:'Alice Smith', email:'alice@email.com', isActive:true, age:28, score:95.5 },</span>
+<span class="cm">//   { id:3, name:'Carol White', email:'carol@email.com', isActive:true, age:22, score:88.3 },</span>
+<span class="cm">//   { id:5, name:'Eve Green',   email:'eve@email.com',   isActive:true, age:31, score:99   },</span>
+<span class="cm">// ]</span></pre>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="margin-top:64px;padding-top:32px;border-top:1px solid #1e2d4a;text-align:center;color:#3d4f6e;font-size:14px">
+    <div style="margin-bottom:8px">ES6 by Examples — Session 3</div>
+    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:12px">
+      <span style="color:#f59e0b">.forEach()</span>
+      <span>·</span>
+      <span style="color:#f59e0b">.map()</span>
+      <span>·</span>
+      <span style="color:#f59e0b">.filter()</span>
+      <span>·</span>
+      <span style="color:#f59e0b">.reduce()</span>
+      <span>·</span>
+      <span style="color:#f59e0b">.find()</span>
+      <span>·</span>
+      <span style="color:#f59e0b">.some()</span>
+      <span>·</span>
+      <span style="color:#f59e0b">.every()</span>
+      <span>·</span>
+      <span style="color:#f59e0b">.flat()</span>
+      <span>·</span>
+      <span style="color:#f59e0b">.flatMap()</span>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+function toggleSolution(btn) {
+  const sol = btn.nextElementSibling;
+  sol.classList.toggle('show');
+  btn.textContent = sol.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+}
+function toggleHint(btn) {
+  const hint = btn.nextElementSibling;
+  hint.classList.toggle('show');
+  btn.textContent = hint.classList.contains('show') ? '🙈 Hide Hint' : '💡 Hint';
+}
+</script>
+</body>
+</html>

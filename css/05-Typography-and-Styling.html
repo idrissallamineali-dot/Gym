@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5 — Typography, Pseudo-elements & Images</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:900px;margin:0 auto}
+        h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#10b981;margin-bottom:8px}
+        .subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        .section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+        .section-num{background:#1e2d4a;color:#10b981;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+        h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #10b981;padding-left:14px}
+        h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+        p{margin-bottom:20px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+
+        .tag{color:#7ee787}
+        .attr{color:#d2a8ff}
+        .val{color:#a5d6ff}
+        .cm{color:#5e6e8a;font-style:italic}
+        .prop{color:#d2a8ff}
+        .sel{color:#7ee787}
+        .num{color:#79c0ff}
+        .cssval{color:#a5d6ff}
+
+        .co-r,.co-g,.co-p,.co-y,.co-b{border-radius:12px;padding:20px 24px;margin:20px 0 28px;font-size:15.5px;line-height:1.75}
+        .co-r{background:#2d1518;border:1px solid #f8545440;color:#f09090}
+        .co-g{background:#0d2818;border:1px solid #10b98140;color:#6ee7b7}
+        .co-p{background:#1e1533;border:1px solid #a78bfa40;color:#c4b5fd}
+        .co-y{background:#2d2305;border:1px solid #f59e0b40;color:#fcd34d}
+        .co-b{background:#0d1f2d;border:1px solid #3b82f640;color:#93c5fd}
+
+        .demo{background:#161b2e;border:1px solid #1e2d4a;border-radius:12px;margin:20px 0 32px;overflow:hidden}
+        .demo-label{background:#1e2d4a;color:#10b981;padding:8px 16px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+        .demo-box{padding:24px}
+
+        table{width:100%;border-collapse:collapse;margin:20px 0 28px}
+        th{background:#1a2035;color:#10b981;text-align:left;padding:12px 16px;font-size:14px;text-transform:uppercase;letter-spacing:1px}
+        td{padding:12px 16px;border-bottom:1px solid #1e2d4a;color:#b0bac9;font-size:15px}
+        tr:hover{background:#1a203540}
+
+        .exercise-box{background:#0d1117;border:2px solid #1e2d4a;border-radius:12px;padding:28px;margin:24px 0;position:relative}
+        .exercise-box::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:#10b981;border-radius:4px 0 0 4px}
+        .exercise-num{color:#10b981;font-weight:800;font-size:18px;margin-bottom:10px}
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="lesson-num">CSS Practical Guide</div>
+        <h1>Typography, Pseudo-elements & Images</h1>
+        <p class="subtitle">
+            Master the skills that separate amateur-looking sites from professional ones: beautiful fonts, the CSS color system,
+            pseudo-element decorations, image control with <code>object-fit</code>, and depth with <code>box-shadow</code>.
+            These are the tools that will make your LUGX Gaming clone look polished and premium.
+        </p>
+
+        <!-- ============================================================ -->
+        <!-- SECTION 0: WHY TYPOGRAPHY MATTERS -->
+        <!-- ============================================================ -->
+        <h2 class="section-title"><span class="section-num">0</span> Why Typography Matters</h2>
+
+        <p>
+            Here's a secret that most beginners don't know: <strong>the difference between a "beginner" website and a "professional" website
+            is about 80% typography</strong>. It's not fancy animations. It's not complex layouts. It's how the <em>text</em> looks.
+        </p>
+
+        <p>
+            Think about it — the majority of every website is text. Headlines, paragraphs, buttons, labels, navigation links.
+            If your text looks like it came from a 1998 homework assignment, the whole site feels amateur. But if your text is
+            clean, well-spaced, and uses a modern font? Instant professional vibes.
+        </p>
+
+        <div class="co-p">
+            🧠 <strong>The typography formula:</strong> A good font + proper sizing + thoughtful spacing = 80% of
+            looking professional. The remaining 20% is layout, color, and imagery.
+        </div>
+
+        <h3>Side-by-Side: Default vs. Custom Font</h3>
+
+        <p>
+            Every browser ships with default fonts like <strong>Times New Roman</strong> (serif) or <strong>Arial</strong> (sans-serif).
+            They're functional but generic. Compare these two headings:
+        </p>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result</div>
+            <div class="demo-box">
+                <p style="font-family:Times New Roman,serif;font-size:32px;color:#f0f6fc;margin-bottom:16px;line-height:1.3;">
+                    Best Gaming Site Ever!
+                </p>
+                <p style="font-size:12px;color:#5e6e8a;margin-bottom:24px;">⬆ Default browser font (Times New Roman) — looks like a school report</p>
+
+                <p style="font-family:'Outfit',sans-serif;font-size:32px;font-weight:800;color:#f0f6fc;letter-spacing:-1px;margin-bottom:16px;line-height:1.3;">
+                    Best Gaming Site Ever!
+                </p>
+                <p style="font-size:12px;color:#5e6e8a;margin-bottom:0;">⬆ Google Font (Outfit, 800 weight) — looks modern and premium</p>
+            </div>
+        </div>
+
+        <p>
+            <strong>Same text. Same size. Completely different impression.</strong> The second heading looks like it belongs
+            on a real gaming website. The first looks like a Word document. This is the power of typography.
+        </p>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 1: GOOGLE FONTS -->
+        <!-- ============================================================ -->
+        <h2 class="section-title"><span class="section-num">1</span> Google Fonts — Loading Custom Fonts</h2>
+
+        <h3>What Is Google Fonts?</h3>
+
+        <p>
+            <strong>Google Fonts</strong> is a free library of over 1,500 fonts hosted by Google. You pick a font,
+            add one line of HTML, and your website instantly uses that font. No downloads, no installations, no cost.
+        </p>
+
+        <p>
+            Visit <code>fonts.google.com</code>, browse fonts, click one you like, and Google gives you a
+            <code>&lt;link&gt;</code> tag to paste into your HTML <code>&lt;head&gt;</code>.
+        </p>
+
+        <h3>How to Load a Google Font</h3>
+
+        <h4>Step 1: Add the &lt;link&gt; tag in your HTML &lt;head&gt;</h4>
+
+        <pre><code><span class="cm">&lt;!-- Put this INSIDE &lt;head&gt;, BEFORE your CSS --&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">href</span>=<span class="val">"https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap"</span>
+      <span class="attr">rel</span>=<span class="val">"stylesheet"</span><span class="tag">&gt;</span></code></pre>
+
+        <p>Let's break down that URL:</p>
+        <table>
+            <tr><th>Part</th><th>Meaning</th></tr>
+            <tr><td><code>family=Inter</code></td><td>The font name (Inter)</td></tr>
+            <tr><td><code>:wght@400;600;700;900</code></td><td>The weights (thicknesses) you want to load</td></tr>
+            <tr><td><code>&amp;display=swap</code></td><td>Show fallback text while font loads (good practice)</td></tr>
+        </table>
+
+        <h4>Step 2: Use it in your CSS</h4>
+
+        <pre><code><span class="sel">body</span> {
+    <span class="prop">font-family</span>: <span class="cssval">'Inter'</span>, <span class="cssval">sans-serif</span>;
+}
+
+<span class="sel">h1</span> {
+    <span class="prop">font-family</span>: <span class="cssval">'Outfit'</span>, <span class="cssval">sans-serif</span>;
+    <span class="prop">font-weight</span>: <span class="num">800</span>;
+}</code></pre>
+
+        <div class="co-y">
+            💡 <strong>The <code>, sans-serif</code> fallback:</strong> Always add a generic font family after your Google Font.
+            If the font fails to load (slow internet, etc.), the browser will use <code>sans-serif</code> instead.
+            This is called a <strong>font stack</strong>.
+        </div>
+
+        <h3>Popular Font Choices for Web</h3>
+
+        <table>
+            <tr><th>Font</th><th>Style</th><th>Great For</th></tr>
+            <tr><td><strong>Inter</strong></td><td>Clean, neutral</td><td>Body text, UI, everything</td></tr>
+            <tr><td><strong>Outfit</strong></td><td>Modern, geometric</td><td>Headings, gaming sites</td></tr>
+            <tr><td><strong>Poppins</strong></td><td>Rounded, friendly</td><td>SaaS, apps, modern sites</td></tr>
+            <tr><td><strong>Roboto</strong></td><td>Google's own font</td><td>Material Design, Android feel</td></tr>
+            <tr><td><strong>JetBrains Mono</strong></td><td>Monospaced</td><td>Code blocks, technical text</td></tr>
+        </table>
+
+        <h3>Loading Multiple Weights</h3>
+
+        <p>
+            A font's <strong>weight</strong> is its thickness. Each weight number represents a different level of boldness:
+        </p>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Font Weights</div>
+            <div class="demo-box">
+                <p style="font-family:'Inter',sans-serif;font-weight:400;font-size:20px;color:#b0bac9;margin-bottom:10px;">
+                    Weight 400 — Regular (this is normal body text)
+                </p>
+                <p style="font-family:'Inter',sans-serif;font-weight:600;font-size:20px;color:#c9d1d9;margin-bottom:10px;">
+                    Weight 600 — Semi-Bold (good for emphasis)
+                </p>
+                <p style="font-family:'Inter',sans-serif;font-weight:700;font-size:20px;color:#e2e8f0;margin-bottom:10px;">
+                    Weight 700 — Bold (subheadings)
+                </p>
+                <p style="font-family:'Inter',sans-serif;font-weight:900;font-size:20px;color:#f0f6fc;margin-bottom:0;">
+                    Weight 900 — Black (big headings, impact)
+                </p>
+            </div>
+        </div>
+
+        <div class="co-b">
+            ℹ️ <strong>Only load weights you actually use.</strong> Each weight adds download size.
+            For most sites, <code>400</code> (body), <code>600</code> or <code>700</code> (headings), and <code>900</code> (hero titles) is enough.
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 2: FONT PROPERTIES DEEP DIVE -->
+        <!-- ============================================================ -->
+        <h2 class="section-title"><span class="section-num">2</span> Font Properties Deep Dive</h2>
+
+        <h3>font-size — How Big Is the Text?</h3>
+
+        <p>Three common units:</p>
+
+        <table>
+            <tr><th>Unit</th><th>What It Means</th><th>Example</th></tr>
+            <tr>
+                <td><code>px</code></td>
+                <td>Pixels. Absolute size. <code>16px</code> is always 16 pixels tall.</td>
+                <td><code>font-size: 24px;</code></td>
+            </tr>
+            <tr>
+                <td><code>rem</code></td>
+                <td>Relative to the root (<code>&lt;html&gt;</code>) font size. <code>1rem</code> = usually 16px.</td>
+                <td><code>font-size: 1.5rem;</code> = 24px</td>
+            </tr>
+            <tr>
+                <td><code>em</code></td>
+                <td>Relative to the <em>parent</em> element's font size. Can compound/nest unpredictably.</td>
+                <td><code>font-size: 1.5em;</code></td>
+            </tr>
+        </table>
+
+        <div class="co-p">
+            🧠 <strong>rem explained simply:</strong> Think of <code>rem</code> as "times the default size."
+            If the browser default is 16px, then <code>2rem</code> = 32px, <code>0.875rem</code> = 14px.
+            It's predictable because it ALWAYS refers to the root. Use <code>rem</code> or <code>px</code> — avoid <code>em</code> until you're advanced.
+        </div>
+
+        <h3>font-weight — How Thick Is the Text?</h3>
+
+        <pre><code><span class="sel">h1</span> { <span class="prop">font-weight</span>: <span class="num">900</span>; }   <span class="cm">/* Black — thickest */</span>
+<span class="sel">h2</span> { <span class="prop">font-weight</span>: <span class="num">700</span>; }   <span class="cm">/* Bold */</span>
+<span class="sel">h3</span> { <span class="prop">font-weight</span>: <span class="num">600</span>; }   <span class="cm">/* Semi-Bold */</span>
+<span class="sel">p</span>  { <span class="prop">font-weight</span>: <span class="num">400</span>; }   <span class="cm">/* Normal/Regular */</span>
+<span class="sel">.thin</span> { <span class="prop">font-weight</span>: <span class="num">100</span>; } <span class="cm">/* Thin — lightest */</span></code></pre>
+
+        <h3>line-height — Breathing Room Between Lines</h3>
+
+        <p>
+            <code>line-height</code> controls the vertical spacing between lines of text. It's one of the most impactful
+            properties for readability. The value is a <strong>multiplier</strong> of the font size.
+        </p>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Line Height Comparison</div>
+            <div class="demo-box">
+                <div style="display:flex;gap:24px;flex-wrap:wrap;">
+                    <div style="flex:1;min-width:250px;">
+                        <p style="font-size:13px;color:#10b981;margin-bottom:8px;font-weight:700;">line-height: 1.0 (cramped)</p>
+                        <p style="line-height:1.0;color:#b0bac9;font-size:15px;margin-bottom:0;">
+                            Explore the best gaming experiences. Download top-rated titles and join millions of players worldwide in competitive matches.
+                        </p>
+                    </div>
+                    <div style="flex:1;min-width:250px;">
+                        <p style="font-size:13px;color:#10b981;margin-bottom:8px;font-weight:700;">line-height: 1.7 (comfortable)</p>
+                        <p style="line-height:1.7;color:#b0bac9;font-size:15px;margin-bottom:0;">
+                            Explore the best gaming experiences. Download top-rated titles and join millions of players worldwide in competitive matches.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="co-g">
+            ✅ <strong>Best practice:</strong> Use <code>line-height: 1.5</code> to <code>1.8</code> for body text.
+            For headings, <code>1.1</code> to <code>1.3</code> is fine (big text needs less spacing).
+        </div>
+
+        <h3>letter-spacing — Tighten or Loosen Characters</h3>
+
+        <pre><code><span class="cm">/* Tighten for big headings — makes them feel more "designed" */</span>
+<span class="sel">h1</span> {
+    <span class="prop">letter-spacing</span>: <span class="num">-1px</span>;
+}
+
+<span class="cm">/* Loosen for small uppercase labels — improves readability */</span>
+<span class="sel">.label</span> {
+    <span class="prop">text-transform</span>: <span class="cssval">uppercase</span>;
+    <span class="prop">letter-spacing</span>: <span class="num">3px</span>;
+    <span class="prop">font-size</span>: <span class="num">12px</span>;
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Letter Spacing</div>
+            <div class="demo-box">
+                <p style="font-family:'Outfit',sans-serif;font-size:36px;font-weight:800;color:#f0f6fc;letter-spacing:-1.5px;margin-bottom:12px;line-height:1.2;">
+                    BEST GAMING SITE
+                </p>
+                <p style="font-size:12px;color:#5e6e8a;margin-bottom:20px;">⬆ letter-spacing: -1.5px (tight — feels premium)</p>
+
+                <p style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#10b981;text-transform:uppercase;letter-spacing:3px;margin-bottom:4px;">
+                    Trending Games
+                </p>
+                <p style="font-size:12px;color:#5e6e8a;margin-bottom:0;">⬆ letter-spacing: 3px (loose — readable uppercase label)</p>
+            </div>
+        </div>
+
+        <h3>text-transform — Change Case</h3>
+
+        <pre><code><span class="sel">.uppercase</span>  { <span class="prop">text-transform</span>: <span class="cssval">uppercase</span>;  }  <span class="cm">/* HELLO WORLD */</span>
+<span class="sel">.lowercase</span>  { <span class="prop">text-transform</span>: <span class="cssval">lowercase</span>;  }  <span class="cm">/* hello world */</span>
+<span class="sel">.capitalize</span> { <span class="prop">text-transform</span>: <span class="cssval">capitalize</span>; }  <span class="cm">/* Hello World */</span></code></pre>
+
+        <div class="co-y">
+            💡 <strong>Pro tip:</strong> Always use <code>text-transform: uppercase</code> in CSS rather than typing "HELLO" in your HTML.
+            This keeps your HTML content clean and makes it easy to change later. LUGX Gaming uses uppercase labels everywhere.
+        </div>
+
+        <h3>text-align — Horizontal Alignment</h3>
+
+        <pre><code><span class="sel">.center</span> { <span class="prop">text-align</span>: <span class="cssval">center</span>; }  <span class="cm">/* Center text horizontally */</span>
+<span class="sel">.right</span>  { <span class="prop">text-align</span>: <span class="cssval">right</span>;  }  <span class="cm">/* Push text to the right */</span>
+<span class="sel">.left</span>   { <span class="prop">text-align</span>: <span class="cssval">left</span>;   }  <span class="cm">/* Default for most elements */</span></code></pre>
+
+        <h3>Putting It All Together: The LUGX Heading</h3>
+
+        <p>Let's style a heading step-by-step the way LUGX Gaming does it:</p>
+
+        <pre><code><span class="sel">.hero-title</span> {
+    <span class="prop">font-family</span>: <span class="cssval">'Outfit'</span>, <span class="cssval">sans-serif</span>;
+    <span class="prop">font-size</span>: <span class="num">48px</span>;
+    <span class="prop">font-weight</span>: <span class="num">800</span>;
+    <span class="prop">color</span>: <span class="num">#f0f6fc</span>;
+    <span class="prop">letter-spacing</span>: <span class="num">-1.5px</span>;
+    <span class="prop">line-height</span>: <span class="num">1.15</span>;
+    <span class="prop">text-transform</span>: <span class="cssval">uppercase</span>;
+    <span class="prop">text-align</span>: <span class="cssval">center</span>;
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — LUGX Hero Heading</div>
+            <div class="demo-box" style="text-align:center;padding:40px 24px;">
+                <p style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#10b981;text-transform:uppercase;letter-spacing:3px;margin-bottom:12px;">
+                    Welcome to LUGX
+                </p>
+                <p style="font-family:'Outfit',sans-serif;font-size:42px;font-weight:800;color:#f0f6fc;letter-spacing:-1.5px;line-height:1.15;text-transform:uppercase;margin-bottom:16px;">
+                    Best Gaming<br>Site Ever!
+                </p>
+                <p style="font-size:16px;color:#7a8599;line-height:1.7;max-width:500px;margin:0 auto;">
+                    Explore the latest releases, competitive rankings, and exclusive game deals. Join the community today.
+                </p>
+            </div>
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 3: THE CSS COLOR SYSTEM -->
+        <!-- ============================================================ -->
+        <h2 class="section-title"><span class="section-num">3</span> The CSS Color System</h2>
+
+        <p>
+            CSS gives you multiple ways to define colors. Let's look at each one,
+            starting with the most common format you'll see on real websites.
+        </p>
+
+        <h3>Hex Colors — #RRGGBB</h3>
+
+        <p>
+            A <strong>hex color</strong> is a 6-character code that represents a color using the mix of
+            <strong>Red</strong>, <strong>Green</strong>, and <strong>Blue</strong> light (each from 00 to FF).
+        </p>
+
+        <pre><code><span class="cm">/*   #  RR  GG  BB   */</span>
+<span class="cm">/*   #  00  71  F8   = LUGX Blue (no red, some green, lots of blue) */</span>
+
+<span class="sel">.blue-btn</span>   { <span class="prop">color</span>: <span class="num">#0071F8</span>; }
+<span class="sel">.white-text</span> { <span class="prop">color</span>: <span class="num">#FFFFFF</span>; }  <span class="cm">/* FF FF FF = max of everything = white */</span>
+<span class="sel">.black-text</span> { <span class="prop">color</span>: <span class="num">#000000</span>; }  <span class="cm">/* 00 00 00 = nothing = black */</span>
+<span class="sel">.red-text</span>   { <span class="prop">color</span>: <span class="num">#FF0000</span>; }  <span class="cm">/* FF 00 00 = max red, no green, no blue */</span></code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Hex Colors</div>
+            <div class="demo-box" style="display:flex;gap:12px;flex-wrap:wrap;">
+                <div style="background:#0071F8;width:100px;height:60px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;">#0071F8</div>
+                <div style="background:#10b981;width:100px;height:60px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;">#10B981</div>
+                <div style="background:#f59e0b;width:100px;height:60px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;">#F59E0B</div>
+                <div style="background:#ef4444;width:100px;height:60px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;">#EF4444</div>
+                <div style="background:#8b5cf6;width:100px;height:60px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;">#8B5CF6</div>
+            </div>
+        </div>
+
+        <h3>RGB — rgb(R, G, B)</h3>
+
+        <p>Same idea as hex, but using decimal numbers (0–255) instead of hex digits:</p>
+
+        <pre><code><span class="sel">.blue</span> { <span class="prop">color</span>: <span class="cssval">rgb(0, 113, 248)</span>;   }  <span class="cm">/* Same as #0071F8 */</span>
+<span class="sel">.white</span> { <span class="prop">color</span>: <span class="cssval">rgb(255, 255, 255)</span>; }  <span class="cm">/* Same as #FFFFFF */</span></code></pre>
+
+        <h3>RGBA — Adding Transparency</h3>
+
+        <p>
+            <code>rgba()</code> adds a fourth number: the <strong>alpha channel</strong> (opacity), from <code>0</code> (invisible)
+            to <code>1</code> (fully visible). This is incredibly useful for overlays and shadows.
+        </p>
+
+        <pre><code><span class="cm">/*                        R    G    B    Alpha  */</span>
+<span class="sel">.overlay</span> { <span class="prop">background</span>: <span class="cssval">rgba(0, 0, 0, 0.5)</span>; }  <span class="cm">/* 50% transparent black */</span>
+<span class="sel">.glass</span>   { <span class="prop">background</span>: <span class="cssval">rgba(255, 255, 255, 0.1)</span>; }  <span class="cm">/* Barely-visible white */</span></code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — RGBA Opacity Levels</div>
+            <div class="demo-box">
+                <div style="background:linear-gradient(90deg,#0071F8,#8b5cf6);padding:20px;border-radius:8px;">
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <div style="background:rgba(0,0,0,0.1);padding:16px;border-radius:8px;color:white;font-size:13px;font-weight:600;flex:1;text-align:center;min-width:80px;">0.1</div>
+                        <div style="background:rgba(0,0,0,0.3);padding:16px;border-radius:8px;color:white;font-size:13px;font-weight:600;flex:1;text-align:center;min-width:80px;">0.3</div>
+                        <div style="background:rgba(0,0,0,0.5);padding:16px;border-radius:8px;color:white;font-size:13px;font-weight:600;flex:1;text-align:center;min-width:80px;">0.5</div>
+                        <div style="background:rgba(0,0,0,0.7);padding:16px;border-radius:8px;color:white;font-size:13px;font-weight:600;flex:1;text-align:center;min-width:80px;">0.7</div>
+                        <div style="background:rgba(0,0,0,0.9);padding:16px;border-radius:8px;color:white;font-size:13px;font-weight:600;flex:1;text-align:center;min-width:80px;">0.9</div>
+                    </div>
+                    <p style="text-align:center;color:rgba(255,255,255,0.7);font-size:12px;margin-top:12px;margin-bottom:0;">
+                        ⬆ Each box has <code style="color:#fcd34d">rgba(0, 0, 0, ...)</code> as background — same black, different opacity
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <h3>Named Colors — Quick but Limited</h3>
+
+        <p>
+            CSS has ~147 named colors like <code>red</code>, <code>coral</code>, <code>aliceblue</code>, <code>tomato</code>.
+            Great for prototyping, but <strong>avoid them in production</strong> — they're imprecise and not what designers use.
+        </p>
+
+        <h3>HSL — Hue, Saturation, Lightness</h3>
+
+        <pre><code><span class="cm">/* hsl(hue°, saturation%, lightness%) */</span>
+<span class="sel">.blue</span> { <span class="prop">color</span>: <span class="cssval">hsl(212, 100%, 49%)</span>; }  <span class="cm">/* Same blue, but easier to tweak */</span></code></pre>
+
+        <p>
+            HSL is handy when you want to create lighter/darker shades of the same hue — just change the lightness percentage.
+            Worth knowing, but hex/rgba are what you'll use most.
+        </p>
+
+        <h3>opacity Property vs. RGBA — What's the Difference?</h3>
+
+        <div class="co-r">
+            ❌ <strong><code>opacity: 0.5</code> makes EVERYTHING transparent</strong> — the background, the text, the borders,
+            and all children. You can't make just the background see-through.
+        </div>
+
+        <div class="co-g">
+            ✅ <strong><code>rgba(0, 0, 0, 0.5)</code> makes ONLY that specific color transparent.</strong>
+            Text inside stays fully visible. This is what you want 99% of the time.
+        </div>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — opacity vs RGBA</div>
+            <div class="demo-box" style="display:flex;gap:20px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;">
+                    <p style="font-size:13px;color:#ef4444;font-weight:700;margin-bottom:8px;">❌ opacity: 0.5</p>
+                    <div style="background:#0071F8;padding:20px;border-radius:8px;opacity:0.5;">
+                        <p style="color:white;font-weight:700;margin-bottom:0;">This text is also faded!</p>
+                    </div>
+                </div>
+                <div style="flex:1;min-width:200px;">
+                    <p style="font-size:13px;color:#10b981;font-weight:700;margin-bottom:8px;">✅ rgba background</p>
+                    <div style="background:rgba(0,113,248,0.5);padding:20px;border-radius:8px;">
+                        <p style="color:white;font-weight:700;margin-bottom:0;">This text stays crisp!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 4: PSEUDO-ELEMENTS -->
+        <!-- ============================================================ -->
+        <h2 class="section-title"><span class="section-num">4</span> Pseudo-elements — ::before and ::after</h2>
+
+        <h3>What Are Pseudo-elements?</h3>
+
+        <p>
+            <code>::before</code> and <code>::after</code> are <strong>invisible "ghost" elements</strong> that CSS creates.
+            They don't exist anywhere in your HTML — you never type them. CSS generates them automatically, and you can
+            style them however you want.
+        </p>
+
+        <div class="co-p">
+            🧠 <strong>Think of it this way:</strong> Every element can have two "bonus" children — one that appears
+            <em>before</em> its content, and one that appears <em>after</em>. They're perfect for decorations,
+            underlines, icons, and overlays — things that are visual-only and don't belong in your HTML.
+        </div>
+
+        <pre><code><span class="cm">/* How the browser sees it internally: */</span>
+
+<span class="tag">&lt;h2&gt;</span>
+    <span class="cm">&lt;!-- ::before lives HERE --&gt;</span>
+    GAMING
+    <span class="cm">&lt;!-- ::after lives HERE --&gt;</span>
+<span class="tag">&lt;/h2&gt;</span></code></pre>
+
+        <h3>The 3 Rules of Pseudo-elements</h3>
+
+        <div class="co-b">
+            ℹ️ <strong>Rule 1:</strong> <code>content: ""</code> is <strong>REQUIRED</strong> — even if it's empty.
+            Without it, the pseudo-element simply doesn't exist.<br><br>
+            <strong>Rule 2:</strong> By default they are <strong>inline</strong> elements — usually set them to <code>display: block</code>
+            or <code>position: absolute</code>.<br><br>
+            <strong>Rule 3:</strong> They are <strong>children</strong> of the element. So if the parent is
+            <code>position: relative</code>, the pseudo-element can be <code>position: absolute</code> inside it.
+        </div>
+
+        <h3>Demo: Red Underline (Like LUGX "GAMING")</h3>
+
+        <p>LUGX Gaming has a red decorative underline beneath certain words. Here's how to create that effect:</p>
+
+        <pre><code><span class="sel">.underlined-word</span> {
+    <span class="prop">position</span>: <span class="cssval">relative</span>;
+    <span class="prop">display</span>: <span class="cssval">inline-block</span>;
+}
+
+<span class="sel">.underlined-word::after</span> {
+    <span class="prop">content</span>: <span class="cssval">""</span>;
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">bottom</span>: <span class="num">-4px</span>;
+    <span class="prop">left</span>: <span class="num">0</span>;
+    <span class="prop">width</span>: <span class="num">100%</span>;
+    <span class="prop">height</span>: <span class="num">4px</span>;
+    <span class="prop">background</span>: <span class="num">#ef4444</span>;
+    <span class="prop">border-radius</span>: <span class="num">2px</span>;
+}</code></pre>
+
+        <style>
+            .demo-underlined {
+                position: relative;
+                display: inline-block;
+                font-family: 'Outfit', sans-serif;
+                font-size: 36px;
+                font-weight: 800;
+                color: #f0f6fc;
+                letter-spacing: -1px;
+            }
+            .demo-underlined::after {
+                content: "";
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: #ef4444;
+                border-radius: 2px;
+            }
+        </style>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Underline Decoration</div>
+            <div class="demo-box" style="text-align:center;padding:32px;">
+                <span style="font-family:'Outfit',sans-serif;font-size:36px;font-weight:800;color:#f0f6fc;letter-spacing:-1px;">BEST </span>
+                <span class="demo-underlined">GAMING</span>
+                <span style="font-family:'Outfit',sans-serif;font-size:36px;font-weight:800;color:#f0f6fc;letter-spacing:-1px;"> SITE</span>
+                <p style="color:#5e6e8a;font-size:13px;margin-top:16px;margin-bottom:0;">The red underline under "GAMING" is a <code>::after</code> pseudo-element</p>
+            </div>
+        </div>
+
+        <h3>Demo: Decorative Dot Before a Label</h3>
+
+        <style>
+            .demo-dot-label {
+                position: relative;
+                display: inline-block;
+                font-family: 'Inter', sans-serif;
+                font-size: 14px;
+                font-weight: 700;
+                color: #10b981;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                padding-left: 20px;
+            }
+            .demo-dot-label::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 10px;
+                height: 10px;
+                background: #10b981;
+                border-radius: 50%;
+            }
+        </style>
+
+        <pre><code><span class="sel">.dot-label::before</span> {
+    <span class="prop">content</span>: <span class="cssval">""</span>;
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">left</span>: <span class="num">0</span>;
+    <span class="prop">top</span>: <span class="num">50%</span>;
+    <span class="prop">transform</span>: <span class="cssval">translateY(-50%)</span>;
+    <span class="prop">width</span>: <span class="num">10px</span>;
+    <span class="prop">height</span>: <span class="num">10px</span>;
+    <span class="prop">background</span>: <span class="num">#10b981</span>;
+    <span class="prop">border-radius</span>: <span class="num">50%</span>;  <span class="cm">/* Makes it a circle */</span>
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Dot Before Label</div>
+            <div class="demo-box">
+                <span class="demo-dot-label">Trending Games</span>
+                <br><br>
+                <span class="demo-dot-label">New Releases</span>
+                <br><br>
+                <span class="demo-dot-label">Popular Now</span>
+            </div>
+        </div>
+
+        <h3>Demo: Quotation Marks Around a Quote</h3>
+
+        <style>
+            .demo-quote {
+                position: relative;
+                font-family: 'Inter', sans-serif;
+                font-size: 20px;
+                font-style: italic;
+                color: #c9d1d9;
+                padding: 0 32px;
+                display: inline-block;
+            }
+            .demo-quote::before {
+                content: "\201C";
+                position: absolute;
+                left: 0;
+                top: -8px;
+                font-size: 48px;
+                color: #10b981;
+                font-style: normal;
+                line-height: 1;
+            }
+            .demo-quote::after {
+                content: "\201D";
+                position: absolute;
+                right: 0;
+                bottom: -20px;
+                font-size: 48px;
+                color: #10b981;
+                font-style: normal;
+                line-height: 1;
+            }
+        </style>
+
+        <pre><code><span class="sel">.quote::before</span> {
+    <span class="prop">content</span>: <span class="cssval">"\201C"</span>;  <span class="cm">/* Unicode left double quote " */</span>
+    <span class="prop">font-size</span>: <span class="num">48px</span>;
+    <span class="prop">color</span>: <span class="num">#10b981</span>;
+}
+
+<span class="sel">.quote::after</span> {
+    <span class="prop">content</span>: <span class="cssval">"\201D"</span>;  <span class="cm">/* Unicode right double quote " */</span>
+    <span class="prop">font-size</span>: <span class="num">48px</span>;
+    <span class="prop">color</span>: <span class="num">#10b981</span>;
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Decorative Quotes</div>
+            <div class="demo-box" style="padding:32px 40px;">
+                <span class="demo-quote">The best gaming experience I've ever had.</span>
+            </div>
+        </div>
+
+        <h3>Common Patterns for Pseudo-elements</h3>
+
+        <table>
+            <tr><th>Use Case</th><th>How</th></tr>
+            <tr><td>Decorative underlines</td><td><code>::after</code> with <code>width: 100%</code>, small <code>height</code></td></tr>
+            <tr><td>Gradient overlays on images</td><td><code>::after</code> with <code>background: linear-gradient(...)</code></td></tr>
+            <tr><td>Bullet dots / markers</td><td><code>::before</code> as a small colored circle</td></tr>
+            <tr><td>Quotation marks</td><td><code>::before</code> / <code>::after</code> with <code>content</code> set to the quote character</td></tr>
+            <tr><td>Hover effects</td><td><code>::after</code> that grows or fades on <code>:hover</code></td></tr>
+        </table>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 5: OBJECT-FIT -->
+        <!-- ============================================================ -->
+        <h2 class="section-title"><span class="section-num">5</span> object-fit — Controlling Images</h2>
+
+        <h3>The Problem: Stretched Images</h3>
+
+        <p>
+            When you give an image a specific <code>width</code> and <code>height</code>, the browser <strong>stretches</strong>
+            the image to fill that exact size — even if the aspect ratio doesn't match. The result? Distorted, ugly images.
+        </p>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Without object-fit (distorted)</div>
+            <div class="demo-box" style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;">
+                <div>
+                    <div style="width:200px;height:120px;background:linear-gradient(135deg,#0071F8 0%,#8b5cf6 100%);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;">
+                        Original<br>400 × 300
+                    </div>
+                    <p style="font-size:12px;color:#5e6e8a;margin-top:6px;">Natural proportions</p>
+                </div>
+                <div>
+                    <div style="width:200px;height:60px;background:linear-gradient(135deg,#0071F8 0%,#8b5cf6 100%);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;">
+                        Squished!
+                    </div>
+                    <p style="font-size:12px;color:#ef4444;margin-top:6px;">❌ Forced to 200×60 — squished</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>The Solution: object-fit</h3>
+
+        <pre><code><span class="sel">.game-card img</span> {
+    <span class="prop">width</span>: <span class="num">100%</span>;
+    <span class="prop">height</span>: <span class="num">200px</span>;
+    <span class="prop">object-fit</span>: <span class="cssval">cover</span>;   <span class="cm">/* Crop to fill, maintain ratio */</span>
+}</code></pre>
+
+        <table>
+            <tr><th>Value</th><th>What It Does</th><th>When To Use</th></tr>
+            <tr>
+                <td><code>cover</code></td>
+                <td>Fills the entire container, crops excess. Maintains aspect ratio.</td>
+                <td><strong>90% of the time</strong> — game cards, hero images, avatars</td>
+            </tr>
+            <tr>
+                <td><code>contain</code></td>
+                <td>Fits entirely inside the container, may leave empty space.</td>
+                <td>Logos, icons, product images</td>
+            </tr>
+            <tr>
+                <td><code>fill</code></td>
+                <td>Stretches to fill (distorted). This is the <strong>default</strong>.</td>
+                <td>Almost never — this is what causes the problem</td>
+            </tr>
+        </table>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — object-fit Comparison</div>
+            <div class="demo-box" style="display:flex;gap:16px;flex-wrap:wrap;">
+                <div style="text-align:center;flex:1;min-width:150px;">
+                    <div style="width:100%;height:140px;background:linear-gradient(135deg,#0071F8,#10b981);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                        <div style="color:white;font-weight:700;font-size:13px;transform:scaleY(0.5);line-height:1.2;">GAME ART<br><span style="font-size:10px;font-weight:400;">stretched</span></div>
+                    </div>
+                    <p style="font-size:12px;color:#ef4444;margin-top:6px;margin-bottom:0;">fill (default)</p>
+                </div>
+                <div style="text-align:center;flex:1;min-width:150px;">
+                    <div style="width:100%;height:140px;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#1a2035;">
+                        <div style="width:100%;height:100%;background:linear-gradient(135deg,#0071F8,#10b981);display:flex;align-items:center;justify-content:center;">
+                            <div style="color:white;font-weight:700;font-size:13px;line-height:1.2;">GAME ART<br><span style="font-size:10px;font-weight:400;">cropped to fill</span></div>
+                        </div>
+                    </div>
+                    <p style="font-size:12px;color:#10b981;margin-top:6px;margin-bottom:0;">cover ✅</p>
+                </div>
+                <div style="text-align:center;flex:1;min-width:150px;">
+                    <div style="width:100%;height:140px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#1a2035;">
+                        <div style="width:70%;height:80%;background:linear-gradient(135deg,#0071F8,#10b981);border-radius:4px;display:flex;align-items:center;justify-content:center;">
+                            <div style="color:white;font-weight:700;font-size:11px;line-height:1.2;">GAME ART<br><span style="font-size:9px;font-weight:400;">fits inside</span></div>
+                        </div>
+                    </div>
+                    <p style="font-size:12px;color:#f59e0b;margin-top:6px;margin-bottom:0;">contain</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>Game Card with object-fit: cover</h3>
+
+        <pre><code><span class="sel">.game-card</span> {
+    <span class="prop">width</span>: <span class="num">280px</span>;
+    <span class="prop">border-radius</span>: <span class="num">16px</span>;
+    <span class="prop">overflow</span>: <span class="cssval">hidden</span>;  <span class="cm">/* Clips the image to rounded corners */</span>
+    <span class="prop">background</span>: <span class="num">#161b2e</span>;
+}
+
+<span class="sel">.game-card img</span> {
+    <span class="prop">width</span>: <span class="num">100%</span>;
+    <span class="prop">height</span>: <span class="num">180px</span>;
+    <span class="prop">object-fit</span>: <span class="cssval">cover</span>;
+    <span class="prop">display</span>: <span class="cssval">block</span>;  <span class="cm">/* Removes weird gap below images */</span>
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Game Card with object-fit</div>
+            <div class="demo-box" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;">
+                <div style="width:240px;border-radius:16px;overflow:hidden;background:#1a2035;">
+                    <div style="width:100%;height:160px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;align-items:center;justify-content:center;color:white;font-size:32px;">🎮</div>
+                    <div style="padding:16px;">
+                        <p style="font-weight:700;color:#f0f6fc;font-size:16px;margin-bottom:4px;">Cyber Quest</p>
+                        <p style="color:#7a8599;font-size:13px;margin-bottom:8px;">Action RPG • 2024</p>
+                        <p style="color:#10b981;font-weight:700;font-size:15px;margin-bottom:0;">$24.99</p>
+                    </div>
+                </div>
+                <div style="width:240px;border-radius:16px;overflow:hidden;background:#1a2035;">
+                    <div style="width:100%;height:160px;background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);display:flex;align-items:center;justify-content:center;color:white;font-size:32px;">⚔️</div>
+                    <div style="padding:16px;">
+                        <p style="font-weight:700;color:#f0f6fc;font-size:16px;margin-bottom:4px;">Dragon Realm</p>
+                        <p style="color:#7a8599;font-size:13px;margin-bottom:8px;">Fantasy • 2024</p>
+                        <p style="color:#10b981;font-weight:700;font-size:15px;margin-bottom:0;">$39.99</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="co-y">
+            💡 <strong>Key rule:</strong> <code>object-fit</code> only works when the container has <strong>explicit width AND height</strong>.
+            If either dimension is <code>auto</code>, there's nothing to "fit" into — the image just shows at its natural size.
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 6: BOX-SHADOW -->
+        <!-- ============================================================ -->
+        <h2 class="section-title"><span class="section-num">6</span> box-shadow — Adding Depth</h2>
+
+        <h3>The Syntax</h3>
+
+        <pre><code><span class="cm">/*  box-shadow: x-offset  y-offset  blur  spread  color  */</span>
+
+<span class="sel">.card</span> {
+    <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">4px</span> <span class="num">12px</span> <span class="cssval">rgba(0, 0, 0, 0.15)</span>;
+}
+
+<span class="cm">/*   0      → No horizontal offset (shadow is centered left/right)
+     4px    → Shadow goes 4px DOWN
+     12px   → Blur radius (bigger = softer shadow)
+     rgba() → Shadow color with transparency                        */</span></code></pre>
+
+        <table>
+            <tr><th>Parameter</th><th>What It Does</th></tr>
+            <tr><td><code>x-offset</code></td><td>Horizontal position. Positive = right, negative = left.</td></tr>
+            <tr><td><code>y-offset</code></td><td>Vertical position. Positive = down, negative = up.</td></tr>
+            <tr><td><code>blur</code></td><td>How blurry/soft the shadow is. 0 = sharp, 20+ = very soft.</td></tr>
+            <tr><td><code>spread</code></td><td>How far the shadow extends. Optional. Positive = bigger, negative = smaller.</td></tr>
+            <tr><td><code>color</code></td><td>Shadow color. Almost always use <code>rgba()</code> with low opacity.</td></tr>
+        </table>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Shadow Comparison</div>
+            <div class="demo-box" style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;padding:40px 24px;">
+                <div style="text-align:center;">
+                    <div style="width:160px;height:100px;background:#1a2035;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#5e6e8a;font-size:13px;font-weight:600;">
+                        No shadow
+                    </div>
+                    <p style="font-size:12px;color:#5e6e8a;margin-top:10px;margin-bottom:0;">none</p>
+                </div>
+                <div style="text-align:center;">
+                    <div style="width:160px;height:100px;background:#1a2035;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#b0bac9;font-size:13px;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+                        Subtle
+                    </div>
+                    <p style="font-size:12px;color:#10b981;margin-top:10px;margin-bottom:0;">0 4px 12px</p>
+                </div>
+                <div style="text-align:center;">
+                    <div style="width:160px;height:100px;background:#1a2035;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#f0f6fc;font-size:13px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+                        Medium
+                    </div>
+                    <p style="font-size:12px;color:#f59e0b;margin-top:10px;margin-bottom:0;">0 8px 32px</p>
+                </div>
+                <div style="text-align:center;">
+                    <div style="width:160px;height:100px;background:#1a2035;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#f0f6fc;font-size:13px;font-weight:600;box-shadow:0 16px 48px rgba(0,0,0,0.6),0 4px 8px rgba(0,0,0,0.3);">
+                        Heavy
+                    </div>
+                    <p style="font-size:12px;color:#ef4444;margin-top:10px;margin-bottom:0;">0 16px 48px</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>Multiple Shadows for Premium Effects</h3>
+
+        <p>You can stack multiple shadows separated by commas. This creates depth with a subtle close shadow and a softer far shadow:</p>
+
+        <pre><code><span class="sel">.premium-card</span> {
+    <span class="prop">box-shadow</span>:
+        <span class="num">0</span> <span class="num">2px</span> <span class="num">4px</span> <span class="cssval">rgba(0, 0, 0, 0.1)</span>,    <span class="cm">/* Close, sharp */</span>
+        <span class="num">0</span> <span class="num">8px</span> <span class="num">24px</span> <span class="cssval">rgba(0, 0, 0, 0.15)</span>,  <span class="cm">/* Far, soft */</span>
+        <span class="num">0</span> <span class="num">24px</span> <span class="num">48px</span> <span class="cssval">rgba(0, 0, 0, 0.1)</span>; <span class="cm">/* Very far, subtle */</span>
+}</code></pre>
+
+        <h3>Inset Shadows — Inner Glow</h3>
+
+        <p>
+            Add the <code>inset</code> keyword to make the shadow go <strong>inside</strong> the element instead of outside.
+            This can create a pressed or sunken effect.
+        </p>
+
+        <pre><code><span class="sel">.sunken</span> {
+    <span class="prop">box-shadow</span>: <span class="cssval">inset</span> <span class="num">0</span> <span class="num">2px</span> <span class="num">8px</span> <span class="cssval">rgba(0, 0, 0, 0.3)</span>;
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Inset vs. Normal Shadow</div>
+            <div class="demo-box" style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;padding:32px;">
+                <div style="text-align:center;">
+                    <div style="width:160px;height:80px;background:#1a2035;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#b0bac9;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,0.4);">
+                        Normal
+                    </div>
+                    <p style="font-size:12px;color:#5e6e8a;margin-top:10px;margin-bottom:0;">Shadow outside</p>
+                </div>
+                <div style="text-align:center;">
+                    <div style="width:160px;height:80px;background:#1a2035;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#b0bac9;font-size:13px;font-weight:600;box-shadow:inset 0 4px 12px rgba(0,0,0,0.5);">
+                        Inset
+                    </div>
+                    <p style="font-size:12px;color:#5e6e8a;margin-top:10px;margin-bottom:0;">Shadow inside</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>Hover Shadow Effect</h3>
+
+        <p>A very common pattern: cards that "lift up" when you hover over them.</p>
+
+        <pre><code><span class="sel">.hover-card</span> {
+    <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">2px</span> <span class="num">8px</span> <span class="cssval">rgba(0, 0, 0, 0.15)</span>;
+    <span class="prop">transition</span>: <span class="cssval">box-shadow 0.3s ease, transform 0.3s ease</span>;
+}
+
+<span class="sel">.hover-card:hover</span> {
+    <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">12px</span> <span class="num">32px</span> <span class="cssval">rgba(0, 0, 0, 0.3)</span>;
+    <span class="prop">transform</span>: <span class="cssval">translateY(<span class="num">-4px</span>)</span>;
+}</code></pre>
+
+        <style>
+            .demo-hover-card {
+                width: 200px;
+                padding: 24px;
+                background: #1a2035;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+                transition: box-shadow 0.3s ease, transform 0.3s ease;
+                cursor: pointer;
+                text-align: center;
+            }
+            .demo-hover-card:hover {
+                box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+                transform: translateY(-4px);
+            }
+        </style>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Hover Me!</div>
+            <div class="demo-box" style="display:flex;justify-content:center;padding:32px;">
+                <div class="demo-hover-card">
+                    <p style="font-size:28px;margin-bottom:8px;">🎮</p>
+                    <p style="font-weight:700;color:#f0f6fc;font-size:16px;margin-bottom:4px;">Hover Me</p>
+                    <p style="color:#7a8599;font-size:13px;margin-bottom:0;">I lift up on hover!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="co-y">
+            💡 <strong>Pro tip:</strong> Always use <code>rgba()</code> for shadow colors, never solid black.
+            <code>rgba(0, 0, 0, 0.15)</code> gives a natural, soft shadow.
+            Solid <code>#000</code> creates harsh, unrealistic shadows.
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 7: PRACTICE EXERCISES -->
+        <!-- ============================================================ -->
+        <h2 class="section-title"><span class="section-num">7</span> Practice Exercises</h2>
+
+        <p>
+            Time to practice! Try each exercise on your own. The starter code shows what to aim for, and hints are
+            provided if you get stuck. <strong>Remember to include the Google Fonts link in your HTML head!</strong>
+        </p>
+
+        <!-- EXERCISE 1 -->
+        <div class="exercise-box">
+            <div class="exercise-num">Exercise 1 — Google Font Heading</div>
+            <p>
+                <strong>Goal:</strong> Load the Google Font <code>'Outfit'</code> and style a heading to look like the LUGX
+                "BEST GAMING SITE EVER!" text.
+            </p>
+            <h4>Requirements:</h4>
+            <p>
+                • Font: Outfit, weight 800<br>
+                • Font size: 48px<br>
+                • Color: <code>#f0f6fc</code><br>
+                • Letter spacing: <code>-1.5px</code><br>
+                • All uppercase via CSS (don't type it uppercase in HTML)<br>
+                • Centered text
+            </p>
+            <h4>Starter HTML:</h4>
+            <pre><code><span class="tag">&lt;h1</span> <span class="attr">class</span>=<span class="val">"hero-title"</span><span class="tag">&gt;</span>Best Gaming Site Ever!<span class="tag">&lt;/h1&gt;</span></code></pre>
+            <div class="co-y">
+                💡 <strong>Hint:</strong> You'll need both the <code>&lt;link&gt;</code> tag in the head AND
+                <code>font-family: 'Outfit', sans-serif;</code> in your CSS.
+            </div>
+        </div>
+
+        <!-- EXERCISE 2 -->
+        <div class="exercise-box">
+            <div class="exercise-num">Exercise 2 — ::after Underline Decoration</div>
+            <p>
+                <strong>Goal:</strong> Create a text element with a red <code>::after</code> underline decoration, similar to how LUGX
+                underlines the word "GAMING."
+            </p>
+            <h4>Requirements:</h4>
+            <p>
+                • The underline should be <code>4px</code> thick<br>
+                • Color: <code>#ef4444</code> (red)<br>
+                • Full width of the text<br>
+                • Positioned <code>4px</code> below the text<br>
+                • Rounded corners on the underline (<code>border-radius: 2px</code>)
+            </p>
+            <h4>Starter HTML:</h4>
+            <pre><code><span class="tag">&lt;p&gt;</span>Welcome to <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"highlight"</span><span class="tag">&gt;</span>LUGX Gaming<span class="tag">&lt;/span&gt;</span> World<span class="tag">&lt;/p&gt;</span></code></pre>
+            <div class="co-y">
+                💡 <strong>Hint:</strong> The <code>.highlight</code> span needs <code>position: relative</code> and
+                <code>display: inline-block</code>. The <code>::after</code> needs <code>position: absolute</code>.
+            </div>
+        </div>
+
+        <!-- EXERCISE 3 -->
+        <div class="exercise-box">
+            <div class="exercise-num">Exercise 3 — Game Card with object-fit</div>
+            <p>
+                <strong>Goal:</strong> Create a game card where the image fills the top area with rounded corners,
+                without distortion.
+            </p>
+            <h4>Requirements:</h4>
+            <p>
+                • Card width: <code>280px</code><br>
+                • Card border-radius: <code>16px</code> with <code>overflow: hidden</code><br>
+                • Image area: <code>width: 100%</code>, <code>height: 180px</code><br>
+                • <code>object-fit: cover</code> on the image<br>
+                • Card background: <code>#1a2035</code><br>
+                • Below the image: game title, genre, and price
+            </p>
+            <h4>Starter HTML:</h4>
+            <pre><code><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"game-card"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"game-image.jpg"</span> <span class="attr">alt</span>=<span class="val">"Game"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card-info"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;h3&gt;</span>Cyber Quest<span class="tag">&lt;/h3&gt;</span>
+        <span class="tag">&lt;p&gt;</span>Action RPG<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"price"</span><span class="tag">&gt;</span>$24.99<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+            <div class="co-y">
+                💡 <strong>Hint:</strong> <code>overflow: hidden</code> on the card is the key to making the image
+                respect the border-radius. Also add <code>display: block</code> to the image to remove the
+                mysterious gap that sometimes appears below images.
+            </div>
+        </div>
+
+        <!-- EXERCISE 4 -->
+        <div class="exercise-box">
+            <div class="exercise-num">Exercise 4 — Hover Shadow Card</div>
+            <p>
+                <strong>Goal:</strong> Create a card with a subtle shadow that grows on hover, making the card feel
+                like it "lifts" off the page.
+            </p>
+            <h4>Requirements:</h4>
+            <p>
+                • Default shadow: <code>0 2px 8px rgba(0, 0, 0, 0.15)</code><br>
+                • Hover shadow: <code>0 12px 32px rgba(0, 0, 0, 0.3)</code><br>
+                • On hover, also move the card up by <code>4px</code> using <code>transform: translateY(-4px)</code><br>
+                • Smooth transition: <code>transition: box-shadow 0.3s ease, transform 0.3s ease</code>
+            </p>
+            <div class="co-y">
+                💡 <strong>Hint:</strong> The <code>transition</code> property goes on the <strong>default state</strong>
+                (not on <code>:hover</code>). This tells CSS: "Whenever these properties change, animate them over 0.3 seconds."
+            </div>
+        </div>
+
+        <!-- EXERCISE 5 -->
+        <div class="exercise-box">
+            <div class="exercise-num">Exercise 5 — Combine Everything!</div>
+            <p>
+                <strong>Goal:</strong> Build a mini LUGX-style section that uses ALL the skills from this lesson.
+            </p>
+            <h4>Requirements:</h4>
+            <p>
+                • A section heading using <code>'Outfit'</code> font, 36px, weight 800, uppercase<br>
+                • One word in the heading has a <code>::after</code> red underline<br>
+                • A row of 3 game cards using flexbox (you learned this in Lesson 3!)<br>
+                • Each card has a colored placeholder "image" area with <code>object-fit</code>-ready dimensions<br>
+                • Each card has a <code>box-shadow</code> that changes on hover<br>
+                • Proper spacing, rounded corners, the dark background theme
+            </p>
+
+            <div class="co-p">
+                🧠 <strong>This exercise is the real test.</strong> It combines typography (Section 1–2),
+                pseudo-elements (Section 4), image sizing (Section 5), and shadows (Section 6) all in one component.
+                This is exactly how you'll build the LUGX Gaming game cards section.
+            </div>
+
+            <h4>Expected Result (ASCII Diagram):</h4>
+            <pre><code><span class="cm">┌──────────────────────────────────────────────────┐
+│              TRENDING  GAMES                     │
+│              ───────  (red underline on GAMES)    │
+│                                                  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐       │
+│  │  Image   │  │  Image   │  │  Image   │       │
+│  │  Area    │  │  Area    │  │  Area    │       │
+│  │ (cover)  │  │ (cover)  │  │ (cover)  │       │
+│  ├──────────┤  ├──────────┤  ├──────────┤       │
+│  │ Title    │  │ Title    │  │ Title    │       │
+│  │ Genre    │  │ Genre    │  │ Genre    │       │
+│  │ $29.99   │  │ $19.99   │  │ $49.99   │       │
+│  └──────────┘  └──────────┘  └──────────┘       │
+│   ↑ shadow       ↑ shadow       ↑ shadow        │
+└──────────────────────────────────────────────────┘</span></code></pre>
+        </div>
+
+        <!-- FINAL SUMMARY -->
+        <div style="margin-top:80px;padding:40px;background:linear-gradient(135deg,#0d2818,#0d1f2d);border:1px solid #10b98140;border-radius:16px;">
+            <h3 style="border-left:none;padding-left:0;color:#10b981;margin-top:0;">🎯 Lesson 5 Summary</h3>
+            <p>You now have the skills that make websites look <strong>professional</strong>:</p>
+            <table>
+                <tr><th>Skill</th><th>Key Takeaway</th></tr>
+                <tr><td><strong>Google Fonts</strong></td><td>One <code>&lt;link&gt;</code> tag + <code>font-family</code> = instant upgrade</td></tr>
+                <tr><td><strong>Font Properties</strong></td><td><code>font-size</code>, <code>weight</code>, <code>line-height</code>, <code>letter-spacing</code>, <code>text-transform</code></td></tr>
+                <tr><td><strong>Colors</strong></td><td>Use hex for solid colors, <code>rgba()</code> for transparency</td></tr>
+                <tr><td><strong>Pseudo-elements</strong></td><td><code>::before</code> / <code>::after</code> for decorations. Always set <code>content: ""</code></td></tr>
+                <tr><td><strong>object-fit</strong></td><td><code>cover</code> = fill without distortion. Container needs explicit dimensions.</td></tr>
+                <tr><td><strong>box-shadow</strong></td><td><code>x y blur spread rgba()</code> — adds depth. Use multiple shadows for premium look.</td></tr>
+            </table>
+            <p style="margin-bottom:0;color:#6ee7b7;">
+                <strong>Next up:</strong> We'll use all of these skills to build real LUGX Gaming components —
+                the navigation bar, hero section, and game card grid. Typography + layout + shadows = professional site. 🚀
+            </p>
+        </div>
+
+    </div>
+</body>
+</html>

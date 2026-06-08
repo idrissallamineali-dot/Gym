@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox Katas — 20 Practice Challenges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16px;padding:60px 20px}
+        .container{max-width:850px;margin:0 auto}
+        h1{font-size:42px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#f59e0b;margin-bottom:8px}
+        .subtitle{font-size:18px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px}
+        p{margin-bottom:18px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:12px 0 20px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}
+        .cm{color:#5e6e8a;font-style:italic}
+        .sel{color:#7ee787}.prop{color:#d2a8ff}.val{color:#a5d6ff}.num{color:#79c0ff}
+
+        .kata{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px;margin:32px 0;box-shadow:0 10px 30px rgba(0,0,0,0.15)}
+        .kata-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+        .kata-num{background:#f59e0b;color:#0d1117;font-size:13px;font-weight:700;padding:4px 12px;border-radius:8px}
+        .kata-diff{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:6px}
+        .diff-easy{background:rgba(16,185,129,.15);color:#10b981}
+        .diff-medium{background:rgba(245,158,11,.15);color:#f59e0b}
+        .diff-hard{background:rgba(248,81,73,.15);color:#f85149}
+        .kata h3{font-size:20px;font-weight:700;color:#f0f6fc;margin-bottom:10px}
+        .kata p{font-size:15px;color:#9aa5b4;margin-bottom:12px}
+
+        .constraint{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:10px;padding:10px 16px;margin:16px 0;font-size:13.5px;font-weight:600;color:#a78bfa}
+        .constraint::before{content:'⛔ CONSTRAINT: ';font-weight:700}
+
+        /* Visual targets */
+        .target{border:2px dashed rgba(245,158,11,.3);border-radius:10px;padding:12px;min-height:100px;margin:16px 0}
+        .target-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#f59e0b;margin-bottom:10px}
+        .box{display:flex;align-items:center;justify-content:center;border-radius:8px;font-weight:700;font-size:14px;color:#0f111a;min-width:50px;min-height:50px}
+        .b1{background:#f472b6}.b2{background:#38bdf8}.b3{background:#a78bfa}.b4{background:#34d399}.b5{background:#fb923c}.b6{background:#facc15}
+
+        .solution-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#10b981;font-size:13px;font-weight:600;padding:10px 20px;border-radius:10px;cursor:pointer;transition:.2s;margin-top:8px}
+        .solution-btn:hover{background:rgba(16,185,129,.15)}
+        .solution{display:none;margin-top:20px;padding:20px 24px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}
+        .solution.show{display:block}
+        .solution-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#10b981;margin-bottom:12px}
+    </style>
+</head>
+<body>
+<div class="container">
+    <p class="lesson-num">Practice Lab</p>
+    <h1>💪 Flexbox Katas</h1>
+    <p class="subtitle">20 hands-on CSS Flexbox challenges. Each kata shows you a <strong>target layout</strong> — your job is to write the CSS that reproduces it. Open your code editor and build each one from scratch.</p>
+
+
+    <!-- 01 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">01</span><span class="kata-diff diff-easy">Easy</span></div>
+        <h3>Center a Single Box</h3>
+        <p>Center a single box both horizontally and vertically inside a 300px tall container.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; justify-content:center; align-items:center; min-height:200px;">
+            <div class="box b1" style="padding:16px 32px;">Centered</div>
+        </div>
+        <div class="constraint">Use only <code>display: flex</code>, <code>justify-content</code>, and <code>align-items</code>. 3 properties max.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">justify-content</span>: <span class="val">center</span>;
+    <span class="prop">align-items</span>: <span class="val">center</span>;
+    <span class="prop">height</span>: <span class="num">300px</span>;
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">02</span><span class="kata-diff diff-easy">Easy</span></div>
+        <h3>Row of Items — Space Between</h3>
+        <p>Place 3 boxes in a row. The first box hugs the left edge, the last box hugs the right edge, and the middle box sits in the exact center.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="box b1" style="padding:14px 24px;">1</div>
+            <div class="box b2" style="padding:14px 24px;">2</div>
+            <div class="box b3" style="padding:14px 24px;">3</div>
+        </div>
+        <div class="constraint">Use <code>justify-content: space-between</code>.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">justify-content</span>: <span class="val">space-between</span>;
+    <span class="prop">align-items</span>: <span class="val">center</span>;
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">03</span><span class="kata-diff diff-easy">Easy</span></div>
+        <h3>Stack Items Vertically</h3>
+        <p>Stack 4 boxes in a column with equal 12px gaps between them.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; flex-direction:column; gap:12px;">
+            <div class="box b1" style="padding:12px 24px;">1</div>
+            <div class="box b2" style="padding:12px 24px;">2</div>
+            <div class="box b3" style="padding:12px 24px;">3</div>
+            <div class="box b4" style="padding:12px 24px;">4</div>
+        </div>
+        <div class="constraint">Use <code>flex-direction: column</code> and <code>gap</code>.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">flex-direction</span>: <span class="val">column</span>;
+    <span class="prop">gap</span>: <span class="num">12px</span>;
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">04</span><span class="kata-diff diff-easy">Easy</span></div>
+        <h3>Reverse the Row Order</h3>
+        <p>Display items 1-2-3 visually as 3-2-1 without changing the HTML.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; flex-direction:row-reverse; gap:12px;">
+            <div class="box b1" style="padding:12px 24px;">1</div>
+            <div class="box b2" style="padding:12px 24px;">2</div>
+            <div class="box b3" style="padding:12px 24px;">3</div>
+        </div>
+        <div class="constraint">Use <code>flex-direction: row-reverse</code>. Do NOT rearrange the HTML.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">flex-direction</span>: <span class="val">row-reverse</span>;
+    <span class="prop">gap</span>: <span class="num">12px</span>;
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">05</span><span class="kata-diff diff-easy">Easy</span></div>
+        <h3>3 Equal-Width Columns</h3>
+        <p>Create 3 columns that share the full container width equally, regardless of their content.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; gap:12px;">
+            <div class="box b1" style="flex:1; padding:20px;">Column 1</div>
+            <div class="box b2" style="flex:1; padding:20px;">Col 2</div>
+            <div class="box b3" style="flex:1; padding:20px;">Column Three</div>
+        </div>
+        <div class="constraint">Use <code>flex: 1</code> on all children. No width declarations.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.container</span> { <span class="prop">display</span>: <span class="val">flex</span>; <span class="prop">gap</span>: <span class="num">12px</span>; }
+<span class="sel">.item</span> { <span class="prop">flex</span>: <span class="num">1</span>; }</code></pre>
+        </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">06</span><span class="kata-diff diff-medium">Medium</span></div>
+        <h3>Navbar: Logo Left, Links Right</h3>
+        <p>Build a navigation bar where the logo sits at the far left and 3 links are grouped together at the far right.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; background:rgba(15,17,26,.5); border-radius:8px;">
+            <div style="font-weight:800; font-size:18px; color:#f59e0b;">🔥 Logo</div>
+            <div style="display:flex; gap:20px;">
+                <span style="color:#b0bac9; font-size:14px;">Home</span>
+                <span style="color:#b0bac9; font-size:14px;">About</span>
+                <span style="color:#b0bac9; font-size:14px;">Contact</span>
+            </div>
+        </div>
+        <div class="constraint">Use <code>justify-content: space-between</code> on the main container and a nested <code>display: flex</code> with <code>gap</code> for the links group.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.navbar</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">justify-content</span>: <span class="val">space-between</span>;
+    <span class="prop">align-items</span>: <span class="val">center</span>;
+}
+<span class="sel">.nav-links</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">gap</span>: <span class="num">20px</span>;
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">07</span><span class="kata-diff diff-medium">Medium</span></div>
+        <h3>Sidebar + Content Layout</h3>
+        <p>Create a layout with a fixed 200px sidebar on the left and a fluid content area that fills the remaining space.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; gap:16px; min-height:150px;">
+            <div style="flex:0 0 200px; background:#1e2d4a; border-radius:8px; padding:16px;"><span style="font-weight:700; color:#f59e0b; font-size:14px;">Sidebar (200px)</span></div>
+            <div style="flex:1; background:#161b2e; border-radius:8px; padding:16px;"><span style="font-weight:600; color:#7a8599; font-size:14px;">Main Content (flex: 1)</span></div>
+        </div>
+        <div class="constraint">Use <code>flex: 0 0 200px</code> on sidebar and <code>flex: 1</code> on content. No width or calc().</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.layout</span> { <span class="prop">display</span>: <span class="val">flex</span>; <span class="prop">gap</span>: <span class="num">16px</span>; }
+<span class="sel">.sidebar</span> { <span class="prop">flex</span>: <span class="num">0 0 200px</span>; }
+<span class="sel">.content</span> { <span class="prop">flex</span>: <span class="num">1</span>; }</code></pre>
+        </div>
+    </div>
+
+    <!-- 08 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">08</span><span class="kata-diff diff-medium">Medium</span></div>
+        <h3>Footer Always at Bottom</h3>
+        <p>Create a page layout (Header, Content, Footer) where the footer always sticks to the bottom, even when content is short. The content area should expand to push the footer down.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; flex-direction:column; min-height:280px;">
+            <div style="background:#1e2d4a; border-radius:8px; padding:14px 20px; margin-bottom:8px;"><span style="font-weight:700; color:#f0f6fc; font-size:14px;">Header</span></div>
+            <div style="flex:1; background:#161b2e; border-radius:8px; padding:14px 20px; margin-bottom:8px;"><span style="font-weight:600; color:#7a8599; font-size:14px;">Content (flex-grow: 1)</span></div>
+            <div style="background:#f59e0b; border-radius:8px; padding:14px 20px;"><span style="font-weight:700; color:#0f111a; font-size:14px;">Footer</span></div>
+        </div>
+        <div class="constraint">Use <code>flex-direction: column</code> on the page wrapper and <code>flex: 1</code> on the content section.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.page</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">flex-direction</span>: <span class="val">column</span>;
+    <span class="prop">min-height</span>: <span class="num">100vh</span>;
+}
+<span class="sel">.content</span> {
+    <span class="prop">flex</span>: <span class="num">1</span>;
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- 09 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">09</span><span class="kata-diff diff-medium">Medium</span></div>
+        <h3>Wrapping Card Grid</h3>
+        <p>Create a responsive grid of cards. Each card has a minimum width of 200px but grows to fill available space. Cards wrap to new rows when the container narrows.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; flex-wrap:wrap; gap:16px;">
+            <div class="box b1" style="flex:1 1 200px; padding:24px;">Card 1</div>
+            <div class="box b2" style="flex:1 1 200px; padding:24px;">Card 2</div>
+            <div class="box b3" style="flex:1 1 200px; padding:24px;">Card 3</div>
+            <div class="box b4" style="flex:1 1 200px; padding:24px;">Card 4</div>
+        </div>
+        <div class="constraint">Use <code>flex-wrap: wrap</code> and <code>flex: 1 1 200px</code> on each card.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.grid</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">flex-wrap</span>: <span class="val">wrap</span>;
+    <span class="prop">gap</span>: <span class="num">16px</span>;
+}
+<span class="sel">.card</span> {
+    <span class="prop">flex</span>: <span class="num">1 1 200px</span>; <span class="cm">/* grow, shrink, min 200px basis */</span>
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">10</span><span class="kata-diff diff-medium">Medium</span></div>
+        <h3>One Item Pushed to the Right</h3>
+        <p>In a row of 4 items, push item 4 all the way to the right while items 1-3 remain on the left.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; gap:12px; align-items:center;">
+            <div class="box b1" style="padding:12px 20px;">1</div>
+            <div class="box b2" style="padding:12px 20px;">2</div>
+            <div class="box b3" style="padding:12px 20px;">3</div>
+            <div class="box b5" style="padding:12px 20px; margin-left:auto;">4</div>
+        </div>
+        <div class="constraint">Use <code>margin-left: auto</code> on item 4. Do NOT use justify-content.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.container</span> { <span class="prop">display</span>: <span class="val">flex</span>; <span class="prop">gap</span>: <span class="num">12px</span>; }
+<span class="sel">.item-4</span> { <span class="prop">margin-left</span>: <span class="val">auto</span>; } <span class="cm">/* Absorbs all remaining space to the left */</span></code></pre>
+        </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">11</span><span class="kata-diff diff-medium">Medium</span></div>
+        <h3>Mixed Sizing: 1:2:1 Ratio</h3>
+        <p>3 columns where the middle column is exactly twice as wide as the left and right columns.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; gap:12px;">
+            <div class="box b1" style="flex:1; padding:20px;">1x</div>
+            <div class="box b2" style="flex:2; padding:20px;">2x</div>
+            <div class="box b3" style="flex:1; padding:20px;">1x</div>
+        </div>
+        <div class="constraint">Use <code>flex: 1</code> on sides and <code>flex: 2</code> on center. No widths.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.container</span> { <span class="prop">display</span>: <span class="val">flex</span>; <span class="prop">gap</span>: <span class="num">12px</span>; }
+<span class="sel">.side</span> { <span class="prop">flex</span>: <span class="num">1</span>; }
+<span class="sel">.center</span> { <span class="prop">flex</span>: <span class="num">2</span>; }</code></pre>
+        </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">12</span><span class="kata-diff diff-medium">Medium</span></div>
+        <h3>Vertical & Horizontal Centering with Wrap</h3>
+        <p>Center a group of 6 wrapping items both vertically and horizontally inside a tall container.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; flex-wrap:wrap; justify-content:center; align-content:center; gap:12px; min-height:250px;">
+            <div class="box b1" style="padding:12px 20px;">1</div>
+            <div class="box b2" style="padding:12px 20px;">2</div>
+            <div class="box b3" style="padding:12px 20px;">3</div>
+            <div class="box b4" style="padding:12px 20px;">4</div>
+            <div class="box b5" style="padding:12px 20px;">5</div>
+            <div class="box b6" style="padding:12px 20px;">6</div>
+        </div>
+        <div class="constraint">Use <code>justify-content: center</code> and <code>align-content: center</code> with <code>flex-wrap: wrap</code>.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">flex-wrap</span>: <span class="val">wrap</span>;
+    <span class="prop">justify-content</span>: <span class="val">center</span>;
+    <span class="prop">align-content</span>: <span class="val">center</span>;
+    <span class="prop">gap</span>: <span class="num">12px</span>;
+    <span class="prop">min-height</span>: <span class="num">250px</span>;
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">13</span><span class="kata-diff diff-medium">Medium</span></div>
+        <h3>Align-Self Override</h3>
+        <p>In a 160px tall container with <code>align-items: flex-start</code>, make item 2 stick to the bottom and item 3 sit in the center.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; align-items:flex-start; gap:12px; min-height:160px;">
+            <div class="box b1" style="padding:12px 20px;">1 (top)</div>
+            <div class="box b2" style="padding:12px 20px; align-self:flex-end;">2 (bottom)</div>
+            <div class="box b3" style="padding:12px 20px; align-self:center;">3 (center)</div>
+        </div>
+        <div class="constraint">Use <code>align-self: flex-end</code> on item 2 and <code>align-self: center</code> on item 3.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.container</span> { <span class="prop">display</span>: <span class="val">flex</span>; <span class="prop">align-items</span>: <span class="val">flex-start</span>; <span class="prop">min-height</span>: <span class="num">160px</span>; }
+<span class="sel">.item-2</span> { <span class="prop">align-self</span>: <span class="val">flex-end</span>; }
+<span class="sel">.item-3</span> { <span class="prop">align-self</span>: <span class="val">center</span>; }</code></pre>
+        </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">14</span><span class="kata-diff diff-medium">Medium</span></div>
+        <h3>Reorder with CSS Only</h3>
+        <p>Items in HTML are ordered 1-2-3-4. Display them visually as 3-1-4-2 using only CSS.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; gap:12px;">
+            <div class="box b3" style="padding:12px 20px; order:1;">3</div>
+            <div class="box b1" style="padding:12px 20px; order:2;">1</div>
+            <div class="box b4" style="padding:12px 20px; order:3;">4</div>
+            <div class="box b2" style="padding:12px 20px; order:4;">2</div>
+        </div>
+        <div class="constraint">Use the <code>order</code> property on each item.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.item-1</span> { <span class="prop">order</span>: <span class="num">2</span>; }
+<span class="sel">.item-2</span> { <span class="prop">order</span>: <span class="num">4</span>; }
+<span class="sel">.item-3</span> { <span class="prop">order</span>: <span class="num">1</span>; }
+<span class="sel">.item-4</span> { <span class="prop">order</span>: <span class="num">3</span>; }</code></pre>
+        </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">15</span><span class="kata-diff diff-hard">Hard</span></div>
+        <h3>Holy Grail Layout</h3>
+        <p>Build the classic "Holy Grail" layout: a header spanning full width, a left sidebar (150px), a fluid center content, a right sidebar (150px), and a full-width footer — all using Flexbox.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; flex-direction:column; gap:8px; min-height:300px;">
+            <div style="background:#f59e0b; border-radius:6px; padding:12px 20px; text-align:center;"><span style="font-weight:700; color:#0f111a; font-size:14px;">Header</span></div>
+            <div style="display:flex; flex:1; gap:8px;">
+                <div style="flex:0 0 150px; background:#1e2d4a; border-radius:6px; padding:12px;"><span style="font-weight:600; color:#f59e0b; font-size:13px;">Left Sidebar</span></div>
+                <div style="flex:1; background:#161b2e; border-radius:6px; padding:12px;"><span style="font-weight:600; color:#7a8599; font-size:13px;">Main Content (flex: 1)</span></div>
+                <div style="flex:0 0 150px; background:#1e2d4a; border-radius:6px; padding:12px;"><span style="font-weight:600; color:#f59e0b; font-size:13px;">Right Sidebar</span></div>
+            </div>
+            <div style="background:#f59e0b; border-radius:6px; padding:12px 20px; text-align:center;"><span style="font-weight:700; color:#0f111a; font-size:14px;">Footer</span></div>
+        </div>
+        <div class="constraint">Use nested flex containers. Outer: <code>flex-direction: column</code>. Inner row: <code>display: flex</code> with sidebars at <code>flex: 0 0 150px</code> and content at <code>flex: 1</code>.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.page</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">flex-direction</span>: <span class="val">column</span>;
+    <span class="prop">min-height</span>: <span class="num">100vh</span>;
+    <span class="prop">gap</span>: <span class="num">8px</span>;
+}
+<span class="sel">.middle</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">flex</span>: <span class="num">1</span>;
+    <span class="prop">gap</span>: <span class="num">8px</span>;
+}
+<span class="sel">.sidebar</span> { <span class="prop">flex</span>: <span class="num">0 0 150px</span>; }
+<span class="sel">.main</span> { <span class="prop">flex</span>: <span class="num">1</span>; }</code></pre>
+        </div>
+    </div>
+
+    <!-- 16 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">16</span><span class="kata-diff diff-hard">Hard</span></div>
+        <h3>Masonry-Style Stagger</h3>
+        <p>Create a row of 4 items where each item has a different height but they all align to the top. Items should not stretch to fill the cross axis.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; align-items:flex-start; gap:12px;">
+            <div class="box b1" style="flex:1; padding:20px;">Short</div>
+            <div class="box b2" style="flex:1; padding:20px 20px 60px;">Tall</div>
+            <div class="box b3" style="flex:1; padding:20px 20px 40px;">Medium</div>
+            <div class="box b4" style="flex:1; padding:20px 20px 80px;">Tallest</div>
+        </div>
+        <div class="constraint">Use <code>align-items: flex-start</code> to prevent stretching.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">align-items</span>: <span class="val">flex-start</span>; <span class="cm">/* Override default stretch */</span>
+    <span class="prop">gap</span>: <span class="num">12px</span>;
+}
+<span class="sel">.item</span> { <span class="prop">flex</span>: <span class="num">1</span>; }</code></pre>
+        </div>
+    </div>
+
+    <!-- 17 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">17</span><span class="kata-diff diff-hard">Hard</span></div>
+        <h3>Input Group: Icon + Input + Button</h3>
+        <p>Build a search bar where a fixed-width icon sits on the left, the input field expands to fill all remaining space, and a fixed-width button sits on the right.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; align-items:center;">
+            <div style="flex:0 0 44px; height:44px; background:#1e2d4a; border-radius:8px 0 0 8px; display:flex; align-items:center; justify-content:center; font-size:18px;">🔍</div>
+            <div style="flex:1; height:44px; background:#0d1117; border-top:1px solid #1e2d4a; border-bottom:1px solid #1e2d4a; display:flex; align-items:center; padding:0 12px; color:#7a8599; font-size:14px;">Search for something...</div>
+            <div style="flex:0 0 80px; height:44px; background:#f59e0b; border-radius:0 8px 8px 0; display:flex; align-items:center; justify-content:center; font-weight:700; color:#0f111a; font-size:14px;">Go</div>
+        </div>
+        <div class="constraint">Icon: <code>flex: 0 0 44px</code>. Input: <code>flex: 1</code>. Button: <code>flex: 0 0 80px</code>.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.search-bar</span> { <span class="prop">display</span>: <span class="val">flex</span>; <span class="prop">align-items</span>: <span class="val">center</span>; }
+<span class="sel">.icon</span> { <span class="prop">flex</span>: <span class="num">0 0 44px</span>; }
+<span class="sel">input</span> { <span class="prop">flex</span>: <span class="num">1</span>; }
+<span class="sel">.btn</span> { <span class="prop">flex</span>: <span class="num">0 0 80px</span>; }</code></pre>
+        </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">18</span><span class="kata-diff diff-hard">Hard</span></div>
+        <h3>Media Object: Avatar + Text</h3>
+        <p>Build a media object with a fixed-size avatar on the left and a text block (title + description) on the right that fills remaining space. The avatar should NOT shrink.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; gap:16px; align-items:flex-start;">
+            <div style="flex:0 0 60px; width:60px; height:60px; background:#a78bfa; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:#0f111a; font-size:20px;">ID</div>
+            <div style="flex:1;">
+                <div style="font-weight:700; color:#f0f6fc; font-size:16px; margin-bottom:4px;">Idris Bensalem</div>
+                <div style="font-size:14px; color:#7a8599; line-height:1.6;">This is a media object pattern. The avatar never shrinks or stretches. The text content fills the remaining horizontal space and wraps naturally.</div>
+            </div>
+        </div>
+        <div class="constraint">Avatar: <code>flex: 0 0 60px</code> (never grow, never shrink). Text: <code>flex: 1</code>.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.media</span> { <span class="prop">display</span>: <span class="val">flex</span>; <span class="prop">gap</span>: <span class="num">16px</span>; <span class="prop">align-items</span>: <span class="val">flex-start</span>; }
+<span class="sel">.avatar</span> { <span class="prop">flex</span>: <span class="num">0 0 60px</span>; }
+<span class="sel">.text</span> { <span class="prop">flex</span>: <span class="num">1</span>; }</code></pre>
+        </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">19</span><span class="kata-diff diff-hard">Hard</span></div>
+        <h3>Pricing Table: 3 Columns, Center Highlighted</h3>
+        <p>Create a 3-column pricing card layout where the center card is taller and visually prominent while the side cards are shorter and aligned to center.</p>
+        <p class="target-label">Target Result:</p>
+        <div class="target" style="display:flex; gap:16px; align-items:center;">
+            <div style="flex:1; background:#1e2d4a; border-radius:10px; padding:24px; text-align:center;">
+                <div style="font-weight:700; color:#b0bac9; font-size:14px; margin-bottom:8px;">Basic</div>
+                <div style="font-weight:800; color:#f0f6fc; font-size:28px;">$9</div>
+            </div>
+            <div style="flex:1; background:linear-gradient(135deg,#f59e0b,#f97316); border-radius:10px; padding:36px 24px; text-align:center; transform:scale(1.05);">
+                <div style="font-weight:700; color:#0f111a; font-size:14px; margin-bottom:8px;">Pro ⭐</div>
+                <div style="font-weight:800; color:#0f111a; font-size:32px;">$29</div>
+            </div>
+            <div style="flex:1; background:#1e2d4a; border-radius:10px; padding:24px; text-align:center;">
+                <div style="font-weight:700; color:#b0bac9; font-size:14px; margin-bottom:8px;">Enterprise</div>
+                <div style="font-weight:800; color:#f0f6fc; font-size:28px;">$99</div>
+            </div>
+        </div>
+        <div class="constraint">Use <code>align-items: center</code> so shorter side cards are vertically centered against the taller center card. All cards use <code>flex: 1</code>.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution</p>
+            <pre><code><span class="sel">.pricing</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">gap</span>: <span class="num">16px</span>;
+    <span class="prop">align-items</span>: <span class="val">center</span>; <span class="cm">/* Side cards centered against taller center */</span>
+}
+<span class="sel">.card</span> { <span class="prop">flex</span>: <span class="num">1</span>; }
+<span class="sel">.card-pro</span> { <span class="prop">padding</span>: <span class="num">36px 24px</span>; } <span class="cm">/* More padding = taller */</span></code></pre>
+        </div>
+    </div>
+
+    <!-- 20 -->
+    <div class="kata">
+        <div class="kata-header"><span class="kata-num">20</span><span class="kata-diff diff-hard">Hard</span></div>
+        <h3>Responsive Flex to Stack</h3>
+        <p>Build a 3-column row layout that automatically stacks into a single column on small screens. The transition point should be around 600px viewport width.</p>
+        <div class="constraint">Use <code>flex-wrap: wrap</code> and <code>flex: 1 1 250px</code> on each item. As the viewport shrinks below ~600px, the 250px basis forces items to wrap to a full row each. Alternatively, use a media query to switch <code>flex-direction</code>.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution"><p class="solution-label">Solution (No Media Query)</p>
+            <pre><code><span class="cm">/* Pure Flexbox — no media query needed! */</span>
+<span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">flex-wrap</span>: <span class="val">wrap</span>;
+    <span class="prop">gap</span>: <span class="num">16px</span>;
+}
+<span class="sel">.item</span> {
+    <span class="prop">flex</span>: <span class="num">1 1 250px</span>;
+    <span class="cm">/* Each item wants 250px minimum.
+       On wide screens: 3 fit in one row.
+       On narrow screens: items wrap to their own row. */</span>
+}
+
+<span class="cm">/* Alternative: Media Query approach */</span>
+<span class="sel">@media</span> (<span class="prop">max-width</span>: <span class="num">600px</span>) {
+    <span class="sel">.container</span> {
+        <span class="prop">flex-direction</span>: <span class="val">column</span>;
+    }
+}</code></pre>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function toggle(btn) {
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    btn.textContent = sol.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+}
+</script>
+</body>
+</html>

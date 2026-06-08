@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 6 — Forms, Inputs & Transitions</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+.container{max-width:900px;margin:0 auto}
+h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+.lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#10b981;margin-bottom:8px}
+.subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+.section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+.section-num{background:#1e2d4a;color:#10b981;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #10b981;padding-left:14px}
+h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+p{margin-bottom:20px;color:#b0bac9}
+strong{color:#e2e8f0}
+code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+.tag{color:#7ee787}.attr{color:#d2a8ff}.val{color:#a5d6ff}.cm{color:#5e6e8a;font-style:italic}
+.prop{color:#d2a8ff}.sel{color:#7ee787}.num{color:#79c0ff}.cssval{color:#a5d6ff}
+.co-r,.co-g,.co-p,.co-y,.co-b{border-radius:12px;padding:20px 24px;margin:20px 0 28px;font-size:15.5px;line-height:1.75}
+.co-r{background:#2a1520;border-left:4px solid #f85149;color:#f0b0b0}
+.co-g{background:#122117;border-left:4px solid #10b981;color:#a3e4c4}
+.co-p{background:#1c1730;border-left:4px solid #a78bfa;color:#cdb8ff}
+.co-y{background:#2a2517;border-left:4px solid #e3b341;color:#f0d97a}
+.co-b{background:#111d2e;border-left:4px solid #58a6ff;color:#91c8ff}
+.demo{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;margin:24px 0 36px;overflow:hidden}
+.demo-label{background:#1e2d4a;color:#7dd3fc;font-size:13px;font-weight:700;padding:8px 18px;letter-spacing:1px;text-transform:uppercase}
+.demo-box{padding:28px 32px}
+
+/* Toggle solution buttons */
+.solution-toggle{background:#1e2d4a;color:#7dd3fc;border:1px solid #2e3f5a;padding:10px 20px;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;margin:12px 0 8px;transition:background 0.2s ease}
+.solution-toggle:hover{background:#2a3b5a}
+.solution-content{display:none;margin-top:8px}
+.solution-content.show{display:block}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ─── HEADER ─── -->
+<div class="lesson-num">CSS Practical Guide</div>
+<h1>Forms, Inputs & Transitions</h1>
+<p class="subtitle">Learn how to build and style beautiful forms, create the LUGX Gaming search bar, and add smooth hover animations with CSS transitions and transforms. By the end, your pages will feel alive.</p>
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 0 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">0</span> Forms in HTML — The Basics</h2>
+
+<p>A <strong>form</strong> is how users send data on the web — login pages, search bars, sign-up screens, checkout flows. Every form is built from a small set of HTML elements:</p>
+
+<h3>The Core Form Elements</h3>
+
+<table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:15px">
+<thead><tr style="border-bottom:2px solid #1e2d4a;text-align:left">
+<th style="padding:10px 14px;color:#10b981">Element</th><th style="padding:10px 14px;color:#10b981">What It Does</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid #1e2d4a"><td style="padding:10px 14px"><code>&lt;form&gt;</code></td><td style="padding:10px 14px;color:#b0bac9">Wrapper around all inputs. Handles submission.</td></tr>
+<tr style="border-bottom:1px solid #1e2d4a"><td style="padding:10px 14px"><code>&lt;input&gt;</code></td><td style="padding:10px 14px;color:#b0bac9">Single-line text field, email, password, etc.</td></tr>
+<tr style="border-bottom:1px solid #1e2d4a"><td style="padding:10px 14px"><code>&lt;button&gt;</code></td><td style="padding:10px 14px;color:#b0bac9">Clickable button (submit, reset, or custom).</td></tr>
+<tr style="border-bottom:1px solid #1e2d4a"><td style="padding:10px 14px"><code>&lt;label&gt;</code></td><td style="padding:10px 14px;color:#b0bac9">Caption for an input. Click it → focuses the input.</td></tr>
+<tr style="border-bottom:1px solid #1e2d4a"><td style="padding:10px 14px"><code>&lt;textarea&gt;</code></td><td style="padding:10px 14px;color:#b0bac9">Multi-line text area (for messages, bios).</td></tr>
+<tr><td style="padding:10px 14px"><code>&lt;select&gt;</code></td><td style="padding:10px 14px;color:#b0bac9">Dropdown menu of options.</td></tr>
+</tbody></table>
+
+<h3>Key Attributes</h3>
+
+<h4>The <code>type</code> Attribute</h4>
+<p>The <code>type</code> attribute on <code>&lt;input&gt;</code> tells the browser what <em>kind</em> of data to expect. The browser adjusts the keyboard (on mobile), validation, and appearance accordingly:</p>
+
+<pre><code><span class="cm">&lt;!-- Plain text --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span><span class="tag">&gt;</span>
+
+<span class="cm">&lt;!-- Validates email format --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"email"</span><span class="tag">&gt;</span>
+
+<span class="cm">&lt;!-- Hides characters as you type --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"password"</span><span class="tag">&gt;</span>
+
+<span class="cm">&lt;!-- Only allows numbers --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"number"</span><span class="tag">&gt;</span>
+
+<span class="cm">&lt;!-- Becomes a submit button --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"submit"</span> <span class="attr">value</span>=<span class="val">"Send"</span><span class="tag">&gt;</span></code></pre>
+
+<h4>Other Important Attributes</h4>
+
+<pre><code><span class="cm">&lt;!-- placeholder: greyed-out hint text inside the input --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">placeholder</span>=<span class="val">"Search games..."</span><span class="tag">&gt;</span>
+
+<span class="cm">&lt;!-- required: form won't submit if this field is empty --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"email"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+
+<span class="cm">&lt;!-- name: the key when data is sent to the server --&gt;</span>
+<span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"username"</span><span class="tag">&gt;</span></code></pre>
+
+<div class="co-p">🧠 <strong>Why <code>name</code> matters:</strong> When a form submits, data is sent as key-value pairs. The <code>name</code> attribute becomes the key. Without it, that input's data simply isn't sent. Example: <code>username=JohnDoe&password=abc123</code>.</div>
+
+<h3>Live Demo: A Basic Form</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+<form onsubmit="event.preventDefault(); alert('Form submitted!')" style="display:flex;flex-direction:column;gap:14px;max-width:400px">
+<label style="color:#e2e8f0;font-weight:600;font-size:14px">Username</label>
+<input type="text" name="username" placeholder="Enter username" required style="padding:10px;font-size:15px;font-family:inherit">
+<label style="color:#e2e8f0;font-weight:600;font-size:14px">Email</label>
+<input type="email" name="email" placeholder="you@example.com" required style="padding:10px;font-size:15px;font-family:inherit">
+<label style="color:#e2e8f0;font-weight:600;font-size:14px">Password</label>
+<input type="password" name="password" placeholder="Enter password" required style="padding:10px;font-size:15px;font-family:inherit">
+<label style="color:#e2e8f0;font-weight:600;font-size:14px">Favorite Genre</label>
+<select name="genre" style="padding:10px;font-size:15px;font-family:inherit">
+<option>Action</option><option>RPG</option><option>Strategy</option><option>Sports</option>
+</select>
+<label style="color:#e2e8f0;font-weight:600;font-size:14px">Message</label>
+<textarea name="message" placeholder="Tell us about yourself..." rows="3" style="padding:10px;font-size:15px;font-family:inherit;resize:vertical"></textarea>
+<button type="submit" style="padding:12px;font-size:15px;font-weight:700;background:#10b981;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit">Submit</button>
+</form>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">1</span> Resetting Browser Defaults</h2>
+
+<p>Browsers add their own ugly styles to form elements — thick grey borders, glowing blue outlines, operating-system-specific buttons. Before you style anything, you need to <strong>reset</strong> these defaults.</p>
+
+<h3>The Reset Properties</h3>
+
+<pre><code><span class="sel">input, button, textarea, select</span> {
+  <span class="prop">border</span>: <span class="cssval">none</span>;             <span class="cm">/* Remove the default grey border */</span>
+  <span class="prop">outline</span>: <span class="cssval">none</span>;            <span class="cm">/* Remove the blue focus ring */</span>
+  <span class="prop">appearance</span>: <span class="cssval">none</span>;         <span class="cm">/* Remove OS-specific styling (checkboxes, selects) */</span>
+  <span class="prop">font-family</span>: <span class="cssval">inherit</span>;     <span class="cm">/* Inputs DON'T inherit font by default! */</span>
+  <span class="prop">font-size</span>: <span class="cssval">inherit</span>;       <span class="cm">/* Same for font-size */</span>
+  <span class="prop">color</span>: <span class="cssval">inherit</span>;           <span class="cm">/* And text color */</span>
+  <span class="prop">background</span>: <span class="cssval">none</span>;         <span class="cm">/* Remove default background */</span>
+}</code></pre>
+
+<div class="co-p">🧠 <strong>Why <code>font-family: inherit</code>?</strong> Unlike every other element, form controls (<code>input</code>, <code>button</code>, <code>textarea</code>, <code>select</code>) do NOT inherit font from their parent. They use the operating system's default font. You must explicitly tell them to inherit.</div>
+
+<h3>Live Demo: Default vs Reset</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result — Default Browser Styles</div>
+<div class="demo-box" style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+<input type="text" placeholder="Default input" style="padding:8px;font-size:15px">
+<button style="padding:8px 16px;font-size:15px">Default Button</button>
+</div>
+</div>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — After Reset</div>
+<div class="demo-box" style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+<input type="text" placeholder="Reset input" style="border:none;outline:none;appearance:none;font-family:inherit;font-size:15px;padding:12px 16px;background:#1a2035;color:#c9d1d9;border-radius:8px">
+<button style="border:none;outline:none;appearance:none;font-family:inherit;font-size:15px;padding:12px 20px;background:#1e2d4a;color:#c9d1d9;border-radius:8px;cursor:pointer">Reset Button</button>
+</div>
+</div>
+
+<div class="co-r">❌ <strong>Accessibility Warning:</strong> Never remove <code>outline</code> without adding a custom focus style! Keyboard users rely on the focus ring to know where they are. We'll fix this in Section 9.</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">2</span> Styling Inputs</h2>
+
+<p>Now that defaults are removed, let's build a premium-looking input from scratch.</p>
+
+<h3>Essential Input Properties</h3>
+
+<pre><code><span class="sel">.input-dark</span> {
+  <span class="prop">padding</span>: <span class="num">14px</span> <span class="num">18px</span>;              <span class="cm">/* Comfortable typing space */</span>
+  <span class="prop">border-radius</span>: <span class="num">10px</span>;              <span class="cm">/* Rounded corners */</span>
+  <span class="prop">background-color</span>: <span class="cssval">#1a2035</span>;        <span class="cm">/* Dark background */</span>
+  <span class="prop">color</span>: <span class="cssval">#f0f6fc</span>;                   <span class="cm">/* Light text */</span>
+  <span class="prop">font-size</span>: <span class="num">16px</span>;                   <span class="cm">/* Readable size */</span>
+  <span class="prop">border</span>: <span class="num">1px</span> <span class="cssval">solid</span> <span class="cssval">#2e3f5a</span>;       <span class="cm">/* Subtle border */</span>
+  <span class="prop">width</span>: <span class="num">100%</span>;                       <span class="cm">/* Full width of container */</span>
+  <span class="prop">transition</span>: <span class="cssval">border-color</span> <span class="num">0.2s</span> <span class="cssval">ease</span>; <span class="cm">/* Smooth focus effect */</span>
+}
+
+<span class="cm">/* Style the placeholder text */</span>
+<span class="sel">.input-dark::placeholder</span> {
+  <span class="prop">color</span>: <span class="cssval">#5e6e8a</span>;
+}
+
+<span class="cm">/* Style when user clicks into the input */</span>
+<span class="sel">.input-dark:focus</span> {
+  <span class="prop">border-color</span>: <span class="cssval">#10b981</span>;           <span class="cm">/* Green border on focus */</span>
+}</code></pre>
+
+<div class="co-b">ℹ️ <code>::placeholder</code> is a <strong>pseudo-element</strong> (you learned about these!) that targets the greyed-out hint text. <code>:focus</code> is a <strong>pseudo-class</strong> that activates when the user clicks into the input.</div>
+
+<h3>Live Demo: From Ugly to Premium</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box" style="display:flex;flex-direction:column;gap:20px;max-width:450px">
+<div>
+<p style="font-size:13px;color:#5e6e8a;margin-bottom:8px;font-weight:600">❌ Unstyled Default:</p>
+<input type="text" placeholder="Type here...">
+</div>
+<div>
+<p style="font-size:13px;color:#10b981;margin-bottom:8px;font-weight:600">✅ Premium Dark Theme:</p>
+<style>
+.input-premium{border:1px solid #2e3f5a;outline:none;appearance:none;font-family:'Inter',sans-serif;padding:14px 18px;border-radius:10px;background:#1a2035;color:#f0f6fc;font-size:16px;width:100%;transition:border-color 0.2s ease}
+.input-premium::placeholder{color:#5e6e8a}
+.input-premium:focus{border-color:#10b981}
+</style>
+<input type="text" class="input-premium" placeholder="Search for games...">
+</div>
+</div>
+</div>
+
+<h3>Live Demo: Pill-Shaped Search Input</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+<style>
+.input-pill{border:1px solid #2e3f5a;outline:none;appearance:none;font-family:'Inter',sans-serif;padding:14px 24px;border-radius:50px;background:#1a2035;color:#f0f6fc;font-size:16px;width:100%;max-width:400px;transition:border-color 0.25s ease,box-shadow 0.25s ease}
+.input-pill::placeholder{color:#5e6e8a}
+.input-pill:focus{border-color:#7dd3fc;box-shadow:0 0 0 3px rgba(125,211,252,0.15)}
+</style>
+<input type="text" class="input-pill" placeholder="🔍  Search games, genres, creators...">
+</div>
+</div>
+
+<div class="co-y">💡 <strong>Pro Tip:</strong> Use <code>border-radius: 50px</code> (or any large value) to make a <strong>pill shape</strong>. The browser caps the radius at half the element's height, so any big number works.</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">3</span> Styling Buttons</h2>
+
+<h3>Button vs Link — When to Use Which</h3>
+
+<div class="co-p">🧠 <strong>Simple rule:</strong><br>
+• <code>&lt;a&gt;</code> — Takes the user <strong>somewhere</strong> (navigates to a page/section).<br>
+• <code>&lt;button&gt;</code> — <strong>Does something</strong> (submits a form, opens a modal, toggles a menu).<br>
+Using the wrong one hurts accessibility. Screen readers announce them differently.</div>
+
+<h3>Essential Button Properties</h3>
+
+<pre><code><span class="sel">.btn</span> {
+  <span class="prop">display</span>: <span class="cssval">inline-block</span>;
+  <span class="prop">padding</span>: <span class="num">14px</span> <span class="num">28px</span>;
+  <span class="prop">border</span>: <span class="cssval">none</span>;
+  <span class="prop">border-radius</span>: <span class="num">10px</span>;
+  <span class="prop">font-size</span>: <span class="num">16px</span>;
+  <span class="prop">font-weight</span>: <span class="num">600</span>;
+  <span class="prop">cursor</span>: <span class="cssval">pointer</span>;            <span class="cm">/* Hand cursor on hover */</span>
+  <span class="prop">font-family</span>: <span class="cssval">inherit</span>;
+}
+
+<span class="cm">/* Primary — filled background */</span>
+<span class="sel">.btn-primary</span> {
+  <span class="prop">background</span>: <span class="cssval">#10b981</span>;
+  <span class="prop">color</span>: <span class="cssval">#fff</span>;
+}
+
+<span class="cm">/* Secondary — outline only */</span>
+<span class="sel">.btn-secondary</span> {
+  <span class="prop">background</span>: <span class="cssval">transparent</span>;
+  <span class="prop">color</span>: <span class="cssval">#10b981</span>;
+  <span class="prop">border</span>: <span class="num">2px</span> <span class="cssval">solid</span> <span class="cssval">#10b981</span>;
+}</code></pre>
+
+<h3>Live Demo: Default vs Primary vs Secondary</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box" style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+<style>
+.demo-btn-default{padding:8px 16px;font-size:15px}
+.demo-btn{display:inline-block;padding:14px 28px;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;outline:none;transition:transform 0.2s ease,box-shadow 0.2s ease}
+.demo-btn-primary{background:#10b981;color:#fff}
+.demo-btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(16,185,129,0.3)}
+.demo-btn-secondary{background:transparent;color:#10b981;border:2px solid #10b981}
+.demo-btn-secondary:hover{background:rgba(16,185,129,0.1);transform:translateY(-2px)}
+</style>
+<div style="text-align:center"><p style="font-size:12px;color:#5e6e8a;margin-bottom:6px">Default</p><button class="demo-btn-default">Click Me</button></div>
+<div style="text-align:center"><p style="font-size:12px;color:#10b981;margin-bottom:6px">Primary</p><button class="demo-btn demo-btn-primary">Get Started</button></div>
+<div style="text-align:center"><p style="font-size:12px;color:#10b981;margin-bottom:6px">Secondary</p><button class="demo-btn demo-btn-secondary">Learn More</button></div>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">4</span> Building the LUGX Search Bar</h2>
+
+<p>The LUGX Gaming website has a sleek search bar: a white pill-shaped container with an input that fills the space, and a colored button anchored to the right. Let's build it step by step.</p>
+
+<h3>Step 1: HTML Structure</h3>
+<pre><code><span class="tag">&lt;form</span> <span class="attr">class</span>=<span class="val">"search-bar"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">placeholder</span>=<span class="val">"Type Something..."</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="tag">&gt;</span>Search<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+
+<div class="co-b">ℹ️ Just three elements: a <code>&lt;form&gt;</code> wrapper, an <code>&lt;input&gt;</code>, and a <code>&lt;button&gt;</code>. The magic is all in CSS.</div>
+
+<h3>Step 2: Container with Flex + Pill Shape</h3>
+<pre><code><span class="sel">.search-bar</span> {
+  <span class="prop">display</span>: <span class="cssval">flex</span>;               <span class="cm">/* Input + button side by side */</span>
+  <span class="prop">align-items</span>: <span class="cssval">center</span>;
+  <span class="prop">background</span>: <span class="cssval">#ffffff</span>;          <span class="cm">/* White container */</span>
+  <span class="prop">border-radius</span>: <span class="num">50px</span>;          <span class="cm">/* Pill shape */</span>
+  <span class="prop">overflow</span>: <span class="cssval">hidden</span>;             <span class="cm">/* Clip button corners */</span>
+  <span class="prop">max-width</span>: <span class="num">520px</span>;
+}</code></pre>
+
+<h3>Step 3: Input Takes Remaining Space</h3>
+<pre><code><span class="sel">.search-bar input</span> {
+  <span class="prop">flex</span>: <span class="num">1</span>;                     <span class="cm">/* Fill remaining space */</span>
+  <span class="prop">border</span>: <span class="cssval">none</span>;
+  <span class="prop">outline</span>: <span class="cssval">none</span>;
+  <span class="prop">padding</span>: <span class="num">16px</span> <span class="num">24px</span>;
+  <span class="prop">font-size</span>: <span class="num">15px</span>;
+  <span class="prop">font-family</span>: <span class="cssval">inherit</span>;
+  <span class="prop">color</span>: <span class="cssval">#333</span>;
+}</code></pre>
+
+<h3>Step 4: Colored Button</h3>
+<pre><code><span class="sel">.search-bar button</span> {
+  <span class="prop">border</span>: <span class="cssval">none</span>;
+  <span class="prop">outline</span>: <span class="cssval">none</span>;
+  <span class="prop">background</span>: <span class="cssval">#0071F8</span>;
+  <span class="prop">color</span>: <span class="cssval">#fff</span>;
+  <span class="prop">padding</span>: <span class="num">16px</span> <span class="num">32px</span>;
+  <span class="prop">font-size</span>: <span class="num">15px</span>;
+  <span class="prop">font-weight</span>: <span class="num">700</span>;
+  <span class="prop">cursor</span>: <span class="cssval">pointer</span>;
+  <span class="prop">font-family</span>: <span class="cssval">inherit</span>;
+  <span class="prop">border-radius</span>: <span class="num">50px</span>;
+  <span class="prop">margin</span>: <span class="num">4px</span>;
+  <span class="prop">transition</span>: <span class="cssval">background</span> <span class="num">0.2s</span> <span class="cssval">ease</span>;
+}</code></pre>
+
+<h3>Final Live Demo: The Complete LUGX Search Bar</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result — LUGX Search Bar</div>
+<div class="demo-box" style="background:#1a1e30;padding:40px 32px;display:flex;justify-content:center">
+<style>
+.lugx-search{display:flex;align-items:center;background:#ffffff;border-radius:50px;overflow:hidden;max-width:520px;width:100%}
+.lugx-search input{flex:1;border:none;outline:none;padding:16px 24px;font-size:15px;font-family:'Inter',sans-serif;color:#333;background:transparent}
+.lugx-search input::placeholder{color:#999}
+.lugx-search button{border:none;outline:none;background:#0071F8;color:#fff;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;border-radius:50px;margin:4px;transition:background 0.2s ease;white-space:nowrap}
+.lugx-search button:hover{background:#005bd4}
+</style>
+<form class="lugx-search" onsubmit="event.preventDefault()">
+<input type="text" placeholder="Type Something...">
+<button type="submit">Search</button>
+</form>
+</div>
+</div>
+
+<div class="co-g">✅ <strong>Flexbox does the heavy lifting.</strong> The input gets <code>flex: 1</code> so it stretches to fill all available space, while the button stays its natural size on the right. The white <code>form</code> container with <code>border-radius: 50px</code> creates the pill shape, and <code>overflow: hidden</code> clips the children's corners.</div>
+
+<pre><code><span class="cm">/*  ASCII Layout
+┌─────────────────────────────────────────────────────┐
+│  ┌──────────────────────────────┐  ┌──────────────┐ │
+│  │   Type Something...          │  │   Search     │ │
+│  │   (input, flex: 1)           │  │   (button)   │ │
+│  └──────────────────────────────┘  └──────────────┘ │
+│          White pill container (form, display: flex)  │
+└─────────────────────────────────────────────────────┘
+*/</span></code></pre>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">5</span> CSS Transitions — Making Things Smooth</h2>
+
+<p>Without transitions, CSS changes happen <strong>instantly</strong>. One frame it's blue, the next frame it's green. That feels jarring. Transitions let you animate the change smoothly over a duration.</p>
+
+<h3>The Syntax</h3>
+<pre><code><span class="cm">/* transition: property  duration  easing; */</span>
+
+<span class="sel">.button</span> {
+  <span class="prop">background</span>: <span class="cssval">#10b981</span>;
+  <span class="prop">transition</span>: <span class="cssval">background-color</span> <span class="num">0.3s</span> <span class="cssval">ease</span>;
+}
+
+<span class="sel">.button:hover</span> {
+  <span class="prop">background</span>: <span class="cssval">#059669</span>;  <span class="cm">/* This change now animates over 0.3s */</span>
+}
+
+<span class="cm">/* Or animate EVERYTHING that changes: */</span>
+<span class="sel">.card</span> {
+  <span class="prop">transition</span>: <span class="cssval">all</span> <span class="num">0.3s</span> <span class="cssval">ease</span>;
+}</code></pre>
+
+<h3>Easing Functions</h3>
+<table style="width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:15px">
+<thead><tr style="border-bottom:2px solid #1e2d4a;text-align:left">
+<th style="padding:10px 14px;color:#10b981">Value</th><th style="padding:10px 14px;color:#10b981">Behavior</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid #1e2d4a"><td style="padding:10px 14px"><code>ease</code></td><td style="padding:10px 14px;color:#b0bac9">Starts slow, speeds up, ends slow (most natural).</td></tr>
+<tr style="border-bottom:1px solid #1e2d4a"><td style="padding:10px 14px"><code>ease-in</code></td><td style="padding:10px 14px;color:#b0bac9">Starts slow, ends fast.</td></tr>
+<tr style="border-bottom:1px solid #1e2d4a"><td style="padding:10px 14px"><code>ease-out</code></td><td style="padding:10px 14px;color:#b0bac9">Starts fast, ends slow.</td></tr>
+<tr style="border-bottom:1px solid #1e2d4a"><td style="padding:10px 14px"><code>ease-in-out</code></td><td style="padding:10px 14px;color:#b0bac9">Slow start and slow end.</td></tr>
+<tr><td style="padding:10px 14px"><code>linear</code></td><td style="padding:10px 14px;color:#b0bac9">Constant speed (mechanical feel).</td></tr>
+</tbody></table>
+
+<h3>Live Demo: Without vs With Transition</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result — Hover Both Buttons</div>
+<div class="demo-box" style="display:flex;gap:24px;flex-wrap:wrap;align-items:start">
+<style>
+.btn-no-trans{display:inline-block;padding:14px 28px;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;outline:none;background:#10b981;color:#fff}
+.btn-no-trans:hover{background:#dc2626;transform:scale(1.05)}
+.btn-with-trans{display:inline-block;padding:14px 28px;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;outline:none;background:#10b981;color:#fff;transition:all 0.3s ease}
+.btn-with-trans:hover{background:#dc2626;transform:scale(1.05)}
+</style>
+<div style="text-align:center"><p style="font-size:13px;color:#f85149;margin-bottom:8px;font-weight:600">❌ No Transition</p><button class="btn-no-trans">Hover Me</button></div>
+<div style="text-align:center"><p style="font-size:13px;color:#10b981;margin-bottom:8px;font-weight:600">✅ With Transition</p><button class="btn-with-trans">Hover Me</button></div>
+</div>
+</div>
+
+<div class="co-y">💡 <strong>What CAN be transitioned?</strong> Only properties with numeric/interpolatable values: <code>color</code>, <code>background-color</code>, <code>width</code>, <code>height</code>, <code>opacity</code>, <code>transform</code>, <code>box-shadow</code>, <code>border-color</code>. You <strong>cannot</strong> transition <code>display</code> (block ↔ none) or <code>font-family</code>.</div>
+
+<div class="co-p">🧠 <strong>Where to put the transition:</strong> Always put <code>transition</code> on the <strong>base state</strong>, not on <code>:hover</code>. This way, the animation plays both when hovering in AND when hovering out.</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">6</span> Transform — Movement, Scale, Rotation</h2>
+
+<p>The <code>transform</code> property lets you move, scale, rotate, and skew elements <strong>without affecting layout</strong>. Other elements don't move to make space — it's purely visual.</p>
+
+<h3>Transform Functions</h3>
+
+<pre><code><span class="cm">/* Move up 2px (negative = up) */</span>
+<span class="prop">transform</span>: <span class="cssval">translateY</span>(<span class="num">-2px</span>);
+
+<span class="cm">/* Move right 5px */</span>
+<span class="prop">transform</span>: <span class="cssval">translateX</span>(<span class="num">5px</span>);
+
+<span class="cm">/* Scale up 5% */</span>
+<span class="prop">transform</span>: <span class="cssval">scale</span>(<span class="num">1.05</span>);
+
+<span class="cm">/* Rotate 5 degrees clockwise */</span>
+<span class="prop">transform</span>: <span class="cssval">rotate</span>(<span class="num">5deg</span>);
+
+<span class="cm">/* Combine multiple transforms: */</span>
+<span class="prop">transform</span>: <span class="cssval">translateY</span>(<span class="num">-2px</span>) <span class="cssval">scale</span>(<span class="num">1.02</span>);</code></pre>
+
+<div class="co-b">ℹ️ <strong>Key insight:</strong> <code>transform</code> does <strong>NOT</strong> affect layout. If you <code>translateY(-10px)</code> an element, it visually moves up, but the space it originally occupied remains. Other elements don't shift. This is what makes it perfect for hover effects — nothing "jumps".</div>
+
+<h3>Live Demo: Button with Hover Lift + Scale</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result — Hover the button</div>
+<div class="demo-box" style="display:flex;justify-content:center">
+<style>
+.btn-lift{display:inline-block;padding:16px 36px;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;outline:none;background:linear-gradient(135deg,#10b981,#059669);color:#fff;transition:transform 0.25s ease,box-shadow 0.25s ease}
+.btn-lift:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 24px rgba(16,185,129,0.35)}
+</style>
+<button class="btn-lift">Hover to Lift ↑</button>
+</div>
+</div>
+
+<h3>Live Demo: Card with Hover Grow Effect</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result — Hover the card</div>
+<div class="demo-box" style="display:flex;justify-content:center">
+<style>
+.card-grow{background:#1a2035;border:1px solid #2e3f5a;border-radius:14px;padding:32px;max-width:280px;text-align:center;transition:transform 0.3s ease,border-color 0.3s ease;cursor:pointer}
+.card-grow:hover{transform:scale(1.04);border-color:#10b981}
+.card-grow h4{color:#f0f6fc;font-size:18px;margin-bottom:8px;margin-top:0}
+.card-grow p{color:#7a8599;font-size:14px;margin:0}
+</style>
+<div class="card-grow">
+<div style="font-size:40px;margin-bottom:12px">🎮</div>
+<h4>Action Games</h4>
+<p>Fast-paced games with intense gameplay and epic boss battles.</p>
+</div>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">7</span> box-shadow on Hover — The Glow Effect</h2>
+
+<p><code>box-shadow</code> adds a shadow or glow around an element. When combined with <code>transition</code>, you can make elements feel like they're "rising" on hover.</p>
+
+<h3>The Syntax</h3>
+<pre><code><span class="cm">/*  box-shadow: x-offset  y-offset  blur  spread  color; */</span>
+
+<span class="cm">/* Subtle shadow */</span>
+<span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">4px</span> <span class="num">12px</span> <span class="cssval">rgba(0, 0, 0, 0.1)</span>;
+
+<span class="cm">/* Bigger, darker shadow (hover state) */</span>
+<span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">8px</span> <span class="num">24px</span> <span class="cssval">rgba(0, 0, 0, 0.2)</span>;
+
+<span class="cm">/* Colored glow (blue) */</span>
+<span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">8px</span> <span class="num">24px</span> <span class="cssval">rgba(0, 113, 248, 0.3)</span>;</code></pre>
+
+<pre><code><span class="cm">/*  ASCII Breakdown:
+      box-shadow: 0      8px     24px    rgba(0,0,0,0.2)
+                  ↑       ↑       ↑             ↑
+              x-offset  y-offset  blur        color
+             (right)   (down)   (spread)   (semi-transparent)
+*/</span></code></pre>
+
+<h3>Live Demo: Card Shadow Transition on Hover</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result — Hover the card</div>
+<div class="demo-box" style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap">
+<style>
+.card-shadow{background:#1a2035;border:1px solid #2e3f5a;border-radius:14px;padding:28px;width:220px;text-align:center;cursor:pointer;transition:all 0.3s ease;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.card-shadow:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,0.3)}
+.card-shadow.glow:hover{box-shadow:0 12px 28px rgba(0,113,248,0.35);border-color:#0071F8}
+.card-shadow h4{color:#f0f6fc;font-size:16px;margin-top:10px;margin-bottom:6px}
+.card-shadow p{color:#7a8599;font-size:13px;margin:0}
+</style>
+<div class="card-shadow">
+<div style="font-size:36px">🏆</div>
+<h4>Dark Shadow</h4>
+<p>Lifts up with a deeper black shadow</p>
+</div>
+<div class="card-shadow glow">
+<div style="font-size:36px">💎</div>
+<h4>Blue Glow</h4>
+<p>Lifts up with a colored blue glow</p>
+</div>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">8</span> Common Hover Patterns (Cheat Sheet)</h2>
+
+<p>Here are the most popular hover effects used on real websites. Memorize these — you'll use them everywhere.</p>
+
+<h3>Pattern 1: Button Lift</h3>
+<pre><code><span class="sel">.btn:hover</span> {
+  <span class="prop">transform</span>: <span class="cssval">translateY</span>(<span class="num">-2px</span>);
+  <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">6px</span> <span class="num">16px</span> <span class="cssval">rgba(0,0,0,0.15)</span>;
+}</code></pre>
+
+<h3>Pattern 2: Button Color Swap</h3>
+<pre><code><span class="sel">.btn</span> { <span class="prop">background</span>: <span class="cssval">#0071F8</span>; }
+<span class="sel">.btn:hover</span> { <span class="prop">background</span>: <span class="cssval">#005bd4</span>; }</code></pre>
+
+<h3>Pattern 3: Link Underline Grow</h3>
+<pre><code><span class="sel">.link</span> { <span class="prop">position</span>: <span class="cssval">relative</span>; }
+<span class="sel">.link::after</span> {
+  <span class="prop">content</span>: <span class="val">""</span>;
+  <span class="prop">position</span>: <span class="cssval">absolute</span>;
+  <span class="prop">bottom</span>: <span class="num">-2px</span>; <span class="prop">left</span>: <span class="num">0</span>;
+  <span class="prop">width</span>: <span class="num">0</span>; <span class="prop">height</span>: <span class="num">2px</span>;
+  <span class="prop">background</span>: <span class="cssval">#10b981</span>;
+  <span class="prop">transition</span>: <span class="cssval">width</span> <span class="num">0.3s</span> <span class="cssval">ease</span>;
+}
+<span class="sel">.link:hover::after</span> { <span class="prop">width</span>: <span class="num">100%</span>; }</code></pre>
+
+<h3>Pattern 4: Card Float</h3>
+<pre><code><span class="sel">.card:hover</span> {
+  <span class="prop">transform</span>: <span class="cssval">translateY</span>(<span class="num">-4px</span>);
+  <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">12px</span> <span class="num">28px</span> <span class="cssval">rgba(0,0,0,0.2)</span>;
+}</code></pre>
+
+<h3>Pattern 5: Image Zoom</h3>
+<pre><code><span class="sel">.img-container</span> { <span class="prop">overflow</span>: <span class="cssval">hidden</span>; }
+<span class="sel">.img-container img</span> { <span class="prop">transition</span>: <span class="cssval">transform</span> <span class="num">0.3s</span> <span class="cssval">ease</span>; }
+<span class="sel">.img-container:hover img</span> { <span class="prop">transform</span>: <span class="cssval">scale</span>(<span class="num">1.05</span>); }</code></pre>
+
+<h3>Live Demo: All 5 Patterns</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result — Hover Each One</div>
+<div class="demo-box" style="display:flex;gap:20px;flex-wrap:wrap;align-items:start;justify-content:center">
+<style>
+/* Pattern 1 */
+.p1-btn{display:inline-block;padding:14px 28px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;outline:none;background:#0071F8;color:#fff;transition:transform 0.25s ease,box-shadow 0.25s ease}
+.p1-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,113,248,0.3)}
+
+/* Pattern 2 */
+.p2-btn{display:inline-block;padding:14px 28px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;outline:none;background:#10b981;color:#fff;transition:background 0.25s ease}
+.p2-btn:hover{background:#059669}
+
+/* Pattern 3 */
+.p3-link{color:#c9d1d9;text-decoration:none;font-weight:600;font-size:16px;position:relative;cursor:pointer;display:inline-block;padding:14px 0}
+.p3-link::after{content:"";position:absolute;bottom:10px;left:0;width:0;height:2px;background:#10b981;transition:width 0.3s ease}
+.p3-link:hover::after{width:100%}
+
+/* Pattern 4 */
+.p4-card{background:#1a2035;border:1px solid #2e3f5a;border-radius:12px;padding:20px;width:140px;text-align:center;cursor:pointer;transition:transform 0.3s ease,box-shadow 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.p4-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,0.25)}
+
+/* Pattern 5 */
+.p5-img-container{width:140px;height:90px;overflow:hidden;border-radius:10px;cursor:pointer}
+.p5-img-container div{width:100%;height:100%;background:linear-gradient(135deg,#0071F8,#10b981);transition:transform 0.3s ease;display:flex;align-items:center;justify-content:center;font-size:32px}
+.p5-img-container:hover div{transform:scale(1.1)}
+</style>
+<div style="text-align:center"><p style="font-size:12px;color:#10b981;margin-bottom:8px;font-weight:600">1. Lift</p><button class="p1-btn">Lift</button></div>
+<div style="text-align:center"><p style="font-size:12px;color:#10b981;margin-bottom:8px;font-weight:600">2. Swap</p><button class="p2-btn">Swap</button></div>
+<div style="text-align:center"><p style="font-size:12px;color:#10b981;margin-bottom:8px;font-weight:600">3. Underline</p><span class="p3-link">Nav Link</span></div>
+<div style="text-align:center"><p style="font-size:12px;color:#10b981;margin-bottom:8px;font-weight:600">4. Float</p><div class="p4-card">📦 Card</div></div>
+<div style="text-align:center"><p style="font-size:12px;color:#10b981;margin-bottom:8px;font-weight:600">5. Zoom</p><div class="p5-img-container"><div>🖼️</div></div></div>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">9</span> The :focus-visible Pseudo-class</h2>
+
+<p>Remember how we removed <code>outline: none</code> earlier? That's a problem for <strong>keyboard users</strong> who tab through a page. They need to see which element is focused.</p>
+
+<p>The solution: <code>:focus-visible</code>. This pseudo-class <strong>only activates for keyboard navigation</strong> — not for mouse clicks. It's the best of both worlds.</p>
+
+<h3>The Pattern</h3>
+<pre><code><span class="sel">input, button</span> {
+  <span class="prop">outline</span>: <span class="cssval">none</span>;            <span class="cm">/* Remove default outline */</span>
+}
+
+<span class="sel">input:focus-visible,
+button:focus-visible</span> {
+  <span class="prop">outline</span>: <span class="num">2px</span> <span class="cssval">solid</span> <span class="cssval">#0071F8</span>;  <span class="cm">/* Custom focus ring */</span>
+  <span class="prop">outline-offset</span>: <span class="num">2px</span>;            <span class="cm">/* Small gap between element and outline */</span>
+}</code></pre>
+
+<div class="co-g">✅ <strong>How to test:</strong> Press <kbd style="background:#1e2d4a;border:1px solid #2e3f5a;padding:2px 8px;border-radius:4px;font-size:13px">Tab</kbd> on your keyboard to cycle through the elements below. You'll see the blue outline. Click them with your mouse — no outline. That's <code>:focus-visible</code> doing its job.</div>
+
+<h3>Live Demo: Custom :focus-visible</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result — Use Tab Key to Navigate</div>
+<div class="demo-box" style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+<style>
+.fv-input{border:1px solid #2e3f5a;outline:none;font-family:'Inter',sans-serif;padding:14px 18px;border-radius:10px;background:#1a2035;color:#f0f6fc;font-size:15px;width:200px;transition:border-color 0.2s ease}
+.fv-input::placeholder{color:#5e6e8a}
+.fv-input:focus-visible{outline:2px solid #0071F8;outline-offset:2px}
+.fv-btn{display:inline-block;padding:14px 28px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;outline:none;background:#10b981;color:#fff;transition:all 0.2s ease}
+.fv-btn:hover{background:#059669}
+.fv-btn:focus-visible{outline:2px solid #0071F8;outline-offset:2px}
+</style>
+<input type="text" class="fv-input" placeholder="Tab to me...">
+<input type="email" class="fv-input" placeholder="Then tab here...">
+<button class="fv-btn">Submit</button>
+</div>
+</div>
+
+<div class="co-y">💡 <strong>Pro Tip:</strong> <code>outline-offset: 2px</code> adds a tiny gap between the element and its outline, making it look cleaner and more intentional. It's a small detail that separates amateur from professional UI.</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 10 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">10</span> Practice Exercises</h2>
+
+<p>Time to lock it in. Try each exercise before looking at the solution. Write the code yourself — copying and pasting doesn't build memory.</p>
+
+<!-- ── Exercise 1 ── -->
+<h3>Exercise 1: Dark-Theme Login Form</h3>
+<p>Build a login form with:</p>
+<ul style="margin:0 0 20px 24px;color:#b0bac9;line-height:2">
+<li>Email input with a dark background and green focus border</li>
+<li>Password input with the same styling</li>
+<li>A styled submit button with hover effect</li>
+<li>All text using the <code>Inter</code> font family</li>
+</ul>
+
+<button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show/Hide Solution</button>
+<div class="solution-content">
+<div class="demo">
+<div class="demo-label">▶ Exercise 1 Solution</div>
+<div class="demo-box">
+<style>
+.ex1-form{display:flex;flex-direction:column;gap:14px;max-width:380px}
+.ex1-label{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:-6px}
+.ex1-input{border:1px solid #2e3f5a;outline:none;font-family:'Inter',sans-serif;padding:14px 18px;border-radius:10px;background:#1a2035;color:#f0f6fc;font-size:15px;width:100%;transition:border-color 0.25s ease}
+.ex1-input::placeholder{color:#5e6e8a}
+.ex1-input:focus{border-color:#10b981}
+.ex1-input:focus-visible{outline:2px solid #10b981;outline-offset:2px}
+.ex1-btn{border:none;outline:none;padding:14px 28px;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;background:#10b981;color:#fff;transition:all 0.25s ease;margin-top:8px;width:100%}
+.ex1-btn:hover{background:#059669;transform:translateY(-2px);box-shadow:0 6px 16px rgba(16,185,129,0.3)}
+.ex1-btn:focus-visible{outline:2px solid #10b981;outline-offset:2px}
+</style>
+<form class="ex1-form" onsubmit="event.preventDefault()">
+<label class="ex1-label">Email Address</label>
+<input type="email" class="ex1-input" placeholder="you@example.com" required>
+<label class="ex1-label">Password</label>
+<input type="password" class="ex1-input" placeholder="Enter your password" required>
+<button type="submit" class="ex1-btn">Log In</button>
+</form>
+</div>
+</div>
+<pre><code><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;form</span> <span class="attr">class</span>=<span class="val">"login-form"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;label&gt;</span>Email Address<span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"email"</span> <span class="attr">placeholder</span>=<span class="val">"you@example.com"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;label&gt;</span>Password<span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"password"</span> <span class="attr">placeholder</span>=<span class="val">"Enter your password"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="tag">&gt;</span>Log In<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span>
+
+<span class="cm">/* CSS */</span>
+<span class="sel">.login-form</span> { <span class="prop">display</span>: <span class="cssval">flex</span>; <span class="prop">flex-direction</span>: <span class="cssval">column</span>; <span class="prop">gap</span>: <span class="num">14px</span>; <span class="prop">max-width</span>: <span class="num">380px</span>; }
+<span class="sel">.login-form input</span> {
+  <span class="prop">border</span>: <span class="num">1px</span> <span class="cssval">solid</span> <span class="cssval">#2e3f5a</span>; <span class="prop">outline</span>: <span class="cssval">none</span>; <span class="prop">font-family</span>: <span class="cssval">inherit</span>;
+  <span class="prop">padding</span>: <span class="num">14px</span> <span class="num">18px</span>; <span class="prop">border-radius</span>: <span class="num">10px</span>; <span class="prop">background</span>: <span class="cssval">#1a2035</span>;
+  <span class="prop">color</span>: <span class="cssval">#f0f6fc</span>; <span class="prop">font-size</span>: <span class="num">15px</span>; <span class="prop">transition</span>: <span class="cssval">border-color</span> <span class="num">0.25s</span> <span class="cssval">ease</span>;
+}
+<span class="sel">.login-form input:focus</span> { <span class="prop">border-color</span>: <span class="cssval">#10b981</span>; }
+<span class="sel">.login-form button</span> {
+  <span class="prop">border</span>: <span class="cssval">none</span>; <span class="prop">padding</span>: <span class="num">14px</span>; <span class="prop">border-radius</span>: <span class="num">10px</span>;
+  <span class="prop">background</span>: <span class="cssval">#10b981</span>; <span class="prop">color</span>: <span class="cssval">#fff</span>; <span class="prop">font-weight</span>: <span class="num">700</span>;
+  <span class="prop">cursor</span>: <span class="cssval">pointer</span>; <span class="prop">transition</span>: <span class="cssval">all</span> <span class="num">0.25s</span> <span class="cssval">ease</span>;
+}
+<span class="sel">.login-form button:hover</span> {
+  <span class="prop">background</span>: <span class="cssval">#059669</span>; <span class="prop">transform</span>: <span class="cssval">translateY</span>(<span class="num">-2px</span>);
+}</code></pre>
+</div>
+
+<!-- ── Exercise 2 ── -->
+<h3>Exercise 2: LUGX Search Bar from Scratch</h3>
+<p>Recreate the LUGX search bar from Section 4 entirely from memory:</p>
+<ul style="margin:0 0 20px 24px;color:#b0bac9;line-height:2">
+<li>White pill-shaped container</li>
+<li>Text input that fills the remaining space</li>
+<li>Blue "Search" button on the right</li>
+<li>Button should darken on hover with a smooth transition</li>
+</ul>
+
+<button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show/Hide Solution</button>
+<div class="solution-content">
+<div class="demo">
+<div class="demo-label">▶ Exercise 2 Solution</div>
+<div class="demo-box" style="background:#1a1e30;padding:40px 32px;display:flex;justify-content:center">
+<style>
+.ex2-search{display:flex;align-items:center;background:#fff;border-radius:50px;overflow:hidden;max-width:520px;width:100%}
+.ex2-search input{flex:1;border:none;outline:none;padding:16px 24px;font-size:15px;font-family:'Inter',sans-serif;color:#333;background:transparent}
+.ex2-search input::placeholder{color:#999}
+.ex2-search button{border:none;outline:none;background:#0071F8;color:#fff;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;border-radius:50px;margin:4px;transition:background 0.25s ease;white-space:nowrap}
+.ex2-search button:hover{background:#005bd4}
+</style>
+<form class="ex2-search" onsubmit="event.preventDefault()">
+<input type="text" placeholder="Type Something...">
+<button type="submit">Search</button>
+</form>
+</div>
+</div>
+</div>
+
+<!-- ── Exercise 3 ── -->
+<h3>Exercise 3: Button with Smooth Hover Lift + Glow</h3>
+<p>Create a button that, on hover:</p>
+<ul style="margin:0 0 20px 24px;color:#b0bac9;line-height:2">
+<li>Lifts up by 3px using <code>translateY</code></li>
+<li>Gets a colored glow using <code>box-shadow</code></li>
+<li>Slightly scales up with <code>scale(1.02)</code></li>
+<li>All changes animate smoothly with <code>transition</code></li>
+</ul>
+
+<button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show/Hide Solution</button>
+<div class="solution-content">
+<div class="demo">
+<div class="demo-label">▶ Exercise 3 Solution</div>
+<div class="demo-box" style="display:flex;justify-content:center">
+<style>
+.ex3-btn{display:inline-block;padding:16px 36px;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;outline:none;background:#0071F8;color:#fff;transition:transform 0.25s ease,box-shadow 0.25s ease}
+.ex3-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 28px rgba(0,113,248,0.4)}
+.ex3-btn:focus-visible{outline:2px solid #0071F8;outline-offset:3px}
+</style>
+<button class="ex3-btn">Buy Now — $29.99</button>
+</div>
+</div>
+<pre><code><span class="sel">.btn-glow</span> {
+  <span class="prop">padding</span>: <span class="num">16px</span> <span class="num">36px</span>;
+  <span class="prop">border</span>: <span class="cssval">none</span>;
+  <span class="prop">border-radius</span>: <span class="num">12px</span>;
+  <span class="prop">background</span>: <span class="cssval">#0071F8</span>;
+  <span class="prop">color</span>: <span class="cssval">#fff</span>;
+  <span class="prop">font-weight</span>: <span class="num">700</span>;
+  <span class="prop">cursor</span>: <span class="cssval">pointer</span>;
+  <span class="prop">transition</span>: <span class="cssval">transform</span> <span class="num">0.25s</span> <span class="cssval">ease</span>, <span class="cssval">box-shadow</span> <span class="num">0.25s</span> <span class="cssval">ease</span>;
+}
+<span class="sel">.btn-glow:hover</span> {
+  <span class="prop">transform</span>: <span class="cssval">translateY</span>(<span class="num">-3px</span>) <span class="cssval">scale</span>(<span class="num">1.02</span>);
+  <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">10px</span> <span class="num">28px</span> <span class="cssval">rgba(0, 113, 248, 0.4)</span>;
+}</code></pre>
+</div>
+
+<!-- ── Exercise 4 ── -->
+<h3>Exercise 4: Floating Card with Shadow</h3>
+<p>Create a game card that, on hover:</p>
+<ul style="margin:0 0 20px 24px;color:#b0bac9;line-height:2">
+<li>Floats up by 6px</li>
+<li>Shadow grows larger and more pronounced</li>
+<li>Border color changes to a highlight color</li>
+<li>All with smooth 0.3s transitions</li>
+</ul>
+
+<button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show/Hide Solution</button>
+<div class="solution-content">
+<div class="demo">
+<div class="demo-label">▶ Exercise 4 Solution</div>
+<div class="demo-box" style="display:flex;justify-content:center">
+<style>
+.ex4-card{background:#1a2035;border:1px solid #2e3f5a;border-radius:16px;padding:32px 28px;max-width:260px;text-align:center;cursor:pointer;transition:all 0.3s ease;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.ex4-card:hover{transform:translateY(-6px);box-shadow:0 16px 32px rgba(0,0,0,0.3);border-color:#10b981}
+.ex4-card .emoji{font-size:48px;margin-bottom:14px}
+.ex4-card h4{color:#f0f6fc;margin-top:0;margin-bottom:8px;font-size:18px}
+.ex4-card p{color:#7a8599;font-size:14px;margin:0;line-height:1.6}
+.ex4-card .price{color:#10b981;font-weight:700;font-size:20px;margin-top:14px}
+</style>
+<div class="ex4-card">
+<div class="emoji">⚔️</div>
+<h4>Elden Ring</h4>
+<p>Open-world action RPG by FromSoftware</p>
+<div class="price">$59.99</div>
+</div>
+</div>
+</div>
+<pre><code><span class="sel">.game-card</span> {
+  <span class="prop">background</span>: <span class="cssval">#1a2035</span>;
+  <span class="prop">border</span>: <span class="num">1px</span> <span class="cssval">solid</span> <span class="cssval">#2e3f5a</span>;
+  <span class="prop">border-radius</span>: <span class="num">16px</span>;
+  <span class="prop">padding</span>: <span class="num">32px</span>;
+  <span class="prop">transition</span>: <span class="cssval">all</span> <span class="num">0.3s</span> <span class="cssval">ease</span>;
+  <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">4px</span> <span class="num">12px</span> <span class="cssval">rgba(0,0,0,0.1)</span>;
+}
+<span class="sel">.game-card:hover</span> {
+  <span class="prop">transform</span>: <span class="cssval">translateY</span>(<span class="num">-6px</span>);
+  <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">16px</span> <span class="num">32px</span> <span class="cssval">rgba(0,0,0,0.3)</span>;
+  <span class="prop">border-color</span>: <span class="cssval">#10b981</span>;
+}</code></pre>
+</div>
+
+<!-- ── Exercise 5 ── -->
+<h3>Exercise 5: Full Combo — Search Bar + CTA Button + Hover Effects</h3>
+<p>Build a mini section that includes:</p>
+<ul style="margin:0 0 20px 24px;color:#b0bac9;line-height:2">
+<li>A LUGX-style search bar (white pill, flex, blue button)</li>
+<li>A "Browse All Games" CTA button below it with a lift + glow hover</li>
+<li>All transitions should be smooth</li>
+<li>All elements should have <code>:focus-visible</code> outlines</li>
+</ul>
+
+<button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Show/Hide Solution</button>
+<div class="solution-content">
+<div class="demo">
+<div class="demo-label">▶ Exercise 5 Solution</div>
+<div class="demo-box" style="background:#0d1020;padding:48px 32px;display:flex;flex-direction:column;align-items:center;gap:28px">
+<style>
+.ex5-search{display:flex;align-items:center;background:#fff;border-radius:50px;overflow:hidden;max-width:520px;width:100%}
+.ex5-search input{flex:1;border:none;outline:none;padding:16px 24px;font-size:15px;font-family:'Inter',sans-serif;color:#333;background:transparent}
+.ex5-search input::placeholder{color:#999}
+.ex5-search input:focus-visible{outline:2px solid #0071F8;outline-offset:-2px;border-radius:50px 0 0 50px}
+.ex5-search button{border:none;outline:none;background:#0071F8;color:#fff;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;border-radius:50px;margin:4px;transition:background 0.25s ease;white-space:nowrap}
+.ex5-search button:hover{background:#005bd4}
+.ex5-search button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.ex5-cta{display:inline-block;padding:16px 40px;border:none;border-radius:12px;font-size:17px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;outline:none;background:linear-gradient(135deg,#10b981,#059669);color:#fff;transition:transform 0.25s ease,box-shadow 0.25s ease;text-decoration:none}
+.ex5-cta:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 28px rgba(16,185,129,0.4)}
+.ex5-cta:focus-visible{outline:2px solid #10b981;outline-offset:3px}
+</style>
+<form class="ex5-search" onsubmit="event.preventDefault()">
+<input type="text" placeholder="Type Something...">
+<button type="submit">Search</button>
+</form>
+<button class="ex5-cta">Browse All Games →</button>
+</div>
+</div>
+<pre><code><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;form</span> <span class="attr">class</span>=<span class="val">"search-bar"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">placeholder</span>=<span class="val">"Type Something..."</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="tag">&gt;</span>Search<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="val">"cta-btn"</span><span class="tag">&gt;</span>Browse All Games →<span class="tag">&lt;/button&gt;</span>
+
+<span class="cm">/* CSS — Search Bar */</span>
+<span class="sel">.search-bar</span> { <span class="prop">display</span>: <span class="cssval">flex</span>; <span class="prop">background</span>: <span class="cssval">#fff</span>; <span class="prop">border-radius</span>: <span class="num">50px</span>; <span class="prop">overflow</span>: <span class="cssval">hidden</span>; }
+<span class="sel">.search-bar input</span> { <span class="prop">flex</span>: <span class="num">1</span>; <span class="prop">border</span>: <span class="cssval">none</span>; <span class="prop">outline</span>: <span class="cssval">none</span>; <span class="prop">padding</span>: <span class="num">16px</span> <span class="num">24px</span>; }
+<span class="sel">.search-bar button</span> { <span class="prop">background</span>: <span class="cssval">#0071F8</span>; <span class="prop">color</span>: <span class="cssval">#fff</span>; <span class="prop">border-radius</span>: <span class="num">50px</span>; <span class="prop">margin</span>: <span class="num">4px</span>; }
+
+<span class="cm">/* CSS — CTA Button */</span>
+<span class="sel">.cta-btn</span> {
+  <span class="prop">background</span>: <span class="cssval">linear-gradient</span>(<span class="num">135deg</span>, <span class="cssval">#10b981</span>, <span class="cssval">#059669</span>);
+  <span class="prop">transition</span>: <span class="cssval">transform</span> <span class="num">0.25s</span> <span class="cssval">ease</span>, <span class="cssval">box-shadow</span> <span class="num">0.25s</span> <span class="cssval">ease</span>;
+}
+<span class="sel">.cta-btn:hover</span> {
+  <span class="prop">transform</span>: <span class="cssval">translateY</span>(<span class="num">-3px</span>) <span class="cssval">scale</span>(<span class="num">1.02</span>);
+  <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">10px</span> <span class="num">28px</span> <span class="cssval">rgba(16, 185, 129, 0.4)</span>;
+}</code></pre>
+</div>
+
+<!-- ── Final Note ── -->
+<div style="margin-top:90px;border-top:3px solid #1e2d4a;padding-top:40px">
+<h3 style="border-left:4px solid #7dd3fc;color:#7dd3fc">🎓 What You Learned in This Lesson</h3>
+<ul style="margin:20px 0 24px 24px;color:#b0bac9;line-height:2.2">
+<li><strong>HTML forms</strong> — <code>&lt;form&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;button&gt;</code>, <code>&lt;label&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;select&gt;</code></li>
+<li><strong>Resetting browser defaults</strong> — <code>border: none</code>, <code>outline: none</code>, <code>font-family: inherit</code></li>
+<li><strong>Styling inputs</strong> — padding, border-radius, <code>::placeholder</code>, <code>:focus</code></li>
+<li><strong>Styling buttons</strong> — primary vs secondary patterns, <code>cursor: pointer</code></li>
+<li><strong>Building the LUGX search bar</strong> — Flexbox form layout</li>
+<li><strong>CSS transitions</strong> — <code>transition: property duration easing</code></li>
+<li><strong>Transform</strong> — <code>translateY</code>, <code>scale</code>, <code>rotate</code>, combining transforms</li>
+<li><strong>box-shadow</strong> — shadows, glows, hover depth effects</li>
+<li><strong>5 hover patterns</strong> — lift, color swap, underline grow, card float, image zoom</li>
+<li><strong><code>:focus-visible</code></strong> — accessible keyboard-only focus rings</li>
+</ul>
+<p style="color:#7a8599;font-size:15px">Next lesson: <strong style="color:#10b981">CSS Grid</strong> — two-dimensional layouts for game card galleries and complex page structures.</p>
+</div>
+
+</div><!-- end .container -->
+</body>
+</html>

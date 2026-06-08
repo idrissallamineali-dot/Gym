@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM — Tricky Questions & Exercises</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}.container{max-width:820px;margin:0 auto}h1{font-size:42px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1px}.lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#f85149;margin-bottom:8px}.subtitle{font-size:18px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px}h2{font-size:26px;font-weight:700;color:#f0f6fc;margin-top:64px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #1e2d4a}h2 .n{color:#58a6ff}h3{font-size:20px;font-weight:600;color:#e2e8f0;margin-top:36px;margin-bottom:12px}p{margin-bottom:18px;color:#b0bac9}strong{color:#e2e8f0}code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:16px 0 24px;overflow-x:auto}pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}.kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.num{color:#79c0ff}.bool{color:#ff7b72}hr{border:none;border-top:1px solid #1e2d4a;margin:36px 0}
+        .q{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px;margin:24px 0}.q-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}.q-num{background:#f85149;color:#fff;font-size:13px;font-weight:700;padding:4px 12px;border-radius:8px}.q-type{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:6px}.type-predict{background:rgba(245,158,11,.15);color:#f59e0b}.type-debug{background:rgba(248,81,73,.15);color:#f85149}.type-build{background:rgba(16,185,129,.15);color:#10b981}.type-concept{background:rgba(139,92,246,.15);color:#a78bfa}
+        .q h3{font-size:18px;font-weight:600;color:#f0f6fc;margin:0 0 10px}.q p{font-size:15px;color:#9aa5b4;margin-bottom:12px}.constraint{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:10px;padding:10px 16px;margin:12px 0;font-size:13px;font-weight:600;color:#a78bfa}.constraint::before{content:'⛔ CONSTRAINT: ';font-weight:700}
+        .sol-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#10b981;font-size:13px;font-weight:600;padding:8px 18px;border-radius:10px;cursor:pointer;transition:.2s;margin-top:8px}.sol-btn:hover{background:rgba(16,185,129,.15)}.sol{display:none;margin-top:16px;padding:16px 20px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}.sol.show{display:block}.sol-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#10b981;margin-bottom:10px}
+    </style>
+</head>
+<body>
+<div class="container">
+    <p class="lesson-num">🔥 Challenge Zone</p>
+    <h1>DOM — Tricky Questions & Exercises</h1>
+    <p class="subtitle">30 questions that test your deep understanding of the DOM, events, the event loop, and performance. Predict the output before running the code. These WILL appear in interviews.</p>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2>Part 1 — Predict The Output (Event Loop & Timing)</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <div class="q"><div class="q-header"><span class="q-num">01</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>setTimeout(0) vs sync</h3>
+    <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"A"</span>);
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"B"</span>), <span class="num">0</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"C"</span>);
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"D"</span>), <span class="num">0</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"E"</span>);</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>A, C, E, B, D</code></pre><p>All sync code runs first (call stack). setTimeout callbacks go to the macrotask queue and only run after the stack is empty. Even with 0ms delay, they wait.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">02</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>Promise vs setTimeout</h3>
+    <pre><code><span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"1"</span>), <span class="num">0</span>);
+<span class="fn">Promise</span>.<span class="fn">resolve</span>().<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"2"</span>));
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"3"</span>);</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>3, 2, 1</code></pre><p><strong>3</strong> = sync (stack). <strong>2</strong> = microtask (Promise.then — always runs before macrotasks). <strong>1</strong> = macrotask (setTimeout — runs last). Priority: Sync → Microtasks → Macrotasks.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">03</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>Chained Promises vs setTimeout</h3>
+    <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"A"</span>);
+
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"B"</span>), <span class="num">0</span>);
+
+<span class="fn">Promise</span>.<span class="fn">resolve</span>()
+    .<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"C"</span>))
+    .<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"D"</span>))
+    .<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"E"</span>));
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"F"</span>);</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>A, F, C, D, E, B</code></pre><p>A, F = sync. Then ALL microtasks drain before the macrotask: C → D → E (each .then adds the next to the microtask queue). B = macrotask, runs last.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">04</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>setTimeout inside Promise</h3>
+    <pre><code><span class="fn">Promise</span>.<span class="fn">resolve</span>().<span class="fn">then</span>(() => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"A"</span>);
+    <span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"B"</span>), <span class="num">0</span>);
+});
+
+<span class="fn">setTimeout</span>(() => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"C"</span>);
+    <span class="fn">Promise</span>.<span class="fn">resolve</span>().<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"D"</span>));
+}, <span class="num">0</span>);</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>A, C, D, B</code></pre><p><strong>A</strong> = microtask runs first. Inside it, setTimeout("B") is queued as macrotask. <strong>C</strong> = first macrotask runs (it was registered first, before the one from the microtask). Inside C, Promise("D") is queued as microtask → <strong>D</strong> drains immediately. <strong>B</strong> = second macrotask runs last.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">05</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>async/await execution order</h3>
+    <pre><code><span class="kw">async function</span> <span class="fn">foo</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"1"</span>);
+    <span class="kw">await</span> <span class="fn">Promise</span>.<span class="fn">resolve</span>();
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"2"</span>);
+}
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"3"</span>);
+<span class="fn">foo</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"4"</span>);</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>3, 1, 4, 2</code></pre><p><strong>3</strong> = sync. <strong>1</strong> = inside foo, before await (runs synchronously). <strong>await</strong> pauses foo — everything after it becomes a microtask. <strong>4</strong> = sync continues. <strong>2</strong> = microtask runs (the continuation after await).</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">06</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>setTimeout ordering</h3>
+    <pre><code><span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"A"</span>), <span class="num">100</span>);
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"B"</span>), <span class="num">0</span>);
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"C"</span>), <span class="num">50</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"D"</span>);</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>D, B, C, A</code></pre><p><strong>D</strong> = sync. Then timeouts fire in order of their delay: B (0ms) → C (50ms) → A (100ms).</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">07</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>The classic closure-in-loop trap</h3>
+    <pre><code><span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+    <span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(i), <span class="num">0</span>);
+}</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>3, 3, 3</code></pre><p>NOT 0, 1, 2! <code>var</code> is function-scoped — there's only ONE <code>i</code> shared by all callbacks. By the time the callbacks run (after the loop), <code>i</code> is already 3. Fix: use <code>let</code> instead of <code>var</code> — <code>let</code> creates a new scope per iteration.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">08</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>The let fix</h3>
+    <pre><code><span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+    <span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(i), <span class="num">0</span>);
+}</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>0, 1, 2</code></pre><p><code>let</code> creates a new binding for each loop iteration. Each callback closes over its own copy of <code>i</code>.</p></div></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2>Part 2 — Predict The Output (DOM & Events)</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <div class="q"><div class="q-header"><span class="q-num">09</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>Event bubbling order</h3>
+    <pre><code><span class="cm">// HTML: &lt;div id="outer"&gt;&lt;button id="inner"&gt;Click&lt;/button&gt;&lt;/div&gt;</span>
+
+outer.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"outer"</span>));
+inner.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"inner"</span>));
+document.body.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"body"</span>));
+
+<span class="cm">// User clicks the button. What's the output?</span></code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>inner, outer, body</code></pre><p>Events bubble UP from the target to ancestors: button (target) → div → body. Default listeners fire during the bubbling phase, from deepest to shallowest.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">10</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>Capturing + bubbling mix</h3>
+    <pre><code><span class="cm">// Same HTML structure</span>
+outer.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"outer-capture"</span>), <span class="bool">true</span>);
+inner.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"inner"</span>));
+outer.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"outer-bubble"</span>));
+
+<span class="cm">// Click the button</span></code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>outer-capture, inner, outer-bubble</code></pre><p>Capturing goes DOWN first (outer-capture). Then target phase (inner). Then bubbling goes UP (outer-bubble). Capture listeners fire before bubble listeners.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">11</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>stopPropagation</h3>
+    <pre><code>inner.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"inner"</span>);
+    e.<span class="fn">stopPropagation</span>();
+});
+outer.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"outer"</span>));
+
+<span class="cm">// Click the button</span></code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>inner</code></pre><p>"outer" never fires. <code>stopPropagation()</code> prevents the event from bubbling to parent elements.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">12</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>target vs currentTarget</h3>
+    <pre><code><span class="cm">// HTML: &lt;div id="parent"&gt;&lt;span id="child"&gt;Click me&lt;/span&gt;&lt;/div&gt;</span>
+
+parent.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"target:"</span>, e.target.id);
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"currentTarget:"</span>, e.currentTarget.id);
+});
+
+<span class="cm">// Click the span</span></code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>target: child
+currentTarget: parent</code></pre><p><code>e.target</code> = the element that was actually clicked (span). <code>e.currentTarget</code> = the element the listener is attached to (div). They differ when the click bubbles.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">13</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>removeEventListener with anonymous function</h3>
+    <pre><code>btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"click!"</span>));
+btn.<span class="fn">removeEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"click!"</span>));
+
+<span class="cm">// User clicks the button. What happens?</span></code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>"click!" still fires</code></pre><p>The remove does NOTHING. Each <code>() => ...</code> creates a new function object. They look identical but are different references. <code>removeEventListener</code> needs the <strong>exact same function reference</strong>.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">14</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>onclick vs addEventListener</h3>
+    <pre><code>btn.onclick = () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"A"</span>);
+btn.onclick = () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"B"</span>);
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"C"</span>));
+
+<span class="cm">// Click the button</span></code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>B, C</code></pre><p>The second <code>onclick =</code> overwrites the first (A is gone). But <code>addEventListener</code> adds independently. Both B (from onclick) and C (from addEventListener) fire.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">15</span><span class="q-type type-predict">Predict Output</span></div>
+    <h3>textContent vs innerHTML</h3>
+    <pre><code>div.innerHTML = <span class="str">"&lt;script&gt;alert('hacked')&lt;/script&gt;"</span>;
+<span class="cm">// Does the alert fire?</span>
+
+div.textContent = <span class="str">"&lt;b&gt;bold?&lt;/b&gt;"</span>;
+<span class="cm">// What does the user see?</span></code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><pre><code>No alert. Scripts inserted via innerHTML don't execute.
+User sees literal text: "&lt;b&gt;bold?&lt;/b&gt;" — not bold text.</code></pre><p><code>innerHTML</code> parses HTML but blocks <code>&lt;script&gt;</code> tags (browser safety). <code>textContent</code> treats everything as plain text — no HTML parsing at all. Tags appear as visible characters.</p></div></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2>Part 3 — Predict The Output (Performance Traps)</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <div class="q"><div class="q-header"><span class="q-num">16</span><span class="q-type type-concept">Concept</span></div>
+    <h3>What's wrong with this code?</h3>
+    <pre><code><span class="kw">const</span> items = document.<span class="fn">querySelectorAll</span>(<span class="str">".item"</span>);
+items.<span class="fn">forEach</span>(item => {
+    <span class="kw">const</span> h = item.offsetHeight;    <span class="cm">// READ</span>
+    item.style.height = h + <span class="num">10</span> + <span class="str">"px"</span>; <span class="cm">// WRITE</span>
+});</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><p><strong>Layout thrashing.</strong> Each iteration reads offsetHeight (forces layout) then writes style.height (invalidates layout). On the next iteration, the browser must recalculate layout AGAIN. With 100 items, that's 100 forced reflows. Fix: batch all reads first, then all writes.</p>
+    <pre><code><span class="kw">const</span> heights = [...items].<span class="fn">map</span>(i => i.offsetHeight); <span class="cm">// all reads</span>
+items.<span class="fn">forEach</span>((item, i) => {
+    item.style.height = heights[i] + <span class="num">10</span> + <span class="str">"px"</span>;  <span class="cm">// all writes</span>
+});</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">17</span><span class="q-type type-concept">Concept</span></div>
+    <h3>Why is this slow?</h3>
+    <pre><code><span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">1000</span>; i++) {
+    list.innerHTML += <span class="str">`&lt;li&gt;Item ${i}&lt;/li&gt;`</span>;
+}</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p><p><code>innerHTML +=</code> on each iteration: <strong>serializes</strong> all existing HTML → concatenates the new string → <strong>destroys all DOM nodes</strong> → <strong>re-parses everything</strong> → creates all nodes again. On iteration 999, it parses 999 previous items + 1 new one. All event listeners on existing elements are <strong>lost</strong>. Fix: use DocumentFragment or build a string first.</p></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">18</span><span class="q-type type-concept">Concept</span></div>
+    <h3>Which triggers reflow? Which doesn't?</h3>
+    <pre><code>el.style.color = <span class="str">"red"</span>;
+el.style.width = <span class="str">"200px"</span>;
+el.style.transform = <span class="str">"translateX(50px)"</span>;
+el.style.opacity = <span class="str">"0.5"</span>;
+el.style.margin = <span class="str">"20px"</span>;
+el.style.backgroundColor = <span class="str">"blue"</span>;</code></pre>
+    <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+    <div class="sol"><p class="sol-label">Answer</p>
+    <p><strong>Triggers reflow:</strong> width, margin (geometry changes)<br>
+    <strong>Triggers repaint only:</strong> color, backgroundColor (visual only)<br>
+    <strong>Composite only (cheapest):</strong> transform, opacity (GPU-accelerated)</p></div></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2>Part 4 — Build Exercises</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <div class="q"><div class="q-header"><span class="q-num">19</span><span class="q-type type-build">Build</span></div>
+    <h3>Toggle Dark Mode</h3>
+    <p>Add a button that toggles <code>.dark-mode</code> class on the body. Save the preference in <code>localStorage</code> so it persists on reload.</p>
+    <div class="constraint">Use classList.toggle, localStorage.setItem/getItem. No inline styles.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="kw">const</span> btn = document.<span class="fn">querySelector</span>(<span class="str">"#dark-toggle"</span>);
+
+<span class="cm">// Load saved preference on page load</span>
+<span class="kw">if</span> (localStorage.<span class="fn">getItem</span>(<span class="str">"dark"</span>) === <span class="str">"true"</span>) {
+    document.body.classList.<span class="fn">add</span>(<span class="str">"dark-mode"</span>);
+}
+
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => {
+    document.body.classList.<span class="fn">toggle</span>(<span class="str">"dark-mode"</span>);
+    localStorage.<span class="fn">setItem</span>(<span class="str">"dark"</span>,
+        document.body.classList.<span class="fn">contains</span>(<span class="str">"dark-mode"</span>));
+});</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">20</span><span class="q-type type-build">Build</span></div>
+    <h3>Live Character Counter</h3>
+    <p>Create a textarea with a character counter that updates on every keystroke. Show "X / 280" and turn red when over 280.</p>
+    <div class="constraint">Use the "input" event, textContent, classList.toggle with condition.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="kw">const</span> textarea = document.<span class="fn">querySelector</span>(<span class="str">"#message"</span>);
+<span class="kw">const</span> counter = document.<span class="fn">querySelector</span>(<span class="str">"#counter"</span>);
+
+textarea.<span class="fn">addEventListener</span>(<span class="str">"input"</span>, () => {
+    <span class="kw">const</span> len = textarea.value.length;
+    counter.textContent = <span class="str">`${len} / 280`</span>;
+    counter.classList.<span class="fn">toggle</span>(<span class="str">"over-limit"</span>, len > <span class="num">280</span>);
+});</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">21</span><span class="q-type type-build">Build</span></div>
+    <h3>Accordion (Collapsible Sections)</h3>
+    <p>Create an accordion where clicking a header toggles its content panel. Only one panel should be open at a time.</p>
+    <div class="constraint">Use event delegation on the parent container. Use closest() and classList.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="cm">// HTML:
+// &lt;div id="accordion"&gt;
+//   &lt;div class="section"&gt;
+//     &lt;button class="header"&gt;Section 1&lt;/button&gt;
+//     &lt;div class="panel"&gt;Content 1&lt;/div&gt;
+//   &lt;/div&gt;
+//   ...
+// &lt;/div&gt;</span>
+
+<span class="kw">const</span> accordion = document.<span class="fn">querySelector</span>(<span class="str">"#accordion"</span>);
+
+accordion.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="kw">const</span> header = e.target.<span class="fn">closest</span>(<span class="str">".header"</span>);
+    <span class="kw">if</span> (!header) <span class="kw">return</span>;
+
+    <span class="kw">const</span> section = header.<span class="fn">closest</span>(<span class="str">".section"</span>);
+    <span class="kw">const</span> isOpen = section.classList.<span class="fn">contains</span>(<span class="str">"active"</span>);
+
+    <span class="cm">// Close all sections</span>
+    accordion.<span class="fn">querySelectorAll</span>(<span class="str">".section"</span>)
+        .<span class="fn">forEach</span>(s => s.classList.<span class="fn">remove</span>(<span class="str">"active"</span>));
+
+    <span class="cm">// If this one wasn't open, open it</span>
+    <span class="kw">if</span> (!isOpen) section.classList.<span class="fn">add</span>(<span class="str">"active"</span>);
+});</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">22</span><span class="q-type type-build">Build</span></div>
+    <h3>Delegated Todo List with Filters</h3>
+    <p>Build a todo list with Add, Complete (✓), and Delete (✕) buttons. Add "All / Active / Completed" filter buttons.</p>
+    <div class="constraint">Use ONE event listener via delegation on the list. Use data attributes to store state. Filter by toggling CSS classes.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="kw">const</span> form = document.<span class="fn">querySelector</span>(<span class="str">"#form"</span>);
+<span class="kw">const</span> input = document.<span class="fn">querySelector</span>(<span class="str">"#input"</span>);
+<span class="kw">const</span> list = document.<span class="fn">querySelector</span>(<span class="str">"#list"</span>);
+
+form.<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, (e) => {
+    e.<span class="fn">preventDefault</span>();
+    <span class="kw">const</span> text = input.value.<span class="fn">trim</span>();
+    <span class="kw">if</span> (!text) <span class="kw">return</span>;
+    list.<span class="fn">insertAdjacentHTML</span>(<span class="str">"beforeend"</span>, <span class="str">`
+        &lt;li class="todo" data-done="false"&gt;
+            &lt;span&gt;${text}&lt;/span&gt;
+            &lt;button class="btn-done"&gt;✓&lt;/button&gt;
+            &lt;button class="btn-del"&gt;✕&lt;/button&gt;
+        &lt;/li&gt;`</span>);
+    input.value = <span class="str">""</span>;
+});
+
+<span class="cm">// ONE listener for all interactions</span>
+list.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="kw">const</span> todo = e.target.<span class="fn">closest</span>(<span class="str">".todo"</span>);
+    <span class="kw">if</span> (!todo) <span class="kw">return</span>;
+
+    <span class="kw">if</span> (e.target.<span class="fn">closest</span>(<span class="str">".btn-done"</span>)) {
+        <span class="kw">const</span> isDone = todo.dataset.done === <span class="str">"true"</span>;
+        todo.dataset.done = String(!isDone);
+        todo.classList.<span class="fn">toggle</span>(<span class="str">"completed"</span>);
+    }
+    <span class="kw">if</span> (e.target.<span class="fn">closest</span>(<span class="str">".btn-del"</span>)) {
+        todo.<span class="fn">remove</span>();
+    }
+});
+
+<span class="cm">// Filter buttons</span>
+document.<span class="fn">querySelector</span>(<span class="str">"#filters"</span>).<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="kw">const</span> filter = e.target.dataset.filter;
+    <span class="kw">if</span> (!filter) <span class="kw">return</span>;
+    list.<span class="fn">querySelectorAll</span>(<span class="str">".todo"</span>).<span class="fn">forEach</span>(t => {
+        <span class="kw">const</span> done = t.dataset.done === <span class="str">"true"</span>;
+        <span class="kw">const</span> show = filter === <span class="str">"all"</span>
+            || (filter === <span class="str">"active"</span> && !done)
+            || (filter === <span class="str">"done"</span> && done);
+        t.classList.<span class="fn">toggle</span>(<span class="str">"hidden"</span>, !show);
+    });
+});</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">23</span><span class="q-type type-build">Build</span></div>
+    <h3>Modal with Escape & Overlay Close</h3>
+    <p>Build a modal that opens on button click. It should close when: (1) clicking the close button, (2) clicking the overlay background, (3) pressing Escape.</p>
+    <div class="constraint">Use AbortController to register all closing listeners at once and clean them up when the modal closes.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="kw">const</span> openBtn = document.<span class="fn">querySelector</span>(<span class="str">"#open"</span>);
+<span class="kw">const</span> modal = document.<span class="fn">querySelector</span>(<span class="str">"#modal"</span>);
+<span class="kw">const</span> overlay = document.<span class="fn">querySelector</span>(<span class="str">"#overlay"</span>);
+<span class="kw">const</span> closeBtn = document.<span class="fn">querySelector</span>(<span class="str">"#close"</span>);
+
+<span class="kw">let</span> controller;
+
+<span class="kw">function</span> <span class="fn">openModal</span>() {
+    modal.classList.<span class="fn">add</span>(<span class="str">"active"</span>);
+    overlay.classList.<span class="fn">add</span>(<span class="str">"active"</span>);
+
+    controller = <span class="kw">new</span> <span class="fn">AbortController</span>();
+    <span class="kw">const</span> opts = { signal: controller.signal };
+
+    closeBtn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, closeModal, opts);
+    overlay.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, closeModal, opts);
+    document.<span class="fn">addEventListener</span>(<span class="str">"keydown"</span>, (e) => {
+        <span class="kw">if</span> (e.key === <span class="str">"Escape"</span>) closeModal();
+    }, opts);
+}
+
+<span class="kw">function</span> <span class="fn">closeModal</span>() {
+    modal.classList.<span class="fn">remove</span>(<span class="str">"active"</span>);
+    overlay.classList.<span class="fn">remove</span>(<span class="str">"active"</span>);
+    controller.<span class="fn">abort</span>();  <span class="cm">// removes ALL listeners at once</span>
+}
+
+openBtn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, openModal);</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">24</span><span class="q-type type-build">Build</span></div>
+    <h3>Debounced Live Search</h3>
+    <p>Build a search input that filters a list. Debounce the input so it only filters after the user stops typing for 300ms.</p>
+    <div class="constraint">Write your own debounce function using setTimeout/clearTimeout.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="kw">function</span> <span class="fn">debounce</span>(fn, delay) {
+    <span class="kw">let</span> timer;
+    <span class="kw">return</span> (...args) => {
+        <span class="fn">clearTimeout</span>(timer);
+        timer = <span class="fn">setTimeout</span>(() => <span class="fn">fn</span>(...args), delay);
+    };
+}
+
+<span class="kw">const</span> input = document.<span class="fn">querySelector</span>(<span class="str">"#search"</span>);
+<span class="kw">const</span> items = document.<span class="fn">querySelectorAll</span>(<span class="str">".item"</span>);
+
+<span class="kw">const</span> filterList = <span class="fn">debounce</span>((query) => {
+    items.<span class="fn">forEach</span>(item => {
+        <span class="kw">const</span> match = item.textContent.toLowerCase()
+            .<span class="fn">includes</span>(query.toLowerCase());
+        item.classList.<span class="fn">toggle</span>(<span class="str">"hidden"</span>, !match);
+    });
+}, <span class="num">300</span>);
+
+input.<span class="fn">addEventListener</span>(<span class="str">"input"</span>, (e) => {
+    <span class="fn">filterList</span>(e.target.value);
+});</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">25</span><span class="q-type type-build">Build</span></div>
+    <h3>Tab Component (Delegation)</h3>
+    <p>Build tabs where clicking a tab header shows the corresponding panel. Use event delegation.</p>
+    <div class="constraint">One listener on the tab container. Use data-tab attribute and getElementById. Use classList to show/hide.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="kw">const</span> tabBar = document.<span class="fn">querySelector</span>(<span class="str">".tab-bar"</span>);
+
+tabBar.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="kw">const</span> tab = e.target.<span class="fn">closest</span>(<span class="str">"[data-tab]"</span>);
+    <span class="kw">if</span> (!tab) <span class="kw">return</span>;
+
+    <span class="cm">// Deactivate all</span>
+    tabBar.<span class="fn">querySelectorAll</span>(<span class="str">"[data-tab]"</span>)
+        .<span class="fn">forEach</span>(t => t.classList.<span class="fn">remove</span>(<span class="str">"active"</span>));
+    document.<span class="fn">querySelectorAll</span>(<span class="str">".panel"</span>)
+        .<span class="fn">forEach</span>(p => p.classList.<span class="fn">remove</span>(<span class="str">"active"</span>));
+
+    <span class="cm">// Activate clicked</span>
+    tab.classList.<span class="fn">add</span>(<span class="str">"active"</span>);
+    document.<span class="fn">getElementById</span>(tab.dataset.tab)
+        .classList.<span class="fn">add</span>(<span class="str">"active"</span>);
+});</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">26</span><span class="q-type type-build">Build</span></div>
+    <h3>Efficient List Rendering (1000 items)</h3>
+    <p>Render 1000 list items from an array. Must be performant.</p>
+    <div class="constraint">Use DocumentFragment. Do NOT use innerHTML += in a loop.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="kw">const</span> data = <span class="fn">Array</span>.<span class="fn">from</span>({ length: <span class="num">1000</span> }, (_, i) => <span class="str">`Item ${i + 1}`</span>);
+<span class="kw">const</span> list = document.<span class="fn">querySelector</span>(<span class="str">"#list"</span>);
+<span class="kw">const</span> fragment = document.<span class="fn">createDocumentFragment</span>();
+
+data.<span class="fn">forEach</span>(text => {
+    <span class="kw">const</span> li = document.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+    li.textContent = text;
+    fragment.<span class="fn">append</span>(li);
+});
+
+list.<span class="fn">append</span>(fragment); <span class="cm">// ONE DOM insertion</span></code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">27</span><span class="q-type type-build">Build</span></div>
+    <h3>Scroll Progress Bar</h3>
+    <p>Show a progress bar at the top of the page that fills as the user scrolls down.</p>
+    <div class="constraint">Use scroll event with passive: true. Calculate percentage from scrollY, innerHeight, and scrollHeight. Use transform: scaleX() for GPU performance.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="cm">// CSS: .progress { position: fixed; top: 0; left: 0;
+//   height: 3px; background: #58a6ff; width: 100%;
+//   transform-origin: left; transform: scaleX(0); }</span>
+
+<span class="kw">const</span> bar = document.<span class="fn">querySelector</span>(<span class="str">".progress"</span>);
+
+window.<span class="fn">addEventListener</span>(<span class="str">"scroll"</span>, () => {
+    <span class="kw">const</span> total = document.documentElement.scrollHeight - window.innerHeight;
+    <span class="kw">const</span> progress = window.scrollY / total;
+    bar.style.transform = <span class="str">`scaleX(${progress})`</span>;
+}, { passive: <span class="bool">true</span> });</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">28</span><span class="q-type type-build">Build</span></div>
+    <h3>Image Lazy Loader</h3>
+    <p>Images should only load when they scroll into view. Use <code>data-src</code> instead of <code>src</code>, then swap when visible.</p>
+    <div class="constraint">Use IntersectionObserver. Do NOT use scroll event.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="kw">const</span> images = document.<span class="fn">querySelectorAll</span>(<span class="str">"img[data-src]"</span>);
+
+<span class="kw">const</span> observer = <span class="kw">new</span> <span class="fn">IntersectionObserver</span>((entries) => {
+    entries.<span class="fn">forEach</span>(entry => {
+        <span class="kw">if</span> (entry.isIntersecting) {
+            <span class="kw">const</span> img = entry.target;
+            img.src = img.dataset.src;
+            img.<span class="fn">removeAttribute</span>(<span class="str">"data-src"</span>);
+            observer.<span class="fn">unobserve</span>(img);
+        }
+    });
+}, { rootMargin: <span class="str">"200px"</span> }); <span class="cm">// load 200px before visible</span>
+
+images.<span class="fn">forEach</span>(img => observer.<span class="fn">observe</span>(img));</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">29</span><span class="q-type type-build">Build</span></div>
+    <h3>Keyboard Shortcuts</h3>
+    <p>Implement: Ctrl+K opens search modal, Escape closes it, Ctrl+S triggers custom save, Ctrl+Enter submits a form.</p>
+    <div class="constraint">Use one keydown listener on document. Use e.ctrlKey/e.metaKey and e.key. Call preventDefault.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code>document.<span class="fn">addEventListener</span>(<span class="str">"keydown"</span>, (e) => {
+    <span class="kw">const</span> mod = e.ctrlKey || e.metaKey;
+
+    <span class="kw">if</span> (mod && e.key === <span class="str">"k"</span>) {
+        e.<span class="fn">preventDefault</span>();
+        openSearchModal();
+    }
+
+    <span class="kw">if</span> (e.key === <span class="str">"Escape"</span>) {
+        closeSearchModal();
+    }
+
+    <span class="kw">if</span> (mod && e.key === <span class="str">"s"</span>) {
+        e.<span class="fn">preventDefault</span>();
+        saveDocument();
+    }
+
+    <span class="kw">if</span> (mod && e.key === <span class="str">"Enter"</span>) {
+        e.<span class="fn">preventDefault</span>();
+        document.<span class="fn">querySelector</span>(<span class="str">"form"</span>)?.<span class="fn">requestSubmit</span>();
+    }
+});</code></pre></div></div>
+
+    <div class="q"><div class="q-header"><span class="q-num">30</span><span class="q-type type-build">Build</span></div>
+    <h3>requestAnimationFrame Counter</h3>
+    <p>Animate a number counting from 0 to 1000 over exactly 2 seconds using requestAnimationFrame.</p>
+    <div class="constraint">Use requestAnimationFrame. Calculate progress from elapsed time. No setTimeout/setInterval.</div>
+    <button class="sol-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="sol"><p class="sol-label">Solution</p>
+    <pre><code><span class="kw">const</span> el = document.<span class="fn">querySelector</span>(<span class="str">"#counter"</span>);
+<span class="kw">const</span> target = <span class="num">1000</span>;
+<span class="kw">const</span> duration = <span class="num">2000</span>; <span class="cm">// 2 seconds</span>
+<span class="kw">let</span> start = <span class="bool">null</span>;
+
+<span class="kw">function</span> <span class="fn">animate</span>(timestamp) {
+    <span class="kw">if</span> (!start) start = timestamp;
+    <span class="kw">const</span> elapsed = timestamp - start;
+    <span class="kw">const</span> progress = <span class="fn">Math</span>.<span class="fn">min</span>(elapsed / duration, <span class="num">1</span>);
+
+    el.textContent = <span class="fn">Math</span>.<span class="fn">floor</span>(progress * target);
+
+    <span class="kw">if</span> (progress < <span class="num">1</span>) {
+        <span class="fn">requestAnimationFrame</span>(animate);
+    }
+}
+
+<span class="fn">requestAnimationFrame</span>(animate);</code></pre></div></div>
+
+</div>
+<script>
+function toggle(btn){const s=btn.nextElementSibling;s.classList.toggle('show');btn.textContent=s.classList.contains('show')?'Hide Answer':'Show Answer';}
+</script>
+</body>
+</html>

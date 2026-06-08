@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES6 Session 1: let/const, Template Literals & Destructuring</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16px;padding:60px 20px}
+        .container{max-width:960px;margin:0 auto}
+        h1{font-size:40px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#f59e0b;margin-bottom:8px}
+        .subtitle{font-size:17px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:28px;line-height:1.7}
+        .section-title{font-size:26px;font-weight:800;color:#f0f6fc;margin-top:72px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #1e2d4a;display:flex;align-items:center;gap:12px}
+        .section-num{background:#1e2d4a;color:#f59e0b;font-size:13px;padding:4px 12px;border-radius:8px;font-weight:700}
+        .concept{font-size:16px;color:#e2e8f0;margin:20px 0 12px;padding:10px 14px;background:#161b2e;border-left:4px solid #f59e0b;border-radius:0 8px 8px 0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-size:13px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:10px;padding:20px;margin:8px 0;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:13px;line-height:1.7;color:#c9d1d9}
+        .kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.num{color:#79c0ff}.bool{color:#ff7b72}
+        .example-block{background:#0d1117;border:1px solid #1e2d4a;border-radius:10px;margin:10px 0 20px;overflow:hidden}
+        .example-label{background:#161b2e;color:#7dd3fc;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:7px 14px;border-bottom:1px solid #1e2d4a}
+        .example-block pre{border:none;border-radius:0;margin:0;padding:16px 20px}
+        .output{background:#0a0e1a;border-top:1px solid #1e2d4a;padding:8px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#10b981}
+        .output::before{content:'▶ ';color:#5e6e8a}
+        .output-multi{background:#0a0e1a;border-top:1px solid #1e2d4a;padding:8px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#10b981}
+        .output-multi::before{content:'▶ ';color:#5e6e8a}
+        .output-err{background:#0a0e1a;border-top:1px solid #1e2d4a;padding:8px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#f85149}
+        .output-err::before{content:'✖ ';color:#f85149}
+        .vs-row{display:flex;gap:16px;margin:12px 0 28px}
+        .vs-item{flex:1;border-radius:10px;overflow:hidden;border:1px solid #1e2d4a}
+        .vs-bad{border-color:rgba(248,81,73,0.4)}
+        .vs-good{border-color:rgba(16,185,129,0.4)}
+        .vs-label{padding:8px 14px;font-size:12px;font-weight:700;text-align:center}
+        .vs-label-bad{background:rgba(248,81,73,0.1);color:#f85149}
+        .vs-label-good{background:rgba(16,185,129,0.1);color:#10b981}
+        .vs-content pre{border:none;border-radius:0;margin:0;padding:14px 16px;background:#0d1117}
+        .note{background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:10px 14px;margin:10px 0 20px;font-size:13px;color:#fbbf24}
+        .note::before{content:'💡 '}
+        .challenge{background:#161b2e;border:2px solid #f59e0b;border-radius:14px;padding:28px;margin:48px 0}
+        .challenge-title{font-size:20px;font-weight:800;color:#f59e0b;margin-bottom:12px}
+        .challenge-desc{font-size:14px;color:#c9d1d9;margin-bottom:8px;line-height:1.8}
+        .challenge-req{list-style:none;padding:0;margin:10px 0 16px}
+        .challenge-req li{font-size:13px;color:#a0aec0;padding:4px 0;padding-left:18px;position:relative}
+        .challenge-req li::before{content:'→';position:absolute;left:0;color:#f59e0b}
+        .challenge-target{background:#0d1117;border:1px solid #1e2d4a;border-radius:10px;padding:20px;margin:12px 0}
+        .solution-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);color:#10b981;font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;transition:0.2s;margin-top:12px;margin-right:8px}
+        .solution-btn:hover{background:rgba(16,185,129,0.15)}
+        .hint-btn{font-family:'Inter',sans-serif;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);color:#f59e0b;font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;transition:0.2s;margin-top:12px}
+        .hint-btn:hover{background:rgba(245,158,11,0.15)}
+        .solution,.hint{display:none;margin-top:12px;padding:16px;border-radius:0 8px 8px 0}
+        .solution{background:rgba(16,185,129,0.04);border-left:3px solid #10b981}
+        .hint{background:rgba(245,158,11,0.04);border-left:3px solid #f59e0b}
+        .solution.show,.hint.show{display:block}
+        .sol-label{color:#10b981;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+        .hint-label{color:#f59e0b;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+        .demo-card{background:#161b2e;border:1px solid #2d3f5e;border-radius:12px;padding:20px;max-width:320px;font-family:'Inter',sans-serif}
+        .demo-card h3{color:#f0f6fc;font-size:18px;margin-bottom:4px}
+        .demo-card .role{font-size:12px;color:#7dd3fc;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+        .demo-card .badge-active{background:rgba(16,185,129,0.15);color:#10b981;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px}
+        .demo-card .badge-inactive{background:rgba(248,81,73,0.15);color:#f85149;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px}
+        .demo-card .skills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+        .demo-card .skill-tag{background:#1e2d4a;color:#a5d6ff;font-size:11px;padding:3px 10px;border-radius:6px;font-family:'JetBrains Mono',monospace}
+        .card-output-area{margin-top:12px;padding:16px;background:#0d1117;border-radius:8px;border:1px solid #1e2d4a}
+        #profile-output{margin-top:8px}
+        #config-output{margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#10b981;white-space:pre}
+        .run-btn{font-family:'Inter',sans-serif;background:rgba(125,211,252,0.08);border:1px solid rgba(125,211,252,0.2);color:#7dd3fc;font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;transition:0.2s;margin-top:10px}
+        .run-btn:hover{background:rgba(125,211,252,0.15)}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="lesson-num">ES6 by Examples</div>
+    <h1>ES6 Session 1</h1>
+    <p class="subtitle">
+        <strong style="color:#f0f6fc">let/const · Template Literals · Destructuring · Object Shorthand</strong><br>
+        Less reading, more examples. Open your browser console and try each one.
+    </p>
+
+    <!-- ============================================================ -->
+    <!--  SECTION 1: let & const vs var                               -->
+    <!-- ============================================================ -->
+    <h2 class="section-title"><span class="section-num">1</span> let &amp; const vs var</h2>
+
+    <p class="concept"><code>var</code> is function-scoped and hoisted — it leaks out of blocks. <code>let</code> and <code>const</code> are block-scoped and safe.</p>
+
+    <!-- Example 1 -->
+    <div class="example-block">
+        <div class="example-label">Example 1 — var leaks out of an if block (the bug)</div>
+        <pre><code><span class="kw">if</span> (<span class="bool">true</span>) {
+  <span class="kw">var</span> leaky = <span class="str">"I escaped the block!"</span>;
+}
+console.log(leaky); <span class="cm">// var doesn't care about the {} boundary</span></code></pre>
+        <div class="output">I escaped the block!</div>
+    </div>
+
+    <!-- Example 2 -->
+    <div class="example-block">
+        <div class="example-label">Example 2 — let stays in its block (the fix)</div>
+        <pre><code><span class="kw">if</span> (<span class="bool">true</span>) {
+  <span class="kw">let</span> safe = <span class="str">"I'm block-scoped"</span>;
+}
+console.log(safe); <span class="cm">// ReferenceError: safe is not defined</span></code></pre>
+        <div class="output-err">ReferenceError: safe is not defined</div>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="example-block">
+        <div class="example-label">Example 3 — var leaks out of a for loop</div>
+        <pre><code><span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) { <span class="cm">/* loop body */</span> }
+console.log(i); <span class="cm">// var i survives the loop — it's now 3!</span></code></pre>
+        <div class="output">3</div>
+    </div>
+
+    <!-- Example 4 -->
+    <div class="example-block">
+        <div class="example-label">Example 4 — let stays in the for loop</div>
+        <pre><code><span class="kw">for</span> (<span class="kw">let</span> j = <span class="num">0</span>; j &lt; <span class="num">3</span>; j++) { <span class="cm">/* loop body */</span> }
+console.log(j); <span class="cm">// ReferenceError: j is not defined</span></code></pre>
+        <div class="output-err">ReferenceError: j is not defined</div>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="example-block">
+        <div class="example-label">Example 5 — const prevents reassignment (TypeError)</div>
+        <pre><code><span class="kw">const</span> MAX = <span class="num">100</span>;
+MAX = <span class="num">200</span>; <span class="cm">// TypeError: Assignment to constant variable</span></code></pre>
+        <div class="output-err">TypeError: Assignment to constant variable.</div>
+    </div>
+
+    <!-- Example 6 -->
+    <div class="example-block">
+        <div class="example-label">Example 6 — const ALLOWS mutation: change object property (works!)</div>
+        <pre><code><span class="kw">const</span> user = { name: <span class="str">"Alice"</span>, age: <span class="num">25</span> };
+user.age = <span class="num">26</span>;       <span class="cm">// ✅ mutating is fine — the binding didn't change</span>
+user.city = <span class="str">"London"</span>; <span class="cm">// ✅ adding a new key is also fine</span>
+console.log(user);</code></pre>
+        <div class="output">{ name: 'Alice', age: 26, city: 'London' }</div>
+    </div>
+
+    <!-- Example 7 -->
+    <div class="example-block">
+        <div class="example-label">Example 7 — const ALLOWS mutation: push to array (works!)</div>
+        <pre><code><span class="kw">const</span> fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>];
+fruits.push(<span class="str">"mango"</span>); <span class="cm">// ✅ mutating contents is allowed</span>
+fruits[<span class="num">0</span>] = <span class="str">"kiwi"</span>;   <span class="cm">// ✅ changing index is allowed</span>
+console.log(fruits);</code></pre>
+        <div class="output">['kiwi', 'banana', 'mango']</div>
+    </div>
+
+    <!-- Example 8 -->
+    <div class="example-block">
+        <div class="example-label">Example 8 — var allows redeclaration: a silent, dangerous bug</div>
+        <pre><code><span class="kw">var</span> score = <span class="num">10</span>;
+<span class="cm">// ... 200 lines later, a junior dev writes...</span>
+<span class="kw">var</span> score = <span class="num">99</span>; <span class="cm">// No error! Original value is quietly overwritten</span>
+console.log(score);</code></pre>
+        <div class="output">99</div>
+    </div>
+
+    <!-- Example 9 -->
+    <div class="example-block">
+        <div class="example-label">Example 9 — let blocks redeclaration: safe, explicit error</div>
+        <pre><code><span class="kw">let</span> score = <span class="num">10</span>;
+<span class="kw">let</span> score = <span class="num">99</span>; <span class="cm">// SyntaxError: Identifier 'score' has already been declared</span></code></pre>
+        <div class="output-err">SyntaxError: Identifier 'score' has already been declared</div>
+    </div>
+
+    <!-- Example 10 -->
+    <div class="example-block">
+        <div class="example-label">Example 10 — The classic setTimeout + var bug: all print 3</div>
+        <pre><code><span class="cm">// With var — all callbacks share the SAME i variable</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) {
+  setTimeout(() =&gt; console.log(i), <span class="num">100</span>);
+}
+<span class="cm">// By the time callbacks run, loop is done — i is already 3</span></code></pre>
+        <div class="output">3  3  3</div>
+    </div>
+
+    <!-- Example 11 -->
+    <div class="example-block">
+        <div class="example-label">Example 11 — The fix with let: each iteration gets its own i</div>
+        <pre><code><span class="cm">// With let — each loop creates a NEW block-scoped i</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) {
+  setTimeout(() =&gt; console.log(i), <span class="num">100</span>);
+}
+<span class="cm">// Each callback captured its own snapshot of i</span></code></pre>
+        <div class="output">0  1  2</div>
+    </div>
+
+    <!-- Example 12 -->
+    <div class="example-block">
+        <div class="example-label">Example 12 — The golden rule: when to use which</div>
+        <pre><code><span class="cm">// ✅ Use const by default — you won't reassign most things</span>
+<span class="kw">const</span> API_URL = <span class="str">"https://api.example.com"</span>;
+<span class="kw">const</span> users = [];          <span class="cm">// const is fine: we mutate the array, not the binding</span>
+<span class="kw">const</span> config = {};         <span class="cm">// const is fine: we'll mutate properties</span>
+
+<span class="cm">// ✅ Use let when you KNOW you'll reassign</span>
+<span class="kw">let</span> count = <span class="num">0</span>;
+count++;                   <span class="cm">// reassigning — let is correct here</span>
+
+<span class="kw">let</span> winner = <span class="str">"unknown"</span>;
+<span class="kw">if</span> (score &gt; <span class="num">90</span>) winner = <span class="str">"Alice"</span>; <span class="cm">// reassigning — let is correct</span>
+
+<span class="cm">// ❌ Never use var</span>
+<span class="kw">var</span> legacy = <span class="str">"avoid me"</span>; <span class="cm">// scoping surprises, hoisting bugs, redeclaration</span></code></pre>
+        <div class="output">✅ const → let → never var</div>
+    </div>
+
+    <div class="note">const doesn't mean "immutable value" — it means "immutable binding." The variable can't be reassigned to a new value, but the value itself can still be mutated if it's an object or array.</div>
+
+
+    <!-- ============================================================ -->
+    <!--  SECTION 2: Template Literals                                -->
+    <!-- ============================================================ -->
+    <h2 class="section-title"><span class="section-num">2</span> Template Literals</h2>
+
+    <p class="concept">Backtick strings (<code>`...`</code>) let you embed any JS expression with <code>${ }</code> — no more string concatenation.</p>
+
+    <!-- Example 1: ES5 vs ES6 -->
+    <div class="vs-row">
+        <div class="vs-item vs-bad">
+            <div class="vs-label vs-label-bad">❌ ES5 Concatenation</div>
+            <div class="vs-content">
+                <pre><code><span class="kw">var</span> name = <span class="str">"Alice"</span>;
+<span class="kw">var</span> age = <span class="num">30</span>;
+<span class="kw">var</span> msg = <span class="str">"Hello, "</span> + name +
+  <span class="str">"! You are "</span> + age +
+  <span class="str">" years old."</span>;
+console.log(msg);</code></pre>
+                <div class="output">Hello, Alice! You are 30 years old.</div>
+            </div>
+        </div>
+        <div class="vs-item vs-good">
+            <div class="vs-label vs-label-good">✅ ES6 Template Literal</div>
+            <div class="vs-content">
+                <pre><code><span class="kw">const</span> name = <span class="str">"Alice"</span>;
+<span class="kw">const</span> age = <span class="num">30</span>;
+<span class="kw">const</span> msg = <span class="str">`Hello, ${name}!
+You are ${age} years old.`</span>;
+console.log(msg);</code></pre>
+                <div class="output">Hello, Alice! You are 30 years old.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Example 2 -->
+    <div class="example-block">
+        <div class="example-label">Example 2 — Multi-line strings: just press Enter inside backticks</div>
+        <pre><code><span class="kw">const</span> poem = <span class="str">`Roses are red,
+Violets are blue,
+ES6 is awesome,
+And so are you.`</span>;
+console.log(poem);</code></pre>
+        <div class="output">Roses are red,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Violets are blue,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ES6 is awesome,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And so are you.</div>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="example-block">
+        <div class="example-label">Example 3 — Math expression inline: auto-computed total with tax</div>
+        <pre><code><span class="kw">const</span> price = <span class="num">49.99</span>;
+<span class="kw">const</span> qty = <span class="num">3</span>;
+console.log(<span class="str">`Subtotal: $${price * qty}`</span>);
+console.log(<span class="str">`Total with 20% tax: $${(price * qty * <span class="num">1.2</span>).toFixed(<span class="num">2</span>)}`</span>);</code></pre>
+        <div class="output">Subtotal: $149.97<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total with 20% tax: $179.96</div>
+    </div>
+
+    <!-- Example 4 -->
+    <div class="example-block">
+        <div class="example-label">Example 4 — Ternary operator inside ${}: dynamic conditional text</div>
+        <pre><code><span class="kw">const</span> isLoggedIn = <span class="bool">true</span>;
+<span class="kw">const</span> username = <span class="str">"Alice"</span>;
+
+console.log(<span class="str">`${isLoggedIn ? <span class="str">`Welcome back, ${username}!`</span> : <span class="str">'Please log in.'</span>}`</span>);
+
+<span class="kw">const</span> stock = <span class="num">0</span>;
+console.log(<span class="str">`Status: ${stock &gt; <span class="num">0</span> ? <span class="str">'In Stock'</span> : <span class="str">'Sold Out'</span>}`</span>);</code></pre>
+        <div class="output">Welcome back, Alice!<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status: Sold Out</div>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="example-block">
+        <div class="example-label">Example 5 — Function call inside ${}: transform the value on the fly</div>
+        <pre><code><span class="kw">const</span> name = <span class="str">"alice wonder"</span>;
+<span class="kw">const</span> score = <span class="num">0.876543</span>;
+
+console.log(<span class="str">`Player: ${name.toUpperCase()}`</span>);
+console.log(<span class="str">`Score: ${score.toFixed(<span class="num">2</span>)} (${(score * <span class="num">100</span>).toFixed(<span class="num">1</span>)}%)`</span>);
+console.log(<span class="str">`Words: ${name.split(<span class="str">' '</span>).length}`</span>);</code></pre>
+        <div class="output">Player: ALICE WONDER<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Score: 0.88 (87.7%)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Words: 2</div>
+    </div>
+
+    <!-- Example 6 -->
+    <div class="example-block">
+        <div class="example-label">Example 6 — Array method inside ${}: join items into a readable list</div>
+        <pre><code><span class="kw">const</span> skills = [<span class="str">"JavaScript"</span>, <span class="str">"React"</span>, <span class="str">"CSS"</span>];
+<span class="kw">const</span> numbers = [<span class="num">4</span>, <span class="num">7</span>, <span class="num">2</span>, <span class="num">9</span>, <span class="num">1</span>];
+
+console.log(<span class="str">`Skills: ${skills.join(<span class="str">' · '</span>)}`</span>);
+console.log(<span class="str">`Max score: ${Math.max(...numbers)}`</span>);
+console.log(<span class="str">`Sorted: ${[...numbers].sort((<span class="num">a</span>,<span class="num">b</span>) =&gt; a - b).join(<span class="str">', '</span>)}`</span>);</code></pre>
+        <div class="output">Skills: JavaScript · React · CSS<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max score: 9<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sorted: 1, 2, 4, 7, 9</div>
+    </div>
+
+    <!-- Example 7 -->
+    <div class="example-block">
+        <div class="example-label">Example 7 — Object property access: clean user profile string</div>
+        <pre><code><span class="kw">const</span> user = {
+  name: <span class="str">"Bob"</span>,
+  age: <span class="num">28</span>,
+  address: { city: <span class="str">"Berlin"</span>, country: <span class="str">"Germany"</span> }
+};
+
+console.log(<span class="str">`${user.name} is ${user.age} years old.`</span>);
+console.log(<span class="str">`Lives in: ${user.address.city}, ${user.address.country}`</span>);
+console.log(<span class="str">`Born around: ${new Date().getFullYear() - user.age}`</span>);</code></pre>
+        <div class="output">Bob is 28 years old.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lives in: Berlin, Germany<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Born around: 1997</div>
+    </div>
+
+    <!-- Example 8 -->
+    <div class="example-block">
+        <div class="example-label">Example 8 — Nested template: .map() to build HTML list items</div>
+        <pre><code><span class="kw">const</span> items = [<span class="str">"Home"</span>, <span class="str">"About"</span>, <span class="str">"Contact"</span>];
+
+<span class="kw">const</span> navLinks = <span class="str">`
+  &lt;ul&gt;
+    ${items.map(item =&gt; <span class="str">`&lt;li&gt;&lt;a href="#${item.toLowerCase()}"&gt;${item}&lt;/a&gt;&lt;/li&gt;`</span>).join(<span class="str">'\\n    '</span>)}
+  &lt;/ul&gt;
+`</span>;
+console.log(navLinks);</code></pre>
+        <div class="output">&lt;ul&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#about"&gt;About&lt;/a&gt;&lt;/li&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li&gt;&lt;a href="#contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ul&gt;</div>
+    </div>
+
+    <!-- Example 9 -->
+    <div class="example-block">
+        <div class="example-label">Example 9 — Building an HTML card string with template literals</div>
+        <pre><code><span class="kw">const</span> product = { name: <span class="str">"Laptop Pro"</span>, price: <span class="num">1299</span>, rating: <span class="num">4.8</span>, stock: <span class="num">5</span> };
+
+<span class="kw">const</span> card = <span class="str">`
+  &lt;div class="product-card"&gt;
+    &lt;h2&gt;${product.name}&lt;/h2&gt;
+    &lt;p class="price"&gt;$${product.price.toLocaleString()}&lt;/p&gt;
+    &lt;p class="rating"&gt;⭐ ${product.rating} / 5&lt;/p&gt;
+    &lt;p class="stock"&gt;${product.stock &gt; <span class="num">0</span> ? <span class="str">`Only ${product.stock} left!`</span> : <span class="str">'Out of stock'</span>}&lt;/p&gt;
+  &lt;/div&gt;
+`</span>;
+console.log(card);</code></pre>
+        <div class="output">&lt;div class="product-card"&gt; &lt;h2&gt;Laptop Pro&lt;/h2&gt; &lt;p&gt;$1,299&lt;/p&gt; &lt;p&gt;⭐ 4.8 / 5&lt;/p&gt; &lt;p&gt;Only 5 left!&lt;/p&gt; &lt;/div&gt;</div>
+    </div>
+
+    <!-- Example 10 -->
+    <div class="example-block">
+        <div class="example-label">Example 10 — Multiple expressions in one string: full status report</div>
+        <pre><code><span class="kw">const</span> server = { name: <span class="str">"prod-01"</span>, uptime: <span class="num">99.98</span>, requests: <span class="num">150432</span>, errors: <span class="num">12</span> };
+<span class="kw">const</span> now = <span class="kw">new</span> Date();
+
+<span class="kw">const</span> report = <span class="str">`
+=== Server Report [${now.toLocaleDateString()}] ===
+Server  : ${server.name.toUpperCase()}
+Uptime  : ${server.uptime}%  ${server.uptime &gt; <span class="num">99</span> ? <span class="str">'✅ Healthy'</span> : <span class="str">'⚠️ Degraded'</span>}
+Requests: ${server.requests.toLocaleString()}
+Errors  : ${server.errors} (${((server.errors / server.requests) * <span class="num">100</span>).toFixed(<span class="num">3</span>)}%)
+`</span>;
+console.log(report);</code></pre>
+        <div class="output">=== Server Report [today] === Server: PROD-01  Uptime: 99.98% ✅ Healthy  Requests: 150,432  Errors: 12 (0.008%)</div>
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!--  SECTION 3: Destructuring                                    -->
+    <!-- ============================================================ -->
+    <h2 class="section-title"><span class="section-num">3</span> Destructuring</h2>
+
+    <p class="concept">Pull values out of objects and arrays into variables in one line — cleaner than repeated <code>obj.property</code> access.</p>
+
+    <!-- Example 1 -->
+    <div class="example-block">
+        <div class="example-label">Example 1 — Object destructuring: basic</div>
+        <pre><code><span class="kw">const</span> user = { name: <span class="str">"Alice"</span>, age: <span class="num">30</span>, role: <span class="str">"admin"</span> };
+
+<span class="cm">// Without destructuring (old way)</span>
+<span class="kw">const</span> name1 = user.name;
+<span class="kw">const</span> age1  = user.age;
+
+<span class="cm">// With destructuring (ES6) — one line, pulls all three</span>
+<span class="kw">const</span> { name, age, role } = user;
+console.log(name, age, role);</code></pre>
+        <div class="output">Alice 30 admin</div>
+    </div>
+
+    <!-- Example 2 -->
+    <div class="example-block">
+        <div class="example-label">Example 2 — Object destructuring: rename while destructuring</div>
+        <pre><code><span class="kw">const</span> user = { name: <span class="str">"Alice"</span>, age: <span class="num">30</span> };
+
+<span class="cm">// Rename 'name' to 'userName' and 'age' to 'userAge'</span>
+<span class="kw">const</span> { name: userName, age: userAge } = user;
+console.log(userName); <span class="cm">// "Alice"</span>
+console.log(userAge);  <span class="cm">// 30</span>
+<span class="cm">// console.log(name) — ReferenceError! 'name' wasn't declared</span></code></pre>
+        <div class="output">Alice<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30</div>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="example-block">
+        <div class="example-label">Example 3 — Object destructuring: default values for missing keys</div>
+        <pre><code><span class="kw">const</span> settings = { theme: <span class="str">"dark"</span> }; <span class="cm">// 'fontSize' is missing</span>
+
+<span class="kw">const</span> { theme, fontSize = <span class="num">16</span>, language = <span class="str">"en"</span> } = settings;
+console.log(theme);    <span class="cm">// "dark"    — from the object</span>
+console.log(fontSize); <span class="cm">// 16       — default, key wasn't in the object</span>
+console.log(language); <span class="cm">// "en"     — default, key wasn't in the object</span></code></pre>
+        <div class="output">dark<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;en</div>
+    </div>
+
+    <!-- Example 4 -->
+    <div class="example-block">
+        <div class="example-label">Example 4 — Object destructuring: rename AND set a default at once</div>
+        <pre><code><span class="kw">const</span> apiResponse = {}; <span class="cm">// completely empty</span>
+
+<span class="cm">// Rename 'name' → 'displayName', default to 'Anonymous'</span>
+<span class="kw">const</span> { name: displayName = <span class="str">"Anonymous"</span>, score: userScore = <span class="num">0</span> } = apiResponse;
+console.log(displayName); <span class="cm">// "Anonymous"</span>
+console.log(userScore);   <span class="cm">// 0</span></code></pre>
+        <div class="output">Anonymous<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</div>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="example-block">
+        <div class="example-label">Example 5 — Nested object destructuring: dive into nested objects</div>
+        <pre><code><span class="kw">const</span> user = {
+  name: <span class="str">"Bob"</span>,
+  address: {
+    city: <span class="str">"Tokyo"</span>,
+    zip: <span class="str">"100-0001"</span>,
+    coords: { lat: <span class="num">35.6762</span>, lng: <span class="num">139.6503</span> }
+  }
+};
+
+<span class="kw">const</span> { name, address: { city, zip, coords: { lat } } } = user;
+console.log(name, city, zip, lat);</code></pre>
+        <div class="output">Bob Tokyo 100-0001 35.6762</div>
+    </div>
+
+    <!-- Example 6 -->
+    <div class="example-block">
+        <div class="example-label">Example 6 — Destructuring in function parameters: clean function signatures</div>
+        <pre><code><span class="cm">// Instead of: function greet(user) { user.name, user.age... }</span>
+<span class="kw">function</span> <span class="fn">greet</span>({ name, age, role = <span class="str">"guest"</span> }) {
+  console.log(<span class="str">`Hi ${name}! Age: ${age}, Role: ${role}`</span>);
+}
+
+greet({ name: <span class="str">"Alice"</span>, age: <span class="num">30</span>, role: <span class="str">"admin"</span> });
+greet({ name: <span class="str">"Charlie"</span>, age: <span class="num">22</span> }); <span class="cm">// role defaults to "guest"</span></code></pre>
+        <div class="output">Hi Alice! Age: 30, Role: admin<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hi Charlie! Age: 22, Role: guest</div>
+    </div>
+
+    <!-- Example 7 -->
+    <div class="example-block">
+        <div class="example-label">Example 7 — API response destructuring: real-world pattern</div>
+        <pre><code><span class="kw">const</span> response = {
+  status: <span class="num">200</span>,
+  data: {
+    users: [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>],
+    total: <span class="num">3</span>,
+    page: <span class="num">1</span>
+  }
+};
+
+<span class="kw">const</span> { status, data: { users, total, page } } = response;
+console.log(<span class="str">`Status: ${status}`</span>);
+console.log(<span class="str">`Page ${page}: ${users.join(', ')} (${total} total)`</span>);</code></pre>
+        <div class="output">Status: 200<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page 1: Alice, Bob, Charlie (3 total)</div>
+    </div>
+
+    <!-- Example 8 -->
+    <div class="example-block">
+        <div class="example-label">Example 8 — Array destructuring: basic positional unpacking</div>
+        <pre><code><span class="kw">const</span> colors = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>];
+<span class="kw">const</span> rgb = [<span class="num">255</span>, <span class="num">128</span>, <span class="num">0</span>];
+
+<span class="kw">const</span> [first, second, third] = colors;
+<span class="kw">const</span> [r, g, b] = rgb;
+
+console.log(first, second, third);
+console.log(<span class="str">`rgb(${r}, ${g}, ${b})`</span>);</code></pre>
+        <div class="output">red green blue<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rgb(255, 128, 0)</div>
+    </div>
+
+    <!-- Example 9 -->
+    <div class="example-block">
+        <div class="example-label">Example 9 — Array destructuring: skip elements with commas</div>
+        <pre><code><span class="kw">const</span> data = [<span class="str">"Alice"</span>, <span class="str">"28"</span>, <span class="str">"Engineer"</span>, <span class="str">"Berlin"</span>, <span class="str">"Germany"</span>];
+
+<span class="cm">// Skip index 1 and 3 — only grab what you need</span>
+<span class="kw">const</span> [name, , role, , country] = data;
+console.log(name, role, country);
+
+<span class="cm">// Skip first two items, grab only the third</span>
+<span class="kw">const</span> [,, profession] = data;
+console.log(profession);</code></pre>
+        <div class="output">Alice Engineer Germany<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Engineer</div>
+    </div>
+
+    <!-- Example 10 -->
+    <div class="example-block">
+        <div class="example-label">Example 10 — Array destructuring: default values for missing positions</div>
+        <pre><code><span class="kw">const</span> partial = [<span class="num">10</span>]; <span class="cm">// only one item</span>
+
+<span class="kw">const</span> [a, b = <span class="num">0</span>, c = <span class="num">100</span>] = partial;
+console.log(a); <span class="cm">// 10  — from the array</span>
+console.log(b); <span class="cm">// 0   — default, position 1 was undefined</span>
+console.log(c); <span class="cm">// 100 — default, position 2 was undefined</span></code></pre>
+        <div class="output">10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100</div>
+    </div>
+
+    <!-- Example 11 -->
+    <div class="example-block">
+        <div class="example-label">Example 11 — Array destructuring: swap two variables without a temp variable</div>
+        <pre><code><span class="kw">let</span> x = <span class="num">1</span>;
+<span class="kw">let</span> y = <span class="num">99</span>;
+console.log(<span class="str">`Before: x=${x}, y=${y}`</span>);
+
+<span class="cm">// Swap in one line — no temp variable needed!</span>
+[x, y] = [y, x];
+console.log(<span class="str">`After:  x=${x}, y=${y}`</span>);</code></pre>
+        <div class="output">Before: x=1, y=99<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;After:  x=99, y=1</div>
+    </div>
+
+    <!-- Example 12 -->
+    <div class="example-block">
+        <div class="example-label">Example 12 — Array destructuring with rest: head and tail of a list</div>
+        <pre><code><span class="kw">const</span> queue = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>, <span class="str">"Diana"</span>, <span class="str">"Eve"</span>];
+
+<span class="cm">// First person out, rest still waiting</span>
+<span class="kw">const</span> [first, ...remaining] = queue;
+console.log(<span class="str">`Serving: ${first}`</span>);
+console.log(<span class="str">`Waiting: ${remaining.join(', ')}`</span>);
+
+<span class="cm">// Grab first two, rest is the tail</span>
+<span class="kw">const</span> [head, second, ...tail] = queue;
+console.log(<span class="str">`Top 2: ${head}, ${second} | Tail: ${tail.join(', ')}`</span>);</code></pre>
+        <div class="output">Serving: Alice<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Waiting: Bob, Charlie, Diana, Eve<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Top 2: Alice, Bob | Tail: Charlie, Diana, Eve</div>
+    </div>
+
+    <!-- Example 13 -->
+    <div class="example-block">
+        <div class="example-label">Example 13 — Mixed: array of objects destructured in one line</div>
+        <pre><code><span class="kw">const</span> users = [
+  { name: <span class="str">"Alice"</span>, score: <span class="num">98</span> },
+  { name: <span class="str">"Bob"</span>,   score: <span class="num">87</span> },
+  { name: <span class="str">"Carol"</span>, score: <span class="num">92</span> }
+];
+
+<span class="cm">// Destructure first item's name, second item's name</span>
+<span class="kw">const</span> [{ name: gold }, { name: silver }, { name: bronze }] = users;
+console.log(<span class="str">`🥇 ${gold}  🥈 ${silver}  🥉 ${bronze}`</span>);
+
+<span class="cm">// Map + destructure in one go</span>
+users.forEach(({ name, score }) =&gt; console.log(<span class="str">`${name}: ${score}`</span>));</code></pre>
+        <div class="output">🥇 Alice  🥈 Bob  🥉 Carol<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alice: 98<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bob: 87<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Carol: 92</div>
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!--  SECTION 4: Object Shorthand                                 -->
+    <!-- ============================================================ -->
+    <h2 class="section-title"><span class="section-num">4</span> Object Shorthand</h2>
+
+    <p class="concept">When a variable name matches the key name, you can drop the repetition. Same goes for methods and computed keys.</p>
+
+    <!-- Example 1 -->
+    <div class="vs-row">
+        <div class="vs-item vs-bad">
+            <div class="vs-label vs-label-bad">❌ Verbose (ES5)</div>
+            <div class="vs-content">
+                <pre><code><span class="kw">const</span> name = <span class="str">"Alice"</span>;
+<span class="kw">const</span> age  = <span class="num">30</span>;
+<span class="kw">const</span> role = <span class="str">"admin"</span>;
+
+<span class="kw">const</span> user = {
+  name: name,
+  age: age,
+  role: role
+};
+console.log(user);</code></pre>
+                <div class="output">{ name: 'Alice', age: 30, role: 'admin' }</div>
+            </div>
+        </div>
+        <div class="vs-item vs-good">
+            <div class="vs-label vs-label-good">✅ Property Shorthand (ES6)</div>
+            <div class="vs-content">
+                <pre><code><span class="kw">const</span> name = <span class="str">"Alice"</span>;
+<span class="kw">const</span> age  = <span class="num">30</span>;
+<span class="kw">const</span> role = <span class="str">"admin"</span>;
+
+<span class="kw">const</span> user = { name, age, role };
+<span class="cm">// key === variable name → just write it once</span>
+console.log(user);</code></pre>
+                <div class="output">{ name: 'Alice', age: 30, role: 'admin' }</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Example 2 -->
+    <div class="vs-row">
+        <div class="vs-item vs-bad">
+            <div class="vs-label vs-label-bad">❌ Method verbose (ES5)</div>
+            <div class="vs-content">
+                <pre><code><span class="kw">const</span> calculator = {
+  add: <span class="kw">function</span>(a, b) {
+    <span class="kw">return</span> a + b;
+  },
+  sub: <span class="kw">function</span>(a, b) {
+    <span class="kw">return</span> a - b;
+  }
+};
+console.log(calculator.add(<span class="num">5</span>, <span class="num">3</span>));</code></pre>
+                <div class="output">8</div>
+            </div>
+        </div>
+        <div class="vs-item vs-good">
+            <div class="vs-label vs-label-good">✅ Method shorthand (ES6)</div>
+            <div class="vs-content">
+                <pre><code><span class="kw">const</span> calculator = {
+  <span class="fn">add</span>(a, b) {
+    <span class="kw">return</span> a + b;
+  },
+  <span class="fn">sub</span>(a, b) {
+    <span class="kw">return</span> a - b;
+  }
+};
+console.log(calculator.add(<span class="num">5</span>, <span class="num">3</span>));</code></pre>
+                <div class="output">8</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Example 3 -->
+    <div class="example-block">
+        <div class="example-label">Example 3 — Computed property key: dynamic key from a variable</div>
+        <pre><code><span class="kw">const</span> fieldName = <span class="str">"email"</span>;
+<span class="kw">const</span> value = <span class="str">"alice@example.com"</span>;
+
+<span class="cm">// [expression] as a key — computed at runtime</span>
+<span class="kw">const</span> formData = { [fieldName]: value };
+console.log(formData); <span class="cm">// { email: 'alice@example.com' }</span>
+
+<span class="kw">const</span> key = <span class="str">"score"</span>;
+<span class="kw">const</span> metrics = { [key]: <span class="num">95</span>, [`${key}_max`]: <span class="num">100</span> };
+console.log(metrics); <span class="cm">// { score: 95, score_max: 100 }</span></code></pre>
+        <div class="output">{ email: 'alice@example.com' }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ score: 95, score_max: 100 }</div>
+    </div>
+
+    <!-- Example 4 -->
+    <div class="example-block">
+        <div class="example-label">Example 4 — Dynamic key with template literal: build keys programmatically</div>
+        <pre><code><span class="kw">const</span> id = <span class="num">42</span>;
+<span class="kw">const</span> userData = { name: <span class="str">"Alice"</span>, score: <span class="num">98</span> };
+
+<span class="kw">const</span> cache = { [`user_${id}`]: userData };
+console.log(cache); <span class="cm">// { user_42: { name: 'Alice', score: 98 } }</span>
+
+<span class="cm">// Building namespaced config keys</span>
+<span class="kw">const</span> env = <span class="str">"prod"</span>;
+<span class="kw">const</span> config = {
+  [`${env}_api_url`]: <span class="str">"https://api.example.com"</span>,
+  [`${env}_timeout`]: <span class="num">5000</span>
+};
+console.log(config);</code></pre>
+        <div class="output">{ user_42: { name: 'Alice', score: 98 } }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ prod_api_url: 'https://api.example.com', prod_timeout: 5000 }</div>
+    </div>
+
+    <!-- Example 5 -->
+    <div class="example-block">
+        <div class="example-label">Example 5 — Arrow function returning an object: WRONG (curly brace ambiguity!)</div>
+        <pre><code><span class="cm">// ❌ JS interprets {} as a function BODY, not an object literal</span>
+<span class="kw">const</span> getUser = () =&gt; { name: <span class="str">"Alice"</span>, age: <span class="num">30</span> };
+console.log(getUser()); <span class="cm">// undefined — treated as labeled statement!</span>
+
+<span class="cm">// Even this looks right but isn't:</span>
+<span class="kw">const</span> names = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>];
+<span class="kw">const</span> wrong = names.map(name =&gt; { id: name });
+console.log(wrong); <span class="cm">// [undefined, undefined]</span></code></pre>
+        <div class="output-err">undefined<br>[undefined, undefined]</div>
+    </div>
+
+    <!-- Example 6 -->
+    <div class="example-block">
+        <div class="example-label">Example 6 — Arrow function returning an object: RIGHT (wrap in parens)</div>
+        <pre><code><span class="cm">// ✅ Wrap the object in () so JS knows it's an expression</span>
+<span class="kw">const</span> getUser = () =&gt; ({ name: <span class="str">"Alice"</span>, age: <span class="num">30</span> });
+console.log(getUser()); <span class="cm">// { name: 'Alice', age: 30 }</span>
+
+<span class="kw">const</span> names = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>];
+<span class="kw">const</span> users = names.map((name, i) =&gt; ({ id: i + <span class="num">1</span>, name }));
+console.log(users);</code></pre>
+        <div class="output">{ name: 'Alice', age: 30 }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ { id: 1, name: 'Alice' }, { id: 2, name: 'Bob' } ]</div>
+    </div>
+
+    <!-- Example 7 -->
+    <div class="example-block">
+        <div class="example-label">Example 7 — Combining shorthand + destructuring: classic React-style pattern</div>
+        <pre><code><span class="cm">// React-style: receive props, destructure, return shorthand object</span>
+<span class="kw">function</span> <span class="fn">processUser</span>({ name, age, email }) {
+  <span class="kw">const</span> isAdult = age &gt;= <span class="num">18</span>;
+  <span class="kw">const</span> domain = email.split(<span class="str">"@"</span>)[<span class="num">1</span>];
+
+  <span class="cm">// Return new object using property shorthand</span>
+  <span class="kw">return</span> { name, age, isAdult, domain };
+}
+
+<span class="kw">const</span> result = processUser({ name: <span class="str">"Alice"</span>, age: <span class="num">30</span>, email: <span class="str">"alice@gmail.com"</span> });
+console.log(result);</code></pre>
+        <div class="output">{ name: 'Alice', age: 30, isAdult: true, domain: 'gmail.com' }</div>
+    </div>
+
+    <!-- Example 8 -->
+    <div class="example-block">
+        <div class="example-label">Example 8 — Merging objects with spread: defaults + overrides pattern</div>
+        <pre><code><span class="kw">const</span> defaults = { theme: <span class="str">"light"</span>, lang: <span class="str">"en"</span>, fontSize: <span class="num">14</span>, notifications: <span class="bool">true</span> };
+<span class="kw">const</span> userPrefs = { theme: <span class="str">"dark"</span>, fontSize: <span class="num">18</span> };
+
+<span class="cm">// Spread: later keys overwrite earlier ones</span>
+<span class="kw">const</span> finalConfig = { ...defaults, ...userPrefs };
+console.log(finalConfig);
+
+<span class="cm">// Add extra property on top</span>
+<span class="kw">const</span> sessionConfig = { ...finalConfig, sessionId: <span class="str">"abc123"</span> };
+console.log(sessionConfig.sessionId, sessionConfig.theme);</code></pre>
+        <div class="output">{ theme: 'dark', lang: 'en', fontSize: 18, notifications: true }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;abc123 dark</div>
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!--  CHALLENGE 1: User Profile Card Generator                    -->
+    <!-- ============================================================ -->
+    <div class="challenge">
+        <div class="challenge-title">🏆 Challenge 1 — User Profile Card Generator</div>
+        <p class="challenge-desc">
+            Build a <code>createProfileCard(user)</code> function that takes a user object and generates + renders an HTML card.
+        </p>
+        <ul class="challenge-req">
+            <li>Use destructuring in the function parameter: <code>{ name, age, role, skills, isActive }</code></li>
+            <li>Build the card with a multi-line template literal</li>
+            <li>Use a ternary for the status badge (Active / Inactive)</li>
+            <li>Use <code>.map().join('')</code> to render skills as tag pills</li>
+            <li>Call <code>document.getElementById('profile-output').innerHTML = ...</code> to render it</li>
+            <li>Test with the example data below and click Run!</li>
+        </ul>
+
+        <div class="challenge-target">
+            <p style="font-size:13px;color:#7a8599;margin-bottom:12px;">Target: The rendered card should look like this ↓</p>
+            <div class="demo-card">
+                <h3>Alice Wonder</h3>
+                <div class="role">Senior Engineer</div>
+                <span class="badge-active">● Active</span>
+                <p style="font-size:13px;color:#7a8599;margin-bottom:6px;">Age: 30</p>
+                <div class="skills">
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">CSS</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="hint-btn" onclick="toggleHint(this)">Show Hint</button>
+        <div class="hint">
+            <div class="hint-label">Hint</div>
+            <pre style="background:transparent;border:none;padding:0"><code><span class="kw">function</span> <span class="fn">createProfileCard</span>({ name, age, role, skills, isActive }) {
+  <span class="kw">return</span> <span class="str">`
+    &lt;div class="demo-card"&gt;
+      &lt;h3&gt;___&lt;/h3&gt;
+      &lt;div class="role"&gt;___&lt;/div&gt;
+      &lt;span class="${isActive ? <span class="str">'badge-active'</span> : <span class="str">'badge-inactive'</span>}"&gt;___ ___&lt;/span&gt;
+      &lt;p&gt;Age: ___&lt;/p&gt;
+      &lt;div class="skills"&gt;
+        ${skills.map(___ =&gt; <span class="str">`&lt;span class="skill-tag"&gt;___&lt;/span&gt;`</span>).join(<span class="str">''</span>)}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `</span>;
+}</code></pre>
+        </div>
+
+        <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+        <div class="solution">
+            <div class="sol-label">Solution</div>
+            <pre><code><span class="kw">function</span> <span class="fn">createProfileCard</span>({ name, age, role, skills, isActive }) {
+  <span class="kw">const</span> badgeClass = isActive ? <span class="str">"badge-active"</span> : <span class="str">"badge-inactive"</span>;
+  <span class="kw">const</span> badgeText  = isActive ? <span class="str">"● Active"</span> : <span class="str">"○ Inactive"</span>;
+  <span class="kw">const</span> skillTags  = skills.map(s =&gt; <span class="str">`&lt;span class="skill-tag"&gt;${s}&lt;/span&gt;`</span>).join(<span class="str">""</span>);
+
+  <span class="kw">return</span> <span class="str">`
+    &lt;div class="demo-card"&gt;
+      &lt;h3&gt;${name}&lt;/h3&gt;
+      &lt;div class="role"&gt;${role}&lt;/div&gt;
+      &lt;span class="${badgeClass}"&gt;${badgeText}&lt;/span&gt;
+      &lt;p style="font-size:13px;color:#7a8599;margin:8px 0 6px"&gt;Age: ${age}&lt;/p&gt;
+      &lt;div class="skills"&gt;${skillTags}&lt;/div&gt;
+    &lt;/div&gt;
+  `</span>;
+}
+
+<span class="kw">const</span> user = {
+  name: <span class="str">"Alice Wonder"</span>,
+  age: <span class="num">30</span>,
+  role: <span class="str">"Senior Engineer"</span>,
+  skills: [<span class="str">"JavaScript"</span>, <span class="str">"React"</span>, <span class="str">"Node.js"</span>, <span class="str">"CSS"</span>],
+  isActive: <span class="bool">true</span>
+};
+
+document.getElementById(<span class="str">"profile-output"</span>).innerHTML = createProfileCard(user);</code></pre>
+        </div>
+
+        <div class="card-output-area">
+            <p style="font-size:12px;color:#5e6e8a;margin-bottom:8px;">Live Output:</p>
+            <div id="profile-output">
+                <p style="font-size:13px;color:#5e6e8a;font-style:italic;">Click "Run Demo" to render your card here ↓</p>
+            </div>
+            <button class="run-btn" onclick="runChallenge1()">▶ Run Demo</button>
+        </div>
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!--  CHALLENGE 2: Config Builder                                 -->
+    <!-- ============================================================ -->
+    <div class="challenge">
+        <div class="challenge-title">🏆 Challenge 2 — Config Builder</div>
+        <p class="challenge-desc">
+            Build <code>buildConfig({ theme, lang, fontSize, notifications } = {})</code> that uses
+            default values, object shorthand, and spread to return a merged config — then logs a template literal summary.
+        </p>
+        <ul class="challenge-req">
+            <li>Destructure params with defaults: theme='dark', lang='en', fontSize=16, notifications=true</li>
+            <li>Add computed fields: <code>displayName</code> (e.g. "Dark Theme"), <code>timestamp</code> (current ISO string)</li>
+            <li>Return the config using object shorthand + spread of a base object</li>
+            <li>Log a formatted summary using a multi-line template literal</li>
+            <li>Handle the empty call <code>buildConfig()</code> — all defaults should kick in</li>
+        </ul>
+
+        <button class="hint-btn" onclick="toggleHint(this)">Show Hint</button>
+        <div class="hint">
+            <div class="hint-label">Hint</div>
+            <pre style="background:transparent;border:none;padding:0"><code><span class="kw">function</span> <span class="fn">buildConfig</span>({ theme = <span class="str">'dark'</span>, lang = <span class="str">'en'</span>, ... } = {}) {
+  <span class="kw">const</span> displayName = <span class="str">`${theme.charAt(<span class="num">0</span>).toUpperCase() + theme.slice(<span class="num">1</span>)} Theme`</span>;
+  <span class="kw">const</span> timestamp = <span class="kw">new</span> Date().toISOString();
+  <span class="kw">const</span> base = { version: <span class="str">'1.0.0'</span>, env: <span class="str">'browser'</span> };
+
+  <span class="kw">return</span> { ...base, theme, lang, fontSize, notifications, displayName, timestamp };
+}</code></pre>
+        </div>
+
+        <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+        <div class="solution">
+            <div class="sol-label">Solution</div>
+            <pre><code><span class="kw">function</span> <span class="fn">buildConfig</span>({
+  theme         = <span class="str">'dark'</span>,
+  lang          = <span class="str">'en'</span>,
+  fontSize      = <span class="num">16</span>,
+  notifications = <span class="bool">true</span>
+} = {}) {
+  <span class="kw">const</span> displayName = <span class="str">`${theme.charAt(<span class="num">0</span>).toUpperCase() + theme.slice(<span class="num">1</span>)} Theme`</span>;
+  <span class="kw">const</span> timestamp   = <span class="kw">new</span> Date().toISOString();
+  <span class="kw">const</span> base        = { version: <span class="str">'1.0.0'</span>, env: <span class="str">'browser'</span> };
+
+  <span class="kw">const</span> config = { ...base, theme, lang, fontSize, notifications, displayName, timestamp };
+
+  console.log(<span class="str">`
+╔══════════════════════════════════╗
+  CONFIG BUILT: ${displayName}
+  Lang      : ${lang.toUpperCase()}
+  Font Size : ${fontSize}px
+  Alerts    : ${notifications ? <span class="str">'Enabled ✅'</span> : <span class="str">'Disabled ❌'</span>}
+  Built At  : ${timestamp}
+  Version   : ${base.version}
+╚══════════════════════════════════╝`</span>);
+
+  <span class="kw">return</span> config;
+}
+
+<span class="cm">// Test 1: with custom values</span>
+<span class="kw">const</span> myConfig = buildConfig({ theme: <span class="str">'ocean'</span>, lang: <span class="str">'fr'</span>, fontSize: <span class="num">18</span> });
+
+<span class="cm">// Test 2: with all defaults (empty call)</span>
+<span class="kw">const</span> defaultConfig = buildConfig();
+
+console.log(myConfig);
+console.log(defaultConfig);</code></pre>
+        </div>
+
+        <div class="card-output-area">
+            <p style="font-size:12px;color:#5e6e8a;margin-bottom:8px;">Live Output:</p>
+            <div id="config-output">Click "Run Demo" to see the config output ↓</div>
+            <button class="run-btn" onclick="runChallenge2()">▶ Run Demo</button>
+        </div>
+    </div>
+
+    <div style="margin-top:80px;padding-top:32px;border-top:1px solid #1e2d4a;text-align:center;color:#3d4f6e;font-size:13px">
+        ES6 Session 1 · let/const · Template Literals · Destructuring · Object Shorthand
+    </div>
+
+</div><!-- /container -->
+
+<script>
+function toggleSolution(btn) {
+    const s = btn.nextElementSibling;
+    s.classList.toggle('show');
+    btn.textContent = s.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+}
+function toggleHint(btn) {
+    const h = btn.nextElementSibling;
+    h.classList.toggle('show');
+    btn.textContent = h.classList.contains('show') ? 'Hide Hint' : 'Show Hint';
+}
+
+// ──────────────────────────────────────────
+// Challenge 1 — Profile Card Generator
+// ──────────────────────────────────────────
+function createProfileCard({ name, age, role, skills, isActive }) {
+    const badgeClass = isActive ? 'badge-active' : 'badge-inactive';
+    const badgeText  = isActive ? '● Active'     : '○ Inactive';
+    const skillTags  = skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+
+    return `
+        <div class="demo-card">
+            <h3>${name}</h3>
+            <div class="role">${role}</div>
+            <span class="${badgeClass}">${badgeText}</span>
+            <p style="font-size:13px;color:#7a8599;margin:8px 0 6px">Age: ${age}</p>
+            <div class="skills">${skillTags}</div>
+        </div>
+    `;
+}
+
+function runChallenge1() {
+    const user = {
+        name:     'Alice Wonder',
+        age:      30,
+        role:     'Senior Engineer',
+        skills:   ['JavaScript', 'React', 'Node.js', 'CSS'],
+        isActive: true
+    };
+    document.getElementById('profile-output').innerHTML = createProfileCard(user);
+}
+
+// ──────────────────────────────────────────
+// Challenge 2 — Config Builder
+// ──────────────────────────────────────────
+function buildConfig({
+    theme         = 'dark',
+    lang          = 'en',
+    fontSize      = 16,
+    notifications = true
+} = {}) {
+    const displayName = `${theme.charAt(0).toUpperCase() + theme.slice(1)} Theme`;
+    const timestamp   = new Date().toISOString();
+    const base        = { version: '1.0.0', env: 'browser' };
+    const config      = { ...base, theme, lang, fontSize, notifications, displayName, timestamp };
+
+    return config;
+}
+
+function runChallenge2() {
+    const el = document.getElementById('config-output');
+
+    const myConfig      = buildConfig({ theme: 'ocean', lang: 'fr', fontSize: 18 });
+    const defaultConfig = buildConfig();
+
+    const fmt = obj => JSON.stringify(obj, null, 2);
+
+    el.textContent =
+`// buildConfig({ theme: 'ocean', lang: 'fr', fontSize: 18 })
+${fmt(myConfig)}
+
+// buildConfig()  — all defaults
+${fmt(defaultConfig)}`;
+}
+</script>
+</body>
+</html>

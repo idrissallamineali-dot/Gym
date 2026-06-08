@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08 — What Is The DOM?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:800px;margin:0 auto}
+        h1{font-size:42px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#58a6ff;margin-bottom:8px}
+        .subtitle{font-size:18px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        h2{font-size:26px;font-weight:700;color:#f0f6fc;margin-top:64px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #1e2d4a}
+        h2 .num{color:#58a6ff}
+        h3{font-size:20px;font-weight:600;color:#e2e8f0;margin-top:36px;margin-bottom:12px}
+        p{margin-bottom:18px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        em{color:#93aac9}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:16px 0 24px;overflow-x:auto;position:relative}
+        pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}
+        pre .label{position:absolute;top:10px;right:14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#3d4f6a}
+        .kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.num{color:#79c0ff}.bool{color:#ff7b72}.tag{color:#7ee787}.attr{color:#79c0ff}.val{color:#a5d6ff}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+        ul,ol{margin:12px 0 22px 24px;color:#b0bac9}
+        li{margin-bottom:8px}
+        li strong{color:#e2e8f0}
+
+        .callout{border-radius:12px;padding:20px 24px;margin:24px 0;font-size:15px;line-height:1.7}
+        .callout-blue{background:rgba(88,166,255,0.06);border-left:4px solid #58a6ff}
+        .callout-blue strong{color:#58a6ff}
+        .callout-green{background:rgba(16,185,129,0.06);border-left:4px solid #10b981}
+        .callout-green strong{color:#10b981}
+        .callout-red{background:rgba(248,81,73,0.06);border-left:4px solid #f85149}
+        .callout-red strong{color:#f85149}
+        .callout-yellow{background:rgba(245,158,11,0.06);border-left:4px solid #f59e0b}
+        .callout-yellow strong{color:#f59e0b}
+        .callout-purple{background:rgba(139,92,246,0.06);border-left:4px solid #a78bfa}
+        .callout-purple strong{color:#a78bfa}
+
+        .diagram{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.5;color:#8b949e;white-space:pre;overflow-x:auto}
+        .diagram .highlight{color:#58a6ff;font-weight:700}
+        .diagram .green{color:#10b981}
+        .diagram .yellow{color:#f59e0b}
+        .diagram .red{color:#f85149}
+        .diagram .purple{color:#a78bfa}
+        .diagram .white{color:#f0f6fc}
+
+        table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
+        th{background:#161b2e;color:#58a6ff;text-align:left;padding:12px 16px;font-weight:600;border:1px solid #1e2d4a}
+        td{padding:12px 16px;border:1px solid #1e2d4a;color:#b0bac9}
+        tr:nth-child(even) td{background:rgba(22,27,46,0.5)}
+
+        .section-intro{font-size:17px;color:#93aac9;margin-bottom:24px;font-style:italic}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="lesson-num">Lesson 08</p>
+    <h1>What Is The DOM?</h1>
+    <p class="subtitle">The DOM is the bridge between your HTML file and JavaScript. Without understanding it, you cannot build anything for the web. This lesson explains what it is, how the browser builds it, and how JavaScript sees your page.</p>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">1.</span> The Big Picture</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>When you write an HTML file, you are writing <strong>text</strong>. It's just a string of characters sitting in a <code>.html</code> file on your hard drive. The browser's job is to <strong>turn that text into a living, interactive structure</strong> that JavaScript can read, change, and respond to.</p>
+
+    <p>That structure is called the <strong>DOM — Document Object Model</strong>.</p>
+
+    <div class="callout callout-blue">
+        <strong>🧠 Mental Model</strong><br>
+        The DOM is <strong>NOT</strong> your HTML file. The DOM is what the browser <strong>builds from</strong> your HTML file. Think of HTML as the blueprint, and the DOM as the actual building.
+    </div>
+
+    <div class="diagram"><span class="white">The Journey:</span>
+
+<span class="yellow">HTML file</span>  ──→  <span class="highlight">Browser Parser</span>  ──→  <span class="green">DOM (tree of objects in memory)</span>  ──→  <span class="purple">Render on screen</span>
+  (text)         (reads the text)       (live JavaScript objects)         (pixels you see)</div>
+
+    <p>Here's the critical insight: <strong>JavaScript never touches your HTML file.</strong> JavaScript works with the DOM — the live objects in the browser's memory. When you change something with JS, the HTML file on disk doesn't change. Only the in-memory DOM changes, and the browser re-renders the screen.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">2.</span> How The Browser Builds The DOM</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>When the browser loads your HTML file, it follows a very specific process:</p>
+
+    <h3>Step 1: Fetch — Download the HTML text</h3>
+    <p>The browser downloads the raw text of your <code>.html</code> file from the server (or reads it from disk).</p>
+
+    <h3>Step 2: Parse — Read character by character</h3>
+    <p>The HTML parser reads the text and identifies <strong>tags</strong>, <strong>attributes</strong>, and <strong>text content</strong>. It tokenizes them — breaking the string into meaningful pieces.</p>
+
+    <h3>Step 3: Build — Create DOM nodes</h3>
+    <p>For every tag, attribute, and piece of text, the browser creates a <strong>JavaScript object</strong> called a <strong>Node</strong>. Each node has properties and methods.</p>
+
+    <h3>Step 4: Connect — Arrange into a tree</h3>
+    <p>The nodes are connected in a <strong>parent-child-sibling</strong> hierarchy that mirrors the HTML structure. This tree IS the DOM.</p>
+
+    <div class="diagram"><span class="white">Given this HTML:</span>
+
+<span class="tag">&lt;html&gt;</span>
+  <span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;title&gt;</span><span class="white">My Page</span><span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;/head&gt;</span>
+  <span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h1&gt;</span><span class="white">Hello</span><span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;p&gt;</span><span class="white">World</span><span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></div>
+
+    <div class="diagram"><span class="white">The browser builds this tree:</span>
+
+                        <span class="highlight">document</span>
+                           │
+                        <span class="green">html</span>
+                       ╱      ╲
+                  <span class="green">head</span>          <span class="green">body</span>
+                    │          ╱    ╲
+                 <span class="green">title</span>      <span class="green">h1</span>      <span class="green">p</span>
+                    │         │       │
+              <span class="yellow">"My Page"</span>  <span class="yellow">"Hello"</span>  <span class="yellow">"World"</span>
+
+  <span class="green">Green</span>  = Element Nodes (tags)
+  <span class="yellow">Yellow</span> = Text Nodes (content inside tags)
+  <span class="highlight">Blue</span>   = Document Node (the root of everything)</div>
+
+    <p>Every single thing in this tree is a <strong>JavaScript object</strong> with properties like <code>.tagName</code>, <code>.textContent</code>, <code>.children</code>, <code>.parentNode</code>, etc. That's what makes it "programmable."</p>
+
+    <div class="callout callout-red">
+        <strong>⚠️ Common Misconception</strong><br>
+        Many beginners think JavaScript "reads" the HTML. It doesn't. JavaScript reads the <strong>DOM objects</strong> that the browser created FROM the HTML. The DOM can even differ from the HTML — if your HTML has errors, the browser will fix them in the DOM automatically.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">3.</span> Everything Is A Node</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>In the DOM, <strong>everything is a node</strong>. There are different types of nodes:</p>
+
+    <table>
+        <tr><th>Node Type</th><th>nodeType</th><th>Example</th><th>Description</th></tr>
+        <tr><td><strong>Document</strong></td><td>9</td><td><code>document</code></td><td>The root of the tree. Entry point for everything.</td></tr>
+        <tr><td><strong>Element</strong></td><td>1</td><td><code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code></td><td>Any HTML tag. The most common node you'll work with.</td></tr>
+        <tr><td><strong>Text</strong></td><td>3</td><td><code>"Hello"</code></td><td>The text content inside an element.</td></tr>
+        <tr><td><strong>Comment</strong></td><td>8</td><td><code>&lt;!-- note --&gt;</code></td><td>HTML comments are also nodes.</td></tr>
+        <tr><td><strong>Attribute</strong></td><td>2</td><td><code>class="box"</code></td><td>Attributes on elements (rarely accessed as nodes directly).</td></tr>
+    </table>
+
+    <div class="callout callout-yellow">
+        <strong>💡 Key Insight</strong><br>
+        The most important distinction: <strong>Element Nodes</strong> vs <strong>Text Nodes</strong>. When you have <code>&lt;p&gt;Hello&lt;/p&gt;</code>, the <code>&lt;p&gt;</code> is an Element Node, and <code>"Hello"</code> is a separate Text Node that is a <strong>child</strong> of the <code>&lt;p&gt;</code> element.
+    </div>
+
+    <h3>Node vs Element — The Confusion Everyone Has</h3>
+
+    <p>This is one of the trickiest parts of the DOM. There are two sets of navigation properties:</p>
+
+    <table>
+        <tr><th>Node Properties (all node types)</th><th>Element Properties (elements only)</th></tr>
+        <tr><td><code>.childNodes</code></td><td><code>.children</code></td></tr>
+        <tr><td><code>.firstChild</code></td><td><code>.firstElementChild</code></td></tr>
+        <tr><td><code>.lastChild</code></td><td><code>.lastElementChild</code></td></tr>
+        <tr><td><code>.nextSibling</code></td><td><code>.nextElementSibling</code></td></tr>
+        <tr><td><code>.previousSibling</code></td><td><code>.previousElementSibling</code></td></tr>
+        <tr><td><code>.parentNode</code></td><td><code>.parentElement</code></td></tr>
+    </table>
+
+    <p><strong>The difference?</strong> Node properties include <strong>everything</strong> — text nodes, comment nodes, whitespace. Element properties include <strong>only HTML elements</strong> (tags).</p>
+
+    <pre><code><span class="cm">// Given: &lt;ul&gt; &lt;li&gt;A&lt;/li&gt; &lt;li&gt;B&lt;/li&gt; &lt;/ul&gt;</span>
+
+<span class="kw">const</span> ul = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"ul"</span>);
+
+ul.childNodes;       <span class="cm">// NodeList [text, li, text, li, text]</span>
+                     <span class="cm">// ↑ The "text" nodes are the whitespace between tags!</span>
+
+ul.children;         <span class="cm">// HTMLCollection [li, li]</span>
+                     <span class="cm">// ↑ Only the element nodes — this is what you usually want</span>
+
+ul.firstChild;       <span class="cm">// #text (whitespace)</span>
+ul.firstElementChild; <span class="cm">// &lt;li&gt;A&lt;/li&gt; — this is what you want</span></code></pre>
+
+    <div class="callout callout-green">
+        <strong>✅ Rule</strong><br>
+        In 99% of cases, use the <strong>Element</strong> versions: <code>.children</code>, <code>.firstElementChild</code>, <code>.nextElementSibling</code>, etc. The Node versions include invisible whitespace text nodes that will confuse you.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">4.</span> The window and document Objects</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>Two objects are your entry points to everything in the browser:</p>
+
+    <h3>window — The Global Object</h3>
+
+    <p><code>window</code> represents the <strong>browser tab</strong>. It is the top-level object. Everything global lives here:</p>
+
+    <div class="diagram"><span class="highlight">window</span>
+  ├── <span class="green">document</span>        <span class="cm">← the DOM (your page)</span>
+  ├── <span class="green">console</span>         <span class="cm">← console.log lives here</span>
+  ├── <span class="green">alert()</span>          <span class="cm">← window.alert()</span>
+  ├── <span class="green">setTimeout()</span>     <span class="cm">← window.setTimeout()</span>
+  ├── <span class="green">localStorage</span>     <span class="cm">← window.localStorage</span>
+  ├── <span class="green">location</span>         <span class="cm">← URL info</span>
+  ├── <span class="green">navigator</span>        <span class="cm">← browser info</span>
+  ├── <span class="green">innerWidth</span>       <span class="cm">← viewport width</span>
+  ├── <span class="green">innerHeight</span>      <span class="cm">← viewport height</span>
+  └── <span class="purple">... everything global</span></div>
+
+    <pre><code><span class="cm">// These are the same thing:</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"hello"</span>);          <span class="cm">// shorthand</span>
+<span class="fn">window</span>.<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"hello"</span>);  <span class="cm">// full version</span>
+
+<span class="fn">alert</span>(<span class="str">"hi"</span>);                   <span class="cm">// shorthand</span>
+<span class="fn">window</span>.<span class="fn">alert</span>(<span class="str">"hi"</span>);            <span class="cm">// full version</span>
+
+<span class="cm">// When you declare a var (not let/const), it becomes a window property:</span>
+<span class="kw">var</span> x = <span class="num">42</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(window.x);  <span class="cm">// 42 — this is why var is bad!</span>
+
+<span class="kw">let</span> y = <span class="num">42</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(window.y);  <span class="cm">// undefined — let/const don't pollute window</span></code></pre>
+
+    <h3>document — The DOM Entry Point</h3>
+
+    <p><code>document</code> is a property of <code>window</code>. It represents your <strong>entire page</strong> and is the starting point for all DOM operations.</p>
+
+    <pre><code><span class="cm">// document IS the DOM</span>
+<span class="fn">console</span>.<span class="fn">log</span>(document);              <span class="cm">// the entire page</span>
+<span class="fn">console</span>.<span class="fn">log</span>(document.documentElement);  <span class="cm">// the &lt;html&gt; element</span>
+<span class="fn">console</span>.<span class="fn">log</span>(document.head);             <span class="cm">// the &lt;head&gt; element</span>
+<span class="fn">console</span>.<span class="fn">log</span>(document.body);             <span class="cm">// the &lt;body&gt; element</span>
+<span class="fn">console</span>.<span class="fn">log</span>(document.title);            <span class="cm">// the &lt;title&gt; text</span></code></pre>
+
+    <div class="diagram"><span class="white">The hierarchy:</span>
+
+  <span class="purple">window</span>  (the browser tab — global scope)
+     │
+  <span class="highlight">document</span>  (the DOM — your page)
+     │
+  <span class="green">document.documentElement</span>  (the &lt;html&gt; tag)
+     │
+     ├── <span class="green">document.head</span>  (the &lt;head&gt; tag)
+     │
+     └── <span class="green">document.body</span>  (the &lt;body&gt; tag)
+              │
+              ├── <span class="green">h1</span>, <span class="green">p</span>, <span class="green">div</span>, etc.
+              │
+              └── <span class="yellow">(all your visible content)</span></div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">5.</span> Selecting Elements</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p class="section-intro">Before you can do anything with the DOM, you need to "grab" the element you want to work with. This is called <strong>selecting</strong> or <strong>querying</strong>.</p>
+
+    <h3>The Modern Way (use these)</h3>
+
+    <table>
+        <tr><th>Method</th><th>Returns</th><th>CSS Selector</th></tr>
+        <tr><td><code>document.querySelector(sel)</code></td><td>First matching element (or null)</td><td>✅ Yes</td></tr>
+        <tr><td><code>document.querySelectorAll(sel)</code></td><td>NodeList of all matches</td><td>✅ Yes</td></tr>
+    </table>
+
+    <pre><code><span class="cm">// By tag name</span>
+<span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"h1"</span>);
+
+<span class="cm">// By class</span>
+<span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">".card"</span>);
+
+<span class="cm">// By ID</span>
+<span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#main"</span>);
+
+<span class="cm">// Complex CSS selector — just like in CSS!</span>
+<span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"nav ul li:first-child a"</span>);
+
+<span class="cm">// ALL matching elements</span>
+<span class="kw">const</span> allCards = <span class="fn">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">".card"</span>);
+<span class="cm">// Returns a NodeList — looks like an array but isn't quite one</span>
+
+<span class="cm">// Loop through NodeList</span>
+allCards.<span class="fn">forEach</span>(card => <span class="fn">console</span>.<span class="fn">log</span>(card));
+
+<span class="cm">// Convert to real array (for map, filter, reduce)</span>
+<span class="kw">const</span> cardsArray = [...allCards];</code></pre>
+
+    <h3>The Old Way (you'll still see these)</h3>
+
+    <table>
+        <tr><th>Method</th><th>Returns</th><th>When to use</th></tr>
+        <tr><td><code>getElementById("id")</code></td><td>Single element</td><td>Slightly faster for IDs. No # prefix.</td></tr>
+        <tr><td><code>getElementsByClassName("class")</code></td><td>Live HTMLCollection</td><td>Avoid — use querySelectorAll instead</td></tr>
+        <tr><td><code>getElementsByTagName("tag")</code></td><td>Live HTMLCollection</td><td>Avoid — use querySelectorAll instead</td></tr>
+    </table>
+
+    <pre><code><span class="cm">// Old way — still works, still fast</span>
+<span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="str">"main"</span>);   <span class="cm">// Note: NO # prefix</span>
+
+<span class="cm">// Modern equivalent</span>
+<span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#main"</span>);   <span class="cm">// With # prefix</span></code></pre>
+
+    <div class="callout callout-yellow">
+        <strong>⚡ Live vs Static Collections</strong><br>
+        <code>getElementsByClassName</code> returns a <strong>live</strong> HTMLCollection — if you add/remove elements, the collection updates automatically. <code>querySelectorAll</code> returns a <strong>static</strong> NodeList — a snapshot at the time of the query. Static is safer and more predictable. <strong>Use querySelectorAll.</strong>
+    </div>
+
+    <h3>Scoped Queries — Searching Within an Element</h3>
+
+    <p>You don't have to search the entire document. You can search <strong>within</strong> a specific element:</p>
+
+    <pre><code><span class="cm">// HTML: &lt;div id="sidebar"&gt; &lt;p class="item"&gt;A&lt;/p&gt; &lt;p class="item"&gt;B&lt;/p&gt; &lt;/div&gt;</span>
+
+<span class="kw">const</span> sidebar = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#sidebar"</span>);
+
+<span class="cm">// Only searches INSIDE sidebar, not the whole page</span>
+<span class="kw">const</span> items = sidebar.<span class="fn">querySelectorAll</span>(<span class="str">".item"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(items.length);  <span class="cm">// 2</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">6.</span> DOM Tree Navigation</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>Once you have an element, you can <strong>walk</strong> the DOM tree — moving up, down, and sideways:</p>
+
+    <div class="diagram"><span class="white">Navigation from any element:</span>
+
+                    <span class="purple">.parentElement</span>
+                          ↑
+  <span class="yellow">.previousElementSibling</span> ← <span class="highlight">[ELEMENT]</span> → <span class="yellow">.nextElementSibling</span>
+                          ↓
+              ┌───────────┼───────────┐
+        <span class="green">.firstElementChild</span>  <span class="green">.children[n]</span>  <span class="green">.lastElementChild</span></div>
+
+    <pre><code><span class="cm">// Given: &lt;ul id="menu"&gt;
+//          &lt;li&gt;Home&lt;/li&gt;
+//          &lt;li id="current"&gt;About&lt;/li&gt;
+//          &lt;li&gt;Contact&lt;/li&gt;
+//        &lt;/ul&gt;</span>
+
+<span class="kw">const</span> current = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#current"</span>);
+
+<span class="cm">// Going UP</span>
+current.parentElement;           <span class="cm">// &lt;ul id="menu"&gt;</span>
+
+<span class="cm">// Going SIDEWAYS</span>
+current.previousElementSibling;  <span class="cm">// &lt;li&gt;Home&lt;/li&gt;</span>
+current.nextElementSibling;      <span class="cm">// &lt;li&gt;Contact&lt;/li&gt;</span>
+
+<span class="cm">// Going DOWN (from the &lt;ul&gt;)</span>
+<span class="kw">const</span> menu = current.parentElement;
+menu.children;              <span class="cm">// HTMLCollection [li, li, li]</span>
+menu.children.length;       <span class="cm">// 3</span>
+menu.firstElementChild;     <span class="cm">// &lt;li&gt;Home&lt;/li&gt;</span>
+menu.lastElementChild;      <span class="cm">// &lt;li&gt;Contact&lt;/li&gt;</span>
+menu.children[<span class="num">1</span>];           <span class="cm">// &lt;li id="current"&gt;About&lt;/li&gt;</span></code></pre>
+
+    <h3>closest() — Walking Up To Find an Ancestor</h3>
+
+    <p>One of the most useful methods. It walks <strong>up</strong> the DOM tree and returns the first ancestor that matches a CSS selector:</p>
+
+    <pre><code><span class="cm">// HTML:
+// &lt;div class="card"&gt;
+//   &lt;div class="card-body"&gt;
+//     &lt;button class="btn"&gt;Click&lt;/button&gt;
+//   &lt;/div&gt;
+// &lt;/div&gt;</span>
+
+<span class="kw">const</span> btn = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">".btn"</span>);
+
+btn.<span class="fn">closest</span>(<span class="str">".card-body"</span>);  <span class="cm">// &lt;div class="card-body"&gt;</span>
+btn.<span class="fn">closest</span>(<span class="str">".card"</span>);       <span class="cm">// &lt;div class="card"&gt;</span>
+btn.<span class="fn">closest</span>(<span class="str">"section"</span>);     <span class="cm">// null (no section ancestor)</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">7.</span> Reading Element Properties</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>Every DOM element is a rich object with many properties you can read:</p>
+
+    <pre><code><span class="kw">const</span> el = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"h1"</span>);
+
+<span class="cm">// Identity</span>
+el.tagName;        <span class="cm">// "H1" (always uppercase)</span>
+el.id;             <span class="cm">// "main-title" (the id attribute)</span>
+el.className;      <span class="cm">// "title big" (all classes as one string)</span>
+el.classList;       <span class="cm">// DOMTokenList ["title", "big"] — use this instead</span>
+
+<span class="cm">// Content</span>
+el.textContent;    <span class="cm">// "Hello World" — all text, including hidden text</span>
+el.innerText;      <span class="cm">// "Hello World" — only visible text (respects CSS)</span>
+el.innerHTML;      <span class="cm">// "Hello &lt;em&gt;World&lt;/em&gt;" — the raw HTML inside</span>
+
+<span class="cm">// Dimensions (in pixels)</span>
+el.offsetWidth;    <span class="cm">// 500 — width including padding + border</span>
+el.offsetHeight;   <span class="cm">// 60 — height including padding + border</span>
+el.clientWidth;    <span class="cm">// 480 — width including padding, NOT border</span>
+el.clientHeight;   <span class="cm">// 40</span>
+
+<span class="cm">// Position</span>
+el.<span class="fn">getBoundingClientRect</span>();
+<span class="cm">// { top: 100, right: 500, bottom: 160, left: 0, width: 500, height: 60 }</span>
+<span class="cm">// Position relative to the viewport</span></code></pre>
+
+    <h3>textContent vs innerText vs innerHTML</h3>
+
+    <p>This is a classic interview question. Here's the difference:</p>
+
+    <pre><code><span class="cm">// Given: &lt;p&gt;Hello &lt;span style="display:none"&gt;hidden&lt;/span&gt; &lt;em&gt;World&lt;/em&gt;&lt;/p&gt;</span>
+
+el.textContent;  <span class="cm">// "Hello hidden World" — gets ALL text, ignores CSS</span>
+el.innerText;    <span class="cm">// "Hello World" — only VISIBLE text (respects display:none)</span>
+el.innerHTML;    <span class="cm">// 'Hello &lt;span style="display:none"&gt;hidden&lt;/span&gt; &lt;em&gt;World&lt;/em&gt;'</span></code></pre>
+
+    <table>
+        <tr><th>Property</th><th>Gets/Sets</th><th>Parses HTML?</th><th>Performance</th></tr>
+        <tr><td><code>textContent</code></td><td>Raw text (all)</td><td>No — treats everything as text</td><td>✅ Fast</td></tr>
+        <tr><td><code>innerText</code></td><td>Visible text</td><td>No</td><td>❌ Slow (triggers reflow)</td></tr>
+        <tr><td><code>innerHTML</code></td><td>HTML string</td><td>Yes — parses and renders HTML</td><td>⚠️ Security risk (XSS)</td></tr>
+    </table>
+
+    <div class="callout callout-red">
+        <strong>🔒 Security Warning: innerHTML</strong><br>
+        Never insert <strong>user input</strong> into <code>innerHTML</code>. If a user types <code>&lt;script&gt;alert('hacked')&lt;/script&gt;</code> and you put it in innerHTML, the browser will execute that script. This is called <strong>XSS (Cross-Site Scripting)</strong>. Use <code>textContent</code> for user data.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">8.</span> Attributes vs Properties</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>This is one of the most confusing parts of the DOM. HTML <strong>attributes</strong> and DOM <strong>properties</strong> are related but <strong>not the same thing</strong>.</p>
+
+    <div class="diagram"><span class="white">HTML (attribute):</span>   <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">value</span>=<span class="val">"hello"</span><span class="tag">&gt;</span>
+
+<span class="white">DOM (property):</span>     inputElement.type  = <span class="str">"text"</span>
+                    inputElement.value = <span class="str">"hello"</span>
+
+<span class="yellow">Attributes</span> = what's written in the HTML (the initial values)
+<span class="green">Properties</span> = the live values on the JavaScript object (can change)</div>
+
+    <pre><code><span class="cm">// HTML: &lt;input id="name" type="text" value="hello"&gt;</span>
+<span class="kw">const</span> input = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#name"</span>);
+
+<span class="cm">// PROPERTY — the live current value</span>
+input.value;                      <span class="cm">// "hello"</span>
+input.value = <span class="str">"world"</span>;            <span class="cm">// changes the live value</span>
+
+<span class="cm">// ATTRIBUTE — the original HTML value</span>
+input.<span class="fn">getAttribute</span>(<span class="str">"value"</span>);     <span class="cm">// "hello" — still the original!</span>
+input.<span class="fn">setAttribute</span>(<span class="str">"value"</span>, <span class="str">"new"</span>); <span class="cm">// changes the HTML attribute</span>
+
+<span class="cm">// For most attributes, properties auto-sync:</span>
+input.id;                          <span class="cm">// "name"</span>
+input.type;                        <span class="cm">// "text"</span>
+
+<span class="cm">// But for value on inputs, they can diverge!</span></code></pre>
+
+    <h3>data-* Attributes (Custom Data)</h3>
+
+    <p>HTML lets you add custom attributes that start with <code>data-</code>. JavaScript accesses them via the <code>dataset</code> property:</p>
+
+    <pre><code><span class="cm">// HTML: &lt;div data-user-id="42" data-role="admin"&gt;Idris&lt;/div&gt;</span>
+
+<span class="kw">const</span> el = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"div"</span>);
+
+el.dataset.userId;    <span class="cm">// "42"     (data-user-id → camelCase: userId)</span>
+el.dataset.role;      <span class="cm">// "admin"</span>
+
+<span class="cm">// Set a new data attribute</span>
+el.dataset.active = <span class="str">"true"</span>;
+<span class="cm">// Now the HTML has: data-active="true"</span>
+
+<span class="cm">// Delete</span>
+<span class="kw">delete</span> el.dataset.role;</code></pre>
+
+    <div class="callout callout-blue">
+        <strong>🧠 Mental Model</strong><br>
+        <code>data-*</code> attributes are like <strong>invisible sticky notes</strong> on HTML elements. JavaScript can read and write them. They're perfect for storing metadata that doesn't have a visual purpose — like IDs, states, or configuration.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">9.</span> The DOM Is Live</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>The DOM is not a snapshot — it's a <strong>live</strong> structure. Changes to JavaScript objects are <strong>immediately reflected</strong> on screen:</p>
+
+    <pre><code><span class="kw">const</span> h1 = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"h1"</span>);
+
+<span class="cm">// Change the text — instantly updates on screen</span>
+h1.textContent = <span class="str">"New Title"</span>;
+
+<span class="cm">// Change the style — instantly updates on screen</span>
+h1.style.color = <span class="str">"red"</span>;
+
+<span class="cm">// Add a class — instantly updates on screen</span>
+h1.classList.<span class="fn">add</span>(<span class="str">"highlight"</span>);
+
+<span class="cm">// Nothing here is "saved" or "committed".</span>
+<span class="cm">// The change happens the INSTANT the line executes.</span></code></pre>
+
+    <div class="callout callout-purple">
+        <strong>🔄 The Render Pipeline</strong><br>
+        When you modify the DOM, the browser goes through: <strong>DOM change → Style calculation → Layout (reflow) → Paint → Composite</strong>. The browser tries to batch these for performance, but some operations (like reading <code>offsetHeight</code> right after changing styles) force an immediate recalculation. This is called <strong>forced reflow</strong> and it's a performance killer.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">10.</span> Where Does &lt;script&gt; Go?</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>This causes bugs for every beginner. The browser reads HTML <strong>top to bottom</strong>. If your script runs before the body is parsed, the elements don't exist yet:</p>
+
+    <pre><code><span class="cm">// ❌ THIS BREAKS — script runs before &lt;h1&gt; exists</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;script&gt;</span>
+        <span class="kw">const</span> h1 = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"h1"</span>);
+        <span class="fn">console</span>.<span class="fn">log</span>(h1);  <span class="cm">// null — the h1 doesn't exist yet!</span>
+    <span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Hello<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;/body&gt;</span></code></pre>
+
+    <p>There are <strong>3 solutions</strong>:</p>
+
+    <h3>Solution 1: Put script at the bottom (simple)</h3>
+    <pre><code><span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Hello<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;script <span class="attr">src</span>=<span class="val">"app.js"</span>&gt;&lt;/script&gt;</span>  <span class="cm">&lt;!-- All elements exist by now --&gt;</span>
+<span class="tag">&lt;/body&gt;</span></code></pre>
+
+    <h3>Solution 2: defer attribute (modern standard)</h3>
+    <pre><code><span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;script <span class="attr">src</span>=<span class="val">"app.js"</span> <span class="attr">defer</span>&gt;&lt;/script&gt;</span>
+    <span class="cm">&lt;!-- defer = download now, but EXECUTE after HTML is fully parsed --&gt;</span>
+<span class="tag">&lt;/head&gt;</span></code></pre>
+
+    <h3>Solution 3: DOMContentLoaded event</h3>
+    <pre><code><span class="tag">&lt;script&gt;</span>
+    <span class="fn">document</span>.<span class="fn">addEventListener</span>(<span class="str">"DOMContentLoaded"</span>, () => {
+        <span class="cm">// This code runs after the DOM is fully built</span>
+        <span class="kw">const</span> h1 = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"h1"</span>);
+        <span class="fn">console</span>.<span class="fn">log</span>(h1);  <span class="cm">// &lt;h1&gt;Hello&lt;/h1&gt; ✅</span>
+    });
+<span class="tag">&lt;/script&gt;</span></code></pre>
+
+    <div class="callout callout-green">
+        <strong>✅ Best Practice</strong><br>
+        Use <code>&lt;script src="app.js" defer&gt;&lt;/script&gt;</code> in the <code>&lt;head&gt;</code>. This is the modern standard. It downloads the script in parallel with HTML parsing, then executes it after the DOM is ready. Fastest option.
+    </div>
+
+    <div class="diagram"><span class="white">Script Loading Comparison:</span>
+
+<span class="red">Normal &lt;script&gt;</span>
+  HTML: ██████──────██████████████
+  JS:         ██████
+  <span class="cm">(HTML stops, downloads JS, executes JS, then continues HTML)</span>
+
+<span class="yellow">async</span>
+  HTML: ████████████████████████
+  JS:       ████████
+  <span class="cm">(Downloads in parallel, executes ASAP — can interrupt HTML)</span>
+
+<span class="green">defer</span>
+  HTML: ████████████████████████
+  JS:       ████          ████
+  <span class="cm">(Downloads in parallel, executes AFTER HTML is done)</span>
+  <span class="cm">                   ↑ DOMContentLoaded fires here</span></div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">11.</span> Inspecting The DOM</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>The browser DevTools (F12) are your best friend for understanding the DOM:</p>
+
+    <h3>Elements Tab</h3>
+    <ul>
+        <li><strong>Right-click any element → Inspect</strong> — jumps directly to that element in the DOM tree</li>
+        <li>You can <strong>edit HTML, classes, styles</strong> live in the Elements tab</li>
+        <li>Hover over elements to see their box model (margin, border, padding, content)</li>
+    </ul>
+
+    <h3>Console Tab</h3>
+    <pre><code><span class="cm">// Type these in the console to explore:</span>
+
+document.body;                    <span class="cm">// see the body element</span>
+document.body.children;           <span class="cm">// all children of body</span>
+<span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"h1"</span>);     <span class="cm">// grab any element</span>
+
+<span class="cm">// $0 is a special shortcut — it refers to the element</span>
+<span class="cm">// you currently have selected in the Elements tab</span>
+$0;             <span class="cm">// the selected element</span>
+$0.textContent; <span class="cm">// its text</span>
+$0.classList;   <span class="cm">// its classes</span>
+
+<span class="cm">// console.dir shows the element as a JavaScript object</span>
+<span class="cm">// instead of HTML — so you can see all its properties</span>
+<span class="fn">console</span>.<span class="fn">dir</span>($0);</code></pre>
+
+    <div class="callout callout-blue">
+        <strong>🔍 Pro Tip: console.dir vs console.log</strong><br>
+        <code>console.log(element)</code> shows the HTML representation.<br>
+        <code>console.dir(element)</code> shows the JavaScript object with ALL its properties and methods — this is how you discover what's available.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">12.</span> Summary — The Complete Picture</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <div class="diagram"><span class="white">THE DOM — Complete Mental Model</span>
+
+  ┌─────────────────────────────────────────────────────────┐
+  │  <span class="purple">WINDOW</span> (the browser tab, global scope)                  │
+  │                                                         │
+  │  ┌───────────────────────────────────────────────────┐  │
+  │  │  <span class="highlight">DOCUMENT</span> (the DOM — your page)                    │  │
+  │  │                                                   │  │
+  │  │  <span class="green">&lt;html&gt;</span>  ← document.documentElement              │  │
+  │  │    ├── <span class="green">&lt;head&gt;</span>  ← document.head                   │  │
+  │  │    │     ├── <span class="green">&lt;title&gt;</span>                             │  │
+  │  │    │     ├── <span class="green">&lt;meta&gt;</span>                              │  │
+  │  │    │     └── <span class="green">&lt;script defer&gt;</span>                      │  │
+  │  │    │                                              │  │
+  │  │    └── <span class="green">&lt;body&gt;</span>  ← document.body                   │  │
+  │  │          ├── <span class="green">&lt;h1&gt;</span> ── <span class="yellow">"Title"</span>                    │  │
+  │  │          ├── <span class="green">&lt;p&gt;</span>  ── <span class="yellow">"Paragraph text"</span>           │  │
+  │  │          └── <span class="green">&lt;div&gt;</span>                               │  │
+  │  │                ├── <span class="green">&lt;img&gt;</span>                        │  │
+  │  │                └── <span class="green">&lt;button&gt;</span> ── <span class="yellow">"Click me"</span>      │  │
+  │  │                                                   │  │
+  │  │  Every node is a <span class="highlight">JavaScript object</span> with properties  │  │
+  │  │  and methods you can read, write, and call.        │  │
+  │  └───────────────────────────────────────────────────┘  │
+  │                                                         │
+  │  Also: console, alert, setTimeout, localStorage,        │
+  │  fetch, location, navigator, innerWidth, etc.           │
+  └─────────────────────────────────────────────────────────┘</div>
+
+    <h3>Key Takeaways</h3>
+
+    <ol>
+        <li><strong>The DOM is not HTML.</strong> The DOM is a tree of JavaScript objects the browser builds FROM your HTML.</li>
+        <li><strong>Everything is a node.</strong> Elements, text, comments — all nodes. Use <code>.children</code> (not <code>.childNodes</code>) to skip whitespace text nodes.</li>
+        <li><strong><code>document</code> is your entry point.</strong> Use <code>querySelector</code> / <code>querySelectorAll</code> to grab elements.</li>
+        <li><strong>The DOM is live.</strong> Change a property → screen updates instantly.</li>
+        <li><strong>Use <code>defer</code>.</strong> Put <code>&lt;script src="app.js" defer&gt;</code> in the <code>&lt;head&gt;</code> so your JS runs after the DOM is ready.</li>
+        <li><strong>Attributes ≠ Properties.</strong> Attributes are the initial HTML values. Properties are the live JavaScript values.</li>
+        <li><strong><code>textContent</code> over <code>innerHTML</code>.</strong> Use <code>textContent</code> for text. Only use <code>innerHTML</code> when you intentionally want to insert HTML. Never use <code>innerHTML</code> with user input.</li>
+        <li><strong><code>console.dir(element)</code></strong> to see an element as a JS object with all its properties.</li>
+    </ol>
+
+    <hr>
+    <p style="text-align:center;color:#5e6e8a;font-size:14px;margin-top:40px;">
+        📖 Next lesson: <strong>Creating & Manipulating Content with JavaScript</strong> — createElement, classList, events, event delegation, and building interactive pages.
+    </p>
+
+</div>
+</body>
+</html>

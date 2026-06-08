@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial 01 — Tailwind Foundations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0c10',
+                        cardBg: '#121319',
+                        borderSlate: '#1f222e',
+                        textMuted: '#8e929f'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkBg text-white font-sans leading-relaxed">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         HEADER
+         ═══════════════════════════════════════════════════════════════ -->
+    <header class="border-b border-borderSlate">
+        <div class="max-w-4xl mx-auto px-6 py-8">
+            <p class="text-textMuted font-mono text-sm tracking-wide uppercase mb-2">Tutorial 01</p>
+            <h1 class="text-4xl font-bold tracking-tight mb-3">Tailwind Foundations</h1>
+            <p class="text-textMuted text-lg max-w-2xl">
+                Everything you already know about CSS — repackaged into short utility classes
+                you write directly in your HTML. No new language, no magic.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-12 space-y-20">
+
+        <!-- ═══════════════════════════════════════════════════════════
+             SECTION 1 — What is Tailwind CSS?
+             ═══════════════════════════════════════════════════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-xs font-mono text-darkBg bg-textMuted px-2 py-0.5 rounded">01</span>
+                <h2 class="text-2xl font-semibold tracking-tight">What is Tailwind CSS?</h2>
+            </div>
+
+            <div class="space-y-4 text-textMuted mb-8">
+                <p>
+                    Tailwind is <span class="text-white font-medium">NOT</span> a new language. It is
+                    <span class="text-white">raw CSS</span> repackaged into short, single-purpose
+                    class names called <em>utility classes</em>.
+                </p>
+                <p>
+                    Instead of writing CSS rules in a separate <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">.css</code>
+                    file, you apply styles directly in your HTML by adding classes.
+                    Every Tailwind class maps to exactly one (or a small group of) CSS property.
+                </p>
+                <p>
+                    For example, the Tailwind class <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">p-4</code>
+                    is just <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">padding: 1rem;</code>.
+                    That's it. No abstraction, no framework magic.
+                </p>
+            </div>
+
+            <!-- Side-by-side comparison -->
+            <h3 class="text-lg font-medium mb-4">Side-by-Side: Raw CSS vs Tailwind</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <!-- Raw CSS version -->
+                <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                    <div class="px-4 py-2 border-b border-borderSlate">
+                        <span class="text-xs font-mono text-textMuted">Raw CSS</span>
+                    </div>
+                    <pre class="p-4 text-sm font-mono text-textMuted overflow-x-auto"><code><span class="text-white">.card</span> {
+  background: <span class="text-white">#121319</span>;
+  padding: <span class="text-white">24px</span>;
+  border-radius: <span class="text-white">12px</span>;
+  border: <span class="text-white">1px solid #1f222e</span>;
+  color: <span class="text-white">#ffffff</span>;
+  font-size: <span class="text-white">14px</span>;
+}
+
+&lt;div class="card"&gt;
+  Hello, CSS!
+&lt;/div&gt;</code></pre>
+                </div>
+                <!-- Tailwind version -->
+                <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                    <div class="px-4 py-2 border-b border-borderSlate">
+                        <span class="text-xs font-mono text-textMuted">Tailwind (no CSS file needed)</span>
+                    </div>
+                    <pre class="p-4 text-sm font-mono text-textMuted overflow-x-auto"><code>&lt;div class="<span class="text-white">bg-cardBg
+             p-6
+             rounded-xl
+             border border-borderSlate
+             text-white
+             text-sm</span>"&gt;
+  Hello, Tailwind!
+&lt;/div&gt;</code></pre>
+                </div>
+            </div>
+
+            <!-- Live rendered result -->
+            <h3 class="text-lg font-medium mb-3">Live Result (both look identical)</h3>
+            <div class="bg-cardBg p-6 rounded-xl border border-borderSlate text-white text-sm">
+                Hello, Tailwind! — This box is styled entirely with utility classes.
+            </div>
+
+            <!-- CDN Setup -->
+            <h3 class="text-lg font-medium mt-8 mb-3">CDN Setup — One Line</h3>
+            <p class="text-textMuted mb-4">
+                To start using Tailwind instantly, add this single script tag inside your
+                <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">&lt;head&gt;</code>:
+            </p>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-4 py-2 border-b border-borderSlate">
+                    <span class="text-xs font-mono text-textMuted">HTML &lt;head&gt;</span>
+                </div>
+                <pre class="p-4 text-sm font-mono text-textMuted"><code>&lt;script src="<span class="text-white">https://cdn.tailwindcss.com</span>"&gt;&lt;/script&gt;</code></pre>
+            </div>
+            <p class="text-textMuted text-sm mt-3">
+                That's it. No npm, no build step, no config files. Open the HTML file in your
+                browser and every Tailwind class will work.
+            </p>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             SECTION 2 — The Spacing System
+             ═══════════════════════════════════════════════════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-xs font-mono text-darkBg bg-textMuted px-2 py-0.5 rounded">02</span>
+                <h2 class="text-2xl font-semibold tracking-tight">The Spacing System</h2>
+            </div>
+
+            <div class="space-y-4 text-textMuted mb-8">
+                <p>
+                    Spacing is the single most important system in Tailwind. It controls
+                    <span class="text-white">padding</span>, <span class="text-white">margin</span>,
+                    <span class="text-white">gap</span>, and more. Every spacing value is a multiple
+                    of <span class="text-white font-mono">4px</span>.
+                </p>
+                <p>
+                    The number in the class is a <span class="text-white">multiplier</span>:
+                    <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">p-1</code> = 4px,
+                    <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">p-2</code> = 8px,
+                    <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">p-4</code> = 16px, and so on.
+                </p>
+            </div>
+
+            <!-- Spacing Scale Reference Table -->
+            <h3 class="text-lg font-medium mb-4">Spacing Scale Reference</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Class</th>
+                            <th class="px-4 py-3">Value</th>
+                            <th class="px-4 py-3">Pixels</th>
+                            <th class="px-4 py-3 hidden sm:table-cell">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-0</td><td class="px-4 py-2">0rem</td><td class="px-4 py-2">0px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 0;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-0.5</td><td class="px-4 py-2">0.125rem</td><td class="px-4 py-2">2px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 0.125rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-1</td><td class="px-4 py-2">0.25rem</td><td class="px-4 py-2">4px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 0.25rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-2</td><td class="px-4 py-2">0.5rem</td><td class="px-4 py-2">8px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 0.5rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-3</td><td class="px-4 py-2">0.75rem</td><td class="px-4 py-2">12px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 0.75rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-4</td><td class="px-4 py-2">1rem</td><td class="px-4 py-2">16px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 1rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-5</td><td class="px-4 py-2">1.25rem</td><td class="px-4 py-2">20px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 1.25rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-6</td><td class="px-4 py-2">1.5rem</td><td class="px-4 py-2">24px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 1.5rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-8</td><td class="px-4 py-2">2rem</td><td class="px-4 py-2">32px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 2rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-10</td><td class="px-4 py-2">2.5rem</td><td class="px-4 py-2">40px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 2.5rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-12</td><td class="px-4 py-2">3rem</td><td class="px-4 py-2">48px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 3rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-16</td><td class="px-4 py-2">4rem</td><td class="px-4 py-2">64px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 4rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-20</td><td class="px-4 py-2">5rem</td><td class="px-4 py-2">80px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 5rem;</td></tr>
+                        <tr><td class="px-4 py-2 text-white">p-24</td><td class="px-4 py-2">6rem</td><td class="px-4 py-2">96px</td><td class="px-4 py-2 hidden sm:table-cell">padding: 6rem;</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Padding axis classes -->
+            <h3 class="text-lg font-medium mb-4">Padding Directions</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                            <th class="px-4 py-3">What It Means</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">p-4</td><td class="px-4 py-2">padding: 1rem;</td><td class="px-4 py-2">All sides</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">px-4</td><td class="px-4 py-2">padding-left: 1rem; padding-right: 1rem;</td><td class="px-4 py-2">Horizontal (x-axis)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">py-4</td><td class="px-4 py-2">padding-top: 1rem; padding-bottom: 1rem;</td><td class="px-4 py-2">Vertical (y-axis)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">pt-4</td><td class="px-4 py-2">padding-top: 1rem;</td><td class="px-4 py-2">Top only</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">pr-4</td><td class="px-4 py-2">padding-right: 1rem;</td><td class="px-4 py-2">Right only</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">pb-4</td><td class="px-4 py-2">padding-bottom: 1rem;</td><td class="px-4 py-2">Bottom only</td></tr>
+                        <tr><td class="px-4 py-2 text-white">pl-4</td><td class="px-4 py-2">padding-left: 1rem;</td><td class="px-4 py-2">Left only</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Margin axis classes -->
+            <h3 class="text-lg font-medium mb-4">Margin Directions</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                            <th class="px-4 py-3">What It Means</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">m-4</td><td class="px-4 py-2">margin: 1rem;</td><td class="px-4 py-2">All sides</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">mx-auto</td><td class="px-4 py-2">margin-left: auto; margin-right: auto;</td><td class="px-4 py-2">Center horizontally</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">my-4</td><td class="px-4 py-2">margin-top: 1rem; margin-bottom: 1rem;</td><td class="px-4 py-2">Vertical (y-axis)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">mt-4</td><td class="px-4 py-2">margin-top: 1rem;</td><td class="px-4 py-2">Top only</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">mr-4</td><td class="px-4 py-2">margin-right: 1rem;</td><td class="px-4 py-2">Right only</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">mb-4</td><td class="px-4 py-2">margin-bottom: 1rem;</td><td class="px-4 py-2">Bottom only</td></tr>
+                        <tr><td class="px-4 py-2 text-white">ml-4</td><td class="px-4 py-2">margin-left: 1rem;</td><td class="px-4 py-2">Left only</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Gap classes -->
+            <h3 class="text-lg font-medium mb-4">Gap (for Flex / Grid containers)</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">gap-4</td><td class="px-4 py-2">gap: 1rem;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">gap-x-4</td><td class="px-4 py-2">column-gap: 1rem;</td></tr>
+                        <tr><td class="px-4 py-2 text-white">gap-y-4</td><td class="px-4 py-2">row-gap: 1rem;</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Live Demo: 3 Boxes -->
+            <h3 class="text-lg font-medium mb-3">Live Demo — Different Paddings &amp; Margins</h3>
+            <p class="text-textMuted text-sm mb-4">Each box below uses a different padding value. The dashed outline shows the box edge so you can see the inner spacing.</p>
+            <div class="flex flex-wrap gap-6 mb-4">
+                <!-- Box 1: p-2 -->
+                <div class="border border-dashed border-textMuted rounded-lg">
+                    <div class="bg-cardBg p-2 rounded-lg text-sm">
+                        <span class="font-mono text-white">p-2</span>
+                        <span class="text-textMuted ml-1">(8px)</span>
+                    </div>
+                </div>
+                <!-- Box 2: p-4 -->
+                <div class="border border-dashed border-textMuted rounded-lg">
+                    <div class="bg-cardBg p-4 rounded-lg text-sm">
+                        <span class="font-mono text-white">p-4</span>
+                        <span class="text-textMuted ml-1">(16px)</span>
+                    </div>
+                </div>
+                <!-- Box 3: p-8 -->
+                <div class="border border-dashed border-textMuted rounded-lg">
+                    <div class="bg-cardBg p-8 rounded-lg text-sm">
+                        <span class="font-mono text-white">p-8</span>
+                        <span class="text-textMuted ml-1">(32px)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code for demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-4 py-2 border-b border-borderSlate">
+                    <span class="text-xs font-mono text-textMuted">HTML — Classes used above</span>
+                </div>
+                <pre class="p-4 text-sm font-mono text-textMuted overflow-x-auto"><code>&lt;div class="<span class="text-white">bg-cardBg p-2 rounded-lg</span>"&gt;p-2 (8px)&lt;/div&gt;
+&lt;div class="<span class="text-white">bg-cardBg p-4 rounded-lg</span>"&gt;p-4 (16px)&lt;/div&gt;
+&lt;div class="<span class="text-white">bg-cardBg p-8 rounded-lg</span>"&gt;p-8 (32px)&lt;/div&gt;</code></pre>
+            </div>
+
+            <!-- Margin demo -->
+            <h3 class="text-lg font-medium mt-8 mb-3">Live Demo — Margin with mx-auto (centering)</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-6 mb-4">
+                <div class="bg-borderSlate rounded-lg p-4 w-48 mx-auto text-center text-sm">
+                    <span class="font-mono text-white">mx-auto</span>
+                    <p class="text-textMuted text-xs mt-1">margin-left: auto; margin-right: auto;</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             SECTION 3 — Sizing (Width & Height)
+             ═══════════════════════════════════════════════════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-xs font-mono text-darkBg bg-textMuted px-2 py-0.5 rounded">03</span>
+                <h2 class="text-2xl font-semibold tracking-tight">Sizing (Width &amp; Height)</h2>
+            </div>
+
+            <div class="space-y-4 text-textMuted mb-8">
+                <p>
+                    Tailwind uses the same spacing scale for widths and heights. A
+                    <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">w-20</code>
+                    is <span class="text-white">5rem (80px)</span>, because 20 × 4px = 80px.
+                </p>
+            </div>
+
+            <!-- Fixed sizes table -->
+            <h3 class="text-lg font-medium mb-4">Fixed Sizes</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                            <th class="px-4 py-3">Pixels</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">w-20</td><td class="px-4 py-2">width: 5rem;</td><td class="px-4 py-2">80px</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">w-40</td><td class="px-4 py-2">width: 10rem;</td><td class="px-4 py-2">160px</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">w-80</td><td class="px-4 py-2">width: 20rem;</td><td class="px-4 py-2">320px</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">h-20</td><td class="px-4 py-2">height: 5rem;</td><td class="px-4 py-2">80px</td></tr>
+                        <tr><td class="px-4 py-2 text-white">h-40</td><td class="px-4 py-2">height: 10rem;</td><td class="px-4 py-2">160px</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Percentage / Fraction sizes -->
+            <h3 class="text-lg font-medium mb-4">Percentage / Fraction Widths</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">w-full</td><td class="px-4 py-2">width: 100%;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">w-1/2</td><td class="px-4 py-2">width: 50%;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">w-1/3</td><td class="px-4 py-2">width: 33.333%;</td></tr>
+                        <tr><td class="px-4 py-2 text-white">w-2/3</td><td class="px-4 py-2">width: 66.667%;</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Arbitrary values -->
+            <h3 class="text-lg font-medium mb-4">Arbitrary (Custom) Values</h3>
+            <p class="text-textMuted text-sm mb-4">
+                When the default scale doesn't have the exact size you need, use square brackets:
+            </p>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">w-[380px]</td><td class="px-4 py-2">width: 380px;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">h-[200px]</td><td class="px-4 py-2">height: 200px;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">max-w-[800px]</td><td class="px-4 py-2">max-width: 800px;</td></tr>
+                        <tr><td class="px-4 py-2 text-white">min-h-screen</td><td class="px-4 py-2">min-height: 100vh;</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Max-width named sizes -->
+            <h3 class="text-lg font-medium mb-4">Named Max-Width Sizes</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">max-w-sm</td><td class="px-4 py-2">max-width: 24rem; (384px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">max-w-md</td><td class="px-4 py-2">max-width: 28rem; (448px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">max-w-lg</td><td class="px-4 py-2">max-width: 32rem; (512px)</td></tr>
+                        <tr><td class="px-4 py-2 text-white">max-w-xl</td><td class="px-4 py-2">max-width: 36rem; (576px)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Live Demo: different widths -->
+            <h3 class="text-lg font-medium mb-3">Live Demo — Different Widths</h3>
+            <div class="space-y-3 mb-4">
+                <div class="bg-borderSlate rounded-lg p-3 w-20">
+                    <span class="font-mono text-xs text-white">w-20</span>
+                </div>
+                <div class="bg-borderSlate rounded-lg p-3 w-40">
+                    <span class="font-mono text-xs text-white">w-40</span>
+                </div>
+                <div class="bg-borderSlate rounded-lg p-3 w-80">
+                    <span class="font-mono text-xs text-white">w-80</span>
+                </div>
+                <div class="bg-borderSlate rounded-lg p-3 w-1/2">
+                    <span class="font-mono text-xs text-white">w-1/2</span>
+                </div>
+                <div class="bg-borderSlate rounded-lg p-3 w-full">
+                    <span class="font-mono text-xs text-white">w-full</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             SECTION 4 — Colors & Backgrounds
+             ═══════════════════════════════════════════════════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-xs font-mono text-darkBg bg-textMuted px-2 py-0.5 rounded">04</span>
+                <h2 class="text-2xl font-semibold tracking-tight">Colors &amp; Backgrounds</h2>
+            </div>
+
+            <div class="space-y-4 text-textMuted mb-8">
+                <p>
+                    Tailwind ships with a built-in color palette. Each color has shades from
+                    <span class="text-white">50</span> (lightest) to <span class="text-white">950</span> (darkest).
+                    The pattern is: <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">{property}-{color}-{shade}</code>.
+                </p>
+                <p>
+                    You can also use any custom hex color with the arbitrary value syntax:
+                    <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">bg-[#121319]</code>.
+                </p>
+            </div>
+
+            <!-- Color classes table -->
+            <h3 class="text-lg font-medium mb-4">Common Color Classes</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">bg-slate-900</td><td class="px-4 py-2">background-color: #0f172a;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">bg-gray-800</td><td class="px-4 py-2">background-color: #1f2937;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-white</td><td class="px-4 py-2">color: #ffffff;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-gray-400</td><td class="px-4 py-2">color: #9ca3af;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">bg-[#121319]</td><td class="px-4 py-2">background-color: #121319;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-[#8e929f]</td><td class="px-4 py-2">color: #8e929f;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">border-white</td><td class="px-4 py-2">border-color: #ffffff;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">border-[#1f222e]</td><td class="px-4 py-2">border-color: #1f222e;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">bg-black/50</td><td class="px-4 py-2">background-color: rgb(0 0 0 / 0.5);</td></tr>
+                        <tr><td class="px-4 py-2 text-white">text-white/80</td><td class="px-4 py-2">color: rgb(255 255 255 / 0.8);</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Live Demo: Color Palette -->
+            <h3 class="text-lg font-medium mb-3">Live Demo — Color Palette Showcase</h3>
+
+            <p class="text-textMuted text-sm mb-4">Background shades of <span class="text-white font-mono">slate</span>:</p>
+            <div class="flex flex-wrap gap-2 mb-6">
+                <div class="w-16 h-16 rounded-lg bg-slate-950 flex items-center justify-center text-xs font-mono text-white">950</div>
+                <div class="w-16 h-16 rounded-lg bg-slate-900 flex items-center justify-center text-xs font-mono text-white">900</div>
+                <div class="w-16 h-16 rounded-lg bg-slate-800 flex items-center justify-center text-xs font-mono text-white">800</div>
+                <div class="w-16 h-16 rounded-lg bg-slate-700 flex items-center justify-center text-xs font-mono text-white">700</div>
+                <div class="w-16 h-16 rounded-lg bg-slate-600 flex items-center justify-center text-xs font-mono text-white">600</div>
+                <div class="w-16 h-16 rounded-lg bg-slate-500 flex items-center justify-center text-xs font-mono text-slate-950">500</div>
+                <div class="w-16 h-16 rounded-lg bg-slate-400 flex items-center justify-center text-xs font-mono text-slate-950">400</div>
+                <div class="w-16 h-16 rounded-lg bg-slate-300 flex items-center justify-center text-xs font-mono text-slate-950">300</div>
+            </div>
+
+            <p class="text-textMuted text-sm mb-4">Opacity modifiers — <span class="text-white font-mono">bg-white/{opacity}</span>:</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+                <div class="w-20 h-16 rounded-lg bg-white/10 flex items-center justify-center text-xs font-mono text-white">/10</div>
+                <div class="w-20 h-16 rounded-lg bg-white/20 flex items-center justify-center text-xs font-mono text-white">/20</div>
+                <div class="w-20 h-16 rounded-lg bg-white/30 flex items-center justify-center text-xs font-mono text-white">/30</div>
+                <div class="w-20 h-16 rounded-lg bg-white/50 flex items-center justify-center text-xs font-mono text-slate-950">/50</div>
+                <div class="w-20 h-16 rounded-lg bg-white/80 flex items-center justify-center text-xs font-mono text-slate-950">/80</div>
+                <div class="w-20 h-16 rounded-lg bg-white flex items-center justify-center text-xs font-mono text-slate-950">/100</div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             SECTION 5 — Borders & Rounded Corners
+             ═══════════════════════════════════════════════════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-xs font-mono text-darkBg bg-textMuted px-2 py-0.5 rounded">05</span>
+                <h2 class="text-2xl font-semibold tracking-tight">Borders &amp; Rounded Corners</h2>
+            </div>
+
+            <!-- Border width -->
+            <h3 class="text-lg font-medium mb-4">Border Width</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">border</td><td class="px-4 py-2">border-width: 1px;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">border-2</td><td class="px-4 py-2">border-width: 2px;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">border-4</td><td class="px-4 py-2">border-width: 4px;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">border-solid</td><td class="px-4 py-2">border-style: solid;</td></tr>
+                        <tr><td class="px-4 py-2 text-white">border-dashed</td><td class="px-4 py-2">border-style: dashed;</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Border radius -->
+            <h3 class="text-lg font-medium mb-4">Border Radius</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">rounded-none</td><td class="px-4 py-2">border-radius: 0;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">rounded</td><td class="px-4 py-2">border-radius: 0.25rem; (4px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">rounded-md</td><td class="px-4 py-2">border-radius: 0.375rem; (6px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">rounded-lg</td><td class="px-4 py-2">border-radius: 0.5rem; (8px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">rounded-xl</td><td class="px-4 py-2">border-radius: 0.75rem; (12px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">rounded-2xl</td><td class="px-4 py-2">border-radius: 1rem; (16px)</td></tr>
+                        <tr><td class="px-4 py-2 text-white">rounded-full</td><td class="px-4 py-2">border-radius: 9999px; (circle!)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Live Demo: Rounded corners -->
+            <h3 class="text-lg font-medium mb-3">Live Demo — Border Radius Progression</h3>
+            <div class="flex flex-wrap items-center gap-4 mb-8">
+                <div class="w-20 h-20 bg-borderSlate rounded-none flex items-center justify-center text-xs font-mono text-white">none</div>
+                <div class="w-20 h-20 bg-borderSlate rounded flex items-center justify-center text-xs font-mono text-white">rounded</div>
+                <div class="w-20 h-20 bg-borderSlate rounded-md flex items-center justify-center text-xs font-mono text-white">md</div>
+                <div class="w-20 h-20 bg-borderSlate rounded-lg flex items-center justify-center text-xs font-mono text-white">lg</div>
+                <div class="w-20 h-20 bg-borderSlate rounded-xl flex items-center justify-center text-xs font-mono text-white">xl</div>
+                <div class="w-20 h-20 bg-borderSlate rounded-2xl flex items-center justify-center text-xs font-mono text-white">2xl</div>
+                <div class="w-20 h-20 bg-borderSlate rounded-full flex items-center justify-center text-xs font-mono text-white">full</div>
+            </div>
+
+            <!-- Circle avatar demo -->
+            <h3 class="text-lg font-medium mb-3">Live Demo — Circle Avatar with rounded-full</h3>
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-16 h-16 rounded-full bg-slate-600 flex items-center justify-center text-xl font-bold text-white">A</div>
+                <div>
+                    <p class="text-white font-medium">Avatar Example</p>
+                    <p class="text-textMuted text-sm font-mono">w-16 h-16 rounded-full bg-slate-600</p>
+                </div>
+            </div>
+
+            <!-- Border styles demo -->
+            <h3 class="text-lg font-medium mt-8 mb-3">Live Demo — Border Styles</h3>
+            <div class="flex flex-wrap gap-4">
+                <div class="w-32 h-20 border-2 border-solid border-textMuted rounded-lg flex items-center justify-center text-xs font-mono text-white">border-solid</div>
+                <div class="w-32 h-20 border-2 border-dashed border-textMuted rounded-lg flex items-center justify-center text-xs font-mono text-white">border-dashed</div>
+                <div class="w-32 h-20 border-4 border-solid border-textMuted rounded-lg flex items-center justify-center text-xs font-mono text-white">border-4</div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             SECTION 6 — Typography
+             ═══════════════════════════════════════════════════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-xs font-mono text-darkBg bg-textMuted px-2 py-0.5 rounded">06</span>
+                <h2 class="text-2xl font-semibold tracking-tight">Typography</h2>
+            </div>
+
+            <!-- Font size -->
+            <h3 class="text-lg font-medium mb-4">Font Size Scale</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-xs</td><td class="px-4 py-2">font-size: 0.75rem; (12px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-sm</td><td class="px-4 py-2">font-size: 0.875rem; (14px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-base</td><td class="px-4 py-2">font-size: 1rem; (16px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-lg</td><td class="px-4 py-2">font-size: 1.125rem; (18px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-xl</td><td class="px-4 py-2">font-size: 1.25rem; (20px)</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-2xl</td><td class="px-4 py-2">font-size: 1.5rem; (24px)</td></tr>
+                        <tr><td class="px-4 py-2 text-white">text-3xl</td><td class="px-4 py-2">font-size: 1.875rem; (30px)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Font weight -->
+            <h3 class="text-lg font-medium mb-4">Font Weight</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">font-normal</td><td class="px-4 py-2">font-weight: 400;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">font-medium</td><td class="px-4 py-2">font-weight: 500;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">font-semibold</td><td class="px-4 py-2">font-weight: 600;</td></tr>
+                        <tr><td class="px-4 py-2 text-white">font-bold</td><td class="px-4 py-2">font-weight: 700;</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Other typography utilities -->
+            <h3 class="text-lg font-medium mb-4">Alignment, Spacing &amp; Transform</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-left</td><td class="px-4 py-2">text-align: left;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-center</td><td class="px-4 py-2">text-align: center;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-right</td><td class="px-4 py-2">text-align: right;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">tracking-tight</td><td class="px-4 py-2">letter-spacing: -0.025em;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">tracking-wide</td><td class="px-4 py-2">letter-spacing: 0.025em;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">uppercase</td><td class="px-4 py-2">text-transform: uppercase;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">lowercase</td><td class="px-4 py-2">text-transform: lowercase;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">capitalize</td><td class="px-4 py-2">text-transform: capitalize;</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">text-white</td><td class="px-4 py-2">color: #ffffff;</td></tr>
+                        <tr><td class="px-4 py-2 text-white">text-[#8e929f]</td><td class="px-4 py-2">color: #8e929f;</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Live Demo: Typography Scale -->
+            <h3 class="text-lg font-medium mb-3">Live Demo — Typography Scale</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-6 space-y-4 mb-8">
+                <p class="text-xs text-textMuted"><span class="text-white font-mono mr-2">text-xs</span> The quick brown fox jumps over the lazy dog.</p>
+                <p class="text-sm text-textMuted"><span class="text-white font-mono mr-2">text-sm</span> The quick brown fox jumps over the lazy dog.</p>
+                <p class="text-base text-textMuted"><span class="text-white font-mono mr-2">text-base</span> The quick brown fox jumps over the lazy dog.</p>
+                <p class="text-lg text-textMuted"><span class="text-white font-mono mr-2">text-lg</span> The quick brown fox jumps over the lazy dog.</p>
+                <p class="text-xl text-textMuted"><span class="text-white font-mono mr-2">text-xl</span> The quick brown fox jumps over the lazy dog.</p>
+                <p class="text-2xl text-textMuted"><span class="text-white font-mono mr-2">text-2xl</span> The quick brown fox jumps.</p>
+                <p class="text-3xl text-textMuted"><span class="text-white font-mono mr-2">text-3xl</span> The quick brown fox.</p>
+            </div>
+
+            <!-- Live Demo: Font Weight -->
+            <h3 class="text-lg font-medium mb-3">Live Demo — Font Weight</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-6 space-y-3 mb-8">
+                <p class="text-lg font-normal text-white"><span class="font-mono text-textMuted text-sm mr-3">font-normal</span> The quick brown fox</p>
+                <p class="text-lg font-medium text-white"><span class="font-mono text-textMuted text-sm mr-3">font-medium</span> The quick brown fox</p>
+                <p class="text-lg font-semibold text-white"><span class="font-mono text-textMuted text-sm mr-3">font-semibold</span> The quick brown fox</p>
+                <p class="text-lg font-bold text-white"><span class="font-mono text-textMuted text-sm mr-3">font-bold</span> The quick brown fox</p>
+            </div>
+
+            <!-- Live Demo: Text Transform & Letter Spacing -->
+            <h3 class="text-lg font-medium mb-3">Live Demo — Transform &amp; Letter Spacing</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-6 space-y-3">
+                <p class="text-sm uppercase tracking-wide text-white"><span class="font-mono text-textMuted mr-3">uppercase tracking-wide</span> section title</p>
+                <p class="text-sm lowercase text-white"><span class="font-mono text-textMuted mr-3">lowercase</span> ALL CAPS INPUT</p>
+                <p class="text-sm capitalize text-white"><span class="font-mono text-textMuted mr-3">capitalize</span> each word is capitalized</p>
+                <p class="text-sm tracking-tight text-white"><span class="font-mono text-textMuted mr-3">tracking-tight</span> Tightly spaced headline text</p>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             SECTION 7 — Display & Visibility
+             ═══════════════════════════════════════════════════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-xs font-mono text-darkBg bg-textMuted px-2 py-0.5 rounded">07</span>
+                <h2 class="text-2xl font-semibold tracking-tight">Display &amp; Visibility</h2>
+            </div>
+
+            <div class="text-textMuted mb-8">
+                <p>
+                    In raw CSS you set <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">display: flex;</code>.
+                    In Tailwind you just write the class <code class="font-mono text-white bg-cardBg px-1.5 py-0.5 rounded text-sm">flex</code>.
+                    Same property, shorter syntax.
+                </p>
+            </div>
+
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-sm font-mono">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-textMuted text-left">
+                            <th class="px-4 py-3">Tailwind</th>
+                            <th class="px-4 py-3">CSS Equivalent</th>
+                            <th class="px-4 py-3">Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-textMuted">
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">block</td><td class="px-4 py-2">display: block;</td><td class="px-4 py-2">Default for divs</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">inline-block</td><td class="px-4 py-2">display: inline-block;</td><td class="px-4 py-2">Inline with width/height</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">inline</td><td class="px-4 py-2">display: inline;</td><td class="px-4 py-2">Default for spans</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">flex</td><td class="px-4 py-2">display: flex;</td><td class="px-4 py-2">Flex container</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">grid</td><td class="px-4 py-2">display: grid;</td><td class="px-4 py-2">Grid container</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">hidden</td><td class="px-4 py-2">display: none;</td><td class="px-4 py-2">Hide element completely</td></tr>
+                        <tr class="border-b border-borderSlate/50"><td class="px-4 py-2 text-white">overflow-hidden</td><td class="px-4 py-2">overflow: hidden;</td><td class="px-4 py-2">Clip overflowing content</td></tr>
+                        <tr><td class="px-4 py-2 text-white">overflow-auto</td><td class="px-4 py-2">overflow: auto;</td><td class="px-4 py-2">Scroll when needed</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Live Demo: Display types -->
+            <h3 class="text-lg font-medium mb-3">Live Demo — block vs inline-block vs hidden</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-6 space-y-6">
+                <!-- Block elements -->
+                <div>
+                    <p class="text-xs font-mono text-textMuted mb-2">block — each takes full width, stacking vertically:</p>
+                    <div class="space-y-2">
+                        <div class="block bg-borderSlate rounded p-2 text-xs font-mono text-white">block A</div>
+                        <div class="block bg-borderSlate rounded p-2 text-xs font-mono text-white">block B</div>
+                    </div>
+                </div>
+                <!-- Inline-block elements -->
+                <div>
+                    <p class="text-xs font-mono text-textMuted mb-2">inline-block — sit side by side:</p>
+                    <div>
+                        <div class="inline-block bg-borderSlate rounded p-2 text-xs font-mono text-white mr-2">inline-block A</div>
+                        <div class="inline-block bg-borderSlate rounded p-2 text-xs font-mono text-white">inline-block B</div>
+                    </div>
+                </div>
+                <!-- Hidden element -->
+                <div>
+                    <p class="text-xs font-mono text-textMuted mb-2">hidden — element exists in code but is invisible:</p>
+                    <div class="hidden bg-borderSlate rounded p-2 text-xs font-mono text-white">You cannot see me!</div>
+                    <p class="text-xs text-textMuted italic">(There's a div above this line with class="hidden" — you can't see it!)</p>
+                </div>
+                <!-- Overflow demo -->
+                <div>
+                    <p class="text-xs font-mono text-textMuted mb-2">overflow-auto — scrollable container:</p>
+                    <div class="w-full h-20 overflow-auto bg-borderSlate rounded p-3">
+                        <p class="text-xs font-mono text-white whitespace-nowrap">This is a very long line of text that is deliberately wider than the container so you can see horizontal scrolling in action with the overflow-auto utility class applied to the parent div. Keep scrolling right to see the end of this line.</p>
+                        <p class="text-xs font-mono text-textMuted mt-2">Line 2 of content.</p>
+                        <p class="text-xs font-mono text-textMuted mt-2">Line 3 of content.</p>
+                        <p class="text-xs font-mono text-textMuted mt-2">Line 4 of content.</p>
+                        <p class="text-xs font-mono text-textMuted mt-2">Line 5 of content.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             SECTION 8 — Your First Tailwind Component
+             ═══════════════════════════════════════════════════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-xs font-mono text-darkBg bg-textMuted px-2 py-0.5 rounded">08</span>
+                <h2 class="text-2xl font-semibold tracking-tight">Your First Tailwind Component</h2>
+            </div>
+
+            <p class="text-textMuted mb-8">
+                Let's combine everything from this tutorial to build a complete
+                <span class="text-white">profile card</span> using only Tailwind utility classes.
+                No custom CSS required.
+            </p>
+
+            <!-- Live rendered profile card -->
+            <h3 class="text-lg font-medium mb-4">Live Result</h3>
+            <div class="flex justify-center mb-8">
+                <!-- ===== THE CARD ===== -->
+                <div class="w-full max-w-sm bg-cardBg border border-borderSlate rounded-2xl overflow-hidden">
+                    <!-- Cover / top strip -->
+                    <div class="h-24 bg-gradient-to-r from-slate-800 to-slate-700"></div>
+                    <!-- Avatar + info -->
+                    <div class="px-6 pb-6">
+                        <!-- Avatar pulled up -->
+                        <div class="-mt-10 mb-4">
+                            <div class="w-20 h-20 rounded-full bg-slate-600 border-4 border-cardBg flex items-center justify-center text-2xl font-bold text-white">
+                                JD
+                            </div>
+                        </div>
+                        <!-- Name & title -->
+                        <h3 class="text-xl font-semibold text-white tracking-tight">Jane Doe</h3>
+                        <p class="text-sm text-textMuted mt-0.5">Frontend Engineer · London</p>
+                        <!-- Bio -->
+                        <p class="text-sm text-textMuted mt-4 leading-relaxed">
+                            Building beautiful interfaces with Tailwind CSS and React.
+                            Previously at Vercel and Stripe.
+                        </p>
+                        <!-- Stats row -->
+                        <div class="flex gap-6 mt-5 pt-5 border-t border-borderSlate">
+                            <div>
+                                <p class="text-white font-semibold text-lg">128</p>
+                                <p class="text-textMuted text-xs uppercase tracking-wide">Projects</p>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold text-lg">4.2k</p>
+                                <p class="text-textMuted text-xs uppercase tracking-wide">Followers</p>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold text-lg">312</p>
+                                <p class="text-textMuted text-xs uppercase tracking-wide">Following</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ===== END CARD ===== -->
+            </div>
+
+            <!-- Annotated code -->
+            <h3 class="text-lg font-medium mb-4">The Code — Every Class Explained</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <div class="px-4 py-2 border-b border-borderSlate">
+                    <span class="text-xs font-mono text-textMuted">HTML</span>
+                </div>
+                <pre class="p-4 text-sm font-mono text-textMuted overflow-x-auto leading-relaxed"><code><span class="text-textMuted">/* ── Card wrapper ── */</span>
+&lt;div class="<span class="text-white">w-full</span>            <span class="text-textMuted">/* width: 100% */</span>
+            <span class="text-white">max-w-sm</span>         <span class="text-textMuted">/* max-width: 24rem (384px) */</span>
+            <span class="text-white">bg-cardBg</span>        <span class="text-textMuted">/* background: #121319 */</span>
+            <span class="text-white">border</span>           <span class="text-textMuted">/* border-width: 1px */</span>
+            <span class="text-white">border-borderSlate</span> <span class="text-textMuted">/* border-color: #1f222e */</span>
+            <span class="text-white">rounded-2xl</span>      <span class="text-textMuted">/* border-radius: 1rem */</span>
+            <span class="text-white">overflow-hidden</span>  <span class="text-textMuted">/* overflow: hidden */</span>"&gt;
+
+  <span class="text-textMuted">/* ── Cover strip ── */</span>
+  &lt;div class="<span class="text-white">h-24</span>             <span class="text-textMuted">/* height: 6rem (96px) */</span>
+              <span class="text-white">bg-gradient-to-r</span> <span class="text-textMuted">/* gradient direction: right */</span>
+              <span class="text-white">from-slate-800</span>   <span class="text-textMuted">/* gradient start color */</span>
+              <span class="text-white">to-slate-700</span>"&gt;   <span class="text-textMuted">/* gradient end color */</span>
+  &lt;/div&gt;
+
+  <span class="text-textMuted">/* ── Content area ── */</span>
+  &lt;div class="<span class="text-white">px-6 pb-6</span>"&gt;     <span class="text-textMuted">/* padding x:24px, bottom:24px */</span>
+
+    <span class="text-textMuted">/* ── Avatar ── */</span>
+    &lt;div class="<span class="text-white">-mt-10 mb-4</span>"&gt;   <span class="text-textMuted">/* negative top margin pulls up */</span>
+      &lt;div class="<span class="text-white">w-20 h-20</span>      <span class="text-textMuted">/* 80px × 80px */</span>
+                  <span class="text-white">rounded-full</span>   <span class="text-textMuted">/* perfect circle */</span>
+                  <span class="text-white">bg-slate-600</span>   <span class="text-textMuted">/* background color */</span>
+                  <span class="text-white">border-4</span>       <span class="text-textMuted">/* 4px border */</span>
+                  <span class="text-white">border-cardBg</span>  <span class="text-textMuted">/* border matches card bg */</span>
+                  <span class="text-white">flex items-center justify-center</span>
+                  <span class="text-white">text-2xl font-bold text-white</span>"&gt;
+        JD
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    <span class="text-textMuted">/* ── Name ── */</span>
+    &lt;h3 class="<span class="text-white">text-xl font-semibold text-white tracking-tight</span>"&gt;
+      Jane Doe
+    &lt;/h3&gt;
+
+    <span class="text-textMuted">/* ── Subtitle ── */</span>
+    &lt;p class="<span class="text-white">text-sm text-textMuted mt-0.5</span>"&gt;
+      Frontend Engineer · London
+    &lt;/p&gt;
+
+    <span class="text-textMuted">/* ── Bio ── */</span>
+    &lt;p class="<span class="text-white">text-sm text-textMuted mt-4 leading-relaxed</span>"&gt;
+      Building beautiful interfaces...
+    &lt;/p&gt;
+
+    <span class="text-textMuted">/* ── Stats row ── */</span>
+    &lt;div class="<span class="text-white">flex gap-6</span>        <span class="text-textMuted">/* flexbox with 24px gaps */</span>
+                <span class="text-white">mt-5 pt-5</span>       <span class="text-textMuted">/* spacing above + inside */</span>
+                <span class="text-white">border-t</span>        <span class="text-textMuted">/* top border only */</span>
+                <span class="text-white">border-borderSlate</span>"&gt;
+      &lt;div&gt;
+        &lt;p class="<span class="text-white">text-white font-semibold text-lg</span>"&gt;128&lt;/p&gt;
+        &lt;p class="<span class="text-white">text-textMuted text-xs uppercase tracking-wide</span>"&gt;Projects&lt;/p&gt;
+      &lt;/div&gt;
+      <span class="text-textMuted">/* ...repeat for Followers, Following */</span>
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+
+            <!-- Raw CSS comparison -->
+            <h3 class="text-lg font-medium mb-4">The Same Card in Raw CSS — What You Already Know</h3>
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden mb-8">
+                <div class="px-4 py-2 border-b border-borderSlate">
+                    <span class="text-xs font-mono text-textMuted">CSS — The "old" way</span>
+                </div>
+                <pre class="p-4 text-sm font-mono text-textMuted overflow-x-auto leading-relaxed"><code><span class="text-white">.card</span> {
+  width: 100%;
+  max-width: 384px;
+  background-color: #121319;
+  border: 1px solid #1f222e;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+<span class="text-white">.card-cover</span> {
+  height: 96px;
+  background: linear-gradient(to right, #1e293b, #334155);
+}
+
+<span class="text-white">.card-body</span> {
+  padding: 0 24px 24px;
+}
+
+<span class="text-white">.card-avatar</span> {
+  width: 80px;
+  height: 80px;
+  border-radius: 9999px;
+  background-color: #475569;
+  border: 4px solid #121319;
+  margin-top: -40px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+<span class="text-white">.card-name</span> {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.025em;
+}
+
+<span class="text-white">.card-subtitle</span> {
+  font-size: 0.875rem;
+  color: #8e929f;
+  margin-top: 2px;
+}
+
+<span class="text-white">.card-bio</span> {
+  font-size: 0.875rem;
+  color: #8e929f;
+  margin-top: 16px;
+  line-height: 1.625;
+}
+
+<span class="text-white">.card-stats</span> {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #1f222e;
+}
+
+<span class="text-textMuted">/* ...and more classes for stat numbers, labels, etc. */</span></code></pre>
+            </div>
+
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-6">
+                <h4 class="text-white font-medium mb-3">Key Takeaway</h4>
+                <p class="text-textMuted text-sm leading-relaxed">
+                    The Tailwind version and the raw CSS version produce the
+                    <span class="text-white">exact same result</span>. The difference is
+                    <span class="text-white">where</span> you write the styles. With Tailwind,
+                    everything lives in the HTML — no switching between files, no inventing class
+                    names, no cascade surprises. You already know the CSS; Tailwind just gives you
+                    a faster way to apply it.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             QUICK REFERENCE — Cheat Sheet
+             ═══════════════════════════════════════════════════════════ -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-xs font-mono text-darkBg bg-textMuted px-2 py-0.5 rounded">★</span>
+                <h2 class="text-2xl font-semibold tracking-tight">Quick Reference Cheat Sheet</h2>
+            </div>
+
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm font-mono">
+                    <div>
+                        <p class="text-textMuted mb-1">Spacing</p>
+                        <p class="text-white">p-{n} m-{n} gap-{n}</p>
+                    </div>
+                    <div>
+                        <p class="text-textMuted mb-1">Sizing</p>
+                        <p class="text-white">w-{n} h-{n} max-w-{size}</p>
+                    </div>
+                    <div>
+                        <p class="text-textMuted mb-1">Colors</p>
+                        <p class="text-white">bg-{color}-{shade} text-{color}-{shade}</p>
+                    </div>
+                    <div>
+                        <p class="text-textMuted mb-1">Borders</p>
+                        <p class="text-white">border rounded-{size}</p>
+                    </div>
+                    <div>
+                        <p class="text-textMuted mb-1">Typography</p>
+                        <p class="text-white">text-{size} font-{weight}</p>
+                    </div>
+                    <div>
+                        <p class="text-textMuted mb-1">Display</p>
+                        <p class="text-white">flex grid block hidden</p>
+                    </div>
+                    <div>
+                        <p class="text-textMuted mb-1">Arbitrary Values</p>
+                        <p class="text-white">w-[380px] bg-[#121319]</p>
+                    </div>
+                    <div>
+                        <p class="text-textMuted mb-1">Opacity</p>
+                        <p class="text-white">bg-black/50 text-white/80</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         FOOTER
+         ═══════════════════════════════════════════════════════════════ -->
+    <footer class="border-t border-borderSlate mt-12">
+        <div class="max-w-4xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p class="text-textMuted text-sm">Tutorial 01 — Tailwind Foundations</p>
+            <p class="text-textMuted text-sm">Next up: <span class="text-white">02 — Flexbox &amp; Layout →</span></p>
+        </div>
+    </footer>
+
+</body>
+</html>

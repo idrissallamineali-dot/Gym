@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Fundamentals — Exercises</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+        .container { max-width: 820px; margin: 0 auto; }
+
+        h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; }
+        .subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+        h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+        h2 .num { color: #58a6ff; }
+        p { margin-bottom: 18px; color: #b0bac9; }
+        strong { color: #e2e8f0; }
+        code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+        pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 12px 0 20px 0; overflow-x: auto; }
+        pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+        .kw { color: #ff7b72; } .str { color: #a5d6ff; } .fn { color: #d2a8ff; } .cm { color: #5e6e8a; font-style: italic; } .num-lit { color: #79c0ff; } .bool { color: #ff7b72; }
+        hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+        ul, ol { margin: 12px 0 20px 24px; color: #b0bac9; }
+        li { margin-bottom: 8px; }
+
+        /* Exercise card */
+        .exercise {
+            background: #121319;
+            border: 1px solid #1f222e;
+            border-radius: 14px;
+            padding: 24px 28px;
+            margin: 20px 0;
+            position: relative;
+        }
+        .exercise-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .exercise-num {
+            background: #262936;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 8px;
+        }
+        .difficulty {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+        .diff-easy { background: #1f222e; color: #8e929f; border: 1px solid #2d313f; }
+        .diff-medium { background: #1f222e; color: #8e929f; border: 1px solid #2d313f; }
+        .diff-hard { background: #1f222e; color: #8e929f; border: 1px solid #2d313f; }
+
+        .exercise h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 10px;
+        }
+        .exercise p { font-size: 15px; color: #9aa5b4; margin-bottom: 12px; }
+
+        /* Solution toggle */
+        .solution-btn {
+            background: #1f222e;
+            border: 1px solid #2d313f;
+            color: #e1e3eb;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .solution-btn:hover { background: #262936; border-color: #3e4255; }
+        .solution {
+            display: none;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed #1f222e;
+        }
+        .solution.show { display: block; }
+        .solution-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        /* Progress tracker */
+        .progress-bar {
+            background: #121319;
+            border: 1px solid #1f222e;
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 48px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .progress-bar span { font-size: 14px; color: #8e929f; font-weight: 600; }
+        .bar-outer {
+            flex: 1;
+            height: 8px;
+            background: #1f222e;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .bar-inner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #8e929f, #ffffff);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .progress-count { font-size: 14px; color: #ffffff; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>💪 JS Fundamentals — Exercises</h1>
+        <p class="subtitle">30 exercises covering everything from Lesson 01 to 07. Try to solve each one before revealing the solution. Write your answers in the browser console or a <code>.js</code> file.</p>
+
+        <div class="progress-bar">
+            <span>Progress</span>
+            <div class="bar-outer"><div class="bar-inner" id="progressBar"></div></div>
+            <span class="progress-count" id="progressCount">0 / 30</span>
+        </div>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">A.</span> Variables & Data Types</h2>
+        <!-- ============================================================ -->
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">01</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Type Checker</h3>
+            <p>Create a function <code>getType(value)</code> that returns the <strong>actual</strong> type of the value as a string. It must correctly handle <code>null</code> (return <code>"null"</code> not <code>"object"</code>) and arrays (return <code>"array"</code> not <code>"object"</code>).</p>
+            <pre><code><span class="fn">getType</span>(<span class="num-lit">42</span>);         <span class="cm">// "number"</span>
+<span class="fn">getType</span>(<span class="str">"hello"</span>);    <span class="cm">// "string"</span>
+<span class="fn">getType</span>(<span class="bool">null</span>);       <span class="cm">// "null"</span>
+<span class="fn">getType</span>([<span class="num-lit">1</span>,<span class="num-lit">2</span>]);      <span class="cm">// "array"</span>
+<span class="fn">getType</span>({a: <span class="num-lit">1</span>});    <span class="cm">// "object"</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">getType</span>(value) {
+    <span class="kw">if</span> (value === <span class="bool">null</span>) <span class="kw">return</span> <span class="str">"null"</span>;
+    <span class="kw">if</span> (<span class="fn">Array</span>.<span class="fn">isArray</span>(value)) <span class="kw">return</span> <span class="str">"array"</span>;
+    <span class="kw">return</span> <span class="kw">typeof</span> value;
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">02</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Swap Variables</h3>
+            <p>Given two variables <code>a</code> and <code>b</code>, swap their values <strong>without</strong> using a temporary variable. Use destructuring.</p>
+            <pre><code><span class="kw">let</span> a = <span class="str">"hello"</span>;
+<span class="kw">let</span> b = <span class="str">"world"</span>;
+<span class="cm">// After swap: a = "world", b = "hello"</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code>[a, b] = [b, a];</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">03</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Truthy Counter</h3>
+            <p>Create a function <code>countTruthy(arr)</code> that takes an array and returns how many elements are <strong>truthy</strong>.</p>
+            <pre><code><span class="fn">countTruthy</span>([<span class="num-lit">0</span>, <span class="str">"hello"</span>, <span class="str">""</span>, <span class="num-lit">1</span>, <span class="bool">null</span>, <span class="str">"hi"</span>, <span class="bool">false</span>]);  <span class="cm">// 3</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">countTruthy</span>(arr) {
+    <span class="kw">return</span> arr.<span class="fn">filter</span>(<span class="fn">Boolean</span>).length;
+}
+
+<span class="cm">// Or manually:</span>
+<span class="kw">function</span> <span class="fn">countTruthy</span>(arr) {
+    <span class="kw">return</span> arr.<span class="fn">filter</span>(item => !!item).length;
+}</code></pre>
+            </div>
+        </div>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">B.</span> Conditionals & Logic</h2>
+        <!-- ============================================================ -->
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">04</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>FizzBuzz</h3>
+            <p>Write a function <code>fizzBuzz(n)</code> that returns: <code>"Fizz"</code> if divisible by 3, <code>"Buzz"</code> if divisible by 5, <code>"FizzBuzz"</code> if divisible by both, or the number itself as a string otherwise.</p>
+            <pre><code><span class="fn">fizzBuzz</span>(<span class="num-lit">3</span>);   <span class="cm">// "Fizz"</span>
+<span class="fn">fizzBuzz</span>(<span class="num-lit">5</span>);   <span class="cm">// "Buzz"</span>
+<span class="fn">fizzBuzz</span>(<span class="num-lit">15</span>);  <span class="cm">// "FizzBuzz"</span>
+<span class="fn">fizzBuzz</span>(<span class="num-lit">7</span>);   <span class="cm">// "7"</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">fizzBuzz</span>(n) {
+    <span class="kw">if</span> (n % <span class="num-lit">3</span> === <span class="num-lit">0</span> && n % <span class="num-lit">5</span> === <span class="num-lit">0</span>) <span class="kw">return</span> <span class="str">"FizzBuzz"</span>;
+    <span class="kw">if</span> (n % <span class="num-lit">3</span> === <span class="num-lit">0</span>) <span class="kw">return</span> <span class="str">"Fizz"</span>;
+    <span class="kw">if</span> (n % <span class="num-lit">5</span> === <span class="num-lit">0</span>) <span class="kw">return</span> <span class="str">"Buzz"</span>;
+    <span class="kw">return</span> <span class="fn">String</span>(n);
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">05</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Grade Calculator</h3>
+            <p>Write a function <code>getGrade(score)</code> that returns a letter grade. Use guard clauses.</p>
+            <pre><code><span class="cm">// 90-100 → "A", 80-89 → "B", 70-79 → "C", 60-69 → "D", below 60 → "F"</span>
+<span class="fn">getGrade</span>(<span class="num-lit">95</span>);  <span class="cm">// "A"</span>
+<span class="fn">getGrade</span>(<span class="num-lit">73</span>);  <span class="cm">// "C"</span>
+<span class="fn">getGrade</span>(<span class="num-lit">42</span>);  <span class="cm">// "F"</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">getGrade</span>(score) {
+    <span class="kw">if</span> (score >= <span class="num-lit">90</span>) <span class="kw">return</span> <span class="str">"A"</span>;
+    <span class="kw">if</span> (score >= <span class="num-lit">80</span>) <span class="kw">return</span> <span class="str">"B"</span>;
+    <span class="kw">if</span> (score >= <span class="num-lit">70</span>) <span class="kw">return</span> <span class="str">"C"</span>;
+    <span class="kw">if</span> (score >= <span class="num-lit">60</span>) <span class="kw">return</span> <span class="str">"D"</span>;
+    <span class="kw">return</span> <span class="str">"F"</span>;
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">06</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Safe Property Access</h3>
+            <p>Write a function <code>getNestedValue(obj, path)</code> that safely accesses a deeply nested property. The <code>path</code> is a string like <code>"a.b.c"</code>. Return <code>undefined</code> if any part is missing.</p>
+            <pre><code><span class="kw">const</span> data = { user: { address: { city: <span class="str">"Paris"</span> } } };
+<span class="fn">getNestedValue</span>(data, <span class="str">"user.address.city"</span>);     <span class="cm">// "Paris"</span>
+<span class="fn">getNestedValue</span>(data, <span class="str">"user.phone.number"</span>);     <span class="cm">// undefined</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">getNestedValue</span>(obj, path) {
+    <span class="kw">return</span> path.<span class="fn">split</span>(<span class="str">"."</span>).<span class="fn">reduce</span>((acc, key) => acc?.[key], obj);
+}</code></pre>
+            </div>
+        </div>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">C.</span> Loops</h2>
+        <!-- ============================================================ -->
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">07</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Sum of Multiples</h3>
+            <p>Write a function <code>sumMultiples(n)</code> that returns the sum of all multiples of 3 or 5 below <code>n</code>.</p>
+            <pre><code><span class="fn">sumMultiples</span>(<span class="num-lit">10</span>);  <span class="cm">// 23 (3 + 5 + 6 + 9)</span>
+<span class="fn">sumMultiples</span>(<span class="num-lit">20</span>);  <span class="cm">// 78</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">sumMultiples</span>(n) {
+    <span class="kw">let</span> sum = <span class="num-lit">0</span>;
+    <span class="kw">for</span> (<span class="kw">let</span> i = <span class="num-lit">1</span>; i < n; i++) {
+        <span class="kw">if</span> (i % <span class="num-lit">3</span> === <span class="num-lit">0</span> || i % <span class="num-lit">5</span> === <span class="num-lit">0</span>) {
+            sum += i;
+        }
+    }
+    <span class="kw">return</span> sum;
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">08</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Reverse a String</h3>
+            <p>Write a function <code>reverseString(str)</code> that reverses a string using a loop. Do NOT use <code>.reverse()</code>.</p>
+            <pre><code><span class="fn">reverseString</span>(<span class="str">"hello"</span>);    <span class="cm">// "olleh"</span>
+<span class="fn">reverseString</span>(<span class="str">"JavaScript"</span>); <span class="cm">// "tpircSavaJ"</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">reverseString</span>(str) {
+    <span class="kw">let</span> result = <span class="str">""</span>;
+    <span class="kw">for</span> (<span class="kw">let</span> i = str.length - <span class="num-lit">1</span>; i >= <span class="num-lit">0</span>; i--) {
+        result += str[i];
+    }
+    <span class="kw">return</span> result;
+}
+
+<span class="cm">// One-liner using array methods:</span>
+<span class="kw">const</span> <span class="fn">reverseString</span> = str => [...str].<span class="fn">reverse</span>().<span class="fn">join</span>(<span class="str">""</span>);</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">09</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Find Duplicates</h3>
+            <p>Write a function <code>findDuplicates(arr)</code> that returns an array of values that appear more than once.</p>
+            <pre><code><span class="fn">findDuplicates</span>([<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">2</span>, <span class="num-lit">4</span>, <span class="num-lit">3</span>, <span class="num-lit">5</span>]);  <span class="cm">// [2, 3]</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">findDuplicates</span>(arr) {
+    <span class="kw">const</span> seen = [];
+    <span class="kw">const</span> duplicates = [];
+
+    <span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> arr) {
+        <span class="kw">if</span> (seen.<span class="fn">includes</span>(item) && !duplicates.<span class="fn">includes</span>(item)) {
+            duplicates.<span class="fn">push</span>(item);
+        }
+        seen.<span class="fn">push</span>(item);
+    }
+    <span class="kw">return</span> duplicates;
+}
+
+<span class="cm">// Advanced: using filter</span>
+<span class="kw">function</span> <span class="fn">findDuplicates</span>(arr) {
+    <span class="kw">return</span> arr.<span class="fn">filter</span>((item, i) => arr.<span class="fn">indexOf</span>(item) !== i
+        && arr.<span class="fn">indexOf</span>(item) === arr.<span class="fn">indexOf</span>(item, <span class="num-lit">0</span>)
+        && arr.<span class="fn">lastIndexOf</span>(item) !== i ? <span class="bool">false</span> : arr.<span class="fn">indexOf</span>(item) !== i);
+    <span class="cm">// Simpler: [...new Set(arr.filter((item, i) => arr.indexOf(item) !== i))]</span>
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">10</span>
+                <span class="difficulty diff-hard">Hard</span>
+            </div>
+            <h3>Flatten an Array (Without .flat())</h3>
+            <p>Write a function <code>flatten(arr)</code> that takes a nested array of any depth and returns a flat array. Do NOT use <code>.flat()</code>.</p>
+            <pre><code><span class="fn">flatten</span>([<span class="num-lit">1</span>, [<span class="num-lit">2</span>, [<span class="num-lit">3</span>, [<span class="num-lit">4</span>]], <span class="num-lit">5</span>]]);  <span class="cm">// [1, 2, 3, 4, 5]</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">flatten</span>(arr) {
+    <span class="kw">const</span> result = [];
+
+    <span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> arr) {
+        <span class="kw">if</span> (<span class="fn">Array</span>.<span class="fn">isArray</span>(item)) {
+            result.<span class="fn">push</span>(...<span class="fn">flatten</span>(item));  <span class="cm">// Recursion!</span>
+        } <span class="kw">else</span> {
+            result.<span class="fn">push</span>(item);
+        }
+    }
+    <span class="kw">return</span> result;
+}
+
+<span class="cm">// Or with reduce:</span>
+<span class="kw">const</span> <span class="fn">flatten</span> = arr =>
+    arr.<span class="fn">reduce</span>((acc, item) =>
+        acc.<span class="fn">concat</span>(<span class="fn">Array</span>.<span class="fn">isArray</span>(item) ? <span class="fn">flatten</span>(item) : item), []);</code></pre>
+            </div>
+        </div>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">D.</span> Functions & Closures</h2>
+        <!-- ============================================================ -->
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">11</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Arrow Function Practice</h3>
+            <p>Rewrite each function as the <strong>shortest possible</strong> arrow function:</p>
+            <pre><code><span class="kw">function</span> <span class="fn">double</span>(n) { <span class="kw">return</span> n * <span class="num-lit">2</span>; }
+<span class="kw">function</span> <span class="fn">isEven</span>(n) { <span class="kw">return</span> n % <span class="num-lit">2</span> === <span class="num-lit">0</span>; }
+<span class="kw">function</span> <span class="fn">greet</span>(name) { <span class="kw">return</span> <span class="str">`Hello, ${name}!`</span>; }
+<span class="kw">function</span> <span class="fn">getPI</span>() { <span class="kw">return</span> <span class="num-lit">3.14159</span>; }</code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">const</span> <span class="fn">double</span> = n => n * <span class="num-lit">2</span>;
+<span class="kw">const</span> <span class="fn">isEven</span> = n => n % <span class="num-lit">2</span> === <span class="num-lit">0</span>;
+<span class="kw">const</span> <span class="fn">greet</span> = name => <span class="str">`Hello, ${name}!`</span>;
+<span class="kw">const</span> <span class="fn">getPI</span> = () => <span class="num-lit">3.14159</span>;</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">12</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Build a Counter (Closure)</h3>
+            <p>Create a function <code>makeCounter(start)</code> that returns an object with three methods: <code>increment()</code>, <code>decrement()</code>, and <code>getValue()</code>. The count should be <strong>private</strong> — not accessible from outside.</p>
+            <pre><code><span class="kw">const</span> counter = <span class="fn">makeCounter</span>(<span class="num-lit">10</span>);
+counter.<span class="fn">increment</span>();
+counter.<span class="fn">increment</span>();
+counter.<span class="fn">getValue</span>();    <span class="cm">// 12</span>
+counter.<span class="fn">decrement</span>();
+counter.<span class="fn">getValue</span>();    <span class="cm">// 11</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">makeCounter</span>(start = <span class="num-lit">0</span>) {
+    <span class="kw">let</span> count = start;  <span class="cm">// Private — only accessible via closure</span>
+
+    <span class="kw">return</span> {
+        increment() { count++; },
+        decrement() { count--; },
+        getValue() { <span class="kw">return</span> count; }
+    };
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">13</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Once Function</h3>
+            <p>Create a higher-order function <code>once(fn)</code> that takes a function and returns a new function that can only be called <strong>once</strong>. Subsequent calls return the result of the first call.</p>
+            <pre><code><span class="kw">const</span> <span class="fn">initialize</span> = <span class="fn">once</span>(() => <span class="str">"Database connected!"</span>);
+<span class="fn">initialize</span>();  <span class="cm">// "Database connected!"</span>
+<span class="fn">initialize</span>();  <span class="cm">// "Database connected!" (cached, function not re-executed)</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">once</span>(fn) {
+    <span class="kw">let</span> called = <span class="bool">false</span>;
+    <span class="kw">let</span> result;
+
+    <span class="kw">return</span> <span class="kw">function</span>(...args) {
+        <span class="kw">if</span> (!called) {
+            called = <span class="bool">true</span>;
+            result = <span class="fn">fn</span>(...args);
+        }
+        <span class="kw">return</span> result;
+    };
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">14</span>
+                <span class="difficulty diff-hard">Hard</span>
+            </div>
+            <h3>Memoize</h3>
+            <p>Create a function <code>memoize(fn)</code> that caches results. If the function is called with the same argument again, return the cached result instead of re-computing.</p>
+            <pre><code><span class="kw">const</span> <span class="fn">slowSquare</span> = <span class="fn">memoize</span>(n => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Computing..."</span>);
+    <span class="kw">return</span> n * n;
+});
+<span class="fn">slowSquare</span>(<span class="num-lit">5</span>);  <span class="cm">// "Computing..." → 25</span>
+<span class="fn">slowSquare</span>(<span class="num-lit">5</span>);  <span class="cm">// 25 (no "Computing..." — cached!)</span>
+<span class="fn">slowSquare</span>(<span class="num-lit">3</span>);  <span class="cm">// "Computing..." → 9</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">memoize</span>(fn) {
+    <span class="kw">const</span> cache = {};
+
+    <span class="kw">return</span> <span class="kw">function</span>(arg) {
+        <span class="kw">if</span> (arg <span class="kw">in</span> cache) {
+            <span class="kw">return</span> cache[arg];
+        }
+        cache[arg] = <span class="fn">fn</span>(arg);
+        <span class="kw">return</span> cache[arg];
+    };
+}</code></pre>
+            </div>
+        </div>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">E.</span> Arrays</h2>
+        <!-- ============================================================ -->
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">15</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Double & Filter</h3>
+            <p>Given an array of numbers, return a new array with only the <strong>even numbers doubled</strong>. Use <code>filter</code> and <code>map</code>.</p>
+            <pre><code><span class="fn">doubleEvens</span>([<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">4</span>, <span class="num-lit">5</span>, <span class="num-lit">6</span>]);  <span class="cm">// [4, 8, 12]</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">const</span> <span class="fn">doubleEvens</span> = arr =>
+    arr.<span class="fn">filter</span>(n => n % <span class="num-lit">2</span> === <span class="num-lit">0</span>).<span class="fn">map</span>(n => n * <span class="num-lit">2</span>);</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">16</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Max Value (Without Math.max)</h3>
+            <p>Write a function <code>findMax(arr)</code> using <code>reduce()</code> to find the largest number in an array.</p>
+            <pre><code><span class="fn">findMax</span>([<span class="num-lit">3</span>, <span class="num-lit">7</span>, <span class="num-lit">2</span>, <span class="num-lit">9</span>, <span class="num-lit">1</span>]);  <span class="cm">// 9</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">const</span> <span class="fn">findMax</span> = arr =>
+    arr.<span class="fn">reduce</span>((max, n) => n > max ? n : max, -<span class="num-lit">Infinity</span>);</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">17</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Word Frequency</h3>
+            <p>Write a function <code>wordFrequency(str)</code> that takes a sentence and returns an object counting how many times each word appears. Convert to lowercase first.</p>
+            <pre><code><span class="fn">wordFrequency</span>(<span class="str">"the cat sat on the mat the cat"</span>);
+<span class="cm">// { the: 3, cat: 2, sat: 1, on: 1, mat: 1 }</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">wordFrequency</span>(str) {
+    <span class="kw">return</span> str.<span class="fn">toLowerCase</span>().<span class="fn">split</span>(<span class="str">" "</span>).<span class="fn">reduce</span>((acc, word) => {
+        acc[word] = (acc[word] || <span class="num-lit">0</span>) + <span class="num-lit">1</span>;
+        <span class="kw">return</span> acc;
+    }, {});
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">18</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Group By</h3>
+            <p>Write a function <code>groupBy(arr, key)</code> that groups an array of objects by a property.</p>
+            <pre><code><span class="kw">const</span> people = [
+    { name: <span class="str">"Alice"</span>, city: <span class="str">"Paris"</span> },
+    { name: <span class="str">"Bob"</span>, city: <span class="str">"London"</span> },
+    { name: <span class="str">"Charlie"</span>, city: <span class="str">"Paris"</span> },
+    { name: <span class="str">"Diana"</span>, city: <span class="str">"London"</span> }
+];
+
+<span class="fn">groupBy</span>(people, <span class="str">"city"</span>);
+<span class="cm">// { Paris: [{...}, {...}], London: [{...}, {...}] }</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">groupBy</span>(arr, key) {
+    <span class="kw">return</span> arr.<span class="fn">reduce</span>((groups, item) => {
+        <span class="kw">const</span> group = item[key];
+        <span class="kw">if</span> (!groups[group]) groups[group] = [];
+        groups[group].<span class="fn">push</span>(item);
+        <span class="kw">return</span> groups;
+    }, {});
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">19</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Chunk Array</h3>
+            <p>Write a function <code>chunk(arr, size)</code> that splits an array into groups of <code>size</code> length.</p>
+            <pre><code><span class="fn">chunk</span>([<span class="num-lit">1</span>,<span class="num-lit">2</span>,<span class="num-lit">3</span>,<span class="num-lit">4</span>,<span class="num-lit">5</span>], <span class="num-lit">2</span>);  <span class="cm">// [[1,2], [3,4], [5]]</span>
+<span class="fn">chunk</span>([<span class="num-lit">1</span>,<span class="num-lit">2</span>,<span class="num-lit">3</span>,<span class="num-lit">4</span>], <span class="num-lit">3</span>);    <span class="cm">// [[1,2,3], [4]]</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">chunk</span>(arr, size) {
+    <span class="kw">const</span> result = [];
+    <span class="kw">for</span> (<span class="kw">let</span> i = <span class="num-lit">0</span>; i < arr.length; i += size) {
+        result.<span class="fn">push</span>(arr.<span class="fn">slice</span>(i, i + size));
+    }
+    <span class="kw">return</span> result;
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">20</span>
+                <span class="difficulty diff-hard">Hard</span>
+            </div>
+            <h3>Intersection of Arrays</h3>
+            <p>Write a function <code>intersection(...arrays)</code> that takes any number of arrays and returns an array of values that appear in <strong>all</strong> of them.</p>
+            <pre><code><span class="fn">intersection</span>([<span class="num-lit">1</span>,<span class="num-lit">2</span>,<span class="num-lit">3</span>], [<span class="num-lit">2</span>,<span class="num-lit">3</span>,<span class="num-lit">4</span>], [<span class="num-lit">3</span>,<span class="num-lit">4</span>,<span class="num-lit">5</span>]);  <span class="cm">// [3]</span>
+<span class="fn">intersection</span>([<span class="num-lit">1</span>,<span class="num-lit">2</span>], [<span class="num-lit">2</span>,<span class="num-lit">3</span>]);               <span class="cm">// [2]</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">intersection</span>(...arrays) {
+    <span class="kw">return</span> arrays.<span class="fn">reduce</span>((acc, arr) =>
+        acc.<span class="fn">filter</span>(item => arr.<span class="fn">includes</span>(item))
+    );
+}</code></pre>
+            </div>
+        </div>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">F.</span> Objects</h2>
+        <!-- ============================================================ -->
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">21</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Object to Query String</h3>
+            <p>Write a function <code>toQueryString(obj)</code> that converts an object into a URL query string.</p>
+            <pre><code><span class="fn">toQueryString</span>({ name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span>, city: <span class="str">"Paris"</span> });
+<span class="cm">// "name=Idris&age=25&city=Paris"</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">const</span> <span class="fn">toQueryString</span> = obj =>
+    <span class="fn">Object</span>.<span class="fn">entries</span>(obj)
+        .<span class="fn">map</span>(([key, val]) => <span class="str">`${key}=${val}`</span>)
+        .<span class="fn">join</span>(<span class="str">"&"</span>);</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">22</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Pick Properties</h3>
+            <p>Write a function <code>pick(obj, keys)</code> that creates a new object with only the specified keys.</p>
+            <pre><code><span class="kw">const</span> user = { name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span>, email: <span class="str">"a@b.com"</span>, role: <span class="str">"dev"</span> };
+<span class="fn">pick</span>(user, [<span class="str">"name"</span>, <span class="str">"email"</span>]);
+<span class="cm">// { name: "Idris", email: "a@b.com" }</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">pick</span>(obj, keys) {
+    <span class="kw">return</span> keys.<span class="fn">reduce</span>((result, key) => {
+        <span class="kw">if</span> (key <span class="kw">in</span> obj) result[key] = obj[key];
+        <span class="kw">return</span> result;
+    }, {});
+}
+
+<span class="cm">// Or with Object.fromEntries:</span>
+<span class="kw">const</span> <span class="fn">pick</span> = (obj, keys) =>
+    <span class="fn">Object</span>.<span class="fn">fromEntries</span>(keys.<span class="fn">filter</span>(k => k <span class="kw">in</span> obj).<span class="fn">map</span>(k => [k, obj[k]]));</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">23</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Invert an Object</h3>
+            <p>Write a function <code>invert(obj)</code> that swaps keys and values.</p>
+            <pre><code><span class="fn">invert</span>({ a: <span class="num-lit">1</span>, b: <span class="num-lit">2</span>, c: <span class="num-lit">3</span> });
+<span class="cm">// { "1": "a", "2": "b", "3": "c" }</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">const</span> <span class="fn">invert</span> = obj =>
+    <span class="fn">Object</span>.<span class="fn">fromEntries</span>(
+        <span class="fn">Object</span>.<span class="fn">entries</span>(obj).<span class="fn">map</span>(([k, v]) => [v, k])
+    );</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">24</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Deep Merge</h3>
+            <p>Write a function <code>deepMerge(target, source)</code> that merges two objects recursively. Nested objects should be merged, not overwritten.</p>
+            <pre><code><span class="kw">const</span> a = { name: <span class="str">"Idris"</span>, settings: { theme: <span class="str">"dark"</span>, lang: <span class="str">"en"</span> } };
+<span class="kw">const</span> b = { age: <span class="num-lit">25</span>, settings: { lang: <span class="str">"fr"</span>, font: <span class="str">"Inter"</span> } };
+
+<span class="fn">deepMerge</span>(a, b);
+<span class="cm">// { name: "Idris", age: 25, settings: { theme: "dark", lang: "fr", font: "Inter" } }</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">deepMerge</span>(target, source) {
+    <span class="kw">const</span> result = { ...target };
+
+    <span class="kw">for</span> (<span class="kw">const</span> key <span class="kw">of</span> <span class="fn">Object</span>.<span class="fn">keys</span>(source)) {
+        <span class="kw">if</span> (
+            source[key] && <span class="kw">typeof</span> source[key] === <span class="str">"object"</span>
+            && !<span class="fn">Array</span>.<span class="fn">isArray</span>(source[key])
+            && target[key] && <span class="kw">typeof</span> target[key] === <span class="str">"object"</span>
+        ) {
+            result[key] = <span class="fn">deepMerge</span>(target[key], source[key]);
+        } <span class="kw">else</span> {
+            result[key] = source[key];
+        }
+    }
+    <span class="kw">return</span> result;
+}</code></pre>
+            </div>
+        </div>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">G.</span> Mixed Challenges (Codewars Style)</h2>
+        <!-- ============================================================ -->
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">25</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Capitalize Words</h3>
+            <p>Write a function <code>capitalize(str)</code> that capitalizes the first letter of every word.</p>
+            <pre><code><span class="fn">capitalize</span>(<span class="str">"hello world from javascript"</span>);
+<span class="cm">// "Hello World From Javascript"</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">const</span> <span class="fn">capitalize</span> = str =>
+    str.<span class="fn">split</span>(<span class="str">" "</span>)
+       .<span class="fn">map</span>(word => word[<span class="num-lit">0</span>].<span class="fn">toUpperCase</span>() + word.<span class="fn">slice</span>(<span class="num-lit">1</span>))
+       .<span class="fn">join</span>(<span class="str">" "</span>);</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">26</span>
+                <span class="difficulty diff-easy">Easy</span>
+            </div>
+            <h3>Is Palindrome?</h3>
+            <p>Write a function <code>isPalindrome(str)</code> that checks if a string reads the same forwards and backwards. Ignore case and spaces.</p>
+            <pre><code><span class="fn">isPalindrome</span>(<span class="str">"racecar"</span>);       <span class="cm">// true</span>
+<span class="fn">isPalindrome</span>(<span class="str">"Race Car"</span>);      <span class="cm">// true</span>
+<span class="fn">isPalindrome</span>(<span class="str">"hello"</span>);         <span class="cm">// false</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">isPalindrome</span>(str) {
+    <span class="kw">const</span> clean = str.<span class="fn">toLowerCase</span>().<span class="fn">replace</span>(<span class="str">/\s/g</span>, <span class="str">""</span>);
+    <span class="kw">return</span> clean === [...clean].<span class="fn">reverse</span>().<span class="fn">join</span>(<span class="str">""</span>);
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">27</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Unique Characters</h3>
+            <p>Write a function <code>uniqueChars(str)</code> that returns a string with all duplicate characters removed, preserving order.</p>
+            <pre><code><span class="fn">uniqueChars</span>(<span class="str">"aabbccdd"</span>);        <span class="cm">// "abcd"</span>
+<span class="fn">uniqueChars</span>(<span class="str">"hello world"</span>);     <span class="cm">// "helo wrd"</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">const</span> <span class="fn">uniqueChars</span> = str => [...<span class="kw">new</span> <span class="fn">Set</span>(str)].<span class="fn">join</span>(<span class="str">""</span>);</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">28</span>
+                <span class="difficulty diff-medium">Medium</span>
+            </div>
+            <h3>Range Generator</h3>
+            <p>Write a function <code>range(start, end, step)</code> that returns an array of numbers from <code>start</code> to <code>end</code> (inclusive) with a given step. Default step is 1.</p>
+            <pre><code><span class="fn">range</span>(<span class="num-lit">1</span>, <span class="num-lit">5</span>);       <span class="cm">// [1, 2, 3, 4, 5]</span>
+<span class="fn">range</span>(<span class="num-lit">0</span>, <span class="num-lit">20</span>, <span class="num-lit">5</span>);   <span class="cm">// [0, 5, 10, 15, 20]</span>
+<span class="fn">range</span>(<span class="num-lit">5</span>, <span class="num-lit">1</span>, -<span class="num-lit">1</span>);   <span class="cm">// [5, 4, 3, 2, 1]</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">range</span>(start, end, step = <span class="num-lit">1</span>) {
+    <span class="kw">const</span> result = [];
+
+    <span class="kw">if</span> (step > <span class="num-lit">0</span>) {
+        <span class="kw">for</span> (<span class="kw">let</span> i = start; i <= end; i += step) result.<span class="fn">push</span>(i);
+    } <span class="kw">else</span> {
+        <span class="kw">for</span> (<span class="kw">let</span> i = start; i >= end; i += step) result.<span class="fn">push</span>(i);
+    }
+    <span class="kw">return</span> result;
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">29</span>
+                <span class="difficulty diff-hard">Hard</span>
+            </div>
+            <h3>Compose Functions</h3>
+            <p>Write a function <code>compose(...fns)</code> that takes multiple functions and returns a new function that applies them right to left.</p>
+            <pre><code><span class="kw">const</span> <span class="fn">add1</span> = x => x + <span class="num-lit">1</span>;
+<span class="kw">const</span> <span class="fn">double</span> = x => x * <span class="num-lit">2</span>;
+<span class="kw">const</span> <span class="fn">square</span> = x => x * x;
+
+<span class="kw">const</span> <span class="fn">transform</span> = <span class="fn">compose</span>(square, double, add1);
+<span class="fn">transform</span>(<span class="num-lit">3</span>);  <span class="cm">// 64 → add1(3)=4, double(4)=8, square(8)=64</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">const</span> <span class="fn">compose</span> = (...fns) =>
+    (value) => fns.<span class="fn">reduceRight</span>((acc, fn) => <span class="fn">fn</span>(acc), value);</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-num">30</span>
+                <span class="difficulty diff-hard">Hard</span>
+            </div>
+            <h3>Deep Equal</h3>
+            <p>Write a function <code>deepEqual(a, b)</code> that checks whether two values are deeply equal — handling primitives, arrays, and nested objects.</p>
+            <pre><code><span class="fn">deepEqual</span>(<span class="num-lit">1</span>, <span class="num-lit">1</span>);                              <span class="cm">// true</span>
+<span class="fn">deepEqual</span>([<span class="num-lit">1</span>, <span class="num-lit">2</span>], [<span class="num-lit">1</span>, <span class="num-lit">2</span>]);                    <span class="cm">// true</span>
+<span class="fn">deepEqual</span>({a: {b: <span class="num-lit">1</span>}}, {a: {b: <span class="num-lit">1</span>}});          <span class="cm">// true</span>
+<span class="fn">deepEqual</span>({a: {b: <span class="num-lit">1</span>}}, {a: {b: <span class="num-lit">2</span>}});          <span class="cm">// false</span>
+<span class="fn">deepEqual</span>([<span class="num-lit">1</span>, [<span class="num-lit">2</span>, <span class="num-lit">3</span>]], [<span class="num-lit">1</span>, [<span class="num-lit">2</span>, <span class="num-lit">3</span>]]);      <span class="cm">// true</span></code></pre>
+            <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+            <div class="solution">
+                <p class="solution-label">Solution</p>
+                <pre><code><span class="kw">function</span> <span class="fn">deepEqual</span>(a, b) {
+    <span class="cm">// Same reference or same primitive value</span>
+    <span class="kw">if</span> (a === b) <span class="kw">return</span> <span class="bool">true</span>;
+
+    <span class="cm">// If either is null/not-object, they aren't equal (we already checked ===)</span>
+    <span class="kw">if</span> (a === <span class="bool">null</span> || b === <span class="bool">null</span>) <span class="kw">return</span> <span class="bool">false</span>;
+    <span class="kw">if</span> (<span class="kw">typeof</span> a !== <span class="str">"object"</span> || <span class="kw">typeof</span> b !== <span class="str">"object"</span>) <span class="kw">return</span> <span class="bool">false</span>;
+
+    <span class="cm">// Both must be arrays, or both must be plain objects</span>
+    <span class="kw">if</span> (<span class="fn">Array</span>.<span class="fn">isArray</span>(a) !== <span class="fn">Array</span>.<span class="fn">isArray</span>(b)) <span class="kw">return</span> <span class="bool">false</span>;
+
+    <span class="kw">const</span> keysA = <span class="fn">Object</span>.<span class="fn">keys</span>(a);
+    <span class="kw">const</span> keysB = <span class="fn">Object</span>.<span class="fn">keys</span>(b);
+
+    <span class="cm">// Different number of keys</span>
+    <span class="kw">if</span> (keysA.length !== keysB.length) <span class="kw">return</span> <span class="bool">false</span>;
+
+    <span class="cm">// Recursively compare each key</span>
+    <span class="kw">return</span> keysA.<span class="fn">every</span>(key => <span class="fn">deepEqual</span>(a[key], b[key]));
+}</code></pre>
+            </div>
+        </div>
+
+
+        <hr>
+        <p style="text-align:center; color:#5e6e8a; font-size:14px; margin-top:40px;">
+            🎯 Try to solve each exercise <strong>before</strong> revealing the solution.<br>
+            Open your browser console (<code>F12</code>) or create a <code>scratch.js</code> file to test your code.
+        </p>
+
+    </div>
+
+    <script>
+        function toggleSolution(btn) {
+            const solution = btn.nextElementSibling;
+            solution.classList.toggle("show");
+            btn.textContent = solution.classList.contains("show") ? "Hide Solution" : "Show Solution";
+        }
+    </script>
+</body>
+</html>

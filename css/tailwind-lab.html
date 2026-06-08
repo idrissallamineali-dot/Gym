@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS Translation Lab</title>
+    <!-- Load Tailwind CSS via CDN for local practice -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0c10',
+                        cardBg: '#121319',
+                        borderSlate: '#1f222e',
+                        textMuted: '#8e929f'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkBg text-[#d1d4dc] font-sans min-h-screen p-10">
+
+    <div class="max-w-[800px] mx-auto">
+        
+        <!-- Header -->
+        <header class="border-b border-borderSlate pb-6 mb-10">
+            <p class="text-[10px] font-bold text-textMuted tracking-[2px] uppercase mb-2">Tailwind Learning Lab</p>
+            <h1 class="text-3xl font-bold text-white tracking-tight mb-2">⚡ The CSS-to-Tailwind Translator</h1>
+            <p class="text-sm text-textMuted">You did not waste a single second learning raw CSS. Tailwind is literally just raw CSS written as short class names. Look at this side-by-side guide to see how your CSS knowledge translates instantly!</p>
+        </header>
+
+        <!-- The Translation Matrix -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold text-white border-b border-dashed border-borderSlate pb-3 mb-6">1. Sizing & Box Model</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Raw CSS -->
+                <div class="bg-cardBg border border-borderSlate rounded-lg p-6">
+                    <h3 class="text-xs font-mono font-bold text-textMuted uppercase mb-3">// Raw CSS you learned</h3>
+                    <pre class="bg-black/40 border border-borderSlate rounded p-4 font-mono text-xs text-white overflow-x-auto">
+.card {
+    width: 320px;
+    height: 160px;
+    padding: 24px;
+    margin: 20px auto;
+    border: 2px solid #ffffff;
+    border-radius: 12px;
+}</pre>
+                </div>
+
+                <!-- Tailwind CSS -->
+                <div class="bg-cardBg border border-borderSlate rounded-lg p-6">
+                    <h3 class="text-xs font-mono font-bold text-textMuted uppercase mb-3">// Tailwind Utility Shorthand</h3>
+                    <pre class="bg-black/40 border border-borderSlate rounded p-4 font-mono text-xs text-white overflow-x-auto">
+&lt;div class="
+    w-[320px] 
+    h-[160px] 
+    p-6 
+    my-5 mx-auto 
+    border-2 border-white 
+    rounded-xl
+"&gt;&lt;/div&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flexbox Translation Matrix -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold text-white border-b border-dashed border-borderSlate pb-3 mb-6">2. Flexbox Alignments</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Raw CSS -->
+                <div class="bg-cardBg border border-borderSlate rounded-lg p-6">
+                    <h3 class="text-xs font-mono font-bold text-textMuted uppercase mb-3">// Raw CSS you learned</h3>
+                    <pre class="bg-black/40 border border-borderSlate rounded p-4 font-mono text-xs text-white overflow-x-auto">
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}</pre>
+                </div>
+
+                <!-- Tailwind CSS -->
+                <div class="bg-cardBg border border-borderSlate rounded-lg p-6">
+                    <h3 class="text-xs font-mono font-bold text-textMuted uppercase mb-3">// Tailwind Utility Shorthand</h3>
+                    <pre class="bg-black/40 border border-borderSlate rounded p-4 font-mono text-xs text-white overflow-x-auto">
+&lt;div class="
+    flex 
+    justify-between 
+    items-center 
+    gap-4 
+    flex-wrap
+"&gt;&lt;/div&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Sandbox Practice -->
+        <section class="bg-cardBg border border-borderSlate rounded-lg p-6 mb-10">
+            <h2 class="text-lg font-bold text-white mb-2">3. Interactive Tailwind Card</h2>
+            <p class="text-xs text-textMuted mb-6">This card is built using ONLY Tailwind utility classes. Check the source code to see how it uses your Box Model and Flexbox knowledge!</p>
+            
+            <!-- The Card Rendered Live in Tailwind -->
+            <div class="max-w-[380px] bg-black/60 border border-borderSlate rounded-xl p-7 mx-auto flex flex-col gap-4">
+                <div class="w-16 h-16 rounded-full bg-[#262936] border border-white mx-auto flex-shrink-0"></div>
+                <h2 class="text-lg font-bold text-white text-center tracking-tight">Tailwind_System</h2>
+                <div class="text-[10px] font-bold text-white bg-[#262936] border border-borderSlate rounded py-1 px-3 w-[120px] mx-auto text-center">FLEX UTILITY</div>
+                
+                <p class="text-xs text-[#afb2bb] text-center border-b border-dashed border-borderSlate pb-4">
+                    Look at the HTML file to see the class list of this element. It translates your exact CSS code into short terms.
+                </p>
+                
+                <div class="bg-black border border-borderSlate rounded-md py-3 px-4 flex flex-col gap-1">
+                    <div class="text-xs text-textMuted overflow-hidden">
+                        Width Value <span class="font-mono font-bold text-white float-right">w-[380px]</span>
+                    </div>
+                    <div class="text-xs text-textMuted overflow-hidden">
+                        Flex Row <span class="font-mono font-bold text-white float-right">flex justify-between</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

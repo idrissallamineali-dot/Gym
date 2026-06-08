@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06 — Arrays & Array Methods</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+        .container { max-width: 820px; margin: 0 auto; }
+        .doc-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; margin-bottom: 48px; }
+        .doc-nav span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #5e6e8a; }
+        .doc-nav a { color: #58a6ff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 8px 18px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 10px; transition: 0.2s; }
+        .doc-nav a:hover { background: rgba(88,166,255,0.15); }
+        h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+        h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+        h2 .num { color: #58a6ff; }
+        h3 { font-size: 19px; font-weight: 600; color: #e2e8f0; margin-top: 36px; margin-bottom: 12px; }
+        h4 { font-size: 16px; font-weight: 600; color: #d0d8e4; margin-top: 28px; margin-bottom: 10px; }
+        p { margin-bottom: 18px; color: #b0bac9; }
+        strong { color: #e2e8f0; }
+        em { color: #93aac9; font-style: italic; }
+        code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+        pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 16px 0 24px 0; overflow-x: auto; position: relative; }
+        pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+        .code-label { position: absolute; top: 10px; right: 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #3d4f6f; }
+        .kw { color: #ff7b72; } .str { color: #a5d6ff; } .fn { color: #d2a8ff; } .cm { color: #5e6e8a; font-style: italic; } .num-lit { color: #79c0ff; } .bool { color: #ff7b72; }
+        table { width: 100%; border-collapse: collapse; margin: 18px 0 28px 0; }
+        th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5e6e8a; padding: 12px 18px; border-bottom: 2px solid #1e2d4a; }
+        td { padding: 14px 18px; border-bottom: 1px solid #141a2e; font-size: 15px; }
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(88,166,255,0.03); }
+        .callout { border-left: 4px solid; border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 22px 0; font-size: 14.5px; }
+        .callout-blue { background: rgba(88,166,255,0.06); border-color: #58a6ff; }
+        .callout-amber { background: rgba(245,158,11,0.06); border-color: #f59e0b; }
+        .callout-green { background: rgba(16,185,129,0.06); border-color: #10b981; }
+        .callout-red { background: rgba(248,81,73,0.06); border-color: #f85149; }
+        .callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-blue strong { color: #58a6ff; } .callout-amber strong { color: #f59e0b; } .callout-green strong { color: #10b981; } .callout-red strong { color: #f85149; }
+        hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+        ul, ol { margin: 12px 0 20px 24px; color: #b0bac9; }
+        li { margin-bottom: 8px; }
+        .flow-diagram { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 24px; margin: 20px 0 28px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; color: #8b949e; white-space: pre; overflow-x: auto; }
+        .fd-box { color: #58a6ff; } .fd-action { color: #d2a8ff; } .fd-label { color: #5e6e8a; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .fd-mutate { color: #f85149; font-weight: 700; } .fd-safe { color: #10b981; font-weight: 700; }
+        .bottom-nav { margin-top: 64px; display: flex; justify-content: space-between; gap: 16px; }
+        .bottom-nav a { flex: 1; padding: 20px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; text-decoration: none; transition: 0.2s; }
+        .bottom-nav a:hover { border-color: #58a6ff; }
+        .bottom-nav .label { font-size: 12px; color: #5e6e8a; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        .bottom-nav .title { font-size: 16px; font-weight: 600; color: #58a6ff; }
+        .bottom-nav .prev { text-align: left; } .bottom-nav .next { text-align: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <nav class="doc-nav">
+            <span>JS Fundamentals</span>
+            <a href="05-functions.html">← Prev</a>
+            <span>Lesson 06</span>
+        </nav>
+
+        <h1>06 — Arrays & Array Methods</h1>
+        <p class="subtitle">Arrays are the most used data structure in JavaScript. Nearly every real-world task — processing API data, rendering UI lists, solving Codewars challenges — involves manipulating arrays. This lesson covers everything from the basics to the powerful iterator methods that define modern ES6 code.</p>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">1.</span> What Is an Array?</h2>
+
+        <p>An array is an <strong>ordered list of values</strong> stored in a single variable. Each value has a numbered position called an <strong>index</strong>, starting from <code>0</code>.</p>
+
+        <pre><code><span class="kw">const</span> fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>];
+
+<span class="cm">//  Index:        0          1          2</span></code></pre>
+
+        <p>Arrays can hold <strong>any type of data</strong>, and types can be mixed (though mixing is usually bad practice):</p>
+
+        <pre><code><span class="kw">const</span> mixed = [<span class="num-lit">42</span>, <span class="str">"hello"</span>, <span class="bool">true</span>, <span class="bool">null</span>, { name: <span class="str">"Idris"</span> }, [<span class="num-lit">1</span>, <span class="num-lit">2</span>]];</code></pre>
+
+        <h3>1.1 — Creating Arrays</h3>
+
+        <pre><code><span class="cm">// Array literal (the standard way — use this):</span>
+<span class="kw">const</span> colors = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>];
+
+<span class="cm">// Empty array:</span>
+<span class="kw">const</span> empty = [];
+
+<span class="cm">// Array constructor (avoid — unnecessary):</span>
+<span class="kw">const</span> nums = <span class="kw">new</span> <span class="fn">Array</span>(<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>);
+
+<span class="cm">// Array.from — converts array-like objects into real arrays:</span>
+<span class="kw">const</span> chars = <span class="fn">Array</span>.<span class="fn">from</span>(<span class="str">"hello"</span>);  <span class="cm">// ["h", "e", "l", "l", "o"]</span>
+
+<span class="cm">// Array.of — creates an array from arguments:</span>
+<span class="kw">const</span> single = <span class="fn">Array</span>.<span class="fn">of</span>(<span class="num-lit">5</span>);  <span class="cm">// [5] (not an empty array of length 5!)</span></code></pre>
+
+        <h3>1.2 — Accessing & Modifying Elements</h3>
+
+        <pre><code><span class="kw">const</span> arr = [<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>, <span class="str">"d"</span>];
+
+<span class="cm">// Access by index:</span>
+arr[<span class="num-lit">0</span>];               <span class="cm">// "a" (first element)</span>
+arr[<span class="num-lit">3</span>];               <span class="cm">// "d" (last element)</span>
+arr[arr.length - <span class="num-lit">1</span>];  <span class="cm">// "d" (last element — dynamic)</span>
+arr[<span class="num-lit">99</span>];              <span class="cm">// undefined (index doesn't exist)</span>
+
+<span class="cm">// ES2022: .at() method — supports negative indices:</span>
+arr.<span class="fn">at</span>(<span class="num-lit">0</span>);    <span class="cm">// "a"</span>
+arr.<span class="fn">at</span>(-<span class="num-lit">1</span>);   <span class="cm">// "d" (last element — cleaner!)</span>
+arr.<span class="fn">at</span>(-<span class="num-lit">2</span>);   <span class="cm">// "c" (second from last)</span>
+
+<span class="cm">// Modify by index:</span>
+arr[<span class="num-lit">1</span>] = <span class="str">"B"</span>;  <span class="cm">// arr is now ["a", "B", "c", "d"]</span>
+
+<span class="cm">// Length property:</span>
+arr.length;   <span class="cm">// 4</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>Arrays are objects — passed by reference</strong>
+            Remember Lesson 02: arrays live on the Heap. Assigning an array to a new variable copies the <strong>reference</strong>, not the array. Both variables point to the same data.
+            <br><br>
+            <code>const a = [1, 2]; const b = a; b.push(3); console.log(a); // [1, 2, 3] ← modified!</code>
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">2.</span> Mutating vs Non-Mutating Cookbook</h2>
+
+        <p>This is the single most important distinction when working with arrays. Every method falls into one of two categories:</p>
+
+        <table>
+            <thead>
+                <tr><th>Category</th><th>What It Does</th><th>Original Array</th><th>Subsequent UI / Framework Impact</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong style="color: #f85149;">Mutating</strong></td><td>Changes the <strong>original</strong> array directly in memory</td><td>Permanently altered 💥</td><td>Can break state tracking and re-rendering</td></tr>
+                <tr><td><strong style="color: #10b981;">Non-Mutating</strong></td><td>Returns a **new array**, original remains untouched</td><td>Perfectly preserved 🛡️</td><td>Safe, standard for modern JS & React</td></tr>
+            </tbody>
+        </table>
+
+        <h3>The Side-by-Side Cookbook: Mutating vs Non-Mutating</h3>
+        <p>Study these recipes carefully to see how the modern spread operator <code>...</code> and array methods replace standard mutating actions:</p>
+
+        <table>
+            <thead>
+                <tr><th>Operation</th><th>❌ Mutating Method (Alters Original)</th><th>✅ Non-Mutating Equivalent (Returns New Array)</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Add to End</strong></td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#1b1517; border-color:#581c1c;"><code>arr.<span class="fn">push</span>(<span class="str">"x"</span>);</code></pre>
+                    </td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#121815; border-color:#1c3d25;"><code><span class="kw">const</span> newArr = [...arr, <span class="str">"x"</span>];</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Add to Start</strong></td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#1b1517; border-color:#581c1c;"><code>arr.<span class="fn">unshift</span>(<span class="str">"x"</span>);</code></pre>
+                    </td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#121815; border-color:#1c3d25;"><code><span class="kw">const</span> newArr = [<span class="str">"x"</span>, ...arr];</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Remove from End</strong></td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#1b1517; border-color:#581c1c;"><code>arr.<span class="fn">pop</span>();</code></pre>
+                    </td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#121815; border-color:#1c3d25;"><code><span class="kw">const</span> newArr = arr.<span class="fn">slice</span>(<span class="num-lit">0</span>, -<span class="num-lit">1</span>);</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Remove from Start</strong></td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#1b1517; border-color:#581c1c;"><code>arr.<span class="fn">shift</span>();</code></pre>
+                    </td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#121815; border-color:#1c3d25;"><code><span class="kw">const</span> newArr = arr.<span class="fn">slice</span>(<span class="num-lit">1</span>);</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Replace at Index <code>i</code></strong></td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#1b1517; border-color:#581c1c;"><code>arr[i] = <span class="str">"new"</span>;</code></pre>
+                    </td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#121815; border-color:#1c3d25;"><code><span class="kw">const</span> newArr = arr.<span class="fn">map</span>((x, idx) => <br>&nbsp;&nbsp;&nbsp;&nbsp;idx === i ? <span class="str">"new"</span> : x<br>);</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Insert at Index <code>i</code></strong></td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#1b1517; border-color:#581c1c;"><code>arr.<span class="fn">splice</span>(i, <span class="num-lit">0</span>, <span class="str">"val"</span>);</code></pre>
+                    </td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#121815; border-color:#1c3d25;"><code><span class="kw">const</span> newArr = [<br>&nbsp;&nbsp;&nbsp;&nbsp;...arr.<span class="fn">slice</span>(<span class="num-lit">0</span>, i), <br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"val"</span>, <br>&nbsp;&nbsp;&nbsp;&nbsp;...arr.<span class="fn">slice</span>(i)<br>];</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Remove at Index <code>i</code></strong></td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#1b1517; border-color:#581c1c;"><code>arr.<span class="fn">splice</span>(i, <span class="num-lit">1</span>);</code></pre>
+                    </td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#121815; border-color:#1c3d25;"><code><span class="kw">const</span> newArr = arr.<span class="fn">filter</span>((_, idx) => <br>&nbsp;&nbsp;&nbsp;&nbsp;idx !== i<br>);</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Sort / Reverse</strong></td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#1b1517; border-color:#581c1c;"><code>arr.<span class="fn">sort</span>();<br>arr.<span class="fn">reverse</span>();</code></pre>
+                    </td>
+                    <td>
+<pre style="margin:2px; padding:6px; background:#121815; border-color:#1c3d25;"><code><span class="kw">const</span> sorted = [...arr].<span class="fn">sort</span>();<br><span class="kw">const</span> reversed = [...arr].<span class="fn">reverse</span>();</code></pre>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-amber">
+            <strong>💡 React / Immutable Best Practice Rule</strong><br>
+            If you are working with a state array named <code>items</code>, never do <code>items.push(newItem)</code>. Always use the non-mutating spread operator to trigger state changes: <code>setItems([...items, newItem])</code>. This ensures the reference address changes, notifying the browser to re-render the view!
+        </div>
+
+        <hr>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">3.</span> Mutating Methods (Change the Original)</h2>
+
+        <h3>3.1 — Adding & Removing Elements</h3>
+
+        <pre><code><span class="kw">const</span> arr = [<span class="str">"b"</span>, <span class="str">"c"</span>, <span class="str">"d"</span>];
+
+<span class="cm">// push() — add to the END. Returns new length.</span>
+arr.<span class="fn">push</span>(<span class="str">"e"</span>);        <span class="cm">// arr = ["b", "c", "d", "e"]. Returns 4.</span>
+
+<span class="cm">// pop() — remove from the END. Returns removed element.</span>
+arr.<span class="fn">pop</span>();           <span class="cm">// arr = ["b", "c", "d"]. Returns "e".</span>
+
+<span class="cm">// unshift() — add to the BEGINNING. Returns new length.</span>
+arr.<span class="fn">unshift</span>(<span class="str">"a"</span>);    <span class="cm">// arr = ["a", "b", "c", "d"]. Returns 4.</span>
+
+<span class="cm">// shift() — remove from the BEGINNING. Returns removed element.</span>
+arr.<span class="fn">shift</span>();         <span class="cm">// arr = ["b", "c", "d"]. Returns "a".</span></code></pre>
+
+        <div class="flow-diagram"><span class="fd-label">Visual: push / pop / unshift / shift</span>
+
+                  unshift()                              push()
+                  adds here                              adds here
+                     ↓                                      ↓
+                ┌────┬────┬────┬────┬────┐
+                │ <span class="fd-box">"a"</span> │ <span class="fd-box">"b"</span> │ <span class="fd-box">"c"</span> │ <span class="fd-box">"d"</span> │ <span class="fd-box">"e"</span> │
+                └────┴────┴────┴────┴────┘
+                     ↑                                      ↑
+                  shift()                                pop()
+                  removes here                           removes here</div>
+
+        <h3>3.2 — <code>splice()</code> — The Swiss Army Knife</h3>
+
+        <p><code>splice()</code> can <strong>remove, replace, or insert</strong> elements at any position. It mutates the original and returns an array of removed elements.</p>
+
+        <pre><code><span class="cm">// Syntax: array.splice(startIndex, deleteCount, ...itemsToInsert)</span>
+
+<span class="kw">const</span> arr = [<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>, <span class="str">"d"</span>, <span class="str">"e"</span>];
+
+<span class="cm">// Remove 2 elements starting at index 1:</span>
+arr.<span class="fn">splice</span>(<span class="num-lit">1</span>, <span class="num-lit">2</span>);               <span class="cm">// Returns ["b", "c"]. arr = ["a", "d", "e"]</span>
+
+<span class="cm">// Insert without removing (deleteCount = 0):</span>
+arr.<span class="fn">splice</span>(<span class="num-lit">1</span>, <span class="num-lit">0</span>, <span class="str">"x"</span>, <span class="str">"y"</span>);   <span class="cm">// arr = ["a", "x", "y", "d", "e"]</span>
+
+<span class="cm">// Replace 1 element at index 2:</span>
+arr.<span class="fn">splice</span>(<span class="num-lit">2</span>, <span class="num-lit">1</span>, <span class="str">"Z"</span>);         <span class="cm">// arr = ["a", "x", "Z", "d", "e"]</span></code></pre>
+
+        <h3>3.3 — Sorting & Reversing</h3>
+
+        <pre><code><span class="cm">// reverse() — reverses in place:</span>
+<span class="kw">const</span> letters = [<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>];
+letters.<span class="fn">reverse</span>();   <span class="cm">// letters = ["c", "b", "a"]</span>
+
+<span class="cm">// sort() — sorts in place (alphabetical by default):</span>
+<span class="kw">const</span> names = [<span class="str">"Charlie"</span>, <span class="str">"Alice"</span>, <span class="str">"Bob"</span>];
+names.<span class="fn">sort</span>();        <span class="cm">// names = ["Alice", "Bob", "Charlie"]</span></code></pre>
+
+        <div class="callout callout-red">
+            <strong>The sort() trap with numbers</strong>
+            <code>sort()</code> converts values to <strong>strings</strong> before comparing by default. This breaks number sorting:
+            <br><br>
+            <code>[10, 9, 80, 2].sort()</code> → <code>[10, 2, 80, 9]</code> ← WRONG (sorted as strings: "10" < "2")
+            <br><br>
+            To sort numbers correctly, pass a <strong>compare function</strong>:
+        </div>
+
+        <pre><code><span class="kw">const</span> nums = [<span class="num-lit">10</span>, <span class="num-lit">9</span>, <span class="num-lit">80</span>, <span class="num-lit">2</span>];
+
+<span class="cm">// Ascending (smallest first):</span>
+nums.<span class="fn">sort</span>((a, b) => a - b);   <span class="cm">// [2, 9, 10, 80]</span>
+
+<span class="cm">// Descending (largest first):</span>
+nums.<span class="fn">sort</span>((a, b) => b - a);   <span class="cm">// [80, 10, 9, 2]</span>
+
+<span class="cm">// How it works:</span>
+<span class="cm">// If (a - b) is negative → a comes first</span>
+<span class="cm">// If (a - b) is positive → b comes first</span>
+<span class="cm">// If (a - b) is 0 → order unchanged</span></code></pre>
+
+        <h3>3.4 — <code>fill()</code></h3>
+
+        <pre><code><span class="kw">const</span> arr = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">4</span>, <span class="num-lit">5</span>];
+arr.<span class="fn">fill</span>(<span class="num-lit">0</span>);            <span class="cm">// [0, 0, 0, 0, 0] — fill all with 0</span>
+arr.<span class="fn">fill</span>(<span class="num-lit">9</span>, <span class="num-lit">1</span>, <span class="num-lit">3</span>);      <span class="cm">// [0, 9, 9, 0, 0] — fill index 1 to 3 (exclusive) with 9</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">4.</span> Non-Mutating Methods (Return Something New)</h2>
+
+        <h3>4.1 — <code>slice()</code> — Extract a Section</h3>
+
+        <p>Returns a <strong>new array</strong> containing a portion of the original. The original is untouched.</p>
+
+        <pre><code><span class="kw">const</span> arr = [<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>, <span class="str">"d"</span>, <span class="str">"e"</span>];
+
+arr.<span class="fn">slice</span>(<span class="num-lit">1</span>, <span class="num-lit">3</span>);     <span class="cm">// ["b", "c"] — from index 1, up to (not including) index 3</span>
+arr.<span class="fn">slice</span>(<span class="num-lit">2</span>);        <span class="cm">// ["c", "d", "e"] — from index 2 to the end</span>
+arr.<span class="fn">slice</span>(-<span class="num-lit">2</span>);       <span class="cm">// ["d", "e"] — last 2 elements</span>
+arr.<span class="fn">slice</span>();         <span class="cm">// ["a", "b", "c", "d", "e"] — shallow copy of entire array</span></code></pre>
+
+        <div class="callout callout-green">
+            <strong>splice vs slice — never confuse them again</strong>
+            <code>splice</code> = has a <strong>p</strong> = <strong>p</strong>ermanently changes the original (mutates).<br>
+            <code>slice</code> = no <strong>p</strong> = <strong>p</strong>reserves the original (non-mutating).
+        </div>
+
+        <h3>4.2 — <code>concat()</code> — Merge Arrays</h3>
+
+        <pre><code><span class="kw">const</span> a = [<span class="num-lit">1</span>, <span class="num-lit">2</span>];
+<span class="kw">const</span> b = [<span class="num-lit">3</span>, <span class="num-lit">4</span>];
+<span class="kw">const</span> c = a.<span class="fn">concat</span>(b);        <span class="cm">// [1, 2, 3, 4] — new array</span>
+<span class="kw">const</span> d = a.<span class="fn">concat</span>(b, [<span class="num-lit">5</span>]);   <span class="cm">// [1, 2, 3, 4, 5]</span>
+
+<span class="cm">// Modern alternative — spread operator:</span>
+<span class="kw">const</span> e = [...a, ...b, <span class="num-lit">5</span>];    <span class="cm">// [1, 2, 3, 4, 5] — same result, cleaner</span></code></pre>
+
+        <h3>4.3 — Searching Methods</h3>
+
+        <pre><code><span class="kw">const</span> arr = [<span class="num-lit">10</span>, <span class="num-lit">20</span>, <span class="num-lit">30</span>, <span class="num-lit">20</span>, <span class="num-lit">40</span>];
+
+<span class="cm">// includes() — does this value exist? Returns boolean.</span>
+arr.<span class="fn">includes</span>(<span class="num-lit">20</span>);      <span class="cm">// true</span>
+arr.<span class="fn">includes</span>(<span class="num-lit">99</span>);      <span class="cm">// false</span>
+
+<span class="cm">// indexOf() — first position of a value. Returns -1 if not found.</span>
+arr.<span class="fn">indexOf</span>(<span class="num-lit">20</span>);       <span class="cm">// 1 (first occurrence)</span>
+arr.<span class="fn">indexOf</span>(<span class="num-lit">99</span>);       <span class="cm">// -1 (not found)</span>
+
+<span class="cm">// lastIndexOf() — last position of a value.</span>
+arr.<span class="fn">lastIndexOf</span>(<span class="num-lit">20</span>);   <span class="cm">// 3</span>
+
+<span class="cm">// find() — returns the FIRST element that passes a test. (ES6)</span>
+<span class="kw">const</span> users = [{name: <span class="str">"Alice"</span>, age: <span class="num-lit">30</span>}, {name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span>}];
+users.<span class="fn">find</span>(u => u.name === <span class="str">"Idris"</span>);   <span class="cm">// {name: "Idris", age: 25}</span>
+users.<span class="fn">find</span>(u => u.age > <span class="num-lit">50</span>);          <span class="cm">// undefined (no match)</span>
+
+<span class="cm">// findIndex() — returns the INDEX of the first element that passes a test.</span>
+users.<span class="fn">findIndex</span>(u => u.name === <span class="str">"Idris"</span>);  <span class="cm">// 1</span></code></pre>
+
+        <h3>4.4 — <code>join()</code> — Array to String</h3>
+
+        <pre><code><span class="kw">const</span> words = [<span class="str">"Hello"</span>, <span class="str">"World"</span>];
+words.<span class="fn">join</span>(<span class="str">" "</span>);    <span class="cm">// "Hello World"</span>
+words.<span class="fn">join</span>(<span class="str">"-"</span>);    <span class="cm">// "Hello-World"</span>
+words.<span class="fn">join</span>(<span class="str">""</span>);     <span class="cm">// "HelloWorld"</span>
+words.<span class="fn">join</span>();       <span class="cm">// "Hello,World" (default separator is comma)</span></code></pre>
+
+        <h3>4.5 — <code>flat()</code> and <code>flatMap()</code></h3>
+
+        <pre><code><span class="cm">// flat() — flattens nested arrays by a specified depth:</span>
+<span class="kw">const</span> nested = [<span class="num-lit">1</span>, [<span class="num-lit">2</span>, <span class="num-lit">3</span>], [<span class="num-lit">4</span>, [<span class="num-lit">5</span>, <span class="num-lit">6</span>]]];
+nested.<span class="fn">flat</span>();     <span class="cm">// [1, 2, 3, 4, [5, 6]] — default depth: 1</span>
+nested.<span class="fn">flat</span>(<span class="num-lit">2</span>);    <span class="cm">// [1, 2, 3, 4, 5, 6] — depth 2</span>
+nested.<span class="fn">flat</span>(<span class="num-lit">Infinity</span>);  <span class="cm">// flattens everything regardless of depth</span>
+
+<span class="cm">// flatMap() — maps then flattens (depth 1). Very useful:</span>
+<span class="kw">const</span> sentences = [<span class="str">"hello world"</span>, <span class="str">"foo bar"</span>];
+sentences.<span class="fn">flatMap</span>(s => s.<span class="fn">split</span>(<span class="str">" "</span>));  <span class="cm">// ["hello", "world", "foo", "bar"]</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">5.</span> The Big Five: Iterator Methods</h2>
+
+        <p>These are the <strong>most important methods in all of JavaScript</strong>. They replace manual loops with clean, declarative, readable code. Every single one takes a <strong>callback function</strong> that runs on each element.</p>
+
+        <div class="callout callout-blue">
+            <strong>The callback receives three arguments</strong>
+            Every iterator method callback gets: <code>(element, index, array)</code>. You only need to use the ones you need.
+        </div>
+
+        <h3>5.1 — <code>forEach()</code> — Do Something With Each Element</h3>
+
+        <p>Executes a function on each element. Returns <code>undefined</code>. Cannot <code>break</code>.</p>
+
+        <pre><code><span class="kw">const</span> names = [<span class="str">"Alice"</span>, <span class="str">"Bob"</span>, <span class="str">"Charlie"</span>];
+
+names.<span class="fn">forEach</span>((name, index) => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${index}: ${name}`</span>);
+});
+<span class="cm">// "0: Alice"</span>
+<span class="cm">// "1: Bob"</span>
+<span class="cm">// "2: Charlie"</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>forEach returns undefined — you cannot chain it</strong>
+            Use <code>forEach</code> only for side effects (logging, DOM updates). If you need to transform or filter data, use <code>map</code> or <code>filter</code> instead.
+        </div>
+
+
+        <h3>5.2 — <code>map()</code> — Transform Every Element</h3>
+
+        <p>Creates a <strong>new array</strong> by applying a function to every element. The new array has the same length as the original.</p>
+
+        <pre><code><span class="kw">const</span> numbers = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">4</span>];
+
+<span class="kw">const</span> doubled = numbers.<span class="fn">map</span>(n => n * <span class="num-lit">2</span>);
+<span class="cm">// doubled = [2, 4, 6, 8]</span>
+<span class="cm">// numbers = [1, 2, 3, 4] — untouched</span>
+
+<span class="cm">// Practical example — extract a property from objects:</span>
+<span class="kw">const</span> users = [
+    { name: <span class="str">"Alice"</span>, age: <span class="num-lit">30</span> },
+    { name: <span class="str">"Bob"</span>, age: <span class="num-lit">25</span> },
+    { name: <span class="str">"Charlie"</span>, age: <span class="num-lit">35</span> }
+];
+
+<span class="kw">const</span> names = users.<span class="fn">map</span>(u => u.name);
+<span class="cm">// ["Alice", "Bob", "Charlie"]</span></code></pre>
+
+        <div class="flow-diagram"><span class="fd-label">How map() works</span>
+
+  Original:   [ <span class="fd-box">1</span>,   <span class="fd-box">2</span>,   <span class="fd-box">3</span>,   <span class="fd-box">4</span>  ]
+                ↓     ↓     ↓     ↓       callback: <span class="fd-action">n => n * 2</span>
+  New array:  [ <span class="fd-action">2</span>,   <span class="fd-action">4</span>,   <span class="fd-action">6</span>,   <span class="fd-action">8</span>  ]</div>
+
+
+        <h3>5.3 — <code>filter()</code> — Keep Only What Passes</h3>
+
+        <p>Creates a <strong>new array</strong> containing only elements where the callback returns <code>true</code>.</p>
+
+        <pre><code><span class="kw">const</span> scores = [<span class="num-lit">45</span>, <span class="num-lit">82</span>, <span class="num-lit">93</span>, <span class="num-lit">31</span>, <span class="num-lit">76</span>];
+
+<span class="kw">const</span> passing = scores.<span class="fn">filter</span>(s => s >= <span class="num-lit">70</span>);
+<span class="cm">// passing = [82, 93, 76]</span>
+
+<span class="cm">// Practical: filter objects by a condition:</span>
+<span class="kw">const</span> users = [
+    { name: <span class="str">"Alice"</span>, active: <span class="bool">true</span> },
+    { name: <span class="str">"Bob"</span>, active: <span class="bool">false</span> },
+    { name: <span class="str">"Charlie"</span>, active: <span class="bool">true</span> }
+];
+
+<span class="kw">const</span> activeUsers = users.<span class="fn">filter</span>(u => u.active);
+<span class="cm">// [{name: "Alice", active: true}, {name: "Charlie", active: true}]</span></code></pre>
+
+        <div class="flow-diagram"><span class="fd-label">How filter() works</span>
+
+  Original:   [ <span class="fd-box">45</span>,  <span class="fd-box">82</span>,  <span class="fd-box">93</span>,  <span class="fd-box">31</span>,  <span class="fd-box">76</span> ]
+                ↓     ↓     ↓     ↓     ↓     test: <span class="fd-action">s >= 70</span>
+              <span class="fd-mutate">fail</span>  <span class="fd-safe">pass</span>  <span class="fd-safe">pass</span>  <span class="fd-mutate">fail</span>  <span class="fd-safe">pass</span>
+
+  New array:  [ <span class="fd-safe">82</span>,  <span class="fd-safe">93</span>,  <span class="fd-safe">76</span> ]</div>
+
+
+        <h3>5.4 — <code>reduce()</code> — Boil an Array Down to a Single Value</h3>
+
+        <p><code>reduce()</code> is the most powerful and most misunderstood array method. It processes every element and <strong>accumulates</strong> a result — a single number, string, object, or even another array.</p>
+
+        <pre><code><span class="cm">// Syntax: array.reduce((accumulator, currentElement) => ..., initialValue)</span>
+
+<span class="kw">const</span> numbers = [<span class="num-lit">10</span>, <span class="num-lit">20</span>, <span class="num-lit">30</span>, <span class="num-lit">40</span>];
+
+<span class="kw">const</span> total = numbers.<span class="fn">reduce</span>((acc, curr) => acc + curr, <span class="num-lit">0</span>);
+<span class="cm">// total = 100</span></code></pre>
+
+        <h4>Step-by-step execution trace:</h4>
+
+        <table>
+            <thead>
+                <tr><th>Iteration</th><th><code>acc</code> (accumulator)</th><th><code>curr</code> (current)</th><th>Returns</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>0 (initial value)</td><td>10</td><td>0 + 10 = <strong>10</strong></td></tr>
+                <tr><td>2</td><td>10</td><td>20</td><td>10 + 20 = <strong>30</strong></td></tr>
+                <tr><td>3</td><td>30</td><td>30</td><td>30 + 30 = <strong>60</strong></td></tr>
+                <tr><td>4</td><td>60</td><td>40</td><td>60 + 40 = <strong>100</strong></td></tr>
+            </tbody>
+        </table>
+
+        <h4>Reduce can do anything — it is the universal method:</h4>
+
+        <pre><code><span class="cm">// Count occurrences of each word:</span>
+<span class="kw">const</span> words = [<span class="str">"yes"</span>, <span class="str">"no"</span>, <span class="str">"yes"</span>, <span class="str">"yes"</span>, <span class="str">"no"</span>];
+
+<span class="kw">const</span> counts = words.<span class="fn">reduce</span>((acc, word) => {
+    acc[word] = (acc[word] || <span class="num-lit">0</span>) + <span class="num-lit">1</span>;
+    <span class="kw">return</span> acc;
+}, {});
+<span class="cm">// counts = { yes: 3, no: 2 }</span>
+
+
+<span class="cm">// Find the max value:</span>
+<span class="kw">const</span> nums = [<span class="num-lit">4</span>, <span class="num-lit">2</span>, <span class="num-lit">9</span>, <span class="num-lit">1</span>, <span class="num-lit">7</span>];
+
+<span class="kw">const</span> max = nums.<span class="fn">reduce</span>((acc, n) => n > acc ? n : acc, -<span class="num-lit">Infinity</span>);
+<span class="cm">// max = 9</span>
+
+
+<span class="cm">// Group objects by a property:</span>
+<span class="kw">const</span> people = [
+    { name: <span class="str">"Alice"</span>, city: <span class="str">"Paris"</span> },
+    { name: <span class="str">"Bob"</span>, city: <span class="str">"London"</span> },
+    { name: <span class="str">"Charlie"</span>, city: <span class="str">"Paris"</span> }
+];
+
+<span class="kw">const</span> grouped = people.<span class="fn">reduce</span>((acc, person) => {
+    <span class="kw">const</span> key = person.city;
+    <span class="kw">if</span> (!acc[key]) acc[key] = [];
+    acc[key].<span class="fn">push</span>(person);
+    <span class="kw">return</span> acc;
+}, {});
+<span class="cm">// { Paris: [{...}, {...}], London: [{...}] }</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>Always provide the initial value</strong>
+            The second argument to <code>reduce()</code> is the initial value of the accumulator. If you omit it, the first element of the array is used as the initial value. Always provide it explicitly to avoid bugs with empty arrays.
+        </div>
+
+
+        <h3>5.5 — <code>some()</code> and <code>every()</code> — Boolean Tests</h3>
+
+        <pre><code><span class="kw">const</span> ages = [<span class="num-lit">14</span>, <span class="num-lit">22</span>, <span class="num-lit">35</span>, <span class="num-lit">16</span>];
+
+<span class="cm">// some() — does AT LEAST ONE element pass the test?</span>
+ages.<span class="fn">some</span>(a => a >= <span class="num-lit">18</span>);    <span class="cm">// true (22 and 35 pass)</span>
+
+<span class="cm">// every() — do ALL elements pass the test?</span>
+ages.<span class="fn">every</span>(a => a >= <span class="num-lit">18</span>);   <span class="cm">// false (14 and 16 fail)</span>
+
+<span class="cm">// Practical: check if all required fields are filled:</span>
+<span class="kw">const</span> fields = [<span class="str">"Idris"</span>, <span class="str">"idris@email.com"</span>, <span class="str">""</span>];
+fields.<span class="fn">every</span>(f => f.length > <span class="num-lit">0</span>);  <span class="cm">// false (empty string fails)</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">6.</span> Method Chaining</h2>
+
+        <p>Because non-mutating methods return new arrays, you can <strong>chain</strong> them together in a pipeline. This is the hallmark of clean, modern JavaScript.</p>
+
+        <pre><code><span class="kw">const</span> users = [
+    { name: <span class="str">"Alice"</span>, age: <span class="num-lit">17</span>, score: <span class="num-lit">85</span> },
+    { name: <span class="str">"Bob"</span>, age: <span class="num-lit">22</span>, score: <span class="num-lit">92</span> },
+    { name: <span class="str">"Charlie"</span>, age: <span class="num-lit">19</span>, score: <span class="num-lit">45</span> },
+    { name: <span class="str">"Diana"</span>, age: <span class="num-lit">25</span>, score: <span class="num-lit">78</span> },
+    { name: <span class="str">"Eve"</span>, age: <span class="num-lit">30</span>, score: <span class="num-lit">95</span> }
+];
+
+<span class="cm">// Goal: Get the names of adults (18+) who passed (score >= 70),</span>
+<span class="cm">//        sorted by score descending.</span>
+
+<span class="kw">const</span> result = users
+    .<span class="fn">filter</span>(u => u.age >= <span class="num-lit">18</span>)              <span class="cm">// Keep adults only</span>
+    .<span class="fn">filter</span>(u => u.score >= <span class="num-lit">70</span>)            <span class="cm">// Keep passing scores</span>
+    .<span class="fn">sort</span>((a, b) => b.score - a.score)   <span class="cm">// Sort by score descending</span>
+    .<span class="fn">map</span>(u => u.name);                    <span class="cm">// Extract names only</span>
+
+<span class="fn">console</span>.<span class="fn">log</span>(result);
+<span class="cm">// ["Eve", "Bob", "Diana"]</span></code></pre>
+
+        <div class="callout callout-green">
+            <strong>Read the chain like a sentence</strong>
+            "From users, <em>filter</em> adults, <em>filter</em> passing scores, <em>sort</em> by score descending, then <em>map</em> to names."
+            <br><br>
+            This declarative style is why modern JS is so readable. Each step does one thing. No manual loops, no temporary variables, no index tracking.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">7.</span> Destructuring Arrays (ES6)</h2>
+
+        <p>Destructuring lets you <strong>unpack values</strong> from an array into individual variables in a single line.</p>
+
+        <pre><code><span class="kw">const</span> colors = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>];
+
+<span class="cm">// Without destructuring:</span>
+<span class="kw">const</span> first = colors[<span class="num-lit">0</span>];
+<span class="kw">const</span> second = colors[<span class="num-lit">1</span>];
+
+<span class="cm">// With destructuring:</span>
+<span class="kw">const</span> [r, g, b] = colors;
+<span class="fn">console</span>.<span class="fn">log</span>(r);  <span class="cm">// "red"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(g);  <span class="cm">// "green"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(b);  <span class="cm">// "blue"</span>
+
+<span class="cm">// Skip elements with empty commas:</span>
+<span class="kw">const</span> [, , third] = colors;
+<span class="fn">console</span>.<span class="fn">log</span>(third);  <span class="cm">// "blue"</span>
+
+<span class="cm">// Rest pattern — collect the remaining elements:</span>
+<span class="kw">const</span> [head, ...tail] = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">4</span>, <span class="num-lit">5</span>];
+<span class="fn">console</span>.<span class="fn">log</span>(head);  <span class="cm">// 1</span>
+<span class="fn">console</span>.<span class="fn">log</span>(tail);  <span class="cm">// [2, 3, 4, 5]</span>
+
+<span class="cm">// Default values:</span>
+<span class="kw">const</span> [a = <span class="num-lit">10</span>, b = <span class="num-lit">20</span>] = [<span class="num-lit">5</span>];
+<span class="fn">console</span>.<span class="fn">log</span>(a);  <span class="cm">// 5 (provided)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(b);  <span class="cm">// 20 (default, because index 1 is undefined)</span>
+
+<span class="cm">// Swap variables without a temp variable:</span>
+<span class="kw">let</span> x = <span class="num-lit">1</span>, y = <span class="num-lit">2</span>;
+[x, y] = [y, x];
+<span class="fn">console</span>.<span class="fn">log</span>(x, y);  <span class="cm">// 2, 1</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">8.</span> The Spread Operator With Arrays</h2>
+
+        <p>The spread operator <code>...</code> <strong>unpacks</strong> an array's elements. It is the opposite of the rest parameter (which gathers).</p>
+
+        <pre><code><span class="cm">// Copy an array (new heap address):</span>
+<span class="kw">const</span> original = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>];
+<span class="kw">const</span> copy = [...original];
+copy.<span class="fn">push</span>(<span class="num-lit">4</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(original);  <span class="cm">// [1, 2, 3] — safe!</span>
+
+<span class="cm">// Merge arrays:</span>
+<span class="kw">const</span> merged = [...[<span class="num-lit">1</span>, <span class="num-lit">2</span>], ...[<span class="num-lit">3</span>, <span class="num-lit">4</span>], <span class="num-lit">5</span>];  <span class="cm">// [1, 2, 3, 4, 5]</span>
+
+<span class="cm">// Pass array elements as individual arguments:</span>
+<span class="kw">const</span> nums = [<span class="num-lit">5</span>, <span class="num-lit">2</span>, <span class="num-lit">8</span>, <span class="num-lit">1</span>];
+<span class="fn">Math</span>.<span class="fn">max</span>(...nums);  <span class="cm">// 8 (spreads as Math.max(5, 2, 8, 1))</span>
+
+<span class="cm">// Convert string to array of characters:</span>
+<span class="kw">const</span> chars = [...<span class="str">"hello"</span>];  <span class="cm">// ["h", "e", "l", "l", "o"]</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">9.</span> Complete Method Reference</h2>
+
+        <table>
+            <thead>
+                <tr><th>Method</th><th>Mutates?</th><th>Returns</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>push()</code></td><td style="color:#f85149">Yes</td><td>New length</td><td>Add to end</td></tr>
+                <tr><td><code>pop()</code></td><td style="color:#f85149">Yes</td><td>Removed element</td><td>Remove from end</td></tr>
+                <tr><td><code>unshift()</code></td><td style="color:#f85149">Yes</td><td>New length</td><td>Add to beginning</td></tr>
+                <tr><td><code>shift()</code></td><td style="color:#f85149">Yes</td><td>Removed element</td><td>Remove from beginning</td></tr>
+                <tr><td><code>splice()</code></td><td style="color:#f85149">Yes</td><td>Removed elements</td><td>Add/remove/replace anywhere</td></tr>
+                <tr><td><code>sort()</code></td><td style="color:#f85149">Yes</td><td>Sorted array</td><td>Sort in place</td></tr>
+                <tr><td><code>reverse()</code></td><td style="color:#f85149">Yes</td><td>Reversed array</td><td>Reverse in place</td></tr>
+                <tr><td><code>fill()</code></td><td style="color:#f85149">Yes</td><td>Modified array</td><td>Fill with a value</td></tr>
+                <tr><td><code>slice()</code></td><td style="color:#10b981">No</td><td>New array</td><td>Extract a section</td></tr>
+                <tr><td><code>concat()</code></td><td style="color:#10b981">No</td><td>New array</td><td>Merge arrays</td></tr>
+                <tr><td><code>includes()</code></td><td style="color:#10b981">No</td><td>Boolean</td><td>Check if value exists</td></tr>
+                <tr><td><code>indexOf()</code></td><td style="color:#10b981">No</td><td>Number</td><td>Find first index of value</td></tr>
+                <tr><td><code>find()</code></td><td style="color:#10b981">No</td><td>Element or undefined</td><td>Find first element passing test</td></tr>
+                <tr><td><code>findIndex()</code></td><td style="color:#10b981">No</td><td>Number</td><td>Find index of first match</td></tr>
+                <tr><td><code>join()</code></td><td style="color:#10b981">No</td><td>String</td><td>Combine elements into string</td></tr>
+                <tr><td><code>flat()</code></td><td style="color:#10b981">No</td><td>New array</td><td>Flatten nested arrays</td></tr>
+                <tr><td><code>forEach()</code></td><td style="color:#10b981">No</td><td>undefined</td><td>Execute function on each</td></tr>
+                <tr><td><code>map()</code></td><td style="color:#10b981">No</td><td>New array</td><td>Transform each element</td></tr>
+                <tr><td><code>filter()</code></td><td style="color:#10b981">No</td><td>New array</td><td>Keep elements passing test</td></tr>
+                <tr><td><code>reduce()</code></td><td style="color:#10b981">No</td><td>Single value</td><td>Accumulate into one result</td></tr>
+                <tr><td><code>some()</code></td><td style="color:#10b981">No</td><td>Boolean</td><td>At least one passes?</td></tr>
+                <tr><td><code>every()</code></td><td style="color:#10b981">No</td><td>Boolean</td><td>All pass?</td></tr>
+            </tbody>
+        </table>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">10.</span> Key Vocabulary Summary</h2>
+
+        <table>
+            <thead>
+                <tr><th>Term</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Array</strong></td><td>An ordered, indexed collection of values.</td></tr>
+                <tr><td><strong>Index</strong></td><td>The numbered position of an element (starts at 0).</td></tr>
+                <tr><td><strong>Zero-indexed</strong></td><td>First element is at position 0, not 1.</td></tr>
+                <tr><td><strong>Mutating method</strong></td><td>Changes the original array in place.</td></tr>
+                <tr><td><strong>Non-mutating method</strong></td><td>Returns a new value without touching the original.</td></tr>
+                <tr><td><strong>Callback</strong></td><td>A function passed to an array method to run on each element.</td></tr>
+                <tr><td><strong>Iterator method</strong></td><td>A method that loops through elements and applies a callback.</td></tr>
+                <tr><td><strong>Accumulator</strong></td><td>The running result variable inside <code>reduce()</code>.</td></tr>
+                <tr><td><strong>Method chaining</strong></td><td>Calling multiple methods sequentially: <code>.filter().map().sort()</code></td></tr>
+                <tr><td><strong>Destructuring</strong></td><td>Unpacking array elements into individual variables.</td></tr>
+                <tr><td><strong>Spread operator</strong></td><td><code>...</code> unpacks elements from an array.</td></tr>
+                <tr><td><strong>Rest pattern</strong></td><td><code>...</code> in destructuring gathers remaining elements into an array.</td></tr>
+                <tr><td><strong>Shallow copy</strong></td><td>A copy that duplicates the top level but shares nested references.</td></tr>
+                <tr><td><strong>Predicate</strong></td><td>A function that returns true/false — used with <code>filter</code>, <code>find</code>, <code>some</code>, <code>every</code>.</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="bottom-nav">
+            <a href="05-functions.html" class="prev">
+                <span class="label">← Previous</span>
+                <span class="title">05 — Functions</span>
+            </a>
+            <a href="#" class="next">
+                <span class="label">Next →</span>
+                <span class="title">07 — Objects</span>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

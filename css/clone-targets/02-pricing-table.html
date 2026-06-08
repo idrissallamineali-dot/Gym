@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Plans</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fb;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        header h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            font-size: 17px;
+            color: #64748b;
+            max-width: 480px;
+            line-height: 1.6;
+        }
+
+        .pricing-row {
+            display: flex;
+            flex-direction: row;
+            gap: 28px;
+            max-width: 1040px;
+            width: 100%;
+            align-items: flex-start;
+        }
+
+        .pricing-card {
+            flex: 1;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid #e2e8f0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+        }
+
+        .pricing-card.popular {
+            border-color: #6366f1;
+            padding-top: 32px;
+            padding-bottom: 48px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+            background: linear-gradient(180deg, #fafaff 0%, #ffffff 100%);
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 6px 20px;
+            border-radius: 50px;
+            margin-bottom: 24px;
+        }
+
+        .plan-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .price {
+            font-size: 52px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 4px;
+            letter-spacing: -2px;
+        }
+
+        .price span {
+            font-size: 16px;
+            font-weight: 500;
+            color: #94a3b8;
+            letter-spacing: 0;
+        }
+
+        .price-period {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 32px;
+        }
+
+        .features-list {
+            list-style: none;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .features-list li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            font-size: 14px;
+            color: #475569;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ecfdf5;
+            color: #10b981;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .popular .check-icon {
+            background: #eef2ff;
+            color: #6366f1;
+        }
+
+        .cta-btn {
+            margin-top: auto;
+            width: 100%;
+            padding: 15px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: #ffffff;
+            color: #0f172a;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cta-btn:hover {
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        .popular .cta-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+        }
+
+        .popular .cta-btn:hover {
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Choose Your Plan</h1>
+        <p>Start free, scale as you grow. All plans include a 14-day trial with no credit card required.</p>
+    </header>
+
+    <main class="pricing-row">
+        <article class="pricing-card">
+            <h2 class="plan-name">Starter</h2>
+            <div class="price">$9<span>/mo</span></div>
+            <p class="price-period">billed annually</p>
+            <ul class="features-list">
+                <li><span class="check-icon">✓</span> Up to 5 projects</li>
+                <li><span class="check-icon">✓</span> 10 GB storage</li>
+                <li><span class="check-icon">✓</span> Basic analytics</li>
+                <li><span class="check-icon">✓</span> Email support</li>
+                <li><span class="check-icon">✓</span> Community access</li>
+            </ul>
+            <button class="cta-btn">Get Started</button>
+        </article>
+
+        <article class="pricing-card popular">
+            <span class="badge">Most Popular</span>
+            <h2 class="plan-name">Pro</h2>
+            <div class="price">$29<span>/mo</span></div>
+            <p class="price-period">billed annually</p>
+            <ul class="features-list">
+                <li><span class="check-icon">✓</span> Unlimited projects</li>
+                <li><span class="check-icon">✓</span> 100 GB storage</li>
+                <li><span class="check-icon">✓</span> Advanced analytics</li>
+                <li><span class="check-icon">✓</span> Priority support</li>
+                <li><span class="check-icon">✓</span> Custom integrations</li>
+            </ul>
+            <button class="cta-btn">Get Started</button>
+        </article>
+
+        <article class="pricing-card">
+            <h2 class="plan-name">Enterprise</h2>
+            <div class="price">$79<span>/mo</span></div>
+            <p class="price-period">billed annually</p>
+            <ul class="features-list">
+                <li><span class="check-icon">✓</span> Unlimited everything</li>
+                <li><span class="check-icon">✓</span> 1 TB storage</li>
+                <li><span class="check-icon">✓</span> Real-time analytics</li>
+                <li><span class="check-icon">✓</span> Dedicated account manager</li>
+                <li><span class="check-icon">✓</span> SSO &amp; audit logs</li>
+            </ul>
+            <button class="cta-btn">Contact Sales</button>
+        </article>
+    </main>
+</body>
+</html>

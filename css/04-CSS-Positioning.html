@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Positioning &amp; Backgrounds — Lesson 4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:900px;margin:0 auto}
+        h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#10b981;margin-bottom:8px}
+        .subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        .section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+        .section-num{background:#1e2d4a;color:#10b981;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+        h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #10b981;padding-left:14px}
+        h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+        p{margin-bottom:20px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+
+        /* Syntax highlighting */
+        .tag{color:#7ee787}
+        .attr{color:#d2a8ff}
+        .val{color:#a5d6ff}
+        .cm{color:#5e6e8a;font-style:italic}
+        .prop{color:#d2a8ff}
+        .sel{color:#7ee787}
+        .num{color:#79c0ff}
+        .cssval{color:#a5d6ff}
+
+        /* Callout boxes */
+        .co-r,.co-g,.co-p,.co-y,.co-b{padding:20px 24px;border-radius:12px;margin:20px 0 28px;font-size:15.5px;line-height:1.75}
+        .co-r{background:#2d1118;border-left:4px solid #f85149;color:#f0a8a8}
+        .co-g{background:#0d2818;border-left:4px solid #10b981;color:#a7f3d0}
+        .co-p{background:#1e1535;border-left:4px solid #a78bfa;color:#c4b5fd}
+        .co-y{background:#2a2000;border-left:4px solid #f0c000;color:#fde68a}
+        .co-b{background:#0d1f3c;border-left:4px solid #58a6ff;color:#a5d6ff}
+
+        /* Live demo */
+        .demo{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;margin:20px 0 36px;overflow:hidden}
+        .demo-label{background:#1e2d4a;color:#7dd3fc;font-size:13px;font-weight:700;padding:8px 18px;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+        .demo-box{padding:28px;min-height:60px}
+
+        /* ASCII diagram block */
+        .ascii{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.6;color:#7dd3fc;white-space:pre;overflow-x:auto}
+
+        /* Table of Contents */
+        .toc{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px 32px;margin:28px 0 40px}
+        .toc-title{font-size:18px;font-weight:700;color:#f0f6fc;margin-bottom:14px}
+        .toc a{color:#58a6ff;text-decoration:none;display:block;padding:5px 0;font-size:15.5px;transition:color .2s}
+        .toc a:hover{color:#a5d6ff}
+        .toc a span{color:#10b981;margin-right:8px;font-weight:700}
+
+        /* Exercise / solution toggle */
+        details{background:#161b2e;border:1px solid #1e2d4a;border-radius:12px;margin:16px 0 28px;overflow:hidden}
+        details summary{padding:16px 22px;cursor:pointer;font-weight:700;color:#58a6ff;font-size:15.5px;list-style:none;user-select:none}
+        details summary::-webkit-details-marker{display:none}
+        details summary::before{content:'▸ ';color:#10b981}
+        details[open] summary::before{content:'▾ '}
+        details .solution{padding:0 22px 22px}
+
+        /* Utility */
+        ul,ol{margin:10px 0 22px 24px;color:#b0bac9}
+        li{margin-bottom:8px}
+        li strong{color:#e2e8f0}
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Header -->
+        <div class="lesson-num">CSS Practical Guide</div>
+        <h1>CSS Positioning &amp; Backgrounds</h1>
+        <p class="subtitle">
+            Learn how to break out of normal flow and place elements anywhere on the page.
+            We'll cover <code>static</code>, <code>relative</code>, <code>absolute</code>, <code>fixed</code>, <code>sticky</code>, <code>z-index</code>, and CSS gradients — everything you need to build those overlapping badges and beautiful backgrounds on the LUGX Gaming site.
+        </p>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <div class="toc-title">📑 Table of Contents</div>
+            <a href="#sec0"><span>0</span> What is Positioning? (The Mental Model)</a>
+            <a href="#sec1"><span>1</span> position: static (The Default)</a>
+            <a href="#sec2"><span>2</span> position: relative</a>
+            <a href="#sec3"><span>3</span> position: absolute (THE KEY CONCEPT)</a>
+            <a href="#sec4"><span>4</span> position: fixed</a>
+            <a href="#sec5"><span>5</span> position: sticky (Bonus)</a>
+            <a href="#sec6"><span>6</span> z-index — Stacking Order</a>
+            <a href="#sec7"><span>7</span> CSS Gradients &amp; Backgrounds</a>
+            <a href="#sec8"><span>8</span> Practice Exercises</a>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SECTION 0 -->
+        <!-- ============================================================ -->
+        <h2 class="section-title" id="sec0"><span class="section-num">0</span> What is Positioning? (The Mental Model)</h2>
+
+        <p>Before we dive into code, let's understand <strong>why positioning exists</strong>. In Tutorial 2, you learned about <strong>normal flow</strong>: block elements stack vertically, inline elements sit side by side. That's great for 90% of your layout.</p>
+
+        <p>But what about a <strong>price badge that sits ON TOP of a game card image</strong>? Or a <strong>navbar that stays at the top even when you scroll</strong>? Normal flow can't do that. That's where <strong>CSS positioning</strong> comes in.</p>
+
+        <h3>The 4 Main Position Values</h3>
+
+        <p>Every element in CSS has a <code>position</code> property. Here are the values you'll use:</p>
+
+        <ul>
+            <li><strong><code>static</code></strong> — The default. Element follows normal flow. Can't be nudged.</li>
+            <li><strong><code>relative</code></strong> — Element stays in normal flow but CAN be nudged from its original spot.</li>
+            <li><strong><code>absolute</code></strong> — Element is REMOVED from flow. Positions itself relative to its nearest positioned ancestor.</li>
+            <li><strong><code>fixed</code></strong> — Element is REMOVED from flow. Positions itself relative to the browser window (viewport).</li>
+        </ul>
+
+        <h3>The Big Picture (ASCII Diagram)</h3>
+
+        <div class="ascii">  NORMAL FLOW (static / relative)        TAKEN OUT OF FLOW (absolute / fixed)
+  ┌──────────────────────────────┐        ┌──────────────────────────────┐
+  │ ┌──────────────────────────┐ │        │ ┌──────────────────────────┐ │
+  │ │   Header  (block)        │ │        │ │   Header                 │ │
+  │ └──────────────────────────┘ │        │ └──────────────────────────┘ │
+  │ ┌──────────────────────────┐ │        │                              │
+  │ │   Nav     (block)        │ │        │  ← Gap! Element removed      │
+  │ └──────────────────────────┘ │        │                              │
+  │ ┌──────────────────────────┐ │        │ ┌──────────────────────────┐ │
+  │ │   Main    (block)        │ │        │ │   Main                   │ │
+  │ └──────────────────────────┘ │        │ └──────────────────────────┘ │
+  └──────────────────────────────┘        └──────────────────────────────┘
+  Elements stack one after another.                        ┌─────────┐
+  Each takes up its full space.            Nav floats free │  Nav    │
+                                           somewhere else └─────────┘</div>
+
+        <div class="co-p">
+            🧠 <strong>Key Mental Model:</strong> Think of normal flow like a stack of books on a table. <code>static</code> and <code>relative</code> keep the book in the stack. <code>absolute</code> and <code>fixed</code> lift the book off the table entirely — the other books close the gap as if it was never there.
+        </div>
+
+        <h3>The Positioning Controls</h3>
+
+        <p>Once an element is <strong>positioned</strong> (anything other than <code>static</code>), you unlock 4 offset properties:</p>
+
+        <ul>
+            <li><code>top</code> — push it down from the top edge</li>
+            <li><code>right</code> — push it left from the right edge</li>
+            <li><code>bottom</code> — push it up from the bottom edge</li>
+            <li><code>left</code> — push it right from the left edge</li>
+        </ul>
+
+        <div class="ascii">              top
+               ↓
+        ┌──────────────────┐
+  left →│                  │← right
+        │     ELEMENT      │
+        │                  │
+        └──────────────────┘
+               ↑
+             bottom</div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 1 -->
+        <!-- ============================================================ -->
+        <h2 class="section-title" id="sec1"><span class="section-num">1</span> position: static (The Default)</h2>
+
+        <p>Every single element starts with <code>position: static</code>. You never have to write it — it's the browser default. A static element:</p>
+
+        <ul>
+            <li>Follows <strong>normal flow</strong> (block elements stack, inline elements sit side by side)</li>
+            <li><strong>Ignores</strong> <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code> — they do absolutely nothing</li>
+            <li><strong>Ignores</strong> <code>z-index</code></li>
+        </ul>
+
+        <h3>Demo: top/left Do NOTHING on Static</h3>
+
+        <p>Watch this — we set <code>top: 50px</code> and <code>left: 100px</code> on a static element, and it doesn't move at all:</p>
+
+        <pre><code><span class="sel">.static-box</span> {
+    <span class="prop">position</span>: <span class="cssval">static</span>;       <span class="cm">/* default — you don't even need to write this */</span>
+    <span class="prop">top</span>: <span class="num">50px</span>;               <span class="cm">/* ❌ IGNORED! */</span>
+    <span class="prop">left</span>: <span class="num">100px</span>;             <span class="cm">/* ❌ IGNORED! */</span>
+    <span class="prop">background</span>: <span class="cssval">#1e2d4a</span>;
+    <span class="prop">padding</span>: <span class="num">20px</span>;
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result</div>
+            <div class="demo-box">
+                <div style="position:static;top:50px;left:100px;background:#1e2d4a;padding:20px;border-radius:8px;color:#f0f6fc;font-weight:700;display:inline-block;">
+                    I have top:50px and left:100px but I haven't moved! 🤷
+                </div>
+            </div>
+        </div>
+
+        <div class="co-r">
+            ❌ <strong>Common Mistake:</strong> Beginners add <code>top</code> or <code>left</code> and wonder why nothing moves. The answer is almost always: <em>you forgot to add <code>position: relative</code> (or <code>absolute</code>)</em>. Static elements ignore offset properties entirely.
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 2 -->
+        <!-- ============================================================ -->
+        <h2 class="section-title" id="sec2"><span class="section-num">2</span> position: relative</h2>
+
+        <p><code>position: relative</code> does two important things:</p>
+
+        <ol>
+            <li><strong>Lets you nudge the element</strong> from its original position using <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>.</li>
+            <li><strong>Makes the element an anchor</strong> for any <code>position: absolute</code> children inside it. (This is its REAL superpower — more on that in Section 3.)</li>
+        </ol>
+
+        <div class="co-p">
+            🧠 <strong>Key Concept:</strong> A <code>relative</code> element <strong>does NOT leave normal flow</strong>. The space it originally occupied is <strong>preserved</strong>. Other elements act as if it's still in its original spot — even if you nudge it 200px away.
+        </div>
+
+        <h3>Demo: Nudging a Box with top/left</h3>
+
+        <pre><code><span class="sel">.relative-box</span> {
+    <span class="prop">position</span>: <span class="cssval">relative</span>;
+    <span class="prop">top</span>: <span class="num">20px</span>;        <span class="cm">/* push DOWN 20px from original spot */</span>
+    <span class="prop">left</span>: <span class="num">40px</span>;       <span class="cm">/* push RIGHT 40px from original spot */</span>
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Nudged with relative</div>
+            <div class="demo-box">
+                <div style="background:#1e2d4a;padding:14px 20px;border-radius:8px;color:#7a8599;font-size:14px;margin-bottom:6px;display:inline-block;">Element Before</div>
+                <br>
+                <div style="position:relative;top:20px;left:40px;background:#10b981;padding:14px 20px;border-radius:8px;color:#0f111a;font-weight:700;display:inline-block;">I'm nudged down 20px, right 40px ✨</div>
+                <br>
+                <div style="background:#1e2d4a;padding:14px 20px;border-radius:8px;color:#7a8599;font-size:14px;margin-top:6px;display:inline-block;">Element After (notice the gap — my space is preserved!)</div>
+            </div>
+        </div>
+
+        <h3>Demo: Original Space is Preserved</h3>
+
+        <p>This is crucial to understand. Even though the green box <em>appears</em> to have moved, the elements around it behave as if it's still in the original position. See how "Element After" doesn't move up to fill the gap:</p>
+
+        <div class="ascii">  WHAT YOU SEE:                    WHAT THE BROWSER THINKS:
+  ┌──────────────┐                 ┌──────────────┐
+  │ Element Before│                │ Element Before│
+  └──────────────┘                 └──────────────┘
+       ← gap →                     ┌──────────────┐
+            ┌──────────────┐       │ Green Box     │  ← still here in flow
+            │ Green Box     │      └──────────────┘
+            └──────────────┘       ┌──────────────┐
+  ┌──────────────┐                 │ Element After │
+  │ Element After │                └──────────────┘
+  └──────────────┘</div>
+
+        <div class="co-y">
+            💡 <strong>Pro Tip:</strong> In practice, you'll rarely use <code>relative</code> to visually nudge things. Its #1 use is as an <strong>anchor parent for absolute children</strong>. That's the real reason you'll write <code>position: relative</code> — we'll see this in the very next section.
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 3 -->
+        <!-- ============================================================ -->
+        <h2 class="section-title" id="sec3"><span class="section-num">3</span> position: absolute (THE KEY CONCEPT)</h2>
+
+        <p>This is the <strong>most important positioning value</strong> and the one you'll use most on the LUGX Gaming site. Here's what <code>absolute</code> does:</p>
+
+        <ol>
+            <li><strong>Removes the element from normal flow</strong> — other elements act as if it doesn't exist.</li>
+            <li><strong>Positions itself relative to its nearest positioned ancestor</strong> (an ancestor with <code>position: relative</code>, <code>absolute</code>, or <code>fixed</code>).</li>
+            <li>If there's NO positioned ancestor, it positions relative to the <code>&lt;body&gt;</code> (the whole page).</li>
+        </ol>
+
+        <h3>The Parent-Child Rule</h3>
+
+        <p>This is the golden rule you must memorize:</p>
+
+        <div class="co-g">
+            ✅ <strong>The Rule:</strong> To position a child inside a parent, set the <strong>parent</strong> to <code>position: relative</code> and the <strong>child</strong> to <code>position: absolute</code>. The child will then use the parent's edges as its coordinate system.
+        </div>
+
+        <pre><code><span class="cm">/* THE PARENT — becomes the anchor */</span>
+<span class="sel">.card</span> {
+    <span class="prop">position</span>: <span class="cssval">relative</span>;    <span class="cm">/* ← This is the anchor */</span>
+    <span class="prop">width</span>: <span class="num">300px</span>;
+    <span class="prop">height</span>: <span class="num">200px</span>;
+}
+
+<span class="cm">/* THE CHILD — positions itself inside the parent */</span>
+<span class="sel">.badge</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;   <span class="cm">/* ← Taken out of flow */</span>
+    <span class="prop">top</span>: <span class="num">10px</span>;             <span class="cm">/* 10px from the TOP of .card */</span>
+    <span class="prop">right</span>: <span class="num">10px</span>;           <span class="cm">/* 10px from the RIGHT of .card */</span>
+}</code></pre>
+
+        <div class="ascii">  Parent (position: relative)
+  ┌─────────────────────────────────────┐
+  │                         ┌─────────┐ │
+  │                         │ $22     │ │ ← top: 10px, right: 10px
+  │                         │ (badge) │ │
+  │                         └─────────┘ │
+  │                                     │
+  │       Game Card Image               │
+  │                                     │
+  │                                     │
+  └─────────────────────────────────────┘</div>
+
+        <h3>Demo: The LUGX Price Badge on a Card</h3>
+
+        <p>This is <em>exactly</em> how the LUGX Gaming site places the <strong>$22 price tag</strong> on the game card. A card is the parent with <code>relative</code>, and the badge is the child with <code>absolute</code>:</p>
+
+        <pre><code><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"game-card"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"game.jpg"</span> <span class="attr">alt</span>=<span class="val">"Game"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"price-badge"</span><span class="tag">&gt;</span>$22<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- CSS --&gt;</span>
+<span class="sel">.game-card</span> {
+    <span class="prop">position</span>: <span class="cssval">relative</span>;      <span class="cm">/* ANCHOR */</span>
+    <span class="prop">width</span>: <span class="num">280px</span>;
+}
+<span class="sel">.price-badge</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;     <span class="cm">/* FLIES INSIDE PARENT */</span>
+    <span class="prop">top</span>: <span class="num">12px</span>;
+    <span class="prop">right</span>: <span class="num">12px</span>;
+    <span class="prop">background</span>: <span class="cssval">#0071F8</span>;
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">padding</span>: <span class="num">6px 14px</span>;
+    <span class="prop">border-radius</span>: <span class="num">8px</span>;
+    <span class="prop">font-weight</span>: <span class="num">700</span>;
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Price Badge (top-right)</div>
+            <div class="demo-box">
+                <div style="position:relative;width:280px;height:180px;background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:12px;overflow:hidden;border:1px solid #1e2d4a;">
+                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#3b4c6b;font-size:14px;font-family:'JetBrains Mono',monospace;">🎮 Game Image Area</div>
+                    <span style="position:absolute;top:12px;right:12px;background:#0071F8;color:white;padding:6px 14px;border-radius:8px;font-weight:700;font-size:14px;">$22</span>
+                </div>
+            </div>
+        </div>
+
+        <h3>Demo: Discount Badge (bottom-left)</h3>
+
+        <p>The LUGX site also has <strong>discount circles</strong> at the bottom-left. Same technique, different offsets:</p>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Discount Badge (bottom-left)</div>
+            <div class="demo-box">
+                <div style="position:relative;width:280px;height:180px;background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:12px;overflow:hidden;border:1px solid #1e2d4a;">
+                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#3b4c6b;font-size:14px;font-family:'JetBrains Mono',monospace;">🎮 Game Image Area</div>
+                    <span style="position:absolute;top:12px;right:12px;background:#0071F8;color:white;padding:6px 14px;border-radius:8px;font-weight:700;font-size:14px;">$22</span>
+                    <span style="position:absolute;bottom:12px;left:12px;background:#ef4444;color:white;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;">-40%</span>
+                </div>
+            </div>
+        </div>
+
+        <pre><code><span class="sel">.discount-badge</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">bottom</span>: <span class="num">12px</span>;          <span class="cm">/* 12px from the BOTTOM of parent */</span>
+    <span class="prop">left</span>: <span class="num">12px</span>;            <span class="cm">/* 12px from the LEFT of parent */</span>
+    <span class="prop">background</span>: <span class="cssval">#ef4444</span>;
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">width</span>: <span class="num">48px</span>;
+    <span class="prop">height</span>: <span class="num">48px</span>;
+    <span class="prop">border-radius</span>: <span class="num">50%</span>;    <span class="cm">/* Makes it a circle */</span>
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+    <span class="prop">justify-content</span>: <span class="cssval">center</span>;
+    <span class="prop">font-weight</span>: <span class="num">800</span>;
+}</code></pre>
+
+        <h3>Demo: What Happens WITHOUT relative on the Parent?</h3>
+
+        <p>This is the #1 bug beginners hit. If you forget <code>position: relative</code> on the parent, the badge <strong>positions itself relative to the page</strong> — it flies away to the edge of the viewport!</p>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — NO relative on parent (Badge escapes!)</div>
+            <div class="demo-box" style="position:relative;min-height:200px;">
+                <div style="width:280px;height:180px;background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:12px;overflow:hidden;border:1px solid #1e2d4a;">
+                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#3b4c6b;font-size:14px;font-family:'JetBrains Mono',monospace;">🎮 Card WITHOUT relative</div>
+                </div>
+                <!-- Badge positions to demo-box instead of card -->
+                <span style="position:absolute;top:12px;right:12px;background:#f85149;color:white;padding:6px 14px;border-radius:8px;font-weight:700;font-size:14px;">$22 — I escaped! 💨</span>
+            </div>
+        </div>
+
+        <div class="co-r">
+            ❌ <strong>Bug Alert:</strong> Without <code>position: relative</code> on the card, the badge searches up the DOM tree for the nearest positioned ancestor. If it finds none, it latches onto the <code>&lt;body&gt;</code>. In our demo, it found the demo-box instead. Always pair <strong>parent: relative</strong> with <strong>child: absolute</strong>.
+        </div>
+
+        <h3>Demo: Centered Overlay Text on an Image</h3>
+
+        <p>A very common pattern — a semi-transparent overlay with centered text on top of an image. This is how "SOLD OUT" or "COMING SOON" labels work:</p>
+
+        <pre><code><span class="sel">.card</span> { <span class="prop">position</span>: <span class="cssval">relative</span>; }
+
+<span class="sel">.overlay</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">top</span>: <span class="num">0</span>; <span class="prop">left</span>: <span class="num">0</span>; <span class="prop">right</span>: <span class="num">0</span>; <span class="prop">bottom</span>: <span class="num">0</span>;  <span class="cm">/* stretch to fill parent */</span>
+    <span class="prop">background</span>: <span class="cssval">rgba(0, 0, 0, 0.6)</span>;          <span class="cm">/* semi-transparent black */</span>
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+    <span class="prop">justify-content</span>: <span class="cssval">center</span>;
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">font-size</span>: <span class="num">24px</span>;
+    <span class="prop">font-weight</span>: <span class="num">800</span>;
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Centered Overlay</div>
+            <div class="demo-box">
+                <div style="position:relative;width:280px;height:180px;background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:12px;overflow:hidden;border:1px solid #1e2d4a;">
+                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#3b4c6b;font-size:14px;font-family:'JetBrains Mono',monospace;">🎮 Game Image</div>
+                    <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;color:white;font-size:24px;font-weight:800;letter-spacing:2px;border-radius:12px;">SOLD OUT</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="co-p">
+            🧠 <strong>How it works:</strong> Setting <code>top: 0; left: 0; right: 0; bottom: 0;</code> on an absolute element stretches it to fill the entire parent. Then we use Flexbox (<code>display: flex</code>) to center the text inside that overlay. Two layout systems working together!
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 4 -->
+        <!-- ============================================================ -->
+        <h2 class="section-title" id="sec4"><span class="section-num">4</span> position: fixed</h2>
+
+        <p><code>position: fixed</code> is similar to <code>absolute</code>, but instead of positioning relative to a parent element, it positions relative to the <strong>viewport (browser window)</strong>. It <strong>does not move when you scroll</strong>.</p>
+
+        <ul>
+            <li>Removed from normal flow (like <code>absolute</code>)</li>
+            <li>Positions relative to the <strong>browser window</strong>, not any parent</li>
+            <li>Stays in place when the user scrolls the page</li>
+        </ul>
+
+        <h3>Common Use Cases</h3>
+        <ul>
+            <li><strong>Sticky navbars</strong> — the top navigation bar that follows you as you scroll</li>
+            <li><strong>"Back to top" buttons</strong> — a small button fixed to the bottom-right corner</li>
+            <li><strong>Cookie banners</strong> — the bar at the bottom asking you to accept cookies</li>
+            <li><strong>Chat widgets</strong> — the floating chat bubble on many websites</li>
+        </ul>
+
+        <pre><code><span class="sel">.back-to-top</span> {
+    <span class="prop">position</span>: <span class="cssval">fixed</span>;       <span class="cm">/* Fixed to the viewport */</span>
+    <span class="prop">bottom</span>: <span class="num">20px</span>;           <span class="cm">/* 20px from the bottom of the window */</span>
+    <span class="prop">right</span>: <span class="num">20px</span>;            <span class="cm">/* 20px from the right of the window */</span>
+    <span class="prop">background</span>: <span class="cssval">#0071F8</span>;
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">width</span>: <span class="num">48px</span>;
+    <span class="prop">height</span>: <span class="num">48px</span>;
+    <span class="prop">border-radius</span>: <span class="num">50%</span>;
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+    <span class="prop">justify-content</span>: <span class="cssval">center</span>;
+    <span class="prop">font-size</span>: <span class="num">20px</span>;
+    <span class="prop">cursor</span>: <span class="cssval">pointer</span>;
+    <span class="prop">z-index</span>: <span class="num">999</span>;           <span class="cm">/* Ensure it's on top of everything */</span>
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Fixed Button (simulated, not actually fixed)</div>
+            <div class="demo-box">
+                <div style="position:relative;height:140px;background:#0d1117;border-radius:8px;border:1px dashed #1e2d4a;overflow:hidden;">
+                    <div style="padding:16px;color:#5e6e8a;font-size:13px;font-family:'JetBrains Mono',monospace;">
+                        ↕ Imagine this is the full browser viewport...<br>
+                        &nbsp;&nbsp;The blue button stays in the corner even when you scroll.
+                    </div>
+                    <div style="position:absolute;bottom:12px;right:12px;background:#0071F8;color:white;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,113,248,0.4);">↑</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="co-y">
+            💡 <strong>Pro Tip:</strong> If you use <code>position: fixed</code> on a navbar, the content below it will slide <em>under</em> it (because the navbar is removed from flow). Fix this by adding <code>padding-top</code> to the body equal to the navbar height. For example, if your navbar is 70px tall: <code>body { padding-top: 70px; }</code>
+        </div>
+
+        <div class="co-r">
+            ❌ <strong>Warning:</strong> Fixed elements are removed from normal flow, just like absolute. This means they can cover other content. Always use <code>z-index</code> to control layering and test on mobile devices where screen space is limited!
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 5 -->
+        <!-- ============================================================ -->
+        <h2 class="section-title" id="sec5"><span class="section-num">5</span> position: sticky (Bonus)</h2>
+
+        <p><code>position: sticky</code> is a hybrid — it acts like <code>relative</code> until the user scrolls past a threshold, then it "sticks" like <code>fixed</code>. It's the modern way to create sticky headers, sidebars, and section labels.</p>
+
+        <h3>How It Works</h3>
+
+        <ol>
+            <li>The element sits in <strong>normal flow</strong> (like <code>relative</code>).</li>
+            <li>When you scroll, and the element reaches the <code>top</code> value you set, it <strong>sticks to that position</strong>.</li>
+            <li>It stays stuck until its parent element scrolls out of view.</li>
+        </ol>
+
+        <pre><code><span class="sel">.sticky-header</span> {
+    <span class="prop">position</span>: <span class="cssval">sticky</span>;
+    <span class="prop">top</span>: <span class="num">0</span>;               <span class="cm">/* Stick to the top when scrolled */</span>
+    <span class="prop">background</span>: <span class="cssval">#0f111a</span>;
+    <span class="prop">padding</span>: <span class="num">16px</span>;
+    <span class="prop">z-index</span>: <span class="num">10</span>;
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Sticky Header (scroll inside the box)</div>
+            <div class="demo-box">
+                <div style="height:200px;overflow-y:auto;border-radius:8px;background:#0d1117;border:1px solid #1e2d4a;">
+                    <div style="position:sticky;top:0;background:#1e2d4a;padding:12px 16px;font-weight:700;color:#10b981;z-index:10;font-size:14px;">📌 I'm a Sticky Header — Scroll down ↓</div>
+                    <div style="padding:16px;color:#7a8599;font-size:14px;line-height:1.8;">
+                        <p style="margin-bottom:12px;">This is paragraph 1. Keep scrolling to see the sticky header in action.</p>
+                        <p style="margin-bottom:12px;">This is paragraph 2. The header should stay pinned at the top.</p>
+                        <p style="margin-bottom:12px;">This is paragraph 3. Almost there...</p>
+                        <p style="margin-bottom:12px;">This is paragraph 4. See how the header sticks?</p>
+                        <p style="margin-bottom:12px;">This is paragraph 5. It won't scroll away!</p>
+                        <p style="margin-bottom:12px;">This is paragraph 6. Pretty cool, right?</p>
+                        <p style="margin-bottom:12px;">This is paragraph 7. You can use this for nav bars.</p>
+                        <p style="margin-bottom:12px;">This is paragraph 8. End of demo content.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="co-b">
+            ℹ️ <strong>Important:</strong> <code>position: sticky</code> <strong>requires a <code>top</code> value</strong> to work. Without it, the browser doesn't know where to stick the element. Also, the element only sticks within its parent's boundaries — once the parent scrolls out of view, the sticky element goes with it.
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 6 -->
+        <!-- ============================================================ -->
+        <h2 class="section-title" id="sec6"><span class="section-num">6</span> z-index — Stacking Order</h2>
+
+        <p>When you position elements on top of each other (using <code>absolute</code>, <code>fixed</code>, etc.), which one is on top? That's what <code>z-index</code> controls.</p>
+
+        <h3>The Rules of z-index</h3>
+
+        <ul>
+            <li><strong>Higher <code>z-index</code> = on top.</strong> An element with <code>z-index: 10</code> is above <code>z-index: 5</code>.</li>
+            <li><strong>Default is <code>auto</code></strong> (effectively 0).</li>
+            <li><strong>Only works on positioned elements</strong> — <code>z-index</code> does nothing on <code>position: static</code>.</li>
+            <li>Can be <strong>negative</strong> — <code>z-index: -1</code> pushes elements behind the normal flow.</li>
+        </ul>
+
+        <div class="ascii">  Side view (imagine looking at the screen from the side):
+
+  Screen
+  ──────────────
+  │ z-index: 30 │  ← front (user sees this)
+  │ z-index: 20 │
+  │ z-index: 10 │
+  │ z-index: 1  │
+  │ (static)    │  ← back
+  ──────────────
+     ← user's eyes here</div>
+
+        <pre><code><span class="sel">.box-red</span>    { <span class="prop">position</span>: <span class="cssval">relative</span>; <span class="prop">z-index</span>: <span class="num">1</span>; }
+<span class="sel">.box-green</span>  { <span class="prop">position</span>: <span class="cssval">relative</span>; <span class="prop">z-index</span>: <span class="num">2</span>; }  <span class="cm">/* on top of red */</span>
+<span class="sel">.box-blue</span>   { <span class="prop">position</span>: <span class="cssval">relative</span>; <span class="prop">z-index</span>: <span class="num">3</span>; }  <span class="cm">/* on top of both */</span></code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — z-index Stacking</div>
+            <div class="demo-box">
+                <div style="position:relative;height:160px;">
+                    <div style="position:absolute;top:10px;left:10px;width:140px;height:100px;background:#ef4444;border-radius:10px;z-index:1;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(239,68,68,0.3);">z-index: 1</div>
+                    <div style="position:absolute;top:30px;left:60px;width:140px;height:100px;background:#10b981;border-radius:10px;z-index:2;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(16,185,129,0.3);">z-index: 2</div>
+                    <div style="position:absolute;top:50px;left:110px;width:140px;height:100px;background:#3b82f6;border-radius:10px;z-index:3;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(59,130,246,0.3);">z-index: 3</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="co-y">
+            💡 <strong>Pro Tip:</strong> Don't use huge numbers like <code>z-index: 99999</code>. Use a sensible scale: <strong>1-10</strong> for regular positioned elements, <strong>100</strong> for dropdowns, <strong>1000</strong> for modals, <strong>9999</strong> for overlays/tooltips. This keeps things manageable.
+        </div>
+
+        <div class="co-p">
+            🧠 <strong>Why doesn't my z-index work?</strong> Two common reasons: <br>
+            1. The element has <code>position: static</code> (z-index only works on positioned elements).<br>
+            2. <strong>Stacking context</strong> — a parent with a lower z-index creates a ceiling for its children. Even if a child has <code>z-index: 9999</code>, it can't escape its parent's stacking context. (This is an advanced topic — for now, just know it exists.)
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 7 -->
+        <!-- ============================================================ -->
+        <h2 class="section-title" id="sec7"><span class="section-num">7</span> CSS Gradients &amp; Backgrounds</h2>
+
+        <p>The LUGX Gaming site uses beautiful <strong>gradient backgrounds</strong> — those smooth color transitions that go from dark blue to a lighter blue. Let's learn how to create them.</p>
+
+        <h3>background-color vs background</h3>
+
+        <p>First, know the difference:</p>
+
+        <ul>
+            <li><code>background-color</code> — sets a <strong>single, solid color</strong>. Example: <code>background-color: #0071F8;</code></li>
+            <li><code>background</code> — the <strong>shorthand</strong> that can set color, image, gradient, and more all at once. Example: <code>background: linear-gradient(...);</code></li>
+        </ul>
+
+        <div class="co-b">
+            ℹ️ <strong>Note:</strong> Gradients are technically <strong>background images</strong>, not colors. That's why you must use <code>background</code> (not <code>background-color</code>) for gradients.
+        </div>
+
+        <h3>linear-gradient — The Most Common</h3>
+
+        <p>A linear gradient creates a smooth transition between two or more colors along a straight line.</p>
+
+        <pre><code><span class="cm">/* Basic syntax */</span>
+<span class="prop">background</span>: <span class="cssval">linear-gradient(direction, color1, color2)</span>;
+
+<span class="cm">/* Examples */</span>
+<span class="prop">background</span>: <span class="cssval">linear-gradient(to right, #0071F8, #00c6ff)</span>;     <span class="cm">/* left to right */</span>
+<span class="prop">background</span>: <span class="cssval">linear-gradient(to bottom, #0071F8, #003d8f)</span>;    <span class="cm">/* top to bottom */</span>
+<span class="prop">background</span>: <span class="cssval">linear-gradient(135deg, #667eea, #764ba2)</span>;      <span class="cm">/* diagonal */</span></code></pre>
+
+        <h4>Direction Options</h4>
+        <ul>
+            <li><code>to right</code> — left → right (same as <code>90deg</code>)</li>
+            <li><code>to bottom</code> — top → bottom (same as <code>180deg</code>, this is the default)</li>
+            <li><code>to bottom right</code> — diagonal, top-left → bottom-right</li>
+            <li><code>45deg</code>, <code>135deg</code>, <code>270deg</code> — any angle you want</li>
+        </ul>
+
+        <div class="ascii">  Direction Reference:
+                  0deg (to top)
+                    ↑
+                    │
+  270deg ←──────────┼──────────→ 90deg (to right)
+  (to left)         │
+                    ↓
+                180deg (to bottom, DEFAULT)</div>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Linear Gradients</div>
+            <div class="demo-box" style="display:flex;gap:16px;flex-wrap:wrap;">
+                <div style="width:200px;height:100px;border-radius:10px;background:linear-gradient(to right,#0071F8,#00c6ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:12px;">to right</div>
+                <div style="width:200px;height:100px;border-radius:10px;background:linear-gradient(to bottom,#0071F8,#003d8f);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:12px;">to bottom</div>
+                <div style="width:200px;height:100px;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:12px;">135deg</div>
+                <div style="width:200px;height:100px;border-radius:10px;background:linear-gradient(45deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:12px;">45deg</div>
+            </div>
+        </div>
+
+        <h3>Multi-Stop Gradients</h3>
+
+        <p>You can add <strong>color stops</strong> — specific points where each color is at its most intense. This gives you finer control:</p>
+
+        <pre><code><span class="cm">/* The LUGX-style blue gradient */</span>
+<span class="prop">background</span>: <span class="cssval">linear-gradient(180deg, #0071F8 0%, #0056c6 50%, #003d8f 100%)</span>;
+
+<span class="cm">/* Read it as: */</span>
+<span class="cm">/*   At 0% (top)    → bright blue  #0071F8  */</span>
+<span class="cm">/*   At 50% (middle) → medium blue #0056c6  */</span>
+<span class="cm">/*   At 100% (bottom) → dark blue  #003d8f  */</span></code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — LUGX Blue Gradient</div>
+            <div class="demo-box">
+                <div style="width:100%;height:160px;border-radius:12px;background:linear-gradient(180deg,#0071F8 0%,#0056c6 50%,#003d8f 100%);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:22px;letter-spacing:1px;">LUGX Gaming Gradient</div>
+            </div>
+        </div>
+
+        <h3>radial-gradient — Glow &amp; Spotlight Effects</h3>
+
+        <p>A radial gradient radiates outward from a center point — perfect for glow or spotlight effects.</p>
+
+        <pre><code><span class="cm">/* Basic radial gradient */</span>
+<span class="prop">background</span>: <span class="cssval">radial-gradient(circle, #0071F8, #0f111a)</span>;
+
+<span class="cm">/* Glow effect behind a card */</span>
+<span class="prop">background</span>: <span class="cssval">radial-gradient(circle at center, rgba(0,113,248,0.3) 0%, transparent 70%)</span>;</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Radial Gradient Glow</div>
+            <div class="demo-box">
+                <div style="width:100%;height:200px;border-radius:12px;background:radial-gradient(circle at center,rgba(0,113,248,0.35) 0%,transparent 70%),#0d1117;display:flex;align-items:center;justify-content:center;">
+                    <div style="background:#161b2e;border:1px solid #1e2d4a;border-radius:12px;padding:24px 40px;color:#f0f6fc;font-weight:700;font-size:16px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+                        🎮 Game Card with Glow
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="co-y">
+            💡 <strong>Pro Tip:</strong> You can combine multiple backgrounds using commas. The LUGX site likely uses something like: <code>background: radial-gradient(... glow ...), linear-gradient(... base ...);</code> — the first background is drawn on top.
+        </div>
+
+        <h3>Gradient Overlay on an Image</h3>
+
+        <p>A popular pattern: place a gradient on top of an image to make text readable. In the LUGX site, the bottom of game cards has a dark gradient fade so the game title is readable:</p>
+
+        <pre><code><span class="sel">.card-image</span> {
+    <span class="prop">position</span>: <span class="cssval">relative</span>;
+}
+
+<span class="sel">.card-image::after</span> {
+    <span class="prop">content</span>: <span class="cssval">""</span>;
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">bottom</span>: <span class="num">0</span>; <span class="prop">left</span>: <span class="num">0</span>; <span class="prop">right</span>: <span class="num">0</span>;
+    <span class="prop">height</span>: <span class="num">50%</span>;
+    <span class="prop">background</span>: <span class="cssval">linear-gradient(to top, rgba(0,0,0,0.8), transparent)</span>;
+}</code></pre>
+
+        <div class="demo">
+            <div class="demo-label">▶ Live Result — Gradient Overlay on Card</div>
+            <div class="demo-box">
+                <div style="position:relative;width:280px;height:200px;background:linear-gradient(135deg,#2d1b69,#11998e);border-radius:12px;overflow:hidden;">
+                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.2);font-size:48px;">🎮</div>
+                    <div style="position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);"></div>
+                    <div style="position:absolute;bottom:16px;left:16px;color:white;">
+                        <div style="font-weight:800;font-size:16px;margin-bottom:4px;">Fortnite</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.6);">Battle Royale • Action</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 8 -->
+        <!-- ============================================================ -->
+        <h2 class="section-title" id="sec8"><span class="section-num">8</span> Practice Exercises</h2>
+
+        <p>Time to practice! Try each exercise on your own before looking at the solution. Open a new HTML file, or use CodePen to experiment.</p>
+
+        <!-- Exercise 1 -->
+        <h3>Exercise 1: "NEW" Badge at Top-Left</h3>
+
+        <p>Create a product card (280×180px, dark background) with a green <strong>"NEW"</strong> badge positioned at the <strong>top-left corner</strong> (10px from the top, 10px from the left).</p>
+
+        <div class="demo">
+            <div class="demo-label">▶ Expected Result</div>
+            <div class="demo-box">
+                <div style="position:relative;width:280px;height:180px;background:#161b2e;border-radius:12px;border:1px solid #1e2d4a;">
+                    <span style="position:absolute;top:10px;left:10px;background:#10b981;color:white;padding:4px 12px;border-radius:6px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:1px;">NEW</span>
+                    <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#3b4c6b;font-size:14px;">Product Image</div>
+                </div>
+            </div>
+        </div>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <pre><code><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"product-card"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"badge-new"</span><span class="tag">&gt;</span>NEW<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Product Image<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- CSS --&gt;</span>
+<span class="sel">.product-card</span> {
+    <span class="prop">position</span>: <span class="cssval">relative</span>;       <span class="cm">/* anchor for the badge */</span>
+    <span class="prop">width</span>: <span class="num">280px</span>;
+    <span class="prop">height</span>: <span class="num">180px</span>;
+    <span class="prop">background</span>: <span class="cssval">#161b2e</span>;
+    <span class="prop">border-radius</span>: <span class="num">12px</span>;
+    <span class="prop">border</span>: <span class="num">1px</span> <span class="cssval">solid #1e2d4a</span>;
+}
+<span class="sel">.badge-new</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">top</span>: <span class="num">10px</span>;
+    <span class="prop">left</span>: <span class="num">10px</span>;
+    <span class="prop">background</span>: <span class="cssval">#10b981</span>;
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">padding</span>: <span class="num">4px 12px</span>;
+    <span class="prop">border-radius</span>: <span class="num">6px</span>;
+    <span class="prop">font-weight</span>: <span class="num">700</span>;
+    <span class="prop">font-size</span>: <span class="num">12px</span>;
+    <span class="prop">text-transform</span>: <span class="cssval">uppercase</span>;
+    <span class="prop">letter-spacing</span>: <span class="num">1px</span>;
+}</code></pre>
+            </div>
+        </details>
+
+        <!-- Exercise 2 -->
+        <h3>Exercise 2: Price Tag at Top-Right</h3>
+
+        <p>Create a card (280×180px) with a blue <strong>price tag showing "$49"</strong> at the <strong>top-right corner</strong> (12px from top, 12px from right).</p>
+
+        <div class="demo">
+            <div class="demo-label">▶ Expected Result</div>
+            <div class="demo-box">
+                <div style="position:relative;width:280px;height:180px;background:#161b2e;border-radius:12px;border:1px solid #1e2d4a;">
+                    <span style="position:absolute;top:12px;right:12px;background:#0071F8;color:white;padding:6px 14px;border-radius:8px;font-weight:700;font-size:15px;">$49</span>
+                    <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#3b4c6b;font-size:14px;">Game Image</div>
+                </div>
+            </div>
+        </div>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <pre><code><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"game-card"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"price-tag"</span><span class="tag">&gt;</span>$49<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Game Image<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- CSS --&gt;</span>
+<span class="sel">.game-card</span> {
+    <span class="prop">position</span>: <span class="cssval">relative</span>;
+    <span class="prop">width</span>: <span class="num">280px</span>;
+    <span class="prop">height</span>: <span class="num">180px</span>;
+    <span class="prop">background</span>: <span class="cssval">#161b2e</span>;
+    <span class="prop">border-radius</span>: <span class="num">12px</span>;
+    <span class="prop">border</span>: <span class="num">1px</span> <span class="cssval">solid #1e2d4a</span>;
+}
+<span class="sel">.price-tag</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">top</span>: <span class="num">12px</span>;
+    <span class="prop">right</span>: <span class="num">12px</span>;
+    <span class="prop">background</span>: <span class="cssval">#0071F8</span>;
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">padding</span>: <span class="num">6px 14px</span>;
+    <span class="prop">border-radius</span>: <span class="num">8px</span>;
+    <span class="prop">font-weight</span>: <span class="num">700</span>;
+    <span class="prop">font-size</span>: <span class="num">15px</span>;
+}</code></pre>
+            </div>
+        </details>
+
+        <!-- Exercise 3 -->
+        <h3>Exercise 3: "SOLD OUT" Overlay</h3>
+
+        <p>Create a card with a <strong>semi-transparent black overlay</strong> and the text <strong>"SOLD OUT"</strong> centered in the middle. The overlay should cover the entire card.</p>
+
+        <div class="demo">
+            <div class="demo-label">▶ Expected Result</div>
+            <div class="demo-box">
+                <div style="position:relative;width:280px;height:180px;background:linear-gradient(135deg,#1a1a2e,#2d1b69);border-radius:12px;overflow:hidden;">
+                    <div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.15);font-size:48px;">🎮</div>
+                    <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.65);display:flex;align-items:center;justify-content:center;color:white;font-size:22px;font-weight:800;letter-spacing:3px;border-radius:12px;">SOLD OUT</div>
+                </div>
+            </div>
+        </div>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <pre><code><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;p&gt;</span>🎮<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"overlay"</span><span class="tag">&gt;</span>SOLD OUT<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- CSS --&gt;</span>
+<span class="sel">.card</span> {
+    <span class="prop">position</span>: <span class="cssval">relative</span>;
+    <span class="prop">width</span>: <span class="num">280px</span>;
+    <span class="prop">height</span>: <span class="num">180px</span>;
+    <span class="prop">background</span>: <span class="cssval">linear-gradient(135deg, #1a1a2e, #2d1b69)</span>;
+    <span class="prop">border-radius</span>: <span class="num">12px</span>;
+    <span class="prop">overflow</span>: <span class="cssval">hidden</span>;
+}
+<span class="sel">.overlay</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">top</span>: <span class="num">0</span>;
+    <span class="prop">left</span>: <span class="num">0</span>;
+    <span class="prop">right</span>: <span class="num">0</span>;
+    <span class="prop">bottom</span>: <span class="num">0</span>;             <span class="cm">/* all four = stretch to fill */</span>
+    <span class="prop">background</span>: <span class="cssval">rgba(0, 0, 0, 0.65)</span>;
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+    <span class="prop">justify-content</span>: <span class="cssval">center</span>;
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">font-size</span>: <span class="num">22px</span>;
+    <span class="prop">font-weight</span>: <span class="num">800</span>;
+    <span class="prop">letter-spacing</span>: <span class="num">3px</span>;
+}</code></pre>
+            </div>
+        </details>
+
+        <!-- Exercise 4 -->
+        <h3>Exercise 4: Gradient Background</h3>
+
+        <p>Create a full-width section with a gradient background that goes from <strong>dark blue (#0f0c29)</strong> to <strong>purple (#302b63)</strong> to <strong>dark violet (#24243e)</strong>. Add some centered white text.</p>
+
+        <div class="demo">
+            <div class="demo-label">▶ Expected Result</div>
+            <div class="demo-box">
+                <div style="width:100%;padding:40px;border-radius:12px;background:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%);text-align:center;">
+                    <div style="color:white;font-size:24px;font-weight:800;margin-bottom:8px;">Welcome to the Game Store</div>
+                    <div style="color:rgba(255,255,255,0.6);font-size:14px;">Discover your next adventure</div>
+                </div>
+            </div>
+        </div>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <pre><code><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;section</span> <span class="attr">class</span>=<span class="val">"hero"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Welcome to the Game Store<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Discover your next adventure<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/section&gt;</span>
+
+<span class="cm">&lt;!-- CSS --&gt;</span>
+<span class="sel">.hero</span> {
+    <span class="prop">width</span>: <span class="num">100%</span>;
+    <span class="prop">padding</span>: <span class="num">40px</span>;
+    <span class="prop">background</span>: <span class="cssval">linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)</span>;
+    <span class="prop">text-align</span>: <span class="cssval">center</span>;
+    <span class="prop">border-radius</span>: <span class="num">12px</span>;
+}
+<span class="sel">.hero h1</span> {
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">font-size</span>: <span class="num">24px</span>;
+    <span class="prop">font-weight</span>: <span class="num">800</span>;
+    <span class="prop">margin-bottom</span>: <span class="num">8px</span>;
+}
+<span class="sel">.hero p</span> {
+    <span class="prop">color</span>: <span class="cssval">rgba(255, 255, 255, 0.6)</span>;
+    <span class="prop">font-size</span>: <span class="num">14px</span>;
+}</code></pre>
+            </div>
+        </details>
+
+        <!-- Exercise 5 -->
+        <h3>Exercise 5: The Ultimate Game Card (Combine Everything!)</h3>
+
+        <p>This is the big one! Create a game card that combines <strong>everything</strong> you learned:</p>
+        <ul>
+            <li>A card (280×320px) with a colorful game "image" background</li>
+            <li>A <strong>price badge ($22)</strong> at the top-right</li>
+            <li>A <strong>discount badge (-40%)</strong> circle at the bottom-left of the image area</li>
+            <li>A <strong>gradient overlay</strong> fading from transparent to dark at the bottom</li>
+            <li>The <strong>game title</strong> and category text at the bottom (over the gradient)</li>
+        </ul>
+
+        <div class="demo">
+            <div class="demo-label">▶ Expected Result</div>
+            <div class="demo-box">
+                <div style="position:relative;width:280px;height:320px;background:linear-gradient(160deg,#667eea 0%,#764ba2 50%,#f093fb 100%);border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+                    <!-- Game image area -->
+                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;opacity:0.3;">🎮</div>
+                    <!-- Price badge top-right -->
+                    <span style="position:absolute;top:14px;right:14px;background:#0071F8;color:white;padding:6px 16px;border-radius:8px;font-weight:700;font-size:15px;box-shadow:0 2px 8px rgba(0,113,248,0.4);">$22</span>
+                    <!-- Discount badge bottom-left of image -->
+                    <span style="position:absolute;top:160px;left:14px;background:#ef4444;color:white;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;box-shadow:0 2px 8px rgba(239,68,68,0.4);">-40%</span>
+                    <!-- Gradient overlay at bottom -->
+                    <div style="position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.5) 60%,transparent 100%);"></div>
+                    <!-- Game info -->
+                    <div style="position:absolute;bottom:20px;left:18px;right:18px;">
+                        <div style="color:white;font-weight:800;font-size:18px;margin-bottom:4px;">Cyberpunk 2077</div>
+                        <div style="color:rgba(255,255,255,0.6);font-size:13px;">RPG • Open World • Action</div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+                            <span style="color:#fbbf24;font-size:13px;">★★★★☆</span>
+                            <span style="color:rgba(255,255,255,0.4);font-size:12px;">4.2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <pre><code><span class="cm">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"game-card"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card-image"</span><span class="tag">&gt;</span>🎮<span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"price-badge"</span><span class="tag">&gt;</span>$22<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="val">"discount-badge"</span><span class="tag">&gt;</span>-40%<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"gradient-overlay"</span><span class="tag">&gt;&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card-info"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;h3&gt;</span>Cyberpunk 2077<span class="tag">&lt;/h3&gt;</span>
+        <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="val">"category"</span><span class="tag">&gt;</span>RPG • Open World • Action<span class="tag">&lt;/p&gt;</span>
+        <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"rating"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;span&gt;</span>★★★★☆<span class="tag">&lt;/span&gt;</span>
+            <span class="tag">&lt;span&gt;</span>4.2<span class="tag">&lt;/span&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cm">&lt;!-- CSS --&gt;</span>
+<span class="sel">.game-card</span> {
+    <span class="prop">position</span>: <span class="cssval">relative</span>;           <span class="cm">/* ANCHOR for all positioned children */</span>
+    <span class="prop">width</span>: <span class="num">280px</span>;
+    <span class="prop">height</span>: <span class="num">320px</span>;
+    <span class="prop">background</span>: <span class="cssval">linear-gradient(160deg, #667eea 0%, #764ba2 50%, #f093fb 100%)</span>;
+    <span class="prop">border-radius</span>: <span class="num">16px</span>;
+    <span class="prop">overflow</span>: <span class="cssval">hidden</span>;
+    <span class="prop">box-shadow</span>: <span class="num">0 8px 32px</span> <span class="cssval">rgba(0, 0, 0, 0.4)</span>;
+}
+
+<span class="sel">.price-badge</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">top</span>: <span class="num">14px</span>;
+    <span class="prop">right</span>: <span class="num">14px</span>;
+    <span class="prop">background</span>: <span class="cssval">#0071F8</span>;
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">padding</span>: <span class="num">6px 16px</span>;
+    <span class="prop">border-radius</span>: <span class="num">8px</span>;
+    <span class="prop">font-weight</span>: <span class="num">700</span>;
+    <span class="prop">font-size</span>: <span class="num">15px</span>;
+}
+
+<span class="sel">.discount-badge</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">top</span>: <span class="num">160px</span>;              <span class="cm">/* near the bottom of the image area */</span>
+    <span class="prop">left</span>: <span class="num">14px</span>;
+    <span class="prop">background</span>: <span class="cssval">#ef4444</span>;
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">width</span>: <span class="num">50px</span>;
+    <span class="prop">height</span>: <span class="num">50px</span>;
+    <span class="prop">border-radius</span>: <span class="num">50%</span>;
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+    <span class="prop">justify-content</span>: <span class="cssval">center</span>;
+    <span class="prop">font-weight</span>: <span class="num">800</span>;
+    <span class="prop">font-size</span>: <span class="num">13px</span>;
+}
+
+<span class="sel">.gradient-overlay</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">bottom</span>: <span class="num">0</span>;
+    <span class="prop">left</span>: <span class="num">0</span>;
+    <span class="prop">right</span>: <span class="num">0</span>;
+    <span class="prop">height</span>: <span class="num">50%</span>;
+    <span class="prop">background</span>: <span class="cssval">linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5) 60%, transparent)</span>;
+}
+
+<span class="sel">.card-info</span> {
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;
+    <span class="prop">bottom</span>: <span class="num">20px</span>;
+    <span class="prop">left</span>: <span class="num">18px</span>;
+    <span class="prop">right</span>: <span class="num">18px</span>;
+}
+<span class="sel">.card-info h3</span> {
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">font-size</span>: <span class="num">18px</span>;
+    <span class="prop">font-weight</span>: <span class="num">800</span>;
+    <span class="prop">margin-bottom</span>: <span class="num">4px</span>;
+    <span class="prop">border-left</span>: <span class="cssval">none</span>;     <span class="cm">/* reset if inheriting other styles */</span>
+    <span class="prop">padding-left</span>: <span class="num">0</span>;
+}
+<span class="sel">.category</span> {
+    <span class="prop">color</span>: <span class="cssval">rgba(255, 255, 255, 0.6)</span>;
+    <span class="prop">font-size</span>: <span class="num">13px</span>;
+}
+<span class="sel">.rating</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+    <span class="prop">gap</span>: <span class="num">8px</span>;
+    <span class="prop">margin-top</span>: <span class="num">10px</span>;
+    <span class="prop">color</span>: <span class="cssval">#fbbf24</span>;
+    <span class="prop">font-size</span>: <span class="num">13px</span>;
+}</code></pre>
+            </div>
+        </details>
+
+        <!-- Recap -->
+        <h2 class="section-title"><span class="section-num">✓</span> Quick Recap</h2>
+
+        <div class="co-g" style="line-height:2.2">
+            ✅ <strong>position: static</strong> — Default. Normal flow. Can't use top/right/bottom/left.<br>
+            ✅ <strong>position: relative</strong> — Stays in flow. Can nudge. Becomes anchor for absolute children.<br>
+            ✅ <strong>position: absolute</strong> — Removed from flow. Positions relative to nearest positioned ancestor.<br>
+            ✅ <strong>position: fixed</strong> — Removed from flow. Positions relative to viewport. Doesn't scroll.<br>
+            ✅ <strong>position: sticky</strong> — Acts like relative until scroll threshold, then sticks like fixed.<br>
+            ✅ <strong>z-index</strong> — Controls stacking order. Higher = on top. Only works on positioned elements.<br>
+            ✅ <strong>linear-gradient</strong> — Smooth color transition along a line.<br>
+            ✅ <strong>radial-gradient</strong> — Smooth color transition from center outward.<br>
+            ✅ <strong>The Golden Rule</strong> — Parent: <code>relative</code>, Child: <code>absolute</code>.
+        </div>
+
+        <div class="co-b">
+            ℹ️ <strong>Next Up:</strong> In the next tutorial, we'll use everything from Tutorials 1-4 to start building actual components of the LUGX Gaming website — the navigation bar, the hero section, and the game card grid. Get ready to put it all together! 🚀
+        </div>
+
+    </div> <!-- /.container -->
+</body>
+</html>

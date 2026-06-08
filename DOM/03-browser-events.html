@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 — Browser Events</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:800px;margin:0 auto}
+        h1{font-size:42px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#58a6ff;margin-bottom:8px}
+        .subtitle{font-size:18px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        h2{font-size:26px;font-weight:700;color:#f0f6fc;margin-top:64px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #1e2d4a}
+        h2 .n{color:#58a6ff}
+        h3{font-size:20px;font-weight:600;color:#e2e8f0;margin-top:36px;margin-bottom:12px}
+        p{margin-bottom:18px;color:#b0bac9}
+        strong{color:#e2e8f0}em{color:#93aac9}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:16px 0 24px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}
+        .kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.num{color:#79c0ff}.bool{color:#ff7b72}.tag{color:#7ee787}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+        ul,ol{margin:12px 0 22px 24px;color:#b0bac9}li{margin-bottom:8px}li strong{color:#e2e8f0}
+        .co{border-radius:12px;padding:20px 24px;margin:24px 0;font-size:15px;line-height:1.7}
+        .co-b{background:rgba(88,166,255,.06);border-left:4px solid #58a6ff}.co-b strong{color:#58a6ff}
+        .co-g{background:rgba(16,185,129,.06);border-left:4px solid #10b981}.co-g strong{color:#10b981}
+        .co-r{background:rgba(248,81,73,.06);border-left:4px solid #f85149}.co-r strong{color:#f85149}
+        .co-y{background:rgba(245,158,11,.06);border-left:4px solid #f59e0b}.co-y strong{color:#f59e0b}
+        .co-p{background:rgba(139,92,246,.06);border-left:4px solid #a78bfa}.co-p strong{color:#a78bfa}
+        .dg{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.5;color:#8b949e;white-space:pre;overflow-x:auto}
+        .dg .hi{color:#58a6ff;font-weight:700}.dg .gr{color:#10b981}.dg .yl{color:#f59e0b}.dg .rd{color:#f85149}.dg .pr{color:#a78bfa}.dg .wh{color:#f0f6fc}
+        table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14.5px}
+        th{background:#161b2e;color:#58a6ff;text-align:left;padding:12px 16px;font-weight:600;border:1px solid #1e2d4a}
+        td{padding:12px 16px;border:1px solid #1e2d4a;color:#b0bac9}tr:nth-child(even) td{background:rgba(22,27,46,.5)}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="lesson-num">Lesson 03</p>
+    <h1>Browser Events</h1>
+    <p class="subtitle">Events are how your page comes alive. Every click, keystroke, scroll, hover, form submission — they're all events. This lesson covers how they work, how the browser delivers them, and the patterns that professionals use.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">1.</span> What Is An Event?</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>An <strong>event</strong> is a signal that something happened. The browser fires events constantly — you just need to <strong>listen</strong> for the ones you care about.</p>
+
+    <div class="dg"><span class="wh">Events happen all the time:</span>
+
+  <span class="hi">User Actions</span>         <span class="gr">Browser Events</span>          <span class="yl">Form Events</span>
+  click                 DOMContentLoaded         submit
+  dblclick              load                     change
+  mouseenter            resize                   input
+  mouseleave            scroll                   focus
+  mousemove             error                    blur
+  keydown               online / offline
+  keyup
+  contextmenu           <span class="pr">Touch Events</span>            <span class="rd">Drag Events</span>
+  wheel                 touchstart               dragstart
+                        touchmove                drag
+                        touchend                 drop</div>
+
+    <p>Every event follows the same pattern: <strong>something happens → the browser creates an Event object → your listener function is called with that object.</strong></p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">2.</span> Adding Event Listeners</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <h3>The 3 ways (and which to use)</h3>
+
+    <pre><code><span class="kw">const</span> btn = document.<span class="fn">querySelector</span>(<span class="str">"#btn"</span>);
+
+<span class="cm">// ═══════════════════════════════════════════════════════</span>
+<span class="cm">// WAY 1: addEventListener (✅ USE THIS — always)</span>
+<span class="cm">// ═══════════════════════════════════════════════════════</span>
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, <span class="kw">function</span>(event) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"clicked!"</span>);
+});
+
+<span class="cm">// Can add MULTIPLE listeners for the same event</span>
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, handleClick);
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, trackAnalytics);
+<span class="cm">// Both fire when button is clicked ✅</span>
+
+
+<span class="cm">// ═══════════════════════════════════════════════════════</span>
+<span class="cm">// WAY 2: onclick property (❌ avoid — overwrites)</span>
+<span class="cm">// ═══════════════════════════════════════════════════════</span>
+btn.onclick = <span class="kw">function</span>() { <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"first"</span>); };
+btn.onclick = <span class="kw">function</span>() { <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"second"</span>); };
+<span class="cm">// Only "second" fires — the first was overwritten! ❌</span>
+
+
+<span class="cm">// ═══════════════════════════════════════════════════════</span>
+<span class="cm">// WAY 3: HTML attribute (❌ never use — worst option)</span>
+<span class="cm">// ═══════════════════════════════════════════════════════</span>
+<span class="cm">// &lt;button onclick="handleClick()"&gt; — mixing HTML and JS</span></code></pre>
+
+    <div class="co co-g">
+        <strong>✅ Rule</strong><br>
+        Always use <code>addEventListener()</code>. It allows multiple listeners, can be removed cleanly, and supports options like <code>capture</code> and <code>once</code>.
+    </div>
+
+    <h3>Removing Event Listeners</h3>
+
+    <pre><code><span class="cm">// To remove a listener, you MUST pass the same function reference</span>
+
+<span class="kw">function</span> <span class="fn">handleClick</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"clicked"</span>);
+}
+
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, handleClick);
+btn.<span class="fn">removeEventListener</span>(<span class="str">"click"</span>, handleClick);  <span class="cm">// ✅ same reference</span>
+
+<span class="cm">// ❌ THIS DOES NOT WORK:</span>
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"hi"</span>));
+btn.<span class="fn">removeEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"hi"</span>));
+<span class="cm">// These are TWO DIFFERENT anonymous functions — different references!</span></code></pre>
+
+    <div class="co co-r">
+        <strong>⚠️ The Anonymous Function Trap</strong><br>
+        Anonymous arrow functions cannot be removed with <code>removeEventListener</code>. If you ever need to remove a listener, <strong>always use a named function</strong>.
+    </div>
+
+    <h3>The "once" Option</h3>
+
+    <pre><code><span class="cm">// Listener fires ONCE then automatically removes itself</span>
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"This only runs once!"</span>);
+}, { once: <span class="bool">true</span> });</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">3.</span> The Event Object</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>When an event fires, the browser creates an <strong>Event object</strong> and passes it to your listener. This object contains <strong>everything</strong> about what happened:</p>
+
+    <pre><code>btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (<span class="fn">event</span>) => {
+    <span class="fn">console</span>.<span class="fn">log</span>(event);  <span class="cm">// the full event object — explore this!</span>
+});</code></pre>
+
+    <h3>Properties You'll Use Every Day</h3>
+
+    <table>
+        <tr><th>Property</th><th>What it gives you</th><th>Example</th></tr>
+        <tr><td><code>e.target</code></td><td>The element that was <strong>actually clicked</strong></td><td>The <code>&lt;span&gt;</code> inside a <code>&lt;button&gt;</code></td></tr>
+        <tr><td><code>e.currentTarget</code></td><td>The element the listener is <strong>attached to</strong></td><td>The <code>&lt;button&gt;</code> itself</td></tr>
+        <tr><td><code>e.type</code></td><td>The event type</td><td><code>"click"</code>, <code>"keydown"</code></td></tr>
+        <tr><td><code>e.timeStamp</code></td><td>When it happened (ms since page load)</td><td><code>3421.5</code></td></tr>
+    </table>
+
+    <div class="co co-b">
+        <strong>🧠 target vs currentTarget — This will be on the interview</strong><br>
+        <code>e.target</code> = the <strong>deepest element</strong> that triggered the event (where you actually clicked).<br>
+        <code>e.currentTarget</code> = the element that has the <strong>listener attached</strong> (always <code>this</code> in regular functions).<br>
+        They are the same ONLY when you click the exact element the listener is on, with no children.
+    </div>
+
+    <pre><code><span class="cm">// HTML: &lt;button id="btn"&gt;&lt;span&gt;Click &lt;em&gt;Me&lt;/em&gt;&lt;/span&gt;&lt;/button&gt;</span>
+
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"target:"</span>, e.target);          <span class="cm">// &lt;em&gt;Me&lt;/em&gt; (what you actually clicked)</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"currentTarget:"</span>, e.currentTarget); <span class="cm">// &lt;button&gt; (where the listener lives)</span>
+});</code></pre>
+
+    <h3>Mouse Event Properties</h3>
+
+    <pre><code>document.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="cm">// Position</span>
+    e.clientX;    <span class="cm">// X relative to the viewport (visible area)</span>
+    e.clientY;    <span class="cm">// Y relative to the viewport</span>
+    e.pageX;      <span class="cm">// X relative to the full page (includes scroll)</span>
+    e.pageY;      <span class="cm">// Y relative to the full page</span>
+    e.offsetX;    <span class="cm">// X relative to the target element</span>
+    e.offsetY;    <span class="cm">// Y relative to the target element</span>
+
+    <span class="cm">// Which button</span>
+    e.button;     <span class="cm">// 0 = left, 1 = middle, 2 = right</span>
+
+    <span class="cm">// Modifier keys held down</span>
+    e.shiftKey;   <span class="cm">// true if Shift was held</span>
+    e.ctrlKey;    <span class="cm">// true if Ctrl was held</span>
+    e.altKey;     <span class="cm">// true if Alt was held</span>
+    e.metaKey;    <span class="cm">// true if Cmd (Mac) or Win key was held</span>
+});</code></pre>
+
+    <h3>Keyboard Event Properties</h3>
+
+    <pre><code>document.<span class="fn">addEventListener</span>(<span class="str">"keydown"</span>, (e) => {
+    e.key;        <span class="cm">// "a", "Enter", "ArrowUp", "Escape", " " (space)</span>
+    e.code;       <span class="cm">// "KeyA", "Enter", "ArrowUp" — physical key position</span>
+    e.repeat;     <span class="cm">// true if key is being held down</span>
+
+    <span class="cm">// Modifier keys</span>
+    e.shiftKey;
+    e.ctrlKey;
+    e.altKey;
+    e.metaKey;
+
+    <span class="cm">// Common patterns:</span>
+    <span class="kw">if</span> (e.key === <span class="str">"Escape"</span>) closeModal();
+    <span class="kw">if</span> (e.key === <span class="str">"Enter"</span>) submitForm();
+    <span class="kw">if</span> (e.ctrlKey && e.key === <span class="str">"s"</span>) {
+        e.<span class="fn">preventDefault</span>();  <span class="cm">// stop browser's default save</span>
+        saveDocument();
+    }
+});</code></pre>
+
+    <div class="co co-y">
+        <strong>💡 key vs code</strong><br>
+        <code>e.key</code> = the <strong>character produced</strong> ("a", "A" with shift, "é" on French keyboard).<br>
+        <code>e.code</code> = the <strong>physical key</strong> ("KeyA" — always the same regardless of keyboard layout).<br>
+        Use <code>e.key</code> for text input. Use <code>e.code</code> for game controls / shortcuts.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">4.</span> Common Event Types — Deep Dive</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <h3>Mouse Events</h3>
+
+    <table>
+        <tr><th>Event</th><th>When it fires</th><th>Notes</th></tr>
+        <tr><td><code>click</code></td><td>Full click (mousedown + mouseup)</td><td>Most used event</td></tr>
+        <tr><td><code>dblclick</code></td><td>Double click</td><td>Also fires two click events</td></tr>
+        <tr><td><code>mousedown</code></td><td>Button pressed (before release)</td><td>Use for drag start</td></tr>
+        <tr><td><code>mouseup</code></td><td>Button released</td><td>Use for drag end</td></tr>
+        <tr><td><code>mousemove</code></td><td>Mouse moves over element</td><td>⚠️ Fires VERY often — throttle it</td></tr>
+        <tr><td><code>mouseenter</code></td><td>Mouse enters the element</td><td>Does NOT bubble</td></tr>
+        <tr><td><code>mouseleave</code></td><td>Mouse leaves the element</td><td>Does NOT bubble</td></tr>
+        <tr><td><code>mouseover</code></td><td>Mouse enters (or enters a child)</td><td>DOES bubble — fires on children too</td></tr>
+        <tr><td><code>mouseout</code></td><td>Mouse leaves (or leaves a child)</td><td>DOES bubble</td></tr>
+        <tr><td><code>contextmenu</code></td><td>Right-click</td><td>preventDefault to block right-click menu</td></tr>
+    </table>
+
+    <div class="co co-b">
+        <strong>🧠 mouseenter vs mouseover</strong><br>
+        <code>mouseenter</code> fires <strong>once</strong> when the mouse enters the element. Moving over children does NOT re-fire it.<br>
+        <code>mouseover</code> fires every time the mouse enters the element <strong>or any child</strong>. It bubbles.<br>
+        <strong>Use <code>mouseenter</code> / <code>mouseleave</code></strong> for hover effects. They're more predictable.
+    </div>
+
+    <h3>Keyboard Events</h3>
+
+    <table>
+        <tr><th>Event</th><th>When it fires</th><th>Notes</th></tr>
+        <tr><td><code>keydown</code></td><td>Key pressed down</td><td>Fires repeatedly if held. <strong>Use this for most cases.</strong></td></tr>
+        <tr><td><code>keyup</code></td><td>Key released</td><td>Fires once when released</td></tr>
+        <tr><td><code>keypress</code></td><td>❌ DEPRECATED</td><td>Don't use — use keydown instead</td></tr>
+    </table>
+
+    <h3>Focus Events</h3>
+
+    <pre><code><span class="kw">const</span> input = document.<span class="fn">querySelector</span>(<span class="str">"input"</span>);
+
+<span class="cm">// focus — when element receives focus (clicked or tabbed into)</span>
+input.<span class="fn">addEventListener</span>(<span class="str">"focus"</span>, () => {
+    input.parentElement.classList.<span class="fn">add</span>(<span class="str">"focused"</span>);
+});
+
+<span class="cm">// blur — when element loses focus</span>
+input.<span class="fn">addEventListener</span>(<span class="str">"blur"</span>, () => {
+    input.parentElement.classList.<span class="fn">remove</span>(<span class="str">"focused"</span>);
+    validateField(input);  <span class="cm">// validate when user leaves the field</span>
+});
+
+<span class="cm">// focusin / focusout — same but they BUBBLE (useful for delegation)</span></code></pre>
+
+    <h3>Input & Change Events</h3>
+
+    <pre><code><span class="kw">const</span> input = document.<span class="fn">querySelector</span>(<span class="str">"input"</span>);
+
+<span class="cm">// input — fires on EVERY keystroke / change</span>
+input.<span class="fn">addEventListener</span>(<span class="str">"input"</span>, (e) => {
+    <span class="fn">console</span>.<span class="fn">log</span>(e.target.value);  <span class="cm">// live as you type</span>
+});
+
+<span class="cm">// change — fires when the value changes AND element loses focus</span>
+input.<span class="fn">addEventListener</span>(<span class="str">"change"</span>, (e) => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Final value:"</span>, e.target.value);
+});
+
+<span class="cm">// For checkboxes and selects, "change" fires immediately:</span>
+checkbox.<span class="fn">addEventListener</span>(<span class="str">"change"</span>, (e) => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Checked:"</span>, e.target.checked);
+});</code></pre>
+
+    <div class="dg"><span class="wh">input vs change:</span>
+
+  User types: h → e → l → l → o → [clicks away]
+
+  <span class="hi">input event fires:</span>  "h"  "he"  "hel"  "hell"  "hello"  <span class="cm">(every keystroke)</span>
+  <span class="yl">change event fires:</span>                                      "hello"  <span class="cm">(once, on blur)</span>
+
+  <span class="gr">Use "input"</span> for live search, character counting, live preview.
+  <span class="gr">Use "change"</span> for validation after user finishes typing.</div>
+
+    <h3>Scroll & Resize Events</h3>
+
+    <pre><code><span class="cm">// scroll — fires VERY rapidly. Always throttle or debounce.</span>
+<span class="fn">window</span>.<span class="fn">addEventListener</span>(<span class="str">"scroll"</span>, () => {
+    <span class="kw">const</span> scrollY = window.scrollY;  <span class="cm">// how far down you've scrolled</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Scrolled to:"</span>, scrollY);
+});
+
+<span class="cm">// resize — fires when browser window is resized</span>
+<span class="fn">window</span>.<span class="fn">addEventListener</span>(<span class="str">"resize"</span>, () => {
+    <span class="fn">console</span>.<span class="fn">log</span>(window.innerWidth, window.innerHeight);
+});
+
+<span class="cm">// DOMContentLoaded — DOM is ready (before images/CSS finish loading)</span>
+document.<span class="fn">addEventListener</span>(<span class="str">"DOMContentLoaded"</span>, () => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"DOM ready!"</span>);
+});
+
+<span class="cm">// load — EVERYTHING is loaded (images, CSS, fonts, everything)</span>
+<span class="fn">window</span>.<span class="fn">addEventListener</span>(<span class="str">"load"</span>, () => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"All resources loaded!"</span>);
+});</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">5.</span> preventDefault — Stopping Default Behavior</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>Some elements have <strong>built-in behavior</strong>. <code>preventDefault()</code> stops that behavior:</p>
+
+    <table>
+        <tr><th>Element</th><th>Default behavior</th><th>Why prevent it</th></tr>
+        <tr><td><code>&lt;a href="..."&gt;</code></td><td>Navigate to URL</td><td>Handle navigation with JS (SPA)</td></tr>
+        <tr><td><code>&lt;form&gt;</code> submit</td><td>Reload the page</td><td>Handle submission with JS</td></tr>
+        <tr><td><code>&lt;input&gt;</code> keydown</td><td>Type the character</td><td>Block certain characters</td></tr>
+        <tr><td>Right-click</td><td>Show context menu</td><td>Custom context menu</td></tr>
+        <tr><td>Ctrl+S</td><td>Save the page</td><td>Custom save behavior</td></tr>
+    </table>
+
+    <pre><code><span class="cm">// Stop a link from navigating</span>
+link.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    e.<span class="fn">preventDefault</span>();
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Link clicked but didn't navigate"</span>);
+});
+
+<span class="cm">// Stop form from reloading the page</span>
+form.<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, (e) => {
+    e.<span class="fn">preventDefault</span>();
+    <span class="kw">const</span> data = <span class="fn">Object</span>.<span class="fn">fromEntries</span>(<span class="kw">new</span> <span class="fn">FormData</span>(form));
+    <span class="fn">console</span>.<span class="fn">log</span>(data);
+});
+
+<span class="cm">// Block non-numeric characters in an input</span>
+input.<span class="fn">addEventListener</span>(<span class="str">"keydown"</span>, (e) => {
+    <span class="kw">if</span> (e.key.length === <span class="num">1</span> && !/\d/.test(e.key)) {
+        e.<span class="fn">preventDefault</span>();  <span class="cm">// character won't appear</span>
+    }
+});
+
+<span class="cm">// Custom right-click menu</span>
+element.<span class="fn">addEventListener</span>(<span class="str">"contextmenu"</span>, (e) => {
+    e.<span class="fn">preventDefault</span>();
+    showCustomMenu(e.clientX, e.clientY);
+});</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">6.</span> Event Propagation — Bubbling & Capturing</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>This is the most important concept in DOM events. When you click an element, the event doesn't just fire on that element — it <strong>travels through the entire DOM tree</strong>.</p>
+
+    <h3>The 3 Phases</h3>
+
+    <div class="dg"><span class="wh">You click the &lt;button&gt;. Here's what happens:</span>
+
+  <span class="rd">PHASE 1: CAPTURING</span> (top → down)
+  The event travels DOWN from window to the target:
+
+  <span class="rd">window → document → html → body → div → button</span>
+                                                  ↓
+  <span class="hi">PHASE 2: TARGET</span>
+  The event arrives at the element you clicked:
+
+                                              <span class="hi">button</span> ← event fires HERE
+                                                  ↓
+  <span class="gr">PHASE 3: BUBBLING</span> (bottom → up)
+  The event travels BACK UP to the top:
+
+  <span class="gr">button → div → body → html → document → window</span></div>
+
+    <p><strong>By default</strong>, your listeners fire during the <strong>bubbling phase</strong> (Phase 3). This means if you click a <code>&lt;button&gt;</code> inside a <code>&lt;div&gt;</code>, the button's listener fires first, THEN the div's listener fires.</p>
+
+    <pre><code><span class="cm">// HTML: &lt;div id="outer"&gt; &lt;button id="inner"&gt;Click&lt;/button&gt; &lt;/div&gt;</span>
+
+<span class="kw">const</span> outer = document.<span class="fn">querySelector</span>(<span class="str">"#outer"</span>);
+<span class="kw">const</span> inner = document.<span class="fn">querySelector</span>(<span class="str">"#inner"</span>);
+
+outer.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"outer"</span>));
+inner.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"inner"</span>));
+
+<span class="cm">// Click the button → output:</span>
+<span class="cm">// "inner"  ← target phase (the thing you clicked)</span>
+<span class="cm">// "outer"  ← bubbling phase (the event bubbles UP to parent)</span></code></pre>
+
+    <div class="co co-b">
+        <strong>🧠 Mental Model: Bubbling</strong><br>
+        Imagine dropping a stone in water. The splash starts at the point of impact (the target), then the <strong>ripples expand outward</strong> (bubbling up through parent elements). Each parent "hears" the event as the ripple passes through it.
+    </div>
+
+    <h3>Capturing Phase</h3>
+
+    <p>You can listen during the <strong>capturing phase</strong> instead (top → down) by passing <code>{ capture: true }</code>:</p>
+
+    <pre><code>outer.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"outer capture"</span>), { capture: <span class="bool">true</span> });
+outer.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"outer bubble"</span>));
+inner.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"inner"</span>));
+
+<span class="cm">// Click button → output:</span>
+<span class="cm">// "outer capture"  ← capturing phase (top → down)</span>
+<span class="cm">// "inner"          ← target phase</span>
+<span class="cm">// "outer bubble"   ← bubbling phase (bottom → up)</span></code></pre>
+
+    <h3>stopPropagation — Stop the event from traveling</h3>
+
+    <pre><code>inner.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    e.<span class="fn">stopPropagation</span>();  <span class="cm">// STOP — event will NOT bubble to outer</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"inner only"</span>);
+});
+
+outer.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"outer"</span>);  <span class="cm">// This will NEVER fire when button is clicked</span>
+});</code></pre>
+
+    <div class="co co-r">
+        <strong>⚠️ Don't overuse stopPropagation</strong><br>
+        Stopping propagation breaks event delegation and can cause hard-to-find bugs. Only use it when you have a specific reason. In 95% of cases, you don't need it.
+    </div>
+
+    <h3>Events that DON'T bubble</h3>
+
+    <p>Most events bubble, but some don't:</p>
+
+    <table>
+        <tr><th>Doesn't bubble</th><th>Bubbling alternative</th></tr>
+        <tr><td><code>focus</code></td><td><code>focusin</code></td></tr>
+        <tr><td><code>blur</code></td><td><code>focusout</code></td></tr>
+        <tr><td><code>mouseenter</code></td><td><code>mouseover</code></td></tr>
+        <tr><td><code>mouseleave</code></td><td><code>mouseout</code></td></tr>
+        <tr><td><code>load</code>, <code>error</code>, <code>scroll</code></td><td>No direct alternative</td></tr>
+    </table>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">7.</span> Event Delegation — The Most Important Pattern</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>This is the pattern that separates beginners from professionals. Instead of adding a listener to <strong>every</strong> child element, you add <strong>one listener on the parent</strong> and use <code>e.target</code> to figure out what was clicked.</p>
+
+    <h3>The Problem</h3>
+
+    <pre><code><span class="cm">// ❌ BAD — one listener per item</span>
+<span class="kw">const</span> items = document.<span class="fn">querySelectorAll</span>(<span class="str">".item"</span>);
+items.<span class="fn">forEach</span>(item => {
+    item.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, handleClick);
+});
+
+<span class="cm">// Problems:</span>
+<span class="cm">// 1. 1000 items = 1000 listeners = wasted memory</span>
+<span class="cm">// 2. Dynamically added items DON'T get the listener</span>
+<span class="cm">// 3. You have to manually add/remove listeners when items change</span></code></pre>
+
+    <h3>The Solution: Event Delegation</h3>
+
+    <pre><code><span class="cm">// ✅ GOOD — one listener on the parent</span>
+<span class="kw">const</span> list = document.<span class="fn">querySelector</span>(<span class="str">"#list"</span>);
+
+list.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="cm">// Find the closest .item ancestor of whatever was clicked</span>
+    <span class="kw">const</span> item = e.target.<span class="fn">closest</span>(<span class="str">".item"</span>);
+
+    <span class="cm">// Guard: if click wasn't on an item, ignore</span>
+    <span class="kw">if</span> (!item) <span class="kw">return</span>;
+
+    <span class="cm">// Guard: make sure the item is actually inside our list</span>
+    <span class="kw">if</span> (!list.<span class="fn">contains</span>(item)) <span class="kw">return</span>;
+
+    <span class="cm">// Now handle the click</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Clicked item:"</span>, item.textContent);
+    item.classList.<span class="fn">toggle</span>(<span class="str">"selected"</span>);
+});</code></pre>
+
+    <div class="dg"><span class="wh">How delegation works:</span>
+
+  <span class="hi">&lt;ul id="list"&gt;</span>  ← ONE listener here
+      <span class="gr">&lt;li class="item"&gt;Item 1&lt;/li&gt;</span>  ← click bubbles up to ul
+      <span class="gr">&lt;li class="item"&gt;Item 2&lt;/li&gt;</span>  ← click bubbles up to ul
+      <span class="gr">&lt;li class="item"&gt;Item 3&lt;/li&gt;</span>  ← click bubbles up to ul
+      <span class="yl">&lt;li class="item"&gt;NEW ITEM&lt;/li&gt;</span>  ← added dynamically — STILL WORKS!
+  <span class="hi">&lt;/ul&gt;</span>
+
+  <span class="wh">Benefits:</span>
+  <span class="gr">✅ 1 listener instead of N</span>
+  <span class="gr">✅ Works with dynamically added items</span>
+  <span class="gr">✅ Less memory, better performance</span>
+  <span class="gr">✅ Cleaner code — one place to handle clicks</span></div>
+
+    <h3>The closest() Method — The Key to Delegation</h3>
+
+    <p><code>e.target.closest(selector)</code> walks <strong>up</strong> the DOM from the clicked element and returns the first ancestor matching the selector. If the clicked element itself matches, it returns itself. If nothing matches, it returns <code>null</code>.</p>
+
+    <pre><code><span class="cm">// HTML:
+// &lt;div class="card"&gt;
+//   &lt;h3&gt;Title&lt;/h3&gt;
+//   &lt;p&gt;Text&lt;/p&gt;
+//   &lt;button class="delete"&gt;&lt;span&gt;✕&lt;/span&gt;&lt;/button&gt;
+// &lt;/div&gt;</span>
+
+<span class="cm">// If the user clicks the &lt;span&gt; inside the button:</span>
+<span class="cm">// e.target = &lt;span&gt;✕&lt;/span&gt;</span>
+<span class="cm">// e.target.closest(".delete") = &lt;button class="delete"&gt;</span>
+<span class="cm">// e.target.closest(".card") = &lt;div class="card"&gt;</span></code></pre>
+
+    <h3>Real Example: Delegated Delete Buttons</h3>
+
+    <pre><code><span class="kw">const</span> list = document.<span class="fn">querySelector</span>(<span class="str">"#todo-list"</span>);
+
+list.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="cm">// Was a delete button clicked?</span>
+    <span class="kw">const</span> deleteBtn = e.target.<span class="fn">closest</span>(<span class="str">".btn-delete"</span>);
+    <span class="kw">if</span> (deleteBtn) {
+        <span class="kw">const</span> item = deleteBtn.<span class="fn">closest</span>(<span class="str">".todo-item"</span>);
+        item.<span class="fn">remove</span>();
+        <span class="kw">return</span>;
+    }
+
+    <span class="cm">// Was a done button clicked?</span>
+    <span class="kw">const</span> doneBtn = e.target.<span class="fn">closest</span>(<span class="str">".btn-done"</span>);
+    <span class="kw">if</span> (doneBtn) {
+        <span class="kw">const</span> item = doneBtn.<span class="fn">closest</span>(<span class="str">".todo-item"</span>);
+        item.classList.<span class="fn">toggle</span>(<span class="str">"completed"</span>);
+        <span class="kw">return</span>;
+    }
+});</code></pre>
+
+    <div class="co co-g">
+        <strong>✅ The Delegation Pattern (memorize this)</strong><br>
+        <code>parent.addEventListener("click", (e) => {</code><br>
+        &nbsp;&nbsp;<code>const target = e.target.closest(".selector");</code><br>
+        &nbsp;&nbsp;<code>if (!target) return;</code><br>
+        &nbsp;&nbsp;<code>// handle the event</code><br>
+        <code>});</code>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">8.</span> Custom Events</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <p>You can create and dispatch your own custom events — useful for component communication:</p>
+
+    <pre><code><span class="cm">// CREATE a custom event</span>
+<span class="kw">const</span> myEvent = <span class="kw">new</span> <span class="fn">CustomEvent</span>(<span class="str">"userLoggedIn"</span>, {
+    detail: { username: <span class="str">"Idris"</span>, role: <span class="str">"admin"</span> },  <span class="cm">// your custom data</span>
+    bubbles: <span class="bool">true</span>,     <span class="cm">// allow it to bubble</span>
+    cancelable: <span class="bool">true</span>   <span class="cm">// allow preventDefault</span>
+});
+
+<span class="cm">// LISTEN for it</span>
+document.<span class="fn">addEventListener</span>(<span class="str">"userLoggedIn"</span>, (e) => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"User logged in:"</span>, e.detail.username);
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Role:"</span>, e.detail.role);
+});
+
+<span class="cm">// DISPATCH (fire) it</span>
+document.<span class="fn">dispatchEvent</span>(myEvent);</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">9.</span> Real-World Patterns</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <h3>Pattern 1: Toggle Menu / Modal</h3>
+
+    <pre><code><span class="kw">const</span> openBtn = document.<span class="fn">querySelector</span>(<span class="str">"#open-modal"</span>);
+<span class="kw">const</span> closeBtn = document.<span class="fn">querySelector</span>(<span class="str">"#close-modal"</span>);
+<span class="kw">const</span> modal = document.<span class="fn">querySelector</span>(<span class="str">"#modal"</span>);
+<span class="kw">const</span> overlay = document.<span class="fn">querySelector</span>(<span class="str">"#overlay"</span>);
+
+<span class="kw">function</span> <span class="fn">openModal</span>() {
+    modal.classList.<span class="fn">add</span>(<span class="str">"active"</span>);
+    overlay.classList.<span class="fn">add</span>(<span class="str">"active"</span>);
+}
+
+<span class="kw">function</span> <span class="fn">closeModal</span>() {
+    modal.classList.<span class="fn">remove</span>(<span class="str">"active"</span>);
+    overlay.classList.<span class="fn">remove</span>(<span class="str">"active"</span>);
+}
+
+openBtn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, openModal);
+closeBtn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, closeModal);
+overlay.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, closeModal);  <span class="cm">// click outside closes</span>
+
+<span class="cm">// Escape key closes</span>
+document.<span class="fn">addEventListener</span>(<span class="str">"keydown"</span>, (e) => {
+    <span class="kw">if</span> (e.key === <span class="str">"Escape"</span>) closeModal();
+});</code></pre>
+
+    <h3>Pattern 2: Live Search Filter</h3>
+
+    <pre><code><span class="kw">const</span> searchInput = document.<span class="fn">querySelector</span>(<span class="str">"#search"</span>);
+<span class="kw">const</span> items = document.<span class="fn">querySelectorAll</span>(<span class="str">".item"</span>);
+
+searchInput.<span class="fn">addEventListener</span>(<span class="str">"input"</span>, (e) => {
+    <span class="kw">const</span> query = e.target.value.toLowerCase();
+
+    items.<span class="fn">forEach</span>(item => {
+        <span class="kw">const</span> text = item.textContent.toLowerCase();
+        <span class="kw">const</span> match = text.<span class="fn">includes</span>(query);
+        item.classList.<span class="fn">toggle</span>(<span class="str">"hidden"</span>, !match);  <span class="cm">// hide non-matching</span>
+    });
+});</code></pre>
+
+    <h3>Pattern 3: Tabs</h3>
+
+    <pre><code><span class="cm">// HTML:
+// &lt;div class="tabs"&gt;
+//   &lt;button class="tab active" data-tab="tab1"&gt;Tab 1&lt;/button&gt;
+//   &lt;button class="tab" data-tab="tab2"&gt;Tab 2&lt;/button&gt;
+//   &lt;button class="tab" data-tab="tab3"&gt;Tab 3&lt;/button&gt;
+// &lt;/div&gt;
+// &lt;div class="panel active" id="tab1"&gt;Content 1&lt;/div&gt;
+// &lt;div class="panel" id="tab2"&gt;Content 2&lt;/div&gt;
+// &lt;div class="panel" id="tab3"&gt;Content 3&lt;/div&gt;</span>
+
+<span class="kw">const</span> tabContainer = document.<span class="fn">querySelector</span>(<span class="str">".tabs"</span>);
+
+<span class="cm">// Event delegation — one listener for all tabs</span>
+tabContainer.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="kw">const</span> tab = e.target.<span class="fn">closest</span>(<span class="str">".tab"</span>);
+    <span class="kw">if</span> (!tab) <span class="kw">return</span>;
+
+    <span class="cm">// Deactivate all tabs and panels</span>
+    document.<span class="fn">querySelectorAll</span>(<span class="str">".tab"</span>).<span class="fn">forEach</span>(t => t.classList.<span class="fn">remove</span>(<span class="str">"active"</span>));
+    document.<span class="fn">querySelectorAll</span>(<span class="str">".panel"</span>).<span class="fn">forEach</span>(p => p.classList.<span class="fn">remove</span>(<span class="str">"active"</span>));
+
+    <span class="cm">// Activate clicked tab and its panel</span>
+    tab.classList.<span class="fn">add</span>(<span class="str">"active"</span>);
+    document.<span class="fn">querySelector</span>(<span class="str">`#${tab.dataset.tab}`</span>).classList.<span class="fn">add</span>(<span class="str">"active"</span>);
+});</code></pre>
+
+    <h3>Pattern 4: Infinite Scroll</h3>
+
+    <pre><code><span class="fn">window</span>.<span class="fn">addEventListener</span>(<span class="str">"scroll"</span>, () => {
+    <span class="cm">// How far we've scrolled + viewport height</span>
+    <span class="kw">const</span> scrolledTo = window.scrollY + window.innerHeight;
+    <span class="cm">// Total height of the page</span>
+    <span class="kw">const</span> pageHeight = document.documentElement.scrollHeight;
+
+    <span class="cm">// If we're within 100px of the bottom</span>
+    <span class="kw">if</span> (pageHeight - scrolledTo < <span class="num">100</span>) {
+        loadMoreContent();  <span class="cm">// fetch and append more items</span>
+    }
+});</code></pre>
+
+    <h3>Pattern 5: Drag to Reorder (simplified)</h3>
+
+    <pre><code><span class="kw">const</span> list = document.<span class="fn">querySelector</span>(<span class="str">"#sortable"</span>);
+<span class="kw">let</span> draggedItem = <span class="bool">null</span>;
+
+list.<span class="fn">addEventListener</span>(<span class="str">"dragstart"</span>, (e) => {
+    draggedItem = e.target.<span class="fn">closest</span>(<span class="str">"li"</span>);
+    draggedItem.classList.<span class="fn">add</span>(<span class="str">"dragging"</span>);
+});
+
+list.<span class="fn">addEventListener</span>(<span class="str">"dragend"</span>, () => {
+    draggedItem.classList.<span class="fn">remove</span>(<span class="str">"dragging"</span>);
+    draggedItem = <span class="bool">null</span>;
+});
+
+list.<span class="fn">addEventListener</span>(<span class="str">"dragover"</span>, (e) => {
+    e.<span class="fn">preventDefault</span>();  <span class="cm">// required to allow drop</span>
+    <span class="kw">const</span> afterEl = <span class="fn">getDragAfterElement</span>(list, e.clientY);
+    <span class="kw">if</span> (afterEl) {
+        list.<span class="fn">insertBefore</span>(draggedItem, afterEl);
+    } <span class="kw">else</span> {
+        list.<span class="fn">append</span>(draggedItem);
+    }
+});
+
+<span class="kw">function</span> <span class="fn">getDragAfterElement</span>(container, y) {
+    <span class="kw">const</span> elements = [...container.<span class="fn">querySelectorAll</span>(<span class="str">"li:not(.dragging)"</span>)];
+    <span class="kw">return</span> elements.<span class="fn">reduce</span>((closest, child) => {
+        <span class="kw">const</span> box = child.<span class="fn">getBoundingClientRect</span>();
+        <span class="kw">const</span> offset = y - box.top - box.height / <span class="num">2</span>;
+        <span class="kw">if</span> (offset < <span class="num">0</span> && offset > closest.offset) {
+            <span class="kw">return</span> { offset, element: child };
+        }
+        <span class="kw">return</span> closest;
+    }, { offset: -<span class="num">Infinity</span> }).element;
+}</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">10.</span> Event Listener Options</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <pre><code>element.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, handler, {
+    capture: <span class="bool">false</span>,   <span class="cm">// listen during capturing phase (default: false)</span>
+    once: <span class="bool">false</span>,      <span class="cm">// auto-remove after first fire (default: false)</span>
+    passive: <span class="bool">false</span>,   <span class="cm">// promise not to call preventDefault (default: false)</span>
+    signal: controller.signal  <span class="cm">// AbortSignal to remove the listener</span>
+});</code></pre>
+
+    <h3>passive: true — Performance for Scroll/Touch</h3>
+
+    <pre><code><span class="cm">// For scroll and touch events, setting passive: true</span>
+<span class="cm">// tells the browser "I won't call preventDefault"</span>
+<span class="cm">// This allows smooth scrolling without waiting for JS</span>
+document.<span class="fn">addEventListener</span>(<span class="str">"scroll"</span>, handleScroll, { passive: <span class="bool">true</span> });
+document.<span class="fn">addEventListener</span>(<span class="str">"touchmove"</span>, handleTouch, { passive: <span class="bool">true</span> });</code></pre>
+
+    <h3>AbortController — Clean Removal of Multiple Listeners</h3>
+
+    <pre><code><span class="kw">const</span> controller = <span class="kw">new</span> <span class="fn">AbortController</span>();
+
+<span class="cm">// Add multiple listeners tied to the same controller</span>
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, handleClick, { signal: controller.signal });
+btn.<span class="fn">addEventListener</span>(<span class="str">"mouseenter"</span>, handleHover, { signal: controller.signal });
+document.<span class="fn">addEventListener</span>(<span class="str">"keydown"</span>, handleKey, { signal: controller.signal });
+
+<span class="cm">// Remove ALL of them at once</span>
+controller.<span class="fn">abort</span>();  <span class="cm">// all 3 listeners are removed instantly</span></code></pre>
+
+    <div class="co co-p">
+        <strong>🧠 Pro Pattern</strong><br>
+        <code>AbortController</code> is incredibly useful for cleanup — modals, popup menus, drag operations. When the modal closes, one <code>controller.abort()</code> removes all related listeners. No need to track each one individually.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="n">11.</span> Summary Cheat Sheet</h2>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <h3>Adding & Removing</h3>
+    <table>
+        <tr><th>Action</th><th>Code</th></tr>
+        <tr><td>Add listener</td><td><code>el.addEventListener("click", fn)</code></td></tr>
+        <tr><td>Remove listener</td><td><code>el.removeEventListener("click", fn)</code></td></tr>
+        <tr><td>Fire once</td><td><code>el.addEventListener("click", fn, { once: true })</code></td></tr>
+        <tr><td>Listen during capture</td><td><code>el.addEventListener("click", fn, { capture: true })</code></td></tr>
+        <tr><td>Remove all with abort</td><td><code>controller.abort()</code></td></tr>
+    </table>
+
+    <h3>The Event Object</h3>
+    <table>
+        <tr><th>Property</th><th>Meaning</th></tr>
+        <tr><td><code>e.target</code></td><td>The element that was actually clicked</td></tr>
+        <tr><td><code>e.currentTarget</code></td><td>The element the listener is attached to</td></tr>
+        <tr><td><code>e.type</code></td><td><code>"click"</code>, <code>"keydown"</code>, etc.</td></tr>
+        <tr><td><code>e.key</code></td><td>Which keyboard key (<code>"Enter"</code>, <code>"a"</code>)</td></tr>
+        <tr><td><code>e.clientX / Y</code></td><td>Mouse position relative to viewport</td></tr>
+        <tr><td><code>e.preventDefault()</code></td><td>Stop default browser behavior</td></tr>
+        <tr><td><code>e.stopPropagation()</code></td><td>Stop event from bubbling up</td></tr>
+    </table>
+
+    <h3>Event Delegation Pattern</h3>
+    <pre><code>parent.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) => {
+    <span class="kw">const</span> target = e.target.<span class="fn">closest</span>(<span class="str">".selector"</span>);
+    <span class="kw">if</span> (!target) <span class="kw">return</span>;
+    <span class="cm">// handle the event on `target`</span>
+});</code></pre>
+
+    <h3>Key Concepts</h3>
+    <table>
+        <tr><th>Concept</th><th>One-Sentence Summary</th></tr>
+        <tr><td><strong>Bubbling</strong></td><td>Events travel UP from target to ancestors (default behavior)</td></tr>
+        <tr><td><strong>Capturing</strong></td><td>Events travel DOWN from window to target (opt-in with <code>capture: true</code>)</td></tr>
+        <tr><td><strong>Delegation</strong></td><td>One listener on parent, use <code>e.target.closest()</code> to identify what was clicked</td></tr>
+        <tr><td><strong>preventDefault</strong></td><td>Stops the browser's default behavior (form submit, link navigation)</td></tr>
+        <tr><td><strong>stopPropagation</strong></td><td>Stops the event from traveling to parent elements (use sparingly)</td></tr>
+    </table>
+
+    <hr>
+    <p style="text-align:center;color:#5e6e8a;font-size:14px;margin-top:40px;">
+        🔥 If you understand <strong>bubbling + delegation + preventDefault</strong>, you understand 90% of what professionals do with DOM events every day.
+    </p>
+
+</div>
+</body>
+</html>

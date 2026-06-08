@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4: ES6 Professional Developer-fu — The Complete Masterclass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:900px;margin:0 auto}
+        h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#f59e0b;margin-bottom:8px}
+        .subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        .section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+        .section-num{background:#1e2d4a;color:#f59e0b;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+        h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #f59e0b;padding-left:14px}
+        h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+        p{margin-bottom:20px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+        .kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.num{color:#79c0ff}.bool{color:#ff7b72}
+        ul,ol{margin:12px 0 24px 24px;color:#b0bac9}li{margin-bottom:10px}li strong{color:#e2e8f0}
+        .co{border-radius:12px;padding:24px;margin:32px 0;font-size:15.5px;line-height:1.7;border:1px solid rgba(255,255,255,0.05)}
+        .co-r{background:rgba(248,81,73,.04);border-left:4px solid #f85149}.co-r strong{color:#f85149}
+        .co-g{background:rgba(16,185,129,.04);border-left:4px solid #10b981}.co-g strong{color:#10b981}
+        .co-p{background:rgba(139,92,246,.04);border-left:4px solid #a78bfa}.co-p strong{color:#a78bfa}
+        .co-y{background:rgba(245,158,11,.04);border-left:4px solid #f59e0b}.co-y strong{color:#f59e0b}
+        .co-b{background:rgba(88,166,255,.04);border-left:4px solid #58a6ff}.co-b strong{color:#58a6ff}
+        table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14.5px}
+        th{background:#161b2e;color:#f59e0b;text-align:left;padding:14px 18px;font-weight:600;border:1px solid #1e2d4a}
+        td{padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9}tr:nth-child(even) td{background:rgba(22,27,46,.5)}
+        .q{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:32px;margin:44px 0;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+        .q-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+        .q-num{background:#f85149;color:#fff;font-size:14px;font-weight:700;padding:6px 14px;border-radius:8px;text-transform:uppercase;letter-spacing:1px}
+        .q h4{font-size:20px;font-weight:700;color:#f0f6fc;margin:0;border:none;padding:0}
+        .sol-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);color:#10b981;font-size:14px;font-weight:600;padding:10px 20px;border-radius:8px;cursor:pointer;transition:.2s;margin-top:12px}
+        .sol-btn:hover{background:rgba(16,185,129,.15)}
+        .sol{display:none;margin-top:20px;padding:20px 24px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}
+        .sol.show{display:block}
+        .sol-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#10b981;margin-bottom:12px}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="lesson-num">Lesson 4</p>
+    <h1>ES6 Professional Developer-fu</h1>
+    <p class="subtitle">Polyfilling and Transpiling. Learn how to write cutting-edge ES6/ESNext code while building robust, performant pipelines that transpile and patch under-the-hood features for 100% legacy browser support.</p>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">4.1</span> The Web is Growing Up & Spec Reading</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>The Evolution of ECMAScript</h3>
+    <p>JavaScript evolves through the **TC39 (Technical Committee 39)**, a group of developers, browser engineers, and industry partners. Since the release of ES6 in 2015, ECMAScript updates annually. A proposal travels through **five stages** before joining the formal spec:</p>
+
+    <ul>
+        <li><strong>Stage 0: Strawman</strong> — A free-form idea or representation of an addition.</li>
+        <li><strong>Stage 1: Proposal</strong> — A formal outline detailing why the change is needed and how it might look.</li>
+        <li><strong>Stage 2: Draft</strong> — Initial formal spec syntax written using ECMAScript's precise lexicon.</li>
+        <li><strong>Stage 3: Candidate</strong> — The proposal is complete. Browsers begin implementation, and early feedback is gathered.</li>
+        <li><strong>Stage 4: Finished</strong> — The feature is fully tested and ready to be formally added to the next annual spec release.</li>
+    </ul>
+
+    <div class="co co-y">
+        <strong>🌐 The Web is Eternal (The Compatibility Pledge)</strong><br>
+        TC39 operates under a strict principle: <strong>Do not break the web</strong>. Code written in 1995 must run in browsers today. Thus, JavaScript never deletes deprecated APIs (like <code>var</code> or <code>document.write</code>). However, because older client browsers cannot automatically download new engines, developers must compile their code downward.
+    </div>
+
+    <h3>Demystifying the Official Spec (ECMA-262)</h3>
+    <p>Reading the ECMA-262 specification is a superpower. It uses abstract machinery to detail exactly how the engine should behave under the hood. Let's look at two key concepts:</p>
+
+    <h4>1. Abstract Operations</h4>
+    <p>These are internal algorithms used by the specification to define behaviors. For example, <code>Get(O, P)</code> is an abstract operation that retrieves the value of property <code>P</code> from object <code>O</code>. You cannot call them directly in code, but they govern how standard functions run.</p>
+
+    <h4>2. Internal Slots and Methods</h4>
+    <p>Objects in JavaScript have internal slots, written in double brackets: <code>[[Prototype]]</code>, <code>[[PromiseState]]</code>, or <code>[[MapData]]</code>. These represent private internal states managed directly by the engine, inaccessible via normal JS keys but modified by standard method calls.</p>
+
+    <pre><code><span class="cm">// Example: Inside the specification for Array.prototype.includes:</span>
+<span class="cm">// 1. Let O be ? ToObject(this value).</span>
+<span class="cm">// 2. Let len be ? LengthOfArrayLike(O).</span>
+<span class="cm">// 3. If len is 0, return false.</span>
+<span class="cm">// 4. Let n be ? ToIntegerOrInfinity(fromIndex).</span>
+<span class="cm">// ... This abstract language ensures consistent cross-engine behavior.</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">4.2</span> Polyfills & Shims</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>What is a Polyfill?</h3>
+    <p>A **polyfill** (shim) is a piece of code (usually JavaScript on the web) that provides modern functionality on older browsers that do not natively support it. The term was coined by Remy Sharp: if the browser's wall has a crack (missing API), we "fill" it with a polyfill so the surface is smooth and standard.</p>
+
+    <div class="co co-r">
+        <strong>⚠️ Polyfill vs. Transpilation: The Core Distinction</strong><br>
+        <strong>Transpilation</strong> rewrites <em>syntax</em> (e.g., converting <code>() => {}</code> to standard <code>function(){}</code>, or <code>class</code> to prototype syntax).<br>
+        <strong>Polyfilling</strong> implements <em>APIs and methods</em> (e.g., adding missing global objects like <code>Promise</code> or prototypes like <code>Array.prototype.includes</code>). A transpiler cannot compile a missing class constructor; it must be polyfilled.
+    </div>
+
+    <h3>Building Custom Polyfills (From Scratch)</h3>
+    <p>Understanding how to implement custom shims is crucial for expert debugging and systems engineering. Here are the step-by-step production implementations of core modern features:</p>
+
+    <h4>1. Polyfilling <code>Array.prototype.includes</code></h4>
+    <p>This method determines whether an array includes a certain value. It must handle positive/negative index boundaries, float conversion, and <code>NaN</code> values correctly (using the <code>SameValueZero</code> comparison model instead of standard <code>===</code>).</p>
+
+    <pre><code><span class="kw">if</span> (!<span class="fn">Array</span>.<span class="fn">prototype</span>.<span class="fn">includes</span>) {
+    <span class="fn">Object</span>.<span class="fn">defineProperty</span>(<span class="fn">Array</span>.<span class="fn">prototype</span>, <span class="str">'includes'</span>, {
+        value: <span class="kw">function</span>(searchElement, fromIndex) {
+            <span class="cm">// 1. Handle Null/Undefined Object Coercion</span>
+            <span class="kw">if</span> (<span class="kw">this</span> == <span class="bool">null</span>) {
+                <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">TypeError</span>(<span class="str">'"this" is null or not defined'</span>);
+            }
+            <span class="kw">const</span> O = <span class="fn">Object</span>(<span class="kw">this</span>);
+            
+            <span class="cm">// 2. Length Conversion (unsigned 32-bit integer conversion)</span>
+            <span class="kw">const</span> len = O.length >>> <span class="num">0</span>;
+            <span class="kw">if</span> (len === <span class="num">0</span>) <span class="kw">return</span> <span class="bool">false</span>;
+
+            <span class="cm">// 3. Calculate Start Index</span>
+            <span class="kw">let</span> n = fromIndex | <span class="num">0</span>; <span class="cm">// Convert to integer</span>
+            <span class="kw">let</span> k = n >= <span class="num">0</span> ? n : len + n;
+            <span class="kw">if</span> (k < <span class="num">0</span>) k = <span class="num">0</span>; <span class="cm">// Clamp lower bound</span>
+
+            <span class="cm">// 4. SameValueZero Comparison Loop</span>
+            <span class="kw">while</span> (k < len) {
+                <span class="kw">const</span> current = O[k];
+                <span class="cm">// SameValueZero comparison handles NaN correctly:</span>
+                <span class="kw">if</span> (
+                    current === searchElement || 
+                    (<span class="fn">Number</span>.<span class="fn">isNaN</span>(current) && <span class="fn">Number</span>.<span class="fn">isNaN</span>(searchElement))
+                ) {
+                    <span class="kw">return</span> <span class="bool">true</span>;
+                }
+                k++;
+            }
+            <span class="kw">return</span> <span class="bool">false</span>;
+        },
+        writable: <span class="bool">true</span>,
+        configurable: <span class="bool">true</span>
+    });
+}</code></pre>
+
+    <h4>2. Polyfilling <code>String.prototype.startsWith</code></h4>
+    <p>This check ensures a string begins with the characters of a specified search string. It must throw a <code>TypeError</code> if a regular expression is passed, convert the base object to a string, and clip the start boundaries.</p>
+
+    <pre><code><span class="kw">if</span> (!<span class="fn">String</span>.<span class="fn">prototype</span>.<span class="fn">startsWith</span>) {
+    <span class="fn">Object</span>.<span class="fn">defineProperty</span>(<span class="fn">String</span>.<span class="fn">prototype</span>, <span class="str">'startsWith'</span>, {
+        value: <span class="kw">function</span>(searchString, position) {
+            <span class="kw">if</span> (<span class="kw">this</span> == <span class="bool">null</span>) {
+                <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">TypeError</span>(<span class="str">'"this" is null or not defined'</span>);
+            }
+            
+            <span class="cm">// 1. String Coercion</span>
+            <span class="kw">const</span> str = <span class="fn">String</span>(<span class="kw">this</span>);
+            <span class="kw">const</span> search = <span class="fn">String</span>(searchString);
+
+            <span class="cm">// 2. Regular Expression Guard</span>
+            <span class="kw">if</span> (<span class="fn">Object</span>.<span class="fn">prototype</span>.<span class="fn">toString</span>.<span class="fn">call</span>(searchString) === <span class="str">'[object RegExp]'</span>) {
+                <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">TypeError</span>(<span class="str">'First argument to startsWith cannot be a RegExp'</span>);
+            }
+
+            <span class="cm">// 3. Bound Position</span>
+            <span class="kw">const</span> pos = position > <span class="num">0</span> ? <span class="fn">Math</span>.<span class="fn">min</span>(position | <span class="num">0</span>, str.length) : <span class="num">0</span>;
+
+            <span class="cm">// 4. Comparison</span>
+            <span class="kw">return</span> str.substring(pos, pos + search.length) === search;
+        },
+        writable: <span class="bool">true</span>,
+        configurable: <span class="bool">true</span>
+    });
+}</code></pre>
+
+    <h4>3. Polyfilling <code>Object.assign</code></h4>
+    <p>This copies all enumerable own properties from one or more source objects to a target object. It must copy symbol properties, support chaining, and throw type errors on null targets.</p>
+
+    <pre><code><span class="kw">if</span> (<span class="kw">typeof</span> <span class="fn">Object</span>.<span class="fn">assign</span> !== <span class="str">'function'</span>) {
+    <span class="fn">Object</span>.<span class="fn">defineProperty</span>(<span class="fn">Object</span>, <span class="str">'assign'</span>, {
+        value: <span class="kw">function</span>(target, ...sources) {
+            <span class="cm">// 1. Null Check</span>
+            <span class="kw">if</span> (target == <span class="bool">null</span>) {
+                <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">TypeError</span>(<span class="str">'Cannot convert undefined or null to object'</span>);
+            }
+
+            <span class="kw">const</span> to = <span class="fn">Object</span>(target);
+
+            <span class="cm">// 2. Iterate Sources</span>
+            <span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < sources.length; i++) {
+                <span class="kw">const</span> nextSource = sources[i];
+                <span class="kw">if</span> (nextSource != <span class="bool">null</span>) {
+                    <span class="cm">// Copy enumerable string keys</span>
+                    <span class="kw">const</span> keys = <span class="fn">Object</span>.<span class="fn">keys</span>(nextSource);
+                    <span class="kw">for</span> (<span class="kw">let</span> j = <span class="num">0</span>; j < keys.length; j++) {
+                        <span class="kw">const</span> key = keys[j];
+                        to[key] = nextSource[key];
+                    }
+
+                    <span class="cm">// 🌟 Deep ES6 Feature: Copy enumerable symbol keys</span>
+                    <span class="kw">if</span> (<span class="fn">Object</span>.<span class="fn">getOwnPropertySymbols</span>) {
+                        <span class="kw">const</span> symbols = <span class="fn">Object</span>.<span class="fn">getOwnPropertySymbols</span>(nextSource);
+                        <span class="kw">for</span> (<span class="kw">let</span> k = <span class="num">0</span>; k < symbols.length; k++) {
+                            <span class="kw">const</span> sym = symbols[k];
+                            <span class="kw">if</span> (<span class="fn">Object</span>.<span class="fn">prototype</span>.<span class="fn">propertyIsEnumerable</span>.<span class="fn">call</span>(nextSource, sym)) {
+                                to[sym] = nextSource[sym];
+                            }
+                        }
+                    }
+                }
+            }
+            <span class="kw">return</span> to;
+        },
+        writable: <span class="bool">true</span>,
+        configurable: <span class="bool">true</span>
+    });
+}</code></pre>
+
+    <h4>4. Polyfilling <code>Promise.all</code></h4>
+    <p>This receives an iterable of promises and returns a single Promise that resolves to an array of results, maintaining exact item indexes. If any promise rejects, it rejects immediately (fail-fast).</p>
+
+    <pre><code><span class="kw">if</span> (<span class="kw">typeof</span> <span class="fn">Promise</span>.<span class="fn">all</span> !== <span class="str">'function'</span>) {
+    <span class="fn">Promise</span>.<span class="fn">all</span> = <span class="kw">function</span>(iterable) {
+        <span class="kw">return</span> <span class="kw">new</span> <span class="fn">Promise</span>((resolve, reject) => {
+            <span class="cm">// 1. Guard against non-iterables</span>
+            <span class="kw">if</span> (iterable == <span class="bool">null</span> || <span class="kw">typeof</span> iterable[<span class="fn">Symbol</span>.iterator] !== <span class="str">'function'</span>) {
+                <span class="kw">return</span> reject(<span class="kw">new</span> <span class="fn">TypeError</span>(<span class="str">'Argument is not iterable'</span>));
+            }
+
+            <span class="kw">const</span> results = [];
+            <span class="kw">let</span> activeCount = <span class="num">0</span>;
+            <span class="kw">let</span> totalCount = <span class="num">0</span>;
+            <span class="kw">let</span> index = <span class="num">0</span>;
+            <span class="kw">let</span> isCompleted = <span class="bool">false</span>;
+
+            <span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> iterable) {
+                <span class="kw">const</span> currentIndex = index;
+                totalCount++;
+                activeCount++;
+                index++;
+
+                <span class="cm">// Resolve wrapping for primitives and promises alike</span>
+                <span class="fn">Promise</span>.<span class="fn">resolve</span>(item).<span class="fn">then</span>(
+                    value => {
+                        <span class="kw">if</span> (isCompleted) <span class="kw">return</span>;
+                        results[currentIndex] = value;
+                        activeCount--;
+                        
+                        <span class="cm">// If all promises resolved, resolve the parent promise</span>
+                        <span class="kw">if</span> (activeCount === <span class="num">0</span> && !isCompleted) {
+                            resolve(results);
+                        }
+                    },
+                    err => {
+                        <span class="cm">// Fail-fast on first rejection</span>
+                        isCompleted = <span class="bool">true</span>;
+                        reject(err);
+                    }
+                );
+            }
+
+            <span class="cm">// If iterable was empty, resolve immediately</span>
+            <span class="kw">if</span> (totalCount === <span class="num">0</span>) {
+                resolve([]);
+            }
+        });
+    };
+}</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">4.3</span> Transpiling with Babel</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>The Transpiler Pipeline</h3>
+    <p>A **transpiler** is a source-to-source compiler. Instead of converting high-level code to machine binary, it converts high-level modern JS (ES6/ESNext) into lower-level standard code (ES5) readable by legacy engines. Under the hood, Babel parses, transforms, and generates code via three discrete phases:</p>
+
+    <div class="co co-p">
+        <strong>⚙️ The Three Compiler Stages of Babel</strong>
+        <ol>
+            <li><strong>Parsing</strong>: Takes raw source code strings and converts them into an <strong>Abstract Syntax Tree (AST)</strong>. It does this in two substages:
+                <ul>
+                    <li><em>Lexical Analysis</em>: Chops code into tokens (e.g., keywords, numbers, punctuation).</li>
+                    <li><em>Syntactic Analysis</em>: Constructs a hierarchical tree structure outlining language relationships.</li>
+                </ul>
+            </li>
+            <li><strong>Transformation</strong>: Traverses the AST tree using plugins to replace, insert, or remove nodes (e.g., transforming a <code>ClassDeclaration</code> AST node into standard <code>FunctionDeclaration</code> assignments).</li>
+            <li><strong>Generation</strong>: Translates the modified ES5 AST back into a standard JavaScript string and writes accompanying <strong>Source Maps</strong> so developers can debug using their original ES6 source files inside browser consoles.</li>
+        </ol>
+    </div>
+
+    <h3>Babel AST Visualization</h3>
+    <p>To see how compilers think, here is how a simple ES6 assignment is parsed into an AST representation:</p>
+
+    <pre><code><span class="cm">// 1. Raw Input:</span>
+<span class="kw">const</span> x = <span class="num">42</span>;
+
+<span class="cm">// 2. Abstract Syntax Tree (AST) Representation:</span>
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "kind": "const",
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "id": {
+            "type": "Identifier",
+            "name": "x"
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "value": 42
+          }
+        }
+      ]
+    }
+  ]
+}</code></pre>
+
+    <h3>Babel Configuration & Preset-Env</h3>
+    <p>Modern developers do not write transformation plugins from scratch. We configure Babel using standard packages. The most important preset is <code>@babel/preset-env</code>, which dynamically determines which syntax transforms and polyfills your code requires based on target browsers.</p>
+
+    <h4>Example production <code>babel.config.json</code>:</h4>
+    <pre><code>{
+  <span class="str">"presets"</span>: [
+    [
+      <span class="str">"@babel/preset-env"</span>,
+      {
+        <span class="cm">// 🌍 Target specific browser versions directly (uses Browserslist under the hood)</span>
+        <span class="str">"targets"</span>: {
+          <span class="str">"chrome"</span>: <span class="str">"80"</span>,
+          <span class="str">"firefox"</span>: <span class="str">"75"</span>,
+          <span class="str">"safari"</span>: <span class="str">"13"</span>,
+          <span class="str">"ie"</span>: <span class="str">"11"</span>
+        },
+        <span class="cm">// 📦 Dynamically inject polyfills based on feature usage in each file</span>
+        <span class="str">"useBuiltIns"</span>: <span class="str">"usage"</span>,
+        <span class="cm">// 🔧 Core-js version to pull helper methods from</span>
+        <span class="str">"corejs"</span>: <span class="str">"3.38"</span>
+      }
+    ]
+  ]
+}</code></pre>
+
+    <h4>Understanding <code>useBuiltIns</code> Settings:</h4>
+    <table>
+        <tr><th>Setting</th><th>Behavior</th><th>Pros & Cons</th></tr>
+        <tr><td><code>"usage"</code> (Recommended)</td><td>Analyzes code to inject imports for <em>only</em> used features. E.g., if you only use <code>Object.assign</code>, only that polyfill is bundled.</td><td>Produces the smallest bundle size. Highly automated.</td></tr>
+        <tr><td><code>"entry"</code></td><td>Replaces general imports like <code>import "core-js"</code> with individual imports for <em>every</em> polyfill needed by the targets.</td><td>Extremely safe, but forces the download of features you might not even use.</td></tr>
+        <tr><td><code>false</code></td><td>Only transforms syntax. No polyfills are added.</td><td>Fast compilation, but leaves API support vulnerable on older browsers.</td></tr>
+    </table>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">4.4</span> Webpack & Build Workflows</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>The Module Bundling Ecosystem</h3>
+    <p>While Babel converts single files, real-world apps consist of hundreds of distinct modular files using ES Modules (<code>import</code> and <code>export</code>). Legacies like IE11 do not support modular loading natively. This is where **Webpack** (or Vite/Rollup) acts as a static module bundler. It builds a dependency graph mapping every import/export to bundle them into a single, cohesive payload.</p>
+
+    <div class="co co-b">
+        <strong>📦 Webpack core architecture:</strong><br>
+        - <strong>Entry</strong>: The entry point (e.g. <code>src/index.js</code>) from which Webpack begins scanning dependencies.<br>
+        - <strong>Output</strong>: The destination directory and filename for the final production code (e.g. <code>dist/bundle.js</code>).<br>
+        - <strong>Loaders</strong>: Preprocessors that convert non-JS files (or next-gen JS) before bundling. For example, <code>babel-loader</code> intercepts JS files and feeds them directly to Babel.<br>
+        - <strong>Plugins</strong>: Extensions that hooks into Webpack's entire build cycle to perform custom tasks, like code minification or automatic asset copying.
+    </div>
+
+    <h3>Tree Shaking (Dead Code Elimination)</h3>
+    <p>Modern bundlers use a technique called **Tree Shaking** to analyze your code and strip out unused exports. Think of your app as a tree; live code is represented by green leaves, and dead/unused code is represented by brown leaves. Tree shaking physically shakes the tree so the brown leaves fall off, reducing bundles significantly.</p>
+
+    <div class="co co-g">
+        <strong>💡 Static Analysis (ESM vs. CommonJS)</strong><br>
+        Tree shaking <strong>only works with ES Modules (import/export)</strong>. Because ES6 imports are static (they must live at the top-level of files, and names cannot contain runtime variables), Webpack can confidently verify which functions are imported at build time.<br>
+        Conversely, CommonJS imports (<code>require()</code>) are dynamic and can be nested inside conditional blocks, preventing compile-time tree shaking.
+    </div>
+
+    <pre><code><span class="cm">// File: mathUtils.js</span>
+<span class="kw">export</span> <span class="kw">const</span> add = (a, b) => a + b;
+<span class="kw">export</span> <span class="kw">const</span> subtract = (a, b) => a - b; <span class="cm">// 🍂 Unused in app!</span>
+
+<span class="cm">// File: app.js</span>
+<span class="kw">import</span> { add } <span class="kw">from</span> <span class="str">'./mathUtils.js'</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">add</span>(<span class="num">5</span>, <span class="num">10</span>));
+
+<span class="cm">// Webpack tree-shaking will identify 'subtract' as dead code</span>
+<span class="cm">// and TerserPlugin will strip it entirely from the output bundle.</span></code></pre>
+
+    <h3>Production Webpack Configuration</h3>
+    <p>Here is an expert, annotated <code>webpack.config.js</code> setting up a secure, production-grade ES6 pipeline with Babel integration, asset parsing, and optimized minification:</p>
+
+    <pre><code><span class="kw">const</span> path = <span class="fn">require</span>(<span class="str">'path'</span>);
+<span class="kw">const</span> HtmlWebpackPlugin = <span class="fn">require</span>(<span class="str">'html-webpack-plugin'</span>);
+<span class="kw">const</span> TerserPlugin = <span class="fn">require</span>(<span class="str">'terser-webpack-plugin'</span>);
+
+<span class="fn">module</span>.<span class="fn">exports</span> = {
+  <span class="cm">// 1. Build Environment Mode</span>
+  mode: <span class="str">'production'</span>,
+
+  <span class="cm">// 2. Execution Entry Point</span>
+  entry: <span class="str">'./src/index.js'</span>,
+
+  <span class="cm">// 3. Target Distribution Output</span>
+  output: {
+    filename: <span class="str">'[name].[contenthash].js'</span>, <span class="cm">// Dynamic caching hashes</span>
+    path: path.<span class="fn">resolve</span>(__dirname, <span class="str">'dist'</span>),
+    clean: <span class="bool">true</span>, <span class="cm">// Auto-clean dist folders on re-run</span>
+  },
+
+  <span class="cm">// 4. File Interception Processing Rules (Loaders)</span>
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: <span class="str">'babel-loader'</span>, <span class="cm">// Runs Babel transform on all project files</span>
+          options: {
+            cacheDirectory: <span class="bool">true</span>, <span class="cm">// Boost subsequent compilation speed</span>
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: [<span class="str">'style-loader'</span>, <span class="str">'css-loader'</span>] <span class="cm">// Bundles stylesheets</span>
+      }
+    ]
+  },
+
+  <span class="cm">// 5. Minification & Tree-shaking Optimizations</span>
+  optimization: {
+    usedExports: <span class="bool">true</span>, <span class="cm">// Identifies dead exports for tree-shaking</span>
+    minimize: <span class="bool">true</span>,
+    minimizer: [
+      <span class="kw">new</span> <span class="fn">TerserPlugin</span>({
+        terserOptions: {
+          compress: {
+            drop_console: <span class="bool">true</span>, <span class="cm">// Strip debugging console logs in production</span>
+          }
+        }
+      })
+    ]
+  },
+
+  <span class="cm">// 6. Custom Assembly Hooks (Plugins)</span>
+  plugins: [
+    <span class="kw">new</span> <span class="fn">HtmlWebpackPlugin</span>({
+      template: <span class="str">'./src/index.html'</span>,
+      minify: {
+        collapseWhitespace: <span class="bool">true</span>,
+        removeComments: <span class="bool">true</span>
+      }
+    })
+  ]
+};</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">4.5</span> Professional Developer-fu Quizzes</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- QUIZ 1 -->
+    <div class="q">
+        <div class="q-header">
+            <span class="q-num">Quiz 1</span>
+            <h4>Syntax vs. API Compatibility</h4>
+        </div>
+        <p>Identify whether each of the following ES6 features requires a **Transpiler** (Babel transform) or a **Polyfill** (runtime shim):</p>
+        <ol>
+            <li>Arrow Functions (<code>const fn = () => {}</code>)</li>
+            <li>The <code>Map</code> and <code>Set</code> Global Objects</li>
+            <li>Destructuring Assignment (<code>const { name } = user;</code>)</li>
+            <li><code>String.prototype.includes</code></li>
+        </ol>
+
+        <button class="sol-btn" onclick="toggleSolution(this)">Show Solution</button>
+        <div class="sol">
+            <p class="sol-label">System Solution Explanation</p>
+            <ul>
+                <li><strong>1. Arrow Functions (Transpiler)</strong>: These are a core syntax addition. The browser parser itself will throw a syntax error if it encounters the <code>=></code> token. It must be physically rewritten to <code>function() {}</code> by Babel.</li>
+                <li><strong>2. Map & Set (Polyfill)</strong>: These are global objects (APIs). The syntax itself is valid, but the variable constructor does not exist. A runtime library adds the constructor to the global scope.</li>
+                <li><strong>3. Destructuring (Transpiler)</strong>: Syntax transform. Babel compiles this to standard bracket notation (e.g. <code>var name = user.name</code>).</li>
+                <li><strong>4. String.prototype.includes (Polyfill)</strong>: A missing prototype method (API). Requires patching the prototype chain.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- QUIZ 2 -->
+    <div class="q">
+        <div class="q-header">
+            <span class="q-num">Quiz 2</span>
+            <h4>Writing a Custom Polyfill: <code>Array.prototype.find</code></h4>
+        </div>
+        <p>Implement a bulletproof, vanilla polyfill for the modern <code>Array.prototype.find(callback[, thisArg])</code> method. Your code should check if <code>this</code> is defined, check if callback is a function, support custom scopes via <code>thisArg</code>, and be added safely using <code>Object.defineProperty</code>.</p>
+
+        <button class="sol-btn" onclick="toggleSolution(this)">Show Solution</button>
+        <div class="sol">
+            <p class="sol-label">Production Polyfill Implementation</p>
+            <pre><code><span class="kw">if</span> (!<span class="fn">Array</span>.<span class="fn">prototype</span>.<span class="fn">find</span>) {
+    <span class="fn">Object</span>.<span class="fn">defineProperty</span>(<span class="fn">Array</span>.<span class="fn">prototype</span>, <span class="str">'find'</span>, {
+        value: <span class="kw">function</span>(predicate, thisArg) {
+            <span class="cm">// 1. Check null context</span>
+            <span class="kw">if</span> (<span class="kw">this</span> == <span class="bool">null</span>) {
+                <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">TypeError</span>(<span class="str">'"this" is null or not defined'</span>);
+            }
+
+            <span class="cm">// 2. Coerce to Object</span>
+            <span class="kw">const</span> O = <span class="fn">Object</span>(<span class="kw">this</span>);
+            <span class="kw">const</span> len = O.length >>> <span class="num">0</span>; <span class="cm">// Convert to Uint32</span>
+
+            <span class="cm">// 3. Verify callback function signature</span>
+            <span class="kw">if</span> (<span class="kw">typeof</span> predicate !== <span class="str">'function'</span>) {
+                <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">TypeError</span>(<span class="str">'predicate must be a function'</span>);
+            }
+
+            <span class="cm">// 4. Iterate array and execute with targeted context</span>
+            <span class="kw">let</span> k = <span class="num">0</span>;
+            <span class="kw">while</span> (k < len) {
+                <span class="kw">const</span> kValue = O[k];
+                <span class="cm">// Pass element, index, and parent array context</span>
+                <span class="kw">if</span> (predicate.<span class="fn">call</span>(thisArg, kValue, k, O)) {
+                    <span class="kw">return</span> kValue;
+                }
+                k++;
+            }
+            <span class="kw">return</span> <span class="bool">undefined</span>;
+        },
+        writable: <span class="bool">true</span>,
+        configurable: <span class="bool">true</span>
+    });
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- QUIZ 3 -->
+    <div class="q">
+        <div class="q-header">
+            <span class="q-num">Quiz 3</span>
+            <h4>Babel Output Analysis</h4>
+        </div>
+        <p>Imagine your project's `babel.config.json` targets set `chrome: "100"`. If you write code using arrow functions, array destructuring, and <code>Array.prototype.includes</code>, what will Babel's output look like? Will the arrow functions be transformed? Will <code>includes</code> have a polyfill injected?</p>
+
+        <button class="sol-btn" onclick="toggleSolution(this)">Show Solution</button>
+        <div class="sol">
+            <p class="sol-label">Compiler Output Analysis</p>
+            <ul>
+                <li><strong>Arrow Functions & Destructuring</strong>: Chrome 100 natively supports arrow functions and destructuring. Since your targeted environment supports these syntaxes natively, Babel <strong>will not compile them down</strong>. They will remain arrow functions and standard destructuring statements in the output, saving compile time and bundle bytes!</li>
+                <li><strong>Array.prototype.includes</strong>: Since Chrome 100 also natively supports the `includes` method, <strong>no polyfill will be injected</strong>. Babel's preset-env uses target heuristics to avoid injecting unnecessary code for browsers that already support them natively.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- QUIZ 4 -->
+    <div class="q">
+        <div class="q-header">
+            <span class="q-num">Quiz 4</span>
+            <h4>Dynamic Imports & Tree Shaking</h4>
+        </div>
+        <p>Explain why a bundler like Webpack CANNOT tree shake the dynamic import function <code>import(somePath)</code> where the path is calculated at runtime, whereas it can easily tree shake a static import statement.</p>
+
+        <button class="sol-btn" onclick="toggleSolution(this)">Show Solution</button>
+        <div class="sol">
+            <p class="sol-label">Tree Shaking Mechanics Explanation</p>
+            <p>Tree shaking relies heavily on **Static Code Analysis**. The bundler reads the syntax tree at compile-time *before* the code runs in any browser.</p>
+            <ul>
+                <li>With **Static Imports** (<code>import { add } from './math.js'</code>), the import paths and names are hardcoded, immutable tokens in the AST. Webpack can easily parse the exact file and the exact name used.</li>
+                <li>With **Dynamic Imports** (<code>import(somePath)</code>), the value of <code>somePath</code> is decided at runtime by execution state (e.g. database values, user clicks). The bundler cannot possibly predict what files the variable might contain when compiling. To be safe, Webpack must bundle every possible module, entirely disabling optimization and tree shaking for those files.</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function toggleSolution(btn) {
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    btn.textContent = sol.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+}
+</script>
+</body>
+</html>

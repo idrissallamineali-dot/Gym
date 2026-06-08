@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 3: CSS Properties Cookbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+.container{max-width:1000px;margin:0 auto}
+
+h1{font-size:42px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+.lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#10b981;margin-bottom:8px}
+.subtitle{font-size:18px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+
+h2.section-title{font-size:28px;font-weight:800;color:#f0f6fc;margin:56px 0 28px;padding-bottom:16px;border-bottom:1px solid #1e2d4a;letter-spacing:-0.5px;display:flex;align-items:center;gap:14px}
+.section-num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:10px;font-size:16px;font-weight:800}
+
+.concept{font-size:18px;color:#e2e8f0;margin:28px 0 16px;padding:12px 16px;background:#161b2e;border-left:4px solid #10b981;border-radius:0 8px 8px 0}
+.concept code{background:#1e2d4a;color:#7dd3fc;padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:15px}
+
+.example-row{display:flex;flex-wrap:wrap;gap:16px;margin:20px 0 36px;align-items:flex-start}
+.example-item{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;overflow:hidden;min-width:120px;flex:1}
+.example-label{background:#1e2d4a;color:#10b981;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;padding:8px 12px;text-align:center}
+.example-render{padding:16px;display:flex;justify-content:center;align-items:center;min-height:80px}
+
+.vs-row{display:flex;gap:24px;margin:20px 0 36px;flex-wrap:wrap}
+.vs-item{flex:1;border-radius:12px;overflow:hidden;border:1px solid #1e2d4a;min-width:200px}
+.vs-bad{border-color:rgba(248,81,73,0.3)}
+.vs-good{border-color:rgba(16,185,129,0.3)}
+.vs-label{padding:10px 16px;font-size:13px;font-weight:700;text-align:center}
+.vs-label-bad{background:rgba(248,81,73,0.08);color:#f85149}
+.vs-label-good{background:rgba(16,185,129,0.08);color:#10b981}
+.vs-content{padding:16px;background:#0d1117}
+
+.diagram{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.6;color:#7dd3fc;white-space:pre;overflow-x:auto}
+
+.note{background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius:10px;padding:14px 18px;margin:16px 0;font-size:14px;color:#c4b5fd}
+.note::before{content:'💡 ';font-size:16px}
+
+.challenge{background:#161b2e;border:2px solid #f59e0b;border-radius:16px;padding:32px;margin:48px 0}
+.challenge-title{font-size:24px;font-weight:800;color:#f59e0b;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.challenge-target{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:16px 0}
+
+.solution-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);color:#10b981;font-size:13px;font-weight:600;padding:10px 20px;border-radius:10px;cursor:pointer;transition:0.2s;margin-top:16px}
+.solution-btn:hover{background:rgba(16,185,129,0.15)}
+.solution{display:none;margin-top:16px;padding:20px;background:rgba(16,185,129,0.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}
+.solution.show{display:block}
+.solution-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#10b981;margin-bottom:12px}
+.solution pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:8px;padding:16px;overflow-x:auto;margin-top:8px}
+.solution code{font-family:'JetBrains Mono',monospace;font-size:13px;color:#c9d1d9;line-height:1.6}
+
+/* Helper for text examples */
+.text-sample{color:#c9d1d9;font-size:15px}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ============================== HEADER ============================== -->
+<div class="lesson-num">CSS by Examples</div>
+<h1>Session 3: CSS Properties Cookbook</h1>
+<p class="subtitle">Every property you need, shown through live examples. Bookmark this page.</p>
+
+
+<!-- ========================================================================== -->
+<!--  SECTION 1: TEXT PROPERTIES                                                 -->
+<!-- ========================================================================== -->
+<h2 class="section-title"><span class="section-num">1</span> Text Properties</h2>
+
+
+<!-- ==================== color ==================== -->
+<p class="concept"><code>color</code> — Sets text color.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">color: #f85149</div>
+        <div class="example-render">
+            <span style="color:#f85149;font-size:18px;font-weight:600">Hello World</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">color: rgb(56,189,248)</div>
+        <div class="example-render">
+            <span style="color:rgb(56,189,248);font-size:18px;font-weight:600">Hello World</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">color: rgba(16,185,129,0.5)</div>
+        <div class="example-render">
+            <span style="color:rgba(16,185,129,0.5);font-size:18px;font-weight:600">Hello World</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">color: tomato</div>
+        <div class="example-render">
+            <span style="color:tomato;font-size:18px;font-weight:600">Hello World</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== font-size ==================== -->
+<p class="concept"><code>font-size</code> — How big the text is.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">12px</div>
+        <div class="example-render">
+            <span style="font-size:12px;color:#e2e8f0">The quick fox</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">14px</div>
+        <div class="example-render">
+            <span style="font-size:14px;color:#e2e8f0">The quick fox</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">16px</div>
+        <div class="example-render">
+            <span style="font-size:16px;color:#e2e8f0">The quick fox</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">20px</div>
+        <div class="example-render">
+            <span style="font-size:20px;color:#e2e8f0">The quick fox</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">24px</div>
+        <div class="example-render">
+            <span style="font-size:24px;color:#e2e8f0">The quick fox</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">32px</div>
+        <div class="example-render">
+            <span style="font-size:32px;color:#e2e8f0">The quick fox</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">48px</div>
+        <div class="example-render">
+            <span style="font-size:48px;color:#e2e8f0">The quick fox</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== font-weight ==================== -->
+<p class="concept"><code>font-weight</code> — How bold the text is.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">100 (Thin)</div>
+        <div class="example-render">
+            <span style="font-weight:100;font-size:20px;color:#e2e8f0">Hello</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">300 (Light)</div>
+        <div class="example-render">
+            <span style="font-weight:300;font-size:20px;color:#e2e8f0">Hello</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">400 (Normal)</div>
+        <div class="example-render">
+            <span style="font-weight:400;font-size:20px;color:#e2e8f0">Hello</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">600 (Semi-Bold)</div>
+        <div class="example-render">
+            <span style="font-weight:600;font-size:20px;color:#e2e8f0">Hello</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">700 (Bold)</div>
+        <div class="example-render">
+            <span style="font-weight:700;font-size:20px;color:#e2e8f0">Hello</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">900 (Black)</div>
+        <div class="example-render">
+            <span style="font-weight:900;font-size:20px;color:#e2e8f0">Hello</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== font-style ==================== -->
+<p class="concept"><code>font-style</code> — Normal or italic.</p>
+
+<div class="example-row">
+    <div class="example-item" style="flex:1">
+        <div class="example-label">font-style: normal</div>
+        <div class="example-render">
+            <span style="font-style:normal;font-size:20px;color:#e2e8f0">The quick brown fox jumps over the lazy dog.</span>
+        </div>
+    </div>
+    <div class="example-item" style="flex:1">
+        <div class="example-label">font-style: italic</div>
+        <div class="example-render">
+            <span style="font-style:italic;font-size:20px;color:#e2e8f0">The quick brown fox jumps over the lazy dog.</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== line-height ==================== -->
+<p class="concept"><code>line-height</code> — Space between lines of text.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">line-height: 1.0</div>
+        <div class="example-render" style="align-items:flex-start">
+            <p style="line-height:1.0;font-size:14px;color:#c9d1d9">The quick brown fox jumps over the lazy dog. This is a multi-line paragraph to show the effect.</p>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">line-height: 1.3</div>
+        <div class="example-render" style="align-items:flex-start">
+            <p style="line-height:1.3;font-size:14px;color:#c9d1d9">The quick brown fox jumps over the lazy dog. This is a multi-line paragraph to show the effect.</p>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">line-height: 1.5</div>
+        <div class="example-render" style="align-items:flex-start">
+            <p style="line-height:1.5;font-size:14px;color:#c9d1d9">The quick brown fox jumps over the lazy dog. This is a multi-line paragraph to show the effect.</p>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">line-height: 1.8</div>
+        <div class="example-render" style="align-items:flex-start">
+            <p style="line-height:1.8;font-size:14px;color:#c9d1d9">The quick brown fox jumps over the lazy dog. This is a multi-line paragraph to show the effect.</p>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">line-height: 2.5</div>
+        <div class="example-render" style="align-items:flex-start">
+            <p style="line-height:2.5;font-size:14px;color:#c9d1d9">The quick brown fox jumps over the lazy dog. This is a multi-line paragraph to show the effect.</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== letter-spacing ==================== -->
+<p class="concept"><code>letter-spacing</code> — Space between individual letters.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">-2px</div>
+        <div class="example-render">
+            <span style="letter-spacing:-2px;font-size:18px;color:#e2e8f0;font-weight:700">PREMIUM</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">-1px</div>
+        <div class="example-render">
+            <span style="letter-spacing:-1px;font-size:18px;color:#e2e8f0;font-weight:700">PREMIUM</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">0</div>
+        <div class="example-render">
+            <span style="letter-spacing:0;font-size:18px;color:#e2e8f0;font-weight:700">PREMIUM</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">1px</div>
+        <div class="example-render">
+            <span style="letter-spacing:1px;font-size:18px;color:#e2e8f0;font-weight:700">PREMIUM</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">2px</div>
+        <div class="example-render">
+            <span style="letter-spacing:2px;font-size:18px;color:#e2e8f0;font-weight:700">PREMIUM</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">5px</div>
+        <div class="example-render">
+            <span style="letter-spacing:5px;font-size:18px;color:#e2e8f0;font-weight:700">PREMIUM</span>
+        </div>
+    </div>
+</div>
+
+<div class="note">Negative = headings feel tight/premium. Positive = labels/uppercase text feel open and airy.</div>
+
+
+<!-- ==================== text-align ==================== -->
+<p class="concept"><code>text-align</code> — Horizontal alignment of text.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">text-align: left</div>
+        <div class="example-render" style="display:block;padding:16px">
+            <p style="text-align:left;font-size:14px;color:#c9d1d9">The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</p>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">text-align: center</div>
+        <div class="example-render" style="display:block;padding:16px">
+            <p style="text-align:center;font-size:14px;color:#c9d1d9">The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</p>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">text-align: right</div>
+        <div class="example-render" style="display:block;padding:16px">
+            <p style="text-align:right;font-size:14px;color:#c9d1d9">The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</p>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">text-align: justify</div>
+        <div class="example-render" style="display:block;padding:16px">
+            <p style="text-align:justify;font-size:14px;color:#c9d1d9">The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== text-decoration ==================== -->
+<p class="concept"><code>text-decoration</code> — Underline, overline, line-through, or none.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">underline</div>
+        <div class="example-render">
+            <span style="text-decoration:underline;font-size:17px;color:#e2e8f0">Hello World</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">overline</div>
+        <div class="example-render">
+            <span style="text-decoration:overline;font-size:17px;color:#e2e8f0">Hello World</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">line-through</div>
+        <div class="example-render">
+            <span style="text-decoration:line-through;font-size:17px;color:#e2e8f0">Hello World</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">none (removes link underline!)</div>
+        <div class="example-render">
+            <a href="#" style="text-decoration:none;font-size:17px;color:#38bdf8">Hello World</a>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">underline wavy red</div>
+        <div class="example-render">
+            <span style="text-decoration:underline wavy #f85149;font-size:17px;color:#e2e8f0">Hello World</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== text-transform ==================== -->
+<p class="concept"><code>text-transform</code> — Change the case of text.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">none</div>
+        <div class="example-render">
+            <span style="text-transform:none;font-size:17px;color:#e2e8f0">hello World</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">uppercase</div>
+        <div class="example-render">
+            <span style="text-transform:uppercase;font-size:17px;color:#e2e8f0">hello World</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">lowercase</div>
+        <div class="example-render">
+            <span style="text-transform:lowercase;font-size:17px;color:#e2e8f0">hello World</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">capitalize</div>
+        <div class="example-render">
+            <span style="text-transform:capitalize;font-size:17px;color:#e2e8f0">hello world example</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== text-shadow ==================== -->
+<p class="concept"><code>text-shadow</code> — Shadow behind text.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">none</div>
+        <div class="example-render">
+            <span style="font-size:24px;font-weight:800;color:#e2e8f0;text-shadow:none">Shadow</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">1px 1px 2px</div>
+        <div class="example-render">
+            <span style="font-size:24px;font-weight:800;color:#e2e8f0;text-shadow:1px 1px 2px rgba(0,0,0,0.5)">Shadow</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">3px 3px 6px (heavy)</div>
+        <div class="example-render">
+            <span style="font-size:24px;font-weight:800;color:#e2e8f0;text-shadow:3px 3px 6px rgba(0,0,0,0.8)">Shadow</span>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">0 0 20px cyan (glow)</div>
+        <div class="example-render">
+            <span style="font-size:24px;font-weight:800;color:#e2e8f0;text-shadow:0 0 20px cyan, 0 0 40px cyan">Shadow</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== text-overflow ==================== -->
+<p class="concept"><code>text-overflow: ellipsis</code> — Shows "..." when text is too long.</p>
+
+<div class="example-row">
+    <div class="example-item" style="flex:2;max-width:300px">
+        <div class="example-label">overflow: hidden + white-space: nowrap + text-overflow: ellipsis</div>
+        <div class="example-render" style="display:block">
+            <div style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#e2e8f0;font-size:15px;background:#161b2e;padding:12px 16px;border-radius:8px;width:100%">
+                This is a very long piece of text that will definitely overflow the container and show an ellipsis at the end
+            </div>
+        </div>
+    </div>
+    <div class="example-item" style="flex:2;max-width:300px">
+        <div class="example-label">Without ellipsis — text overflows</div>
+        <div class="example-render" style="display:block">
+            <div style="overflow:hidden;white-space:nowrap;color:#e2e8f0;font-size:15px;background:#161b2e;padding:12px 16px;border-radius:8px;width:100%">
+                This is a very long piece of text that will definitely overflow the container and get cut off abruptly
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="note">Requires three properties together: <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px">overflow: hidden</code>, <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px">white-space: nowrap</code>, and <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px">text-overflow: ellipsis</code>.</div>
+
+
+<!-- ========================================================================== -->
+<!--  SECTION 2: BACKGROUND PROPERTIES                                          -->
+<!-- ========================================================================== -->
+<h2 class="section-title"><span class="section-num">2</span> Background Properties</h2>
+
+
+<!-- ==================== background-color ==================== -->
+<p class="concept"><code>background-color</code> — Fills the element's background with a solid color.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">#f85149</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border-radius:8px;background-color:#f85149"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">#38bdf8</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border-radius:8px;background-color:#38bdf8"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">#10b981</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border-radius:8px;background-color:#10b981"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">#f59e0b</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border-radius:8px;background-color:#f59e0b"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">#8b5cf6</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border-radius:8px;background-color:#8b5cf6"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">rgba(255,255,255,0.1)</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border-radius:8px;background-color:rgba(255,255,255,0.1);border:1px dashed #3a4560"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== linear-gradient ==================== -->
+<p class="concept"><code>background: linear-gradient()</code> — Smooth color transitions as backgrounds.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">to right</div>
+        <div class="example-render">
+            <div style="width:100%;height:70px;border-radius:8px;background:linear-gradient(to right, #f85149, #f59e0b)"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">to bottom</div>
+        <div class="example-render">
+            <div style="width:100%;height:70px;border-radius:8px;background:linear-gradient(to bottom, #38bdf8, #8b5cf6)"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">135deg</div>
+        <div class="example-render">
+            <div style="width:100%;height:70px;border-radius:8px;background:linear-gradient(135deg, #10b981, #38bdf8)"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">45deg (3 colors)</div>
+        <div class="example-render">
+            <div style="width:100%;height:70px;border-radius:8px;background:linear-gradient(45deg, #f85149, #8b5cf6, #38bdf8)"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">to right (dark theme)</div>
+        <div class="example-render">
+            <div style="width:100%;height:70px;border-radius:8px;background:linear-gradient(to right, #0f111a, #1e2d4a)"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">90deg (sunset)</div>
+        <div class="example-render">
+            <div style="width:100%;height:70px;border-radius:8px;background:linear-gradient(90deg, #ff6b6b, #ffa502, #ff6348)"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== background-size ==================== -->
+<p class="concept"><code>background-size</code> — How a background image/gradient scales inside the element.</p>
+
+<div class="example-row">
+    <div class="example-item" style="flex:2">
+        <div class="example-label">background-size: cover (fills, may crop)</div>
+        <div class="example-render">
+            <div style="width:200px;height:120px;border-radius:8px;background:linear-gradient(135deg,#f85149 0%,#f59e0b 40%,#10b981 70%,#38bdf8 100%);background-size:cover;border:2px dashed #3a4560;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600">cover</div>
+        </div>
+    </div>
+    <div class="example-item" style="flex:2">
+        <div class="example-label">background-size: contain (fits, may leave gaps)</div>
+        <div class="example-render">
+            <div style="width:200px;height:120px;border-radius:8px;background:linear-gradient(135deg,#f85149 0%,#f59e0b 40%,#10b981 70%,#38bdf8 100%);background-size:60% 60%;background-repeat:no-repeat;background-position:center;border:2px dashed #3a4560;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600">contain</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ========================================================================== -->
+<!--  SECTION 3: BORDER & BORDER-RADIUS                                         -->
+<!-- ========================================================================== -->
+<h2 class="section-title"><span class="section-num">3</span> Border &amp; Border-Radius</h2>
+
+
+<!-- ==================== border ==================== -->
+<p class="concept"><code>border</code> — A line around the element (width, style, color).</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">1px solid</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border:1px solid #38bdf8;border-radius:6px"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">2px dashed</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border:2px dashed #10b981;border-radius:6px"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">2px dotted</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border:2px dotted #f59e0b;border-radius:6px"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">4px double</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border:4px double #8b5cf6;border-radius:6px"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">border-left only</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border-left:4px solid #f85149;background:rgba(248,81,73,0.05);border-radius:0 6px 6px 0"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">5px solid (thick)</div>
+        <div class="example-render">
+            <div style="width:80px;height:60px;border:5px solid #e2e8f0;border-radius:6px"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== border-radius ==================== -->
+<p class="concept"><code>border-radius</code> — Rounds the corners of an element.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">0</div>
+        <div class="example-render">
+            <div style="width:70px;height:70px;background:#38bdf8;border-radius:0"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">5px</div>
+        <div class="example-render">
+            <div style="width:70px;height:70px;background:#38bdf8;border-radius:5px"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">10px</div>
+        <div class="example-render">
+            <div style="width:70px;height:70px;background:#38bdf8;border-radius:10px"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">20px</div>
+        <div class="example-render">
+            <div style="width:70px;height:70px;background:#38bdf8;border-radius:20px"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">50px</div>
+        <div class="example-render">
+            <div style="width:70px;height:70px;background:#38bdf8;border-radius:50px"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">50% (circle)</div>
+        <div class="example-render">
+            <div style="width:70px;height:70px;background:#38bdf8;border-radius:50%"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ========================================================================== -->
+<!--  SECTION 4: VISUAL EFFECTS                                                 -->
+<!-- ========================================================================== -->
+<h2 class="section-title"><span class="section-num">4</span> Visual Effects</h2>
+
+
+<!-- ==================== opacity ==================== -->
+<p class="concept"><code>opacity</code> — How transparent the entire element is (0 = invisible, 1 = fully visible).</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">opacity: 1</div>
+        <div class="example-render">
+            <div style="width:70px;height:60px;background:#10b981;border-radius:8px;opacity:1"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">opacity: 0.8</div>
+        <div class="example-render">
+            <div style="width:70px;height:60px;background:#10b981;border-radius:8px;opacity:0.8"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">opacity: 0.6</div>
+        <div class="example-render">
+            <div style="width:70px;height:60px;background:#10b981;border-radius:8px;opacity:0.6"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">opacity: 0.4</div>
+        <div class="example-render">
+            <div style="width:70px;height:60px;background:#10b981;border-radius:8px;opacity:0.4"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">opacity: 0.2</div>
+        <div class="example-render">
+            <div style="width:70px;height:60px;background:#10b981;border-radius:8px;opacity:0.2"></div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">opacity: 0</div>
+        <div class="example-render">
+            <div style="width:70px;height:60px;background:#10b981;border-radius:8px;opacity:0;border:1px dashed #3a4560"></div>
+            <span style="font-size:11px;color:#555;position:absolute">← it's here!</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== box-shadow ==================== -->
+<p class="concept"><code>box-shadow</code> — Shadow around the box. Adds depth and dimension.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">none</div>
+        <div class="example-render">
+            <div style="width:100px;height:70px;background:#161b2e;border-radius:10px;box-shadow:none;border:1px solid #1e2d4a;display:flex;align-items:center;justify-content:center;color:#7a8599;font-size:12px">Card</div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">subtle</div>
+        <div class="example-render">
+            <div style="width:100px;height:70px;background:#161b2e;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:#c9d1d9;font-size:12px">Card</div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">medium</div>
+        <div class="example-render">
+            <div style="width:100px;height:70px;background:#161b2e;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;color:#c9d1d9;font-size:12px">Card</div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">heavy</div>
+        <div class="example-render">
+            <div style="width:100px;height:70px;background:#161b2e;border-radius:10px;box-shadow:0 8px 40px rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;color:#e2e8f0;font-size:12px">Card</div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">color glow (blue)</div>
+        <div class="example-render">
+            <div style="width:100px;height:70px;background:#161b2e;border-radius:10px;box-shadow:0 0 20px rgba(56,189,248,0.4),0 0 40px rgba(56,189,248,0.1);display:flex;align-items:center;justify-content:center;color:#38bdf8;font-size:12px">Card</div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">inset</div>
+        <div class="example-render">
+            <div style="width:100px;height:70px;background:#161b2e;border-radius:10px;box-shadow:inset 0 2px 10px rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;color:#7a8599;font-size:12px">Card</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== cursor ==================== -->
+<p class="concept"><code>cursor</code> — What the mouse cursor looks like when hovering over an element.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">default</div>
+        <div class="example-render">
+            <div style="cursor:default;width:90px;height:60px;background:#161b2e;border:1px solid #1e2d4a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#7a8599;font-size:12px">Hover me</div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">pointer</div>
+        <div class="example-render">
+            <div style="cursor:pointer;width:90px;height:60px;background:#161b2e;border:1px solid #1e2d4a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#10b981;font-size:12px">Hover me</div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">text</div>
+        <div class="example-render">
+            <div style="cursor:text;width:90px;height:60px;background:#161b2e;border:1px solid #1e2d4a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#38bdf8;font-size:12px">Hover me</div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">grab</div>
+        <div class="example-render">
+            <div style="cursor:grab;width:90px;height:60px;background:#161b2e;border:1px solid #1e2d4a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#f59e0b;font-size:12px">Hover me</div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">not-allowed</div>
+        <div class="example-render">
+            <div style="cursor:not-allowed;width:90px;height:60px;background:#161b2e;border:1px solid #1e2d4a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#f85149;font-size:12px">Hover me</div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">crosshair</div>
+        <div class="example-render">
+            <div style="cursor:crosshair;width:90px;height:60px;background:#161b2e;border:1px solid #1e2d4a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#8b5cf6;font-size:12px">Hover me</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== overflow ==================== -->
+<p class="concept"><code>overflow</code> — What happens when content is bigger than its container.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">overflow: visible</div>
+        <div class="example-render" style="min-height:140px;align-items:flex-start;position:relative">
+            <div style="width:120px;height:60px;overflow:visible;background:#161b2e;border:1px solid #38bdf8;border-radius:6px;padding:8px;font-size:12px;color:#c9d1d9;position:relative">
+                This text is way too long for this tiny box and will overflow visibly out of it.
+            </div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">overflow: hidden</div>
+        <div class="example-render" style="min-height:140px;align-items:flex-start">
+            <div style="width:120px;height:60px;overflow:hidden;background:#161b2e;border:1px solid #f85149;border-radius:6px;padding:8px;font-size:12px;color:#c9d1d9">
+                This text is way too long for this tiny box and will be cut off abruptly by hidden overflow.
+            </div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">overflow: scroll</div>
+        <div class="example-render" style="min-height:140px;align-items:flex-start">
+            <div style="width:120px;height:60px;overflow:scroll;background:#161b2e;border:1px solid #10b981;border-radius:6px;padding:8px;font-size:12px;color:#c9d1d9">
+                This text is way too long for this tiny box and will get a scrollbar to navigate through it.
+            </div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">overflow: auto</div>
+        <div class="example-render" style="min-height:140px;align-items:flex-start">
+            <div style="width:120px;height:60px;overflow:auto;background:#161b2e;border:1px solid #f59e0b;border-radius:6px;padding:8px;font-size:12px;color:#c9d1d9">
+                This text is way too long for this tiny box. Scrollbar only appears when needed.
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== visibility vs display ==================== -->
+<p class="concept"><code>visibility: hidden</code> vs <code>display: none</code> — Both hide elements, but differently.</p>
+
+<div class="vs-row">
+    <div class="vs-item vs-bad">
+        <div class="vs-label vs-label-bad">display: none on B → space collapses</div>
+        <div class="vs-content" style="display:flex;gap:12px;padding:20px">
+            <div style="width:70px;height:70px;background:#38bdf8;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0f111a;font-size:18px">A</div>
+            <div style="width:70px;height:70px;background:#f85149;border-radius:8px;display:none;align-items:center;justify-content:center;font-weight:700;color:#0f111a;font-size:18px">B</div>
+            <div style="width:70px;height:70px;background:#10b981;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0f111a;font-size:18px">C</div>
+        </div>
+    </div>
+    <div class="vs-item vs-good">
+        <div class="vs-label vs-label-good">visibility: hidden on B → gap remains</div>
+        <div class="vs-content" style="display:flex;gap:12px;padding:20px">
+            <div style="width:70px;height:70px;background:#38bdf8;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0f111a;font-size:18px">A</div>
+            <div style="width:70px;height:70px;background:#f85149;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0f111a;font-size:18px;visibility:hidden">B</div>
+            <div style="width:70px;height:70px;background:#10b981;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0f111a;font-size:18px">C</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== object-fit ==================== -->
+<p class="concept"><code>object-fit</code> — How images (or replaced elements) fit inside their container.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">object-fit: fill (stretched)</div>
+        <div class="example-render">
+            <div style="width:140px;height:90px;border:2px dashed #3a4560;border-radius:8px;overflow:hidden;position:relative">
+                <div style="width:100%;height:100%;background:linear-gradient(135deg,#f85149,#f59e0b);transform:scaleX(1.4)"></div>
+            </div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">object-fit: cover (cropped)</div>
+        <div class="example-render">
+            <div style="width:140px;height:90px;border:2px dashed #3a4560;border-radius:8px;overflow:hidden">
+                <div style="width:100%;height:100%;background:linear-gradient(135deg,#10b981,#38bdf8);background-size:cover"></div>
+            </div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">object-fit: contain (fits, gaps)</div>
+        <div class="example-render">
+            <div style="width:140px;height:90px;border:2px dashed #3a4560;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0a0c14">
+                <div style="width:60px;height:60px;background:linear-gradient(135deg,#8b5cf6,#ec4899);border-radius:4px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== list-style ==================== -->
+<p class="concept"><code>list-style</code> — Changes the bullet or number style of lists.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">disc (default)</div>
+        <div class="example-render" style="display:block;padding:12px 12px 12px 32px">
+            <ul style="list-style:disc;color:#c9d1d9;font-size:14px">
+                <li>Item one</li>
+                <li>Item two</li>
+                <li>Item three</li>
+            </ul>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">circle</div>
+        <div class="example-render" style="display:block;padding:12px 12px 12px 32px">
+            <ul style="list-style:circle;color:#c9d1d9;font-size:14px">
+                <li>Item one</li>
+                <li>Item two</li>
+                <li>Item three</li>
+            </ul>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">square</div>
+        <div class="example-render" style="display:block;padding:12px 12px 12px 32px">
+            <ul style="list-style:square;color:#c9d1d9;font-size:14px">
+                <li>Item one</li>
+                <li>Item two</li>
+                <li>Item three</li>
+            </ul>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">decimal</div>
+        <div class="example-render" style="display:block;padding:12px 12px 12px 32px">
+            <ol style="list-style:decimal;color:#c9d1d9;font-size:14px">
+                <li>Item one</li>
+                <li>Item two</li>
+                <li>Item three</li>
+            </ol>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">none</div>
+        <div class="example-render" style="display:block;padding:12px 12px 12px 16px">
+            <ul style="list-style:none;color:#c9d1d9;font-size:14px">
+                <li>Item one</li>
+                <li>Item two</li>
+                <li>Item three</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<!-- ========================================================================== -->
+<!--  SECTION 5: SPACING QUICK REFERENCE                                        -->
+<!-- ========================================================================== -->
+<h2 class="section-title"><span class="section-num">5</span> Spacing Quick Reference</h2>
+
+
+<!-- ==================== gap ==================== -->
+<p class="concept"><code>gap</code> — Space between flex/grid children (no margin hacks needed).</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">gap: 0</div>
+        <div class="example-render">
+            <div style="display:flex;gap:0">
+                <div style="width:30px;height:30px;background:#38bdf8;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#38bdf8;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#38bdf8;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#38bdf8;border-radius:4px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">gap: 8px</div>
+        <div class="example-render">
+            <div style="display:flex;gap:8px">
+                <div style="width:30px;height:30px;background:#10b981;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#10b981;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#10b981;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#10b981;border-radius:4px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">gap: 16px</div>
+        <div class="example-render">
+            <div style="display:flex;gap:16px">
+                <div style="width:30px;height:30px;background:#f59e0b;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#f59e0b;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#f59e0b;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#f59e0b;border-radius:4px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">gap: 32px</div>
+        <div class="example-render">
+            <div style="display:flex;gap:32px">
+                <div style="width:30px;height:30px;background:#8b5cf6;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#8b5cf6;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#8b5cf6;border-radius:4px"></div>
+                <div style="width:30px;height:30px;background:#8b5cf6;border-radius:4px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== common padding ==================== -->
+<p class="concept"><code>padding</code> — Common padding values you'll use every day.</p>
+
+<div class="example-row">
+    <div class="example-item">
+        <div class="example-label">padding: 8px</div>
+        <div class="example-render">
+            <div style="padding:8px;background:#161b2e;border:1px solid #38bdf8;border-radius:6px">
+                <div style="background:rgba(56,189,248,0.2);color:#38bdf8;font-size:12px;padding:4px;border-radius:3px;text-align:center">Content</div>
+            </div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">padding: 16px</div>
+        <div class="example-render">
+            <div style="padding:16px;background:#161b2e;border:1px solid #10b981;border-radius:6px">
+                <div style="background:rgba(16,185,129,0.2);color:#10b981;font-size:12px;padding:4px;border-radius:3px;text-align:center">Content</div>
+            </div>
+        </div>
+    </div>
+    <div class="example-item">
+        <div class="example-label">padding: 32px</div>
+        <div class="example-render">
+            <div style="padding:32px;background:#161b2e;border:1px solid #f59e0b;border-radius:6px">
+                <div style="background:rgba(245,158,11,0.2);color:#f59e0b;font-size:12px;padding:4px;border-radius:3px;text-align:center">Content</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== common margin ==================== -->
+<p class="concept"><code>margin</code> — Common margin patterns.</p>
+
+<div class="example-row" style="flex-direction:column">
+    <div class="example-item" style="max-width:500px">
+        <div class="example-label">margin: 0 auto → centers a block element</div>
+        <div class="example-render" style="display:block;padding:20px;background:#0a0c14">
+            <div style="width:200px;margin:0 auto;background:#161b2e;border:1px solid #10b981;border-radius:8px;padding:16px;text-align:center;color:#10b981;font-size:13px;font-weight:600">I'm centered!</div>
+        </div>
+    </div>
+    <div class="example-item" style="max-width:500px">
+        <div class="example-label">margin-bottom → vertical rhythm between elements</div>
+        <div class="example-render" style="display:block;padding:20px;background:#0a0c14">
+            <div style="background:#161b2e;border:1px solid #38bdf8;border-radius:6px;padding:10px 16px;margin-bottom:12px;color:#38bdf8;font-size:13px">Paragraph 1</div>
+            <div style="background:#161b2e;border:1px solid #38bdf8;border-radius:6px;padding:10px 16px;margin-bottom:12px;color:#38bdf8;font-size:13px">Paragraph 2</div>
+            <div style="background:#161b2e;border:1px solid #38bdf8;border-radius:6px;padding:10px 16px;color:#38bdf8;font-size:13px">Paragraph 3</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ========================================================================== -->
+<!--  CLONE CHALLENGE                                                            -->
+<!-- ========================================================================== -->
+<div class="challenge">
+    <div class="challenge-title">🎯 Clone Challenge: Style This Hero Section</div>
+    <p style="color:#c9d1d9;font-size:15px;margin-bottom:20px">
+        Recreate the LUGX hero section's left column text using the CSS properties you learned in this session. Match the target below as closely as possible.
+    </p>
+
+    <!-- ===== RENDERED TARGET ===== -->
+    <div class="challenge-target">
+        <div style="background:linear-gradient(135deg, #0a1628 0%, #162447 50%, #1f4068 100%);border-radius:12px;padding:48px 40px">
+            <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.5);margin-bottom:12px">Welcome to LUGX</p>
+            <h2 style="font-size:48px;font-weight:800;text-transform:uppercase;letter-spacing:-1px;color:#fff;line-height:1.1;margin-bottom:8px">
+                THE BEST <span style="border-bottom:4px solid #e74c3c;padding-bottom:4px">GAMING</span>
+            </h2>
+            <h2 style="font-size:48px;font-weight:800;text-transform:uppercase;letter-spacing:-1px;color:#fff;line-height:1.1;margin-bottom:24px">
+                EXPERIENCE
+            </h2>
+            <p style="font-size:15px;color:rgba(255,255,255,0.55);line-height:1.8;max-width:480px;margin-bottom:32px">
+                LUGX Gaming is a free platform where you can buy and play the best games. Join millions of gamers worldwide and discover your next favorite game.
+            </p>
+            <div style="display:inline-block;padding:14px 32px;background:#e74c3c;color:#fff;border-radius:50px;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer">
+                Explore Now
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== STARTER HTML ===== -->
+    <p style="color:#7a8599;font-size:14px;margin-top:24px;font-weight:600">Your starter HTML:</p>
+    <pre style="background:#0d1117;border:1px solid #1e2d4a;border-radius:8px;padding:16px;overflow-x:auto;margin-top:8px"><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#c9d1d9;line-height:1.6">&lt;div class="hero"&gt;
+  &lt;p class="hero-subtitle"&gt;Welcome to LUGX&lt;/p&gt;
+  &lt;h2 class="hero-heading"&gt;
+    THE BEST &lt;span class="highlight"&gt;GAMING&lt;/span&gt;
+  &lt;/h2&gt;
+  &lt;h2 class="hero-heading"&gt;EXPERIENCE&lt;/h2&gt;
+  &lt;p class="hero-text"&gt;
+    LUGX Gaming is a free platform where you can buy and play
+    the best games. Join millions of gamers worldwide and
+    discover your next favorite game.
+  &lt;/p&gt;
+  &lt;a href="#" class="hero-btn"&gt;Explore Now&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+
+    <!-- ===== HINTS ===== -->
+    <button class="solution-btn" onclick="toggleSolution(this)">Show Hints</button>
+    <div class="solution">
+        <div class="solution-label">HINTS</div>
+        <ul style="color:#c9d1d9;font-size:14px;line-height:2;padding-left:20px">
+            <li><code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">.hero</code> needs <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">background: linear-gradient()</code> with dark blues and <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">padding</code></li>
+            <li><code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">.hero-subtitle</code> uses <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">text-transform: uppercase</code>, <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">letter-spacing: 2px</code>, small <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">font-size</code></li>
+            <li><code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">.hero-heading</code> uses <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">font-size: 48px</code>, <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">font-weight: 800</code>, <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">text-transform</code>, tight <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">letter-spacing</code></li>
+            <li><code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">.highlight</code> needs <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">border-bottom: 4px solid #e74c3c</code> and some <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">padding-bottom</code></li>
+            <li><code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">.hero-text</code> uses a lighter color via <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">rgba()</code> and <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">line-height: 1.8</code></li>
+            <li><code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">.hero-btn</code> needs <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">display: inline-block</code>, <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">border-radius: 50px</code>, and <code style="background:#1e2d4a;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px">text-decoration: none</code></li>
+        </ul>
+    </div>
+
+    <!-- ===== SOLUTION ===== -->
+    <button class="solution-btn" onclick="toggleSolution(this)" style="margin-left:12px">Show Solution</button>
+    <div class="solution">
+        <div class="solution-label">SOLUTION</div>
+        <pre><code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#c9d1d9;line-height:1.6">/* ===== Hero Container ===== */
+.hero {
+  background: linear-gradient(135deg, #0a1628 0%, #162447 50%, #1f4068 100%);
+  border-radius: 12px;
+  padding: 48px 40px;
+}
+
+/* ===== Subtitle ===== */
+.hero-subtitle {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 12px;
+}
+
+/* ===== Heading ===== */
+.hero-heading {
+  font-size: 48px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.hero-heading:last-of-type {
+  margin-bottom: 24px;
+}
+
+/* ===== GAMING highlight ===== */
+.highlight {
+  border-bottom: 4px solid #e74c3c;
+  padding-bottom: 4px;
+}
+
+/* ===== Body text ===== */
+.hero-text {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+
+/* ===== Button ===== */
+.hero-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: #e74c3c;
+  color: #fff;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+}</code></pre>
+    </div>
+</div>
+
+
+</div><!-- end .container -->
+
+<script>
+function toggleSolution(btn) {
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    const isHint = btn.textContent.includes('Hint');
+    if (sol.classList.contains('show')) {
+        btn.textContent = isHint ? 'Hide Hints' : 'Hide Solution';
+    } else {
+        btn.textContent = isHint ? 'Show Hints' : 'Show Solution';
+    }
+}
+</script>
+</body>
+</html>

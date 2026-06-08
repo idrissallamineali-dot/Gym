@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: ES6 Katas — 20 Coding Challenges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16px;padding:60px 20px}
+        .container{max-width:850px;margin:0 auto}
+        h1{font-size:42px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#f59e0b;margin-bottom:8px}
+        .subtitle{font-size:18px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px}
+        p{margin-bottom:18px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:12px 0 20px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}
+        .cm{color:#5e6e8a;font-style:italic}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:36px 0}
+        
+        /* Kata Cards CSS */
+        .kata{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px;margin:32px 0;box-shadow:0 10px 30px rgba(0,0,0,0.15)}
+        .kata-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+        .kata-num{background:#f59e0b;color:#0d1117;font-size:13px;font-weight:700;padding:4px 12px;border-radius:8px}
+        .kata-diff{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:6px}
+        .diff-easy{background:rgba(16,185,129,.15);color:#10b981}
+        .diff-medium{background:rgba(245,158,11,.15);color:#f59e0b}
+        .diff-hard{background:rgba(248,81,73,.15);color:#f85149}
+        .kata h3{font-size:20px;font-weight:700;color:#f0f6fc;margin-bottom:10px}
+        .kata p{font-size:15px;color:#9aa5b4;margin-bottom:12px}
+        
+        .constraint{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:10px;padding:10px 16px;margin:16px 0;font-size:13.5px;font-weight:600;color:#a78bfa}
+        .constraint::before{content:'⛔ CONSTRAINT: ';font-weight:700}
+        
+        .solution-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#10b981;font-size:13px;font-weight:600;padding:10px 20px;border-radius:10px;cursor:pointer;transition:.2s;margin-top:8px}
+        .solution-btn:hover{background:rgba(16,185,129,.15)}
+        .solution{display:none;margin-top:20px;padding:20px 24px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}
+        .solution.show{display:block}
+        .solution-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#10b981;margin-bottom:12px}
+    </style>
+</head>
+<body>
+<div class="container">
+    <p class="lesson-num">Module 5</p>
+    <h1>⚡ ES6 Exercises & Katas</h1>
+    <p class="subtitle">20 professional-grade coding challenges designed to build deep muscle memory in modern JavaScript. Master destructuring, rest/spread, closures, maps, sets, proxies, class hierarchies, and custom generators under explicit constraints.</p>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 1 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">01</span>
+            <span class="kata-diff diff-easy">Easy</span>
+        </div>
+        <h3>Destructuring Swap</h3>
+        <p>Write a function <code>swapValues(a, b)</code> that receives two values and returns an array containing them in swapped order.</p>
+        <pre><code>swapValues(10, 20); <span class="cm">// [20, 10]</span>
+swapValues("hello", "world"); <span class="cm">// ["world", "hello"]</span></code></pre>
+        <div class="constraint">Do NOT use a temporary third variable or arithmetic operations. Use ES6 Array Destructuring. One expression.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const swapValues = (a, b) => [b, a];
+
+// Under the hood, this evaluates b and a, constructs an array,
+// and implicitly returns it in the desired swapped sequence.</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 2 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">02</span>
+            <span class="kata-diff diff-easy">Easy</span>
+        </div>
+        <h3>Object Destructuring, Renaming & Defaults</h3>
+        <p>Write a function <code>getStudentClass(student)</code> that extracts the <code>name</code> property (renamed to <code>userClass</code>) and the <code>grade</code> property (defaulted to <code>"Pass"</code> if not present) and returns them in a single string.</p>
+        <pre><code>getStudentClass({ name: "Class A", grade: "A+" }); <span class="cm">// "Class A: A+"</span>
+getStudentClass({ name: "Class B" });             <span class="cm">// "Class B: Pass"</span></code></pre>
+        <div class="constraint">Use Object Destructuring with custom renaming and default values inside the function parameters. One expression.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const getStudentClass = ({ name: userClass, grade = "Pass" }) => 
+    `${userClass}: ${grade}`;</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 3 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">03</span>
+            <span class="kata-diff diff-easy">Easy</span>
+        </div>
+        <h3>Rest Parameter Dynamic Average</h3>
+        <p>Write a function <code>average(...nums)</code> that accepts any number of numerical arguments and returns their mathematical average. If no parameters are passed, return <code>0</code>.</p>
+        <pre><code>average(1, 2, 3, 4); <span class="cm">// 2.5</span>
+average(10, 20);    <span class="cm">// 15</span>
+average();          <span class="cm">// 0</span></code></pre>
+        <div class="constraint">Use the ES6 rest parameter syntax and the `.reduce()` method. No traditional loops. One expression.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const average = (...nums) => 
+    nums.length === 0 ? 0 : nums.reduce((acc, curr) => acc + curr, 0) / nums.length;</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 4 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">04</span>
+            <span class="kata-diff diff-easy">Easy</span>
+        </div>
+        <h3>Spread Array Inserter</h3>
+        <p>Write a function <code>mergeAndInject(arr1, arr2, item)</code> that combines two arrays, placing `item` precisely at index 2 of the combined array, followed by the rest of `arr1` and then the entirety of `arr2`.</p>
+        <pre><code>mergeAndInject([1, 2, 3, 4], [5, 6], 99); 
+<span class="cm">// [1, 2, 99, 3, 4, 5, 6] — 99 is at index 2</span></code></pre>
+        <div class="constraint">Use the ES6 spread operator and `.slice()`. Do NOT mutate the original arrays. One expression.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const mergeAndInject = (arr1, arr2, item) => [
+    ...arr1.slice(0, 2),
+    item,
+    ...arr1.slice(2),
+    ...arr2
+];</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 5 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">05</span>
+            <span class="kata-diff diff-easy">Easy</span>
+        </div>
+        <h3>Template Literal Card Generator</h3>
+        <p>Write a function <code>createUserCard(user)</code> that receives a user object `{ name, role, status }` and returns an HTML template string block representing the user.</p>
+        <pre><code>createUserCard({ name: "Idris", role: "Developer" }); 
+<span class="cm">// Returns:
+// &lt;div class="card"&gt;
+//   &lt;h3&gt;Idris&lt;/h3&gt;
+//   &lt;p&gt;Role: Developer&lt;/p&gt;
+//   &lt;span class="status-offline"&gt;Offline&lt;/span&gt;
+// &lt;/div&gt;</span></code></pre>
+        <div class="constraint">Use ES6 Template Literals (backticks) and expression interpolation. Provide default fallbacks (`"User"` for role and `"Offline"` for status) within the template interpolation itself.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const createUserCard = ({ name, role, status }) => `
+&lt;div class="card"&gt;
+  &lt;h3&gt;${name}&lt;/h3&gt;
+  &lt;p&gt;Role: ${role || "User"}&lt;/p&gt;
+  &lt;span class="status-${(status || "Offline").toLowerCase()}"&gt;${status || "Offline"}&lt;/span&gt;
+&lt;/div&gt;`.trim();</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 6 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">06</span>
+            <span class="kata-diff diff-medium">Medium</span>
+        </div>
+        <h3>Computed Keys & Method Shorthand</h3>
+        <p>Write a function <code>createDynamicObject(key, val, methodName, methodFn)</code> that returns an object dynamically configured with the specified key, value, and key-triggered method.</p>
+        <pre><code>const obj = createDynamicObject("status", "pending", "uppercase", (val) => val.toUpperCase());
+obj.status;      <span class="cm">// "pending"</span>
+obj.uppercase(); <span class="cm">// "PENDING"</span></code></pre>
+        <div class="constraint">Use ES6 Computed Property Keys and ES6 Method Shorthand. One expression.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const createDynamicObject = (key, val, methodName, methodFn) => ({
+    [key]: val,
+    [methodName]() {
+        return methodFn(this[key]);
+    }
+});</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 7 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">07</span>
+            <span class="kata-diff diff-medium">Medium</span>
+        </div>
+        <h3>Arrow Functions & Lexical `this`</h3>
+        <p>Implement a <code>Countdown</code> class whose constructor accepts the starting count `seconds`. It contains a `start()` method that logs the count to the console once every second and decrements it. When it hits `0`, it logs `"Boom!"` and terminates the interval.</p>
+        <pre><code>const timer = new Countdown(3);
+timer.start(); 
+<span class="cm">// (After 1s) -> 3
+// (After 2s) -> 2
+// (After 3s) -> 1
+// (After 4s) -> "Boom!"</span></code></pre>
+        <div class="constraint">Do NOT use `.bind()`, `var self = this`, `var that = this`, or standard functions inside `setInterval`. Use arrow functions to preserve lexical scope.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>class Countdown {
+    constructor(seconds) {
+        this.seconds = seconds;
+    }
+
+    start() {
+        const intervalId = setInterval(() => {
+            if (this.seconds > 0) {
+                console.log(this.seconds);
+                this.seconds--;
+            } else {
+                console.log("Boom!");
+                clearInterval(intervalId);
+            }
+        }, 1000);
+    }
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 8 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">08</span>
+            <span class="kata-diff diff-easy">Easy</span>
+        </div>
+        <h3>Default Parameter Self-Reference</h3>
+        <p>Write a function <code>createBox(w, h, color)</code> that returns a box object `{ width, height, color }`. If <code>height</code> is omitted, it should default to **exactly double the width**. If <code>color</code> is omitted, it should default to `"blue"`.</p>
+        <pre><code>createBox(10);        <span class="cm">// { width: 10, height: 20, color: "blue" }</span>
+createBox(5, 5, "red"); <span class="cm">// { width: 5, height: 5, color: "red" }</span></code></pre>
+        <div class="constraint">Implement the defaults directly inside the function parameter list, taking advantage of the fact that default parameters can refer to preceding parameters in the signature. One expression.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const createBox = (w, h = w * 2, color = "blue") => ({
+    width: w,
+    height: h,
+    color
+});</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 9 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">09</span>
+            <span class="kata-diff diff-medium">Medium</span>
+        </div>
+        <h3>For...of Map Iterator</h3>
+        <p>Write a function <code>findMaxScore(studentMap)</code> that takes a `Map` of `{ studentName => score }` pairs and returns an object `{ student, score }` representing the student with the highest score.</p>
+        <pre><code>const grades = new Map([["Alice", 92], ["Bob", 98], ["Charlie", 85]]);
+findMaxScore(grades); <span class="cm">// { student: "Bob", score: 98 }</span></code></pre>
+        <div class="constraint">Use the `for...of` loop to iterate over the Map. Destructure the key-value array parameter directly inside the loop's declaration.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>function findMaxScore(studentMap) {
+    let maxScore = -Infinity;
+    let topStudent = null;
+
+    // Destructuring [name, score] directly in for...of loop:
+    for (const [name, score] of studentMap) {
+        if (score > maxScore) {
+            maxScore = score;
+            topStudent = name;
+        }
+    }
+
+    return { student: topStudent, score: maxScore };
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 10 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">10</span>
+            <span class="kata-diff diff-easy">Easy</span>
+        </div>
+        <h3>Set De-duplication</h3>
+        <p>Write a function <code>uniqueArray(arr)</code> that takes an array containing duplicate primitives and returns a new array with all duplicates removed.</p>
+        <pre><code>uniqueArray([1, 2, 2, 3, 4, 4, 1]); <span class="cm">// [1, 2, 3, 4]</span></code></pre>
+        <div class="constraint">Use a Set and the spread operator. One line.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const uniqueArray = arr => [...new Set(arr)];</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 11 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">11</span>
+            <span class="kata-diff diff-medium">Medium</span>
+        </div>
+        <h3>WeakSet Object Tagging</h3>
+        <p>Implement a tagging utility object <code>messageTracker</code> that allows tagging objects as read using <code>markAsRead(msg)</code> and checking status using <code>isRead(msg)</code>. The tagging system must not modify the original objects and must allow unused objects to be garbage-collected normally.</p>
+        <pre><code>const m1 = { text: "Hello" };
+const m2 = { text: "World" };
+messageTracker.markAsRead(m1);
+messageTracker.isRead(m1); <span class="cm">// true</span>
+messageTracker.isRead(m2); <span class="cm">// false</span></code></pre>
+        <div class="constraint">Use an internal `WeakSet` encapsulated inside the tracking utility. Do NOT append properties directly to the objects.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const messageTracker = (() => {
+    const readStore = new WeakSet();
+    return {
+        markAsRead(msg) {
+            readStore.add(msg);
+        },
+        isRead(msg) {
+            return readStore.has(msg);
+        }
+    };
+})();
+
+// Since readStore is a WeakSet, it holds weak references to objects.
+// If objects m1 or m2 are dereferenced elsewhere, they are garbage-collected safely.</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 12 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">12</span>
+            <span class="kata-diff diff-hard">Hard</span>
+        </div>
+        <h3>Map for Multi-Type Memoization</h3>
+        <p>Write a higher-order function <code>memoize(fn)</code> that returns a memoized wrapper around <code>fn</code>. The memoized function must support caching results for arguments of any type, including object references and primitives.</p>
+        <pre><code>const processor = (obj) => ({ val: obj.x * 2 });
+const memoized = memoize(processor);
+
+const input = { x: 5 };
+memoized(input); <span class="cm">// Calculated and cached</span>
+memoized(input); <span class="cm">// Returned directly from cache</span></code></pre>
+        <div class="constraint">Use an ES6 `Map` inside a closure to manage the cache keys. Since Maps support Object references as unique keys, this is highly efficient.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>function memoize(fn) {
+    const cache = new Map();
+    return function(arg) {
+        if (cache.has(arg)) {
+            return cache.get(arg);
+        }
+        const result = fn(arg);
+        cache.set(arg, result);
+        return result;
+    };
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 13 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">13</span>
+            <span class="kata-diff diff-hard">Hard</span>
+        </div>
+        <h3>WeakMap Private State Encapsulation</h3>
+        <p>Create a class <code>SecretAgent</code> whose constructor accepts `name` and `secretCode`. The class exposes `getName()` normally, but keeps the `secretCode` completely private. A method `verifyCode(code)` returns a boolean if the code matches.</p>
+        <pre><code>const bond = new SecretAgent("James Bond", "007");
+bond.getName();           <span class="cm">// "James Bond"</span>
+bond.verifyCode("007");   <span class="cm">// true</span>
+bond.verifyCode("123");   <span class="cm">// false</span>
+Object.keys(bond);        <span class="cm">// ["name"] — no secretCode property visible!</span></code></pre>
+        <div class="constraint">Use a `WeakMap` inside a closure or module scope to manage private properties, using `this` as the WeakMap key. Do NOT store the secret on properties prefixed with `_` or Symbol keys.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const SecretAgent = (() => {
+    const privates = new WeakMap();
+
+    return class {
+        constructor(name, secretCode) {
+            this.name = name;
+            // Store private state mapping this instance to private values
+            privates.set(this, { secretCode });
+        }
+
+        getName() {
+            return this.name;
+        }
+
+        verifyCode(code) {
+            const privateData = privates.get(this);
+            return privateData ? privateData.secretCode === code : false;
+        }
+    };
+})();</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 14 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">14</span>
+            <span class="kata-diff diff-hard">Hard</span>
+        </div>
+        <h3>Custom Iterable Range (FizzBuzz Range)</h3>
+        <p>Write a factory function <code>createFizzBuzzRange(start, end)</code> that returns an object representing a range of numbers. The object must be **iterable** directly in a <code>for...of</code> loop. Instead of numbers divisible by 3, it should yield `"Fizz"`; instead of 5, `"Buzz"`; and instead of 15, `"FizzBuzz"`.</p>
+        <pre><code>for (const item of createFizzBuzzRange(13, 16)) {
+    console.log(item); 
+}
+<span class="cm">// Logs:
+// 13
+// 14
+// "FizzBuzz"
+// 16</span></code></pre>
+        <div class="constraint">Do NOT use generators. Manually implement the Iterable and Iterator protocols by adding `[Symbol.iterator]` to the range object returning an iterator with a conforming `.next()` method.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>function createFizzBuzzRange(start, end) {
+    return {
+        [Symbol.iterator]() {
+            let current = start;
+            return {
+                next() {
+                    if (current <= end) {
+                        let value = current;
+                        if (value % 15 === 0) value = "FizzBuzz";
+                        else if (value % 3 === 0) value = "Fizz";
+                        else if (value % 5 === 0) value = "Buzz";
+                        
+                        current++;
+                        return { value, done: false };
+                    }
+                    return { value: undefined, done: true };
+                }
+            };
+        }
+    };
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 15 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">15</span>
+            <span class="kata-diff diff-medium">Medium</span>
+        </div>
+        <h3>Generator-Based Infinite Fibonacci</h3>
+        <p>Implement a generator function <code>fibonacciGenerator()</code> that yields Fibonacci numbers infinitely, starting with `0` and `1`.</p>
+        <pre><code>const gen = fibonacciGenerator();
+gen.next().value; <span class="cm">// 0</span>
+gen.next().value; <span class="cm">// 1</span>
+gen.next().value; <span class="cm">// 1</span>
+gen.next().value; <span class="cm">// 2</span>
+gen.next().value; <span class="cm">// 3</span></code></pre>
+        <div class="constraint">Use ES6 Generator syntax (<code>function*</code>) and the <code>yield</code> keyword. No recursion. No static memory arrays.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>function* fibonacciGenerator() {
+    let prev = 0;
+    let curr = 1;
+    yield prev;
+    yield curr;
+    
+    while (true) {
+        const next = prev + curr;
+        yield next;
+        prev = curr;
+        curr = next;
+    }
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 16 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">16</span>
+            <span class="kata-diff diff-hard">Hard</span>
+        </div>
+        <h3>Recursive Flat Array Traverser (yield*)</h3>
+        <p>Write a generator function <code>flattenGenerator(arr)</code> that yields items from an infinitely nested array structure in flat, sequential order.</p>
+        <pre><code>const nested = [1, [2, [3, 4]], 5];
+const flatValues = [...flattenGenerator(nested)]; 
+<span class="cm">// [1, 2, 3, 4, 5]</span></code></pre>
+        <div class="constraint">Use ES6 Generator recursion. You must delegate to nested generators using the <code>yield*</code> statement.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>function* flattenGenerator(arr) {
+    for (const item of arr) {
+        if (Array.isArray(item)) {
+            // yield* delegates the iteration control recursively to the nested generator:
+            yield* flattenGenerator(item);
+        } else {
+            yield item;
+        }
+    }
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 17 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">17</span>
+            <span class="kata-diff diff-hard">Hard</span>
+        </div>
+        <h3>Safe Type-Checking Object Proxy</h3>
+        <p>Write a function <code>createTypeSafeUser(user)</code> that returns a wrapped proxy version of the user object. The proxy must guard changes to <code>age</code> (throwing a <code>TypeError</code> if set to a non-number or negative value) and <code>email</code> (throwing an <code>Error</code> if set to a string not containing `@`). Attempting to set undefined keys must throw a reference error.</p>
+        <pre><code>const safeUser = createTypeSafeUser({ name: "Idris", age: 25 });
+safeUser.age = "thirty"; <span class="cm">// TypeError: age must be a positive number</span>
+safeUser.email = "hello"; <span class="cm">// Error: invalid email format</span>
+safeUser.role = "admin";  <span class="cm">// ReferenceError: Property "role" does not exist</span></code></pre>
+        <div class="constraint">Use an ES6 `Proxy` and configure a dynamic `set` handler trap.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>function createTypeSafeUser(user) {
+    return new Proxy(user, {
+        set(target, prop, value) {
+            // Guard non-existent property declarations
+            if (!(prop in target)) {
+                throw new ReferenceError(`Property "${prop}" does not exist`);
+            }
+
+            if (prop === "age") {
+                if (typeof value !== "number" || value < 0 || Number.isNaN(value)) {
+                    throw new TypeError("age must be a positive number");
+                }
+            }
+
+            if (prop === "email") {
+                if (typeof value !== "string" || !value.includes("@")) {
+                    throw new Error("invalid email format");
+                }
+            }
+
+            target[prop] = value;
+            return true; // Return true to indicate successful assignment
+        }
+    });
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 18 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">18</span>
+            <span class="kata-diff diff-medium">Medium</span>
+        </div>
+        <h3>Custom Promisify Wrapper</h3>
+        <p>Implement a utility function <code>promisify(callbackFn)</code> that converts standard Node-style callback functions `(args..., callback(err, result))` into modern promise-returning operations.</p>
+        <pre><code>const mockAsyncAPI = (id, cb) => {
+    setTimeout(() => id === 1 ? cb(null, "User One") : cb("User not found"), 50);
+};
+
+const getUserPromise = promisify(mockAsyncAPI);
+getUserPromise(1)
+    .then(res => console.log(res)) <span class="cm">// "User One"</span>
+    .catch(err => console.error(err));</code></pre>
+        <div class="constraint">Use the ES6 `new Promise` constructor and the rest/spread operators. No external shims or libraries.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>const promisify = (fn) => {
+    return function(...args) {
+        return new Promise((resolve, reject) => {
+            // Inject custom callback as final argument
+            fn(...args, (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            });
+        });
+    };
+};</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 19 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">19</span>
+            <span class="kata-diff diff-medium">Medium</span>
+        </div>
+        <h3>Subclassing with Super</h3>
+        <p>Create a class <code>Employee</code> whose constructor sets `name` and `salary`, containing a `getDetails()` method. Create a subclass <code>Developer</code> extending `Employee` whose constructor takes `name`, `salary`, and `specialty`. It must override `getDetails()` to append the specialty to the parent details.</p>
+        <pre><code>const dev = new Developer("Idris", 120000, "JavaScript");
+dev.getDetails(); 
+<span class="cm">// "Employee Idris earns $120000 specializing in JavaScript"</span></code></pre>
+        <div class="constraint">Use ES6 Class Syntax (`class`, `extends`, and `super()`) to inherit and delegate parent behaviors.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>class Employee {
+    constructor(name, salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    getDetails() {
+        return `Employee ${this.name} earns $${this.salary}`;
+    }
+}
+
+class Developer extends Employee {
+    constructor(name, salary, specialty) {
+        // Invoke parent constructor to set common fields
+        super(name, salary);
+        this.specialty = specialty;
+    }
+
+    getDetails() {
+        // Delegate to parent method and extend functionality
+        return `${super.getDetails()} specializing in ${this.specialty}`;
+    }
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- KATA 20 -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="kata">
+        <div class="kata-header">
+            <span class="kata-num">20</span>
+            <span class="kata-diff diff-hard">Hard</span>
+        </div>
+        <h3>Safe Polyfill for `Array.prototype.find`</h3>
+        <p>Build a secure, robust polyfill for the ES6 <code>Array.prototype.find(callback[, thisArg])</code> method. The polyfill must check for valid object context, verify the callback exists, iterate properly, support custom lexical scopes, and prevent enumeration.</p>
+        <pre><code>[1, 2, 3].find(x => x > 1); <span class="cm">// 2</span></code></pre>
+        <div class="constraint">Use `Object.defineProperty` to add the method safely to the prototype. Implement proper type validation and standard-compliant loop behaviors.</div>
+        <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+        <div class="solution">
+            <p class="solution-label">Solution</p>
+            <pre><code>if (!Array.prototype.find) {
+    Object.defineProperty(Array.prototype, 'find', {
+        value: function(callback, thisArg) {
+            // 1. Guard check for null context
+            if (this == null) {
+                throw new TypeError('"this" is null or not defined');
+            }
+
+            // 2. Coerce context to Object
+            const O = Object(this);
+            const len = O.length >>> 0; // Convert to unsigned 32-bit int
+
+            // 3. Verify callback function
+            if (typeof callback !== 'function') {
+                throw new TypeError('callback must be a function');
+            }
+
+            // 4. Iterate and invoke callback under targeted context
+            for (let i = 0; i < len; i++) {
+                if (callback.call(thisArg, O[i], i, O)) {
+                    return O[i];
+                }
+            }
+
+            return undefined;
+        },
+        writable: true,
+        configurable: true
+    });
+}</code></pre>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function toggle(btn) {
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    btn.textContent = sol.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05 — Functions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+        .container { max-width: 820px; margin: 0 auto; }
+        .doc-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; margin-bottom: 48px; }
+        .doc-nav span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #5e6e8a; }
+        .doc-nav a { color: #58a6ff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 8px 18px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 10px; transition: 0.2s; }
+        .doc-nav a:hover { background: rgba(88,166,255,0.15); }
+        h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+        h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+        h2 .num { color: #58a6ff; }
+        h3 { font-size: 19px; font-weight: 600; color: #e2e8f0; margin-top: 36px; margin-bottom: 12px; }
+        h4 { font-size: 16px; font-weight: 600; color: #d0d8e4; margin-top: 28px; margin-bottom: 10px; }
+        p { margin-bottom: 18px; color: #b0bac9; }
+        strong { color: #e2e8f0; }
+        em { color: #93aac9; font-style: italic; }
+        code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+        pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 16px 0 24px 0; overflow-x: auto; position: relative; }
+        pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+        .code-label { position: absolute; top: 10px; right: 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #3d4f6f; }
+        .kw { color: #ff7b72; } .str { color: #a5d6ff; } .fn { color: #d2a8ff; } .cm { color: #5e6e8a; font-style: italic; } .num-lit { color: #79c0ff; } .bool { color: #ff7b72; }
+        table { width: 100%; border-collapse: collapse; margin: 18px 0 28px 0; }
+        th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5e6e8a; padding: 12px 18px; border-bottom: 2px solid #1e2d4a; }
+        td { padding: 14px 18px; border-bottom: 1px solid #141a2e; font-size: 15px; }
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(88,166,255,0.03); }
+        .callout { border-left: 4px solid; border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 22px 0; font-size: 14.5px; }
+        .callout-blue { background: rgba(88,166,255,0.06); border-color: #58a6ff; }
+        .callout-amber { background: rgba(245,158,11,0.06); border-color: #f59e0b; }
+        .callout-green { background: rgba(16,185,129,0.06); border-color: #10b981; }
+        .callout-red { background: rgba(248,81,73,0.06); border-color: #f85149; }
+        .callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-blue strong { color: #58a6ff; } .callout-amber strong { color: #f59e0b; } .callout-green strong { color: #10b981; } .callout-red strong { color: #f85149; }
+        hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+        ul, ol { margin: 12px 0 20px 24px; color: #b0bac9; }
+        li { margin-bottom: 8px; }
+        .flow-diagram { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 24px; margin: 20px 0 28px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; color: #8b949e; white-space: pre; overflow-x: auto; }
+        .fd-yes { color: #10b981; font-weight: 700; } .fd-no { color: #f85149; font-weight: 700; } .fd-box { color: #58a6ff; } .fd-action { color: #d2a8ff; } .fd-label { color: #5e6e8a; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .bottom-nav { margin-top: 64px; display: flex; justify-content: space-between; gap: 16px; }
+        .bottom-nav a { flex: 1; padding: 20px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; text-decoration: none; transition: 0.2s; }
+        .bottom-nav a:hover { border-color: #58a6ff; }
+        .bottom-nav .label { font-size: 12px; color: #5e6e8a; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        .bottom-nav .title { font-size: 16px; font-weight: 600; color: #58a6ff; }
+        .bottom-nav .prev { text-align: left; } .bottom-nav .next { text-align: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <nav class="doc-nav">
+            <span>JS Fundamentals</span>
+            <a href="04-loops.html">← Prev</a>
+            <span>Lesson 05</span>
+        </nav>
+
+        <h1>05 — Functions</h1>
+        <p class="subtitle">Functions are the single most important concept in JavaScript. Everything — event handlers, callbacks, array methods, async operations, React components — is built on top of functions. Master this and everything else falls into place.</p>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">1.</span> What Is a Function?</h2>
+
+        <p>A function is a <strong>reusable block of code</strong> that performs a specific task. You define it once, then call it as many times as you need.</p>
+
+        <p>Think of a function like a <strong>machine in a factory</strong>:</p>
+        <ul>
+            <li>You feed it <strong>inputs</strong> (raw materials) → these are called <strong>parameters</strong>.</li>
+            <li>It does some <strong>work</strong> internally (the function body).</li>
+            <li>It produces an <strong>output</strong> (the finished product) → this is the <strong>return value</strong>.</li>
+        </ul>
+
+        <div class="flow-diagram"><span class="fd-label">The function machine</span>
+
+         <span class="fd-action">Inputs (Arguments)</span>
+              │
+              ▼
+    ┌─────────────────────┐
+    │                     │
+    │   <span class="fd-box">FUNCTION BODY</span>      │
+    │   (does the work)   │
+    │                     │
+    └─────────┬───────────┘
+              │
+              ▼
+         <span class="fd-yes">Output (Return Value)</span></div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">2.</span> The Three Ways to Create a Function</h2>
+
+        <h3>2.1 — Function Declaration</h3>
+
+        <p>The classic way. Uses the <code>function</code> keyword followed by a name.</p>
+
+        <pre><code><span class="kw">function</span> <span class="fn">greet</span>(name) {
+    <span class="kw">return</span> <span class="str">`Hello, ${name}!`</span>;
+}
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">greet</span>(<span class="str">"Idris"</span>));  <span class="cm">// "Hello, Idris!"</span></code></pre>
+
+        <div class="callout callout-blue">
+            <strong>Key trait: Hoisted</strong>
+            Function declarations are <strong>fully hoisted</strong>. You can call them <em>before</em> the line where they are written in your code. The engine reads the entire function during the Creation Phase.
+        </div>
+
+        <pre><code><span class="cm">// This works! Function declarations are hoisted.</span>
+<span class="fn">sayHello</span>();  <span class="cm">// "Hello!"</span>
+
+<span class="kw">function</span> <span class="fn">sayHello</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Hello!"</span>);
+}</code></pre>
+
+        <h3>2.2 — Function Expression</h3>
+
+        <p>A function stored <strong>inside a variable</strong>. The function itself has no name (anonymous) — the variable name is how you call it.</p>
+
+        <pre><code><span class="kw">const</span> <span class="fn">greet</span> = <span class="kw">function</span>(name) {
+    <span class="kw">return</span> <span class="str">`Hello, ${name}!`</span>;
+};
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">greet</span>(<span class="str">"Idris"</span>));  <span class="cm">// "Hello, Idris!"</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>Key trait: NOT hoisted</strong>
+            Function expressions are <strong>not hoisted</strong>. The variable is hoisted (into the TDZ if using <code>const</code>/<code>let</code>), but the function is not assigned until the engine reaches that line.
+        </div>
+
+        <pre><code><span class="cm">// This CRASHES! Function expressions are NOT hoisted.</span>
+<span class="fn">sayHello</span>();  <span class="cm">// ❌ TypeError: sayHello is not a function</span>
+
+<span class="kw">const</span> <span class="fn">sayHello</span> = <span class="kw">function</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Hello!"</span>);
+};</code></pre>
+
+        <h3>2.3 — Arrow Function (ES6)</h3>
+
+        <p>The modern, shorter syntax introduced in ES6. This is what you are learning in your training right now.</p>
+
+        <pre><code><span class="cm">// Standard arrow function with a body block:</span>
+<span class="kw">const</span> <span class="fn">greet</span> = (name) => {
+    <span class="kw">return</span> <span class="str">`Hello, ${name}!`</span>;
+};
+
+<span class="cm">// Concise arrow function (implicit return — one expression only):</span>
+<span class="kw">const</span> <span class="fn">greetShort</span> = (name) => <span class="str">`Hello, ${name}!`</span>;
+
+<span class="cm">// Single parameter — parentheses are optional:</span>
+<span class="kw">const</span> <span class="fn">double</span> = n => n * <span class="num-lit">2</span>;
+
+<span class="cm">// No parameters — empty parentheses required:</span>
+<span class="kw">const</span> <span class="fn">getRandom</span> = () => <span class="fn">Math</span>.<span class="fn">random</span>();
+
+<span class="cm">// Multiple parameters — parentheses required:</span>
+<span class="kw">const</span> <span class="fn">add</span> = (a, b) => a + b;</code></pre>
+
+        <div class="callout callout-green">
+            <strong>When to use which?</strong>
+            Arrow functions are the modern default for most situations. Use function declarations when you need hoisting or when defining methods on objects (because of <code>this</code> behavior — covered in Section 10). You will almost never need function expressions in modern code.
+        </div>
+
+        <h3>2.4 — Comparison Table</h3>
+
+        <table>
+            <thead>
+                <tr><th>Feature</th><th>Declaration</th><th>Expression</th><th>Arrow (ES6)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Syntax</td><td><code>function name() {}</code></td><td><code>const name = function() {}</code></td><td><code>const name = () => {}</code></td></tr>
+                <tr><td>Hoisted?</td><td>✅ Yes (fully)</td><td>❌ No</td><td>❌ No</td></tr>
+                <tr><td>Has own <code>this</code>?</td><td>✅ Yes</td><td>✅ Yes</td><td>❌ No (inherits from parent)</td></tr>
+                <tr><td>Can be a constructor?</td><td>✅ Yes</td><td>✅ Yes</td><td>❌ No</td></tr>
+                <tr><td>Implicit return?</td><td>❌ No</td><td>❌ No</td><td>✅ Yes (without <code>{}</code>)</td></tr>
+            </tbody>
+        </table>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">3.</span> Parameters and Arguments</h2>
+
+        <p>This distinction is simple but you must know it precisely:</p>
+
+        <ul>
+            <li><strong>Parameters</strong> = the placeholder variable names defined in the function signature. They are the <em>labels on the machine's input slots</em>.</li>
+            <li><strong>Arguments</strong> = the actual concrete values you pass in when calling the function. They are the <em>raw materials you feed into the machine</em>.</li>
+        </ul>
+
+        <pre><code><span class="cm">//        parameters ↓</span>
+<span class="kw">function</span> <span class="fn">add</span>(a, b) {
+    <span class="kw">return</span> a + b;
+}
+
+<span class="cm">//    arguments ↓</span>
+<span class="fn">add</span>(<span class="num-lit">5</span>, <span class="num-lit">10</span>);  <span class="cm">// 15</span></code></pre>
+
+        <h3>3.1 — What Happens When Arguments Don't Match Parameters?</h3>
+
+        <pre><code><span class="kw">function</span> <span class="fn">test</span>(a, b, c) {
+    <span class="fn">console</span>.<span class="fn">log</span>(a, b, c);
+}
+
+<span class="cm">// Fewer arguments than parameters → missing ones become undefined</span>
+<span class="fn">test</span>(<span class="num-lit">1</span>, <span class="num-lit">2</span>);        <span class="cm">// 1  2  undefined</span>
+
+<span class="cm">// More arguments than parameters → extras are silently ignored</span>
+<span class="fn">test</span>(<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">4</span>);  <span class="cm">// 1  2  3  (4 is ignored)</span></code></pre>
+
+        <h3>3.2 — Default Parameters (ES6)</h3>
+
+        <p>You can assign a fallback value that is used when no argument is provided (or when <code>undefined</code> is passed).</p>
+
+        <pre><code><span class="kw">function</span> <span class="fn">createUser</span>(name, role = <span class="str">"member"</span>, active = <span class="bool">true</span>) {
+    <span class="kw">return</span> { name, role, active };
+}
+
+<span class="fn">createUser</span>(<span class="str">"Idris"</span>);                    <span class="cm">// { name: "Idris", role: "member", active: true }</span>
+<span class="fn">createUser</span>(<span class="str">"Idris"</span>, <span class="str">"admin"</span>);            <span class="cm">// { name: "Idris", role: "admin", active: true }</span>
+<span class="fn">createUser</span>(<span class="str">"Idris"</span>, <span class="str">"admin"</span>, <span class="bool">false</span>);   <span class="cm">// { name: "Idris", role: "admin", active: false }</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>Default parameters only trigger on undefined, not null</strong>
+            <code>createUser("Idris", undefined)</code> → role is <code>"member"</code> (default kicks in).<br>
+            <code>createUser("Idris", null)</code> → role is <code>null</code> (null is a deliberate value, not "missing").
+        </div>
+
+        <h3>3.3 — Rest Parameters (ES6)</h3>
+
+        <p>The rest parameter <code>...</code> gathers all <strong>remaining</strong> arguments into a real array. It must be the <strong>last</strong> parameter.</p>
+
+        <pre><code><span class="kw">function</span> <span class="fn">sum</span>(...numbers) {
+    <span class="kw">let</span> total = <span class="num-lit">0</span>;
+    <span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> numbers) {
+        total += n;
+    }
+    <span class="kw">return</span> total;
+}
+
+<span class="fn">sum</span>(<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>);         <span class="cm">// 6</span>
+<span class="fn">sum</span>(<span class="num-lit">10</span>, <span class="num-lit">20</span>, <span class="num-lit">30</span>, <span class="num-lit">40</span>);  <span class="cm">// 100</span>
+
+<span class="cm">// Can combine with regular parameters:</span>
+<span class="kw">function</span> <span class="fn">logAll</span>(label, ...items) {
+    <span class="fn">console</span>.<span class="fn">log</span>(label);  <span class="cm">// "Shopping list:"</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(items);  <span class="cm">// ["milk", "bread", "eggs"]</span>
+}
+<span class="fn">logAll</span>(<span class="str">"Shopping list:"</span>, <span class="str">"milk"</span>, <span class="str">"bread"</span>, <span class="str">"eggs"</span>);</code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">4.</span> The <code>return</code> Statement</h2>
+
+        <p>The <code>return</code> keyword does two things simultaneously:</p>
+        <ol>
+            <li><strong>Sends a value back</strong> to the place where the function was called.</li>
+            <li><strong>Immediately stops</strong> the function — no code after <code>return</code> will execute.</li>
+        </ol>
+
+        <pre><code><span class="kw">function</span> <span class="fn">divide</span>(a, b) {
+    <span class="kw">if</span> (b === <span class="num-lit">0</span>) {
+        <span class="kw">return</span> <span class="str">"Cannot divide by zero"</span>;  <span class="cm">// Exits here if b is 0</span>
+    }
+    <span class="kw">return</span> a / b;  <span class="cm">// Only reached if b is NOT 0</span>
+}
+
+<span class="fn">divide</span>(<span class="num-lit">10</span>, <span class="num-lit">2</span>);  <span class="cm">// 5</span>
+<span class="fn">divide</span>(<span class="num-lit">10</span>, <span class="num-lit">0</span>);  <span class="cm">// "Cannot divide by zero"</span></code></pre>
+
+        <h3>4.1 — Functions Without <code>return</code></h3>
+
+        <p>If a function does not have a <code>return</code> statement, it automatically returns <code>undefined</code>.</p>
+
+        <pre><code><span class="kw">function</span> <span class="fn">sayHi</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Hi!"</span>);
+    <span class="cm">// No return statement</span>
+}
+
+<span class="kw">let</span> result = <span class="fn">sayHi</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(result);  <span class="cm">// undefined</span></code></pre>
+
+        <h3>4.2 — Implicit Return (Arrow Functions Only)</h3>
+
+        <p>Arrow functions have a shortcut: if you omit the curly braces <code>{}</code>, the single expression is <strong>automatically returned</strong> without writing <code>return</code>.</p>
+
+        <pre><code><span class="cm">// With curly braces → explicit return required</span>
+<span class="kw">const</span> <span class="fn">square</span> = (n) => {
+    <span class="kw">return</span> n * n;
+};
+
+<span class="cm">// Without curly braces → implicit return (cleaner)</span>
+<span class="kw">const</span> <span class="fn">squareShort</span> = n => n * n;
+
+<span class="cm">// Both produce the same result:</span>
+<span class="fn">square</span>(<span class="num-lit">5</span>);       <span class="cm">// 25</span>
+<span class="fn">squareShort</span>(<span class="num-lit">5</span>);  <span class="cm">// 25</span></code></pre>
+
+        <div class="callout callout-red">
+            <strong>Common trap: Returning an object with implicit return</strong>
+            If you want to implicitly return an <strong>object literal</strong>, you must wrap it in parentheses. Otherwise the engine confuses the <code>{}</code> with a function body block.
+            <br><br>
+            <code>const getUser = () => ({ name: "Idris", age: 25 });</code> ← Correct<br>
+            <code>const getUser = () => { name: "Idris", age: 25 };</code> ← Broken (interpreted as a code block)
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">5.</span> Scope: Where Variables Live and Die</h2>
+
+        <p>Every function creates its own <strong>scope</strong> — an isolated environment where variables live. Variables declared inside a function <strong>cannot</strong> be accessed from outside. This is called <strong>encapsulation</strong>.</p>
+
+        <pre><code><span class="kw">function</span> <span class="fn">calculate</span>() {
+    <span class="kw">let</span> secret = <span class="num-lit">42</span>;  <span class="cm">// Only exists inside this function</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(secret);  <span class="cm">// 42 ✅</span>
+}
+
+<span class="fn">calculate</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(secret);  <span class="cm">// ❌ ReferenceError: secret is not defined</span></code></pre>
+
+        <h3>5.1 — The Scope Chain (Lexical Scope)</h3>
+
+        <p>When a function tries to use a variable, the engine searches for it in this order:</p>
+        <ol>
+            <li><strong>Local scope</strong> — inside the current function.</li>
+            <li><strong>Outer function scope</strong> — the function that wraps the current one.</li>
+            <li><strong>Global scope</strong> — the top-level of your script.</li>
+        </ol>
+
+        <p>This search path is called the <strong>Scope Chain</strong>. It always goes <strong>outward</strong>, never inward.</p>
+
+        <pre><code><span class="kw">let</span> globalVar = <span class="str">"I am global"</span>;
+
+<span class="kw">function</span> <span class="fn">outer</span>() {
+    <span class="kw">let</span> outerVar = <span class="str">"I am outer"</span>;
+
+    <span class="kw">function</span> <span class="fn">inner</span>() {
+        <span class="kw">let</span> innerVar = <span class="str">"I am inner"</span>;
+
+        <span class="fn">console</span>.<span class="fn">log</span>(innerVar);   <span class="cm">// ✅ Found in local scope</span>
+        <span class="fn">console</span>.<span class="fn">log</span>(outerVar);   <span class="cm">// ✅ Found in outer scope (one level up)</span>
+        <span class="fn">console</span>.<span class="fn">log</span>(globalVar);  <span class="cm">// ✅ Found in global scope (two levels up)</span>
+    }
+
+    <span class="fn">inner</span>();
+    <span class="fn">console</span>.<span class="fn">log</span>(innerVar);  <span class="cm">// ❌ Error — outer cannot look INTO inner</span>
+}
+
+<span class="fn">outer</span>();</code></pre>
+
+        <div class="flow-diagram"><span class="fd-label">The Scope Chain (one-way glass bubbles)</span>
+
+    ┌─────────────────────────────────────────────────┐
+    │  <span class="fd-box">GLOBAL SCOPE</span>                                    │
+    │  globalVar = "I am global"                      │
+    │                                                 │
+    │   ┌─────────────────────────────────────────┐   │
+    │   │  <span class="fd-action">outer() SCOPE</span>                          │   │
+    │   │  outerVar = "I am outer"                │   │
+    │   │                                         │   │
+    │   │   ┌─────────────────────────────────┐   │   │
+    │   │   │  <span class="fd-yes">inner() SCOPE</span>                  │   │   │
+    │   │   │  innerVar = "I am inner"        │   │   │
+    │   │   │                                 │   │   │
+    │   │   │  Can see: innerVar ✅            │   │   │
+    │   │   │  Can see: outerVar ✅ (look up)  │   │   │
+    │   │   │  Can see: globalVar ✅ (look up) │   │   │
+    │   │   └─────────────────────────────────┘   │   │
+    │   │                                         │   │
+    │   │  Can see: outerVar ✅                    │   │
+    │   │  Can see: globalVar ✅                   │   │
+    │   │  Can see: innerVar ❌ (cannot look down) │   │
+    │   └─────────────────────────────────────────┘   │
+    └─────────────────────────────────────────────────┘</div>
+
+        <div class="callout callout-green">
+            <strong>Lexical means "written position"</strong>
+            JavaScript uses <strong>lexical scoping</strong> — the scope is determined by <em>where</em> the function is <em>written</em> in the source code, NOT where it is called. This is a fixed, permanent relationship set at write-time.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <!-- ============================================================ -->
+        <h2><span class="num">6.</span> Closures</h2>
+
+        <p>A <strong>closure</strong> is what happens when a function <strong>remembers</strong> the variables from its outer scope, even after the outer function has finished executing and its execution context has been removed from the Call Stack.</p>
+
+        <p>This is arguably the <strong>most important concept</strong> in JavaScript. It is the secret to data privacy, factory functions, state management, and modern patterns.</p>
+
+        <pre><code><span class="kw">function</span> <span class="fn">createCounter</span>() {
+    <span class="kw">let</span> count = <span class="num-lit">0</span>;  <span class="cm">// Stored in createCounter's activation record</span>
+
+    <span class="kw">return</span> <span class="kw">function</span>() {
+        count++;          <span class="cm">// Remembers and modifies count from outer scope</span>
+        <span class="kw">return</span> count;
+    };
+}
+
+<span class="kw">const</span> <span class="fn">counter</span> = <span class="fn">createCounter</span>();  <span class="cm">// createCounter() has finished executing!</span>
+<span class="fn">counter</span>();  <span class="cm">// 1</span>
+<span class="fn">counter</span>();  <span class="cm">// 2</span></code></pre>
+
+        <div class="memory-diagram"><span class="mem-label">Visual: Scope Allocation in Heap Memory</span>
+ 1. Call Stack: createCounter() runs, creates "count = 0".
+ 2. createCounter() returns the inner function and leaves the stack.
+ 3. BUT the returned function holds an invisible pointer [Scope] -> Heap:
+
+  STACK MEMORY                              HEAP MEMORY
+ ┌──────────────────────┐                 ┌─────────────────────────────┐
+ │ <span class="mem-stack">counter variable</span>     │ ──<span class="mem-arrow">Pointers</span>────> │ <span class="mem-heap">Returned Function Object</span>    │
+ └──────────────────────┘                 │ <span class="mem-heap">  [[Scope]] ──Addr 0x2A───</span>  │
+                                          └──────────────┬──────────────┘
+                                                         │
+                                                         ▼
+                                          ┌─────────────────────────────┐
+                                          │ <span class="mem-heap">Addr 0x2A: Scope Bubble</span>     │
+                                          │ <span class="mem-heap">  count = 2</span>                 │
+                                          └─────────────────────────────┘
+ <span class="mem-arrow">Because the function is alive, its birth-bubble scope in the Heap cannot be garbage-collected!</span></div>
+
+        <h3>3 Production Closure Patterns</h3>
+        <p>Study these three real-world developer patterns to see exactly how closures are used in professional projects:</p>
+
+        <h4>Pattern 1: Private State / Data Encapsulation</h4>
+        <p>If you want to prevent external scripts from maliciously altering important numbers (like bank balances or configurations), keep them private inside a closure bubble, exposing only safe accessor methods.</p>
+        <pre><code><span class="kw">function</span> <span class="fn">createBankAccount</span>(owner, initialBalance) {
+    <span class="kw">let</span> balance = initialBalance; <span class="cm">// Completely private variable!</span>
+
+    <span class="kw">return</span> {
+        <span class="fn">deposit</span>(amount) {
+            <span class="kw">if</span> (amount > <span class="num-lit">0</span>) {
+                balance += amount;
+                <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Deposited $${amount}. Balance: $${balance}`</span>);
+            }
+        },
+        <span class="fn">withdraw</span>(amount) {
+            <span class="kw">if</span> (amount > balance) {
+                <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Insufficient funds!"</span>);
+            } <span class="kw">else</span> {
+                balance -= amount;
+                <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Withdrew $${amount}. Balance: $${balance}`</span>);
+            }
+        },
+        <span class="fn">getBalance</span>() {
+            <span class="kw">return</span> balance; <span class="cm">// Safe reading access, no editing allowed!</span>
+        }
+    };
+}
+
+<span class="kw">const</span> account = <span class="fn">createBankAccount</span>(<span class="str">"Idris"</span>, <span class="num-lit">1000</span>);
+account.<span class="fn">deposit</span>(<span class="num-lit">500</span>);   <span class="cm">// "Deposited $500. Balance: $1500"</span>
+account.balance = <span class="num-lit">999999</span>; <span class="cm">// ❌ Fails to alter the balance (not an object property!)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(account.<span class="fn">getBalance</span>()); <span class="cm">// 1500 ✅</span></code></pre>
+
+        <h4>Pattern 2: Factory Functions (Currying Custom Helpers)</h4>
+        <p>We can write a general function that "stamps out" specialized child functions by enclosing a configuration parameter inside a closure bubble.</p>
+        <pre><code><span class="kw">function</span> <span class="fn">createLogger</span>(prefix) {
+    <span class="kw">return</span> <span class="kw">function</span>(message) {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`[${prefix.toUpperCase()}] ${message}`</span>);
+    };
+}
+
+<span class="kw">const</span> <span class="fn">logError</span> = <span class="fn">createLogger</span>(<span class="str">"error"</span>);
+<span class="kw">const</span> <span class="fn">logDebug</span> = <span class="fn">createLogger</span>(<span class="str">"debug"</span>);
+
+<span class="fn">logError</span>(<span class="str">"Database connection failed!"</span>); <span class="cm">// "[ERROR] Database connection failed!"</span>
+<span class="fn">logDebug</span>(<span class="str">"Cache checked."</span>);              <span class="cm">// "[DEBUG] Cache checked."</span></code></pre>
+
+        <h4>Pattern 3: Performance Caching (Memoization Decorator)</h4>
+        <p>Closures can store a private <code>cache</code> object. Whenever the function is called, it checks the private cache before executing expensive calculations.</p>
+        <pre><code><span class="kw">function</span> <span class="fn">memoizeHeavyCalculation</span>() {
+    <span class="kw">const</span> cache = {}; <span class="cm">// Private memory table</span>
+
+    <span class="kw">return</span> <span class="kw">function</span>(num) {
+        <span class="kw">if</span> (num <span class="kw">in</span> cache) {
+            <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Pulled from cache memory! 🧠"</span>);
+            <span class="kw">return</span> cache[num];
+        }
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Running heavy mathematical calculations... ⚙️"</span>);
+        <span class="kw">const</span> result = num * num * num; <span class="cm">// pretend this is a heavy task</span>
+        cache[num] = result;
+        <span class="kw">return</span> result;
+    };
+}
+
+<span class="kw">const</span> <span class="fn">calculate</span> = <span class="fn">memoizeHeavyCalculation</span>();
+<span class="fn">calculate</span>(<span class="num-lit">10</span>); <span class="cm">// "Running heavy mathematical calculations... ⚙️" -> 1000</span>
+<span class="fn">calculate</span>(<span class="num-lit">10</span>); <span class="cm">// "Pulled from cache memory! 🧠" -> 1000 ✅ (10x faster!)</span></code></pre>
+
+        <div class="callout callout-blue">
+            <strong>Why closures are everywhere in modern systems</strong>
+            Whenever you write an event listener, a <code>setTimeout</code> callback, or a React Hook like <code>useState()</code>, you are creating a closure! The callback remembers variables in the scope it was defined in, regardless of when it gets executed in the future.
+        </div>
+
+        <h3>6.1 — The Classic Closure Trap (Interviews Love This)</h3>
+
+        <pre><code><span class="cm">// ❌ THE BUG:</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num-lit">0</span>; i < <span class="num-lit">3</span>; i++) {
+    <span class="fn">setTimeout</span>(<span class="kw">function</span>() {
+        <span class="fn">console</span>.<span class="fn">log</span>(i);
+    }, <span class="num-lit">1000</span>);
+}
+<span class="cm">// Expected: 0, 1, 2</span>
+<span class="cm">// Actual:   3, 3, 3</span>
+<span class="cm">// Why? 'var' is function-scoped, so there is only ONE 'i' variable.</span>
+<span class="cm">// By the time the timeouts fire (1 second later), the loop has</span>
+<span class="cm">// already finished and 'i' is 3. All three callbacks close over</span>
+<span class="cm">// the same variable, which is now 3.</span>
+
+<span class="cm">// ✅ THE FIX: Use 'let' (block-scoped → each iteration gets its own 'i')</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num-lit">0</span>; i < <span class="num-lit">3</span>; i++) {
+    <span class="fn">setTimeout</span>(<span class="kw">function</span>() {
+        <span class="fn">console</span>.<span class="fn">log</span>(i);
+    }, <span class="num-lit">1000</span>);
+}
+<span class="cm">// Output: 0, 1, 2 ✅</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">7.</span> Functions Are First-Class Citizens</h2>
+
+        <p>In JavaScript, functions are <strong>values</strong>. They are objects. This means you can do anything with a function that you can do with any other value:</p>
+
+        <ul>
+            <li><strong>Store</strong> it in a variable.</li>
+            <li><strong>Pass</strong> it as an argument to another function.</li>
+            <li><strong>Return</strong> it from a function.</li>
+            <li><strong>Store</strong> it in an array or object.</li>
+        </ul>
+
+        <p>This is the foundation for <strong>callbacks</strong>, <strong>higher-order functions</strong>, and the entire modern JavaScript ecosystem.</p>
+
+        <pre><code><span class="cm">// Stored in a variable:</span>
+<span class="kw">const</span> <span class="fn">greet</span> = () => <span class="str">"Hello!"</span>;
+
+<span class="cm">// Stored in an array:</span>
+<span class="kw">const</span> actions = [() => <span class="str">"run"</span>, () => <span class="str">"jump"</span>, () => <span class="str">"swim"</span>];
+actions[<span class="num-lit">0</span>]();  <span class="cm">// "run"</span>
+
+<span class="cm">// Stored in an object:</span>
+<span class="kw">const</span> math = {
+    add: (a, b) => a + b,
+    subtract: (a, b) => a - b
+};
+math.<span class="fn">add</span>(<span class="num-lit">5</span>, <span class="num-lit">3</span>);  <span class="cm">// 8</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">8.</span> Callback Functions</h2>
+
+        <p>A <strong>callback</strong> is a function that you <strong>pass as an argument</strong> to another function. The receiving function will "call it back" at the right time.</p>
+
+        <pre><code><span class="kw">function</span> <span class="fn">processUserInput</span>(callback) {
+    <span class="kw">const</span> name = <span class="str">"Idris"</span>;
+    <span class="fn">callback</span>(name);  <span class="cm">// Call the function that was passed in</span>
+}
+
+<span class="fn">processUserInput</span>(<span class="kw">function</span>(name) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Welcome, ${name}!`</span>);
+});
+<span class="cm">// "Welcome, Idris!"</span>
+
+<span class="cm">// Same thing with arrow syntax (cleaner):</span>
+<span class="fn">processUserInput</span>(name => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Welcome, ${name}!`</span>));</code></pre>
+
+        <h4>Callbacks are everywhere in JavaScript:</h4>
+
+        <pre><code><span class="cm">// Event listeners use callbacks:</span>
+button.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Button was clicked!"</span>);
+});
+
+<span class="cm">// setTimeout uses a callback:</span>
+<span class="fn">setTimeout</span>(() => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"2 seconds have passed."</span>);
+}, <span class="num-lit">2000</span>);
+
+<span class="cm">// Array methods use callbacks:</span>
+[<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>].<span class="fn">forEach</span>(num => <span class="fn">console</span>.<span class="fn">log</span>(num));
+[<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>].<span class="fn">map</span>(num => num * <span class="num-lit">2</span>);       <span class="cm">// [2, 4, 6]</span>
+[<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>].<span class="fn">filter</span>(num => num > <span class="num-lit">1</span>);     <span class="cm">// [2, 3]</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">9.</span> Higher-Order Functions</h2>
+
+        <p>A <strong>higher-order function</strong> is any function that does at least one of these:</p>
+        <ol>
+            <li>Takes a function as an argument (receives a callback).</li>
+            <li>Returns a function as its result.</li>
+        </ol>
+
+        <pre><code><span class="cm">// Takes a function as an argument:</span>
+<span class="kw">function</span> <span class="fn">repeat</span>(n, action) {
+    <span class="kw">for</span> (<span class="kw">let</span> i = <span class="num-lit">0</span>; i < n; i++) {
+        <span class="fn">action</span>(i);
+    }
+}
+
+<span class="fn">repeat</span>(<span class="num-lit">3</span>, i => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Iteration ${i}`</span>));
+<span class="cm">// "Iteration 0", "Iteration 1", "Iteration 2"</span>
+
+
+<span class="cm">// Returns a function:</span>
+<span class="kw">function</span> <span class="fn">multiplier</span>(factor) {
+    <span class="kw">return</span> (number) => number * factor;  <span class="cm">// Returns a new function</span>
+}
+
+<span class="kw">const</span> <span class="fn">double</span> = <span class="fn">multiplier</span>(<span class="num-lit">2</span>);   <span class="cm">// Creates a function that doubles</span>
+<span class="kw">const</span> <span class="fn">triple</span> = <span class="fn">multiplier</span>(<span class="num-lit">3</span>);   <span class="cm">// Creates a function that triples</span>
+
+<span class="fn">double</span>(<span class="num-lit">5</span>);   <span class="cm">// 10</span>
+<span class="fn">triple</span>(<span class="num-lit">5</span>);   <span class="cm">// 15</span></code></pre>
+
+        <div class="callout callout-green">
+            <strong>This is the real power of functions</strong>
+            Higher-order functions let you create <strong>abstract, reusable logic</strong>. Instead of writing separate <code>double()</code>, <code>triple()</code>, and <code>quadruple()</code> functions, you write one <code>multiplier()</code> that <em>generates</em> the specific function you need. This pattern is the foundation of functional programming.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">10.</span> The <code>this</code> Keyword</h2>
+
+        <p><code>this</code> is a special keyword that refers to the <strong>object that is currently executing the function</strong>. Its value depends on <em>how</em> the function is called, not where it is written.</p>
+
+        <h3>10.1 — <code>this</code> in Regular Functions</h3>
+
+        <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    greet: <span class="kw">function</span>() {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Hello, I am ${<span class="kw">this</span>.name}`</span>);
+    }
+};
+
+user.<span class="fn">greet</span>();  <span class="cm">// "Hello, I am Idris"</span>
+<span class="cm">// 'this' refers to 'user' because 'user' is the object that called greet()</span></code></pre>
+
+        <h3>10.2 — <code>this</code> in Arrow Functions (The Critical Difference)</h3>
+
+        <p>Arrow functions do NOT have their own <code>this</code>. They <strong>inherit <code>this</code> from their enclosing scope</strong> (lexical <code>this</code>).</p>
+
+        <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    greet: () => {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Hello, I am ${<span class="kw">this</span>.name}`</span>);
+    }
+};
+
+user.<span class="fn">greet</span>();  <span class="cm">// "Hello, I am undefined"</span>
+<span class="cm">// Arrow function does NOT get 'user' as 'this'.</span>
+<span class="cm">// It inherits 'this' from the surrounding scope (global/window),</span>
+<span class="cm">// which has no 'name' property.</span></code></pre>
+
+        <h3>10.3 — When Arrow Functions ARE Useful for <code>this</code></h3>
+
+        <pre><code><span class="kw">const</span> timer = {
+    seconds: <span class="num-lit">0</span>,
+    start: <span class="kw">function</span>() {
+        <span class="cm">// If we used a regular function here, 'this' would be</span>
+        <span class="cm">// the global object (or undefined in strict mode), NOT 'timer'</span>
+
+        <span class="cm">// Arrow function inherits 'this' from start(), which is 'timer' ✅</span>
+        <span class="fn">setInterval</span>(() => {
+            <span class="kw">this</span>.seconds++;
+            <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.seconds);
+        }, <span class="num-lit">1000</span>);
+    }
+};
+
+timer.<span class="fn">start</span>();  <span class="cm">// 1, 2, 3, 4... ✅</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>Simple rules for this</strong>
+            1. <strong>Object method</strong> (regular function) → <code>this</code> = the object calling the method.<br>
+            2. <strong>Arrow function</strong> → <code>this</code> = whatever <code>this</code> was in the surrounding scope.<br>
+            3. <strong>Standalone function call</strong> → <code>this</code> = <code>undefined</code> (strict mode) or <code>window</code> (non-strict).<br>
+            4. <strong>Event listener</strong> → <code>this</code> = the DOM element that triggered the event (if regular function).<br><br>
+            <em>Rule of thumb: Use regular functions for object methods. Use arrow functions for everything else.</em>
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">11.</span> Pure Functions vs Side Effects</h2>
+
+        <p>A <strong>pure function</strong> has two rules:</p>
+        <ol>
+            <li>Given the same inputs, it <strong>always</strong> returns the same output.</li>
+            <li>It does <strong>not</strong> modify anything outside itself (no side effects).</li>
+        </ol>
+
+        <pre><code><span class="cm">// ✅ Pure function — same input always produces same output, no side effects</span>
+<span class="kw">function</span> <span class="fn">add</span>(a, b) {
+    <span class="kw">return</span> a + b;
+}
+
+<span class="cm">// ❌ Impure function — modifies external state (side effect)</span>
+<span class="kw">let</span> total = <span class="num-lit">0</span>;
+<span class="kw">function</span> <span class="fn">addToTotal</span>(amount) {
+    total += amount;  <span class="cm">// Modifies a variable outside the function</span>
+    <span class="kw">return</span> total;
+}
+
+<span class="cm">// ❌ Impure function — depends on external state</span>
+<span class="kw">let</span> taxRate = <span class="num-lit">0.2</span>;
+<span class="kw">function</span> <span class="fn">calculateTax</span>(price) {
+    <span class="kw">return</span> price * taxRate;  <span class="cm">// Uses a variable from outside — result changes if taxRate changes</span>
+}</code></pre>
+
+        <p><strong>Common side effects:</strong></p>
+        <ul>
+            <li>Modifying a global variable</li>
+            <li>Modifying the argument object (mutating an array/object passed in)</li>
+            <li>Writing to the console (<code>console.log</code>)</li>
+            <li>Modifying the DOM</li>
+            <li>Making network requests (fetch, API calls)</li>
+        </ul>
+
+        <div class="callout callout-green">
+            <strong>Why pure functions matter</strong>
+            Pure functions are predictable, testable, and debuggable. Wherever possible, keep your functions pure. Isolate side effects to specific places in your code. This principle becomes critical in React, Redux, and any large-scale application.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">12.</span> IIFE (Immediately Invoked Function Expression)</h2>
+
+        <p>An IIFE is a function that <strong>runs the instant it is defined</strong>. You will see this in legacy code and module patterns.</p>
+
+        <pre><code>(<span class="kw">function</span>() {
+    <span class="kw">let</span> private = <span class="str">"You cannot access me from outside"</span>;
+    <span class="fn">console</span>.<span class="fn">log</span>(private);
+})();
+<span class="cm">// "You cannot access me from outside"</span>
+<span class="cm">// 'private' is scoped inside the IIFE — completely isolated</span>
+
+<span class="cm">// Arrow function IIFE:</span>
+(() => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"I also run immediately!"</span>);
+})();</code></pre>
+
+        <p>IIFEs were heavily used before ES6 modules to avoid polluting the global scope. Today, <code>let</code>/<code>const</code> and ES modules mostly replace the need for IIFEs, but you will still encounter them.</p>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">13.</span> Key Vocabulary Summary</h2>
+
+        <table>
+            <thead>
+                <tr><th>Term</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Function Declaration</strong></td><td>Named function created with <code>function</code> keyword. Fully hoisted.</td></tr>
+                <tr><td><strong>Function Expression</strong></td><td>Function stored in a variable. Not hoisted.</td></tr>
+                <tr><td><strong>Arrow Function</strong></td><td>ES6 shorthand <code>() => {}</code>. No own <code>this</code>. Supports implicit return.</td></tr>
+                <tr><td><strong>Parameter</strong></td><td>Placeholder variable in the function definition.</td></tr>
+                <tr><td><strong>Argument</strong></td><td>Actual value passed when calling the function.</td></tr>
+                <tr><td><strong>Default Parameter</strong></td><td>A fallback value used when no argument is provided.</td></tr>
+                <tr><td><strong>Rest Parameter</strong></td><td><code>...args</code> gathers remaining arguments into an array.</td></tr>
+                <tr><td><strong>Return</strong></td><td>Sends a value back to the caller and stops the function.</td></tr>
+                <tr><td><strong>Implicit Return</strong></td><td>Arrow function without <code>{}</code> automatically returns the expression.</td></tr>
+                <tr><td><strong>Scope</strong></td><td>The region where a variable is accessible.</td></tr>
+                <tr><td><strong>Scope Chain</strong></td><td>The outward search path for variables (local → outer → global).</td></tr>
+                <tr><td><strong>Lexical Scope</strong></td><td>Scope determined by where code is <em>written</em>, not where it is called.</td></tr>
+                <tr><td><strong>Closure</strong></td><td>A function that remembers variables from its outer scope, even after that scope has exited.</td></tr>
+                <tr><td><strong>First-Class Function</strong></td><td>A function treated as a value — can be stored, passed, and returned.</td></tr>
+                <tr><td><strong>Callback</strong></td><td>A function passed as an argument to another function.</td></tr>
+                <tr><td><strong>Higher-Order Function</strong></td><td>A function that takes or returns another function.</td></tr>
+                <tr><td><strong><code>this</code></strong></td><td>A keyword referencing the object that is executing the current function.</td></tr>
+                <tr><td><strong>Pure Function</strong></td><td>A function with no side effects — same inputs always produce the same output.</td></tr>
+                <tr><td><strong>Side Effect</strong></td><td>Any observable change caused by a function beyond returning a value.</td></tr>
+                <tr><td><strong>IIFE</strong></td><td>A function that executes immediately upon definition.</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="bottom-nav">
+            <a href="04-loops.html" class="prev">
+                <span class="label">← Previous</span>
+                <span class="title">04 — Loops</span>
+            </a>
+            <a href="#" class="next">
+                <span class="label">Next →</span>
+                <span class="title">06 — Arrays & Array Methods</span>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

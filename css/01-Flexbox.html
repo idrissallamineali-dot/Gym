@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flexbox — The Complete Visual Masterclass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:900px;margin:0 auto}
+        h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#f59e0b;margin-bottom:8px}
+        .subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        .section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+        .section-num{background:#1e2d4a;color:#f59e0b;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+        h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #f59e0b;padding-left:14px}
+        h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+        p{margin-bottom:20px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+        .kw{color:#ff7b72}.val{color:#a5d6ff}.prop{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.sel{color:#7ee787}.num{color:#79c0ff}
+        ul,ol{margin:12px 0 24px 24px;color:#b0bac9}li{margin-bottom:10px}li strong{color:#e2e8f0}
+        .co{border-radius:12px;padding:24px;margin:32px 0;font-size:15.5px;line-height:1.7;border:1px solid rgba(255,255,255,0.05)}
+        .co-r{background:rgba(248,81,73,.04);border-left:4px solid #f85149}.co-r strong{color:#f85149}
+        .co-g{background:rgba(16,185,129,.04);border-left:4px solid #10b981}.co-g strong{color:#10b981}
+        .co-p{background:rgba(139,92,246,.04);border-left:4px solid #a78bfa}.co-p strong{color:#a78bfa}
+        .co-y{background:rgba(245,158,11,.04);border-left:4px solid #f59e0b}.co-y strong{color:#f59e0b}
+        .co-b{background:rgba(88,166,255,.04);border-left:4px solid #58a6ff}.co-b strong{color:#58a6ff}
+        table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14.5px}
+        th{background:#161b2e;color:#f59e0b;text-align:left;padding:14px 18px;font-weight:600;border:1px solid #1e2d4a}
+        td{padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9}tr:nth-child(even) td{background:rgba(22,27,46,.5)}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+
+        /* ── LIVE DEMO SYSTEM ── */
+        .demo{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px;margin:28px 0 36px;box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+        .demo-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#f59e0b;margin-bottom:16px}
+        .demo-box{border:2px dashed rgba(245,158,11,.3);border-radius:10px;padding:12px;min-height:120px;position:relative}
+        .demo-box .item{display:flex;align-items:center;justify-content:center;border-radius:8px;font-weight:700;font-size:15px;color:#0f111a;min-width:50px;min-height:50px;transition:all .3s}
+        .i1{background:#f472b6}.i2{background:#38bdf8}.i3{background:#a78bfa}.i4{background:#34d399}.i5{background:#fb923c}.i6{background:#facc15}
+        .demo-code{font-size:12px;color:#7a8599;margin-top:12px;font-family:'JetBrains Mono',monospace;background:#0d1117;padding:10px 14px;border-radius:8px}
+
+        /* Quiz System */
+        .q{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:32px;margin:44px 0;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+        .q-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+        .q-num{background:#f85149;color:#fff;font-size:14px;font-weight:700;padding:6px 14px;border-radius:8px;text-transform:uppercase;letter-spacing:1px}
+        .q h4{font-size:20px;font-weight:700;color:#f0f6fc;margin:0;border:none;padding:0}
+        .sol-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);color:#10b981;font-size:14px;font-weight:600;padding:10px 20px;border-radius:8px;cursor:pointer;transition:.2s;margin-top:12px}
+        .sol-btn:hover{background:rgba(16,185,129,.15)}
+        .sol{display:none;margin-top:20px;padding:20px 24px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}
+        .sol.show{display:block}
+        .sol-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#10b981;margin-bottom:12px}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="lesson-num">CSS Deep Dive</p>
+    <h1>Flexbox: The Complete Visual Masterclass</h1>
+    <p class="subtitle">Master every Flexbox property through live visual demonstrations. Every concept is paired with a rendered example so you can <strong>see</strong> what the CSS does, not just read about it. Flexbox is practice — and this is your interactive visual training ground.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.1</span> The Flexbox Mental Model</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>What is Flexbox?</h3>
+    <p>Flexbox (Flexible Box Layout) is a <strong>one-dimensional layout system</strong>. It distributes space among items in a container along a <strong>single axis</strong> — either a row (horizontal) or a column (vertical). It handles alignment, spacing, sizing, and ordering of child elements automatically.</p>
+
+    <div class="co co-y">
+        <strong>🧠 The Two Axes Mental Model</strong><br>
+        Flexbox always operates on <strong>two axes</strong>:<br>
+        1. <strong>Main Axis</strong>: The primary direction items flow. (Default: horizontal, left → right).<br>
+        2. <strong>Cross Axis</strong>: The perpendicular direction. (Default: vertical, top → bottom).<br><br>
+        Every Flexbox property controls either the Main Axis or the Cross Axis. If you understand which axis a property targets, you will never be confused.
+    </div>
+
+    <div class="co co-p">
+        <strong>🏗️ Two Types of Flexbox Properties</strong><br>
+        1. <strong>Container Properties</strong>: Set on the parent element (<code>display: flex</code>). These control how children are laid out.<br>
+        2. <strong>Item Properties</strong>: Set on individual children. These let specific items override the container's default behavior.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.2</span> Container Properties (The Parent)</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3><code>display: flex</code> — Activating Flexbox</h3>
+    <p>This single declaration transforms a normal block container into a <strong>flex container</strong>. All direct children become <strong>flex items</strong> and are immediately laid out side-by-side in a row (the default main axis direction).</p>
+
+    <div class="demo">
+        <p class="demo-label">Live Demo — display: flex</p>
+        <div class="demo-box" style="display: flex;">
+            <div class="item i1" style="padding:12px 24px;">1</div>
+            <div class="item i2" style="padding:12px 24px;">2</div>
+            <div class="item i3" style="padding:12px 24px;">3</div>
+        </div>
+        <div class="demo-code">.container { display: flex; } <span class="cm">/* Children flow horizontally */</span></div>
+    </div>
+
+    <pre><code><span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+}
+<span class="cm">/* All direct children of .container are now flex items.
+   They sit side-by-side in a row by default. */</span></code></pre>
+
+    <hr>
+
+    <!-- ─────────────── flex-direction ─────────────── -->
+    <h3><code>flex-direction</code> — Choosing the Main Axis</h3>
+    <p>This property defines the <strong>direction of the main axis</strong>. It controls which way items flow inside the container.</p>
+
+    <table>
+        <tr><th>Value</th><th>Main Axis Direction</th><th>Items Flow</th></tr>
+        <tr><td><code>row</code> (default)</td><td>Horizontal</td><td>Left → Right</td></tr>
+        <tr><td><code>row-reverse</code></td><td>Horizontal</td><td>Right → Left</td></tr>
+        <tr><td><code>column</code></td><td>Vertical</td><td>Top → Bottom</td></tr>
+        <tr><td><code>column-reverse</code></td><td>Vertical</td><td>Bottom → Top</td></tr>
+    </table>
+
+    <div class="demo">
+        <p class="demo-label">Live Demo — flex-direction: row (default)</p>
+        <div class="demo-box" style="display:flex; flex-direction:row;">
+            <div class="item i1" style="padding:12px 24px;">1</div>
+            <div class="item i2" style="padding:12px 24px;">2</div>
+            <div class="item i3" style="padding:12px 24px;">3</div>
+        </div>
+        <div class="demo-code">flex-direction: row; <span class="cm">/* Left → Right */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">Live Demo — flex-direction: row-reverse</p>
+        <div class="demo-box" style="display:flex; flex-direction:row-reverse;">
+            <div class="item i1" style="padding:12px 24px;">1</div>
+            <div class="item i2" style="padding:12px 24px;">2</div>
+            <div class="item i3" style="padding:12px 24px;">3</div>
+        </div>
+        <div class="demo-code">flex-direction: row-reverse; <span class="cm">/* Right → Left */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">Live Demo — flex-direction: column</p>
+        <div class="demo-box" style="display:flex; flex-direction:column;">
+            <div class="item i1" style="padding:12px 24px;">1</div>
+            <div class="item i2" style="padding:12px 24px;">2</div>
+            <div class="item i3" style="padding:12px 24px;">3</div>
+        </div>
+        <div class="demo-code">flex-direction: column; <span class="cm">/* Top → Bottom */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">Live Demo — flex-direction: column-reverse</p>
+        <div class="demo-box" style="display:flex; flex-direction:column-reverse;">
+            <div class="item i1" style="padding:12px 24px;">1</div>
+            <div class="item i2" style="padding:12px 24px;">2</div>
+            <div class="item i3" style="padding:12px 24px;">3</div>
+        </div>
+        <div class="demo-code">flex-direction: column-reverse; <span class="cm">/* Bottom → Top */</span></div>
+    </div>
+
+    <hr>
+
+    <!-- ─────────────── justify-content ─────────────── -->
+    <h3><code>justify-content</code> — Distributing Space Along the Main Axis</h3>
+    <p>This is the <strong>most important alignment property</strong>. It controls how items are positioned and how <strong>extra space</strong> is distributed along the <strong>main axis</strong>.</p>
+
+    <div class="demo">
+        <p class="demo-label">justify-content: flex-start (default)</p>
+        <div class="demo-box" style="display:flex; justify-content:flex-start;">
+            <div class="item i1" style="padding:10px 20px;">1</div>
+            <div class="item i2" style="padding:10px 20px;">2</div>
+            <div class="item i3" style="padding:10px 20px;">3</div>
+        </div>
+        <div class="demo-code">justify-content: flex-start; <span class="cm">/* Pack items to the start */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">justify-content: flex-end</p>
+        <div class="demo-box" style="display:flex; justify-content:flex-end;">
+            <div class="item i1" style="padding:10px 20px;">1</div>
+            <div class="item i2" style="padding:10px 20px;">2</div>
+            <div class="item i3" style="padding:10px 20px;">3</div>
+        </div>
+        <div class="demo-code">justify-content: flex-end; <span class="cm">/* Pack items to the end */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">justify-content: center</p>
+        <div class="demo-box" style="display:flex; justify-content:center;">
+            <div class="item i1" style="padding:10px 20px;">1</div>
+            <div class="item i2" style="padding:10px 20px;">2</div>
+            <div class="item i3" style="padding:10px 20px;">3</div>
+        </div>
+        <div class="demo-code">justify-content: center; <span class="cm">/* Center items on main axis */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">justify-content: space-between</p>
+        <div class="demo-box" style="display:flex; justify-content:space-between;">
+            <div class="item i1" style="padding:10px 20px;">1</div>
+            <div class="item i2" style="padding:10px 20px;">2</div>
+            <div class="item i3" style="padding:10px 20px;">3</div>
+        </div>
+        <div class="demo-code">justify-content: space-between; <span class="cm">/* First item at start, last at end, equal space between */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">justify-content: space-around</p>
+        <div class="demo-box" style="display:flex; justify-content:space-around;">
+            <div class="item i1" style="padding:10px 20px;">1</div>
+            <div class="item i2" style="padding:10px 20px;">2</div>
+            <div class="item i3" style="padding:10px 20px;">3</div>
+        </div>
+        <div class="demo-code">justify-content: space-around; <span class="cm">/* Equal space AROUND each item (edges get half-space) */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">justify-content: space-evenly</p>
+        <div class="demo-box" style="display:flex; justify-content:space-evenly;">
+            <div class="item i1" style="padding:10px 20px;">1</div>
+            <div class="item i2" style="padding:10px 20px;">2</div>
+            <div class="item i3" style="padding:10px 20px;">3</div>
+        </div>
+        <div class="demo-code">justify-content: space-evenly; <span class="cm">/* Perfectly equal space everywhere, including edges */</span></div>
+    </div>
+
+    <hr>
+
+    <!-- ─────────────── align-items ─────────────── -->
+    <h3><code>align-items</code> — Aligning Items on the Cross Axis</h3>
+    <p>While <code>justify-content</code> controls the main axis, <code>align-items</code> controls how items are positioned on the <strong>cross axis</strong> (perpendicular to the main axis). For a row layout, this means vertical alignment.</p>
+
+    <div class="demo">
+        <p class="demo-label">align-items: stretch (default)</p>
+        <div class="demo-box" style="display:flex; align-items:stretch; min-height:150px;">
+            <div class="item i1" style="padding:10px 20px;">1</div>
+            <div class="item i2" style="padding:10px 20px;">2</div>
+            <div class="item i3" style="padding:10px 20px;">3</div>
+        </div>
+        <div class="demo-code">align-items: stretch; <span class="cm">/* Items stretch to fill the full cross-axis height */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">align-items: flex-start</p>
+        <div class="demo-box" style="display:flex; align-items:flex-start; min-height:150px;">
+            <div class="item i1" style="padding:10px 20px;">1</div>
+            <div class="item i2" style="padding:10px 30px;">2</div>
+            <div class="item i3" style="padding:10px 20px;">Tall</div>
+        </div>
+        <div class="demo-code">align-items: flex-start; <span class="cm">/* Items align to the top of the cross axis */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">align-items: flex-end</p>
+        <div class="demo-box" style="display:flex; align-items:flex-end; min-height:150px;">
+            <div class="item i1" style="padding:10px 20px;">1</div>
+            <div class="item i2" style="padding:10px 30px;">2</div>
+            <div class="item i3" style="padding:10px 20px;">3</div>
+        </div>
+        <div class="demo-code">align-items: flex-end; <span class="cm">/* Items align to the bottom of the cross axis */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">align-items: center</p>
+        <div class="demo-box" style="display:flex; align-items:center; min-height:150px;">
+            <div class="item i1" style="padding:10px 20px;">1</div>
+            <div class="item i2" style="padding:20px 30px;">Big</div>
+            <div class="item i3" style="padding:10px 20px;">3</div>
+        </div>
+        <div class="demo-code">align-items: center; <span class="cm">/* Items centered vertically on the cross axis */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">align-items: baseline</p>
+        <div class="demo-box" style="display:flex; align-items:baseline; min-height:150px;">
+            <div class="item i1" style="padding:10px 20px; font-size:14px;">Small</div>
+            <div class="item i2" style="padding:10px 20px; font-size:28px;">Big</div>
+            <div class="item i3" style="padding:10px 20px; font-size:20px;">Med</div>
+        </div>
+        <div class="demo-code">align-items: baseline; <span class="cm">/* Items align by their text baselines */</span></div>
+    </div>
+
+    <hr>
+
+    <!-- ─────────────── THE PERFECT CENTERING TRICK ─────────────── -->
+    <h3>The Holy Grail: Perfect Centering</h3>
+    <p>The most famous Flexbox trick. To center anything <strong>both horizontally and vertically</strong> in a container, you only need <strong>3 lines</strong>:</p>
+
+    <div class="demo">
+        <p class="demo-label">Live Demo — Perfect Centering</p>
+        <div class="demo-box" style="display:flex; justify-content:center; align-items:center; min-height:200px;">
+            <div class="item i4" style="padding:16px 32px; font-size:18px;">Centered!</div>
+        </div>
+        <div class="demo-code">display: flex; justify-content: center; align-items: center;</div>
+    </div>
+
+    <pre><code><span class="sel">.parent</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">justify-content</span>: <span class="val">center</span>;  <span class="cm">/* Center on main axis (horizontal) */</span>
+    <span class="prop">align-items</span>: <span class="val">center</span>;      <span class="cm">/* Center on cross axis (vertical) */</span>
+    <span class="prop">height</span>: <span class="num">100vh</span>;             <span class="cm">/* Full viewport height */</span>
+}</code></pre>
+
+    <hr>
+
+    <!-- ─────────────── flex-wrap ─────────────── -->
+    <h3><code>flex-wrap</code> — Wrapping Items to New Lines</h3>
+    <p>By default, flex items try to squeeze onto <strong>one line</strong>, even if they overflow the container. The <code>flex-wrap</code> property controls whether items are allowed to wrap onto multiple lines.</p>
+
+    <div class="demo">
+        <p class="demo-label">flex-wrap: nowrap (default — items overflow)</p>
+        <div class="demo-box" style="display:flex; flex-wrap:nowrap; width:100%;">
+            <div class="item i1" style="padding:10px; min-width:150px;">1</div>
+            <div class="item i2" style="padding:10px; min-width:150px;">2</div>
+            <div class="item i3" style="padding:10px; min-width:150px;">3</div>
+            <div class="item i4" style="padding:10px; min-width:150px;">4</div>
+            <div class="item i5" style="padding:10px; min-width:150px;">5</div>
+            <div class="item i6" style="padding:10px; min-width:150px;">6</div>
+        </div>
+        <div class="demo-code">flex-wrap: nowrap; <span class="cm">/* All items forced onto one line */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">flex-wrap: wrap (items flow to new lines)</p>
+        <div class="demo-box" style="display:flex; flex-wrap:wrap; gap:8px;">
+            <div class="item i1" style="padding:10px; min-width:150px;">1</div>
+            <div class="item i2" style="padding:10px; min-width:150px;">2</div>
+            <div class="item i3" style="padding:10px; min-width:150px;">3</div>
+            <div class="item i4" style="padding:10px; min-width:150px;">4</div>
+            <div class="item i5" style="padding:10px; min-width:150px;">5</div>
+            <div class="item i6" style="padding:10px; min-width:150px;">6</div>
+        </div>
+        <div class="demo-code">flex-wrap: wrap; <span class="cm">/* Items wrap naturally when they run out of space */</span></div>
+    </div>
+
+    <hr>
+
+    <!-- ─────────────── align-content ─────────────── -->
+    <h3><code>align-content</code> — Distributing Wrapped Lines on the Cross Axis</h3>
+    <p>When <code>flex-wrap: wrap</code> creates multiple lines, <code>align-content</code> controls how those <strong>lines</strong> (not individual items) are distributed along the cross axis. This only works when there are <strong>multiple lines</strong>.</p>
+
+    <div class="demo">
+        <p class="demo-label">align-content: flex-start</p>
+        <div class="demo-box" style="display:flex; flex-wrap:wrap; align-content:flex-start; min-height:250px; gap:8px;">
+            <div class="item i1" style="padding:10px; min-width:150px;">1</div>
+            <div class="item i2" style="padding:10px; min-width:150px;">2</div>
+            <div class="item i3" style="padding:10px; min-width:150px;">3</div>
+            <div class="item i4" style="padding:10px; min-width:150px;">4</div>
+            <div class="item i5" style="padding:10px; min-width:150px;">5</div>
+        </div>
+        <div class="demo-code">align-content: flex-start; <span class="cm">/* Lines packed to the top */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">align-content: center</p>
+        <div class="demo-box" style="display:flex; flex-wrap:wrap; align-content:center; min-height:250px; gap:8px;">
+            <div class="item i1" style="padding:10px; min-width:150px;">1</div>
+            <div class="item i2" style="padding:10px; min-width:150px;">2</div>
+            <div class="item i3" style="padding:10px; min-width:150px;">3</div>
+            <div class="item i4" style="padding:10px; min-width:150px;">4</div>
+            <div class="item i5" style="padding:10px; min-width:150px;">5</div>
+        </div>
+        <div class="demo-code">align-content: center; <span class="cm">/* Lines centered vertically */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">align-content: space-between</p>
+        <div class="demo-box" style="display:flex; flex-wrap:wrap; align-content:space-between; min-height:250px; gap:8px;">
+            <div class="item i1" style="padding:10px; min-width:150px;">1</div>
+            <div class="item i2" style="padding:10px; min-width:150px;">2</div>
+            <div class="item i3" style="padding:10px; min-width:150px;">3</div>
+            <div class="item i4" style="padding:10px; min-width:150px;">4</div>
+            <div class="item i5" style="padding:10px; min-width:150px;">5</div>
+        </div>
+        <div class="demo-code">align-content: space-between; <span class="cm">/* First line at top, last at bottom */</span></div>
+    </div>
+
+    <hr>
+
+    <!-- ─────────────── gap ─────────────── -->
+    <h3><code>gap</code> — Adding Space Between Items</h3>
+    <p>The <code>gap</code> property adds consistent spacing <strong>between</strong> flex items without affecting the outer edges. It replaces the old margin-based spacing hacks. You can set <code>row-gap</code> and <code>column-gap</code> independently, or use the shorthand <code>gap</code>.</p>
+
+    <div class="demo">
+        <p class="demo-label">gap: 20px</p>
+        <div class="demo-box" style="display:flex; flex-wrap:wrap; gap:20px;">
+            <div class="item i1" style="padding:14px 28px;">1</div>
+            <div class="item i2" style="padding:14px 28px;">2</div>
+            <div class="item i3" style="padding:14px 28px;">3</div>
+            <div class="item i4" style="padding:14px 28px;">4</div>
+        </div>
+        <div class="demo-code">gap: 20px; <span class="cm">/* 20px between all items, NO gap on the outer edges */</span></div>
+    </div>
+
+    <pre><code><span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">gap</span>: <span class="num">20px</span>;               <span class="cm">/* Shorthand: same gap for rows and columns */</span>
+    <span class="prop">gap</span>: <span class="num">20px</span> <span class="num">40px</span>;          <span class="cm">/* Shorthand: row-gap 20px, column-gap 40px */</span>
+    <span class="prop">row-gap</span>: <span class="num">20px</span>;           <span class="cm">/* Separate: only the gap between rows */</span>
+    <span class="prop">column-gap</span>: <span class="num">40px</span>;        <span class="cm">/* Separate: only the gap between columns */</span>
+}</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.3</span> Item Properties (The Children)</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3><code>flex-grow</code> — How Items Expand</h3>
+    <p>This property controls how much a flex item <strong>grows</strong> relative to siblings when there is leftover space in the container. The default value is <code>0</code> (don't grow). A value of <code>1</code> means "take an equal share of remaining space." A value of <code>2</code> means "take twice the share."</p>
+
+    <div class="demo">
+        <p class="demo-label">All items flex-grow: 1 (equal growth)</p>
+        <div class="demo-box" style="display:flex;">
+            <div class="item i1" style="flex-grow:1; padding:14px;">1</div>
+            <div class="item i2" style="flex-grow:1; padding:14px;">2</div>
+            <div class="item i3" style="flex-grow:1; padding:14px;">3</div>
+        </div>
+        <div class="demo-code">All items: flex-grow: 1; <span class="cm">/* Each takes 1/3 of space */</span></div>
+    </div>
+
+    <div class="demo">
+        <p class="demo-label">Item 2 has flex-grow: 3 (grows 3× faster)</p>
+        <div class="demo-box" style="display:flex;">
+            <div class="item i1" style="flex-grow:1; padding:14px;">1</div>
+            <div class="item i2" style="flex-grow:3; padding:14px;">2 (grow:3)</div>
+            <div class="item i3" style="flex-grow:1; padding:14px;">3</div>
+        </div>
+        <div class="demo-code">Item 2: flex-grow: 3; <span class="cm">/* Gets 3/5 of remaining space */</span></div>
+    </div>
+
+    <hr>
+
+    <!-- ─────────────── flex-shrink ─────────────── -->
+    <h3><code>flex-shrink</code> — How Items Contract</h3>
+    <p>When items overflow their container, <code>flex-shrink</code> controls how much each item <strong>shrinks</strong> relative to siblings. The default is <code>1</code> (shrink equally). A value of <code>0</code> means "never shrink — maintain my size."</p>
+
+    <div class="demo">
+        <p class="demo-label">Item 2 has flex-shrink: 0 (refuses to shrink)</p>
+        <div class="demo-box" style="display:flex; width:100%;">
+            <div class="item i1" style="flex-shrink:1; min-width:100px; padding:14px;">Shrinks</div>
+            <div class="item i2" style="flex-shrink:0; min-width:300px; padding:14px;">Won't shrink (shrink:0)</div>
+            <div class="item i3" style="flex-shrink:1; min-width:100px; padding:14px;">Shrinks</div>
+        </div>
+        <div class="demo-code">Item 2: flex-shrink: 0; <span class="cm">/* Stays at 300px, others absorb the squeeze */</span></div>
+    </div>
+
+    <hr>
+
+    <!-- ─────────────── flex-basis ─────────────── -->
+    <h3><code>flex-basis</code> — The Starting Size</h3>
+    <p><code>flex-basis</code> sets the <strong>ideal starting size</strong> of a flex item before any growing or shrinking happens. Think of it as "the size the item wants to be." It overrides <code>width</code> (in row direction) or <code>height</code> (in column direction).</p>
+
+    <div class="demo">
+        <p class="demo-label">flex-basis: 200px on Item 1</p>
+        <div class="demo-box" style="display:flex;">
+            <div class="item i1" style="flex-basis:200px; padding:14px;">basis: 200px</div>
+            <div class="item i2" style="flex-grow:1; padding:14px;">grow:1</div>
+            <div class="item i3" style="flex-grow:1; padding:14px;">grow:1</div>
+        </div>
+        <div class="demo-code">Item 1: flex-basis: 200px; <span class="cm">/* Starts at 200px, others share the rest */</span></div>
+    </div>
+
+    <hr>
+
+    <!-- ─────────────── flex shorthand ─────────────── -->
+    <h3><code>flex</code> — The Shorthand (grow, shrink, basis)</h3>
+    <p>The <code>flex</code> shorthand combines <code>flex-grow</code>, <code>flex-shrink</code>, and <code>flex-basis</code> in one declaration. This is the <strong>recommended way</strong> to set flex item sizing.</p>
+
+    <table>
+        <tr><th>Shorthand</th><th>Equivalent</th><th>Meaning</th></tr>
+        <tr><td><code>flex: 1</code></td><td><code>flex: 1 1 0%</code></td><td>Grow equally, shrink equally, start from 0 (distribute all space)</td></tr>
+        <tr><td><code>flex: 0 1 auto</code></td><td>(default)</td><td>Don't grow, shrink normally, use content size as basis</td></tr>
+        <tr><td><code>flex: 2 1 0%</code></td><td></td><td>Grow at 2× rate, shrink normally, start from 0</td></tr>
+        <tr><td><code>flex: none</code></td><td><code>flex: 0 0 auto</code></td><td>Don't grow, don't shrink, use content size (totally rigid)</td></tr>
+        <tr><td><code>flex: auto</code></td><td><code>flex: 1 1 auto</code></td><td>Grow & shrink equally, start from content size</td></tr>
+    </table>
+
+    <div class="demo">
+        <p class="demo-label">flex: 1 vs flex: 2 vs flex: 3</p>
+        <div class="demo-box" style="display:flex; gap:8px;">
+            <div class="item i1" style="flex:1; padding:14px;">flex:1</div>
+            <div class="item i2" style="flex:2; padding:14px;">flex:2</div>
+            <div class="item i3" style="flex:3; padding:14px;">flex:3</div>
+        </div>
+        <div class="demo-code"><span class="cm">/* Space is divided 1:2:3 ratio → item 3 gets 3/6 (50%) of the space */</span></div>
+    </div>
+
+    <hr>
+
+    <!-- ─────────────── align-self ─────────────── -->
+    <h3><code>align-self</code> — Individual Cross-Axis Override</h3>
+    <p>While <code>align-items</code> is set on the container and affects all items, <code>align-self</code> is set on a <strong>single item</strong> and overrides the container's cross-axis alignment for that item only.</p>
+
+    <div class="demo">
+        <p class="demo-label">Container: align-items: flex-start — Item 2: align-self: flex-end</p>
+        <div class="demo-box" style="display:flex; align-items:flex-start; min-height:160px; gap:8px;">
+            <div class="item i1" style="padding:14px 20px;">1 (start)</div>
+            <div class="item i2" style="padding:14px 20px; align-self:flex-end;">2 (self: end)</div>
+            <div class="item i3" style="padding:14px 20px;">3 (start)</div>
+            <div class="item i4" style="padding:14px 20px; align-self:center;">4 (self: center)</div>
+        </div>
+        <div class="demo-code">Item 2: align-self: flex-end; Item 4: align-self: center;</div>
+    </div>
+
+    <hr>
+
+    <!-- ─────────────── order ─────────────── -->
+    <h3><code>order</code> — Rearranging Items Visually</h3>
+    <p>By default, flex items appear in their HTML source order. The <code>order</code> property lets you reorder them visually without changing the HTML. Lower values appear first. Default is <code>0</code>.</p>
+
+    <div class="demo">
+        <p class="demo-label">HTML order: 1-2-3 — Visual order: 3-1-2</p>
+        <div class="demo-box" style="display:flex; gap:8px;">
+            <div class="item i1" style="padding:14px 20px; order:2;">1 (order:2)</div>
+            <div class="item i2" style="padding:14px 20px; order:3;">2 (order:3)</div>
+            <div class="item i3" style="padding:14px 20px; order:1;">3 (order:1)</div>
+        </div>
+        <div class="demo-code"><span class="cm">/* Visual order is: Item 3 → Item 1 → Item 2 */</span></div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.4</span> Real-World Layout Patterns</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>Pattern 1: Navbar — Logo Left, Links Right</h3>
+    <div class="demo">
+        <p class="demo-label">Classic Navbar Pattern</p>
+        <div class="demo-box" style="display:flex; justify-content:space-between; align-items:center; padding:16px 24px; background:rgba(15,17,26,.6);">
+            <div style="font-weight:800; font-size:20px; color:#f59e0b;">🔥 Brand</div>
+            <div style="display:flex; gap:24px;">
+                <span style="color:#b0bac9;">Home</span>
+                <span style="color:#b0bac9;">About</span>
+                <span style="color:#b0bac9;">Contact</span>
+            </div>
+        </div>
+        <div class="demo-code">display: flex; justify-content: space-between; align-items: center;</div>
+    </div>
+
+    <h3>Pattern 2: Card Row — Equal Width Cards</h3>
+    <div class="demo">
+        <p class="demo-label">3-Column Equal Cards</p>
+        <div class="demo-box" style="display:flex; gap:16px;">
+            <div style="flex:1; background:#1e2d4a; border-radius:10px; padding:20px;">
+                <div style="font-weight:700; color:#f0f6fc; margin-bottom:8px;">Card 1</div>
+                <div style="font-size:14px; color:#7a8599;">Content that grows equally with siblings.</div>
+            </div>
+            <div style="flex:1; background:#1e2d4a; border-radius:10px; padding:20px;">
+                <div style="font-weight:700; color:#f0f6fc; margin-bottom:8px;">Card 2</div>
+                <div style="font-size:14px; color:#7a8599;">Same width regardless of content.</div>
+            </div>
+            <div style="flex:1; background:#1e2d4a; border-radius:10px; padding:20px;">
+                <div style="font-weight:700; color:#f0f6fc; margin-bottom:8px;">Card 3</div>
+                <div style="font-size:14px; color:#7a8599;">Flexbox makes this trivial.</div>
+            </div>
+        </div>
+        <div class="demo-code">Each card: flex: 1; <span class="cm">/* All cards grow equally */</span></div>
+    </div>
+
+    <h3>Pattern 3: Sidebar + Content Layout</h3>
+    <div class="demo">
+        <p class="demo-label">Fixed Sidebar + Fluid Content</p>
+        <div class="demo-box" style="display:flex; gap:16px; min-height:180px;">
+            <div style="flex:0 0 200px; background:#1e2d4a; border-radius:10px; padding:20px;">
+                <div style="font-weight:700; color:#f59e0b; margin-bottom:8px;">Sidebar</div>
+                <div style="font-size:13px; color:#7a8599;">flex: 0 0 200px<br>(fixed 200px)</div>
+            </div>
+            <div style="flex:1; background:#161b2e; border-radius:10px; padding:20px;">
+                <div style="font-weight:700; color:#f0f6fc; margin-bottom:8px;">Main Content</div>
+                <div style="font-size:13px; color:#7a8599;">flex: 1 (fills remaining space)</div>
+            </div>
+        </div>
+        <div class="demo-code">Sidebar: flex: 0 0 200px; Main: flex: 1;</div>
+    </div>
+
+    <h3>Pattern 4: Footer Pinned to Bottom</h3>
+    <div class="demo">
+        <p class="demo-label">Sticky Footer with flex-grow</p>
+        <div class="demo-box" style="display:flex; flex-direction:column; min-height:280px;">
+            <div style="background:#1e2d4a; border-radius:8px; padding:14px 20px; margin-bottom:8px;">
+                <span style="font-weight:700; color:#f0f6fc;">Header</span>
+            </div>
+            <div style="flex:1; background:#161b2e; border-radius:8px; padding:14px 20px; margin-bottom:8px;">
+                <span style="font-weight:600; color:#7a8599;">Content (flex: 1 — pushes footer down)</span>
+            </div>
+            <div style="background:#f59e0b; border-radius:8px; padding:14px 20px;">
+                <span style="font-weight:700; color:#0f111a;">Footer (always at bottom)</span>
+            </div>
+        </div>
+        <div class="demo-code">Container: flex-direction: column; Content: flex: 1;</div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.5</span> Complete Flexbox Cheat Sheet</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>Container Properties (set on parent)</h3>
+    <table>
+        <tr><th>Property</th><th>Controls</th><th>Values</th></tr>
+        <tr><td><code>display</code></td><td>Activates flexbox</td><td><code>flex</code>, <code>inline-flex</code></td></tr>
+        <tr><td><code>flex-direction</code></td><td>Main axis direction</td><td><code>row</code>, <code>row-reverse</code>, <code>column</code>, <code>column-reverse</code></td></tr>
+        <tr><td><code>justify-content</code></td><td>Main axis alignment</td><td><code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code></td></tr>
+        <tr><td><code>align-items</code></td><td>Cross axis alignment</td><td><code>stretch</code>, <code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>baseline</code></td></tr>
+        <tr><td><code>flex-wrap</code></td><td>Multi-line wrapping</td><td><code>nowrap</code>, <code>wrap</code>, <code>wrap-reverse</code></td></tr>
+        <tr><td><code>align-content</code></td><td>Wrapped lines distribution</td><td><code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>stretch</code></td></tr>
+        <tr><td><code>gap</code></td><td>Space between items</td><td>Any length value (px, rem, %)</td></tr>
+    </table>
+
+    <h3>Item Properties (set on children)</h3>
+    <table>
+        <tr><th>Property</th><th>Controls</th><th>Default</th></tr>
+        <tr><td><code>flex-grow</code></td><td>How much item grows</td><td><code>0</code></td></tr>
+        <tr><td><code>flex-shrink</code></td><td>How much item shrinks</td><td><code>1</code></td></tr>
+        <tr><td><code>flex-basis</code></td><td>Ideal starting size</td><td><code>auto</code></td></tr>
+        <tr><td><code>flex</code></td><td>Shorthand (grow shrink basis)</td><td><code>0 1 auto</code></td></tr>
+        <tr><td><code>align-self</code></td><td>Override cross-axis alignment</td><td><code>auto</code></td></tr>
+        <tr><td><code>order</code></td><td>Visual order position</td><td><code>0</code></td></tr>
+    </table>
+
+</div>
+
+<script>
+function toggleSolution(btn) {
+    const sol = btn.nextElementSibling;
+    sol.classList.toggle('show');
+    btn.textContent = sol.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+}
+</script>
+</body>
+</html>

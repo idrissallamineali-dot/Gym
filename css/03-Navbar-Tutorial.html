@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Navbars — Complete Step-by-Step Masterclass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:900px;margin:0 auto}
+        h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#10b981;margin-bottom:8px}
+        .subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        .section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+        .section-num{background:#1e2d4a;color:#10b981;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+        h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #10b981;padding-left:14px}
+        h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+        p{margin-bottom:20px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+        .tag{color:#7ee787}.attr{color:#d2a8ff}.val{color:#a5d6ff}.cm{color:#5e6e8a;font-style:italic}.prop{color:#d2a8ff}.sel{color:#7ee787}.num{color:#79c0ff}.cssval{color:#a5d6ff}
+        ul,ol{margin:12px 0 24px 24px;color:#b0bac9}li{margin-bottom:10px}li strong{color:#e2e8f0}
+        .co{border-radius:12px;padding:24px;margin:32px 0;font-size:15.5px;line-height:1.7;border:1px solid rgba(255,255,255,0.05)}
+        .co-r{background:rgba(248,81,73,.04);border-left:4px solid #f85149}.co-r strong{color:#f85149}
+        .co-g{background:rgba(16,185,129,.04);border-left:4px solid #10b981}.co-g strong{color:#10b981}
+        .co-p{background:rgba(139,92,246,.04);border-left:4px solid #a78bfa}.co-p strong{color:#a78bfa}
+        .co-y{background:rgba(245,158,11,.04);border-left:4px solid #f59e0b}.co-y strong{color:#f59e0b}
+        .co-b{background:rgba(88,166,255,.04);border-left:4px solid #58a6ff}.co-b strong{color:#58a6ff}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+
+        /* Live Demo System */
+        .demo{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;overflow:hidden;margin:28px 0 36px;box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+        .demo-label{background:#0d1117;padding:12px 20px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#10b981;border-bottom:1px solid #1e2d4a}
+        .demo-box{padding:0}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="lesson-num">CSS Practical Guide</p>
+    <h1>Building Navbars: Step by Step</h1>
+    <p class="subtitle">A complete, reference-grade walkthrough. Every line of HTML explained, every CSS property justified. Come back and study each step anytime you need a refresher.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">0</span> Best Practices: Semantic Structure</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <p>Before we write a single line of code, let's understand the <strong>correct semantic HTML structure</strong> that every professional uses. This is what separates beginners from pros.</p>
+
+    <h3>Rule 1: <code>&lt;nav&gt;</code> Goes Inside <code>&lt;header&gt;</code></h3>
+    <p>The <code>&lt;header&gt;</code> element represents the <strong>introductory content at the top of your page</strong>. The navigation bar is part of that header, so it belongs inside it.</p>
+
+    <pre><code><span class="cm">&lt;!-- ✅ CORRECT — Professional standard --&gt;</span>
+<span class="tag">&lt;header&gt;</span>                    <span class="cm">&lt;!-- Page header wrapper --&gt;</span>
+    <span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar"</span><span class="tag">&gt;</span>   <span class="cm">&lt;!-- Navigation lives INSIDE header --&gt;</span>
+        ...
+    <span class="tag">&lt;/nav&gt;</span>
+<span class="tag">&lt;/header&gt;</span>
+
+<span class="cm">&lt;!-- ❌ WRONG — nav floating alone --&gt;</span>
+<span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar"</span><span class="tag">&gt;</span>
+    ...
+<span class="tag">&lt;/nav&gt;</span></code></pre>
+
+    <div class="co co-b">
+        <strong>🧠 Why <code>&lt;header&gt;</code>?</strong><br>
+        1. <strong>Semantics</strong>: <code>&lt;header&gt;</code> tells the browser "this is the top section of the page." Screen readers announce it as a landmark region.<br>
+        2. <strong>Flexibility</strong>: You might add a top bar above the nav (like a promo banner or phone number). The <code>&lt;header&gt;</code> wraps ALL of that.<br>
+        3. <strong>CSS</strong>: The <code>position: sticky</code> goes on the <code>&lt;header&gt;</code>, making the entire header (nav + top bar) stick together.
+    </div>
+
+    <h3>Rule 2: Logo Should Be an <code>&lt;a&gt;</code> Link</h3>
+    <p>The logo is <strong>always clickable</strong> — it links back to the homepage. Using a <code>&lt;div&gt;</code> for the logo is a common beginner mistake.</p>
+
+    <pre><code><span class="cm">&lt;!-- ✅ CORRECT — Logo is a link to homepage --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span>MyBrand<span class="tag">&lt;/a&gt;</span>
+
+<span class="cm">&lt;!-- ❌ WRONG — Logo is not clickable --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span>MyBrand<span class="tag">&lt;/div&gt;</span></code></pre>
+
+    <h3>Rule 3: Add <code>aria-label</code> for Accessibility</h3>
+    <p>If you have multiple <code>&lt;nav&gt;</code> elements on one page (main nav + footer nav), give each one an <code>aria-label</code> so screen readers can tell them apart.</p>
+
+    <pre><code><span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar"</span> <span class="attr">aria-label</span>=<span class="val">"Main navigation"</span><span class="tag">&gt;</span>
+    ...
+<span class="tag">&lt;/nav&gt;</span></code></pre>
+
+    <h3>The Complete Best-Practice HTML Skeleton</h3>
+
+    <pre><code><span class="tag">&lt;header&gt;</span>
+    <span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar"</span> <span class="attr">aria-label</span>=<span class="val">"Main navigation"</span><span class="tag">&gt;</span>
+
+        <span class="cm">&lt;!-- Logo: always an &lt;a&gt; linking to homepage --&gt;</span>
+        <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span>MyBrand<span class="tag">&lt;/a&gt;</span>
+
+        <span class="cm">&lt;!-- Links: semantic list --&gt;</span>
+        <span class="tag">&lt;ul</span> <span class="attr">class</span>=<span class="val">"nav-links"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+            <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/about"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+            <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/services"</span><span class="tag">&gt;</span>Services<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+            <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/contact"</span><span class="tag">&gt;</span>Contact<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+        <span class="tag">&lt;/ul&gt;</span>
+
+        <span class="cm">&lt;!-- Actions: buttons --&gt;</span>
+        <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"nav-actions"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/login"</span> <span class="attr">class</span>=<span class="val">"btn-ghost"</span><span class="tag">&gt;</span>Log In<span class="tag">&lt;/a&gt;</span>
+            <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/signup"</span> <span class="attr">class</span>=<span class="val">"btn-primary"</span><span class="tag">&gt;</span>Sign Up<span class="tag">&lt;/a&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+
+    <span class="tag">&lt;/nav&gt;</span>
+<span class="tag">&lt;/header&gt;</span></code></pre>
+
+    <div class="co co-y">
+        <strong>🏗️ Semantic Structure Breakdown:</strong><br><br>
+        <code>&lt;header&gt;</code> — "This is the page header"<br>
+        └── <code>&lt;nav aria-label="..."&gt;</code> — "This is the navigation"<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <code>&lt;a class="logo"&gt;</code> — Clickable link to homepage<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <code>&lt;ul&gt; + &lt;li&gt; + &lt;a&gt;</code> — Semantic list of nav links<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <code>&lt;div class="nav-actions"&gt;</code> — Button group (generic container is fine here)
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1</span> Navbar #1 — The Foundation</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <p>This is the simplest possible professional navbar: a logo on the left, navigation links on the right. We build it in <strong>two files</strong>.</p>
+
+    <h3>Step 1: The HTML</h3>
+    <p>Create a file called <code>index.html</code>:</p>
+
+    <pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"en"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span>My Website<span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>       <span class="cm">&lt;!-- Link to our CSS file --&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+
+    <span class="cm">&lt;!-- &lt;header&gt; wraps the entire top section of the page --&gt;</span>
+    <span class="tag">&lt;header&gt;</span>
+        <span class="cm">&lt;!-- &lt;nav&gt; lives INSIDE header — this is the professional standard --&gt;</span>
+        <span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar"</span> <span class="attr">aria-label</span>=<span class="val">"Main navigation"</span><span class="tag">&gt;</span>
+
+            <span class="cm">&lt;!-- LEFT SIDE: Logo as a LINK (always links to homepage) --&gt;</span>
+            <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span>MyBrand<span class="tag">&lt;/a&gt;</span>
+
+            <span class="cm">&lt;!-- RIGHT SIDE: Navigation links --&gt;</span>
+            <span class="cm">&lt;!-- We use &lt;ul&gt; (unordered list) because nav links ARE a list of items --&gt;</span>
+            <span class="tag">&lt;ul</span> <span class="attr">class</span>=<span class="val">"nav-links"</span><span class="tag">&gt;</span>
+                <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+                <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/about"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+                <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/services"</span><span class="tag">&gt;</span>Services<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+                <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/contact"</span><span class="tag">&gt;</span>Contact<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+            <span class="tag">&lt;/ul&gt;</span>
+
+        <span class="tag">&lt;/nav&gt;</span>
+    <span class="tag">&lt;/header&gt;</span>
+
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+
+    <div class="co co-b">
+        <strong>🧠 Why <code>&lt;ul&gt;</code> + <code>&lt;li&gt;</code> for links?</strong><br>
+        Navigation links are semantically a <strong>list of destinations</strong>. Using <code>&lt;ul&gt;</code> tells screen readers "there are 4 items in this navigation." It also follows every professional coding standard. The <code>&lt;a&gt;</code> inside each <code>&lt;li&gt;</code> makes each item clickable.
+    </div>
+
+    <h3>Step 2: The CSS</h3>
+    <p>Create a file called <code>style.css</code>:</p>
+
+    <pre><code><span class="cm">/* ─── RESET ─── */</span>
+<span class="cm">/* Remove all default browser spacing */</span>
+<span class="sel">*</span> {
+    <span class="prop">margin</span>: <span class="num">0</span>;
+    <span class="prop">padding</span>: <span class="num">0</span>;
+    <span class="prop">box-sizing</span>: <span class="cssval">border-box</span>;
+}
+
+<span class="cm">/* ─── BODY ─── */</span>
+<span class="sel">body</span> {
+    <span class="prop">font-family</span>: <span class="cssval">'Inter'</span>, <span class="cssval">sans-serif</span>;
+}
+
+<span class="cm">/* ─── NAVBAR CONTAINER ─── */</span>
+<span class="cm">/* This is a FLEX container. It has 2 children: .logo and .nav-links */</span>
+<span class="sel">.navbar</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;                  <span class="cm">/* Activate Flexbox */</span>
+    <span class="prop">justify-content</span>: <span class="cssval">space-between</span>;  <span class="cm">/* Logo pushed LEFT, links pushed RIGHT */</span>
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;            <span class="cm">/* Everything vertically centered */</span>
+    <span class="prop">padding</span>: <span class="num">16px</span> <span class="num">40px</span>;              <span class="cm">/* Inner spacing: 16px top/bottom, 40px left/right */</span>
+    <span class="prop">background-color</span>: <span class="num">#0f111a</span>;      <span class="cm">/* Dark background */</span>
+}
+
+<span class="cm">/* ─── LOGO (it's an &lt;a&gt; tag, so we need to style it as text, not a link) ─── */</span>
+<span class="sel">.logo</span> {
+    <span class="prop">font-size</span>: <span class="num">22px</span>;
+    <span class="prop">font-weight</span>: <span class="num">700</span>;
+    <span class="prop">color</span>: <span class="num">#f59e0b</span>;                 <span class="cm">/* Amber/gold color */</span>
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;          <span class="cm">/* Remove underline since it's an &lt;a&gt; */</span>
+}
+
+<span class="cm">/* ─── NAV LINKS CONTAINER ─── */</span>
+<span class="cm">/* This &lt;ul&gt; is ALSO a flex container — making the &lt;li&gt; items sit in a row */</span>
+<span class="sel">.nav-links</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;                  <span class="cm">/* Links sit side by side */</span>
+    <span class="prop">gap</span>: <span class="num">32px</span>;                       <span class="cm">/* Space between each link */</span>
+    <span class="prop">list-style</span>: <span class="cssval">none</span>;               <span class="cm">/* Remove the bullet points from &lt;ul&gt; */</span>
+}
+
+<span class="cm">/* ─── INDIVIDUAL LINKS ─── */</span>
+<span class="sel">.nav-links a</span> {
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;          <span class="cm">/* Remove the blue underline */</span>
+    <span class="prop">color</span>: <span class="num">#b0bac9</span>;                 <span class="cm">/* Light gray text */</span>
+    <span class="prop">font-weight</span>: <span class="num">500</span>;
+    <span class="prop">transition</span>: <span class="cssval">color</span> <span class="num">0.2s</span>;        <span class="cm">/* Smooth color change on hover */</span>
+}
+
+<span class="cm">/* ─── HOVER EFFECT ─── */</span>
+<span class="sel">.nav-links a:hover</span> {
+    <span class="prop">color</span>: <span class="num">#ffffff</span>;                 <span class="cm">/* White on hover */</span>
+}</code></pre>
+
+    <h3>Result:</h3>
+    <div class="demo">
+        <p class="demo-label">What You See in the Browser</p>
+        <div class="demo-box">
+            <header>
+            <nav style="display:flex;justify-content:space-between;align-items:center;padding:16px 40px;background:#0f111a;">
+                <a href="/" style="font-size:22px;font-weight:700;color:#f59e0b;text-decoration:none;">MyBrand</a>
+                <ul style="display:flex;gap:32px;list-style:none;">
+                    <li><a href="#" style="text-decoration:none;color:#b0bac9;font-weight:500;">Home</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#b0bac9;font-weight:500;">About</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#b0bac9;font-weight:500;">Services</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#b0bac9;font-weight:500;">Contact</a></li>
+                </ul>
+            </nav>
+            </header>
+        </div>
+    </div>
+
+    <div class="co co-y">
+        <strong>🧠 Flexbox Mental Model for This Navbar:</strong><br><br>
+        <code>&lt;header&gt;</code><br>
+        └── <code>.navbar</code> (flex container)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <code>a.logo</code> ← pushed to the LEFT by <code>space-between</code><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <code>ul.nav-links</code> (also a flex container) ← pushed to the RIGHT<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <code>li &gt; a</code> Home<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <code>li &gt; a</code> About<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <code>li &gt; a</code> Services<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <code>li &gt; a</code> Contact
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">2</span> Navbar #2 — Adding a CTA Button</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <p>Most real navbars have a <strong>Call-To-Action button</strong> like "Sign Up" or "Get Started" on the right side. We add a third child element.</p>
+
+    <h3>Step 1: Updated HTML</h3>
+    <p>We add a single <code>&lt;a&gt;</code> with a class of <code>cta-btn</code> after the <code>&lt;ul&gt;</code>:</p>
+
+    <pre><code><span class="tag">&lt;header&gt;</span>
+    <span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar"</span> <span class="attr">aria-label</span>=<span class="val">"Main navigation"</span><span class="tag">&gt;</span>
+
+        <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span>MyBrand<span class="tag">&lt;/a&gt;</span>
+
+        <span class="tag">&lt;ul</span> <span class="attr">class</span>=<span class="val">"nav-links"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+            <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/about"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+            <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/services"</span><span class="tag">&gt;</span>Services<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+            <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/contact"</span><span class="tag">&gt;</span>Contact<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+        <span class="tag">&lt;/ul&gt;</span>
+
+        <span class="cm">&lt;!-- NEW: Call-To-Action button --&gt;</span>
+        <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/signup"</span> <span class="attr">class</span>=<span class="val">"cta-btn"</span><span class="tag">&gt;</span>Sign Up<span class="tag">&lt;/a&gt;</span>
+
+    <span class="tag">&lt;/nav&gt;</span>
+<span class="tag">&lt;/header&gt;</span></code></pre>
+
+    <h3>Step 2: New CSS (add to style.css)</h3>
+
+    <pre><code><span class="cm">/* ─── CTA BUTTON ─── */</span>
+<span class="sel">.cta-btn</span> {
+    <span class="prop">background-color</span>: <span class="num">#f59e0b</span>;     <span class="cm">/* Solid amber background */</span>
+    <span class="prop">color</span>: <span class="num">#0f111a</span>;                 <span class="cm">/* Dark text on bright button */</span>
+    <span class="prop">padding</span>: <span class="num">10px</span> <span class="num">24px</span>;              <span class="cm">/* Inner spacing */</span>
+    <span class="prop">border-radius</span>: <span class="num">8px</span>;              <span class="cm">/* Rounded corners */</span>
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;          <span class="cm">/* Remove underline */</span>
+    <span class="prop">font-weight</span>: <span class="num">600</span>;                <span class="cm">/* Semi-bold text */</span>
+    <span class="prop">transition</span>: <span class="cssval">background-color</span> <span class="num">0.2s</span>; <span class="cm">/* Smooth hover */</span>
+}
+
+<span class="sel">.cta-btn:hover</span> {
+    <span class="prop">background-color</span>: <span class="num">#d97706</span>;     <span class="cm">/* Slightly darker on hover */</span>
+}</code></pre>
+
+    <h3>Result:</h3>
+    <div class="demo">
+        <p class="demo-label">What You See in the Browser</p>
+        <div class="demo-box">
+            <header>
+            <nav style="display:flex;justify-content:space-between;align-items:center;padding:16px 40px;background:#0f111a;">
+                <a href="/" style="font-size:22px;font-weight:700;color:#f59e0b;text-decoration:none;">MyBrand</a>
+                <ul style="display:flex;gap:32px;list-style:none;">
+                    <li><a href="#" style="text-decoration:none;color:#b0bac9;font-weight:500;">Home</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#b0bac9;font-weight:500;">About</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#b0bac9;font-weight:500;">Services</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#b0bac9;font-weight:500;">Contact</a></li>
+                </ul>
+                <a href="#" style="background:#f59e0b;color:#0f111a;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:600;">Sign Up</a>
+            </nav>
+            </header>
+        </div>
+    </div>
+
+    <div class="co co-g">
+        <strong>💡 How <code>space-between</code> handles 3 children:</strong><br>
+        With 3 items inside the flex container, <code>space-between</code> places:<br>
+        • Item 1 (logo) → far LEFT<br>
+        • Item 2 (links) → CENTER<br>
+        • Item 3 (button) → far RIGHT<br>
+        The available space is distributed equally between them.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">3</span> Navbar #3 — Active Link + Bottom Border</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <p>Now let's add two professional touches: a <strong>bottom border</strong> on the navbar, and an <strong>active link indicator</strong> that shows which page the user is currently on.</p>
+
+    <h3>Step 1: Updated HTML</h3>
+    <p>Add the class <code>active</code> to whichever link represents the current page:</p>
+
+    <pre><code><span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span>MyBrand<span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;ul</span> <span class="attr">class</span>=<span class="val">"nav-links"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span> <span class="attr">class</span>=<span class="val">"active"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>    <span class="cm">&lt;!-- Current page --&gt;</span>
+        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>Services<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>Contact<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;/ul&gt;</span>
+    <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span> <span class="attr">class</span>=<span class="val">"cta-btn"</span><span class="tag">&gt;</span>Sign Up<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></code></pre>
+
+    <h3>Step 2: Updated CSS</h3>
+
+    <pre><code><span class="cm">/* ─── NAVBAR WITH BOTTOM BORDER ─── */</span>
+<span class="sel">.navbar</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">justify-content</span>: <span class="cssval">space-between</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+    <span class="prop">padding</span>: <span class="num">0</span> <span class="num">40px</span>;                  <span class="cm">/* Remove top/bottom padding — links will handle it */</span>
+    <span class="prop">background-color</span>: <span class="num">#0f111a</span>;
+    <span class="prop">border-bottom</span>: <span class="num">1px</span> <span class="cssval">solid</span> <span class="num">#1e2d4a</span>; <span class="cm">/* Subtle bottom line */</span>
+}
+
+<span class="cm">/* ─── NAV LINKS: remove the gap, use padding instead ─── */</span>
+<span class="sel">.nav-links</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">gap</span>: <span class="num">0</span>;                            <span class="cm">/* No gap — padding inside links creates spacing */</span>
+    <span class="prop">list-style</span>: <span class="cssval">none</span>;
+}
+
+<span class="cm">/* ─── EACH LINK ─── */</span>
+<span class="sel">.nav-links a</span> {
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;
+    <span class="prop">color</span>: <span class="num">#7a8599</span>;
+    <span class="prop">font-weight</span>: <span class="num">500</span>;
+    <span class="prop">padding</span>: <span class="num">20px</span> <span class="num">24px</span>;                <span class="cm">/* Creates the clickable area AND vertical spacing */</span>
+    <span class="prop">border-bottom</span>: <span class="num">3px</span> <span class="cssval">solid</span> <span class="cssval">transparent</span>; <span class="cm">/* Invisible border — will change on hover */</span>
+    <span class="prop">transition</span>: <span class="cssval">color</span> <span class="num">0.2s</span>, <span class="cssval">border-color</span> <span class="num">0.2s</span>;
+}
+
+<span class="cm">/* ─── HOVER: Show the amber underline ─── */</span>
+<span class="sel">.nav-links a:hover</span> {
+    <span class="prop">color</span>: <span class="num">#f0f6fc</span>;
+    <span class="prop">border-bottom-color</span>: <span class="num">#f59e0b</span>;   <span class="cm">/* Amber line appears! */</span>
+}
+
+<span class="cm">/* ─── ACTIVE: Same style as hover, always visible ─── */</span>
+<span class="sel">.nav-links a.active</span> {
+    <span class="prop">color</span>: <span class="num">#f0f6fc</span>;
+    <span class="prop">border-bottom-color</span>: <span class="num">#f59e0b</span>;
+}</code></pre>
+
+    <h3>Result:</h3>
+    <div class="demo">
+        <p class="demo-label">Hover the links to see the underline animation!</p>
+        <div class="demo-box">
+            <nav style="display:flex;justify-content:space-between;align-items:center;padding:0 40px;background:#0f111a;border-bottom:1px solid #1e2d4a;">
+                <div style="font-size:22px;font-weight:700;color:#f59e0b;">MyBrand</div>
+                <ul style="display:flex;gap:0;list-style:none;">
+                    <li><a href="#" style="text-decoration:none;color:#f0f6fc;font-weight:500;padding:20px 24px;border-bottom:3px solid #f59e0b;display:block;">Home</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#7a8599;font-weight:500;padding:20px 24px;border-bottom:3px solid transparent;display:block;" onmouseover="this.style.color='#f0f6fc';this.style.borderBottomColor='#f59e0b'" onmouseout="this.style.color='#7a8599';this.style.borderBottomColor='transparent'">About</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#7a8599;font-weight:500;padding:20px 24px;border-bottom:3px solid transparent;display:block;" onmouseover="this.style.color='#f0f6fc';this.style.borderBottomColor='#f59e0b'" onmouseout="this.style.color='#7a8599';this.style.borderBottomColor='transparent'">Services</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#7a8599;font-weight:500;padding:20px 24px;border-bottom:3px solid transparent;display:block;" onmouseover="this.style.color='#f0f6fc';this.style.borderBottomColor='#f59e0b'" onmouseout="this.style.color='#7a8599';this.style.borderBottomColor='transparent'">Contact</a></li>
+                </ul>
+                <a href="#" style="background:#f59e0b;color:#0f111a;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:600;">Sign Up</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="co co-p">
+        <strong>🎯 The <code>border-bottom: transparent</code> Trick</strong><br>
+        We always render the border — but make it <strong>invisible</strong> by default using <code>transparent</code>. On hover, we just change the <strong>color</strong>. This prevents the navbar from "jumping" (if we added/removed the border, the height would shift by 3px).
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">4</span> Navbar #4 — Sticky + Glass Effect</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <p>This is the <strong>modern premium</strong> style seen on SaaS websites. The navbar stays fixed at the top when scrolling, with a frosted glass blur effect behind it.</p>
+
+    <h3>Step 1: Updated HTML</h3>
+    <p>We add <strong>two buttons</strong> on the right side — "Log In" (ghost) and "Get Started" (solid). They're grouped in a <code>&lt;div class="nav-actions"&gt;</code>.</p>
+
+    <pre><code><span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar"</span><span class="tag">&gt;</span>
+
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span>🚀 BrandX<span class="tag">&lt;/div&gt;</span>
+
+    <span class="tag">&lt;ul</span> <span class="attr">class</span>=<span class="val">"nav-links"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>Features<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>Pricing<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+        <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>Blog<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+    <span class="tag">&lt;/ul&gt;</span>
+
+    <span class="cm">&lt;!-- Group of action buttons (also a flex container!) --&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"nav-actions"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span> <span class="attr">class</span>=<span class="val">"btn-ghost"</span><span class="tag">&gt;</span>Log In<span class="tag">&lt;/a&gt;</span>
+        <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span> <span class="attr">class</span>=<span class="val">"btn-primary"</span><span class="tag">&gt;</span>Get Started<span class="tag">&lt;/a&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+<span class="tag">&lt;/nav&gt;</span></code></pre>
+
+    <h3>Step 2: Full CSS</h3>
+
+    <pre><code><span class="cm">/* ─── STICKY GLASS NAVBAR ─── */</span>
+<span class="sel">.navbar</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">justify-content</span>: <span class="cssval">space-between</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+    <span class="prop">padding</span>: <span class="num">16px</span> <span class="num">40px</span>;
+
+    <span class="cm">/* Glass effect: semi-transparent background + blur */</span>
+    <span class="prop">background</span>: <span class="cssval">rgba</span>(<span class="num">15</span>, <span class="num">17</span>, <span class="num">26</span>, <span class="num">0.8</span>);   <span class="cm">/* 80% opacity dark background */</span>
+    <span class="prop">backdrop-filter</span>: <span class="cssval">blur</span>(<span class="num">12px</span>);        <span class="cm">/* Blur whatever is behind the navbar */</span>
+    <span class="prop">border-bottom</span>: <span class="num">1px</span> <span class="cssval">solid</span> <span class="cssval">rgba</span>(<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>,<span class="num">0.06</span>); <span class="cm">/* Very subtle border */</span>
+
+    <span class="cm">/* Sticky positioning */</span>
+    <span class="prop">position</span>: <span class="cssval">sticky</span>;                  <span class="cm">/* Stick to the top on scroll */</span>
+    <span class="prop">top</span>: <span class="num">0</span>;                               <span class="cm">/* Stick at y=0 (the very top) */</span>
+    <span class="prop">z-index</span>: <span class="num">100</span>;                         <span class="cm">/* Stay above all other content */</span>
+}
+
+<span class="cm">/* ─── GRADIENT LOGO ─── */</span>
+<span class="sel">.logo</span> {
+    <span class="prop">font-size</span>: <span class="num">22px</span>;
+    <span class="prop">font-weight</span>: <span class="num">800</span>;
+    <span class="prop">background</span>: <span class="cssval">linear-gradient</span>(<span class="num">135deg</span>, <span class="num">#f59e0b</span>, <span class="num">#ef4444</span>);
+    <span class="prop">-webkit-background-clip</span>: <span class="cssval">text</span>;    <span class="cm">/* Clip gradient to text shape */</span>
+    <span class="prop">-webkit-text-fill-color</span>: <span class="cssval">transparent</span>; <span class="cm">/* Make text fill transparent */</span>
+    <span class="prop">background-clip</span>: <span class="cssval">text</span>;             <span class="cm">/* Result: gradient shows THROUGH the text */</span>
+}
+
+<span class="cm">/* ─── LINKS WITH ANIMATED UNDERLINE ─── */</span>
+<span class="sel">.nav-links a</span> {
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;
+    <span class="prop">color</span>: <span class="num">#7a8599</span>;
+    <span class="prop">font-weight</span>: <span class="num">500</span>;
+    <span class="prop">position</span>: <span class="cssval">relative</span>;               <span class="cm">/* Needed for the ::after element */</span>
+    <span class="prop">transition</span>: <span class="cssval">color</span> <span class="num">0.2s</span>;
+}
+
+<span class="cm">/* The animated underline (hidden by default) */</span>
+<span class="sel">.nav-links a::after</span> {
+    <span class="prop">content</span>: <span class="val">''</span>;                       <span class="cm">/* Create an empty pseudo-element */</span>
+    <span class="prop">position</span>: <span class="cssval">absolute</span>;               <span class="cm">/* Position it relative to the link */</span>
+    <span class="prop">bottom</span>: <span class="num">-4px</span>;                      <span class="cm">/* Just below the text */</span>
+    <span class="prop">left</span>: <span class="num">0</span>;
+    <span class="prop">width</span>: <span class="num">0</span>;                           <span class="cm">/* Starts invisible (0 width) */</span>
+    <span class="prop">height</span>: <span class="num">2px</span>;                        <span class="cm">/* Thin line */</span>
+    <span class="prop">background</span>: <span class="num">#f59e0b</span>;               <span class="cm">/* Amber color */</span>
+    <span class="prop">transition</span>: <span class="cssval">width</span> <span class="num">0.3s</span>;            <span class="cm">/* Animate the width change */</span>
+}
+
+<span class="cm">/* On hover: expand the underline from 0 to 100% */</span>
+<span class="sel">.nav-links a:hover::after</span> {
+    <span class="prop">width</span>: <span class="num">100%</span>;
+}
+
+<span class="sel">.nav-links a:hover</span> {
+    <span class="prop">color</span>: <span class="num">#f0f6fc</span>;
+}
+
+<span class="cm">/* ─── BUTTON GROUP ─── */</span>
+<span class="sel">.nav-actions</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;                    <span class="cm">/* Yet another flex container! */</span>
+    <span class="prop">gap</span>: <span class="num">12px</span>;                          <span class="cm">/* Space between the two buttons */</span>
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+}
+
+<span class="cm">/* Ghost button (transparent background) */</span>
+<span class="sel">.btn-ghost</span> {
+    <span class="prop">color</span>: <span class="num">#b0bac9</span>;
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;
+    <span class="prop">font-weight</span>: <span class="num">500</span>;
+    <span class="prop">padding</span>: <span class="num">8px</span> <span class="num">16px</span>;
+    <span class="prop">border-radius</span>: <span class="num">8px</span>;
+    <span class="prop">transition</span>: <span class="cssval">background</span> <span class="num">0.2s</span>;
+}
+
+<span class="sel">.btn-ghost:hover</span> {
+    <span class="prop">background</span>: <span class="cssval">rgba</span>(<span class="num">255</span>,<span class="num">255</span>,<span class="num">255</span>,<span class="num">0.06</span>); <span class="cm">/* Very subtle highlight */</span>
+}
+
+<span class="cm">/* Primary button (gradient) */</span>
+<span class="sel">.btn-primary</span> {
+    <span class="prop">background</span>: <span class="cssval">linear-gradient</span>(<span class="num">135deg</span>, <span class="num">#f59e0b</span>, <span class="num">#ef4444</span>);
+    <span class="prop">color</span>: <span class="num">#fff</span>;
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;
+    <span class="prop">font-weight</span>: <span class="num">600</span>;
+    <span class="prop">padding</span>: <span class="num">10px</span> <span class="num">24px</span>;
+    <span class="prop">border-radius</span>: <span class="num">8px</span>;
+    <span class="prop">transition</span>: <span class="cssval">opacity</span> <span class="num">0.2s</span>;
+}
+
+<span class="sel">.btn-primary:hover</span> {
+    <span class="prop">opacity</span>: <span class="num">0.9</span>;
+}</code></pre>
+
+    <h3>Result:</h3>
+    <div class="demo">
+        <p class="demo-label">Premium Glass Navbar — hover the links!</p>
+        <div class="demo-box">
+            <nav style="display:flex;justify-content:space-between;align-items:center;padding:16px 40px;background:rgba(15,17,26,0.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);">
+                <div style="font-size:22px;font-weight:800;background:linear-gradient(135deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">🚀 BrandX</div>
+                <ul style="display:flex;gap:32px;list-style:none;">
+                    <li><a href="#" style="text-decoration:none;color:#7a8599;font-weight:500;position:relative;" onmouseover="this.style.color='#f0f6fc'" onmouseout="this.style.color='#7a8599'">Home</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#7a8599;font-weight:500;" onmouseover="this.style.color='#f0f6fc'" onmouseout="this.style.color='#7a8599'">Features</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#7a8599;font-weight:500;" onmouseover="this.style.color='#f0f6fc'" onmouseout="this.style.color='#7a8599'">Pricing</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#7a8599;font-weight:500;" onmouseover="this.style.color='#f0f6fc'" onmouseout="this.style.color='#7a8599'">Blog</a></li>
+                </ul>
+                <div style="display:flex;gap:12px;align-items:center;">
+                    <a href="#" style="color:#b0bac9;text-decoration:none;font-weight:500;padding:8px 16px;border-radius:8px;">Log In</a>
+                    <a href="#" style="background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;text-decoration:none;font-weight:600;padding:10px 24px;border-radius:8px;">Get Started</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">5</span> Navbar #5 — Clean Light Theme</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <p>Same HTML structure. Completely different visual identity. This proves that the Flexbox structure is <strong>universal</strong> — you only change colors and styling.</p>
+
+    <h3>Step 1: Same HTML (copy from Navbar #4)</h3>
+    <p>The HTML is <strong>identical</strong> to Navbar #4. Only the class styles change.</p>
+
+    <h3>Step 2: Light Theme CSS</h3>
+
+    <pre><code><span class="cm">/* ─── LIGHT THEME NAVBAR ─── */</span>
+<span class="sel">.navbar</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">justify-content</span>: <span class="cssval">space-between</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+    <span class="prop">padding</span>: <span class="num">16px</span> <span class="num">40px</span>;
+    <span class="prop">background-color</span>: <span class="num">#ffffff</span>;        <span class="cm">/* White background */</span>
+    <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">1px</span> <span class="num">3px</span> <span class="cssval">rgba</span>(<span class="num">0</span>,<span class="num">0</span>,<span class="num">0</span>,<span class="num">0.08</span>); <span class="cm">/* Subtle bottom shadow */</span>
+}
+
+<span class="sel">.logo</span> {
+    <span class="prop">font-size</span>: <span class="num">22px</span>;
+    <span class="prop">font-weight</span>: <span class="num">800</span>;
+    <span class="prop">color</span>: <span class="num">#1e293b</span>;                  <span class="cm">/* Dark text */</span>
+}
+
+<span class="sel">.nav-links a</span> {
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;
+    <span class="prop">color</span>: <span class="num">#64748b</span>;                  <span class="cm">/* Medium gray */</span>
+    <span class="prop">font-weight</span>: <span class="num">500</span>;
+    <span class="prop">transition</span>: <span class="cssval">color</span> <span class="num">0.2s</span>;
+}
+
+<span class="sel">.nav-links a:hover</span> {
+    <span class="prop">color</span>: <span class="num">#1e293b</span>;                  <span class="cm">/* Darker on hover */</span>
+}
+
+<span class="sel">.btn-ghost</span> {
+    <span class="prop">color</span>: <span class="num">#1e293b</span>;
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;
+    <span class="prop">font-weight</span>: <span class="num">500</span>;
+    <span class="prop">padding</span>: <span class="num">8px</span> <span class="num">16px</span>;
+}
+
+<span class="sel">.btn-primary</span> {
+    <span class="prop">background-color</span>: <span class="num">#6366f1</span>;      <span class="cm">/* Purple accent */</span>
+    <span class="prop">color</span>: <span class="num">#fff</span>;
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;
+    <span class="prop">font-weight</span>: <span class="num">600</span>;
+    <span class="prop">padding</span>: <span class="num">10px</span> <span class="num">24px</span>;
+    <span class="prop">border-radius</span>: <span class="num">8px</span>;
+    <span class="prop">transition</span>: <span class="cssval">background-color</span> <span class="num">0.2s</span>;
+}
+
+<span class="sel">.btn-primary:hover</span> {
+    <span class="prop">background-color</span>: <span class="num">#4f46e5</span>;      <span class="cm">/* Darker purple */</span>
+}</code></pre>
+
+    <h3>Result:</h3>
+    <div class="demo">
+        <p class="demo-label">Light Theme — Same structure, different vibe</p>
+        <div class="demo-box">
+            <nav style="display:flex;justify-content:space-between;align-items:center;padding:16px 40px;background:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+                <div style="font-size:22px;font-weight:800;color:#1e293b;">Brand<span style="color:#6366f1">X</span></div>
+                <ul style="display:flex;gap:32px;list-style:none;">
+                    <li><a href="#" style="text-decoration:none;color:#64748b;font-weight:500;" onmouseover="this.style.color='#1e293b'" onmouseout="this.style.color='#64748b'">Home</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#64748b;font-weight:500;" onmouseover="this.style.color='#1e293b'" onmouseout="this.style.color='#64748b'">Features</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#64748b;font-weight:500;" onmouseover="this.style.color='#1e293b'" onmouseout="this.style.color='#64748b'">Pricing</a></li>
+                    <li><a href="#" style="text-decoration:none;color:#64748b;font-weight:500;" onmouseover="this.style.color='#1e293b'" onmouseout="this.style.color='#64748b'">Blog</a></li>
+                </ul>
+                <div style="display:flex;gap:12px;align-items:center;">
+                    <a href="#" style="color:#1e293b;text-decoration:none;font-weight:500;padding:8px 16px;">Log In</a>
+                    <a href="#" style="background:#6366f1;color:#fff;text-decoration:none;font-weight:600;padding:10px 24px;border-radius:8px;">Get Started</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">6</span> Summary & Cheat Sheet</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>The Universal Navbar HTML Pattern (Best Practice)</h3>
+    <pre><code><span class="tag">&lt;header&gt;</span>
+    <span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"navbar"</span> <span class="attr">aria-label</span>=<span class="val">"Main navigation"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/"</span> <span class="attr">class</span>=<span class="val">"logo"</span><span class="tag">&gt;</span>Brand<span class="tag">&lt;/a&gt;</span>
+        <span class="tag">&lt;ul</span> <span class="attr">class</span>=<span class="val">"nav-links"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;li&gt;</span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/page"</span><span class="tag">&gt;</span>Link<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;/li&gt;</span>
+        <span class="tag">&lt;/ul&gt;</span>
+        <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"nav-actions"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"/signup"</span><span class="tag">&gt;</span>Button<span class="tag">&lt;/a&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/nav&gt;</span>
+<span class="tag">&lt;/header&gt;</span></code></pre>
+
+    <h3>The Universal Navbar CSS Pattern</h3>
+    <pre><code><span class="sel">.navbar</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">justify-content</span>: <span class="cssval">space-between</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+    <span class="prop">padding</span>: <span class="num">16px</span> <span class="num">40px</span>;
+}
+<span class="sel">.nav-links</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">gap</span>: <span class="num">32px</span>;
+    <span class="prop">list-style</span>: <span class="cssval">none</span>;
+}
+<span class="sel">.nav-actions</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;
+    <span class="prop">gap</span>: <span class="num">12px</span>;
+    <span class="prop">align-items</span>: <span class="cssval">center</span>;
+}</code></pre>
+
+    <h3>Modern Techniques Covered</h3>
+    <table style="width:100%;border-collapse:collapse;margin:24px 0;font-size:14.5px;">
+        <tr><th style="background:#161b2e;color:#10b981;text-align:left;padding:14px 18px;font-weight:600;border:1px solid #1e2d4a;">Technique</th><th style="background:#161b2e;color:#10b981;text-align:left;padding:14px 18px;font-weight:600;border:1px solid #1e2d4a;">CSS Property</th><th style="background:#161b2e;color:#10b981;text-align:left;padding:14px 18px;font-weight:600;border:1px solid #1e2d4a;">Used In</th></tr>
+        <tr><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;">Layout</td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;"><code>display: flex</code> + <code>space-between</code></td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;">All navbars</td></tr>
+        <tr><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);">Hover effect</td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);"><code>transition</code> + <code>:hover</code></td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);">All navbars</td></tr>
+        <tr><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;">Active link</td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;"><code>.active</code> class + <code>border-bottom</code></td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;">Navbar #3</td></tr>
+        <tr><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);">Glass blur</td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);"><code>backdrop-filter: blur()</code></td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);">Navbar #4</td></tr>
+        <tr><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;">Sticky position</td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;"><code>position: sticky</code> + <code>top: 0</code></td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;">Navbar #4</td></tr>
+        <tr><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);">Gradient text</td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);"><code>background-clip: text</code></td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);">Navbar #4</td></tr>
+        <tr><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;">Animated underline</td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;"><code>::after</code> + <code>width: 0 → 100%</code></td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;">Navbar #4</td></tr>
+        <tr><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);">Ghost button</td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);">Transparent bg + hover highlight</td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;background:rgba(22,27,46,.5);">Navbar #4, #5</td></tr>
+        <tr><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;">Subtle shadow</td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;"><code>box-shadow</code></td><td style="padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9;">Navbar #5</td></tr>
+    </table>
+
+    <div class="co co-g">
+        <strong>🎯 The Key Takeaway</strong><br>
+        The HTML structure and Flexbox layout are <strong>identical</strong> across all 5 navbars. The only thing that changes is the <strong>visual styling</strong> (colors, backgrounds, effects). Master the structure once → apply any theme you want.
+    </div>
+
+</div>
+</body>
+</html>

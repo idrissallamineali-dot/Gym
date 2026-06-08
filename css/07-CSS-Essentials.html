@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Essentials: How CSS Really Works</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:900px;margin:0 auto}
+        h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#10b981;margin-bottom:8px}
+        .subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        .section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+        .section-num{background:#1e2d4a;color:#10b981;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+        h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #10b981;padding-left:14px}
+        h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+        p{margin-bottom:20px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+        .tag{color:#7ee787}
+        .attr{color:#d2a8ff}
+        .val{color:#a5d6ff}
+        .cm{color:#5e6e8a;font-style:italic}
+        .prop{color:#d2a8ff}
+        .sel{color:#7ee787}
+        .num{color:#79c0ff}
+        .cssval{color:#a5d6ff}
+        .co-r,.co-g,.co-p,.co-y,.co-b{padding:20px 24px;border-radius:12px;margin:20px 0 28px;font-size:15.5px;line-height:1.8}
+        .co-r{background:rgba(248,81,73,0.08);border-left:4px solid #f85149}
+        .co-g{background:rgba(63,185,80,0.08);border-left:4px solid #3fb950}
+        .co-p{background:rgba(188,140,255,0.08);border-left:4px solid #bc8cff}
+        .co-y{background:rgba(210,170,60,0.08);border-left:4px solid #d2a83c}
+        .co-b{background:rgba(56,139,253,0.08);border-left:4px solid #388bfd}
+        .demo{background:#161b2e;border:1px solid #1e2d4a;border-radius:12px;margin:20px 0 32px;overflow:hidden}
+        .demo-label{background:#1e2d4a;color:#7dd3fc;padding:8px 18px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+        .demo-box{padding:24px}
+        table{width:100%;border-collapse:collapse;margin:20px 0 32px}
+        th{background:#1e2d4a;color:#10b981;padding:12px 16px;text-align:left;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+        td{padding:12px 16px;border-bottom:1px solid #1e2d4a;color:#b0bac9;font-size:15px}
+        tr:hover{background:rgba(30,45,74,0.3)}
+        .exercise-box{background:#0d1117;border:2px solid #1e2d4a;border-radius:12px;padding:28px;margin:24px 0}
+        .exercise-box h4{margin-top:0;color:#10b981}
+        .solution-toggle{background:#1e2d4a;color:#7dd3fc;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;margin-top:16px}
+        .solution-toggle:hover{background:#2a3f5f}
+        .solution{display:none;margin-top:16px;padding:20px;background:#0a0e1a;border-radius:8px;border:1px solid #1e2d4a}
+        .ascii-diagram{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.6;color:#7dd3fc;overflow-x:auto;white-space:pre}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="lesson-num">CSS Practical Guide — Tutorial #7</div>
+    <h1>CSS Essentials: How CSS Really Works</h1>
+    <p class="subtitle">Go slow. This is the foundation everything else is built on. If you understand this tutorial, everything else becomes easy. We're not rushing anymore — every concept gets the full explanation it deserves.</p>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 0: WHAT IS CSS? -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <h2 class="section-title"><span class="section-num">0</span> What is CSS? (The Big Picture)</h2>
+
+    <p>Before we write a single line of CSS, let's understand <strong>what CSS actually is</strong> and <strong>why it exists</strong>.</p>
+
+    <h3>HTML is the Skeleton. CSS is the Clothing.</h3>
+
+    <p>Think about a mannequin in a store window. The mannequin itself is <strong>HTML</strong> — it provides the structure, the shape, the bones. But nobody wants to look at a bare mannequin. CSS is the <strong>clothing, makeup, accessories, and styling</strong> that makes that mannequin look good.</p>
+
+    <div class="ascii-diagram">
+    Without CSS:                    With CSS:
+
+    ┌──────────────────┐            ┌──────────────────────────────┐
+    │ My Website       │            │  🎨 My Website               │
+    │                  │            │  ════════════════════         │
+    │ Welcome          │            │  Welcome                     │
+    │                  │            │                              │
+    │ Some text here   │            │  Some beautifully styled     │
+    │                  │            │  text with colors, fonts,    │
+    │ Click here       │            │  spacing, and layouts.       │
+    │                  │            │                              │
+    │                  │            │  [ Click Here → ]            │
+    └──────────────────┘            └──────────────────────────────┘
+    Plain. Boring. Ugly.            Colorful. Styled. Professional!
+    </div>
+
+    <p>Without CSS, <strong>every website in the world looks the same</strong> — black text on a white background, in Times New Roman, with links in blue. That's it. CSS is what transforms that into the beautiful, colorful, well-organized pages you see everywhere.</p>
+
+    <h3>CSS is a Set of Rules</h3>
+
+    <p>CSS works by writing <strong>rules</strong>. Each rule says: <em>"Find THIS element on the page → make it LOOK like THIS."</em></p>
+
+    <p>A CSS rule has exactly <strong>3 parts</strong>:</p>
+
+    <div class="ascii-diagram">
+  selector ─── property ── value
+     │            │          │
+     ▼            ▼          ▼
+    h1   {    color   :    red   ;  }
+         ▲                        ▲
+         │                        │
+    opening                  semicolon
+     brace                  (end of line)
+    </div>
+
+    <p>Let's break this down in plain English:</p>
+    <ul style="margin:0 0 24px 24px;list-style:none">
+        <li style="margin-bottom:8px">🎯 <strong>Selector</strong> (<code>h1</code>) = <strong>WHO</strong> are we styling? → "Find all h1 elements"</li>
+        <li style="margin-bottom:8px">🔧 <strong>Property</strong> (<code>color</code>) = <strong>WHAT</strong> about it are we changing? → "I want to change the text color"</li>
+        <li style="margin-bottom:8px">🎨 <strong>Value</strong> (<code>red</code>) = <strong>HOW</strong> should it look? → "Make it red"</li>
+    </ul>
+
+    <p>You can have <strong>multiple properties</strong> inside one rule:</p>
+
+    <pre><code><span class="sel">h1</span> {
+    <span class="prop">color</span>: <span class="cssval">red</span>;         <span class="cm">/* text color */</span>
+    <span class="prop">font-size</span>: <span class="num">32px</span>;   <span class="cm">/* how big */</span>
+    <span class="prop">text-align</span>: <span class="cssval">center</span>; <span class="cm">/* centered */</span>
+}</code></pre>
+
+    <div class="co-p">
+        🧠 <strong>Think of it like giving instructions to a house painter:</strong><br><br>
+        "Go to the <strong>living room</strong> (selector) → paint the <strong>walls</strong> (property) → <strong>sky blue</strong> (value)."<br>
+        "Go to the <strong>kitchen</strong> (selector) → change the <strong>floor</strong> (property) → to <strong>tile</strong> (value)."<br><br>
+        Each CSS rule is one instruction. You can give as many as you want!
+    </div>
+
+    <h3>3 Ways to Write CSS (and Which One is Best)</h3>
+
+    <h4>Method 1: Inline Styles (❌ Avoid)</h4>
+    <p>Write CSS directly on the HTML element using the <code>style</code> attribute:</p>
+
+    <pre><code><span class="tag">&lt;h1</span> <span class="attr">style</span>=<span class="val">"color: red; font-size: 32px;"</span><span class="tag">&gt;</span>Hello<span class="tag">&lt;/h1&gt;</span></code></pre>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Inline Style</div>
+        <div class="demo-box">
+            <h1 style="color:red;font-size:32px;font-family:Inter,sans-serif;margin:0;letter-spacing:normal">Hello</h1>
+        </div>
+    </div>
+
+    <div class="co-r">
+        ❌ <strong>Why inline is BAD:</strong> Imagine styling 50 paragraphs one by one. If you want to change the color later, you'd have to edit ALL 50. It's like writing the recipe on every single plate instead of in a cookbook.
+    </div>
+
+    <h4>Method 2: Internal &lt;style&gt; Tag (🟡 OK for Learning)</h4>
+    <p>Write CSS inside a <code>&lt;style&gt;</code> tag in the <code>&lt;head&gt;</code> of your HTML:</p>
+
+    <pre><code><span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;style&gt;</span>
+        <span class="sel">h1</span> {
+            <span class="prop">color</span>: <span class="cssval">red</span>;
+            <span class="prop">font-size</span>: <span class="num">32px</span>;
+        }
+    <span class="tag">&lt;/style&gt;</span>
+<span class="tag">&lt;/head&gt;</span></code></pre>
+
+    <div class="co-y">
+        💡 <strong>This is what we're using in these tutorials!</strong> It's perfectly fine for learning and for single-page demos. The CSS applies to the whole page, so you write it once and it works everywhere.
+    </div>
+
+    <h4>Method 3: External CSS File (✅ The Best Way)</h4>
+    <p>Write CSS in a separate <code>.css</code> file and link it to your HTML:</p>
+
+    <pre><code><span class="cm">&lt;!-- In your HTML file --&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"styles.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span></code></pre>
+
+    <pre><code><span class="cm">/* In styles.css */</span>
+<span class="sel">h1</span> {
+    <span class="prop">color</span>: <span class="cssval">red</span>;
+    <span class="prop">font-size</span>: <span class="num">32px</span>;
+}</code></pre>
+
+    <div class="co-g">
+        ✅ <strong>Why external is BEST:</strong><br>
+        • <strong>Separation of concerns</strong> — HTML handles structure, CSS handles looks. They stay in their own lanes.<br>
+        • <strong>Reusability</strong> — One CSS file can be linked to 100 HTML pages. Change the file once → all 100 pages update.<br>
+        • <strong>Caching</strong> — The browser downloads the CSS file once, then reuses it on every page. Faster loading!<br>
+        • This is how real projects work. Your LUGX Gaming site uses <code>Test1.css</code> — that's an external file.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 1: SELECTORS -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <h2 class="section-title"><span class="section-num">1</span> CSS Selectors — How CSS Finds Elements</h2>
+
+    <p>The <strong>selector</strong> is the first part of every CSS rule. It tells the browser <strong>which elements to style</strong>. There are many types of selectors, and understanding them is the key to writing CSS that does exactly what you want.</p>
+
+    <h3>1.1 Element Selector</h3>
+
+    <p>The simplest selector — just type the <strong>name of the HTML tag</strong>. It targets <strong>ALL</strong> elements of that type on the page.</p>
+
+    <pre><code><span class="sel">p</span> {
+    <span class="prop">color</span>: <span class="cssval">blue</span>;
+}</code></pre>
+
+    <p>This says: "Find <strong>every</strong> <code>&lt;p&gt;</code> on the page → make its text blue."</p>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Element Selector targets ALL paragraphs</div>
+        <div class="demo-box">
+            <p style="color:blue;margin-bottom:8px">First paragraph — I'm blue!</p>
+            <p style="color:blue;margin-bottom:8px">Second paragraph — I'm also blue!</p>
+            <p style="color:blue;margin-bottom:0">Third paragraph — Me too! ALL paragraphs are blue.</p>
+        </div>
+    </div>
+
+    <div class="co-y">
+        💡 <strong>The problem:</strong> What if you only want the <em>second</em> paragraph to be blue, and the others to stay normal? The element selector can't do that — it's all or nothing. That's where <strong>class selectors</strong> come in.
+    </div>
+
+    <h3>1.2 Class Selector</h3>
+
+    <p>A class selector targets elements that have a specific <code>class</code> attribute. You write it with a <strong>dot (.)</strong> followed by the class name.</p>
+
+    <pre><code><span class="cm">&lt;!-- HTML: add class="highlight" to the element you want --&gt;</span>
+<span class="tag">&lt;p&gt;</span>Normal paragraph<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="val">"highlight"</span><span class="tag">&gt;</span>I'm special!<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p&gt;</span>Normal paragraph<span class="tag">&lt;/p&gt;</span></code></pre>
+
+    <pre><code><span class="cm">/* CSS: dot + class name */</span>
+<span class="sel">.highlight</span> {
+    <span class="prop">color</span>: <span class="cssval">red</span>;
+    <span class="prop">font-weight</span>: <span class="cssval">bold</span>;
+}</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Only the element with class="highlight" changes</div>
+        <div class="demo-box">
+            <p style="margin-bottom:8px;color:#b0bac9">Normal paragraph</p>
+            <p style="margin-bottom:8px;color:red;font-weight:bold">I'm special! (I have class="highlight")</p>
+            <p style="margin-bottom:0;color:#b0bac9">Normal paragraph</p>
+        </div>
+    </div>
+
+    <p><strong>Key facts about classes:</strong></p>
+    <ul style="margin:0 0 24px 24px;list-style:none">
+        <li style="margin-bottom:8px">✅ You can put the <strong>same class on MULTIPLE elements</strong> — that's the whole point. Reusability!</li>
+        <li style="margin-bottom:8px">✅ An element can have <strong>MULTIPLE classes</strong> separated by spaces: <code>class="card large featured"</code></li>
+        <li style="margin-bottom:0">✅ Classes are the <strong>#1 tool</strong> you'll use in CSS. About 90% of your selectors will be class selectors.</li>
+    </ul>
+
+    <pre><code><span class="cm">&lt;!-- Multiple classes on one element --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"card large featured"</span><span class="tag">&gt;</span>
+    This div has THREE classes: card, large, and featured.
+<span class="tag">&lt;/div&gt;</span></code></pre>
+
+    <div class="co-p">
+        🧠 <strong>Analogy:</strong> Think of classes like stickers you can put on anything. You can put a "VIP" sticker on any person, and every person with a "VIP" sticker gets special treatment. You can also put multiple stickers on the same person: "VIP" + "Gold Member" + "Early Access".
+    </div>
+
+    <h3>1.3 ID Selector</h3>
+
+    <p>An ID selector targets the <strong>ONE element</strong> that has a specific <code>id</code> attribute. You write it with a <strong>hash (#)</strong> followed by the ID name.</p>
+
+    <pre><code><span class="cm">&lt;!-- HTML: only ONE element can have this ID --&gt;</span>
+<span class="tag">&lt;h1</span> <span class="attr">id</span>=<span class="val">"logo"</span><span class="tag">&gt;</span>LUGX Gaming<span class="tag">&lt;/h1&gt;</span></code></pre>
+
+    <pre><code><span class="cm">/* CSS: hash + id name */</span>
+<span class="sel">#logo</span> {
+    <span class="prop">font-size</span>: <span class="num">28px</span>;
+    <span class="prop">color</span>: <span class="cssval">gold</span>;
+}</code></pre>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — ID targets one specific element</div>
+        <div class="demo-box">
+            <div style="font-size:28px;color:gold;font-weight:800;font-family:Inter,sans-serif">LUGX Gaming</div>
+        </div>
+    </div>
+
+    <div class="co-r">
+        ❌ <strong>Why classes are usually better than IDs:</strong><br>
+        • IDs can only be used <strong>once</strong> per page — zero reusability.<br>
+        • IDs have very <strong>high specificity</strong> (we'll learn about this in Section 2), which makes them hard to override later.<br>
+        • Use IDs for JavaScript targeting or for page anchors (scroll-to links). Use <strong>classes</strong> for CSS styling.
+    </div>
+
+    <h3>1.4 Descendant Selector</h3>
+
+    <p>A descendant selector targets elements that are <strong>inside</strong> another element. You write two selectors separated by a <strong>space</strong>.</p>
+
+    <pre><code><span class="sel">.navbar a</span> {
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+    <span class="prop">text-decoration</span>: <span class="cssval">none</span>;
+}</code></pre>
+
+    <p>This says: "Find all <code>&lt;a&gt;</code> elements that are <strong>anywhere inside</strong> an element with class <code>navbar</code>."</p>
+
+    <div class="co-p">
+        🧠 <strong>This is exactly how you styled your nav links!</strong> When you wrote <code>.nav-links a { color: white; }</code>, you were using a descendant selector. Now you know <em>why</em> it works — it finds every <code>&lt;a&gt;</code> that lives inside <code>.nav-links</code>, at ANY depth.
+    </div>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Descendant selector: only links INSIDE .navbar are white</div>
+        <div class="demo-box">
+            <div style="background:#1e2d4a;padding:12px 20px;border-radius:8px;margin-bottom:16px">
+                <span style="color:#7dd3fc;font-size:13px;font-weight:700;letter-spacing:1px">CLASS="NAVBAR"</span><br>
+                <a href="#" style="color:white;text-decoration:none;margin-right:16px;font-weight:600">Home</a>
+                <a href="#" style="color:white;text-decoration:none;margin-right:16px;font-weight:600">About</a>
+                <a href="#" style="color:white;text-decoration:none;font-weight:600">Contact</a>
+            </div>
+            <p style="margin-bottom:8px;color:#b0bac9">This link is OUTSIDE .navbar:</p>
+            <a href="#" style="color:#388bfd;text-decoration:underline">I'm a normal blue link (default browser style)</a>
+        </div>
+    </div>
+
+    <div class="ascii-diagram">
+    DOM Tree — Which elements does  .navbar a  match?
+
+    &lt;body&gt;
+    ├── &lt;nav class="navbar"&gt;
+    │   ├── &lt;a&gt; Home &lt;/a&gt;          ✅ MATCH (a inside .navbar)
+    │   ├── &lt;a&gt; About &lt;/a&gt;         ✅ MATCH (a inside .navbar)
+    │   └── &lt;div&gt;
+    │       └── &lt;a&gt; Secret &lt;/a&gt;    ✅ MATCH (still inside .navbar, any depth!)
+    │
+    └── &lt;p&gt;
+        └── &lt;a&gt; Other link &lt;/a&gt;    ❌ NOT a match (not inside .navbar)
+    </div>
+
+    <h3>1.5 Direct Child Selector</h3>
+
+    <p>The child selector uses <code>&gt;</code> and targets <strong>only direct children</strong>, NOT grandchildren or deeper.</p>
+
+    <pre><code><span class="sel">.navbar > a</span> {
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+}</code></pre>
+
+    <p>This says: "Find <code>&lt;a&gt;</code> elements that are <strong>direct children</strong> of <code>.navbar</code> — NOT ones nested deeper inside."</p>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Descendant (space) vs. Child (&gt;)</div>
+        <div class="demo-box">
+            <div style="background:#1e2d4a;padding:16px 20px;border-radius:8px;margin-bottom:12px">
+                <span style="color:#7dd3fc;font-size:13px;font-weight:700;letter-spacing:1px">CLASS="NAVBAR"</span><br>
+                <a href="#" style="color:lime;text-decoration:none;font-weight:600;margin-right:12px">Direct Child Link ✅</a>
+                <div style="margin-top:8px;padding:8px 12px;background:#0d1117;border-radius:6px">
+                    <span style="color:#5e6e8a;font-size:12px">nested &lt;div&gt; inside .navbar:</span><br>
+                    <a href="#" style="color:#f85149;text-decoration:none;font-weight:600">Grandchild Link ❌ (.navbar > a won't match this)</a>
+                </div>
+            </div>
+            <p style="margin:0;color:#7a8599;font-size:14px"><code>.navbar &gt; a</code> matches only the direct child, NOT the grandchild inside the nested div.</p>
+        </div>
+    </div>
+
+    <h3>1.6 Grouping Selector</h3>
+
+    <p>If you want to apply the <strong>same styles to multiple selectors</strong>, separate them with <strong>commas</strong>:</p>
+
+    <pre><code><span class="sel">h1, h2, h3</span> {
+    <span class="prop">font-family</span>: <span class="cssval">'Inter', sans-serif</span>;
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+}</code></pre>
+
+    <p>This saves you from writing the same CSS three separate times. Without grouping, you'd write:</p>
+
+    <div class="co-r">
+        ❌ <strong>Without grouping — repetitive and hard to maintain:</strong>
+        <pre><code><span class="sel">h1</span> { <span class="prop">font-family</span>: <span class="cssval">'Inter'</span>; <span class="prop">color</span>: <span class="cssval">white</span>; }
+<span class="sel">h2</span> { <span class="prop">font-family</span>: <span class="cssval">'Inter'</span>; <span class="prop">color</span>: <span class="cssval">white</span>; }
+<span class="sel">h3</span> { <span class="prop">font-family</span>: <span class="cssval">'Inter'</span>; <span class="prop">color</span>: <span class="cssval">white</span>; }</code></pre>
+    </div>
+
+    <div class="co-g">
+        ✅ <strong>With grouping — clean and DRY (Don't Repeat Yourself):</strong>
+        <pre><code><span class="sel">h1, h2, h3</span> { <span class="prop">font-family</span>: <span class="cssval">'Inter'</span>; <span class="prop">color</span>: <span class="cssval">white</span>; }</code></pre>
+    </div>
+
+    <h3>1.7 Combined / Chained Selectors</h3>
+
+    <p>You can chain selectors together <strong>without any space</strong> to say "the element must match ALL of these":</p>
+
+    <pre><code><span class="cm">/* Element that is an &lt;a&gt; AND has class .cta-btn */</span>
+<span class="sel">a.cta-btn</span> {
+    <span class="prop">background</span>: <span class="cssval">gold</span>;
+}
+
+<span class="cm">/* A &lt;div&gt; with BOTH .card AND .featured classes */</span>
+<span class="sel">div.card.featured</span> {
+    <span class="prop">border</span>: <span class="num">2px</span> <span class="cssval">solid gold</span>;
+}</code></pre>
+
+    <div class="co-p">
+        🧠 <strong>Key rule to remember:</strong><br>
+        • <strong>No space</strong> between selectors = <strong>AND</strong> logic (must match both on the SAME element)<br>
+        • <strong>Space</strong> between selectors = <strong>descendant</strong> (second one is INSIDE the first one)<br><br>
+        <code>div.card</code> = "a div that has class card" (one element)<br>
+        <code>div .card</code> = "an element with class card that's inside a div" (two elements)
+    </div>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Chained vs Descendant</div>
+        <div class="demo-box">
+            <div style="display:flex;gap:16px;flex-wrap:wrap">
+                <div style="background:#1e2d4a;padding:16px 20px;border-radius:8px;flex:1;min-width:200px">
+                    <p style="color:#10b981;font-size:13px;font-weight:700;margin-bottom:8px">a.cta-btn (chained — same element)</p>
+                    <a href="#" style="background:gold;color:#0f111a;padding:8px 16px;border-radius:6px;text-decoration:none;font-weight:700;font-size:14px">Buy Now</a>
+                    <p style="color:#5e6e8a;font-size:12px;margin-top:8px;margin-bottom:0">The &lt;a&gt; IS the .cta-btn</p>
+                </div>
+                <div style="background:#1e2d4a;padding:16px 20px;border-radius:8px;flex:1;min-width:200px">
+                    <p style="color:#10b981;font-size:13px;font-weight:700;margin-bottom:8px">div .card (descendant — nested)</p>
+                    <div style="background:#0d1117;padding:12px;border-radius:6px;border:1px solid #2a3f5f">
+                        <span style="color:#b0bac9;font-size:14px">.card is INSIDE the div</span>
+                    </div>
+                    <p style="color:#5e6e8a;font-size:12px;margin-top:8px;margin-bottom:0">Two separate elements</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Selector Summary Table</h3>
+
+    <table>
+        <tr>
+            <th>Selector</th>
+            <th>Syntax</th>
+            <th>What It Targets</th>
+            <th>Example</th>
+        </tr>
+        <tr>
+            <td><strong>Element</strong></td>
+            <td><code>p</code></td>
+            <td>All elements of that type</td>
+            <td>All &lt;p&gt; tags</td>
+        </tr>
+        <tr>
+            <td><strong>Class</strong></td>
+            <td><code>.name</code></td>
+            <td>Elements with that class</td>
+            <td>class="name"</td>
+        </tr>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td><code>#name</code></td>
+            <td>The ONE element with that ID</td>
+            <td>id="name"</td>
+        </tr>
+        <tr>
+            <td><strong>Descendant</strong></td>
+            <td><code>A B</code></td>
+            <td>B inside A (any depth)</td>
+            <td>.nav a</td>
+        </tr>
+        <tr>
+            <td><strong>Child</strong></td>
+            <td><code>A &gt; B</code></td>
+            <td>B direct child of A</td>
+            <td>.nav &gt; a</td>
+        </tr>
+        <tr>
+            <td><strong>Grouping</strong></td>
+            <td><code>A, B</code></td>
+            <td>Both A and B</td>
+            <td>h1, h2, h3</td>
+        </tr>
+        <tr>
+            <td><strong>Chained</strong></td>
+            <td><code>A.B</code></td>
+            <td>Element matching A AND B</td>
+            <td>a.cta-btn</td>
+        </tr>
+    </table>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 2: SPECIFICITY -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <h2 class="section-title"><span class="section-num">2</span> Specificity — When Rules Fight, Who Wins?</h2>
+
+    <p>What happens when <strong>two CSS rules target the same element</strong> but give it different styles? The browser needs a tiebreaker. That tiebreaker is called <strong>specificity</strong>.</p>
+
+    <pre><code><span class="cm">/* Rule 1 */</span>
+<span class="sel">a</span> {
+    <span class="prop">color</span>: <span class="cssval">blue</span>;
+}
+
+<span class="cm">/* Rule 2 */</span>
+<span class="sel">.nav-links a</span> {
+    <span class="prop">color</span>: <span class="cssval">white</span>;
+}
+
+<span class="cm">/* CONFLICT! An &lt;a&gt; inside .nav-links matches BOTH rules. */</span>
+<span class="cm">/* Which color wins? Blue or White? */</span></code></pre>
+
+    <h3>The Scoring System</h3>
+
+    <p>Every selector gets a <strong>specificity score</strong>. Think of it like a points game:</p>
+
+    <table>
+        <tr>
+            <th>Selector Type</th>
+            <th>Points</th>
+            <th>Example</th>
+        </tr>
+        <tr>
+            <td><strong>Inline styles</strong></td>
+            <td style="color:#f85149;font-weight:700">1000</td>
+            <td>style="color:red"</td>
+        </tr>
+        <tr>
+            <td><strong>ID</strong> (#)</td>
+            <td style="color:#d2a8ff;font-weight:700">100</td>
+            <td>#logo</td>
+        </tr>
+        <tr>
+            <td><strong>Class</strong> (.), pseudo-class (:hover)</td>
+            <td style="color:#7ee787;font-weight:700">10</td>
+            <td>.highlight, :hover</td>
+        </tr>
+        <tr>
+            <td><strong>Element</strong> (tag name)</td>
+            <td style="color:#79c0ff;font-weight:700">1</td>
+            <td>p, h1, a, div</td>
+        </tr>
+    </table>
+
+    <p>Now let's score some real selectors:</p>
+
+    <div class="ascii-diagram">
+    Selector                    Score Breakdown         Total
+    ─────────────────────────   ─────────────────       ─────
+    a                           1 element               = 1
+    .nav-links a                1 class + 1 element     = 11
+    #logo                       1 ID                    = 100
+    .nav-links a:hover          1 class + 1 element     = 21
+                                + 1 pseudo-class
+    div.card.featured           1 element + 2 classes   = 21
+    </div>
+
+    <div class="co-g">
+        ✅ <strong>Back to our conflict:</strong><br>
+        <code>a { color: blue; }</code> → score = <strong>1</strong><br>
+        <code>.nav-links a { color: white; }</code> → score = <strong>11</strong><br><br>
+        11 &gt; 1, so <strong>white wins</strong>! The link inside <code>.nav-links</code> will be white.
+    </div>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Specificity in action</div>
+        <div class="demo-box">
+            <p style="margin-bottom:8px;color:#b0bac9">A regular link (matched by <code style="font-size:12px">a { color: blue }</code> only):</p>
+            <a href="#" style="color:blue;text-decoration:underline">I'm blue (specificity: 1)</a>
+            <div style="background:#1e2d4a;padding:12px 20px;border-radius:8px;margin-top:16px">
+                <p style="margin-bottom:8px;color:#b0bac9">Link inside .nav-links (matched by BOTH rules):</p>
+                <a href="#" style="color:white;text-decoration:none;font-weight:600">I'm white! (specificity: 11 wins over 1)</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="co-p">
+        🧠 <strong>THIS is why your LUGX nav works!</strong> In your Test1.css, <code>.nav-links a:hover</code> (score: 21) overrides a plain <code>a:hover</code> (score: 11). The more specific selector always wins.
+    </div>
+
+    <h3>The Tiebreaker: The Cascade</h3>
+
+    <p>When two selectors have <strong>equal specificity</strong>, the rule that comes <strong>LAST in the file</strong> wins:</p>
+
+    <pre><code><span class="sel">p</span> { <span class="prop">color</span>: <span class="cssval">blue</span>; }    <span class="cm">/* specificity: 1 */</span>
+<span class="sel">p</span> { <span class="prop">color</span>: <span class="cssval">red</span>; }     <span class="cm">/* specificity: 1 — SAME, but last wins */</span>
+
+<span class="cm">/* Result: paragraphs are RED */</span></code></pre>
+
+    <div class="co-y">
+        💡 <strong>This is the "Cascade" in "Cascading Style Sheets."</strong> Styles cascade down like a waterfall — later ones overwrite earlier ones (when specificity is the same).
+    </div>
+
+    <h3>!important — The Nuclear Option ☢️</h3>
+
+    <pre><code><span class="sel">p</span> {
+    <span class="prop">color</span>: <span class="cssval">red</span> <span class="cssval">!important</span>;  <span class="cm">/* I WIN. ALWAYS. */</span>
+}</code></pre>
+
+    <div class="co-r">
+        ❌ <strong>Avoid <code>!important</code> like the plague.</strong> It breaks the specificity system entirely. It's like flipping the chess board because you're losing. It makes your CSS impossible to maintain because you can only override <code>!important</code> with <em>another</em> <code>!important</code>, and soon your whole codebase is a war of <code>!important</code>s. Only use it as a last resort (almost never).
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 3: INHERITANCE -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <h2 class="section-title"><span class="section-num">3</span> Inheritance — Properties That Pass Down</h2>
+
+    <p>Some CSS properties automatically <strong>pass from parent elements to their children</strong>. This is called <strong>inheritance</strong>.</p>
+
+    <p>Think of it like genetics: your eye color passes down from your parents. But your tattoo doesn't — that's yours only.</p>
+
+    <h3>Properties That DO Inherit</h3>
+
+    <p>These are typically <strong>text-related</strong> properties. If you set them on a parent, all children inside automatically get the same value:</p>
+
+    <pre><code><span class="sel">body</span> {
+    <span class="prop">color</span>: <span class="cssval">white</span>;          <span class="cm">/* ✅ ALL text on page becomes white */</span>
+    <span class="prop">font-family</span>: <span class="cssval">'Inter'</span>;  <span class="cm">/* ✅ ALL text uses Inter font */</span>
+    <span class="prop">font-size</span>: <span class="num">16px</span>;       <span class="cm">/* ✅ ALL text starts at 16px */</span>
+    <span class="prop">line-height</span>: <span class="num">1.8</span>;      <span class="cm">/* ✅ ALL text gets 1.8 line spacing */</span>
+}</code></pre>
+
+    <p><strong>Full list of commonly inherited properties:</strong> <code>color</code>, <code>font-family</code>, <code>font-size</code>, <code>font-weight</code>, <code>font-style</code>, <code>line-height</code>, <code>text-align</code>, <code>letter-spacing</code>, <code>word-spacing</code>, <code>cursor</code>, <code>visibility</code>, <code>list-style</code></p>
+
+    <h3>Properties That DON'T Inherit</h3>
+
+    <p>These are typically <strong>layout and box-related</strong> properties. Children do NOT get them automatically:</p>
+
+    <p><code>padding</code>, <code>margin</code>, <code>border</code>, <code>background</code>, <code>width</code>, <code>height</code>, <code>display</code>, <code>position</code>, <code>top/right/bottom/left</code>, <code>overflow</code></p>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Inheritance: color inherits, border does NOT</div>
+        <div class="demo-box">
+            <div style="color:#10b981;border:3px solid #f85149;padding:20px;border-radius:8px">
+                <p style="margin-bottom:4px;color:inherit;font-weight:700">Parent div: color=#10b981, border=3px solid red</p>
+                <div style="padding:12px;background:#0d1117;border-radius:6px;margin-top:12px">
+                    <p style="color:inherit;margin-bottom:4px">Child paragraph: I <strong style="color:inherit">inherited</strong> the green color! ✅</p>
+                    <p style="color:inherit;margin-bottom:0">But I did NOT inherit the red border. ❌ (I have no border)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="co-p">
+        🧠 <strong>Why this makes sense:</strong> Imagine if border inherited. You set a border on <code>&lt;body&gt;</code> and suddenly EVERY element on the page — every paragraph, every heading, every span — has a border. That would be chaos! Text properties inherit because it's convenient (set the font once on body). Layout properties don't because it would be destructive.
+    </div>
+
+    <h3>The &lt;input&gt; and &lt;button&gt; Exception</h3>
+
+    <p>Here's a gotcha: <code>&lt;input&gt;</code> and <code>&lt;button&gt;</code> elements have <strong>browser default styles</strong> that override inheritance. Even if you set <code>font-family: 'Inter'</code> on <code>body</code>, inputs and buttons will still use their ugly default font.</p>
+
+    <pre><code><span class="cm">/* The fix: explicitly tell them to inherit */</span>
+<span class="sel">input, button, textarea, select</span> {
+    <span class="prop">font-family</span>: <span class="cssval">inherit</span>;  <span class="cm">/* "Use whatever your parent has" */</span>
+}</code></pre>
+
+    <div class="co-y">
+        💡 <strong>The <code>inherit</code> keyword</strong> forces any property to inherit from its parent, even properties that don't normally inherit. You can write <code>border: inherit;</code> to force a child to copy its parent's border.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 4: THE BOX MODEL -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <h2 class="section-title"><span class="section-num">4</span> The Box Model — Every Element is a Box</h2>
+
+    <p>This is the <strong>MOST IMPORTANT</strong> concept in CSS. Once you understand this, 80% of CSS layout problems become obvious.</p>
+
+    <p>Here's the secret: <strong>every single HTML element is a rectangular box</strong>. Even if it looks round, even if it has rounded corners — underneath, it's a box. And every box has <strong>4 layers</strong>:</p>
+
+    <h3>4.1 The 4 Layers</h3>
+
+    <div class="ascii-diagram">
+┌───────────────────────── MARGIN (invisible space outside) ─────────────────────────┐
+│                                                                                    │
+│   ┌─────────────────────── BORDER (the visible edge) ───────────────────────────┐  │
+│   │                                                                             │  │
+│   │   ┌───────────────── PADDING (space inside, around content) ─────────────┐  │  │
+│   │   │                                                                      │  │  │
+│   │   │                        ┌─────────────────────┐                       │  │  │
+│   │   │                        │      CONTENT         │                      │  │  │
+│   │   │                        │   (your text, img)   │                      │  │  │
+│   │   │                        └─────────────────────┘                       │  │  │
+│   │   │                                                                      │  │  │
+│   │   └──────────────────────────────────────────────────────────────────────┘  │  │
+│   │                                                                             │  │
+│   └─────────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                    │
+└────────────────────────────────────────────────────────────────────────────────────┘
+    </div>
+
+    <p>From inside to outside:</p>
+    <ol style="margin:0 0 24px 28px;color:#b0bac9">
+        <li style="margin-bottom:8px"><strong style="color:#7dd3fc">Content</strong> — The actual text, image, or nested elements inside.</li>
+        <li style="margin-bottom:8px"><strong style="color:#10b981">Padding</strong> — Space INSIDE the box, between the content and the border. Like the foam inside a shipping box.</li>
+        <li style="margin-bottom:8px"><strong style="color:#d2a8ff">Border</strong> — The visible edge of the box. The cardboard of the shipping box.</li>
+        <li style="margin-bottom:0"><strong style="color:#f85149">Margin</strong> — Space OUTSIDE the box, between this box and other boxes. Like personal space between people.</li>
+    </ol>
+
+    <h3>4.2 Padding</h3>
+
+    <p><strong>Padding</strong> = space INSIDE the box, between the content and the border. It makes the box <strong>visually bigger</strong>.</p>
+
+    <div class="co-p">
+        🧠 <strong>Analogy:</strong> Imagine mailing a fragile vase. The vase is your content. The foam/bubble wrap you put AROUND it inside the box is the <strong>padding</strong>. More padding = more space between the vase and the edge of the box.
+    </div>
+
+    <pre><code><span class="cm">/* All 4 sides the same */</span>
+<span class="prop">padding</span>: <span class="num">20px</span>;
+
+<span class="cm">/* Top/Bottom = 10px, Left/Right = 20px */</span>
+<span class="prop">padding</span>: <span class="num">10px</span> <span class="num">20px</span>;
+
+<span class="cm">/* Top Right Bottom Left (clockwise, like a clock!) */</span>
+<span class="prop">padding</span>: <span class="num">10px</span> <span class="num">20px</span> <span class="num">30px</span> <span class="num">40px</span>;
+
+<span class="cm">/* Individual sides */</span>
+<span class="prop">padding-top</span>: <span class="num">10px</span>;
+<span class="prop">padding-right</span>: <span class="num">20px</span>;
+<span class="prop">padding-bottom</span>: <span class="num">30px</span>;
+<span class="prop">padding-left</span>: <span class="num">40px</span>;</code></pre>
+
+    <div class="co-y">
+        💡 <strong>Memory trick for 4 values:</strong> Think of a clock — start at the <strong>T</strong>op (12 o'clock), go <strong>R</strong>ight (3 o'clock), then <strong>B</strong>ottom (6 o'clock), then <strong>L</strong>eft (9 o'clock). <strong>TRouBLe</strong> → Top Right Bottom Left.
+    </div>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — No Padding vs. With Padding</div>
+        <div class="demo-box">
+            <div style="display:flex;gap:20px;flex-wrap:wrap">
+                <div style="flex:1;min-width:200px">
+                    <p style="color:#f85149;font-size:13px;font-weight:700;margin-bottom:8px">❌ NO PADDING</p>
+                    <div style="background:#1e2d4a;border:2px solid #388bfd;border-radius:6px">
+                        <span style="color:#b0bac9;font-size:14px">Content is squished against the edge. Looks cramped and ugly!</span>
+                    </div>
+                </div>
+                <div style="flex:1;min-width:200px">
+                    <p style="color:#10b981;font-size:13px;font-weight:700;margin-bottom:8px">✅ WITH padding: 20px</p>
+                    <div style="background:#1e2d4a;border:2px solid #388bfd;border-radius:6px;padding:20px">
+                        <span style="color:#b0bac9;font-size:14px">Content has breathing room. Looks clean and professional!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>4.3 Margin</h3>
+
+    <p><strong>Margin</strong> = space OUTSIDE the box, between this element and neighboring elements. It does NOT change the visual size of the element.</p>
+
+    <div class="co-p">
+        🧠 <strong>Analogy:</strong> Margin is like <strong>personal space</strong>. When you stand in line, there's a gap between you and the next person. That gap is the margin. The person's body (the box) doesn't change size — there's just invisible space around them.
+    </div>
+
+    <p>Margin uses the same shorthand as padding:</p>
+
+    <pre><code><span class="prop">margin</span>: <span class="num">20px</span>;              <span class="cm">/* all 4 sides */</span>
+<span class="prop">margin</span>: <span class="num">10px</span> <span class="num">20px</span>;         <span class="cm">/* top/bottom, left/right */</span>
+<span class="prop">margin</span>: <span class="num">0</span> <span class="cssval">auto</span>;            <span class="cm">/* top/bottom 0, left/right auto = CENTERED! */</span>
+<span class="prop">margin-bottom</span>: <span class="num">32px</span>;      <span class="cm">/* just the bottom */</span></code></pre>
+
+    <div class="co-g">
+        ✅ <strong>The magic of <code>margin: 0 auto</code>:</strong> When you set the left and right margins to <code>auto</code>, the browser splits the available space equally on both sides. This horizontally <strong>centers</strong> a block element! (Only works if the element has a set width.)
+    </div>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — No Margin vs. With Margin</div>
+        <div class="demo-box">
+            <p style="color:#f85149;font-size:13px;font-weight:700;margin-bottom:8px">❌ NO MARGIN — boxes touch each other</p>
+            <div style="background:#10b981;padding:12px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px">Box A</div>
+            <div style="background:#388bfd;padding:12px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px">Box B</div>
+            <div style="background:#d2a8ff;padding:12px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px;margin-bottom:24px">Box C</div>
+
+            <p style="color:#10b981;font-size:13px;font-weight:700;margin-bottom:8px">✅ WITH margin: 12px — boxes have gaps between them</p>
+            <div style="background:#10b981;padding:12px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px;margin-bottom:12px">Box A</div>
+            <div style="background:#388bfd;padding:12px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px;margin-bottom:12px">Box B</div>
+            <div style="background:#d2a8ff;padding:12px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px">Box C</div>
+        </div>
+    </div>
+
+    <h4>⚠️ Margin Collapse — The Weird Quirk</h4>
+
+    <p>Here's a CSS quirk that trips up everyone: when two <strong>vertical</strong> margins touch, they <strong>don't add up</strong>. Instead, the <strong>bigger one wins</strong>.</p>
+
+    <pre><code><span class="sel">.box-a</span> { <span class="prop">margin-bottom</span>: <span class="num">30px</span>; }
+<span class="sel">.box-b</span> { <span class="prop">margin-top</span>: <span class="num">20px</span>; }
+
+<span class="cm">/* You'd expect 30 + 20 = 50px gap. WRONG! */</span>
+<span class="cm">/* The gap is only 30px — the bigger margin wins */</span></code></pre>
+
+    <div class="co-b">
+        ℹ️ <strong>Margin collapse only happens VERTICALLY</strong> (top/bottom), never horizontally (left/right). It also doesn't happen inside flex containers or grid containers. So once you start using Flexbox, margin collapse won't bother you.
+    </div>
+
+    <h3>4.4 Border</h3>
+
+    <p><strong>Border</strong> = the visible edge of the box. It sits between padding and margin.</p>
+
+    <pre><code><span class="cm">/* Shorthand: width style color */</span>
+<span class="prop">border</span>: <span class="num">2px</span> <span class="cssval">solid</span> <span class="cssval">#333</span>;
+
+<span class="cm">/* Just one side */</span>
+<span class="prop">border-bottom</span>: <span class="num">2px</span> <span class="cssval">solid</span> <span class="cssval">red</span>;
+
+<span class="cm">/* Rounded corners */</span>
+<span class="prop">border-radius</span>: <span class="num">10px</span>;     <span class="cm">/* slightly rounded */</span>
+<span class="prop">border-radius</span>: <span class="num">50%</span>;      <span class="cm">/* perfect circle (if width = height) */</span></code></pre>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Different Border Styles</div>
+        <div class="demo-box">
+            <div style="display:flex;gap:16px;flex-wrap:wrap">
+                <div style="border:3px solid #10b981;padding:14px;border-radius:4px;flex:1;min-width:120px;text-align:center">
+                    <span style="color:#b0bac9;font-size:13px;font-weight:600">solid</span>
+                </div>
+                <div style="border:3px dashed #388bfd;padding:14px;border-radius:4px;flex:1;min-width:120px;text-align:center">
+                    <span style="color:#b0bac9;font-size:13px;font-weight:600">dashed</span>
+                </div>
+                <div style="border:3px dotted #d2a8ff;padding:14px;border-radius:4px;flex:1;min-width:120px;text-align:center">
+                    <span style="color:#b0bac9;font-size:13px;font-weight:600">dotted</span>
+                </div>
+                <div style="border:4px double #f85149;padding:14px;border-radius:4px;flex:1;min-width:120px;text-align:center">
+                    <span style="color:#b0bac9;font-size:13px;font-weight:600">double</span>
+                </div>
+            </div>
+            <div style="margin-top:20px;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+                <div style="border:2px solid #10b981;padding:14px;border-radius:10px;text-align:center;width:160px">
+                    <span style="color:#b0bac9;font-size:13px">radius: 10px</span>
+                </div>
+                <div style="border:2px solid #388bfd;padding:14px;border-radius:20px;text-align:center;width:160px">
+                    <span style="color:#b0bac9;font-size:13px">radius: 20px</span>
+                </div>
+                <div style="border:2px solid #d2a8ff;width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center">
+                    <span style="color:#b0bac9;font-size:12px">radius: 50%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>4.5 box-sizing: border-box (THE FIX)</h3>
+
+    <p>Here's one of the biggest "gotchas" in CSS. By default, <code>width</code> only refers to the <strong>content</strong> area. Padding and border get <strong>added on top</strong>.</p>
+
+    <div class="co-r">
+        ❌ <strong>The problem (default behavior):</strong>
+        <pre><code><span class="sel">.box</span> {
+    <span class="prop">width</span>: <span class="num">300px</span>;
+    <span class="prop">padding</span>: <span class="num">20px</span>;        <span class="cm">/* 20 left + 20 right = 40px added */</span>
+    <span class="prop">border</span>: <span class="num">5px</span> <span class="cssval">solid</span>;   <span class="cm">/* 5 left + 5 right = 10px added */</span>
+}
+<span class="cm">/* Total ACTUAL width = 300 + 40 + 10 = 350px !! */</span>
+<span class="cm">/* You said 300, but you got 350. Surprise! 😱 */</span></code></pre>
+    </div>
+
+    <div class="co-g">
+        ✅ <strong>The fix — <code>box-sizing: border-box</code>:</strong>
+        <pre><code><span class="sel">.box</span> {
+    <span class="prop">box-sizing</span>: <span class="cssval">border-box</span>;  <span class="cm">/* THE FIX */</span>
+    <span class="prop">width</span>: <span class="num">300px</span>;
+    <span class="prop">padding</span>: <span class="num">20px</span>;
+    <span class="prop">border</span>: <span class="num">5px</span> <span class="cssval">solid</span>;
+}
+<span class="cm">/* Total ACTUAL width = 300px. Padding and border fit INSIDE. */</span>
+<span class="cm">/* Content area shrinks to make room. MUCH more intuitive! */</span></code></pre>
+    </div>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — content-box (default) vs. border-box</div>
+        <div class="demo-box">
+            <div style="display:flex;gap:20px;flex-wrap:wrap">
+                <div style="flex:1;min-width:200px">
+                    <p style="color:#f85149;font-size:13px;font-weight:700;margin-bottom:8px">❌ content-box (DEFAULT)</p>
+                    <div style="width:250px;padding:20px;border:5px solid #f85149;background:#1e2d4a;box-sizing:content-box;border-radius:6px">
+                        <span style="color:#b0bac9;font-size:13px">width: 250px<br>+ padding: 40px<br>+ border: 10px<br>= <strong style="color:#f85149">300px actual!</strong></span>
+                    </div>
+                </div>
+                <div style="flex:1;min-width:200px">
+                    <p style="color:#10b981;font-size:13px;font-weight:700;margin-bottom:8px">✅ border-box (THE FIX)</p>
+                    <div style="width:250px;padding:20px;border:5px solid #10b981;background:#1e2d4a;box-sizing:border-box;border-radius:6px">
+                        <span style="color:#b0bac9;font-size:13px">width: 250px<br>padding + border<br>fit INSIDE<br>= <strong style="color:#10b981">250px actual!</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p><strong>THIS is why every CSS file starts with:</strong></p>
+
+    <pre><code><span class="sel">*</span> {
+    <span class="prop">box-sizing</span>: <span class="cssval">border-box</span>;
+}</code></pre>
+
+    <p>The <code>*</code> selector means "every element on the page." This one line saves you from countless layout headaches.</p>
+
+    <h3>4.6 DevTools Box Model Viewer</h3>
+
+    <p>Your browser has a built-in tool to <strong>see the box model</strong> of any element:</p>
+
+    <ol style="margin:0 0 24px 28px;color:#b0bac9">
+        <li style="margin-bottom:8px">Right-click any element on a webpage → "Inspect" (or press <strong>F12</strong>)</li>
+        <li style="margin-bottom:8px">Click on the element in the DevTools "Elements" panel</li>
+        <li style="margin-bottom:8px">Look at the <strong>Computed</strong> tab (or the box model diagram in the sidebar)</li>
+        <li style="margin-bottom:0">You'll see a beautiful colored diagram showing the exact pixel values for content, padding, border, and margin</li>
+    </ol>
+
+    <div class="ascii-diagram">
+    What you'll see in DevTools:
+
+    ┌─────────── margin ──────────────┐
+    │    20        20        20       │
+    │  ┌─────── border ────────────┐  │
+    │  │   2        2         2    │  │
+    │  │ ┌───── padding ────────┐  │  │
+    │  │ │  16      16      16  │  │  │
+    │  │ │ ┌── content ──────┐  │  │  │
+    │  │ │ │  264  ×  40     │  │  │  │
+    │  │ │ └─────────────────┘  │  │  │
+    │  │ └──────────────────────┘  │  │
+    │  └───────────────────────────┘  │
+    └─────────────────────────────────┘
+    </div>
+
+    <div class="co-y">
+        💡 <strong>Pro tip:</strong> Whenever something looks wrong in CSS, the first thing to do is open DevTools and check the box model. 90% of the time, it's a padding or margin issue you didn't expect.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 5: DISPLAY PROPERTY -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <h2 class="section-title"><span class="section-num">5</span> Display Property — Block vs Inline vs Inline-Block</h2>
+
+    <p>The <code>display</code> property controls <strong>how an element behaves in the page flow</strong>. It's one of the most important CSS properties, and understanding it solves a LOT of beginner confusion.</p>
+
+    <h3>5.1 display: block</h3>
+
+    <p>A <strong>block</strong> element:</p>
+    <ul style="margin:0 0 24px 24px;list-style:none">
+        <li style="margin-bottom:8px">📏 Takes the <strong>FULL WIDTH</strong> of its parent (even if the content is short)</li>
+        <li style="margin-bottom:8px">⬇️ Always starts on a <strong>NEW LINE</strong></li>
+        <li style="margin-bottom:0">✅ You CAN set <code>width</code>, <code>height</code>, <code>margin</code>, and <code>padding</code> on all sides</li>
+    </ul>
+
+    <p><strong>Default block elements:</strong> <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code>, <code>&lt;form&gt;</code></p>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Block elements stack vertically, take full width</div>
+        <div class="demo-box">
+            <div style="background:#10b981;padding:12px;margin-bottom:4px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px">Block 1 — I take the FULL width ←───────────────────→</div>
+            <div style="background:#388bfd;padding:12px;margin-bottom:4px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px">Block 2 — I'm on a NEW line</div>
+            <div style="background:#d2a8ff;padding:12px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px">Block 3 — Even though my text is short, I still take full width</div>
+        </div>
+    </div>
+
+    <h3>5.2 display: inline</h3>
+
+    <p>An <strong>inline</strong> element:</p>
+    <ul style="margin:0 0 24px 24px;list-style:none">
+        <li style="margin-bottom:8px">📦 Takes ONLY the <strong>width of its content</strong></li>
+        <li style="margin-bottom:8px">➡️ Sits on the <strong>SAME LINE</strong> as other inline elements</li>
+        <li style="margin-bottom:0">❌ You CANNOT set <code>width</code> or <code>height</code> — they're IGNORED</li>
+        <li style="margin-bottom:0">❌ Top/bottom <code>margin</code> are IGNORED</li>
+    </ul>
+
+    <p><strong>Default inline elements:</strong> <code>&lt;span&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;code&gt;</code>, <code>&lt;img&gt;</code> (technically "inline replaced")</p>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — Inline elements sit side by side, only as wide as content</div>
+        <div class="demo-box">
+            <span style="background:#10b981;padding:4px 12px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px">Inline A</span>
+            <span style="background:#388bfd;padding:4px 12px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px">Inline B</span>
+            <span style="background:#d2a8ff;padding:4px 12px;color:#0f111a;font-weight:700;font-size:14px;border-radius:4px">Inline C</span>
+            <p style="margin-top:16px;margin-bottom:0;color:#7a8599;font-size:14px">↑ All three sit on the SAME line, and each is only as wide as its text.</p>
+        </div>
+    </div>
+
+    <div class="co-r">
+        ❌ <strong>Why you can't style an <code>&lt;a&gt;</code> tag like a box:</strong>
+        <pre><code><span class="sel">a</span> {
+    <span class="prop">width</span>: <span class="num">200px</span>;      <span class="cm">/* IGNORED — a is inline! */</span>
+    <span class="prop">height</span>: <span class="num">50px</span>;     <span class="cm">/* IGNORED — a is inline! */</span>
+    <span class="prop">margin-top</span>: <span class="num">20px</span>; <span class="cm">/* IGNORED — a is inline! */</span>
+}</code></pre>
+        <strong>This is why beginners get frustrated!</strong> They try to set width/height on a link and nothing happens. The fix? Change its display to <code>inline-block</code> or <code>block</code>.
+    </div>
+
+    <h3>5.3 display: inline-block</h3>
+
+    <p><strong>inline-block</strong> is the <strong>best of both worlds</strong>:</p>
+    <ul style="margin:0 0 24px 24px;list-style:none">
+        <li style="margin-bottom:8px">➡️ Sits on the <strong>SAME LINE</strong> as other elements (like inline)</li>
+        <li style="margin-bottom:0">✅ But you CAN set <code>width</code>, <code>height</code>, <code>margin</code>, <code>padding</code> (like block)</li>
+    </ul>
+
+    <div class="co-p">
+        🧠 <strong>Think of it as:</strong> "Looks inline on the outside, behaves like a block on the inside." It flows with text but accepts all box model properties.
+    </div>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — inline-block: side by side AND accepts width/height</div>
+        <div class="demo-box">
+            <div style="display:inline-block;width:120px;height:80px;background:#10b981;margin:4px;border-radius:6px;text-align:center;line-height:80px;color:#0f111a;font-weight:700;font-size:14px">Box A</div>
+            <div style="display:inline-block;width:120px;height:80px;background:#388bfd;margin:4px;border-radius:6px;text-align:center;line-height:80px;color:#0f111a;font-weight:700;font-size:14px">Box B</div>
+            <div style="display:inline-block;width:120px;height:80px;background:#d2a8ff;margin:4px;border-radius:6px;text-align:center;line-height:80px;color:#0f111a;font-weight:700;font-size:14px">Box C</div>
+            <p style="margin-top:12px;margin-bottom:0;color:#7a8599;font-size:14px">↑ Side by side (inline behavior) but with set width and height (block behavior)!</p>
+        </div>
+    </div>
+
+    <h3>5.4 display: none vs visibility: hidden</h3>
+
+    <p><code>display: none</code> makes an element <strong>completely disappear</strong> — it takes up zero space, as if it doesn't exist in the page.</p>
+    <p><code>visibility: hidden</code> makes an element <strong>invisible</strong> — you can't see it, but it <strong>still takes up space</strong>.</p>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — display:none (removed) vs visibility:hidden (invisible)</div>
+        <div class="demo-box">
+            <p style="color:#7dd3fc;font-size:13px;font-weight:700;margin-bottom:8px">display: none — Box B is GONE, Box C moves up:</p>
+            <div style="display:flex;gap:8px;margin-bottom:20px">
+                <div style="background:#10b981;padding:12px 20px;border-radius:6px;color:#0f111a;font-weight:700;font-size:14px">Box A</div>
+                <!-- Box B is display:none, so it's not here at all -->
+                <div style="background:#d2a8ff;padding:12px 20px;border-radius:6px;color:#0f111a;font-weight:700;font-size:14px">Box C (moved up!)</div>
+            </div>
+            <p style="color:#7dd3fc;font-size:13px;font-weight:700;margin-bottom:8px">visibility: hidden — Box B is INVISIBLE but space remains:</p>
+            <div style="display:flex;gap:8px">
+                <div style="background:#10b981;padding:12px 20px;border-radius:6px;color:#0f111a;font-weight:700;font-size:14px">Box A</div>
+                <div style="visibility:hidden;background:#388bfd;padding:12px 20px;border-radius:6px;color:#0f111a;font-weight:700;font-size:14px">Box B</div>
+                <div style="background:#d2a8ff;padding:12px 20px;border-radius:6px;color:#0f111a;font-weight:700;font-size:14px">Box C (stays in place)</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>5.5 display: flex (Connecting the Dots)</h3>
+
+    <p>You already know Flexbox! But now you can see the bigger picture: <code>flex</code> is just <strong>another value</strong> for the <code>display</code> property.</p>
+
+    <pre><code><span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="cssval">flex</span>;     <span class="cm">/* Block-level flex container */</span>
+}
+
+<span class="sel">.container</span> {
+    <span class="prop">display</span>: <span class="cssval">inline-flex</span>; <span class="cm">/* Inline-level flex container */</span>
+}</code></pre>
+
+    <div class="co-p">
+        🧠 When you set <code>display: flex</code>, the element itself becomes a <strong>block-level flex container</strong>. Its <strong>children</strong> become flex items and follow flex rules (like <code>justify-content</code>, <code>align-items</code>, etc.) instead of normal block/inline flow. The container is still a block element to the outside world.
+    </div>
+
+    <h3>Summary Comparison Table</h3>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>block</th>
+            <th>inline</th>
+            <th>inline-block</th>
+        </tr>
+        <tr>
+            <td>Takes full width?</td>
+            <td style="color:#10b981">✅ Yes</td>
+            <td style="color:#f85149">❌ No</td>
+            <td style="color:#f85149">❌ No</td>
+        </tr>
+        <tr>
+            <td>New line?</td>
+            <td style="color:#10b981">✅ Yes</td>
+            <td style="color:#f85149">❌ No</td>
+            <td style="color:#f85149">❌ No</td>
+        </tr>
+        <tr>
+            <td>Can set width/height?</td>
+            <td style="color:#10b981">✅ Yes</td>
+            <td style="color:#f85149">❌ No</td>
+            <td style="color:#10b981">✅ Yes</td>
+        </tr>
+        <tr>
+            <td>Can set margin (all sides)?</td>
+            <td style="color:#10b981">✅ Yes</td>
+            <td>⚠️ Left/right only</td>
+            <td style="color:#10b981">✅ Yes</td>
+        </tr>
+        <tr>
+            <td>Can set padding?</td>
+            <td style="color:#10b981">✅ Yes</td>
+            <td>⚠️ Visual only (doesn't push)</td>
+            <td style="color:#10b981">✅ Yes</td>
+        </tr>
+    </table>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 6: WIDTH, HEIGHT & CSS UNITS -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <h2 class="section-title"><span class="section-num">6</span> Width, Height & CSS Units</h2>
+
+    <h3>6.1 Width</h3>
+
+    <pre><code><span class="prop">width</span>: <span class="cssval">auto</span>;       <span class="cm">/* DEFAULT — takes parent's full width minus margins */</span>
+<span class="prop">width</span>: <span class="num">300px</span>;      <span class="cm">/* Exact pixel width */</span>
+<span class="prop">width</span>: <span class="num">50%</span>;        <span class="cm">/* 50% of the PARENT's width */</span>
+<span class="prop">width</span>: <span class="num">100%</span>;       <span class="cm">/* Full parent width */</span>
+
+<span class="prop">max-width</span>: <span class="num">1200px</span>; <span class="cm">/* "Never wider than 1200px" — essential for responsive */</span>
+<span class="prop">min-width</span>: <span class="num">200px</span>;  <span class="cm">/* "Never narrower than 200px" */</span></code></pre>
+
+    <div class="co-b">
+        ℹ️ <strong>auto vs 100%:</strong> They look the same but behave differently. <code>width: auto</code> respects margins — if you have <code>margin: 0 20px</code>, the element shrinks to fit. <code>width: 100%</code> forces the element to be exactly its parent's width, and margins will make it <strong>overflow</strong> past the parent.
+    </div>
+
+    <div class="co-y">
+        💡 <strong>max-width is your best friend for responsive design.</strong> A common pattern: <code>width: 100%; max-width: 1200px; margin: 0 auto;</code>. This makes the element full-width on small screens but capped at 1200px on large screens, centered horizontally.
+    </div>
+
+    <h3>6.2 Height</h3>
+
+    <pre><code><span class="prop">height</span>: <span class="cssval">auto</span>;       <span class="cm">/* DEFAULT — grows to fit content */</span>
+<span class="prop">height</span>: <span class="num">300px</span>;      <span class="cm">/* Exact pixel height */</span>
+<span class="prop">height</span>: <span class="num">100vh</span>;      <span class="cm">/* 100% of viewport (browser window) height */</span>
+
+<span class="prop">min-height</span>: <span class="num">100vh</span>; <span class="cm">/* "At least fill the screen, but grow if content is more" */</span></code></pre>
+
+    <div class="co-p">
+        🧠 <strong>Why <code>min-height: 100vh</code> is better than <code>height: 100vh</code>:</strong><br>
+        With <code>height: 100vh</code>, if your content is longer than the screen, it overflows and gets cut off or creates a scroll inside the element. With <code>min-height: 100vh</code>, the element is AT LEAST screen-height, but it stretches if content needs more space. Always safer.
+    </div>
+
+    <h3>6.3 CSS Units — Which One When?</h3>
+
+    <table>
+        <tr>
+            <th>Unit</th>
+            <th>What It Means</th>
+            <th>Example</th>
+            <th>Best For</th>
+        </tr>
+        <tr>
+            <td><code>px</code></td>
+            <td>Pixels — absolute, never changes</td>
+            <td><code>border: 2px solid</code></td>
+            <td>Borders, shadows, tiny fixed sizes</td>
+        </tr>
+        <tr>
+            <td><code>%</code></td>
+            <td>Percentage of the parent element</td>
+            <td><code>width: 50%</code></td>
+            <td>Widths, responsive layouts</td>
+        </tr>
+        <tr>
+            <td><code>em</code></td>
+            <td>Relative to current element's font-size</td>
+            <td><code>padding: 1.5em</code></td>
+            <td>Spacing that scales with text</td>
+        </tr>
+        <tr>
+            <td><code>rem</code></td>
+            <td>Relative to ROOT (html) font-size (usually 16px)</td>
+            <td><code>font-size: 1.25rem</code> = 20px</td>
+            <td>Font sizes, consistent spacing</td>
+        </tr>
+        <tr>
+            <td><code>vh</code></td>
+            <td>Viewport height (100vh = full screen)</td>
+            <td><code>height: 100vh</code></td>
+            <td>Full-screen hero sections</td>
+        </tr>
+        <tr>
+            <td><code>vw</code></td>
+            <td>Viewport width (100vw = full screen)</td>
+            <td><code>width: 100vw</code></td>
+            <td>Full-bleed backgrounds</td>
+        </tr>
+    </table>
+
+    <div class="demo">
+        <div class="demo-label">▶ Live Result — rem vs px: rem scales, px stays fixed</div>
+        <div class="demo-box">
+            <p style="font-size:16px;margin-bottom:4px;color:#b0bac9"><code style="font-size:12px">1rem</code> = <span style="font-size:16px;color:#10b981;font-weight:700">This text is 16px (1rem)</span></p>
+            <p style="font-size:24px;margin-bottom:4px;color:#b0bac9"><code style="font-size:12px">1.5rem</code> = <span style="font-size:24px;color:#388bfd;font-weight:700">This text is 24px (1.5rem)</span></p>
+            <p style="font-size:32px;margin-bottom:0;color:#b0bac9"><code style="font-size:12px">2rem</code> = <span style="font-size:32px;color:#d2a8ff;font-weight:700">This text is 32px (2rem)</span></p>
+        </div>
+    </div>
+
+    <div class="co-y">
+        💡 <strong>Quick rule of thumb:</strong><br>
+        • <code>px</code> for small fixed things (borders, box-shadows, tiny spacers)<br>
+        • <code>rem</code> for font sizes (consistent and accessible)<br>
+        • <code>%</code> for widths (responsive to parent)<br>
+        • <code>vh</code>/<code>vw</code> for full-screen sections
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 7: PRACTICE EXERCISES -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <h2 class="section-title"><span class="section-num">7</span> Practice Exercises</h2>
+
+    <p>Time to put everything together. Try each exercise yourself <strong>before</strong> looking at the solution. The only way to learn CSS is to <strong>write CSS</strong>.</p>
+
+    <!-- Exercise 1 -->
+    <div class="exercise-box">
+        <h4>Exercise 1: Block vs Inline-Block</h4>
+        <p style="color:#b0bac9">Create 3 <code>&lt;div&gt;</code> boxes with different background colors (<code>#10b981</code>, <code>#388bfd</code>, <code>#d2a8ff</code>). Give them each <code>width: 150px</code>, <code>height: 100px</code>, and <code>padding: 16px</code>.</p>
+        <p style="color:#b0bac9">First, observe them as <strong>block</strong> (default) — they stack vertically. Then change their <code>display</code> to <code>inline-block</code> and watch them sit side by side.</p>
+        <button class="solution-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Show Solution</button>
+        <div class="solution">
+            <pre><code><span class="tag">&lt;style&gt;</span>
+    <span class="sel">.box</span> {
+        <span class="prop">width</span>: <span class="num">150px</span>;
+        <span class="prop">height</span>: <span class="num">100px</span>;
+        <span class="prop">padding</span>: <span class="num">16px</span>;
+        <span class="prop">color</span>: <span class="cssval">white</span>;
+        <span class="prop">font-weight</span>: <span class="cssval">bold</span>;
+        <span class="prop">border-radius</span>: <span class="num">8px</span>;
+
+        <span class="cm">/* Try both: */</span>
+        <span class="cm">/* display: block;        ← stacks vertically */</span>
+        <span class="prop">display</span>: <span class="cssval">inline-block</span>;  <span class="cm">/* ← sits side by side */</span>
+    }
+    <span class="sel">.box-a</span> { <span class="prop">background</span>: <span class="cssval">#10b981</span>; }
+    <span class="sel">.box-b</span> { <span class="prop">background</span>: <span class="cssval">#388bfd</span>; }
+    <span class="sel">.box-c</span> { <span class="prop">background</span>: <span class="cssval">#d2a8ff</span>; }
+<span class="tag">&lt;/style&gt;</span>
+
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"box box-a"</span><span class="tag">&gt;</span>Box A<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"box box-b"</span><span class="tag">&gt;</span>Box B<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="val">"box box-c"</span><span class="tag">&gt;</span>Box C<span class="tag">&lt;/div&gt;</span></code></pre>
+        </div>
+    </div>
+
+    <!-- Exercise 2 -->
+    <div class="exercise-box">
+        <h4>Exercise 2: Box Model Math</h4>
+        <p style="color:#b0bac9">Create a box with: <code>width: 300px</code>, <code>padding: 20px</code>, <code>border: 5px solid #388bfd</code>.</p>
+        <p style="color:#b0bac9"><strong>Question:</strong> What is the TOTAL actual width <strong>without</strong> <code>box-sizing: border-box</code>?</p>
+        <p style="color:#b0bac9">Then add <code>box-sizing: border-box</code> and see how the total width changes. Open DevTools to verify!</p>
+        <button class="solution-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Show Solution</button>
+        <div class="solution">
+            <p style="color:#b0bac9"><strong>Without <code>border-box</code> (default <code>content-box</code>):</strong></p>
+            <pre><code>Content width:       300px
++ Left padding:     + 20px
++ Right padding:    + 20px
++ Left border:      +  5px
++ Right border:     +  5px
+─────────────────────────────
+Total actual width:  350px  ← SURPRISE!</code></pre>
+            <p style="color:#b0bac9"><strong>With <code>box-sizing: border-box</code>:</strong></p>
+            <pre><code>Total width:         300px  ← Exactly what you set!
+Content area:        250px  (300 - 20 - 20 - 5 - 5)
+Padding:             40px   (20 each side, fits INSIDE)
+Border:              10px   (5 each side, fits INSIDE)</code></pre>
+        </div>
+    </div>
+
+    <!-- Exercise 3 -->
+    <div class="exercise-box">
+        <h4>Exercise 3: Selector Specificity Battle</h4>
+        <p style="color:#b0bac9">Create 3 paragraphs. Style them using:</p>
+        <ul style="margin:0 0 16px 24px;color:#b0bac9">
+            <li>1st paragraph: element selector (<code>p { color: blue; }</code>)</li>
+            <li>2nd paragraph: class selector (<code>.special { color: green; }</code>)</li>
+            <li>3rd paragraph: ID selector (<code>#unique { color: red; }</code>)</li>
+        </ul>
+        <p style="color:#b0bac9">Then add this conflicting rule: <code>p { color: purple !important; }</code></p>
+        <p style="color:#b0bac9"><strong>Question:</strong> What color does each paragraph become? Predict BEFORE you test.</p>
+        <button class="solution-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Show Solution</button>
+        <div class="solution">
+            <pre><code><span class="sel">p</span>        { <span class="prop">color</span>: <span class="cssval">blue</span>; }     <span class="cm">/* specificity: 1 */</span>
+<span class="sel">.special</span> { <span class="prop">color</span>: <span class="cssval">green</span>; }    <span class="cm">/* specificity: 10 */</span>
+<span class="sel">#unique</span>  { <span class="prop">color</span>: <span class="cssval">red</span>; }      <span class="cm">/* specificity: 100 */</span>
+
+<span class="cm">/* Without !important: */</span>
+<span class="cm">/* Paragraph 1: blue (only p matches) */</span>
+<span class="cm">/* Paragraph 2: green (.special beats p) */</span>
+<span class="cm">/* Paragraph 3: red (#unique beats everything) */</span>
+
+<span class="cm">/* With p { color: purple !important; }: */</span>
+<span class="cm">/* ALL THREE become purple! */</span>
+<span class="cm">/* !important overrides ALL specificity. */</span>
+<span class="cm">/* This is why !important is dangerous. */</span></code></pre>
+        </div>
+    </div>
+
+    <!-- Exercise 4 -->
+    <div class="exercise-box">
+        <h4>Exercise 4: Inheritance Detective</h4>
+        <p style="color:#b0bac9">Create a parent <code>&lt;div&gt;</code> with these styles: <code>color: blue</code>, <code>font-family: 'Georgia', serif</code>, <code>border: 3px solid red</code>, <code>padding: 20px</code>.</p>
+        <p style="color:#b0bac9">Inside the div, add a <code>&lt;p&gt;</code>, an <code>&lt;h3&gt;</code>, and a <code>&lt;span&gt;</code>. <strong>Don't</strong> add any CSS to the children.</p>
+        <p style="color:#b0bac9"><strong>Question:</strong> Which children have blue text? Which have a red border? Which have padding?</p>
+        <button class="solution-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Show Solution</button>
+        <div class="solution">
+            <pre><code><span class="cm">/* All children INHERIT: */</span>
+<span class="cm">/*   ✅ color: blue      — text properties inherit */</span>
+<span class="cm">/*   ✅ font-family      — text properties inherit */</span>
+
+<span class="cm">/* No children INHERIT: */</span>
+<span class="cm">/*   ❌ border           — box properties do NOT inherit */</span>
+<span class="cm">/*   ❌ padding          — box properties do NOT inherit */</span>
+
+<span class="cm">/* So the &lt;p&gt;, &lt;h3&gt;, and &lt;span&gt; will all have: */</span>
+<span class="cm">/*   - Blue text in Georgia font (inherited) */</span>
+<span class="cm">/*   - NO border (not inherited) */</span>
+<span class="cm">/*   - NO extra padding (not inherited) */</span></code></pre>
+        </div>
+    </div>
+
+    <!-- Exercise 5 -->
+    <div class="exercise-box">
+        <h4>Exercise 5: Navigation Bar WITHOUT Flexbox</h4>
+        <p style="color:#b0bac9">Build a horizontal nav bar with 4 links using <code>display: inline-block</code> (do NOT use Flexbox). Requirements:</p>
+        <ul style="margin:0 0 16px 24px;color:#b0bac9">
+            <li>Links should sit side by side</li>
+            <li>Each link has <code>padding: 12px 24px</code></li>
+            <li>Background color: <code>#1e2d4a</code>, text color: white, no underline</li>
+            <li>On hover: background changes to <code>#10b981</code></li>
+            <li>Nav bar has a dark background (<code>#0d1117</code>)</li>
+        </ul>
+        <button class="solution-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Show Solution</button>
+        <div class="solution">
+            <pre><code><span class="tag">&lt;style&gt;</span>
+    <span class="sel">.my-nav</span> {
+        <span class="prop">background</span>: <span class="cssval">#0d1117</span>;
+        <span class="prop">padding</span>: <span class="num">8px</span>;
+        <span class="prop">border-radius</span>: <span class="num">8px</span>;
+        <span class="cm">/* Remove whitespace gaps between inline-block */</span>
+        <span class="prop">font-size</span>: <span class="num">0</span>;
+    }
+    <span class="sel">.my-nav a</span> {
+        <span class="prop">display</span>: <span class="cssval">inline-block</span>;
+        <span class="prop">padding</span>: <span class="num">12px</span> <span class="num">24px</span>;
+        <span class="prop">background</span>: <span class="cssval">#1e2d4a</span>;
+        <span class="prop">color</span>: <span class="cssval">white</span>;
+        <span class="prop">text-decoration</span>: <span class="cssval">none</span>;
+        <span class="prop">font-family</span>: <span class="cssval">'Inter', sans-serif</span>;
+        <span class="prop">font-size</span>: <span class="num">15px</span>;  <span class="cm">/* Reset from parent's font-size: 0 */</span>
+        <span class="prop">border-radius</span>: <span class="num">6px</span>;
+        <span class="prop">margin-right</span>: <span class="num">4px</span>;
+        <span class="prop">transition</span>: <span class="cssval">background 0.2s</span>;
+    }
+    <span class="sel">.my-nav a:hover</span> {
+        <span class="prop">background</span>: <span class="cssval">#10b981</span>;
+    }
+<span class="tag">&lt;/style&gt;</span>
+
+<span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="val">"my-nav"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>Home<span class="tag">&lt;/a&gt;</span>
+    <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>Games<span class="tag">&lt;/a&gt;</span>
+    <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>About<span class="tag">&lt;/a&gt;</span>
+    <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"#"</span><span class="tag">&gt;</span>Contact<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></code></pre>
+            <p style="color:#7a8599;font-size:14px;margin-top:12px;margin-bottom:0"><strong>Note:</strong> The <code>font-size: 0</code> trick on the parent removes the tiny whitespace gaps that appear between inline-block elements (caused by spaces/newlines in HTML). This is a classic technique!</p>
+        </div>
+    </div>
+
+    <!-- Final Summary -->
+    <div style="margin-top:80px;padding:40px;background:linear-gradient(135deg,#0d1117,#1e2d4a);border-radius:16px;border:1px solid #2a3f5f">
+        <h3 style="border:none;padding:0;margin:0 0 20px;color:#10b981;font-size:28px">🎯 What You Learned Today</h3>
+        <ul style="margin:0 0 0 20px;list-style:none;color:#b0bac9">
+            <li style="margin-bottom:12px">✅ <strong>CSS Rules</strong> = Selector (who) + Property (what) + Value (how)</li>
+            <li style="margin-bottom:12px">✅ <strong>Selectors</strong> — element, class, ID, descendant, child, grouping, chained</li>
+            <li style="margin-bottom:12px">✅ <strong>Specificity</strong> — inline(1000) > ID(100) > class(10) > element(1). Higher score wins!</li>
+            <li style="margin-bottom:12px">✅ <strong>Inheritance</strong> — text properties pass down, box properties don't</li>
+            <li style="margin-bottom:12px">✅ <strong>Box Model</strong> — content → padding → border → margin (inside out)</li>
+            <li style="margin-bottom:12px">✅ <strong>box-sizing: border-box</strong> — always use it, padding/border go INSIDE width</li>
+            <li style="margin-bottom:12px">✅ <strong>Display</strong> — block (full width, new line), inline (no width/height), inline-block (best of both)</li>
+            <li style="margin-bottom:0">✅ <strong>Units</strong> — px (fixed), rem (font), % (widths), vh/vw (viewport)</li>
+        </ul>
+        <p style="margin-top:24px;margin-bottom:0;color:#7a8599;font-size:15px">These are the <strong>fundamentals</strong>. Every single CSS technique you learn from here — Flexbox, Grid, animations, responsive design — builds on top of these concepts. You now have the foundation. 💪</p>
+    </div>
+
+</div>
+</body>
+</html>

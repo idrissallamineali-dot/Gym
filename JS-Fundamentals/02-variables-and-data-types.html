@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02 — Variables & Data Types</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f111a;
+            color: #c9d1d9;
+            line-height: 1.8;
+            font-size: 16px;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .doc-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 24px;
+            background: #161b2e;
+            border: 1px solid #1e2d4a;
+            border-radius: 14px;
+            margin-bottom: 48px;
+        }
+        .doc-nav span {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #5e6e8a;
+        }
+        .doc-nav a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 18px;
+            background: rgba(88,166,255,0.08);
+            border: 1px solid rgba(88,166,255,0.2);
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+        .doc-nav a:hover { background: rgba(88,166,255,0.15); }
+
+        h1 {
+            font-size: 38px;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+        .subtitle {
+            font-size: 17px;
+            color: #7a8599;
+            margin-bottom: 48px;
+            border-bottom: 1px solid #1e2d4a;
+            padding-bottom: 32px;
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin-top: 56px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e2d4a;
+        }
+        h2 .num { color: #58a6ff; }
+
+        h3 {
+            font-size: 19px;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #d0d8e4;
+            margin-top: 28px;
+            margin-bottom: 10px;
+        }
+
+        p { margin-bottom: 18px; color: #b0bac9; }
+        strong { color: #e2e8f0; }
+        em { color: #93aac9; font-style: italic; }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #1a2035;
+            color: #7dd3fc;
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        pre {
+            background: #0d1117;
+            border: 1px solid #1e2d4a;
+            border-radius: 12px;
+            padding: 22px 24px;
+            margin: 16px 0 24px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #c9d1d9;
+        }
+        .code-label {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #3d4f6f;
+        }
+
+        .kw { color: #ff7b72; }
+        .str { color: #a5d6ff; }
+        .fn { color: #d2a8ff; }
+        .cm { color: #5e6e8a; font-style: italic; }
+        .num-lit { color: #79c0ff; }
+        .bool { color: #ff7b72; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0 28px 0;
+        }
+        th {
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #5e6e8a;
+            padding: 12px 18px;
+            border-bottom: 2px solid #1e2d4a;
+        }
+        td {
+            padding: 14px 18px;
+            border-bottom: 1px solid #141a2e;
+            font-size: 15px;
+        }
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(88,166,255,0.03); }
+
+        .callout {
+            border-left: 4px solid;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 22px 0;
+            font-size: 14.5px;
+        }
+        .callout-blue {
+            background: rgba(88,166,255,0.06);
+            border-color: #58a6ff;
+        }
+        .callout-amber {
+            background: rgba(245,158,11,0.06);
+            border-color: #f59e0b;
+        }
+        .callout-green {
+            background: rgba(16,185,129,0.06);
+            border-color: #10b981;
+        }
+        .callout-red {
+            background: rgba(248,81,73,0.06);
+            border-color: #f85149;
+        }
+        .callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-blue strong { color: #58a6ff; }
+        .callout-amber strong { color: #f59e0b; }
+        .callout-green strong { color: #10b981; }
+        .callout-red strong { color: #f85149; }
+
+        hr {
+            border: none;
+            border-top: 1px solid #1e2d4a;
+            margin: 48px 0;
+        }
+
+        /* Memory diagram blocks */
+        .memory-diagram {
+            background: #0d1117;
+            border: 1px solid #1e2d4a;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0 28px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #8b949e;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        .mem-stack { color: #58a6ff; }
+        .mem-heap { color: #f59e0b; }
+        .mem-arrow { color: #f85149; }
+        .mem-label { color: #5e6e8a; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+        ul, ol {
+            margin: 12px 0 20px 24px;
+            color: #b0bac9;
+        }
+        li { margin-bottom: 8px; }
+
+        .bottom-nav {
+            margin-top: 64px;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .bottom-nav a {
+            flex: 1;
+            padding: 20px 24px;
+            background: #161b2e;
+            border: 1px solid #1e2d4a;
+            border-radius: 14px;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .bottom-nav a:hover { border-color: #58a6ff; }
+        .bottom-nav .label {
+            font-size: 12px;
+            color: #5e6e8a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .bottom-nav .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #58a6ff;
+        }
+        .bottom-nav .prev { text-align: left; }
+        .bottom-nav .next { text-align: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <nav class="doc-nav">
+            <span>JS Fundamentals</span>
+            <a href="01-what-is-javascript.html">← Prev Lesson</a>
+            <span>Lesson 02</span>
+        </nav>
+
+        <h1>02 — Variables & Data Types</h1>
+        <p class="subtitle">The absolute building blocks of every program you will ever write. Master this and everything else becomes logical.</p>
+
+
+        <!-- ============================================================ -->
+        <!--                   PART A: VARIABLES                          -->
+        <!-- ============================================================ -->
+
+        <h2><span class="num">1.</span> What Is a Variable?</h2>
+
+        <p>A variable is a <strong>labeled container</strong> that holds a value in the computer's memory.</p>
+
+        <p>When you create a variable, you are telling the JavaScript engine: <em>"Reserve a space in memory, give it this name, and store this value inside."</em></p>
+
+        <pre><code><span class="kw">let</span> age = <span class="num-lit">25</span>;</code></pre>
+
+        <p>What happened in that single line:</p>
+        <ol>
+            <li><strong>Declaration</strong> — the keyword <code>let</code> tells the engine to create a new variable.</li>
+            <li><strong>Naming</strong> — the identifier <code>age</code> becomes the label you use to refer to that memory space.</li>
+            <li><strong>Assignment</strong> — the <code>=</code> operator stores the value <code>25</code> into that memory space.</li>
+        </ol>
+
+        <p>You can also <strong>declare without assigning</strong>. The variable exists but holds no useful value yet:</p>
+
+        <pre><code><span class="kw">let</span> score;
+<span class="fn">console</span>.<span class="fn">log</span>(score);  <span class="cm">// undefined — it exists but has no value assigned</span></code></pre>
+
+        <hr>
+
+        <!-- var vs let vs const -->
+        <h2><span class="num">2.</span> The Three Declaration Keywords: <code>var</code>, <code>let</code>, <code>const</code></h2>
+
+        <p>JavaScript has three ways to create a variable. Understanding the differences is <strong>critical</strong> — this comes up in interviews, code reviews, and real bugs constantly.</p>
+
+        <h3>2.1 — <code>var</code> (The Old Way)</h3>
+
+        <p><code>var</code> is the original keyword from 1995. It works, but it has behaviors that cause bugs:</p>
+
+        <pre><code><span class="kw">var</span> name = <span class="str">"Idris"</span>;
+<span class="kw">var</span> name = <span class="str">"Ali"</span>;    <span class="cm">// ✅ No error! var allows re-declaration</span>
+<span class="fn">console</span>.<span class="fn">log</span>(name);   <span class="cm">// "Ali" — silently overwrote the first one</span></code></pre>
+
+        <h4>Problem 1: <code>var</code> is Function-Scoped, NOT Block-Scoped</h4>
+
+        <p>A <strong>block</strong> is any code inside curly braces <code>{ }</code> — like an <code>if</code> statement, a <code>for</code> loop, or a <code>while</code> loop. <code>var</code> <strong>ignores</strong> these blocks completely. It only respects function boundaries.</p>
+
+        <pre><code><span class="kw">if</span> (<span class="bool">true</span>) {
+    <span class="kw">var</span> leaked = <span class="str">"I escaped the block!"</span>;
+}
+
+<span class="fn">console</span>.<span class="fn">log</span>(leaked);  <span class="cm">// "I escaped the block!" — var leaked out of the if block</span></code></pre>
+
+        <p>This is dangerous. You think the variable is private to that <code>if</code> block, but it is actually accessible everywhere in the function (or globally if not inside any function).</p>
+
+        <h4>Problem 2: <code>var</code> Hoisting Creates Confusion</h4>
+
+        <p>As we learned in Lesson 01, <code>var</code> declarations are hoisted to the top of their scope and initialized as <code>undefined</code>:</p>
+
+        <pre><code><span class="fn">console</span>.<span class="fn">log</span>(x);  <span class="cm">// undefined (not an error — hoisted and initialized)</span>
+<span class="kw">var</span> x = <span class="num-lit">10</span>;</code></pre>
+
+        <p>This silent <code>undefined</code> can mask bugs. You expect an error, but you get <code>undefined</code> instead, and your program continues running with broken data.</p>
+
+        <div class="callout callout-red">
+            <strong>Rule</strong>
+            Never use <code>var</code> in modern code. It exists only for legacy compatibility. Always use <code>let</code> or <code>const</code>.
+        </div>
+
+        <h3>2.2 — <code>let</code> (The Modern Mutable Variable)</h3>
+
+        <p><code>let</code> was introduced in ES6 (2015) to fix the problems of <code>var</code>.</p>
+
+        <pre><code><span class="kw">let</span> score = <span class="num-lit">100</span>;
+score = <span class="num-lit">200</span>;   <span class="cm">// ✅ Reassignment is allowed</span>
+
+<span class="kw">let</span> score = <span class="num-lit">300</span>;  <span class="cm">// ❌ SyntaxError! Re-declaration is NOT allowed</span></code></pre>
+
+        <h4>Fix 1: <code>let</code> is Block-Scoped</h4>
+
+        <pre><code><span class="kw">if</span> (<span class="bool">true</span>) {
+    <span class="kw">let</span> trapped = <span class="str">"I cannot escape!"</span>;
+}
+
+<span class="fn">console</span>.<span class="fn">log</span>(trapped);  <span class="cm">// ❌ ReferenceError: trapped is not defined</span></code></pre>
+
+        <p>The variable stays <strong>locked inside</strong> the <code>{ }</code> block where it was declared. This is exactly what you expect and want.</p>
+
+        <h4>Fix 2: <code>let</code> Has a Temporal Dead Zone (TDZ)</h4>
+
+        <pre><code><span class="fn">console</span>.<span class="fn">log</span>(y);  <span class="cm">// ❌ ReferenceError! Cannot access 'y' before initialization</span>
+<span class="kw">let</span> y = <span class="num-lit">10</span>;</code></pre>
+
+        <p><code>let</code> is hoisted, but it is <strong>not initialized</strong>. The zone between the top of the block and the declaration line is called the <strong>Temporal Dead Zone</strong>. Accessing the variable in this zone throws an immediate error — which is <strong>good</strong>, because it tells you exactly where the bug is.</p>
+
+        <h3>2.3 — <code>const</code> (The Constant Reference)</h3>
+
+        <p><code>const</code> works exactly like <code>let</code> (block-scoped, TDZ) but with one extra rule: <strong>you cannot reassign it after initialization</strong>.</p>
+
+        <pre><code><span class="kw">const</span> PI = <span class="num-lit">3.14159</span>;
+PI = <span class="num-lit">3</span>;  <span class="cm">// ❌ TypeError: Assignment to constant variable</span></code></pre>
+
+        <p>You <strong>must</strong> assign a value at the moment of declaration:</p>
+
+        <pre><code><span class="kw">const</span> x;  <span class="cm">// ❌ SyntaxError: Missing initializer in const declaration</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>The trap: const does NOT make objects immutable</strong>
+            <code>const</code> prevents <strong>reassignment of the variable</strong> (the pointer), but it does NOT prevent <strong>mutation of the value</strong> the variable points to. This is a critical distinction that confuses many developers:
+        </div>
+
+        <pre><code><span class="kw">const</span> user = { name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span> };
+
+user.age = <span class="num-lit">26</span>;         <span class="cm">// ✅ Works! You mutated the object, not the variable</span>
+<span class="fn">console</span>.<span class="fn">log</span>(user.age);  <span class="cm">// 26</span>
+
+user = { name: <span class="str">"Ali"</span> };  <span class="cm">// ❌ TypeError! You tried to reassign the variable itself</span></code></pre>
+
+        <p>Think of it this way: <code>const</code> locks the <strong>address</strong> (which memory slot the variable points to), but not the <strong>contents</strong> at that address. The object at that address can still be changed.</p>
+
+        <h3>2.4 — Summary Table: <code>var</code> vs <code>let</code> vs <code>const</code></h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th><code>var</code></th>
+                    <th><code>let</code></th>
+                    <th><code>const</code></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Scope</td><td>Function</td><td>Block <code>{ }</code></td><td>Block <code>{ }</code></td></tr>
+                <tr><td>Hoisting</td><td>Yes — initialized as <code>undefined</code></td><td>Yes — but in TDZ (error if accessed early)</td><td>Yes — but in TDZ</td></tr>
+                <tr><td>Re-declaration</td><td>✅ Allowed</td><td>❌ Not allowed</td><td>❌ Not allowed</td></tr>
+                <tr><td>Reassignment</td><td>✅ Allowed</td><td>✅ Allowed</td><td>❌ Not allowed</td></tr>
+                <tr><td>Must initialize?</td><td>No</td><td>No</td><td>Yes</td></tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-green">
+            <strong>Professional best practice</strong>
+            Use <code>const</code> by default for everything. Only switch to <code>let</code> when you <strong>know</strong> the value needs to change (loop counters, accumulators, toggling states). Never use <code>var</code>.
+        </div>
+
+        <hr>
+
+        <!-- Variable naming -->
+        <h2><span class="num">3.</span> Variable Naming Rules & Conventions</h2>
+
+        <h3>3.1 — Hard Rules (Breaking These = Error)</h3>
+
+        <ul>
+            <li>Names can contain <strong>letters, digits, underscores <code>_</code>, and dollar signs <code>$</code></strong>.</li>
+            <li>Names <strong>cannot start with a digit</strong>. <code>1name</code> → error. <code>name1</code> → fine.</li>
+            <li>Names <strong>cannot be reserved keywords</strong> (<code>let</code>, <code>const</code>, <code>function</code>, <code>return</code>, <code>class</code>, etc.).</li>
+            <li>Names are <strong>case-sensitive</strong>. <code>age</code> and <code>Age</code> are different variables.</li>
+        </ul>
+
+        <pre><code><span class="cm">// ✅ Valid names</span>
+<span class="kw">let</span> firstName = <span class="str">"Idris"</span>;
+<span class="kw">let</span> _privateVar = <span class="num-lit">42</span>;
+<span class="kw">let</span> $element = <span class="str">"div"</span>;
+<span class="kw">let</span> camelCaseIsGood = <span class="bool">true</span>;
+
+<span class="cm">// ❌ Invalid names</span>
+<span class="kw">let</span> 2fast = <span class="str">"error"</span>;      <span class="cm">// starts with digit</span>
+<span class="kw">let</span> my-name = <span class="str">"error"</span>;    <span class="cm">// hyphens not allowed</span>
+<span class="kw">let</span> <span class="kw">let</span> = <span class="str">"error"</span>;        <span class="cm">// reserved keyword</span></code></pre>
+
+        <h3>3.2 — Naming Conventions (Not Errors, But Professional Standards)</h3>
+
+        <table>
+            <thead>
+                <tr><th>Convention</th><th>Used For</th><th>Example</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>camelCase</strong></td><td>Variables, functions</td><td><code>let userName = "Idris";</code></td></tr>
+                <tr><td><strong>PascalCase</strong></td><td>Classes, constructor functions</td><td><code>class UserProfile { }</code></td></tr>
+                <tr><td><strong>UPPER_SNAKE_CASE</strong></td><td>True constants (values that never change)</td><td><code>const MAX_RETRIES = 3;</code></td></tr>
+                <tr><td><strong>_prefixed</strong></td><td>Private/internal variables (convention only)</td><td><code>let _internalState = null;</code></td></tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-blue">
+            <strong>Pro tip: name variables for what they represent</strong>
+            <code>let x = 25;</code> tells you nothing.<br>
+            <code>let userAge = 25;</code> tells you everything.<br>
+            Descriptive names save you hours of debugging later.
+        </div>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <!--                 PART B: DATA TYPES                           -->
+        <!-- ============================================================ -->
+
+        <h2><span class="num">4.</span> Data Types: The Two Categories</h2>
+
+        <p>Every single value in JavaScript falls into one of two categories:</p>
+
+        <table>
+            <thead>
+                <tr><th>Category</th><th>What They Are</th><th>How Many</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Primitives</strong></td><td>Simple, atomic, indivisible values</td><td>7 types</td></tr>
+                <tr><td><strong>Objects</strong></td><td>Complex collections of key-value pairs</td><td>1 type (with many subtypes)</td></tr>
+            </tbody>
+        </table>
+
+        <p>This split determines <strong>how values are stored in memory, how they are compared, and how they behave when copied</strong>. Understanding this is non-negotiable.</p>
+
+        <hr>
+
+        <h2><span class="num">5.</span> The 7 Primitive Data Types</h2>
+
+        <p>Primitives are the simplest building blocks. They are <strong>immutable</strong> — once created, the value itself cannot be changed (you can reassign a variable to a <em>new</em> value, but you cannot mutate the original value in memory).</p>
+
+        <!-- String -->
+        <h3>5.1 — String (Text Masterclass)</h3>
+        <p>A string is an ordered sequence of character symbols representing text. Created using single quotes <code>'</code>, double quotes <code>"</code>, or backticks <code>`</code> (template literals).</p>
+
+        <pre><code><span class="kw">let</span> single = <span class="str">'Single quote'</span>;
+<span class="kw">let</span> double = <span class="str">"Double quote"</span>;
+<span class="kw">let</span> template = <span class="str">`Backtick literal`</span>;</code></pre>
+
+        <div class="memory-diagram"><span class="mem-label">Visual: Zero-Based Character Indexing</span>
+ String:      J  a  v  a  S  c  r  i  p  t
+ Index:       0  1  2  3  4  5  6  7  8  9
+ Length:      10 (Total characters)
+
+ Access:      str[0] -> "J"
+ Last Char:   str[str.length - 1] -> "t"</div>
+
+        <h4>Exhaustive String Methods Cookbook:</h4>
+        <p>Because strings are <strong>primitives</strong>, they are **immutable**. No string method changes the original string—they all return a <strong>brand-new string</strong>. You must capture the result in a variable to use it.</p>
+
+        <table>
+            <thead>
+                <tr><th>Method / Property</th><th>Purpose</th><th>Input Example</th><th>Returned Value & Output</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>.length</code></td><td>Get total characters</td><td><code>"JS".length</code></td><td><code>2</code> (number)</td></tr>
+                <tr><td><code>[index]</code></td><td>Bracket access</td><td><code>"CSS"[1]</code></td><td><code>"S"</code> (string)</td></tr>
+                <tr><td><code>.toUpperCase()</code></td><td>Convert to uppercase</td><td><code>"js".toUpperCase()</code></td><td><code>"JS"</code> (new string)</td></tr>
+                <tr><td><code>.toLowerCase()</code></td><td>Convert to lowercase</td><td><code>"JS".toLowerCase()</code></td><td><code>"js"</code> (new string)</td></tr>
+                <tr><td><code>.includes(sub)</code></td><td>Check if substring exists</td><td><code>"Gymnasium".includes("nas")</code></td><td><code>true</code> (boolean)</td></tr>
+                <tr><td><code>.indexOf(sub)</code></td><td>Find first index of character</td><td><code>"banana".indexOf("a")</code></td><td><code>1</code> (number, -1 if not found)</td></tr>
+                <tr><td><code>.lastIndexOf(sub)</code></td><td>Find last index of character</td><td><code>"banana".lastIndexOf("a")</code></td><td><code>5</code> (number)</td></tr>
+                <tr><td><code>.startsWith(sub)</code></td><td>Check starting characters</td><td><code>"JavaScript".startsWith("Java")</code></td><td><code>true</code> (boolean)</td></tr>
+                <tr><td><code>.endsWith(sub)</code></td><td>Check ending characters</td><td><code>"JavaScript".endsWith("Script")</code></td><td><code>true</code> (boolean)</td></tr>
+                <tr><td><code>.slice(start, end)</code></td><td>Extracts section (end is excluded)</td><td><code>"JavaScript".slice(0, 4)</code></td><td><code>"Java"</code> (new string)</td></tr>
+                <tr><td><code>.substring(start, end)</code></td><td>Alternative to slice</td><td><code>"JavaScript".substring(4, 10)</code></td><td><code>"Script"</code> (new string)</td></tr>
+                <tr><td><code>.split(separator)</code></td><td>Splits string into array</td><td><code>"A-B-C".split("-")</code></td><td><code>["A", "B", "C"]</code> (array)</td></tr>
+                <tr><td><code>.trim()</code></td><td>Removes outer whitespaces</td><td><code>"   hello   ".trim()</code></td><td><code>"hello"</code> (new string)</td></tr>
+                <tr><td><code>.trimStart() / .trimEnd()</code></td><td>Removes spaces from one end</td><td><code>"  hi".trimStart()</code></td><td><code>"hi"</code> (new string)</td></tr>
+                <tr><td><code>.replace(target, repl)</code></td><td>Replaces first match</td><td><code>"CSS and CSS".replace("CSS", "JS")</code></td><td><code>"JS and CSS"</code> (new string)</td></tr>
+                <tr><td><code>.replaceAll(target, repl)</code></td><td>Replaces all matches</td><td><code>"CSS and CSS".replaceAll("CSS", "JS")</code></td><td><code>"JS and JS"</code> (new string)</td></tr>
+                <tr><td><code>.repeat(count)</code></td><td>Repeats the string</td><td><code>"abc".repeat(3)</code></td><td><code>"abcabcabc"</code> (new string)</td></tr>
+                <tr><td><code>.padStart(length, char)</code></td><td>Pads start to reach length</td><td><code>"7".padStart(3, "0")</code></td><td><code>"007"</code> (new string)</td></tr>
+                <tr><td><code>.padEnd(length, char)</code></td><td>Pads end to reach length</td><td><code>"7".padEnd(3, "0")</code></td><td><code>"700"</code> (new string)</td></tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-amber">
+            <strong>⚠️ The Immutability Trap</strong><br>
+            A common beginner mistake is thinking string methods change the variable:
+            <br>
+            <code>let text = "hello";<br>text.toUpperCase();<br>console.log(text); // "hello" (UNCHANGED!)</code>
+            <br><br>
+            Since strings are primitive, they cannot be changed. You must capture the returned value in a variable:
+            <br>
+            <code>let text = "hello";<br>text = text.toUpperCase(); // ✅ reassigned to the new value!<br>console.log(text); // "HELLO"</code>
+        </div>
+
+        <h3>ES6 Template Literals (The Powerhouses)</h3>
+        <p>Template literals use backticks (<code>`</code>) instead of quotes, enabling advanced expressions directly inside the text using <code>${expression}</code>.</p>
+
+        <h4>Rule 1: Multiline Formatting</h4>
+        <pre><code><span class="kw">const</span> address = <span class="str">`Idris Ahmed
+123 Gymnasium Street
+Paris, France`</span>;
+<span class="cm">// Preserves actual newlines and spaces exactly as typed! No \n needed.</span></code></pre>
+
+        <h4>Rule 2: String Interpolation (Inline Calculations)</h4>
+        <pre><code><span class="kw">const</span> price = <span class="num-lit">29.99</span>;
+<span class="kw">const</span> taxRate = <span class="num-lit">0.2</span>;
+<span class="kw">const</span> receipt = <span class="str">`Price: $${price} (+ Tax: $${(price * taxRate).toFixed(2)}) = Total: $${(price * (1 + taxRate)).toFixed(2)}`</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(receipt); <span class="cm">// "Price: $29.99 (+ Tax: $6.00) = Total: $35.99"</span></code></pre>
+
+        <h4>Rule 3: Ternaries and Decision Making Inside Strings</h4>
+        <pre><code><span class="kw">const</span> active = <span class="bool">true</span>;
+<span class="kw">const</span> userStatus = <span class="str">`Your profile is currently ${active ? 'active' : 'inactive'}.`</span>;</code></pre>
+
+        <hr>
+
+        <h3>10 Professional String Recipes (Code Patterns)</h3>
+        <p>Here are 10 highly visual recipes showing exactly how string properties and methods are combined to solve real-world problems:</p>
+
+        <h4>Recipe 1: Capitalizing the First Letter</h4>
+        <pre><code><span class="kw">const</span> <span class="fn">capitalize</span> = str => str[<span class="num-lit">0</span>].<span class="fn">toUpperCase</span>() + str.<span class="fn">slice</span>(<span class="num-lit">1</span>);
+<span class="fn">capitalize</span>(<span class="str">"gym"</span>); <span class="cm">// "Gym"</span></code></pre>
+
+        <h4>Recipe 2: Reversing a String via Array Transition</h4>
+        <pre><code><span class="kw">const</span> <span class="fn">reverseStr</span> = str => str.<span class="fn">split</span>(<span class="str">""</span>).<span class="fn">reverse</span>().<span class="fn">join</span>(<span class="str">""</span>);
+<span class="fn">reverseStr</span>(<span class="str">"hello"</span>); <span class="cm">// "olleh"</span></code></pre>
+
+        <h4>Recipe 3: Checking for a Palindrome</h4>
+        <pre><code><span class="kw">const</span> <span class="fn">isPalindrome</span> = str => {
+    <span class="kw">const</span> clean = str.<span class="fn">toLowerCase</span>().<span class="fn">replaceAll</span>(<span class="str">" "</span>, <span class="str">""</span>);
+    <span class="kw">return</span> clean === clean.<span class="fn">split</span>(<span class="str">""</span>).<span class="fn">reverse</span>().<span class="fn">join</span>(<span class="str">""</span>);
+};
+<span class="fn">isPalindrome</span>(<span class="str">"Race Car"</span>); <span class="cm">// true</span></code></pre>
+
+        <h4>Recipe 4: Masking Sensitive Data (Credit Card)</h4>
+        <pre><code><span class="kw">const</span> <span class="fn">maskCard</span> = card => card.<span class="fn">slice</span>(-<span class="num-lit">4</span>).<span class="fn">padStart</span>(card.<span class="fn">length</span>, <span class="str">"*"</span>);
+<span class="fn">maskCard</span>(<span class="str">"1234567812345678"</span>); <span class="cm">// "************5678"</span></code></pre>
+
+        <h4>Recipe 5: Parsing Username and Domain from Email</h4>
+        <pre><code><span class="kw">const</span> email = <span class="str">"idris@gymnasium.com"</span>;
+<span class="kw">const</span> [username, domain] = email.<span class="fn">split</span>(<span class="str">"@"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(username); <span class="cm">// "idris"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(domain);   <span class="cm">// "gymnasium.com"</span></code></pre>
+
+        <h4>Recipe 6: Title Case a Sentence</h4>
+        <pre><code><span class="kw">const</span> <span class="fn">titleCase</span> = sentence => sentence
+    .<span class="fn">toLowerCase</span>()
+    .<span class="fn">split</span>(<span class="str">" "</span>)
+    .<span class="fn">map</span>(word => word[<span class="num-lit">0</span>].<span class="fn">toUpperCase</span>() + word.<span class="fn">slice</span>(<span class="num-lit">1</span>))
+    .<span class="fn">join</span>(<span class="str">" "</span>);
+<span class="fn">titleCase</span>(<span class="str">"hello WORLD from gymnasium"</span>); <span class="cm">// "Hello World From Gymnasium"</span></code></pre>
+
+        <h4>Recipe 7: Truncate Text with Ellipsis</h4>
+        <pre><code><span class="kw">const</span> <span class="fn">truncate</span> = (str, max) => str.<span class="fn">length</span> > max ? str.<span class="fn">slice</span>(<span class="num-lit">0</span>, max) + <span class="str">"..."</span> : str;
+<span class="fn">truncate</span>(<span class="str">"Welcome to Javascript"</span>, <span class="num-lit">10</span>); <span class="cm">// "Welcome to..."</span></code></pre>
+
+        <h4>Recipe 8: Check if String Contains Only Numbers</h4>
+        <pre><code><span class="kw">const</span> <span class="fn">isNumeric</span> = str => !<span class="fn">isNaN</span>(str) && !<span class="fn">isNaN</span>(<span class="fn">parseFloat</span>(str)) && !str.<span class="fn">includes</span>(<span class="str">" "</span>);
+<span class="fn">isNumeric</span>(<span class="str">"45209"</span>); <span class="cm">// true</span>
+<span class="fn">isNumeric</span>(<span class="str">"45 2"</span>);  <span class="cm">// false</span></code></pre>
+
+        <h4>Recipe 9: Count Word Occurrences</h4>
+        <pre><code><span class="kw">const</span> <span class="fn">countOccurrences</span> = (str, word) => str.<span class="fn">split</span>(word).<span class="fn">length</span> - <span class="num-lit">1</span>;
+<span class="fn">countOccurrences</span>(<span class="str">"apple banana apple cherry apple"</span>, <span class="str">"apple"</span>); <span class="cm">// 3</span></code></pre>
+
+        <h4>Recipe 10: Generate Initials from Name</h4>
+        <pre><code><span class="kw">const</span> <span class="fn">getInitials</span> = name => name
+    .<span class="fn">toUpperCase</span>()
+    .<span class="fn">split</span>(<span class="str">" "</span>)
+    .<span class="fn">map</span>(n => n[<span class="num-lit">0</span>])
+    .<span class="fn">join</span>(<span class="str">"."</span>);
+<span class="fn">getInitials</span>(<span class="str">"john fitzgerald kennedy"</span>); <span class="cm">// "J.F.K"</span></code></pre>
+
+        <!-- Number -->
+        <h3>5.2 — Number</h3>
+        <p>JavaScript has <strong>one number type</strong> for both integers and decimals (floating-point). Unlike Java or C, there is no separate <code>int</code> or <code>float</code>.</p>
+
+        <pre><code><span class="kw">let</span> integer = <span class="num-lit">42</span>;
+<span class="kw">let</span> decimal = <span class="num-lit">3.14</span>;
+<span class="kw">let</span> negative = <span class="num-lit">-17</span>;
+<span class="kw">let</span> exponential = <span class="num-lit">2.5e6</span>;  <span class="cm">// 2,500,000</span></code></pre>
+
+        <h4>Special number values:</h4>
+
+        <pre><code><span class="kw">let</span> inf = <span class="num-lit">Infinity</span>;         <span class="cm">// result of dividing by zero: 1 / 0</span>
+<span class="kw">let</span> negInf = -<span class="num-lit">Infinity</span>;      <span class="cm">// -1 / 0</span>
+<span class="kw">let</span> notANumber = <span class="num-lit">NaN</span>;        <span class="cm">// "Not a Number" — result of invalid math</span></code></pre>
+
+        <div class="callout callout-red">
+            <strong>The floating-point trap</strong>
+            JavaScript uses IEEE 754 double-precision floating point. This means decimal math can produce surprising results:
+            <br><br>
+            <code>0.1 + 0.2 === 0.3</code> → <code>false</code> (the actual result is <code>0.30000000000000004</code>)
+            <br><br>
+            This is not a JavaScript bug — it affects all languages using floating-point. For precise decimal calculations (money, measurements), use integer math (multiply by 100, work in cents) or dedicated libraries.
+        </div>
+
+        <h4><code>NaN</code> — The Weirdest Value in JavaScript:</h4>
+
+        <pre><code><span class="kw">let</span> result = <span class="str">"hello"</span> * <span class="num-lit">5</span>;  <span class="cm">// NaN — you cannot multiply text by a number</span>
+
+<span class="cm">// NaN is the ONLY value in JavaScript that is not equal to itself:</span>
+<span class="num-lit">NaN</span> === <span class="num-lit">NaN</span>;    <span class="cm">// false (!!)</span>
+
+<span class="cm">// To check for NaN, use:</span>
+<span class="fn">Number</span>.<span class="fn">isNaN</span>(result);  <span class="cm">// true — the correct and safe way</span>
+<span class="fn">isNaN</span>(<span class="str">"hello"</span>);         <span class="cm">// true — but this old function has quirks, avoid it</span></code></pre>
+
+        <!-- BigInt -->
+        <h3>5.3 — BigInt</h3>
+        <p>Regular numbers have a safe limit: <code>Number.MAX_SAFE_INTEGER</code> = 9,007,199,254,740,991. Beyond this, precision breaks. <code>BigInt</code> handles arbitrarily large integers.</p>
+
+        <pre><code><span class="kw">let</span> big = <span class="num-lit">9007199254740991n</span>;      <span class="cm">// the "n" suffix creates a BigInt</span>
+<span class="kw">let</span> alsoBig = <span class="fn">BigInt</span>(<span class="str">"123456789012345678901234567890"</span>);
+
+<span class="cm">// You cannot mix BigInt and Number in operations:</span>
+<span class="num-lit">10n</span> + <span class="num-lit">5</span>;  <span class="cm">// ❌ TypeError</span>
+<span class="num-lit">10n</span> + <span class="num-lit">5n</span>; <span class="cm">// ✅ 15n</span></code></pre>
+
+        <p>You will rarely use BigInt as a beginner, but knowing it exists matters when you encounter large IDs or cryptographic numbers.</p>
+
+        <!-- Boolean -->
+        <h3>5.4 — Boolean</h3>
+        <p>Only two possible values: <code>true</code> or <code>false</code>. The foundation of all logic, conditions, and decision-making in code.</p>
+
+        <pre><code><span class="kw">let</span> isLoggedIn = <span class="bool">true</span>;
+<span class="kw">let</span> hasPermission = <span class="bool">false</span>;
+
+<span class="cm">// Comparison operators produce booleans:</span>
+<span class="num-lit">10</span> > <span class="num-lit">5</span>;      <span class="cm">// true</span>
+<span class="num-lit">10</span> === <span class="num-lit">5</span>;    <span class="cm">// false</span>
+<span class="str">"a"</span> === <span class="str">"a"</span>;  <span class="cm">// true</span></code></pre>
+
+        <!-- undefined -->
+        <h3>5.5 — Undefined</h3>
+        <p><code>undefined</code> means <strong>"a variable has been declared but has not been given a value yet."</strong> JavaScript itself assigns this automatically.</p>
+
+        <pre><code><span class="kw">let</span> x;
+<span class="fn">console</span>.<span class="fn">log</span>(x);        <span class="cm">// undefined — declared but never assigned</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> x);  <span class="cm">// "undefined"</span></code></pre>
+
+        <p>You can also get <code>undefined</code> when:</p>
+        <ul>
+            <li>A function has no <code>return</code> statement (it returns <code>undefined</code>)</li>
+            <li>You access a property that does not exist on an object</li>
+            <li>You access an array index that does not exist</li>
+        </ul>
+
+        <!-- null -->
+        <h3>5.6 — Null</h3>
+        <p><code>null</code> means <strong>"intentionally empty."</strong> It is a value that a programmer explicitly assigns to say "there is nothing here on purpose."</p>
+
+        <pre><code><span class="kw">let</span> selectedUser = <span class="bool">null</span>;  <span class="cm">// We intentionally have no user selected right now</span></code></pre>
+
+        <div class="callout callout-blue">
+            <strong>undefined vs null — the critical difference</strong>
+            <code>undefined</code> = the engine is telling you <em>"this was never assigned."</em><br>
+            <code>null</code> = the developer is telling you <em>"I deliberately set this to nothing."</em>
+            <br><br>
+            Both represent "no value," but the <strong>intent</strong> is different. In your own code, use <code>null</code> to explicitly clear a variable. Let the engine handle <code>undefined</code>.
+        </div>
+
+        <div class="callout callout-amber">
+            <strong>The infamous typeof bug</strong>
+            <code>typeof null</code> returns <code>"object"</code> — this is a known bug in JavaScript since 1995 that was never fixed for backwards compatibility. <code>null</code> is NOT an object. It is a primitive. Just memorize this quirk.
+        </div>
+
+        <!-- Symbol -->
+        <h3>5.7 — Symbol</h3>
+        <p>A <code>Symbol</code> creates a completely <strong>unique, unreproducible</strong> identifier. Even two symbols with the same description are not equal.</p>
+
+        <pre><code><span class="kw">let</span> id1 = <span class="fn">Symbol</span>(<span class="str">"id"</span>);
+<span class="kw">let</span> id2 = <span class="fn">Symbol</span>(<span class="str">"id"</span>);
+
+id1 === id2;  <span class="cm">// false — every Symbol is absolutely unique</span></code></pre>
+
+        <p>Symbols are used as unique object property keys to avoid naming collisions. You will encounter them in frameworks and advanced patterns, but you do not need to use them daily as a beginner.</p>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <!--                   OBJECTS                                     -->
+        <!-- ============================================================ -->
+
+        <h2><span class="num">6.</span> Objects: The Complex Data Type</h2>
+
+        <p>Everything that is NOT a primitive is an <strong>Object</strong>. Objects are <strong>collections of key-value pairs</strong> (also called properties).</p>
+
+        <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    age: <span class="num-lit">25</span>,
+    isTraining: <span class="bool">true</span>
+};
+
+<span class="cm">// Accessing properties:</span>
+user.name;         <span class="cm">// "Idris" — dot notation (most common)</span>
+user[<span class="str">"age"</span>];       <span class="cm">// 25 — bracket notation (needed for dynamic keys)</span>
+
+<span class="cm">// Modifying properties:</span>
+user.age = <span class="num-lit">26</span>;            <span class="cm">// change existing property</span>
+user.email = <span class="str">"a@b.com"</span>;   <span class="cm">// add new property</span>
+
+<span class="cm">// Deleting properties:</span>
+<span class="kw">delete</span> user.email;</code></pre>
+
+        <h4>Common Object subtypes you will use constantly:</h4>
+
+        <table>
+            <thead>
+                <tr><th>Subtype</th><th>What It Is</th><th>Example</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Plain Object</strong></td><td>Generic key-value collection</td><td><code>{ name: "Idris" }</code></td></tr>
+                <tr><td><strong>Array</strong></td><td>Ordered list of values (indexed by number)</td><td><code>[1, 2, 3]</code></td></tr>
+                <tr><td><strong>Function</strong></td><td>Reusable block of code (yes, functions are objects!)</td><td><code>function greet() { }</code></td></tr>
+                <tr><td><strong>Date</strong></td><td>Represents a point in time</td><td><code>new Date()</code></td></tr>
+                <tr><td><strong>RegExp</strong></td><td>Pattern matching for strings</td><td><code>/[a-z]+/g</code></td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <!--               MEMORY: STACK VS HEAP                          -->
+        <!-- ============================================================ -->
+
+        <h2><span class="num">7.</span> How Data Types Live in Memory (Stack vs. Heap)</h2>
+
+        <p>This is one of the most important mental models in all of programming. It explains <strong>why</strong> copying variables sometimes works the way you expect and sometimes doesn't.</p>
+
+        <h3>7.1 — Primitives Live on the Stack (Copy by Value)</h3>
+
+        <p>When you create a primitive variable, the value is stored <strong>directly on the Stack</strong>. When you copy a primitive to another variable, a completely <strong>independent duplicate</strong> is created.</p>
+
+        <pre><code><span class="kw">let</span> a = <span class="num-lit">10</span>;
+<span class="kw">let</span> b = a;    <span class="cm">// b gets its own independent copy of 10</span>
+b = <span class="num-lit">99</span>;
+
+<span class="fn">console</span>.<span class="fn">log</span>(a);  <span class="cm">// 10 — completely untouched</span>
+<span class="fn">console</span>.<span class="fn">log</span>(b);  <span class="cm">// 99</span></code></pre>
+
+        <div class="memory-diagram"><span class="mem-label">Stack Memory</span>
+┌──────────────┬───────────────┐
+│ <span class="mem-stack">a</span>            │ <span class="mem-stack">10</span>            │
+├──────────────┼───────────────┤
+│ <span class="mem-stack">b</span>            │ <span class="mem-stack">99</span>            │  ← independent copy, changing b did not touch a
+└──────────────┴───────────────┘</div>
+
+        <h3>7.2 — Objects Live on the Heap (Copy by Reference)</h3>
+
+        <p>Objects are too large and dynamic to fit on the Stack. Instead, they are stored on the <strong>Heap</strong>. The variable on the Stack only holds a <strong>reference</strong> (an address, a pointer) to where the object lives on the Heap.</p>
+
+        <p>When you "copy" an object variable, <strong>you copy the reference, not the object</strong>. Both variables now point to the same object.</p>
+
+        <pre><code><span class="kw">let</span> original = { name: <span class="str">"Idris"</span> };
+<span class="kw">let</span> copy = original;   <span class="cm">// copy now points to the SAME object on the Heap</span>
+
+copy.name = <span class="str">"Changed!"</span>;
+
+<span class="fn">console</span>.<span class="fn">log</span>(original.name);  <span class="cm">// "Changed!" — BOTH were affected!</span></code></pre>
+
+        <div class="memory-diagram"><span class="mem-label">Stack Memory</span>                          <span class="mem-label">Heap Memory</span>
+┌──────────────┬───────────────┐       ┌─────────────────────────────────┐
+│ <span class="mem-stack">original</span>     │ <span class="mem-arrow">→ Addr 0x4F2</span>  │──────>│ <span class="mem-heap">Addr 0x4F2:</span>                     │
+├──────────────┼───────────────┤       │ <span class="mem-heap">{ name: "Changed!" }</span>            │
+│ <span class="mem-stack">copy</span>         │ <span class="mem-arrow">→ Addr 0x4F2</span>  │──────>│                                 │
+└──────────────┴───────────────┘       └─────────────────────────────────┘
+
+<span class="mem-arrow">Both variables point to the SAME address. One object. Two doors to it.</span></div>
+
+        <h3>7.3 — How to Create a True Copy of an Object</h3>
+
+        <p>If you need an independent copy (a new object at a new Heap address), use:</p>
+
+        <pre><code><span class="cm">// Method 1: Spread operator (shallow copy)</span>
+<span class="kw">let</span> trueCopy = { ...original };
+
+<span class="cm">// Method 2: Object.assign (shallow copy)</span>
+<span class="kw">let</span> trueCopy2 = <span class="fn">Object</span>.<span class="fn">assign</span>({}, original);
+
+<span class="cm">// Method 3: structuredClone (DEEP copy — copies nested objects too)</span>
+<span class="kw">let</span> deepCopy = <span class="fn">structuredClone</span>(original);
+
+<span class="cm">// Now modifying the copy does NOT affect the original:</span>
+trueCopy.name = <span class="str">"Safe"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(original.name);  <span class="cm">// "Changed!" — untouched!</span></code></pre>
+
+        <div class="callout callout-blue">
+            <strong>Shallow vs Deep copy</strong>
+            A <strong>shallow copy</strong> creates a new object, but if that object contains nested objects, those nested objects are still shared references.<br>
+            A <strong>deep copy</strong> (<code>structuredClone</code>) duplicates everything recursively — fully independent.
+        </div>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <!--               typeof OPERATOR                                 -->
+        <!-- ============================================================ -->
+
+        <h2><span class="num">8.</span> The <code>typeof</code> Operator</h2>
+
+        <p>The <code>typeof</code> operator tells you the data type of any value. It returns a <strong>string</strong>.</p>
+
+        <pre><code><span class="kw">typeof</span> <span class="num-lit">42</span>;          <span class="cm">// "number"</span>
+<span class="kw">typeof</span> <span class="str">"hello"</span>;     <span class="cm">// "string"</span>
+<span class="kw">typeof</span> <span class="bool">true</span>;        <span class="cm">// "boolean"</span>
+<span class="kw">typeof</span> <span class="bool">undefined</span>;   <span class="cm">// "undefined"</span>
+<span class="kw">typeof</span> <span class="num-lit">10n</span>;         <span class="cm">// "bigint"</span>
+<span class="kw">typeof</span> <span class="fn">Symbol</span>();     <span class="cm">// "symbol"</span>
+<span class="kw">typeof</span> <span class="bool">null</span>;        <span class="cm">// "object"   ⚠️ KNOWN BUG (null is a primitive!)</span>
+<span class="kw">typeof</span> {};          <span class="cm">// "object"</span>
+<span class="kw">typeof</span> [];          <span class="cm">// "object"   ⚠️ Arrays are objects</span>
+<span class="kw">typeof</span> <span class="kw">function</span>(){}; <span class="cm">// "function" (technically a subtype of object)</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>To check if something is an array</strong>
+            Since <code>typeof []</code> returns <code>"object"</code>, use <code>Array.isArray(value)</code> instead.
+        </div>
+
+        <hr>
+
+        <!-- ============================================================ -->
+        <!--              TYPE COERCION                                    -->
+        <!-- ============================================================ -->
+
+        <h2><span class="num">9.</span> Type Coercion: JavaScript's Most Confusing Feature</h2>
+
+        <p>Because JavaScript is dynamically typed, the engine will sometimes <strong>automatically convert</strong> one type to another to make an operation work. This is called <strong>type coercion</strong>, and it is the source of most beginner bugs.</p>
+
+        <h3>9.1 — Implicit Coercion (The Engine Does It Automatically)</h3>
+
+        <pre><code><span class="cm">// String + Number → the number becomes a string (concatenation)</span>
+<span class="str">"5"</span> + <span class="num-lit">3</span>;       <span class="cm">// "53" (string!) — NOT 8!</span>
+
+<span class="cm">// String - Number → the string becomes a number (math)</span>
+<span class="str">"5"</span> - <span class="num-lit">3</span>;       <span class="cm">// 2 (number)</span>
+
+<span class="cm">// Boolean in math → true becomes 1, false becomes 0</span>
+<span class="bool">true</span> + <span class="num-lit">1</span>;      <span class="cm">// 2</span>
+<span class="bool">false</span> + <span class="num-lit">1</span>;     <span class="cm">// 1</span>
+
+<span class="cm">// Comparison with different types:</span>
+<span class="str">"10"</span> == <span class="num-lit">10</span>;    <span class="cm">// true — the string was coerced to a number</span>
+<span class="str">"10"</span> === <span class="num-lit">10</span>;   <span class="cm">// false — strict equality, no coercion, different types</span></code></pre>
+
+        <div class="callout callout-red">
+            <strong>Rule: Always use === (strict equality)</strong>
+            The <code>==</code> operator converts types before comparing, which leads to bizarre results:
+            <br><br>
+            <code>"" == false</code> → <code>true</code><br>
+            <code>0 == ""</code> → <code>true</code><br>
+            <code>null == undefined</code> → <code>true</code><br>
+            <code>[] == false</code> → <code>true</code>
+            <br><br>
+            The <code>===</code> operator checks both <strong>value AND type</strong>. No surprises. Use it always.
+        </div>
+
+        <h3>9.2 — Explicit Coercion (You Do It On Purpose)</h3>
+
+        <p>When you need to convert a type, do it explicitly — never rely on implicit coercion:</p>
+
+        <pre><code><span class="cm">// Convert to Number:</span>
+<span class="fn">Number</span>(<span class="str">"42"</span>);        <span class="cm">// 42</span>
+<span class="fn">Number</span>(<span class="str">"hello"</span>);     <span class="cm">// NaN</span>
+<span class="fn">Number</span>(<span class="bool">true</span>);        <span class="cm">// 1</span>
+<span class="fn">Number</span>(<span class="bool">false</span>);       <span class="cm">// 0</span>
+<span class="fn">Number</span>(<span class="bool">null</span>);        <span class="cm">// 0</span>
+<span class="fn">Number</span>(<span class="bool">undefined</span>);   <span class="cm">// NaN</span>
+<span class="fn">parseInt</span>(<span class="str">"42px"</span>);    <span class="cm">// 42 — parses until it hits a non-number character</span>
+<span class="fn">parseFloat</span>(<span class="str">"3.14"</span>); <span class="cm">// 3.14</span>
+
+<span class="cm">// Convert to String:</span>
+<span class="fn">String</span>(<span class="num-lit">42</span>);          <span class="cm">// "42"</span>
+(<span class="num-lit">42</span>).<span class="fn">toString</span>();     <span class="cm">// "42"</span>
+
+<span class="cm">// Convert to Boolean:</span>
+<span class="fn">Boolean</span>(<span class="num-lit">1</span>);          <span class="cm">// true</span>
+<span class="fn">Boolean</span>(<span class="num-lit">0</span>);          <span class="cm">// false</span>
+<span class="fn">Boolean</span>(<span class="str">""</span>);         <span class="cm">// false</span>
+<span class="fn">Boolean</span>(<span class="str">"hello"</span>);    <span class="cm">// true</span></code></pre>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <!--              TRUTHY AND FALSY                                 -->
+        <!-- ============================================================ -->
+
+        <h2><span class="num">10.</span> Truthy and Falsy Values</h2>
+
+        <p>In JavaScript, every value has an inherent Boolean identity — it is either <strong>"truthy"</strong> or <strong>"falsy"</strong>. This determines how it behaves in conditions (<code>if</code>, <code>while</code>, ternaries, logical operators).</p>
+
+        <h3>The Complete Falsy List (memorize these — there are only 8):</h3>
+
+        <table>
+            <thead>
+                <tr><th>Falsy Value</th><th>Type</th><th>Explanation</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>false</code></td><td>Boolean</td><td>The literal false value</td></tr>
+                <tr><td><code>0</code></td><td>Number</td><td>Zero</td></tr>
+                <tr><td><code>-0</code></td><td>Number</td><td>Negative zero (yes, it exists)</td></tr>
+                <tr><td><code>0n</code></td><td>BigInt</td><td>BigInt zero</td></tr>
+                <tr><td><code>""</code></td><td>String</td><td>Empty string (no characters)</td></tr>
+                <tr><td><code>null</code></td><td>null</td><td>Intentional absence of value</td></tr>
+                <tr><td><code>undefined</code></td><td>undefined</td><td>No value assigned</td></tr>
+                <tr><td><code>NaN</code></td><td>Number</td><td>Not a Number</td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>Everything else is truthy.</strong> Including things that surprise beginners:</p>
+
+        <pre><code><span class="cm">// These are ALL truthy:</span>
+<span class="fn">Boolean</span>(<span class="str">"0"</span>);       <span class="cm">// true — it's a non-empty string, not the number 0</span>
+<span class="fn">Boolean</span>(<span class="str">" "</span>);       <span class="cm">// true — a space is a character</span>
+<span class="fn">Boolean</span>([]);        <span class="cm">// true — empty array is still an object</span>
+<span class="fn">Boolean</span>({});        <span class="cm">// true — empty object is still an object</span>
+<span class="fn">Boolean</span>(<span class="str">"false"</span>);   <span class="cm">// true — the STRING "false" is not the BOOLEAN false</span></code></pre>
+
+        <div class="callout callout-green">
+            <strong>How this is used in practice</strong>
+            Instead of writing: <code>if (username !== undefined &amp;&amp; username !== null &amp;&amp; username !== "")</code>
+            <br>You can write: <code>if (username)</code>
+            <br><br>
+            Since <code>undefined</code>, <code>null</code>, and <code>""</code> are all falsy, this single check handles all three cases. This pattern is used everywhere in professional code.
+        </div>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <!--              COMPARISON OPERATORS                             -->
+        <!-- ============================================================ -->
+
+        <h2><span class="num">11.</span> Equality & Comparison: <code>==</code> vs <code>===</code></h2>
+
+        <table>
+            <thead>
+                <tr><th>Operator</th><th>Name</th><th>Behavior</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>==</code></td><td>Loose Equality</td><td>Converts types, then compares values</td></tr>
+                <tr><td><code>===</code></td><td>Strict Equality</td><td>Compares value AND type — no conversion</td></tr>
+                <tr><td><code>!=</code></td><td>Loose Inequality</td><td>Converts types, then checks if NOT equal</td></tr>
+                <tr><td><code>!==</code></td><td>Strict Inequality</td><td>No conversion — checks value AND type are NOT equal</td></tr>
+            </tbody>
+        </table>
+
+        <pre><code><span class="num-lit">5</span> == <span class="str">"5"</span>;     <span class="cm">// true — string "5" is coerced to number 5</span>
+<span class="num-lit">5</span> === <span class="str">"5"</span>;    <span class="cm">// false — number is not the same type as string</span>
+
+<span class="bool">null</span> == <span class="bool">undefined</span>;   <span class="cm">// true — special coercion rule</span>
+<span class="bool">null</span> === <span class="bool">undefined</span>;  <span class="cm">// false — different types</span></code></pre>
+
+        <h3>Object Equality: A Different Game</h3>
+
+        <p>For objects (including arrays), <code>===</code> checks if both variables point to the <strong>exact same object in memory</strong>, NOT whether the contents are the same:</p>
+
+        <pre><code><span class="kw">let</span> arr1 = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>];
+<span class="kw">let</span> arr2 = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>];
+
+arr1 === arr2;  <span class="cm">// false — same contents, but two different objects in memory!</span>
+
+<span class="kw">let</span> arr3 = arr1;
+arr1 === arr3;  <span class="cm">// true — both point to the exact same object on the Heap</span></code></pre>
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <!--              KEY VOCABULARY                                   -->
+        <!-- ============================================================ -->
+
+        <h2><span class="num">12.</span> Key Vocabulary Summary</h2>
+
+        <table>
+            <thead>
+                <tr><th>Term</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Declaration</strong></td><td>Creating a variable with <code>let</code>, <code>const</code>, or <code>var</code></td></tr>
+                <tr><td><strong>Initialization</strong></td><td>Assigning a value for the first time</td></tr>
+                <tr><td><strong>Reassignment</strong></td><td>Giving a variable a new value after it was already initialized</td></tr>
+                <tr><td><strong>Primitive</strong></td><td>A simple, immutable value (string, number, boolean, null, undefined, symbol, bigint)</td></tr>
+                <tr><td><strong>Object</strong></td><td>A complex, mutable collection of key-value pairs</td></tr>
+                <tr><td><strong>Stack</strong></td><td>Fast, fixed-size memory where primitives and references are stored</td></tr>
+                <tr><td><strong>Heap</strong></td><td>Large, dynamic memory where objects live</td></tr>
+                <tr><td><strong>Reference</strong></td><td>An address (pointer) to an object on the Heap, stored on the Stack</td></tr>
+                <tr><td><strong>Pass by Value</strong></td><td>Copying creates an independent duplicate (primitives)</td></tr>
+                <tr><td><strong>Pass by Reference</strong></td><td>Copying shares the same underlying data (objects)</td></tr>
+                <tr><td><strong>Immutable</strong></td><td>Cannot be modified after creation (all primitives)</td></tr>
+                <tr><td><strong>Mutable</strong></td><td>Can be modified after creation (objects)</td></tr>
+                <tr><td><strong>Type Coercion</strong></td><td>Automatic type conversion performed by the engine</td></tr>
+                <tr><td><strong>Truthy / Falsy</strong></td><td>The Boolean identity of any value when used in a condition</td></tr>
+                <tr><td><strong>Strict Equality</strong></td><td><code>===</code> — compares value and type without conversion</td></tr>
+                <tr><td><strong>TDZ</strong></td><td>Temporal Dead Zone — the period where <code>let</code>/<code>const</code> exist but cannot be accessed</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <!-- Bottom nav -->
+        <div class="bottom-nav">
+            <a href="01-what-is-javascript.html" class="prev">
+                <span class="label">← Previous</span>
+                <span class="title">01 — What Is JavaScript?</span>
+            </a>
+            <a href="#" class="next">
+                <span class="label">Next →</span>
+                <span class="title">03 — Operators & Expressions</span>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

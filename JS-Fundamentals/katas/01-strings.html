@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Katas — 20 Challenges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16px;padding:40px 20px}.container{max-width:820px;margin:0 auto}h1{font-size:38px;font-weight:700;color:#f0f6fc;margin-bottom:12px}.subtitle{font-size:17px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px}p{margin-bottom:18px;color:#b0bac9}strong{color:#e2e8f0}code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:12px 0 20px;overflow-x:auto}pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}.cm{color:#5e6e8a;font-style:italic}hr{border:none;border-top:1px solid #1e2d4a;margin:36px 0}.kata{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px;margin:24px 0}.kata-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}.kata-num{background:#f59e0b;color:#0d1117;font-size:13px;font-weight:700;padding:4px 12px;border-radius:8px}.kata-diff{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:6px}.diff-easy{background:rgba(16,185,129,.15);color:#10b981}.diff-medium{background:rgba(245,158,11,.15);color:#f59e0b}.diff-hard{background:rgba(248,81,73,.15);color:#f85149}.kata h3{font-size:18px;font-weight:600;color:#f0f6fc;margin-bottom:10px}.kata p{font-size:15px;color:#9aa5b4;margin-bottom:12px}.constraint{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:10px;padding:10px 16px;margin:12px 0;font-size:13px;font-weight:600;color:#a78bfa}.constraint::before{content:'⛔ CONSTRAINT: ';font-weight:700}.solution-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#10b981;font-size:13px;font-weight:600;padding:8px 18px;border-radius:10px;cursor:pointer;transition:.2s;margin-top:8px}.solution-btn:hover{background:rgba(16,185,129,.15)}.solution{display:none;margin-top:16px;padding:16px 20px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}.solution.show{display:block}.solution-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#10b981;margin-bottom:10px}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔤 String Katas</h1>
+    <p class="subtitle">20 challenges focused on string manipulation. Each kata has a constraint that forces you to solve it a specific way.</p>
+
+    <!-- 01 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">01</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Reverse a String</h3>
+    <p>Write <code>reverseStr(str)</code> that reverses a string.</p>
+    <pre><code>reverseStr("hello")   <span class="cm">// "olleh"</span>
+reverseStr("world")   <span class="cm">// "dlrow"</span></code></pre>
+    <div class="constraint">Do NOT use .reverse() or .split(). Use a for loop only.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function reverseStr(str) {
+    let result = "";
+    for (let i = str.length - 1; i >= 0; i--) {
+        result += str[i];
+    }
+    return result;
+}</code></pre></div></div>
+
+    <!-- 02 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">02</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Count Vowels</h3>
+    <p>Write <code>countVowels(str)</code> that returns the number of vowels (a, e, i, o, u).</p>
+    <pre><code>countVowels("hello world")   <span class="cm">// 3</span>
+countVowels("AEIOU")          <span class="cm">// 5</span></code></pre>
+    <div class="constraint">Use .match() with a regex. One line.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const countVowels = str => (str.match(/[aeiou]/gi) || []).length;</code></pre></div></div>
+
+    <!-- 03 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">03</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Capitalize First Letter</h3>
+    <p>Write <code>capitalizeFirst(str)</code> that capitalizes only the first letter of a string.</p>
+    <pre><code>capitalizeFirst("hello")   <span class="cm">// "Hello"</span>
+capitalizeFirst("javaScript")  <span class="cm">// "JavaScript"</span></code></pre>
+    <div class="constraint">Use only slice() and toUpperCase(). One expression.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const capitalizeFirst = str => str[0].toUpperCase() + str.slice(1);</code></pre></div></div>
+
+    <!-- 04 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">04</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Title Case</h3>
+    <p>Write <code>titleCase(str)</code> that capitalizes the first letter of every word.</p>
+    <pre><code>titleCase("hello world from js")   <span class="cm">// "Hello World From Js"</span></code></pre>
+    <div class="constraint">Use .split(), .map(), and .join() — one chain only. No loops.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const titleCase = str =>
+    str.split(" ")
+       .map(w => w[0].toUpperCase() + w.slice(1).toLowerCase())
+       .join(" ");</code></pre></div></div>
+
+    <!-- 05 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">05</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Is Palindrome</h3>
+    <p>Write <code>isPalindrome(str)</code>. Ignore case and spaces.</p>
+    <pre><code>isPalindrome("racecar")    <span class="cm">// true</span>
+isPalindrome("Race Car")   <span class="cm">// true</span>
+isPalindrome("hello")      <span class="cm">// false</span></code></pre>
+    <div class="constraint">Use a for loop comparing characters from both ends. No .reverse().</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function isPalindrome(str) {
+    const clean = str.toLowerCase().replace(/\s/g, "");
+    for (let i = 0; i < Math.floor(clean.length / 2); i++) {
+        if (clean[i] !== clean[clean.length - 1 - i]) return false;
+    }
+    return true;
+}</code></pre></div></div>
+
+    <!-- 06 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">06</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Truncate String</h3>
+    <p>Write <code>truncate(str, max)</code>. If string is longer than <code>max</code>, cut it and add <code>"..."</code>.</p>
+    <pre><code>truncate("Hello World", 5)   <span class="cm">// "Hello..."</span>
+truncate("Hi", 10)            <span class="cm">// "Hi"</span></code></pre>
+    <div class="constraint">Use the ternary operator only. One expression, no if/else.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const truncate = (str, max) =>
+    str.length > max ? str.slice(0, max) + "..." : str;</code></pre></div></div>
+
+    <!-- 07 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">07</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Count Words</h3>
+    <p>Write <code>countWords(str)</code>. Must handle multiple spaces between words.</p>
+    <pre><code>countWords("hello world")        <span class="cm">// 2</span>
+countWords("  hello   world  ")  <span class="cm">// 2</span>
+countWords("")                    <span class="cm">// 0</span></code></pre>
+    <div class="constraint">Use .trim() and .split() with a regex for whitespace.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function countWords(str) {
+    const trimmed = str.trim();
+    if (trimmed === "") return 0;
+    return trimmed.split(/\s+/).length;
+}</code></pre></div></div>
+
+    <!-- 08 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">08</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Remove Duplicate Characters</h3>
+    <p>Write <code>removeDupes(str)</code>. Keep the first occurrence of each character.</p>
+    <pre><code>removeDupes("aabbcc")     <span class="cm">// "abc"</span>
+removeDupes("hello")      <span class="cm">// "helo"</span></code></pre>
+    <div class="constraint">Use a Set and the spread operator. One line.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const removeDupes = str => [...new Set(str)].join("");</code></pre></div></div>
+
+    <!-- 09 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">09</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Longest Word</h3>
+    <p>Write <code>longestWord(str)</code> that returns the longest word in a sentence.</p>
+    <pre><code>longestWord("The quick brown fox jumped")   <span class="cm">// "jumped"</span></code></pre>
+    <div class="constraint">Use .reduce() only. No sort, no loops.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const longestWord = str =>
+    str.split(" ").reduce((longest, word) =>
+        word.length > longest.length ? word : longest, "");</code></pre></div></div>
+
+    <!-- 10 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">10</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Repeat String</h3>
+    <p>Write <code>repeatStr(str, n)</code> that repeats a string n times.</p>
+    <pre><code>repeatStr("ha", 3)   <span class="cm">// "hahaha"</span>
+repeatStr("ab", 0)   <span class="cm">// ""</span></code></pre>
+    <div class="constraint">Do NOT use .repeat(). Use a while loop.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function repeatStr(str, n) {
+    let result = "";
+    let i = 0;
+    while (i < n) {
+        result += str;
+        i++;
+    }
+    return result;
+}</code></pre></div></div>
+
+    <!-- 11 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">11</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Camel to Kebab</h3>
+    <p>Write <code>camelToKebab(str)</code> that converts camelCase to kebab-case.</p>
+    <pre><code>camelToKebab("backgroundColor")   <span class="cm">// "background-color"</span>
+camelToKebab("fontSize")          <span class="cm">// "font-size"</span>
+camelToKebab("borderTopWidth")    <span class="cm">// "border-top-width"</span></code></pre>
+    <div class="constraint">Use regex with .replace(). One line.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const camelToKebab = str =>
+    str.replace(/([A-Z])/g, "-$1").toLowerCase();</code></pre></div></div>
+
+    <!-- 12 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">12</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Kebab to Camel</h3>
+    <p>Write <code>kebabToCamel(str)</code> that converts kebab-case to camelCase.</p>
+    <pre><code>kebabToCamel("background-color")   <span class="cm">// "backgroundColor"</span>
+kebabToCamel("border-top-width")   <span class="cm">// "borderTopWidth"</span></code></pre>
+    <div class="constraint">Use .split("-"), .map(), .join(""). No regex.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const kebabToCamel = str =>
+    str.split("-")
+       .map((w, i) => i === 0 ? w : w[0].toUpperCase() + w.slice(1))
+       .join("");</code></pre></div></div>
+
+    <!-- 13 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">13</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Compress String (Run-Length Encoding)</h3>
+    <p>Write <code>compress(str)</code>. Consecutive identical characters are replaced by the character + count.</p>
+    <pre><code>compress("aaabbc")      <span class="cm">// "a3b2c1"</span>
+compress("aabbbcccc")   <span class="cm">// "a2b3c4"</span></code></pre>
+    <div class="constraint">Use a for loop and the accumulator pattern. No regex.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function compress(str) {
+    let result = "";
+    let count = 1;
+
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] === str[i + 1]) {
+            count++;
+        } else {
+            result += str[i] + count;
+            count = 1;
+        }
+    }
+    return result;
+}</code></pre></div></div>
+
+    <!-- 14 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">14</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Is Anagram</h3>
+    <p>Write <code>isAnagram(a, b)</code>. Ignore case and spaces.</p>
+    <pre><code>isAnagram("listen", "silent")   <span class="cm">// true</span>
+isAnagram("hello", "world")     <span class="cm">// false</span>
+isAnagram("Astronomer", "Moon starer")  <span class="cm">// true</span></code></pre>
+    <div class="constraint">Sort the characters and compare. Use .split().sort().join().</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function isAnagram(a, b) {
+    const clean = str => str.toLowerCase().replace(/\s/g, "").split("").sort().join("");
+    return clean(a) === clean(b);
+}</code></pre></div></div>
+
+    <!-- 15 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">15</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Caesar Cipher</h3>
+    <p>Write <code>caesarCipher(str, shift)</code>. Shift each letter by <code>shift</code> positions. Wrap around z→a. Preserve case. Non-letters unchanged.</p>
+    <pre><code>caesarCipher("abc", 3)       <span class="cm">// "def"</span>
+caesarCipher("xyz", 3)       <span class="cm">// "abc"</span>
+caesarCipher("Hello!", 5)    <span class="cm">// "Mjqqt!"</span></code></pre>
+    <div class="constraint">Use .charCodeAt() and String.fromCharCode(). Handle upper/lower case separately.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function caesarCipher(str, shift) {
+    return [...str].map(char => {
+        if (char >= "a" && char <= "z") {
+            return String.fromCharCode(((char.charCodeAt(0) - 97 + shift) % 26 + 26) % 26 + 97);
+        }
+        if (char >= "A" && char <= "Z") {
+            return String.fromCharCode(((char.charCodeAt(0) - 65 + shift) % 26 + 26) % 26 + 65);
+        }
+        return char;
+    }).join("");
+}</code></pre></div></div>
+
+    <!-- 16 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">16</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Count Substring Occurrences</h3>
+    <p>Write <code>countSub(str, sub)</code>. Count overlapping occurrences too.</p>
+    <pre><code>countSub("banana", "ana")   <span class="cm">// 2</span>
+countSub("aaa", "aa")       <span class="cm">// 2</span></code></pre>
+    <div class="constraint">Use a while loop with .indexOf() and a moving start position.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function countSub(str, sub) {
+    let count = 0;
+    let pos = 0;
+    while ((pos = str.indexOf(sub, pos)) !== -1) {
+        count++;
+        pos++;  // move by 1 to catch overlapping
+    }
+    return count;
+}</code></pre></div></div>
+
+    <!-- 17 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">17</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Mask Credit Card</h3>
+    <p>Write <code>maskCard(num)</code>. Show only last 4 digits, replace the rest with <code>#</code>.</p>
+    <pre><code>maskCard("4556364607935616")   <span class="cm">// "############5616"</span>
+maskCard("1234")               <span class="cm">// "1234"</span></code></pre>
+    <div class="constraint">Use .slice() and .padStart(). No loops.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const maskCard = num =>
+    num.slice(-4).padStart(num.length, "#");</code></pre></div></div>
+
+    <!-- 18 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">18</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Reverse Words</h3>
+    <p>Write <code>reverseWords(str)</code>. Reverse the order of words, not characters.</p>
+    <pre><code>reverseWords("hello world foo")   <span class="cm">// "foo world hello"</span></code></pre>
+    <div class="constraint">Use .split().reverse().join() — one line only.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const reverseWords = str => str.split(" ").reverse().join(" ");</code></pre></div></div>
+
+    <!-- 19 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">19</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Extract Numbers</h3>
+    <p>Write <code>extractNums(str)</code>. Extract all numbers from a string and return as an array of numbers.</p>
+    <pre><code>extractNums("I have 3 cats and 12 dogs")   <span class="cm">// [3, 12]</span>
+extractNums("no numbers here")              <span class="cm">// []</span></code></pre>
+    <div class="constraint">Use .match() with regex, then .map(Number).</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const extractNums = str =>
+    (str.match(/\d+/g) || []).map(Number);</code></pre></div></div>
+
+    <!-- 20 -->
+    <div class="kata"><div class="kata-header"><span class="kata-num">20</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>String Permutations</h3>
+    <p>Write <code>permutations(str)</code>. Return all unique permutations of a string as an array.</p>
+    <pre><code>permutations("ab")    <span class="cm">// ["ab", "ba"]</span>
+permutations("abc")   <span class="cm">// ["abc","acb","bac","bca","cab","cba"]</span>
+permutations("aab")   <span class="cm">// ["aab","aba","baa"]  (unique only)</span></code></pre>
+    <div class="constraint">Use recursion. No libraries. Use a Set for uniqueness.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function permutations(str) {
+    if (str.length <= 1) return [str];
+
+    const result = new Set();
+    for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+        const remaining = str.slice(0, i) + str.slice(i + 1);
+        for (const perm of permutations(remaining)) {
+            result.add(char + perm);
+        }
+    }
+    return [...result];
+}</code></pre></div></div>
+
+</div>
+<script>
+function toggle(btn){const s=btn.nextElementSibling;s.classList.toggle('show');btn.textContent=s.classList.contains('show')?'Hide Solution':'Show Solution';}
+</script>
+</body>
+</html>

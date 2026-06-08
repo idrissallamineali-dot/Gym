@@ -1,0 +1,10 @@
+
+.flex {
+        display: flex;
+    flex-direction: row-reverse;
+    
+    gap: 12px;
+}
+.item{
+    flex: 1;
+}

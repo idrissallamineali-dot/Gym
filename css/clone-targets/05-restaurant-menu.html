@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Maison Dorée — Fine Dining</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: #1a1410;
+            color: #e8ddd0;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ── Decorative Background ── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(212, 168, 83, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(212, 168, 83, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Header ── */
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 24px 40px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .ornament-line {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4a853, transparent);
+        }
+
+        .ornament-diamond {
+            width: 8px;
+            height: 8px;
+            background: #d4a853;
+            transform: rotate(45deg);
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #d4a853;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        header .tagline {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: #b8a48a;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        header .est {
+            font-size: 0.8rem;
+            color: #7a6e5f;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        /* ── Nav ── */
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 36px;
+            padding: 16px 24px;
+            border-top: 1px solid rgba(212, 168, 83, 0.15);
+            border-bottom: 1px solid rgba(212, 168, 83, 0.15);
+            position: relative;
+            z-index: 1;
+        }
+
+        nav a {
+            font-family: 'Playfair Display', serif;
+            text-decoration: none;
+            color: #b8a48a;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #d4a853;
+        }
+
+        nav .nav-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #d4a853;
+            opacity: 0.4;
+        }
+
+        /* ── Main Menu ── */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 50px 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-intro {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .menu-intro p {
+            max-width: 600px;
+            font-size: 0.95rem;
+            color: #9a8e7e;
+            line-height: 1.8;
+        }
+
+        .menu-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px 60px;
+        }
+
+        .menu-section {
+            flex: 1 1 420px;
+        }
+
+        .section-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #d4a853;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .section-header .section-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: #7a6e5f;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .section-divider span {
+            width: 40px;
+            height: 1px;
+            background: rgba(212, 168, 83, 0.3);
+        }
+
+        .section-divider .center-dot {
+            width: 5px;
+            height: 5px;
+            background: #d4a853;
+            border-radius: 50%;
+        }
+
+        /* ── Menu Item ── */
+        .menu-item {
+            margin-bottom: 22px;
+        }
+
+        .item-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .item-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #e8ddd0;
+            white-space: nowrap;
+        }
+
+        .item-dots {
+            flex-grow: 1;
+            border-bottom: 1px dotted rgba(212, 168, 83, 0.3);
+            min-width: 20px;
+            margin-bottom: 4px;
+        }
+
+        .item-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #d4a853;
+            white-space: nowrap;
+        }
+
+        .item-desc {
+            font-size: 0.82rem;
+            color: #7a6e5f;
+            margin-top: 4px;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .item-tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .item-tag {
+            font-size: 0.65rem;
+            color: #d4a853;
+            border: 1px solid rgba(212, 168, 83, 0.25);
+            padding: 1px 8px;
+            border-radius: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ── Sommelier Section ── */
+        .sommelier-picks {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 60px;
+            padding: 40px 24px;
+            border-top: 1px solid rgba(212, 168, 83, 0.12);
+            border-bottom: 1px solid rgba(212, 168, 83, 0.12);
+        }
+
+        .sommelier-picks h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #d4a853;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .sommelier-picks .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: #7a6e5f;
+            margin-bottom: 30px;
+        }
+
+        .wine-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px 50px;
+            justify-content: center;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .wine-item {
+            flex: 1 1 360px;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .wine-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            color: #e8ddd0;
+            white-space: nowrap;
+        }
+
+        .wine-region {
+            font-size: 0.78rem;
+            color: #7a6e5f;
+            font-style: italic;
+            white-space: nowrap;
+        }
+
+        .wine-dots {
+            flex-grow: 1;
+            border-bottom: 1px dotted rgba(212, 168, 83, 0.25);
+            min-width: 16px;
+            margin-bottom: 4px;
+        }
+
+        .wine-price {
+            font-family: 'Playfair Display', serif;
+            color: #d4a853;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        /* ── Reservation CTA ── */
+        .reservation-cta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 70px 24px;
+            margin-top: 20px;
+        }
+
+        .reservation-cta .cta-ornament {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .reservation-cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #e8ddd0;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .reservation-cta p {
+            font-size: 0.95rem;
+            color: #7a6e5f;
+            margin-bottom: 30px;
+            max-width: 460px;
+            line-height: 1.7;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #1a1410;
+            background: linear-gradient(135deg, #d4a853, #e8c97a);
+            border: none;
+            padding: 16px 44px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #e8c97a, #f0d88e);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 168, 83, 0.25);
+        }
+
+        .cta-contact {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .cta-contact span {
+            font-size: 0.82rem;
+            color: #7a6e5f;
+            letter-spacing: 1px;
+        }
+
+        .cta-contact .divider {
+            width: 4px;
+            height: 4px;
+            background: #d4a853;
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+
+        /* ── Footer ── */
+        footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 24px;
+            border-top: 1px solid rgba(212, 168, 83, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            font-size: 0.78rem;
+            color: #7a6e5f;
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #d4a853;
+        }
+
+        footer .copyright {
+            font-size: 0.72rem;
+            color: #4a4035;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ── -->
+    <header>
+        <div class="header-ornament">
+            <span class="ornament-line"></span>
+            <span class="ornament-diamond"></span>
+            <span class="ornament-line"></span>
+        </div>
+        <h1>La Maison Dorée</h1>
+        <p class="tagline">An Unforgettable Culinary Journey</p>
+        <span class="est">Established 1987 · Paris</span>
+    </header>
+
+    <!-- ── Navigation ── -->
+    <nav>
+        <a href="#">Menu</a>
+        <span class="nav-dot"></span>
+        <a href="#">Wine List</a>
+        <span class="nav-dot"></span>
+        <a href="#">Private Dining</a>
+        <span class="nav-dot"></span>
+        <a href="#">Our Story</a>
+        <span class="nav-dot"></span>
+        <a href="#">Reservations</a>
+    </nav>
+
+    <!-- ── Main Content ── -->
+    <main>
+        <div class="menu-intro">
+            <p>Our seasonal menu celebrates the finest ingredients sourced from local farms and artisan producers. Each dish is crafted with passion by Chef Laurent Beaumont.</p>
+        </div>
+
+        <!-- ── Menu Grid ── -->
+        <div class="menu-grid">
+
+            <!-- Starters -->
+            <section class="menu-section">
+                <div class="section-header">
+                    <h2>Starters</h2>
+                    <span class="section-subtitle">Les Entrées</span>
+                    <div class="section-divider">
+                        <span></span>
+                        <span class="center-dot"></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Seared Foie Gras</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$32</span>
+                    </div>
+                    <p class="item-desc">Caramelized fig compote, brioche toast, aged balsamic reduction</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Lobster Bisque</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$24</span>
+                    </div>
+                    <p class="item-desc">Cognac cream, chive oil, gruyère crouton</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Burrata & Heirloom Tomato</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$22</span>
+                    </div>
+                    <p class="item-desc">Aged basil pesto, micro greens, extra virgin olive oil</p>
+                    <div class="item-tags">
+                        <span class="item-tag">Vegetarian</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Tuna Tartare</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$28</span>
+                    </div>
+                    <p class="item-desc">Avocado mousse, sesame tuile, yuzu dressing</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">French Onion Soup</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$18</span>
+                    </div>
+                    <p class="item-desc">Slow-caramelized onions, gruyère gratinée, thyme</p>
+                </div>
+            </section>
+
+            <!-- Mains -->
+            <section class="menu-section">
+                <div class="section-header">
+                    <h2>Mains</h2>
+                    <span class="section-subtitle">Les Plats Principaux</span>
+                    <div class="section-divider">
+                        <span></span>
+                        <span class="center-dot"></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Wagyu Beef Tenderloin</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$68</span>
+                    </div>
+                    <p class="item-desc">Truffle pomme purée, asparagus, red wine jus</p>
+                    <div class="item-tags">
+                        <span class="item-tag">Chef's Pick</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Pan-Seared Duck Breast</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$48</span>
+                    </div>
+                    <p class="item-desc">Cherry gastrique, fondant potato, wilted spinach</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Grilled Sea Bass</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$52</span>
+                    </div>
+                    <p class="item-desc">Saffron risotto, beurre blanc, crispy capers</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Rack of Lamb</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$56</span>
+                    </div>
+                    <p class="item-desc">Herb crust, ratatouille, rosemary jus</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Wild Mushroom Risotto</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$36</span>
+                    </div>
+                    <p class="item-desc">Porcini, chanterelle, aged parmesan, truffle oil</p>
+                    <div class="item-tags">
+                        <span class="item-tag">Vegetarian</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Desserts -->
+            <section class="menu-section">
+                <div class="section-header">
+                    <h2>Desserts</h2>
+                    <span class="section-subtitle">Les Desserts</span>
+                    <div class="section-divider">
+                        <span></span>
+                        <span class="center-dot"></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Crème Brûlée</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$16</span>
+                    </div>
+                    <p class="item-desc">Tahitian vanilla bean, caramelized sugar crust</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Chocolate Fondant</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$18</span>
+                    </div>
+                    <p class="item-desc">Valrhona 70% dark chocolate, salted caramel ice cream</p>
+                    <div class="item-tags">
+                        <span class="item-tag">Signature</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Tarte Tatin</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$15</span>
+                    </div>
+                    <p class="item-desc">Caramelized apple, puff pastry, crème fraîche</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Lemon Soufflé</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$17</span>
+                    </div>
+                    <p class="item-desc">Meyer lemon curd, lavender shortbread</p>
+                </div>
+            </section>
+
+            <!-- From the Bar -->
+            <section class="menu-section">
+                <div class="section-header">
+                    <h2>Digestifs</h2>
+                    <span class="section-subtitle">Cocktails & Spirits</span>
+                    <div class="section-divider">
+                        <span></span>
+                        <span class="center-dot"></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">La Maison Old Fashioned</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$22</span>
+                    </div>
+                    <p class="item-desc">Woodford Reserve, demerara, orange, Angostura</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Champagne Cocktail</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$24</span>
+                    </div>
+                    <p class="item-desc">Ruinart Blanc de Blancs, sugar cube, Cognac</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Espresso Martini</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$20</span>
+                    </div>
+                    <p class="item-desc">Grey Goose, Kahlúa, freshly pulled espresso</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-row">
+                        <span class="item-name">Rémy Martin XO</span>
+                        <span class="item-dots"></span>
+                        <span class="item-price">$38</span>
+                    </div>
+                    <p class="item-desc">Served neat, warmed snifter</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- ── Sommelier Picks ── -->
+        <section class="sommelier-picks">
+            <h2>Sommelier's Selection</h2>
+            <p class="subtitle">Curated pairings by our Head Sommelier</p>
+            <div class="wine-list">
+                <div class="wine-item">
+                    <span class="wine-name">Château Margaux 2015</span>
+                    <span class="wine-region">· Bordeaux</span>
+                    <span class="wine-dots"></span>
+                    <span class="wine-price">$85 / glass</span>
+                </div>
+                <div class="wine-item">
+                    <span class="wine-name">Puligny-Montrachet 2018</span>
+                    <span class="wine-region">· Burgundy</span>
+                    <span class="wine-dots"></span>
+                    <span class="wine-price">$62 / glass</span>
+                </div>
+                <div class="wine-item">
+                    <span class="wine-name">Barolo Riserva 2016</span>
+                    <span class="wine-region">· Piedmont</span>
+                    <span class="wine-dots"></span>
+                    <span class="wine-price">$55 / glass</span>
+                </div>
+                <div class="wine-item">
+                    <span class="wine-name">Sancerre Blanc 2021</span>
+                    <span class="wine-region">· Loire Valley</span>
+                    <span class="wine-dots"></span>
+                    <span class="wine-price">$28 / glass</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Reservation CTA ── -->
+        <section class="reservation-cta">
+            <div class="cta-ornament">
+                <span class="ornament-line"></span>
+                <span class="ornament-diamond"></span>
+                <span class="ornament-line"></span>
+            </div>
+            <h2>Reserve Your Table</h2>
+            <p>Join us for an evening of exceptional cuisine and impeccable service. We recommend booking at least 48 hours in advance.</p>
+            <a href="#" class="cta-button">Make a Reservation</a>
+            <div class="cta-contact">
+                <span>📞 +33 1 42 68 53 00</span>
+                <span class="divider"></span>
+                <span>📍 12 Rue de Rivoli, Paris</span>
+                <span class="divider"></span>
+                <span>🕐 Tue – Sun, 6pm – 11pm</span>
+            </div>
+        </section>
+    </main>
+
+    <!-- ── Footer ── -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">TripAdvisor</a>
+            <a href="#">Press</a>
+        </div>
+        <span class="copyright">© 2026 La Maison Dorée. All Rights Reserved.</span>
+    </footer>
+
+</body>
+</html>

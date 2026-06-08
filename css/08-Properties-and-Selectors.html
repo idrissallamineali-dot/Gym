@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 8 — CSS Properties & Selectors Cookbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+.container{max-width:900px;margin:0 auto}
+h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+.lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#10b981;margin-bottom:8px}
+.subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+.section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+.section-num{background:#1e2d4a;color:#10b981;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #10b981;padding-left:14px}
+h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+p{margin-bottom:20px;color:#b0bac9}
+strong{color:#e2e8f0}
+code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+.tag{color:#7ee787}.attr{color:#d2a8ff}.val{color:#a5d6ff}.cm{color:#5e6e8a;font-style:italic}
+.prop{color:#d2a8ff}.sel{color:#7ee787}.num{color:#79c0ff}.cssval{color:#a5d6ff}
+.co-r,.co-g,.co-p,.co-y,.co-b{border-radius:12px;padding:20px 24px;margin:20px 0 28px;font-size:15.5px;line-height:1.75}
+.co-r{background:#2a1520;border-left:4px solid #f85149;color:#f0b0b0}
+.co-g{background:#122117;border-left:4px solid #10b981;color:#a3e4c4}
+.co-p{background:#1c1730;border-left:4px solid #a78bfa;color:#cdb8ff}
+.co-y{background:#2a2517;border-left:4px solid #e3b341;color:#f0d97a}
+.co-b{background:#111d2e;border-left:4px solid #58a6ff;color:#91c8ff}
+.demo{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;margin:24px 0 36px;overflow:hidden}
+.demo-label{background:#1e2d4a;color:#7dd3fc;font-size:13px;font-weight:700;padding:8px 18px;letter-spacing:1px;text-transform:uppercase}
+.demo-box{padding:28px 32px}
+
+/* Toggle solution buttons */
+.solution-toggle{background:#1e2d4a;color:#7dd3fc;border:1px solid #2e3f5a;padding:10px 20px;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;margin:12px 0 8px;transition:background 0.2s ease}
+.solution-toggle:hover{background:#2a3b5a}
+.solution-content{display:none;margin-top:8px}
+.solution-content.show{display:block}
+
+/* Reference table */
+.ref-table{width:100%;border-collapse:collapse;margin:16px 0 28px;font-size:14.5px}
+.ref-table thead tr{border-bottom:2px solid #1e2d4a;text-align:left}
+.ref-table th{padding:10px 14px;color:#10b981;font-weight:700}
+.ref-table td{padding:10px 14px;color:#b0bac9;border-bottom:1px solid #1e2d4a}
+.ref-table tr:last-child td{border-bottom:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ─── HEADER ─── -->
+<div class="lesson-num">CSS Practical Guide</div>
+<h1>CSS Properties & Selectors Cookbook</h1>
+<p class="subtitle">Your complete reference for every CSS property. Bookmark this page — come back whenever you need to look something up.</p>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 0 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">0</span> How to Use This Cookbook</h2>
+
+<p>This file is your <strong>CSS property reference</strong>. Think of it like a dictionary for CSS — you don't read a dictionary cover-to-cover, you look things up when you need them.</p>
+
+<div class="co-b">ℹ️ <strong>You don't need to memorize everything here.</strong> The goal is to know <em>what exists</em>. When you see a property on a website and think "what does that do?", come back to this page and search for it (Ctrl+F).</div>
+
+<p>Every property in this cookbook follows the same format:</p>
+
+<pre><code><span class="cm">/* For each property you'll get: */</span>
+
+<span class="num">1.</span> <span class="cssval">What it does</span>     — A simple one-sentence definition
+<span class="num">2.</span> <span class="cssval">Syntax</span>           — How to write it in CSS
+<span class="num">3.</span> <span class="cssval">Common values</span>    — The values you'll actually use
+<span class="num">4.</span> <span class="cssval">Live demo</span>        — See it working in the browser right now
+<span class="num">5.</span> <span class="cssval">When to use it</span>   — A real-world scenario</code></pre>
+
+<div class="co-y">💡 <strong>Pro tip:</strong> Keep this file open while you build your projects. When you forget a property, Ctrl+F and search for it. This is how professional developers work — nobody memorizes everything.</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">1</span> Text & Font Properties</h2>
+
+<p>These properties control how <strong>text looks</strong> — its color, size, weight, spacing, and decoration. You'll use these on every single project.</p>
+
+<!-- 1. color -->
+<h3>1. color</h3>
+<p><strong>What it does:</strong> Sets the color of the text inside an element.</p>
+<pre><code><span class="cm">/* Named colors */</span>
+<span class="prop">color</span>: <span class="cssval">red</span>;
+<span class="prop">color</span>: <span class="cssval">tomato</span>;
+<span class="prop">color</span>: <span class="cssval">white</span>;
+
+<span class="cm">/* Hex (most common) — # followed by 6 hex digits */</span>
+<span class="prop">color</span>: <span class="cssval">#ff0000</span>;          <span class="cm">/* red */</span>
+<span class="prop">color</span>: <span class="cssval">#10b981</span>;          <span class="cm">/* green */</span>
+<span class="prop">color</span>: <span class="cssval">#f0f6fc</span>;          <span class="cm">/* near-white */</span>
+
+<span class="cm">/* RGB — red, green, blue (0-255 each) */</span>
+<span class="prop">color</span>: <span class="cssval">rgb(255, 0, 0)</span>;   <span class="cm">/* red */</span>
+
+<span class="cm">/* RGBA — RGB + alpha (transparency: 0=invisible, 1=solid) */</span>
+<span class="prop">color</span>: <span class="cssval">rgba(255, 0, 0, 0.5)</span>;  <span class="cm">/* 50% transparent red */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <p style="color:#f85149;margin-bottom:8px;font-weight:600">This text uses color: #f85149 (red)</p>
+    <p style="color:#10b981;margin-bottom:8px;font-weight:600">This text uses color: #10b981 (green)</p>
+    <p style="color:#7dd3fc;margin-bottom:8px;font-weight:600">This text uses color: #7dd3fc (blue)</p>
+    <p style="color:rgba(255,255,255,0.4);margin-bottom:0;font-weight:600">This text uses color: rgba(255,255,255,0.4) (40% white)</p>
+</div>
+</div>
+
+<div class="co-g">✅ <strong>When to use it:</strong> Every element with text. Headings get bright colors (#f0f6fc), body text gets muted colors (#b0bac9), and links or accents get your brand color (#10b981).</div>
+
+<!-- 2. font-family -->
+<h3>2. font-family</h3>
+<p><strong>What it does:</strong> Chooses which font to display text in. You provide a <strong>fallback stack</strong> — the browser tries the first font, and if it's not available, tries the next one.</p>
+<pre><code><span class="cm">/* Fallback stack — browser tries left to right */</span>
+<span class="prop">font-family</span>: <span class="cssval">'Inter'</span>, <span class="cssval">sans-serif</span>;
+
+<span class="cm">/* Common stacks: */</span>
+<span class="prop">font-family</span>: <span class="cssval">'Helvetica Neue'</span>, <span class="cssval">Arial</span>, <span class="cssval">sans-serif</span>;  <span class="cm">/* Clean modern */</span>
+<span class="prop">font-family</span>: <span class="cssval">'Georgia'</span>, <span class="cssval">serif</span>;                       <span class="cm">/* Classic book feel */</span>
+<span class="prop">font-family</span>: <span class="cssval">'JetBrains Mono'</span>, <span class="cssval">monospace</span>;              <span class="cm">/* Code/terminal */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <p style="font-family:'Inter',sans-serif;margin-bottom:8px">This is Inter (sans-serif) — clean and modern</p>
+    <p style="font-family:Georgia,serif;margin-bottom:8px">This is Georgia (serif) — classic and elegant</p>
+    <p style="font-family:'JetBrains Mono',monospace;margin-bottom:8px;font-size:15px">This is JetBrains Mono (monospace) — for code</p>
+    <p style="font-family:'Times New Roman',serif;margin-bottom:0">This is Times New Roman — traditional newspaper feel</p>
+</div>
+</div>
+
+<div class="co-p">🧠 <strong>Why fallback stacks?</strong> Not every computer has the same fonts installed. The last value should always be a generic family: <code>sans-serif</code>, <code>serif</code>, or <code>monospace</code>. This guarantees the browser always has something to use.</div>
+
+<!-- 3. font-size -->
+<h3>3. font-size</h3>
+<p><strong>What it does:</strong> Controls how big the text is.</p>
+<pre><code><span class="prop">font-size</span>: <span class="num">16px</span>;    <span class="cm">/* Pixels — fixed size, most common for beginners */</span>
+<span class="prop">font-size</span>: <span class="num">1rem</span>;    <span class="cm">/* Relative to root font size (usually 16px) */</span>
+<span class="prop">font-size</span>: <span class="num">1.2em</span>;   <span class="cm">/* Relative to parent's font size */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <p style="font-size:12px;margin-bottom:6px">font-size: 12px — Small caption text</p>
+    <p style="font-size:16px;margin-bottom:6px">font-size: 16px — Default body text</p>
+    <p style="font-size:20px;margin-bottom:6px">font-size: 20px — Slightly larger</p>
+    <p style="font-size:28px;margin-bottom:6px;font-weight:700">font-size: 28px — Subheading</p>
+    <p style="font-size:40px;margin-bottom:0;font-weight:800">font-size: 40px — Hero title</p>
+</div>
+</div>
+
+<div class="co-y">💡 <strong>Pro tip:</strong> Use <code>px</code> while learning. Once comfortable, switch to <code>rem</code> for better scalability. <code>1rem = 16px</code> by default. So <code>1.5rem = 24px</code>, <code>2rem = 32px</code>.</div>
+
+<!-- 4. font-weight -->
+<h3>4. font-weight</h3>
+<p><strong>What it does:</strong> Controls how <strong>bold</strong> (thick) the text is. Uses numeric values from 100 to 900.</p>
+<pre><code><span class="prop">font-weight</span>: <span class="num">100</span>;   <span class="cm">/* Thin */</span>
+<span class="prop">font-weight</span>: <span class="num">300</span>;   <span class="cm">/* Light */</span>
+<span class="prop">font-weight</span>: <span class="num">400</span>;   <span class="cm">/* Normal (default) — same as font-weight: normal */</span>
+<span class="prop">font-weight</span>: <span class="num">600</span>;   <span class="cm">/* Semi-bold */</span>
+<span class="prop">font-weight</span>: <span class="num">700</span>;   <span class="cm">/* Bold — same as font-weight: bold */</span>
+<span class="prop">font-weight</span>: <span class="num">900</span>;   <span class="cm">/* Black (extra bold) */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box" style="font-size:18px">
+    <p style="font-weight:100;margin-bottom:4px">font-weight: 100 — Thin</p>
+    <p style="font-weight:300;margin-bottom:4px">font-weight: 300 — Light</p>
+    <p style="font-weight:400;margin-bottom:4px">font-weight: 400 — Normal</p>
+    <p style="font-weight:600;margin-bottom:4px">font-weight: 600 — Semi-bold</p>
+    <p style="font-weight:700;margin-bottom:4px">font-weight: 700 — Bold</p>
+    <p style="font-weight:800;margin-bottom:0">font-weight: 800 — Extra-bold</p>
+</div>
+</div>
+
+<!-- 5. font-style -->
+<h3>5. font-style</h3>
+<p><strong>What it does:</strong> Makes text italic or normal.</p>
+<pre><code><span class="prop">font-style</span>: <span class="cssval">normal</span>;    <span class="cm">/* Default upright text */</span>
+<span class="prop">font-style</span>: <span class="cssval">italic</span>;    <span class="cm">/* Tilted/cursive version */</span>
+<span class="prop">font-style</span>: <span class="cssval">oblique</span>;   <span class="cm">/* Like italic but mechanically slanted */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <p style="font-style:normal;margin-bottom:6px">font-style: normal — Regular upright text</p>
+    <p style="font-style:italic;margin-bottom:6px">font-style: italic — Italic text for emphasis or quotes</p>
+    <p style="font-style:oblique;margin-bottom:0">font-style: oblique — Mechanically slanted text</p>
+</div>
+</div>
+
+<div class="co-g">✅ <strong>When to use it:</strong> Use italic for quotes, citations, or emphasized words. Use <code>font-style: normal</code> to un-italicize something that's italic by default (like <code>&lt;em&gt;</code> or <code>&lt;address&gt;</code>).</div>
+
+<!-- 6. line-height -->
+<h3>6. line-height</h3>
+<p><strong>What it does:</strong> Controls the vertical space between lines of text. Think of it as the "breathing room" between lines.</p>
+<pre><code><span class="prop">line-height</span>: <span class="num">1</span>;      <span class="cm">/* No extra space — lines touching */</span>
+<span class="prop">line-height</span>: <span class="num">1.5</span>;    <span class="cm">/* 1.5x the font size — comfortable reading */</span>
+<span class="prop">line-height</span>: <span class="num">1.8</span>;    <span class="cm">/* 1.8x — spacious, great for body text */</span>
+<span class="prop">line-height</span>: <span class="num">2</span>;      <span class="cm">/* Double-spaced */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box" style="display:flex;gap:24px;flex-wrap:wrap">
+    <div style="flex:1;min-width:200px">
+        <p style="font-size:13px;color:#f85149;font-weight:600;margin-bottom:6px">❌ line-height: 1</p>
+        <p style="line-height:1;font-size:15px;margin:0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+    <div style="flex:1;min-width:200px">
+        <p style="font-size:13px;color:#10b981;font-weight:600;margin-bottom:6px">✅ line-height: 1.8</p>
+        <p style="line-height:1.8;font-size:15px;margin:0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+</div>
+</div>
+
+<div class="co-y">💡 <strong>Best practice:</strong> Use <code>1.5</code> to <code>1.8</code> for body text. Headings can use tighter values like <code>1.2</code>. Never use <code>1</code> for paragraphs — it's unreadable.</div>
+
+<!-- 7. letter-spacing -->
+<h3>7. letter-spacing</h3>
+<p><strong>What it does:</strong> Adds or removes space <strong>between individual letters</strong>.</p>
+<pre><code><span class="prop">letter-spacing</span>: <span class="num">0</span>;       <span class="cm">/* Default */</span>
+<span class="prop">letter-spacing</span>: <span class="num">2px</span>;     <span class="cm">/* Spread out — great for labels/nav */</span>
+<span class="prop">letter-spacing</span>: <span class="num">-1px</span>;    <span class="cm">/* Tighten — great for large headings */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <p style="letter-spacing:-1.5px;font-size:32px;font-weight:800;margin-bottom:8px;color:#f0f6fc">letter-spacing: -1.5px (tight heading)</p>
+    <p style="letter-spacing:0px;margin-bottom:8px">letter-spacing: 0px (default body text)</p>
+    <p style="letter-spacing:3px;font-size:13px;text-transform:uppercase;font-weight:700;color:#10b981;margin-bottom:0">letter-spacing: 3px (spread label)</p>
+</div>
+</div>
+
+<div class="co-g">✅ <strong>When to use it:</strong> Negative values for big headings (tightens them up nicely). Positive values for small labels, nav items, or "UPPERCASE" text — they need extra spacing to be readable.</div>
+
+<!-- 8. word-spacing -->
+<h3>8. word-spacing</h3>
+<p><strong>What it does:</strong> Adds or removes space <strong>between words</strong> (not letters).</p>
+<pre><code><span class="prop">word-spacing</span>: <span class="num">0</span>;       <span class="cm">/* Default */</span>
+<span class="prop">word-spacing</span>: <span class="num">4px</span>;     <span class="cm">/* Words spread apart */</span>
+<span class="prop">word-spacing</span>: <span class="num">-2px</span>;    <span class="cm">/* Words closer together */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <p style="word-spacing:0px;margin-bottom:8px">word-spacing: 0px — This is the default spacing between words.</p>
+    <p style="word-spacing:8px;margin-bottom:8px">word-spacing: 8px — Notice how the words are spread far apart.</p>
+    <p style="word-spacing:-3px;margin-bottom:0">word-spacing: -3px — Words are compressed closer together.</p>
+</div>
+</div>
+
+<div class="co-p">🧠 <strong>Rarely used.</strong> You'll almost never need <code>word-spacing</code>. It's here so you know it exists. <code>letter-spacing</code> is far more common.</div>
+
+<!-- 9. text-align -->
+<h3>9. text-align</h3>
+<p><strong>What it does:</strong> Controls horizontal alignment of text inside its container.</p>
+<pre><code><span class="prop">text-align</span>: <span class="cssval">left</span>;      <span class="cm">/* Default — text starts from the left */</span>
+<span class="prop">text-align</span>: <span class="cssval">center</span>;    <span class="cm">/* Centered in the container */</span>
+<span class="prop">text-align</span>: <span class="cssval">right</span>;     <span class="cm">/* Aligned to the right */</span>
+<span class="prop">text-align</span>: <span class="cssval">justify</span>;   <span class="cm">/* Stretches text to fill the full width */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <p style="text-align:left;background:#1a2035;padding:12px;border-radius:8px;margin-bottom:8px">text-align: left — This is the default alignment</p>
+    <p style="text-align:center;background:#1a2035;padding:12px;border-radius:8px;margin-bottom:8px">text-align: center — Centered text</p>
+    <p style="text-align:right;background:#1a2035;padding:12px;border-radius:8px;margin-bottom:8px">text-align: right — Right-aligned text</p>
+    <p style="text-align:justify;background:#1a2035;padding:12px;border-radius:8px;margin-bottom:0">text-align: justify — This text is justified, meaning it stretches to fill the full width of the container on both sides, adding extra space between words as needed.</p>
+</div>
+</div>
+
+<!-- 10. text-decoration -->
+<h3>10. text-decoration</h3>
+<p><strong>What it does:</strong> Adds or removes lines on text — underlines, overlines, and strikethroughs.</p>
+<pre><code><span class="prop">text-decoration</span>: <span class="cssval">none</span>;           <span class="cm">/* Remove all lines (use on links!) */</span>
+<span class="prop">text-decoration</span>: <span class="cssval">underline</span>;      <span class="cm">/* Underline */</span>
+<span class="prop">text-decoration</span>: <span class="cssval">overline</span>;       <span class="cm">/* Line above text */</span>
+<span class="prop">text-decoration</span>: <span class="cssval">line-through</span>;   <span class="cm">/* Strikethrough */</span>
+
+<span class="cm">/* Advanced sub-properties: */</span>
+<span class="prop">text-decoration-color</span>: <span class="cssval">#10b981</span>;   <span class="cm">/* Color of the line */</span>
+<span class="prop">text-decoration-thickness</span>: <span class="num">3px</span>;   <span class="cm">/* Thickness of the line */</span>
+<span class="prop">text-decoration-style</span>: <span class="cssval">wavy</span>;     <span class="cm">/* solid, dashed, dotted, wavy, double */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box" style="font-size:17px">
+    <p style="text-decoration:none;margin-bottom:8px">text-decoration: none — No line</p>
+    <p style="text-decoration:underline;margin-bottom:8px">text-decoration: underline — Standard underline</p>
+    <p style="text-decoration:overline;margin-bottom:8px">text-decoration: overline — Line above</p>
+    <p style="text-decoration:line-through;margin-bottom:8px">text-decoration: line-through — Strikethrough</p>
+    <p style="text-decoration:underline;text-decoration-color:#10b981;text-decoration-thickness:3px;margin-bottom:8px">Underline with color: #10b981 and thickness: 3px</p>
+    <p style="text-decoration:underline;text-decoration-style:wavy;text-decoration-color:#f85149;margin-bottom:8px">Wavy underline in red (like a spell-check error!)</p>
+    <p style="text-decoration:underline;text-decoration-style:dashed;text-decoration-color:#7dd3fc;margin-bottom:0">Dashed underline in blue</p>
+</div>
+</div>
+
+<div class="co-g">✅ <strong>When to use it:</strong> Use <code>text-decoration: none</code> on styled links to remove the ugly default underline. Use <code>line-through</code> for sale prices or completed tasks.</div>
+
+<!-- 11. text-transform -->
+<h3>11. text-transform</h3>
+<p><strong>What it does:</strong> Changes the capitalization of text <strong>without changing the HTML</strong>.</p>
+<pre><code><span class="prop">text-transform</span>: <span class="cssval">uppercase</span>;    <span class="cm">/* ALL CAPS */</span>
+<span class="prop">text-transform</span>: <span class="cssval">lowercase</span>;    <span class="cm">/* all lowercase */</span>
+<span class="prop">text-transform</span>: <span class="cssval">capitalize</span>;   <span class="cm">/* First Letter Of Each Word */</span>
+<span class="prop">text-transform</span>: <span class="cssval">none</span>;         <span class="cm">/* Default — keep as written */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <p style="text-transform:uppercase;font-weight:700;letter-spacing:2px;font-size:14px;margin-bottom:8px;color:#10b981">text-transform: uppercase — great for labels</p>
+    <p style="text-transform:lowercase;margin-bottom:8px">TEXT-TRANSFORM: LOWERCASE — forces everything down</p>
+    <p style="text-transform:capitalize;margin-bottom:0">text-transform: capitalize — each word starts big</p>
+</div>
+</div>
+
+<!-- 12. text-indent -->
+<h3>12. text-indent</h3>
+<p><strong>What it does:</strong> Indents the <strong>first line</strong> of a paragraph, like in a book.</p>
+<pre><code><span class="prop">text-indent</span>: <span class="num">40px</span>;   <span class="cm">/* Indent first line by 40px */</span>
+<span class="prop">text-indent</span>: <span class="num">2em</span>;    <span class="cm">/* Indent by 2x the font size */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <p style="text-indent:40px;margin-bottom:0">text-indent: 40px — Notice how only the first line of this paragraph is indented, just like in a printed book. The second line wraps back to the normal left edge of the container.</p>
+</div>
+</div>
+
+<!-- 13. white-space -->
+<h3>13. white-space</h3>
+<p><strong>What it does:</strong> Controls how whitespace and line breaks are handled inside an element.</p>
+<pre><code><span class="prop">white-space</span>: <span class="cssval">normal</span>;   <span class="cm">/* Default — wraps text, collapses spaces */</span>
+<span class="prop">white-space</span>: <span class="cssval">nowrap</span>;   <span class="cm">/* Prevents text from wrapping to next line */</span>
+<span class="prop">white-space</span>: <span class="cssval">pre</span>;      <span class="cm">/* Preserves spaces and line breaks (like &lt;pre&gt;) */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <div style="background:#1a2035;padding:12px;border-radius:8px;margin-bottom:12px;max-width:300px;overflow:hidden">
+        <p style="font-size:13px;color:#10b981;margin-bottom:4px;font-weight:600">white-space: normal (wraps)</p>
+        <p style="white-space:normal;margin:0;font-size:14px">This is a long sentence that will wrap to the next line when it reaches the edge of the container.</p>
+    </div>
+    <div style="background:#1a2035;padding:12px;border-radius:8px;max-width:300px;overflow:hidden">
+        <p style="font-size:13px;color:#f85149;margin-bottom:4px;font-weight:600">white-space: nowrap (overflows!)</p>
+        <p style="white-space:nowrap;margin:0;font-size:14px">This is a long sentence that will NOT wrap. It just keeps going and overflows the container.</p>
+    </div>
+</div>
+</div>
+
+<!-- 14. text-overflow -->
+<h3>14. text-overflow: ellipsis</h3>
+<p><strong>What it does:</strong> Shows "..." when text is too long to fit in its container. But it <strong>needs 3 properties together</strong> to work:</p>
+<pre><code><span class="sel">.truncate</span> {
+  <span class="prop">white-space</span>: <span class="cssval">nowrap</span>;           <span class="cm">/* 1. Prevent wrapping */</span>
+  <span class="prop">overflow</span>: <span class="cssval">hidden</span>;              <span class="cm">/* 2. Hide the overflow */</span>
+  <span class="prop">text-overflow</span>: <span class="cssval">ellipsis</span>;       <span class="cm">/* 3. Show "..." at the cut point */</span>
+}</code></pre>
+
+<div class="co-r">❌ <strong>Common mistake:</strong> Using <code>text-overflow: ellipsis</code> alone does nothing. You MUST also set <code>overflow: hidden</code> and <code>white-space: nowrap</code>. All three are required.</div>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <div style="max-width:300px;background:#1a2035;padding:12px;border-radius:8px;margin-bottom:12px">
+        <p style="font-size:13px;color:#f85149;margin-bottom:4px;font-weight:600">❌ Without text-overflow:</p>
+        <p style="white-space:nowrap;overflow:hidden;margin:0;font-size:14px">This is a very long game title that should be truncated but it isn't showing the dots</p>
+    </div>
+    <div style="max-width:300px;background:#1a2035;padding:12px;border-radius:8px">
+        <p style="font-size:13px;color:#10b981;margin-bottom:4px;font-weight:600">✅ With text-overflow: ellipsis:</p>
+        <p style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0;font-size:14px">This is a very long game title that should be truncated with beautiful ellipsis dots</p>
+    </div>
+</div>
+</div>
+
+<div class="co-g">✅ <strong>When to use it:</strong> Card titles, navbar items, table cells — anywhere text might overflow. Very common in game/product cards!</div>
+
+<!-- 15. text-shadow -->
+<h3>15. text-shadow</h3>
+<p><strong>What it does:</strong> Adds a shadow behind text for depth or glow effects.</p>
+<pre><code><span class="cm">/* text-shadow: x-offset  y-offset  blur  color; */</span>
+<span class="prop">text-shadow</span>: <span class="num">2px</span> <span class="num">2px</span> <span class="num">4px</span> <span class="cssval">rgba(0,0,0,0.3)</span>;    <span class="cm">/* Subtle drop shadow */</span>
+<span class="prop">text-shadow</span>: <span class="num">0</span> <span class="num">0</span> <span class="num">10px</span> <span class="cssval">rgba(16,185,129,0.6)</span>; <span class="cm">/* Green glow */</span>
+<span class="prop">text-shadow</span>: <span class="cssval">none</span>;                                <span class="cm">/* Remove shadow */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+    <p style="font-size:28px;font-weight:800;text-shadow:2px 2px 4px rgba(0,0,0,0.5);margin-bottom:12px;color:#f0f6fc">Drop Shadow Effect</p>
+    <p style="font-size:28px;font-weight:800;text-shadow:0 0 15px rgba(16,185,129,0.7);margin-bottom:12px;color:#10b981">Green Glow Effect</p>
+    <p style="font-size:28px;font-weight:800;text-shadow:0 0 20px rgba(125,211,252,0.6),0 0 40px rgba(125,211,252,0.3);margin-bottom:0;color:#7dd3fc">Neon Blue Glow</p>
+</div>
+</div>
+
+<!-- Combined demo -->
+<h3>🎨 Combined Demo: All Text Properties at Once</h3>
+<div class="demo">
+<div class="demo-label">▶ Live Result — All text properties combined</div>
+<div class="demo-box">
+    <p style="color:#f0f6fc;font-family:'Inter',sans-serif;font-size:20px;font-weight:600;font-style:normal;line-height:1.8;letter-spacing:0.5px;word-spacing:2px;text-align:left;text-decoration:underline;text-decoration-color:#10b981;text-decoration-thickness:2px;text-transform:none;text-shadow:1px 1px 3px rgba(0,0,0,0.3);margin-bottom:0">
+    This paragraph uses: color #f0f6fc, font-family Inter, font-size 20px, font-weight 600, line-height 1.8, letter-spacing 0.5px, word-spacing 2px, a green underline with 2px thickness, and a subtle text shadow. All these properties work together beautifully.
+    </p>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">2</span> Background Properties</h2>
+
+<p>Background properties control what appears <strong>behind</strong> the content of an element — solid colors, images, or gradients.</p>
+
+<!-- 1. background-color -->
+<h3>1. background-color</h3>
+<p><strong>What it does:</strong> Fills the element's background with a solid color.</p>
+<pre><code><span class="prop">background-color</span>: <span class="cssval">#1a2035</span>;            <span class="cm">/* Dark blue */</span>
+<span class="prop">background-color</span>: <span class="cssval">rgba(0,0,0,0.5)</span>;    <span class="cm">/* 50% transparent black */</span>
+<span class="prop">background-color</span>: <span class="cssval">transparent</span>;        <span class="cm">/* See through (default) */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box" style="display:flex;gap:16px;flex-wrap:wrap">
+    <div style="background-color:#10b981;padding:20px;border-radius:10px;color:white;font-weight:600;min-width:120px;text-align:center">#10b981</div>
+    <div style="background-color:#0071F8;padding:20px;border-radius:10px;color:white;font-weight:600;min-width:120px;text-align:center">#0071F8</div>
+    <div style="background-color:#f85149;padding:20px;border-radius:10px;color:white;font-weight:600;min-width:120px;text-align:center">#f85149</div>
+    <div style="background-color:rgba(255,255,255,0.1);padding:20px;border-radius:10px;color:white;font-weight:600;min-width:120px;text-align:center;border:1px solid rgba(255,255,255,0.2)">rgba 10%</div>
+</div>
+</div>
+
+<!-- 2. background-image: url -->
+<h3>2. background-image: url(...)</h3>
+<p><strong>What it does:</strong> Uses an image file as the element's background.</p>
+<pre><code><span class="prop">background-image</span>: <span class="cssval">url('hero-bg.jpg')</span>;
+<span class="prop">background-image</span>: <span class="cssval">url('https://example.com/image.png')</span>;</code></pre>
+<div class="co-b">ℹ️ <strong>When to use it:</strong> Hero sections, card banners, full-page backgrounds. The image sits behind any text/content inside the element.</div>
+
+<!-- 3. background-image: gradient -->
+<h3>3. background-image: linear-gradient(...)</h3>
+<p><strong>What it does:</strong> Creates a smooth color transition as the background — no image file needed.</p>
+<pre><code><span class="cm">/* Top to bottom (default) */</span>
+<span class="prop">background-image</span>: <span class="cssval">linear-gradient(#0071F8, #10b981)</span>;
+
+<span class="cm">/* With direction */</span>
+<span class="prop">background-image</span>: <span class="cssval">linear-gradient(to right, #0071F8, #10b981)</span>;
+<span class="prop">background-image</span>: <span class="cssval">linear-gradient(135deg, #0071F8, #10b981)</span>;
+
+<span class="cm">/* Three or more colors */</span>
+<span class="prop">background-image</span>: <span class="cssval">linear-gradient(90deg, #f85149, #e3b341, #10b981)</span>;</code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box" style="display:flex;gap:16px;flex-wrap:wrap">
+    <div style="background-image:linear-gradient(#0071F8,#10b981);padding:24px;border-radius:10px;color:white;font-weight:600;min-width:140px;text-align:center;font-size:13px">Top → Bottom</div>
+    <div style="background-image:linear-gradient(to right,#0071F8,#10b981);padding:24px;border-radius:10px;color:white;font-weight:600;min-width:140px;text-align:center;font-size:13px">Left → Right</div>
+    <div style="background-image:linear-gradient(135deg,#a78bfa,#f85149);padding:24px;border-radius:10px;color:white;font-weight:600;min-width:140px;text-align:center;font-size:13px">135deg Diagonal</div>
+    <div style="background-image:linear-gradient(90deg,#f85149,#e3b341,#10b981);padding:24px;border-radius:10px;color:white;font-weight:600;min-width:140px;text-align:center;font-size:13px">3-Color Rainbow</div>
+</div>
+</div>
+
+<!-- 4. background-size -->
+<h3>4. background-size</h3>
+<p><strong>What it does:</strong> Controls how a background image is sized inside its container.</p>
+<pre><code><span class="prop">background-size</span>: <span class="cssval">auto</span>;      <span class="cm">/* Original size (default) */</span>
+<span class="prop">background-size</span>: <span class="cssval">cover</span>;     <span class="cm">/* Fill container, may crop */</span>
+<span class="prop">background-size</span>: <span class="cssval">contain</span>;   <span class="cm">/* Fit inside, may leave space */</span>
+<span class="prop">background-size</span>: <span class="num">100%</span> <span class="num">100%</span>; <span class="cm">/* Stretch to fill (may distort) */</span></code></pre>
+
+<div class="co-g">✅ <strong>When to use it:</strong> Almost always use <code>cover</code> for hero images — it fills the container completely and looks professional. Use <code>contain</code> when you need to see the entire image without cropping.</div>
+
+<!-- 5. background-position -->
+<h3>5. background-position</h3>
+<p><strong>What it does:</strong> Controls where the background image is positioned within the element.</p>
+<pre><code><span class="prop">background-position</span>: <span class="cssval">center</span>;        <span class="cm">/* Dead center (most common) */</span>
+<span class="prop">background-position</span>: <span class="cssval">top left</span>;      <span class="cm">/* Top-left corner */</span>
+<span class="prop">background-position</span>: <span class="cssval">bottom right</span>;  <span class="cm">/* Bottom-right corner */</span>
+<span class="prop">background-position</span>: <span class="num">50%</span> <span class="num">30%</span>;       <span class="cm">/* 50% from left, 30% from top */</span></code></pre>
+
+<!-- 6. background-repeat -->
+<h3>6. background-repeat</h3>
+<p><strong>What it does:</strong> Controls whether a background image tiles/repeats.</p>
+<pre><code><span class="prop">background-repeat</span>: <span class="cssval">repeat</span>;     <span class="cm">/* Tiles in both directions (default) */</span>
+<span class="prop">background-repeat</span>: <span class="cssval">no-repeat</span>;  <span class="cm">/* Shows image once — USE THIS for photos */</span>
+<span class="prop">background-repeat</span>: <span class="cssval">repeat-x</span>;   <span class="cm">/* Tiles only horizontally */</span>
+<span class="prop">background-repeat</span>: <span class="cssval">repeat-y</span>;   <span class="cm">/* Tiles only vertically */</span></code></pre>
+
+<!-- 7. background-attachment -->
+<h3>7. background-attachment</h3>
+<p><strong>What it does:</strong> Controls whether the background scrolls with the content or stays fixed.</p>
+<pre><code><span class="prop">background-attachment</span>: <span class="cssval">scroll</span>;  <span class="cm">/* Scrolls with content (default) */</span>
+<span class="prop">background-attachment</span>: <span class="cssval">fixed</span>;   <span class="cm">/* Stays in place — parallax effect! */</span></code></pre>
+
+<!-- 8. background shorthand -->
+<h3>8. background (Shorthand)</h3>
+<p><strong>What it does:</strong> Combines all background properties into one line.</p>
+<pre><code><span class="cm">/* The shorthand pattern: */</span>
+<span class="prop">background</span>: <span class="cssval">[color] [image] [position]/[size] [repeat]</span>;
+
+<span class="cm">/* Example: */</span>
+<span class="prop">background</span>: <span class="cssval">url('hero.jpg') center/cover no-repeat</span>;
+
+<span class="cm">/* Gradient shorthand: */</span>
+<span class="prop">background</span>: <span class="cssval">linear-gradient(135deg, #0071F8, #10b981)</span>;</code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Gradient Background</div>
+<div class="demo-box">
+    <div style="background:linear-gradient(135deg,#0071F8,#10b981);padding:48px;border-radius:14px;text-align:center">
+        <p style="color:white;font-size:24px;font-weight:800;margin-bottom:8px">LUGX Gaming</p>
+        <p style="color:rgba(255,255,255,0.8);font-size:15px;margin:0">This hero section uses a gradient background</p>
+    </div>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">3</span> Border & Outline Properties</h2>
+
+<!-- 1. border shorthand -->
+<h3>1. border (Shorthand)</h3>
+<p><strong>What it does:</strong> Adds a line around all four sides of an element.</p>
+<pre><code><span class="cm">/* border: width  style  color; */</span>
+<span class="prop">border</span>: <span class="num">2px</span> <span class="cssval">solid</span> <span class="cssval">#333</span>;
+<span class="prop">border</span>: <span class="num">1px</span> <span class="cssval">solid</span> <span class="cssval">#2e3f5a</span>;
+<span class="prop">border</span>: <span class="cssval">none</span>;  <span class="cm">/* Remove border */</span></code></pre>
+
+<!-- 2. border-width -->
+<h3>2. border-width</h3>
+<p><strong>What it does:</strong> Sets how thick the border is.</p>
+<pre><code><span class="prop">border-width</span>: <span class="num">1px</span>;     <span class="cm">/* Thin — most common */</span>
+<span class="prop">border-width</span>: <span class="num">3px</span>;     <span class="cm">/* Medium */</span>
+<span class="prop">border-width</span>: <span class="num">5px</span>;     <span class="cm">/* Thick — decorative */</span></code></pre>
+
+<!-- 3. border-style -->
+<h3>3. border-style</h3>
+<p><strong>What it does:</strong> Sets the visual pattern of the border line.</p>
+<div class="demo">
+<div class="demo-label">▶ Live Result — All Border Styles</div>
+<div class="demo-box" style="display:flex;gap:12px;flex-wrap:wrap">
+    <div style="border:3px solid #10b981;padding:14px 18px;border-radius:4px;font-size:13px;font-weight:600;text-align:center;min-width:100px">solid</div>
+    <div style="border:3px dashed #10b981;padding:14px 18px;border-radius:4px;font-size:13px;font-weight:600;text-align:center;min-width:100px">dashed</div>
+    <div style="border:3px dotted #10b981;padding:14px 18px;border-radius:4px;font-size:13px;font-weight:600;text-align:center;min-width:100px">dotted</div>
+    <div style="border:3px double #10b981;padding:14px 18px;border-radius:4px;font-size:13px;font-weight:600;text-align:center;min-width:100px">double</div>
+    <div style="border:3px groove #5e9e85;padding:14px 18px;border-radius:4px;font-size:13px;font-weight:600;text-align:center;min-width:100px">groove</div>
+    <div style="border:3px ridge #5e9e85;padding:14px 18px;border-radius:4px;font-size:13px;font-weight:600;text-align:center;min-width:100px">ridge</div>
+    <div style="border:3px inset #5e9e85;padding:14px 18px;border-radius:4px;font-size:13px;font-weight:600;text-align:center;min-width:100px">inset</div>
+    <div style="border:3px outset #5e9e85;padding:14px 18px;border-radius:4px;font-size:13px;font-weight:600;text-align:center;min-width:100px">outset</div>
+</div>
+</div>
+
+<div class="co-y">💡 <strong>In practice,</strong> you'll use <code>solid</code> 95% of the time. <code>dashed</code> and <code>dotted</code> occasionally for decorative borders. The rest are rare.</div>
+
+<!-- 4-5. border-color & individual sides -->
+<h3>4. border-color & Individual Sides</h3>
+<pre><code><span class="prop">border-color</span>: <span class="cssval">#10b981</span>;
+
+<span class="cm">/* Individual sides: */</span>
+<span class="prop">border-top</span>: <span class="num">2px</span> <span class="cssval">solid</span> <span class="cssval">#10b981</span>;
+<span class="prop">border-right</span>: <span class="num">1px</span> <span class="cssval">solid</span> <span class="cssval">#2e3f5a</span>;
+<span class="prop">border-bottom</span>: <span class="num">3px</span> <span class="cssval">solid</span> <span class="cssval">#f85149</span>;
+<span class="prop">border-left</span>: <span class="num">4px</span> <span class="cssval">solid</span> <span class="cssval">#a78bfa</span>;</code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Individual Sides</div>
+<div class="demo-box" style="display:flex;gap:20px;flex-wrap:wrap">
+    <div style="border-left:4px solid #10b981;padding:16px;background:#1a2035;border-radius:4px;font-size:14px;font-weight:600">border-left only</div>
+    <div style="border-bottom:3px solid #f85149;padding:16px;background:#1a2035;font-size:14px;font-weight:600">border-bottom only</div>
+    <div style="border-top:2px solid #a78bfa;border-bottom:2px solid #a78bfa;padding:16px;background:#1a2035;font-size:14px;font-weight:600">top + bottom</div>
+</div>
+</div>
+
+<!-- 6. border-radius -->
+<h3>5. border-radius</h3>
+<p><strong>What it does:</strong> Rounds the corners of an element. The higher the value, the rounder the corners.</p>
+<pre><code><span class="prop">border-radius</span>: <span class="num">0</span>;                 <span class="cm">/* Sharp corners (default) */</span>
+<span class="prop">border-radius</span>: <span class="num">10px</span>;              <span class="cm">/* Slightly rounded */</span>
+<span class="prop">border-radius</span>: <span class="num">50%</span>;               <span class="cm">/* Circle (when width = height) */</span>
+<span class="prop">border-radius</span>: <span class="num">30px 30px 0 0</span>;     <span class="cm">/* Only top corners rounded */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Border Radius Scale</div>
+<div class="demo-box" style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+    <div style="width:80px;height:80px;background:#10b981;border-radius:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">0px</div>
+    <div style="width:80px;height:80px;background:#10b981;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">8px</div>
+    <div style="width:80px;height:80px;background:#10b981;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">20px</div>
+    <div style="width:80px;height:80px;background:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">50%</div>
+    <div style="width:140px;height:80px;background:#0071F8;border-radius:30px 30px 0 0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;text-align:center">top only<br>30px 30px 0 0</div>
+</div>
+</div>
+
+<!-- 7. outline -->
+<h3>6. outline vs border</h3>
+<p><strong>What it does:</strong> <code>outline</code> is like a border, but it sits <strong>outside</strong> the box model and does <strong>NOT take up space</strong>.</p>
+<pre><code><span class="prop">outline</span>: <span class="num">2px</span> <span class="cssval">solid</span> <span class="cssval">blue</span>;
+<span class="prop">outline-offset</span>: <span class="num">4px</span>;   <span class="cm">/* Gap between element edge and outline */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Border vs Outline</div>
+<div class="demo-box" style="display:flex;gap:40px;flex-wrap:wrap;align-items:start">
+    <div style="text-align:center">
+        <p style="font-size:13px;color:#7dd3fc;font-weight:600;margin-bottom:10px">Border (takes space)</p>
+        <div style="border:3px solid #10b981;padding:20px;background:#1a2035;border-radius:8px;font-size:14px">I have a border</div>
+    </div>
+    <div style="text-align:center">
+        <p style="font-size:13px;color:#a78bfa;font-weight:600;margin-bottom:10px">Outline (no space)</p>
+        <div style="outline:3px solid #a78bfa;padding:20px;background:#1a2035;border-radius:8px;font-size:14px">I have an outline</div>
+    </div>
+    <div style="text-align:center">
+        <p style="font-size:13px;color:#e3b341;font-weight:600;margin-bottom:10px">Outline + Offset</p>
+        <div style="outline:3px solid #e3b341;outline-offset:6px;padding:20px;background:#1a2035;border-radius:8px;font-size:14px">outline-offset: 6px</div>
+    </div>
+</div>
+</div>
+
+<div class="co-p">🧠 <strong>Why outlines matter:</strong> Browsers use outlines for the <strong>focus ring</strong> on buttons and inputs — that blue glow when you Tab to a button. Never remove outlines without adding a custom <code>:focus</code> style, or keyboard users can't navigate your site!</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">4</span> Spacing & Sizing Properties</h2>
+
+<!-- 1. padding recap -->
+<h3>1. padding (Recap from Tutorial 07)</h3>
+<p><strong>What it does:</strong> Space <strong>inside</strong> the element, between the content and the border.</p>
+<pre><code><span class="prop">padding</span>: <span class="num">20px</span>;                 <span class="cm">/* All 4 sides */</span>
+<span class="prop">padding</span>: <span class="num">10px</span> <span class="num">20px</span>;            <span class="cm">/* Top/bottom  Left/right */</span>
+<span class="prop">padding</span>: <span class="num">10px</span> <span class="num">20px</span> <span class="num">30px</span> <span class="num">40px</span>; <span class="cm">/* Top Right Bottom Left (clockwise) */</span></code></pre>
+
+<!-- 2. margin recap -->
+<h3>2. margin (Recap from Tutorial 07)</h3>
+<p><strong>What it does:</strong> Space <strong>outside</strong> the element, between it and neighboring elements.</p>
+<pre><code><span class="prop">margin</span>: <span class="num">20px</span>;                  <span class="cm">/* All 4 sides */</span>
+<span class="prop">margin</span>: <span class="num">0</span> <span class="cssval">auto</span>;                <span class="cm">/* Center horizontally (top/bottom 0, left/right auto) */</span>
+<span class="prop">margin-bottom</span>: <span class="num">24px</span>;           <span class="cm">/* Just the bottom */</span></code></pre>
+
+<!-- 3. gap -->
+<h3>3. gap</h3>
+<p><strong>What it does:</strong> Adds space between children of a <strong>flex</strong> or <strong>grid</strong> container. Only works inside <code>display: flex</code> or <code>display: grid</code>.</p>
+<pre><code><span class="sel">.container</span> {
+  <span class="prop">display</span>: <span class="cssval">flex</span>;
+  <span class="prop">gap</span>: <span class="num">20px</span>;       <span class="cm">/* 20px between each child */</span>
+}
+
+<span class="cm">/* Or different row/column gaps: */</span>
+<span class="prop">row-gap</span>: <span class="num">20px</span>;
+<span class="prop">column-gap</span>: <span class="num">16px</span>;</code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — gap: 16px vs gap: 0</div>
+<div class="demo-box">
+    <p style="font-size:13px;color:#f85149;font-weight:600;margin-bottom:6px">❌ No gap (children touching):</p>
+    <div style="display:flex;margin-bottom:16px">
+        <div style="background:#10b981;padding:14px 20px;color:white;font-weight:600;font-size:13px">Item 1</div>
+        <div style="background:#0071F8;padding:14px 20px;color:white;font-weight:600;font-size:13px">Item 2</div>
+        <div style="background:#a78bfa;padding:14px 20px;color:white;font-weight:600;font-size:13px">Item 3</div>
+    </div>
+    <p style="font-size:13px;color:#10b981;font-weight:600;margin-bottom:6px">✅ With gap: 16px:</p>
+    <div style="display:flex;gap:16px">
+        <div style="background:#10b981;padding:14px 20px;color:white;font-weight:600;font-size:13px;border-radius:8px">Item 1</div>
+        <div style="background:#0071F8;padding:14px 20px;color:white;font-weight:600;font-size:13px;border-radius:8px">Item 2</div>
+        <div style="background:#a78bfa;padding:14px 20px;color:white;font-weight:600;font-size:13px;border-radius:8px">Item 3</div>
+    </div>
+</div>
+</div>
+
+<div class="co-r">❌ <strong>Common mistake:</strong> Using <code>gap</code> on a regular <code>div</code> (with no display: flex/grid). It won't do anything! <code>gap</code> only works inside flex or grid containers.</div>
+
+<!-- 4. width, max-width, min-width -->
+<h3>4. width, max-width, min-width</h3>
+<p><strong>What they do:</strong> Control the horizontal size of an element.</p>
+<pre><code><span class="prop">width</span>: <span class="num">300px</span>;       <span class="cm">/* Fixed width */</span>
+<span class="prop">width</span>: <span class="num">100%</span>;        <span class="cm">/* Fill parent */</span>
+<span class="prop">max-width</span>: <span class="num">900px</span>;   <span class="cm">/* Never wider than 900px */</span>
+<span class="prop">min-width</span>: <span class="num">200px</span>;   <span class="cm">/* Never narrower than 200px */</span></code></pre>
+
+<div class="co-g">✅ <strong>The most common pattern:</strong> <code>width: 100%</code> + <code>max-width: 900px</code> + <code>margin: 0 auto</code>. This creates a responsive container that's centered and never gets too wide. We use it on this very page!</div>
+
+<!-- 5. height, max-height, min-height -->
+<h3>5. height, max-height, min-height</h3>
+<pre><code><span class="prop">height</span>: <span class="num">400px</span>;       <span class="cm">/* Fixed height */</span>
+<span class="prop">height</span>: <span class="num">100vh</span>;       <span class="cm">/* Full viewport height */</span>
+<span class="prop">min-height</span>: <span class="num">500px</span>;   <span class="cm">/* At least this tall */</span>
+<span class="prop">max-height</span>: <span class="num">80vh</span>;    <span class="cm">/* No taller than 80% of viewport */</span></code></pre>
+
+<div class="co-y">💡 <strong>Pro tip:</strong> Avoid setting fixed <code>height</code> on containers with text — the content might overflow! Use <code>min-height</code> instead so it grows with content.</div>
+
+<!-- 6. overflow -->
+<h3>6. overflow</h3>
+<p><strong>What it does:</strong> Controls what happens when content is <strong>bigger than its container</strong>.</p>
+<pre><code><span class="prop">overflow</span>: <span class="cssval">visible</span>;   <span class="cm">/* Content spills out (default) */</span>
+<span class="prop">overflow</span>: <span class="cssval">hidden</span>;    <span class="cm">/* Content is cut off */</span>
+<span class="prop">overflow</span>: <span class="cssval">scroll</span>;    <span class="cm">/* Always shows scrollbar */</span>
+<span class="prop">overflow</span>: <span class="cssval">auto</span>;      <span class="cm">/* Shows scrollbar only when needed */</span>
+
+<span class="cm">/* Control each direction separately: */</span>
+<span class="prop">overflow-x</span>: <span class="cssval">auto</span>;    <span class="cm">/* Horizontal scrollbar if needed */</span>
+<span class="prop">overflow-y</span>: <span class="cssval">hidden</span>;  <span class="cm">/* Clip vertical overflow */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — overflow comparison</div>
+<div class="demo-box" style="display:flex;gap:16px;flex-wrap:wrap">
+    <div style="width:180px">
+        <p style="font-size:12px;color:#f85149;font-weight:600;margin-bottom:4px">overflow: visible</p>
+        <div style="width:180px;height:80px;overflow:visible;background:#1a2035;padding:10px;border-radius:8px;border:1px solid #2e3f5a;font-size:13px">This text is way too long for this tiny container. It will spill out and overlap other elements nearby because overflow is visible.</div>
+    </div>
+    <div style="width:180px">
+        <p style="font-size:12px;color:#e3b341;font-weight:600;margin-bottom:4px">overflow: hidden</p>
+        <div style="width:180px;height:80px;overflow:hidden;background:#1a2035;padding:10px;border-radius:8px;border:1px solid #2e3f5a;font-size:13px">This text is way too long for this tiny container. It gets cut off because overflow is hidden. You can't see the rest.</div>
+    </div>
+    <div style="width:180px">
+        <p style="font-size:12px;color:#10b981;font-weight:600;margin-bottom:4px">overflow: auto</p>
+        <div style="width:180px;height:80px;overflow:auto;background:#1a2035;padding:10px;border-radius:8px;border:1px solid #2e3f5a;font-size:13px">This text is way too long for this tiny container. You get a scrollbar because overflow is auto. Scroll down to read more content!</div>
+    </div>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">5</span> Visual Effects Properties</h2>
+
+<!-- 1. opacity -->
+<h3>1. opacity</h3>
+<p><strong>What it does:</strong> Controls the transparency of the <strong>entire element</strong> (including all children).</p>
+<pre><code><span class="prop">opacity</span>: <span class="num">1</span>;     <span class="cm">/* Fully visible (default) */</span>
+<span class="prop">opacity</span>: <span class="num">0.5</span>;   <span class="cm">/* 50% transparent */</span>
+<span class="prop">opacity</span>: <span class="num">0</span>;     <span class="cm">/* Fully invisible (but still takes space!) */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box" style="display:flex;gap:16px;flex-wrap:wrap">
+    <div style="opacity:1;background:#10b981;padding:20px;border-radius:10px;color:white;font-weight:700;font-size:14px;text-align:center;width:100px">1.0</div>
+    <div style="opacity:0.7;background:#10b981;padding:20px;border-radius:10px;color:white;font-weight:700;font-size:14px;text-align:center;width:100px">0.7</div>
+    <div style="opacity:0.5;background:#10b981;padding:20px;border-radius:10px;color:white;font-weight:700;font-size:14px;text-align:center;width:100px">0.5</div>
+    <div style="opacity:0.3;background:#10b981;padding:20px;border-radius:10px;color:white;font-weight:700;font-size:14px;text-align:center;width:100px">0.3</div>
+</div>
+</div>
+
+<div class="co-p">🧠 <strong>opacity vs rgba():</strong> <code>opacity</code> makes the WHOLE element transparent (text, borders, children — everything). If you only want a transparent <em>background</em>, use <code>background-color: rgba(0,0,0,0.5)</code> instead — the text stays fully visible.</div>
+
+<!-- 2. cursor -->
+<h3>2. cursor</h3>
+<p><strong>What it does:</strong> Changes what the mouse pointer looks like when hovering over the element.</p>
+<pre><code><span class="prop">cursor</span>: <span class="cssval">pointer</span>;       <span class="cm">/* 👆 Hand — clickable things */</span>
+<span class="prop">cursor</span>: <span class="cssval">default</span>;       <span class="cm">/* Arrow — non-interactive */</span>
+<span class="prop">cursor</span>: <span class="cssval">text</span>;          <span class="cm">/* I-beam — text areas */</span>
+<span class="prop">cursor</span>: <span class="cssval">grab</span>;          <span class="cm">/* Open hand — draggable */</span>
+<span class="prop">cursor</span>: <span class="cssval">grabbing</span>;      <span class="cm">/* Closed hand — currently dragging */</span>
+<span class="prop">cursor</span>: <span class="cssval">not-allowed</span>;   <span class="cm">/* 🚫 Circle — disabled */</span>
+<span class="prop">cursor</span>: <span class="cssval">crosshair</span>;     <span class="cm">/* + — precision select */</span>
+<span class="prop">cursor</span>: <span class="cssval">move</span>;          <span class="cm">/* Four arrows — movable */</span>
+<span class="prop">cursor</span>: <span class="cssval">wait</span>;          <span class="cm">/* Spinner — loading */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Hover each box to see the cursor</div>
+<div class="demo-box" style="display:flex;gap:12px;flex-wrap:wrap">
+    <div style="cursor:pointer;background:#1a2035;padding:14px 18px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #2e3f5a">👆 pointer</div>
+    <div style="cursor:default;background:#1a2035;padding:14px 18px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #2e3f5a">⬆️ default</div>
+    <div style="cursor:text;background:#1a2035;padding:14px 18px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #2e3f5a">📝 text</div>
+    <div style="cursor:grab;background:#1a2035;padding:14px 18px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #2e3f5a">✋ grab</div>
+    <div style="cursor:not-allowed;background:#1a2035;padding:14px 18px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #2e3f5a">🚫 not-allowed</div>
+    <div style="cursor:crosshair;background:#1a2035;padding:14px 18px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #2e3f5a">+ crosshair</div>
+    <div style="cursor:move;background:#1a2035;padding:14px 18px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #2e3f5a">↔️ move</div>
+    <div style="cursor:wait;background:#1a2035;padding:14px 18px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #2e3f5a">⏳ wait</div>
+</div>
+</div>
+
+<!-- 3. visibility vs display -->
+<h3>3. visibility: hidden vs display: none</h3>
+<p><strong>The key difference:</strong></p>
+<pre><code><span class="prop">visibility</span>: <span class="cssval">hidden</span>;   <span class="cm">/* Invisible but STILL takes space in layout */</span>
+<span class="prop">display</span>: <span class="cssval">none</span>;         <span class="cm">/* Completely REMOVED from layout — no space */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Watch the difference</div>
+<div class="demo-box">
+    <p style="font-size:13px;color:#10b981;font-weight:600;margin-bottom:6px">All 3 boxes visible:</p>
+    <div style="display:flex;gap:12px;margin-bottom:16px">
+        <div style="background:#10b981;padding:20px 24px;border-radius:8px;color:white;font-weight:700">Box 1</div>
+        <div style="background:#0071F8;padding:20px 24px;border-radius:8px;color:white;font-weight:700">Box 2</div>
+        <div style="background:#a78bfa;padding:20px 24px;border-radius:8px;color:white;font-weight:700">Box 3</div>
+    </div>
+    <p style="font-size:13px;color:#e3b341;font-weight:600;margin-bottom:6px">Box 2 with visibility: hidden (space remains!):</p>
+    <div style="display:flex;gap:12px;margin-bottom:16px">
+        <div style="background:#10b981;padding:20px 24px;border-radius:8px;color:white;font-weight:700">Box 1</div>
+        <div style="background:#0071F8;padding:20px 24px;border-radius:8px;color:white;font-weight:700;visibility:hidden">Box 2</div>
+        <div style="background:#a78bfa;padding:20px 24px;border-radius:8px;color:white;font-weight:700">Box 3</div>
+    </div>
+    <p style="font-size:13px;color:#f85149;font-weight:600;margin-bottom:6px">Box 2 with display: none (collapses!):</p>
+    <div style="display:flex;gap:12px">
+        <div style="background:#10b981;padding:20px 24px;border-radius:8px;color:white;font-weight:700">Box 1</div>
+        <div style="background:#0071F8;padding:20px 24px;border-radius:8px;color:white;font-weight:700;display:none">Box 2</div>
+        <div style="background:#a78bfa;padding:20px 24px;border-radius:8px;color:white;font-weight:700">Box 3</div>
+    </div>
+</div>
+</div>
+
+<!-- 4. object-fit -->
+<h3>4. object-fit</h3>
+<p><strong>What it does:</strong> Controls how an <code>&lt;img&gt;</code> or <code>&lt;video&gt;</code> fills its container — crop, fit, or stretch.</p>
+<pre><code><span class="prop">object-fit</span>: <span class="cssval">cover</span>;     <span class="cm">/* Crop to fill — no empty space */</span>
+<span class="prop">object-fit</span>: <span class="cssval">contain</span>;   <span class="cm">/* Fit inside — may leave space */</span>
+<span class="prop">object-fit</span>: <span class="cssval">fill</span>;      <span class="cm">/* Stretch (distorted!) */</span>
+<span class="prop">object-fit</span>: <span class="cssval">none</span>;      <span class="cm">/* Original size, clipped */</span></code></pre>
+
+<div class="co-g">✅ <strong>When to use it:</strong> Game cards, user avatars, product images — anywhere you set a fixed width/height on an <code>&lt;img&gt;</code> and want it to look good regardless of the original image proportions. <code>cover</code> is your go-to.</div>
+
+<!-- 5. box-shadow -->
+<h3>5. box-shadow</h3>
+<p><strong>What it does:</strong> Adds shadow around an element for depth, elevation, and "floating" effects.</p>
+<pre><code><span class="cm">/* box-shadow: x-offset  y-offset  blur  spread  color; */</span>
+
+<span class="cm">/* Subtle shadow */</span>
+<span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">4px</span> <span class="num">12px</span> <span class="cssval">rgba(0,0,0,0.1)</span>;
+
+<span class="cm">/* Medium shadow */</span>
+<span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">8px</span> <span class="num">24px</span> <span class="cssval">rgba(0,0,0,0.2)</span>;
+
+<span class="cm">/* Inner shadow (inset) */</span>
+<span class="prop">box-shadow</span>: <span class="cssval">inset</span> <span class="num">0</span> <span class="num">2px</span> <span class="num">8px</span> <span class="cssval">rgba(0,0,0,0.3)</span>;
+
+<span class="cm">/* Multiple shadows: */</span>
+<span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">4px</span> <span class="num">12px</span> <span class="cssval">rgba(0,0,0,0.1)</span>,
+             <span class="num">0</span> <span class="num">1px</span> <span class="num">3px</span> <span class="cssval">rgba(0,0,0,0.08)</span>;</code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Shadow Levels</div>
+<div class="demo-box" style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center">
+    <div style="background:#1a2035;padding:24px;border-radius:12px;text-align:center;width:160px;box-shadow:0 2px 6px rgba(0,0,0,0.15)">
+        <p style="font-size:13px;font-weight:700;color:#f0f6fc;margin-bottom:4px">Subtle</p>
+        <p style="font-size:11px;margin:0;color:#7a8599">0 2px 6px</p>
+    </div>
+    <div style="background:#1a2035;padding:24px;border-radius:12px;text-align:center;width:160px;box-shadow:0 8px 24px rgba(0,0,0,0.25)">
+        <p style="font-size:13px;font-weight:700;color:#f0f6fc;margin-bottom:4px">Medium</p>
+        <p style="font-size:11px;margin:0;color:#7a8599">0 8px 24px</p>
+    </div>
+    <div style="background:#1a2035;padding:24px;border-radius:12px;text-align:center;width:160px;box-shadow:0 16px 40px rgba(0,0,0,0.35)">
+        <p style="font-size:13px;font-weight:700;color:#f0f6fc;margin-bottom:4px">Heavy</p>
+        <p style="font-size:11px;margin:0;color:#7a8599">0 16px 40px</p>
+    </div>
+    <div style="background:#1a2035;padding:24px;border-radius:12px;text-align:center;width:160px;box-shadow:inset 0 2px 10px rgba(0,0,0,0.4)">
+        <p style="font-size:13px;font-weight:700;color:#f0f6fc;margin-bottom:4px">Inset</p>
+        <p style="font-size:11px;margin:0;color:#7a8599">inset 0 2px 10px</p>
+    </div>
+</div>
+</div>
+
+<!-- 6. list-style -->
+<h3>6. list-style</h3>
+<p><strong>What it does:</strong> Controls the bullets/numbers on <code>&lt;ul&gt;</code> and <code>&lt;ol&gt;</code> elements.</p>
+<pre><code><span class="prop">list-style</span>: <span class="cssval">none</span>;               <span class="cm">/* Remove all bullets — navbar staple! */</span>
+<span class="prop">list-style-type</span>: <span class="cssval">disc</span>;          <span class="cm">/* Filled circle (default for ul) */</span>
+<span class="prop">list-style-type</span>: <span class="cssval">circle</span>;        <span class="cm">/* Hollow circle */</span>
+<span class="prop">list-style-type</span>: <span class="cssval">square</span>;        <span class="cm">/* Square */</span>
+<span class="prop">list-style-type</span>: <span class="cssval">decimal</span>;       <span class="cm">/* 1, 2, 3... */</span>
+<span class="prop">list-style-type</span>: <span class="cssval">lower-alpha</span>;   <span class="cm">/* a, b, c... */</span>
+<span class="prop">list-style-position</span>: <span class="cssval">inside</span>;    <span class="cm">/* Bullet inside the content box */</span>
+<span class="prop">list-style-position</span>: <span class="cssval">outside</span>;   <span class="cm">/* Bullet outside (default) */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box" style="display:flex;gap:32px;flex-wrap:wrap">
+    <div>
+        <p style="font-size:13px;color:#10b981;font-weight:600;margin-bottom:6px">list-style: none</p>
+        <ul style="list-style:none;font-size:14px;padding-left:0">
+            <li>Home</li><li>Games</li><li>About</li>
+        </ul>
+    </div>
+    <div>
+        <p style="font-size:13px;color:#7dd3fc;font-weight:600;margin-bottom:6px">disc (default)</p>
+        <ul style="list-style-type:disc;font-size:14px">
+            <li>Home</li><li>Games</li><li>About</li>
+        </ul>
+    </div>
+    <div>
+        <p style="font-size:13px;color:#a78bfa;font-weight:600;margin-bottom:6px">square</p>
+        <ul style="list-style-type:square;font-size:14px">
+            <li>Home</li><li>Games</li><li>About</li>
+        </ul>
+    </div>
+    <div>
+        <p style="font-size:13px;color:#e3b341;font-weight:600;margin-bottom:6px">lower-alpha</p>
+        <ol style="list-style-type:lower-alpha;font-size:14px">
+            <li>Home</li><li>Games</li><li>About</li>
+        </ol>
+    </div>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">6</span> Pseudo-classes (the : ones)</h2>
+
+<p>Pseudo-classes target elements in a specific <strong>state</strong> (hovered, clicked, focused) or <strong>position</strong> (first child, third item, etc.). They use a single colon <code>:</code>.</p>
+
+<div class="co-p">🧠 <strong>Think of it this way:</strong> A pseudo-class says "select this element, but ONLY WHEN [condition]". Like <code>:hover</code> means "only when the mouse is on it."</div>
+
+<!-- 6.1 State Pseudo-classes -->
+<h3>6.1 :hover — Mouse is over the element</h3>
+<p><strong>What it does:</strong> Applies styles when the user's mouse is hovering over the element. Works on <strong>any element</strong>, not just links!</p>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Hover the box</div>
+<div class="demo-box">
+<style>
+.hover-demo{background:#1a2035;padding:24px;border-radius:10px;text-align:center;font-weight:600;border:2px solid #2e3f5a;transition:all 0.3s ease;cursor:pointer;max-width:300px}
+.hover-demo:hover{background:#10b981;color:white;border-color:#10b981;transform:scale(1.02)}
+</style>
+<div class="hover-demo">Hover over me! I'm a div, not a link.</div>
+</div>
+</div>
+
+<h3>6.2 :focus — Element is selected/active</h3>
+<p><strong>What it does:</strong> Applies styles when the element is "focused" — clicked into (for inputs) or tabbed to (for buttons/links).</p>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Click into the input</div>
+<div class="demo-box">
+<style>
+.focus-demo{border:2px solid #2e3f5a;outline:none;padding:14px 18px;border-radius:10px;background:#1a2035;color:#f0f6fc;font-size:16px;font-family:'Inter',sans-serif;width:100%;max-width:350px;transition:border-color 0.3s ease,box-shadow 0.3s ease}
+.focus-demo::placeholder{color:#5e6e8a}
+.focus-demo:focus{border-color:#10b981;box-shadow:0 0 0 4px rgba(16,185,129,0.15)}
+</style>
+<input type="text" class="focus-demo" placeholder="Click here to see :focus in action...">
+</div>
+</div>
+
+<div class="co-g">✅ <strong>Essential for accessibility.</strong> Keyboard users navigate with Tab. Without a visible <code>:focus</code> style, they can't see where they are on the page.</div>
+
+<h3>6.3 :active — Element is being clicked</h3>
+<p><strong>What it does:</strong> Applies during the split second the mouse button is held down. Use for "pressed button" effects.</p>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Click and hold the button</div>
+<div class="demo-box">
+<style>
+.active-demo{display:inline-block;padding:14px 32px;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;outline:none;background:#0071F8;color:#fff;transition:transform 0.1s ease,background 0.1s ease}
+.active-demo:hover{background:#005bd4}
+.active-demo:active{transform:scale(0.95);background:#004aa3}
+</style>
+<button class="active-demo">Click & Hold Me</button>
+</div>
+</div>
+
+<h3>6.4 :visited — Link already clicked</h3>
+<p><strong>What it does:</strong> Styles links the user has already visited. Limited for security — you can only change color-related properties.</p>
+<pre><code><span class="sel">a:visited</span> {
+  <span class="prop">color</span>: <span class="cssval">#a78bfa</span>;  <span class="cm">/* Purple for visited links */</span>
+}</code></pre>
+
+<h3>6.5 :focus-visible — Focus only for keyboard</h3>
+<p><strong>What it does:</strong> Like <code>:focus</code>, but only triggers for keyboard navigation (Tab), NOT mouse clicks. This is the modern best practice.</p>
+<pre><code><span class="sel">button:focus-visible</span> {
+  <span class="prop">outline</span>: <span class="num">2px</span> <span class="cssval">solid</span> <span class="cssval">#10b981</span>;
+  <span class="prop">outline-offset</span>: <span class="num">3px</span>;
+}</code></pre>
+
+<div class="co-y">💡 <strong>Modern best practice:</strong> Remove the default outline, then add a custom <code>:focus-visible</code> style. Mouse users don't see the focus ring (they don't need it), but keyboard users do.</div>
+
+<!-- 6.2 Position Pseudo-classes -->
+<h3>6.6 :first-child & :last-child</h3>
+<p><strong>What they do:</strong> Target the first or last child element inside a parent.</p>
+<pre><code><span class="sel">li:first-child</span>  { <span class="prop">font-weight</span>: <span class="num">700</span>; }    <span class="cm">/* Bold first item */</span>
+<span class="sel">li:last-child</span>   { <span class="prop">font-style</span>: <span class="cssval">italic</span>; }  <span class="cm">/* Italic last item */</span></code></pre>
+
+<h3>6.7 :nth-child(n) — The powerful one</h3>
+<p><strong>What it does:</strong> Targets the nth child. Can use numbers, keywords, or formulas.</p>
+<pre><code><span class="sel">li:nth-child(2)</span>     { ... }   <span class="cm">/* 2nd child */</span>
+<span class="sel">li:nth-child(odd)</span>   { ... }   <span class="cm">/* 1st, 3rd, 5th... (zebra stripes!) */</span>
+<span class="sel">li:nth-child(even)</span>  { ... }   <span class="cm">/* 2nd, 4th, 6th... */</span>
+<span class="sel">li:nth-child(3n)</span>    { ... }   <span class="cm">/* Every 3rd: 3, 6, 9, 12... */</span></code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Pseudo-class Positions</div>
+<div class="demo-box">
+<style>
+.pos-list{list-style:none;padding:0;max-width:400px}
+.pos-list li{padding:12px 18px;margin-bottom:4px;border-radius:8px;font-size:14px;font-weight:500;background:#1a2035;border:1px solid #2e3f5a}
+.pos-list li:first-child{background:#122117;border-color:#10b981;font-weight:700;color:#10b981}
+.pos-list li:last-child{background:#1c1730;border-color:#a78bfa;font-style:italic;color:#a78bfa}
+.pos-list li:nth-child(odd){border-left:4px solid #2e3f5a}
+.pos-list li:nth-child(3){background:#2a2517;border-color:#e3b341;color:#e3b341}
+</style>
+<ul class="pos-list">
+    <li>Item 1 — :first-child (bold green)</li>
+    <li>Item 2 — regular</li>
+    <li>Item 3 — :nth-child(3) (yellow)</li>
+    <li>Item 4 — regular</li>
+    <li>Item 5 — regular</li>
+    <li>Item 6 — :last-child (italic purple)</li>
+</ul>
+</div>
+</div>
+
+<h3>6.8 :only-child</h3>
+<p><strong>What it does:</strong> Targets an element only when it's the <strong>sole child</strong> of its parent.</p>
+<pre><code><span class="sel">p:only-child</span> {
+  <span class="prop">text-align</span>: <span class="cssval">center</span>;  <span class="cm">/* Center if it's the only paragraph */</span>
+}</code></pre>
+
+<h3>6.9 :not(selector) — Everything except</h3>
+<p><strong>What it does:</strong> Selects everything that does <strong>NOT</strong> match the selector. Super useful!</p>
+<pre><code><span class="cm">/* All list items EXCEPT the last one get a border-bottom */</span>
+<span class="sel">li:not(:last-child)</span> {
+  <span class="prop">border-bottom</span>: <span class="num">1px</span> <span class="cssval">solid</span> <span class="cssval">#2e3f5a</span>;
+}
+
+<span class="cm">/* All buttons EXCEPT disabled ones get the hover effect */</span>
+<span class="sel">button:not(:disabled):hover</span> {
+  <span class="prop">background</span>: <span class="cssval">#059669</span>;
+}</code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — :not(:last-child)</div>
+<div class="demo-box">
+<style>
+.not-list{list-style:none;padding:0;max-width:300px}
+.not-list li{padding:12px 18px;font-size:14px;font-weight:500}
+.not-list li:not(:last-child){border-bottom:1px solid #2e3f5a}
+</style>
+<ul class="not-list">
+    <li>Home</li>
+    <li>Games</li>
+    <li>Categories</li>
+    <li>Contact (no bottom border!)</li>
+</ul>
+</div>
+</div>
+
+<!-- 6.3 Form Pseudo-classes -->
+<h3>6.10 Form Pseudo-classes</h3>
+
+<h4>:required — inputs with the required attribute</h4>
+<pre><code><span class="sel">input:required</span> {
+  <span class="prop">border-left</span>: <span class="num">3px</span> <span class="cssval">solid</span> <span class="cssval">#f85149</span>;
+}</code></pre>
+
+<h4>:disabled — disabled inputs/buttons</h4>
+<pre><code><span class="sel">button:disabled</span> {
+  <span class="prop">opacity</span>: <span class="num">0.5</span>;
+  <span class="prop">cursor</span>: <span class="cssval">not-allowed</span>;
+}</code></pre>
+
+<h4>:checked — checked checkboxes/radio buttons</h4>
+<pre><code><span class="sel">input[type="checkbox"]:checked</span> + <span class="sel">label</span> {
+  <span class="prop">color</span>: <span class="cssval">#10b981</span>;
+  <span class="prop">text-decoration</span>: <span class="cssval">line-through</span>;
+}</code></pre>
+
+<h4>:valid / :invalid — form validation states</h4>
+<pre><code><span class="sel">input:valid</span>   { <span class="prop">border-color</span>: <span class="cssval">#10b981</span>; }
+<span class="sel">input:invalid</span> { <span class="prop">border-color</span>: <span class="cssval">#f85149</span>; }</code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Form Pseudo-classes</div>
+<div class="demo-box" style="display:flex;flex-direction:column;gap:16px;max-width:350px">
+<style>
+.form-pc-input{border:2px solid #2e3f5a;outline:none;padding:12px 16px;border-radius:8px;background:#1a2035;color:#f0f6fc;font-size:15px;font-family:'Inter',sans-serif;width:100%}
+.form-pc-input:required{border-left:4px solid #f85149}
+.form-pc-input:focus{border-color:#7dd3fc}
+.form-pc-input:valid{border-color:#10b981}
+.form-pc-input:invalid:not(:placeholder-shown){border-color:#f85149}
+.form-pc-btn{padding:12px 24px;border:none;border-radius:8px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;color:white}
+.form-pc-btn:disabled{opacity:0.4;cursor:not-allowed;background:#5e6e8a}
+.form-pc-btn:not(:disabled){background:#10b981}
+</style>
+<div>
+    <label style="font-size:13px;color:#7a8599;margin-bottom:4px;display:block">Email (required) — type a valid email to see :valid</label>
+    <input type="email" class="form-pc-input" required placeholder="you@example.com">
+</div>
+<div>
+    <label style="font-size:13px;color:#7a8599;margin-bottom:4px;display:block">Name (optional)</label>
+    <input type="text" class="form-pc-input" placeholder="Your name">
+</div>
+<div style="display:flex;gap:12px">
+    <button class="form-pc-btn" disabled>Disabled Button</button>
+    <button class="form-pc-btn">Active Button</button>
+</div>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 7 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">7</span> Pseudo-elements (the :: ones)</h2>
+
+<p>Pseudo-elements create <strong>virtual elements</strong> that don't exist in your HTML. They're "fake" elements created entirely with CSS. They use double colons <code>::</code>.</p>
+
+<div class="co-p">🧠 <strong>Key difference:</strong><br>
+• Pseudo-<strong>class</strong> (<code>:</code>) = targets a <strong>state</strong> → "style this element WHEN it's hovered"<br>
+• Pseudo-<strong>element</strong> (<code>::</code>) = creates a <strong>virtual element</strong> → "create content before/after this element"</div>
+
+<!-- ::before -->
+<h3>1. ::before</h3>
+<p><strong>What it does:</strong> Creates a virtual element <strong>before</strong> the content of the selected element.</p>
+<pre><code><span class="sel">.label::before</span> {
+  <span class="prop">content</span>: <span class="val">'🎮 '</span>;    <span class="cm">/* REQUIRED — even if empty: content: '' */</span>
+}</code></pre>
+
+<div class="co-r">❌ <strong>Critical rule:</strong> <code>::before</code> and <code>::after</code> absolutely MUST have the <code>content</code> property. Without it, the pseudo-element simply won't appear. Even if you want it empty, you must write <code>content: ''</code>.</div>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — ::before adds an icon</div>
+<div class="demo-box">
+<style>
+.before-demo{font-size:18px;font-weight:700;color:#f0f6fc}
+.before-demo::before{content:'🎮 '}
+</style>
+<p class="before-demo">Game Library</p>
+<p class="before-demo">New Releases</p>
+<p class="before-demo">Top Rated</p>
+</div>
+</div>
+
+<!-- ::after -->
+<h3>2. ::after</h3>
+<p><strong>What it does:</strong> Creates a virtual element <strong>after</strong> the content. Often used for decorative underlines, badges, or indicators.</p>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — ::after adds a decorative underline</div>
+<div class="demo-box">
+<style>
+.after-demo{font-size:22px;font-weight:800;color:#f0f6fc;display:inline-block;position:relative;margin-bottom:20px}
+.after-demo::after{content:'';position:absolute;bottom:-6px;left:0;width:100%;height:3px;background:linear-gradient(to right,#10b981,transparent);border-radius:2px}
+</style>
+<p class="after-demo">Featured Games</p>
+</div>
+</div>
+
+<!-- ::placeholder -->
+<h3>3. ::placeholder</h3>
+<p><strong>What it does:</strong> Styles the placeholder text inside <code>&lt;input&gt;</code> and <code>&lt;textarea&gt;</code> elements.</p>
+<pre><code><span class="sel">input::placeholder</span> {
+  <span class="prop">color</span>: <span class="cssval">#5e6e8a</span>;
+  <span class="prop">font-style</span>: <span class="cssval">italic</span>;
+}</code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result</div>
+<div class="demo-box">
+<style>
+.placeholder-demo{border:1px solid #2e3f5a;outline:none;padding:14px 18px;border-radius:10px;background:#1a2035;color:#f0f6fc;font-size:16px;font-family:'Inter',sans-serif;width:100%;max-width:350px}
+.placeholder-demo::placeholder{color:#5e6e8a;font-style:italic}
+</style>
+<input type="text" class="placeholder-demo" placeholder="Search for games...">
+</div>
+</div>
+
+<!-- ::selection -->
+<h3>4. ::selection</h3>
+<p><strong>What it does:</strong> Styles text when the user selects/highlights it with their mouse.</p>
+<pre><code><span class="sel">::selection</span> {
+  <span class="prop">background</span>: <span class="cssval">#10b981</span>;
+  <span class="prop">color</span>: <span class="cssval">white</span>;
+}</code></pre>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Select this text with your mouse!</div>
+<div class="demo-box">
+<style>
+.selection-demo::selection{background:#10b981;color:white}
+</style>
+<p class="selection-demo" style="font-size:18px;font-weight:600;color:#f0f6fc">Try selecting this text with your mouse — the highlight color matches our brand green! This is a great way to add polish to your website.</p>
+</div>
+</div>
+
+<!-- ::first-letter -->
+<h3>5. ::first-letter</h3>
+<p><strong>What it does:</strong> Styles only the <strong>first letter</strong> of the element. Classic use: "drop cap" effect from newspapers and books.</p>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Drop Cap Effect</div>
+<div class="demo-box">
+<style>
+.dropcap::first-letter{font-size:52px;font-weight:800;color:#10b981;float:left;line-height:1;margin-right:10px;margin-top:4px}
+</style>
+<p class="dropcap" style="font-size:16px;line-height:1.7;color:#b0bac9;max-width:500px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. This paragraph uses the ::first-letter pseudo-element to create a beautiful drop cap effect. The first letter is much larger and floats to the left, just like in a printed magazine or book.</p>
+</div>
+</div>
+
+<!-- ::first-line -->
+<h3>6. ::first-line</h3>
+<p><strong>What it does:</strong> Styles only the <strong>first line</strong> of a text block. What counts as "first line" changes as the browser window resizes.</p>
+
+<div class="demo">
+<div class="demo-label">▶ Live Result — Bold First Line</div>
+<div class="demo-box">
+<style>
+.firstline::first-line{font-weight:700;color:#f0f6fc}
+</style>
+<p class="firstline" style="font-size:16px;line-height:1.7;color:#7a8599;max-width:500px">This first line is bold and bright white automatically. The rest of the paragraph stays the normal muted gray color. Resize your browser to see how the first line changes — it's always whatever fits on the first visual line.</p>
+</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 8 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">8</span> Putting It All Together — Cheat Sheet</h2>
+
+<p>Here's every property from this tutorial in one reference table. <strong>Ctrl+F is your friend.</strong></p>
+
+<h3>Text & Font Properties</h3>
+<table class="ref-table">
+<thead><tr><th>Property</th><th>Common Values</th><th>What It Does</th></tr></thead>
+<tbody>
+<tr><td><code>color</code></td><td>#hex, rgb(), rgba(), named</td><td>Text color</td></tr>
+<tr><td><code>font-family</code></td><td>'Inter', sans-serif</td><td>Which font to use</td></tr>
+<tr><td><code>font-size</code></td><td>16px, 1rem, 1.2em</td><td>Text size</td></tr>
+<tr><td><code>font-weight</code></td><td>400, 600, 700, bold</td><td>How bold/thick</td></tr>
+<tr><td><code>font-style</code></td><td>normal, italic</td><td>Italic or normal</td></tr>
+<tr><td><code>line-height</code></td><td>1.5, 1.8, 2</td><td>Space between lines</td></tr>
+<tr><td><code>letter-spacing</code></td><td>-1px, 0, 2px</td><td>Space between letters</td></tr>
+<tr><td><code>word-spacing</code></td><td>0, 4px</td><td>Space between words</td></tr>
+<tr><td><code>text-align</code></td><td>left, center, right, justify</td><td>Horizontal text alignment</td></tr>
+<tr><td><code>text-decoration</code></td><td>none, underline, line-through</td><td>Lines on text</td></tr>
+<tr><td><code>text-transform</code></td><td>uppercase, lowercase, capitalize</td><td>Change capitalization</td></tr>
+<tr><td><code>text-indent</code></td><td>40px, 2em</td><td>Indent first line</td></tr>
+<tr><td><code>white-space</code></td><td>normal, nowrap, pre</td><td>How whitespace is handled</td></tr>
+<tr><td><code>text-overflow</code></td><td>ellipsis</td><td>Show "..." for clipped text</td></tr>
+<tr><td><code>text-shadow</code></td><td>2px 2px 4px rgba()</td><td>Shadow behind text</td></tr>
+</tbody>
+</table>
+
+<h3>Background Properties</h3>
+<table class="ref-table">
+<thead><tr><th>Property</th><th>Common Values</th><th>What It Does</th></tr></thead>
+<tbody>
+<tr><td><code>background-color</code></td><td>#hex, rgba()</td><td>Solid background fill</td></tr>
+<tr><td><code>background-image</code></td><td>url(...), linear-gradient(...)</td><td>Image or gradient background</td></tr>
+<tr><td><code>background-size</code></td><td>cover, contain, auto</td><td>How image fills container</td></tr>
+<tr><td><code>background-position</code></td><td>center, top left</td><td>Where image sits</td></tr>
+<tr><td><code>background-repeat</code></td><td>no-repeat, repeat</td><td>Whether image tiles</td></tr>
+<tr><td><code>background-attachment</code></td><td>scroll, fixed</td><td>Parallax effect</td></tr>
+<tr><td><code>background</code></td><td>url() center/cover no-repeat</td><td>Shorthand for all above</td></tr>
+</tbody>
+</table>
+
+<h3>Border & Outline Properties</h3>
+<table class="ref-table">
+<thead><tr><th>Property</th><th>Common Values</th><th>What It Does</th></tr></thead>
+<tbody>
+<tr><td><code>border</code></td><td>2px solid #333</td><td>Line around element</td></tr>
+<tr><td><code>border-width</code></td><td>1px, 2px, 3px</td><td>Border thickness</td></tr>
+<tr><td><code>border-style</code></td><td>solid, dashed, dotted, none</td><td>Border pattern</td></tr>
+<tr><td><code>border-color</code></td><td>#hex, rgba()</td><td>Border color</td></tr>
+<tr><td><code>border-radius</code></td><td>10px, 50%, 30px 30px 0 0</td><td>Rounded corners</td></tr>
+<tr><td><code>outline</code></td><td>2px solid blue</td><td>Line outside box model</td></tr>
+<tr><td><code>outline-offset</code></td><td>4px</td><td>Gap between element & outline</td></tr>
+</tbody>
+</table>
+
+<h3>Spacing & Sizing Properties</h3>
+<table class="ref-table">
+<thead><tr><th>Property</th><th>Common Values</th><th>What It Does</th></tr></thead>
+<tbody>
+<tr><td><code>padding</code></td><td>20px, 10px 20px</td><td>Space inside (content ↔ border)</td></tr>
+<tr><td><code>margin</code></td><td>20px, 0 auto</td><td>Space outside (element ↔ siblings)</td></tr>
+<tr><td><code>gap</code></td><td>16px, 20px</td><td>Space between flex/grid children</td></tr>
+<tr><td><code>width</code></td><td>300px, 100%</td><td>Horizontal size</td></tr>
+<tr><td><code>max-width</code></td><td>900px</td><td>Maximum horizontal size</td></tr>
+<tr><td><code>min-width</code></td><td>200px</td><td>Minimum horizontal size</td></tr>
+<tr><td><code>height</code></td><td>400px, 100vh</td><td>Vertical size</td></tr>
+<tr><td><code>overflow</code></td><td>hidden, auto, scroll, visible</td><td>What happens when content overflows</td></tr>
+</tbody>
+</table>
+
+<h3>Visual Effects Properties</h3>
+<table class="ref-table">
+<thead><tr><th>Property</th><th>Common Values</th><th>What It Does</th></tr></thead>
+<tbody>
+<tr><td><code>opacity</code></td><td>0, 0.5, 1</td><td>Transparency (entire element)</td></tr>
+<tr><td><code>cursor</code></td><td>pointer, default, not-allowed</td><td>Mouse pointer style</td></tr>
+<tr><td><code>visibility</code></td><td>visible, hidden</td><td>Hide but keep space</td></tr>
+<tr><td><code>display</code></td><td>none, block, flex</td><td>Hide + remove from layout</td></tr>
+<tr><td><code>object-fit</code></td><td>cover, contain, fill</td><td>How images fill containers</td></tr>
+<tr><td><code>box-shadow</code></td><td>0 4px 12px rgba()</td><td>Shadow/glow around element</td></tr>
+<tr><td><code>list-style</code></td><td>none, disc, square</td><td>Bullet style for lists</td></tr>
+</tbody>
+</table>
+
+<h3>Pseudo-classes</h3>
+<table class="ref-table">
+<thead><tr><th>Pseudo-class</th><th>What It Targets</th></tr></thead>
+<tbody>
+<tr><td><code>:hover</code></td><td>Mouse is over element</td></tr>
+<tr><td><code>:focus</code></td><td>Element is focused (clicked/tabbed)</td></tr>
+<tr><td><code>:active</code></td><td>Element is being clicked</td></tr>
+<tr><td><code>:visited</code></td><td>Link already visited</td></tr>
+<tr><td><code>:focus-visible</code></td><td>Focused via keyboard only</td></tr>
+<tr><td><code>:first-child</code></td><td>First child of parent</td></tr>
+<tr><td><code>:last-child</code></td><td>Last child of parent</td></tr>
+<tr><td><code>:nth-child(n)</code></td><td>Nth child (2, odd, even, 3n)</td></tr>
+<tr><td><code>:only-child</code></td><td>Element is sole child</td></tr>
+<tr><td><code>:not(sel)</code></td><td>Everything except selector</td></tr>
+<tr><td><code>:required</code></td><td>Required form fields</td></tr>
+<tr><td><code>:disabled</code></td><td>Disabled inputs/buttons</td></tr>
+<tr><td><code>:checked</code></td><td>Checked checkboxes/radios</td></tr>
+<tr><td><code>:valid / :invalid</code></td><td>Form validation states</td></tr>
+</tbody>
+</table>
+
+<h3>Pseudo-elements</h3>
+<table class="ref-table">
+<thead><tr><th>Pseudo-element</th><th>What It Creates</th></tr></thead>
+<tbody>
+<tr><td><code>::before</code></td><td>Virtual element before content (needs content: '')</td></tr>
+<tr><td><code>::after</code></td><td>Virtual element after content (needs content: '')</td></tr>
+<tr><td><code>::placeholder</code></td><td>Styles placeholder text in inputs</td></tr>
+<tr><td><code>::selection</code></td><td>Styles text when user highlights it</td></tr>
+<tr><td><code>::first-letter</code></td><td>Styles only the first letter</td></tr>
+<tr><td><code>::first-line</code></td><td>Styles only the first line</td></tr>
+</tbody>
+</table>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 9 -->
+<!-- ════════════════════════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">9</span> Practice Exercises</h2>
+
+<p>Practice makes permanent. Try these exercises, then toggle the solutions to check your work.</p>
+
+<!-- Exercise 1 -->
+<h3>Exercise 1: Styled Paragraph</h3>
+<p>Create a paragraph with: custom color (#f0f6fc), font-size (20px), line-height (1.8), letter-spacing (0.5px), text-transform (uppercase), and text-shadow. Play with each value and see the effect.</p>
+
+<button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Toggle Solution</button>
+<div class="solution-content">
+<pre><code><span class="sel">p</span> {
+  <span class="prop">color</span>: <span class="cssval">#f0f6fc</span>;
+  <span class="prop">font-size</span>: <span class="num">20px</span>;
+  <span class="prop">line-height</span>: <span class="num">1.8</span>;
+  <span class="prop">letter-spacing</span>: <span class="num">0.5px</span>;
+  <span class="prop">text-transform</span>: <span class="cssval">uppercase</span>;
+  <span class="prop">text-shadow</span>: <span class="num">1px</span> <span class="num">1px</span> <span class="num">3px</span> <span class="cssval">rgba(0,0,0,0.3)</span>;
+  <span class="prop">font-weight</span>: <span class="num">700</span>;
+}</code></pre>
+<div class="demo">
+<div class="demo-label">▶ Solution Result</div>
+<div class="demo-box">
+    <p style="color:#f0f6fc;font-size:20px;line-height:1.8;letter-spacing:0.5px;text-transform:uppercase;text-shadow:1px 1px 3px rgba(0,0,0,0.3);font-weight:700;margin:0">Welcome to the lugx gaming platform where you can discover the best games</p>
+</div>
+</div>
+</div>
+
+<!-- Exercise 2 -->
+<h3>Exercise 2: Styled Card</h3>
+<p>Create a card with: <code>border</code>, <code>border-radius</code>, <code>box-shadow</code>, <code>background-color</code>, <code>padding</code>, <code>overflow: hidden</code>, and a colored header bar inside.</p>
+
+<button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Toggle Solution</button>
+<div class="solution-content">
+<pre><code><span class="sel">.card</span> {
+  <span class="prop">border</span>: <span class="num">1px</span> <span class="cssval">solid</span> <span class="cssval">#2e3f5a</span>;
+  <span class="prop">border-radius</span>: <span class="num">14px</span>;
+  <span class="prop">box-shadow</span>: <span class="num">0</span> <span class="num">8px</span> <span class="num">24px</span> <span class="cssval">rgba(0,0,0,0.2)</span>;
+  <span class="prop">background-color</span>: <span class="cssval">#1a2035</span>;
+  <span class="prop">padding</span>: <span class="num">0</span>;
+  <span class="prop">overflow</span>: <span class="cssval">hidden</span>;
+  <span class="prop">max-width</span>: <span class="num">300px</span>;
+}</code></pre>
+<div class="demo">
+<div class="demo-label">▶ Solution Result</div>
+<div class="demo-box">
+    <div style="border:1px solid #2e3f5a;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,0.2);background-color:#1a2035;overflow:hidden;max-width:300px">
+        <div style="background:linear-gradient(135deg,#0071F8,#10b981);padding:24px;text-align:center;color:white;font-weight:700;font-size:18px">🎮 Game Card</div>
+        <div style="padding:20px">
+            <p style="font-weight:700;color:#f0f6fc;margin-bottom:8px;font-size:16px">Cyber Quest 2077</p>
+            <p style="color:#7a8599;font-size:14px;margin-bottom:12px">An open-world RPG set in a dystopian future with stunning visuals.</p>
+            <p style="color:#10b981;font-weight:700;font-size:15px;margin:0">$59.99</p>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<!-- Exercise 3 -->
+<h3>Exercise 3: Pseudo-class Styled List</h3>
+<p>Create a list of 8 items. Using <strong>pseudo-classes only</strong> (no extra classes), make: odd items have gray background, first item bold, last item italic, 4th item has a left border.</p>
+
+<button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Toggle Solution</button>
+<div class="solution-content">
+<pre><code><span class="sel">ul li:nth-child(odd)</span>  { <span class="prop">background</span>: <span class="cssval">#1a2035</span>; }
+<span class="sel">ul li:first-child</span>     { <span class="prop">font-weight</span>: <span class="num">700</span>; }
+<span class="sel">ul li:last-child</span>      { <span class="prop">font-style</span>: <span class="cssval">italic</span>; }
+<span class="sel">ul li:nth-child(4)</span>    { <span class="prop">border-left</span>: <span class="num">4px</span> <span class="cssval">solid</span> <span class="cssval">#10b981</span>; }</code></pre>
+<div class="demo">
+<div class="demo-label">▶ Solution Result</div>
+<div class="demo-box">
+<style>
+.ex3-list{list-style:none;padding:0;max-width:350px}
+.ex3-list li{padding:12px 18px;font-size:14px;border-bottom:1px solid #1e2d4a}
+.ex3-list li:nth-child(odd){background:#1a2035}
+.ex3-list li:first-child{font-weight:700;color:#f0f6fc}
+.ex3-list li:last-child{font-style:italic;color:#a78bfa}
+.ex3-list li:nth-child(4){border-left:4px solid #10b981}
+</style>
+<ul class="ex3-list">
+    <li>Item 1 — Bold (first-child)</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+    <li>Item 4 — Green left border (nth-child(4))</li>
+    <li>Item 5</li>
+    <li>Item 6</li>
+    <li>Item 7</li>
+    <li>Item 8 — Italic (last-child)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- Exercise 4 -->
+<h3>Exercise 4: Styled Input with Pseudo-elements</h3>
+<p>Create an input field with: custom <code>::placeholder</code> color and italic style, <code>:focus</code> border change, and a <code>::after</code> indicator on its wrapper div.</p>
+
+<button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Toggle Solution</button>
+<div class="solution-content">
+<pre><code><span class="sel">.input-wrapper</span> { <span class="prop">position</span>: <span class="cssval">relative</span>; <span class="prop">display</span>: <span class="cssval">inline-block</span>; }
+<span class="sel">.input-wrapper::after</span> {
+  <span class="prop">content</span>: <span class="val">'Required'</span>;
+  <span class="prop">position</span>: <span class="cssval">absolute</span>;
+  <span class="prop">right</span>: <span class="num">12px</span>; <span class="prop">top</span>: <span class="num">50%</span>;
+  <span class="prop">transform</span>: <span class="cssval">translateY(-50%)</span>;
+  <span class="prop">font-size</span>: <span class="num">11px</span>;
+  <span class="prop">color</span>: <span class="cssval">#f85149</span>;
+}
+<span class="sel">input::placeholder</span> { <span class="prop">color</span>: <span class="cssval">#5e6e8a</span>; <span class="prop">font-style</span>: <span class="cssval">italic</span>; }
+<span class="sel">input:focus</span> { <span class="prop">border-color</span>: <span class="cssval">#10b981</span>; }</code></pre>
+<div class="demo">
+<div class="demo-label">▶ Solution Result</div>
+<div class="demo-box">
+<style>
+.ex4-wrapper{position:relative;display:inline-block;width:100%;max-width:350px}
+.ex4-wrapper::after{content:'Required';position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:11px;color:#f85149;font-weight:600;pointer-events:none}
+.ex4-input{border:2px solid #2e3f5a;outline:none;padding:14px 90px 14px 18px;border-radius:10px;background:#1a2035;color:#f0f6fc;font-size:15px;font-family:'Inter',sans-serif;width:100%;transition:border-color 0.3s ease}
+.ex4-input::placeholder{color:#5e6e8a;font-style:italic}
+.ex4-input:focus{border-color:#10b981}
+</style>
+<div class="ex4-wrapper">
+    <input type="email" class="ex4-input" placeholder="Enter your email...">
+</div>
+</div>
+</div>
+</div>
+
+<!-- Exercise 5 -->
+<h3>Exercise 5: Profile Card with ::before and ::after</h3>
+<p>Create a profile card using <code>::before</code> to add a decorative gradient shape at the top and <code>::after</code> for a ribbon badge in the corner.</p>
+
+<button class="solution-toggle" onclick="this.nextElementSibling.classList.toggle('show')">Toggle Solution</button>
+<div class="solution-content">
+<pre><code><span class="sel">.profile-card</span> {
+  <span class="prop">position</span>: <span class="cssval">relative</span>;
+  <span class="prop">overflow</span>: <span class="cssval">hidden</span>;
+}
+<span class="sel">.profile-card::before</span> {
+  <span class="prop">content</span>: <span class="val">''</span>;
+  <span class="prop">position</span>: <span class="cssval">absolute</span>;
+  <span class="prop">top</span>: <span class="num">0</span>; <span class="prop">left</span>: <span class="num">0</span>; <span class="prop">right</span>: <span class="num">0</span>;
+  <span class="prop">height</span>: <span class="num">80px</span>;
+  <span class="prop">background</span>: <span class="cssval">linear-gradient(135deg, #0071F8, #10b981)</span>;
+}
+<span class="sel">.profile-card::after</span> {
+  <span class="prop">content</span>: <span class="val">'PRO'</span>;
+  <span class="prop">position</span>: <span class="cssval">absolute</span>;
+  <span class="prop">top</span>: <span class="num">12px</span>; <span class="prop">right</span>: <span class="num">-28px</span>;
+  <span class="prop">background</span>: <span class="cssval">#f85149</span>;
+  <span class="prop">color</span>: <span class="cssval">white</span>;
+  <span class="prop">padding</span>: <span class="num">4px</span> <span class="num">36px</span>;
+  <span class="prop">transform</span>: <span class="cssval">rotate(45deg)</span>;
+  <span class="prop">font-size</span>: <span class="num">11px</span>;
+  <span class="prop">font-weight</span>: <span class="num">800</span>;
+}</code></pre>
+<div class="demo">
+<div class="demo-label">▶ Solution Result</div>
+<div class="demo-box" style="display:flex;justify-content:center">
+<style>
+.ex5-card{position:relative;overflow:hidden;background:#1a2035;border:1px solid #2e3f5a;border-radius:14px;width:260px;text-align:center;padding-top:0}
+.ex5-card::before{content:'';position:absolute;top:0;left:0;right:0;height:80px;background:linear-gradient(135deg,#0071F8,#10b981)}
+.ex5-card::after{content:'PRO';position:absolute;top:16px;right:-28px;background:#f85149;color:white;padding:4px 36px;transform:rotate(45deg);font-size:11px;font-weight:800;letter-spacing:1px}
+</style>
+<div class="ex5-card">
+    <div style="position:relative;z-index:1;padding:20px 20px 24px">
+        <div style="width:72px;height:72px;background:#0f111a;border-radius:50%;margin:20px auto 14px;display:flex;align-items:center;justify-content:center;font-size:32px;border:3px solid #1a2035">🎮</div>
+        <p style="font-weight:700;color:#f0f6fc;font-size:17px;margin-bottom:4px">Player One</p>
+        <p style="color:#7a8599;font-size:13px;margin-bottom:16px">Level 42 • 1,289 Achievements</p>
+        <div style="display:flex;justify-content:center;gap:24px;font-size:13px">
+            <div><p style="color:#10b981;font-weight:700;margin-bottom:2px">847</p><p style="color:#5e6e8a;margin:0">Games</p></div>
+            <div><p style="color:#10b981;font-weight:700;margin-bottom:2px">2.4k</p><p style="color:#5e6e8a;margin:0">Friends</p></div>
+            <div><p style="color:#10b981;font-weight:700;margin-bottom:2px">156</p><p style="color:#5e6e8a;margin:0">Reviews</p></div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- ─── FOOTER ─── -->
+<div style="margin-top:100px;padding-top:32px;border-top:1px solid #1e2d4a;text-align:center">
+    <p style="color:#5e6e8a;font-size:14px">Tutorial 08 — CSS Properties & Selectors Cookbook</p>
+    <p style="color:#3d4a5c;font-size:13px">Bookmark this page. Come back whenever you need to look something up. 📖</p>
+</div>
+
+</div><!-- /.container -->
+</body>
+</html>

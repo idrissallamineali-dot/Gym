@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ES6 Session 2: Arrow Functions, Defaults, Rest/Spread &amp; Classes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16px;padding:60px 20px}
+.container{max-width:960px;margin:0 auto}
+h1{font-size:40px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+.lesson-num{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#f59e0b;margin-bottom:8px}
+.subtitle{font-size:17px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:28px}
+.section-title{font-size:26px;font-weight:800;color:#f0f6fc;margin-top:72px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #1e2d4a;display:flex;align-items:center;gap:12px}
+.section-num{background:#1e2d4a;color:#f59e0b;font-size:13px;padding:4px 12px;border-radius:8px;font-weight:700}
+.concept{font-size:16px;color:#e2e8f0;margin:20px 0 12px;padding:10px 14px;background:#161b2e;border-left:4px solid #f59e0b;border-radius:0 8px 8px 0}
+code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-size:13px}
+pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:10px;padding:20px;margin:8px 0;overflow-x:auto}
+pre code{background:none;padding:0;font-size:13px;line-height:1.7;color:#c9d1d9}
+.kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.num{color:#79c0ff}.bool{color:#ff7b72}
+.example-block{background:#0d1117;border:1px solid #1e2d4a;border-radius:10px;margin:10px 0 20px;overflow:hidden}
+.example-label{background:#161b2e;color:#7dd3fc;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:7px 14px;border-bottom:1px solid #1e2d4a}
+.example-block pre{border:none;border-radius:0;margin:0;padding:16px 20px}
+.output{background:#0a0e1a;border-top:1px solid #1e2d4a;padding:8px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#10b981}
+.output::before{content:'▶ ';color:#5e6e8a}
+.vs-row{display:flex;gap:16px;margin:12px 0 28px}
+.vs-item{flex:1;border-radius:10px;overflow:hidden;border:1px solid #1e2d4a}
+.vs-bad{border-color:rgba(248,81,73,0.4)}
+.vs-good{border-color:rgba(16,185,129,0.4)}
+.vs-label{padding:8px 14px;font-size:12px;font-weight:700;text-align:center}
+.vs-label-bad{background:rgba(248,81,73,0.1);color:#f85149}
+.vs-label-good{background:rgba(16,185,129,0.1);color:#10b981}
+.vs-content pre{border:none;border-radius:0;margin:0;padding:14px 16px;background:#0d1117}
+.note{background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:10px 14px;margin:10px 0 20px;font-size:13px;color:#fbbf24}
+.note::before{content:'💡 '}
+.challenge{background:#161b2e;border:2px solid #f59e0b;border-radius:14px;padding:28px;margin:48px 0}
+.challenge-title{font-size:20px;font-weight:800;color:#f59e0b;margin-bottom:12px}
+.solution-btn,.hint-btn{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;cursor:pointer;transition:0.2s;margin-top:12px;margin-right:8px}
+.solution-btn{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);color:#10b981}
+.hint-btn{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);color:#f59e0b}
+.solution,.hint{display:none;margin-top:12px;padding:16px;border-radius:0 8px 8px 0}
+.solution{background:rgba(16,185,129,0.04);border-left:3px solid #10b981}
+.hint{background:rgba(245,158,11,0.04);border-left:3px solid #f59e0b}
+.solution.show,.hint.show{display:block}
+.sol-label{color:#10b981;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.hint-label{color:#f59e0b;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.demo-output{background:#0d1117;border:1px solid #1e2d4a;border-radius:10px;padding:20px;margin:16px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#10b981;white-space:pre-line;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- HEADER -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="lesson-num">ES6 by Examples</div>
+<h1>ES6 Session 2: Arrow Functions, Defaults, Rest/Spread &amp; Classes</h1>
+<p class="subtitle">Functions got a massive overhaul in ES6. This session is all about the new syntax — less boilerplate, more clarity, more power.</p>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: ARROW FUNCTIONS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">1</span> Arrow Functions</h2>
+
+<p class="concept"><code>=></code> — A shorter syntax for writing functions. Less typing, implicit return, and lexical <code>this</code>.</p>
+
+<!-- 1. Regular vs Arrow (vs-row) -->
+<div class="vs-row">
+    <div class="vs-item vs-bad">
+        <div class="vs-label vs-label-bad">❌ ES5 — Regular Function</div>
+        <div class="vs-content">
+<pre><code><span class="kw">var</span> double = <span class="kw">function</span>(<span class="fn">n</span>) {
+    <span class="kw">return</span> n * <span class="num">2</span>;
+};</code></pre>
+        </div>
+    </div>
+    <div class="vs-item vs-good">
+        <div class="vs-label vs-label-good">✅ ES6 — Arrow Function</div>
+        <div class="vs-content">
+<pre><code><span class="kw">const</span> double = (<span class="fn">n</span>) <span class="kw">=></span> n * <span class="num">2</span>;</code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- 2. Single param, no parens -->
+<div class="example-block">
+    <div class="example-label">SINGLE PARAM — parentheses optional</div>
+<pre><code><span class="kw">const</span> double = <span class="fn">x</span> <span class="kw">=></span> x * <span class="num">2</span>;
+
+console.<span class="fn">log</span>(double(<span class="num">5</span>));
+console.<span class="fn">log</span>(double(<span class="num">100</span>));
+console.<span class="fn">log</span>(double(<span class="num">-3</span>));</code></pre>
+    <div class="output">10</div>
+    <div class="output">200</div>
+    <div class="output">-6</div>
+</div>
+
+<!-- 3. Multiple params -->
+<div class="example-block">
+    <div class="example-label">MULTIPLE PARAMS — parentheses required</div>
+<pre><code><span class="kw">const</span> add = (<span class="fn">a</span>, <span class="fn">b</span>) <span class="kw">=></span> a + b;
+<span class="kw">const</span> multiply = (<span class="fn">a</span>, <span class="fn">b</span>) <span class="kw">=></span> a * b;
+<span class="kw">const</span> power = (<span class="fn">base</span>, <span class="fn">exp</span>) <span class="kw">=></span> base ** exp;
+
+console.<span class="fn">log</span>(add(<span class="num">3</span>, <span class="num">7</span>));
+console.<span class="fn">log</span>(multiply(<span class="num">4</span>, <span class="num">5</span>));
+console.<span class="fn">log</span>(power(<span class="num">2</span>, <span class="num">8</span>));</code></pre>
+    <div class="output">10</div>
+    <div class="output">20</div>
+    <div class="output">256</div>
+</div>
+
+<!-- 4. No params -->
+<div class="example-block">
+    <div class="example-label">NO PARAMS — empty parentheses required</div>
+<pre><code><span class="kw">const</span> greet = () <span class="kw">=></span> <span class="str">'Hello, World!'</span>;
+<span class="kw">const</span> now = () <span class="kw">=></span> Date.<span class="fn">now</span>();
+<span class="kw">const</span> roll = () <span class="kw">=></span> Math.<span class="fn">floor</span>(Math.<span class="fn">random</span>() * <span class="num">6</span>) + <span class="num">1</span>;
+
+console.<span class="fn">log</span>(greet());
+console.<span class="fn">log</span>(now());
+console.<span class="fn">log</span>(roll());</code></pre>
+    <div class="output">"Hello, World!"</div>
+    <div class="output">1748693403000</div>
+    <div class="output">4</div>
+</div>
+
+<!-- 5. Multi-line body -->
+<div class="example-block">
+    <div class="example-label">MULTI-LINE BODY — needs {} and explicit return</div>
+<pre><code><span class="kw">const</span> describe = (<span class="fn">name</span>, <span class="fn">age</span>) <span class="kw">=></span> {
+    <span class="kw">const</span> status = age >= <span class="num">18</span> ? <span class="str">'adult'</span> : <span class="str">'minor'</span>;
+    <span class="kw">const</span> year = <span class="kw">new</span> Date().<span class="fn">getFullYear</span>() - age;
+    <span class="kw">return</span> <span class="str">`${name} is a ${status}, born ~${year}`</span>;
+};
+
+console.<span class="fn">log</span>(describe(<span class="str">'Ada'</span>, <span class="num">25</span>));
+console.<span class="fn">log</span>(describe(<span class="str">'Tim'</span>, <span class="num">12</span>));</code></pre>
+    <div class="output">"Ada is a adult, born ~2001"</div>
+    <div class="output">"Tim is a minor, born ~2014"</div>
+</div>
+
+<!-- 6. Implicit return -->
+<div class="example-block">
+    <div class="example-label">SINGLE-LINE IMPLICIT RETURN — no return keyword needed</div>
+<pre><code><span class="kw">const</span> square   = <span class="fn">n</span> <span class="kw">=></span> n * n;
+<span class="kw">const</span> isEven   = <span class="fn">n</span> <span class="kw">=></span> n % <span class="num">2</span> === <span class="num">0</span>;
+<span class="kw">const</span> shout    = <span class="fn">s</span> <span class="kw">=></span> s.<span class="fn">toUpperCase</span>() + <span class="str">'!'</span>;
+<span class="kw">const</span> fullName = (<span class="fn">f</span>, <span class="fn">l</span>) <span class="kw">=></span> <span class="str">`${f} ${l}`</span>;
+
+console.<span class="fn">log</span>(square(<span class="num">9</span>));
+console.<span class="fn">log</span>(isEven(<span class="num">7</span>));
+console.<span class="fn">log</span>(shout(<span class="str">'yes'</span>));
+console.<span class="fn">log</span>(fullName(<span class="str">'Grace'</span>, <span class="str">'Hopper'</span>));</code></pre>
+    <div class="output">81</div>
+    <div class="output">false</div>
+    <div class="output">"YES!"</div>
+    <div class="output">"Grace Hopper"</div>
+</div>
+
+<!-- 7. Returning object — WRONG -->
+<div class="vs-row">
+    <div class="vs-item vs-bad">
+        <div class="vs-label vs-label-bad">❌ WRONG — {} treated as function body</div>
+        <div class="vs-content">
+<pre><code><span class="kw">const</span> makeUser = (<span class="fn">name</span>) <span class="kw">=></span> { name: name };
+
+console.<span class="fn">log</span>(makeUser(<span class="str">'Ada'</span>));
+<span class="cm">// undefined!  JS thinks {} is the body</span></code></pre>
+        </div>
+    </div>
+    <div class="vs-item vs-good">
+        <div class="vs-label vs-label-good">✅ RIGHT — wrap object in ()</div>
+        <div class="vs-content">
+<pre><code><span class="kw">const</span> makeUser = (<span class="fn">name</span>) <span class="kw">=></span> ({ name: name });
+
+console.<span class="fn">log</span>(makeUser(<span class="str">'Ada'</span>));
+<span class="cm">// { name: 'Ada' }  ✓</span></code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- 8. Returning object — more examples -->
+<div class="example-block">
+    <div class="example-label">RETURNING OBJECTS — always wrap with ()</div>
+<pre><code><span class="kw">const</span> makePoint = (<span class="fn">x</span>, <span class="fn">y</span>) <span class="kw">=></span> ({ x, y });
+<span class="kw">const</span> makeColor = (<span class="fn">r</span>, <span class="fn">g</span>, <span class="fn">b</span>) <span class="kw">=></span> ({ r, g, b, hex: <span class="str">`#${r}${g}${b}`</span> });
+
+console.<span class="fn">log</span>(makePoint(<span class="num">10</span>, <span class="num">20</span>));
+console.<span class="fn">log</span>(makeColor(<span class="str">'ff'</span>, <span class="str">'00'</span>, <span class="str">'7b'</span>));</code></pre>
+    <div class="output">{ x: 10, y: 20 }</div>
+    <div class="output">{ r: "ff", g: "00", b: "7b", hex: "#ff007b" }</div>
+</div>
+
+<!-- 9. Arrow in .map() -->
+<div class="example-block">
+    <div class="example-label">ARROW IN .map()</div>
+<pre><code><span class="kw">const</span> nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>];
+
+<span class="kw">const</span> doubled  = nums.<span class="fn">map</span>(<span class="fn">n</span> <span class="kw">=></span> n * <span class="num">2</span>);
+<span class="kw">const</span> squared  = nums.<span class="fn">map</span>(<span class="fn">n</span> <span class="kw">=></span> n ** <span class="num">2</span>);
+<span class="kw">const</span> labels   = nums.<span class="fn">map</span>(<span class="fn">n</span> <span class="kw">=></span> <span class="str">`Item #${n}`</span>);
+
+console.<span class="fn">log</span>(doubled);
+console.<span class="fn">log</span>(squared);
+console.<span class="fn">log</span>(labels);</code></pre>
+    <div class="output">[2, 4, 6, 8, 10]</div>
+    <div class="output">[1, 4, 9, 16, 25]</div>
+    <div class="output">["Item #1", "Item #2", "Item #3", "Item #4", "Item #5"]</div>
+</div>
+
+<!-- 10. Arrow in .filter() -->
+<div class="example-block">
+    <div class="example-label">ARROW IN .filter()</div>
+<pre><code><span class="kw">const</span> users = [
+    { name: <span class="str">'Ada'</span>,   age: <span class="num">25</span> },
+    { name: <span class="str">'Tim'</span>,   age: <span class="num">12</span> },
+    { name: <span class="str">'Grace'</span>, age: <span class="num">30</span> },
+    { name: <span class="str">'Linus'</span>, age: <span class="num">17</span> },
+];
+
+<span class="kw">const</span> adults = users.<span class="fn">filter</span>(<span class="fn">u</span> <span class="kw">=></span> u.age >= <span class="num">18</span>);
+<span class="kw">const</span> names  = adults.<span class="fn">map</span>(<span class="fn">u</span> <span class="kw">=></span> u.name);
+
+console.<span class="fn">log</span>(names);</code></pre>
+    <div class="output">["Ada", "Grace"]</div>
+</div>
+
+<!-- 11. Chained -->
+<div class="example-block">
+    <div class="example-label">CHAINED — .filter().map().join()</div>
+<pre><code><span class="kw">const</span> scores = [<span class="num">42</span>, <span class="num">88</span>, <span class="num">55</span>, <span class="num">91</span>, <span class="num">73</span>, <span class="num">64</span>, <span class="num">97</span>];
+
+<span class="kw">const</span> topScorers = scores
+    .<span class="fn">filter</span>(<span class="fn">s</span> <span class="kw">=></span> s >= <span class="num">80</span>)
+    .<span class="fn">map</span>(<span class="fn">s</span> <span class="kw">=></span> <span class="str">`★ ${s}`</span>)
+    .<span class="fn">join</span>(<span class="str">' | '</span>);
+
+console.<span class="fn">log</span>(topScorers);</code></pre>
+    <div class="output">★ 88 | ★ 91 | ★ 97</div>
+</div>
+
+<!-- 12. this difference -->
+<div class="example-block">
+    <div class="example-label">this DIFFERENCE — regular vs arrow in setTimeout</div>
+<pre><code><span class="kw">const</span> timer = {
+    seconds: <span class="num">0</span>,
+
+    <span class="cm">// ❌ Regular function — `this` is the global/window object</span>
+    startBroken() {
+        setTimeout(<span class="kw">function</span>() {
+            <span class="kw">this</span>.seconds++;        <span class="cm">// `this` is NOT timer!</span>
+            console.<span class="fn">log</span>(<span class="kw">this</span>.seconds); <span class="cm">// NaN</span>
+        }, <span class="num">1000</span>);
+    },
+
+    <span class="cm">// ✅ Arrow function — `this` inherits from startFixed()</span>
+    startFixed() {
+        setTimeout(() <span class="kw">=></span> {
+            <span class="kw">this</span>.seconds++;        <span class="cm">// `this` IS timer ✓</span>
+            console.<span class="fn">log</span>(<span class="kw">this</span>.seconds); <span class="cm">// 1</span>
+        }, <span class="num">1000</span>);
+    }
+};</code></pre>
+    <div class="output">startBroken() → NaN  (this = window)</div>
+    <div class="output">startFixed()  → 1    (this = timer) ✓</div>
+</div>
+
+<div class="note">Arrow functions don't have their own <code>this</code>. They capture <code>this</code> from where they're defined — this is called <strong>lexical this</strong>.</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: DEFAULT PARAMETERS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">2</span> Default Parameters</h2>
+
+<p class="concept"><code>param = value</code> — Assign a fallback value right in the function signature.</p>
+
+<!-- 1. Old || way vs new defaults -->
+<div class="vs-row">
+    <div class="vs-item vs-bad">
+        <div class="vs-label vs-label-bad">❌ ES5 — || Fallback (buggy with falsy values)</div>
+        <div class="vs-content">
+<pre><code><span class="kw">function</span> <span class="fn">greet</span>(name) {
+    name = name || <span class="str">'World'</span>;
+    <span class="cm">// Bug: greet('') → 'World'</span>
+    <span class="kw">return</span> <span class="str">'Hello, '</span> + name;
+}</code></pre>
+        </div>
+    </div>
+    <div class="vs-item vs-good">
+        <div class="vs-label vs-label-good">✅ ES6 — Default Parameter</div>
+        <div class="vs-content">
+<pre><code><span class="kw">const</span> greet = (name = <span class="str">'World'</span>) <span class="kw">=></span> {
+    <span class="cm">// Only triggers on undefined</span>
+    <span class="kw">return</span> <span class="str">`Hello, ${name}`</span>;
+};</code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- 2. Basic default -->
+<div class="example-block">
+    <div class="example-label">BASIC DEFAULT PARAMETER</div>
+<pre><code><span class="kw">const</span> greet = (name = <span class="str">'World'</span>) <span class="kw">=></span> <span class="str">`Hello, ${name}!`</span>;
+
+console.<span class="fn">log</span>(greet(<span class="str">'Ada'</span>));
+console.<span class="fn">log</span>(greet());
+console.<span class="fn">log</span>(greet(<span class="kw">undefined</span>));</code></pre>
+    <div class="output">"Hello, Ada!"</div>
+    <div class="output">"Hello, World!"</div>
+    <div class="output">"Hello, World!"</div>
+</div>
+
+<!-- 3. Default from other param -->
+<div class="example-block">
+    <div class="example-label">DEFAULT FROM ANOTHER PARAMETER</div>
+<pre><code><span class="kw">const</span> box = (width, height = width) <span class="kw">=></span> ({ width, height });
+<span class="kw">const</span> range = (start, end, step = <span class="num">1</span>) <span class="kw">=></span> ({ start, end, step });
+
+console.<span class="fn">log</span>(box(<span class="num">100</span>));          <span class="cm">// square — height defaults to width</span>
+console.<span class="fn">log</span>(box(<span class="num">100</span>, <span class="num">50</span>));
+console.<span class="fn">log</span>(range(<span class="num">0</span>, <span class="num">10</span>));
+console.<span class="fn">log</span>(range(<span class="num">0</span>, <span class="num">10</span>, <span class="num">2</span>));</code></pre>
+    <div class="output">{ width: 100, height: 100 }</div>
+    <div class="output">{ width: 100, height: 50 }</div>
+    <div class="output">{ start: 0, end: 10, step: 1 }</div>
+    <div class="output">{ start: 0, end: 10, step: 2 }</div>
+</div>
+
+<!-- 4. Default expression -->
+<div class="example-block">
+    <div class="example-label">DEFAULT EXPRESSIONS — evaluated at call time</div>
+<pre><code><span class="kw">const</span> stamp = (msg, date = <span class="kw">new</span> Date().<span class="fn">toLocaleDateString</span>()) <span class="kw">=></span> {
+    <span class="kw">return</span> <span class="str">`[${date}] ${msg}`</span>;
+};
+
+<span class="kw">const</span> makeId = (prefix = <span class="str">'id'</span>, n = Math.<span class="fn">floor</span>(Math.<span class="fn">random</span>() * <span class="num">9000</span>) + <span class="num">1000</span>) <span class="kw">=></span> {
+    <span class="kw">return</span> <span class="str">`${prefix}_${n}`</span>;
+};
+
+console.<span class="fn">log</span>(stamp(<span class="str">'Server started'</span>));
+console.<span class="fn">log</span>(makeId());
+console.<span class="fn">log</span>(makeId(<span class="str">'user'</span>));</code></pre>
+    <div class="output">"[5/31/2026] Server started"</div>
+    <div class="output">"id_4827"</div>
+    <div class="output">"user_1953"</div>
+</div>
+
+<!-- 5. undefined vs null -->
+<div class="example-block">
+    <div class="example-label">undefined USES DEFAULT, null DOES NOT</div>
+<pre><code><span class="kw">const</span> tag = (color = <span class="str">'blue'</span>) <span class="kw">=></span> <span class="str">`color: ${color}`</span>;
+
+console.<span class="fn">log</span>(tag(<span class="str">'red'</span>));       <span class="cm">// explicit value</span>
+console.<span class="fn">log</span>(tag());            <span class="cm">// no arg → undefined → uses default</span>
+console.<span class="fn">log</span>(tag(<span class="kw">undefined</span>));   <span class="cm">// explicit undefined → uses default</span>
+console.<span class="fn">log</span>(tag(<span class="kw">null</span>));        <span class="cm">// null is NOT undefined!</span></code></pre>
+    <div class="output">"color: red"</div>
+    <div class="output">"color: blue"</div>
+    <div class="output">"color: blue"</div>
+    <div class="output">"color: null"    ← null does NOT trigger default!</div>
+</div>
+
+<!-- 6. Skipping middle params -->
+<div class="example-block">
+    <div class="example-label">SKIPPING MIDDLE PARAMS — pass undefined explicitly</div>
+<pre><code><span class="kw">const</span> create = (name = <span class="str">'Untitled'</span>, type = <span class="str">'text'</span>, size = <span class="num">0</span>) <span class="kw">=></span> {
+    <span class="kw">return</span> { name, type, size };
+};
+
+<span class="cm">// Skip 'name', keep default; override 'type' and 'size'</span>
+console.<span class="fn">log</span>(create(<span class="kw">undefined</span>, <span class="str">'image'</span>, <span class="num">1024</span>));</code></pre>
+    <div class="output">{ name: "Untitled", type: "image", size: 1024 }</div>
+</div>
+
+<!-- 7. Destructuring + defaults -->
+<div class="example-block">
+    <div class="example-label">DESTRUCTURING + DEFAULTS — power combo</div>
+<pre><code><span class="kw">const</span> setup = ({ theme = <span class="str">'dark'</span>, lang = <span class="str">'en'</span>, debug = <span class="bool">false</span> } = {}) <span class="kw">=></span> {
+    <span class="kw">return</span> { theme, lang, debug };
+};
+
+console.<span class="fn">log</span>(setup());                          <span class="cm">// all defaults</span>
+console.<span class="fn">log</span>(setup({ theme: <span class="str">'light'</span> }));          <span class="cm">// override one</span>
+console.<span class="fn">log</span>(setup({ lang: <span class="str">'fr'</span>, debug: <span class="bool">true</span> })); <span class="cm">// override two</span></code></pre>
+    <div class="output">{ theme: "dark", lang: "en", debug: false }</div>
+    <div class="output">{ theme: "light", lang: "en", debug: false }</div>
+    <div class="output">{ theme: "dark", lang: "fr", debug: true }</div>
+</div>
+
+<!-- 8. Real world: API defaults -->
+<div class="example-block">
+    <div class="example-label">REAL WORLD — API function with default options</div>
+<pre><code><span class="kw">const</span> fetchData = (url, {
+    method = <span class="str">'GET'</span>,
+    headers = {},
+    timeout = <span class="num">5000</span>,
+    retries = <span class="num">3</span>
+} = {}) <span class="kw">=></span> {
+    <span class="kw">return</span> <span class="str">`${method} ${url} (timeout: ${timeout}ms, retries: ${retries})`</span>;
+};
+
+console.<span class="fn">log</span>(fetchData(<span class="str">'/api/users'</span>));
+console.<span class="fn">log</span>(fetchData(<span class="str">'/api/login'</span>, { method: <span class="str">'POST'</span> }));
+console.<span class="fn">log</span>(fetchData(<span class="str">'/api/upload'</span>, { method: <span class="str">'PUT'</span>, timeout: <span class="num">30000</span> }));</code></pre>
+    <div class="output">"GET /api/users (timeout: 5000ms, retries: 3)"</div>
+    <div class="output">"POST /api/login (timeout: 5000ms, retries: 3)"</div>
+    <div class="output">"PUT /api/upload (timeout: 30000ms, retries: 3)"</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: REST & SPREAD -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">3</span> Rest &amp; Spread</h2>
+
+<p class="concept"><code>...</code> — Three dots. Same syntax, two jobs: <strong>rest</strong> collects, <strong>spread</strong> expands.</p>
+
+<!-- REST EXAMPLES -->
+
+<!-- 1. ...nums collect all args -->
+<div class="example-block">
+    <div class="example-label">REST — ...args collects all arguments into an array</div>
+<pre><code><span class="kw">const</span> sum = (...nums) <span class="kw">=></span> nums.<span class="fn">reduce</span>((a, b) <span class="kw">=></span> a + b, <span class="num">0</span>);
+
+console.<span class="fn">log</span>(sum(<span class="num">1</span>, <span class="num">2</span>));
+console.<span class="fn">log</span>(sum(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>));
+console.<span class="fn">log</span>(sum(<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>));</code></pre>
+    <div class="output">3</div>
+    <div class="output">15</div>
+    <div class="output">60</div>
+</div>
+
+<!-- 2. First param + ...rest -->
+<div class="example-block">
+    <div class="example-label">REST — named param + ...rest for the remainder</div>
+<pre><code><span class="kw">const</span> log = (level, ...messages) <span class="kw">=></span> {
+    <span class="kw">return</span> <span class="str">`[${level.toUpperCase()}] ${messages.join(' ')}`</span>;
+};
+
+console.<span class="fn">log</span>(log(<span class="str">'info'</span>, <span class="str">'Server'</span>, <span class="str">'started'</span>, <span class="str">'on'</span>, <span class="str">'port'</span>, <span class="num">3000</span>));
+console.<span class="fn">log</span>(log(<span class="str">'error'</span>, <span class="str">'File not found'</span>));
+console.<span class="fn">log</span>(log(<span class="str">'warn'</span>, <span class="str">'Disk'</span>, <span class="str">'space'</span>, <span class="str">'low'</span>));</code></pre>
+    <div class="output">"[INFO] Server started on port 3000"</div>
+    <div class="output">"[ERROR] File not found"</div>
+    <div class="output">"[WARN] Disk space low"</div>
+</div>
+
+<!-- 3. Array rest -->
+<div class="example-block">
+    <div class="example-label">REST — array destructuring [first, ...rest]</div>
+<pre><code><span class="kw">const</span> [first, second, ...remaining] = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>];
+
+console.<span class="fn">log</span>(first);
+console.<span class="fn">log</span>(second);
+console.<span class="fn">log</span>(remaining);</code></pre>
+    <div class="output">10</div>
+    <div class="output">20</div>
+    <div class="output">[30, 40, 50]</div>
+</div>
+
+<!-- 4. Object rest -->
+<div class="example-block">
+    <div class="example-label">REST — object destructuring { name, ...others }</div>
+<pre><code><span class="kw">const</span> user = { name: <span class="str">'Ada'</span>, age: <span class="num">25</span>, role: <span class="str">'dev'</span>, city: <span class="str">'London'</span> };
+<span class="kw">const</span> { name, ...profile } = user;
+
+console.<span class="fn">log</span>(name);
+console.<span class="fn">log</span>(profile);</code></pre>
+    <div class="output">"Ada"</div>
+    <div class="output">{ age: 25, role: "dev", city: "London" }</div>
+</div>
+
+<!-- SPREAD EXAMPLES -->
+
+<!-- 5. Math.max(...nums) -->
+<div class="example-block">
+    <div class="example-label">SPREAD — expand array into function arguments</div>
+<pre><code><span class="kw">const</span> nums = [<span class="num">3</span>, <span class="num">7</span>, <span class="num">1</span>, <span class="num">9</span>, <span class="num">4</span>];
+
+console.<span class="fn">log</span>(Math.<span class="fn">max</span>(...nums));
+console.<span class="fn">log</span>(Math.<span class="fn">min</span>(...nums));
+
+<span class="cm">// Without spread: Math.max(3, 7, 1, 9, 4)</span>
+<span class="cm">// Spread does that automatically!</span></code></pre>
+    <div class="output">9</div>
+    <div class="output">1</div>
+</div>
+
+<!-- 6. Copy array -->
+<div class="example-block">
+    <div class="example-label">SPREAD — copy an array (shallow clone)</div>
+<pre><code><span class="kw">const</span> original = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+<span class="kw">const</span> copy = [...original];
+
+copy.<span class="fn">push</span>(<span class="num">4</span>);
+
+console.<span class="fn">log</span>(original);  <span class="cm">// untouched!</span>
+console.<span class="fn">log</span>(copy);      <span class="cm">// has the new item</span></code></pre>
+    <div class="output">[1, 2, 3]</div>
+    <div class="output">[1, 2, 3, 4]</div>
+</div>
+
+<!-- 7. Merge arrays -->
+<div class="example-block">
+    <div class="example-label">SPREAD — merge arrays</div>
+<pre><code><span class="kw">const</span> front = [<span class="str">'🥇'</span>, <span class="str">'🥈'</span>];
+<span class="kw">const</span> back  = [<span class="str">'🥉'</span>, <span class="str">'🏅'</span>];
+
+<span class="kw">const</span> all   = [...front, ...back];
+<span class="kw">const</span> mixed = [...back, <span class="str">'⭐'</span>, ...front];
+
+console.<span class="fn">log</span>(all);
+console.<span class="fn">log</span>(mixed);</code></pre>
+    <div class="output">["🥇", "🥈", "🥉", "🏅"]</div>
+    <div class="output">["🥉", "🏅", "⭐", "🥇", "🥈"]</div>
+</div>
+
+<!-- 8. Add item immutably -->
+<div class="example-block">
+    <div class="example-label">SPREAD — add items without mutating</div>
+<pre><code><span class="kw">const</span> todos = [<span class="str">'eat'</span>, <span class="str">'code'</span>];
+
+<span class="kw">const</span> added   = [...todos, <span class="str">'sleep'</span>];       <span class="cm">// append</span>
+<span class="kw">const</span> prepend = [<span class="str">'wake up'</span>, ...todos];     <span class="cm">// prepend</span>
+<span class="kw">const</span> middle  = [todos[<span class="num">0</span>], <span class="str">'nap'</span>, ...todos.<span class="fn">slice</span>(<span class="num">1</span>)]; <span class="cm">// insert</span>
+
+console.<span class="fn">log</span>(added);
+console.<span class="fn">log</span>(prepend);
+console.<span class="fn">log</span>(middle);</code></pre>
+    <div class="output">["eat", "code", "sleep"]</div>
+    <div class="output">["wake up", "eat", "code"]</div>
+    <div class="output">["eat", "nap", "code"]</div>
+</div>
+
+<!-- 9. Copy object -->
+<div class="example-block">
+    <div class="example-label">SPREAD — copy an object (shallow clone)</div>
+<pre><code><span class="kw">const</span> config = { theme: <span class="str">'dark'</span>, lang: <span class="str">'en'</span> };
+<span class="kw">const</span> clone  = { ...config };
+
+clone.lang = <span class="str">'fr'</span>;
+
+console.<span class="fn">log</span>(config);  <span class="cm">// untouched</span>
+console.<span class="fn">log</span>(clone);</code></pre>
+    <div class="output">{ theme: "dark", lang: "en" }</div>
+    <div class="output">{ theme: "dark", lang: "fr" }</div>
+</div>
+
+<!-- 10. Merge objects -->
+<div class="example-block">
+    <div class="example-label">SPREAD — merge objects (later wins)</div>
+<pre><code><span class="kw">const</span> defaults  = { theme: <span class="str">'dark'</span>, font: <span class="num">14</span>, sidebar: <span class="bool">true</span> };
+<span class="kw">const</span> overrides = { font: <span class="num">18</span>, sidebar: <span class="bool">false</span> };
+
+<span class="kw">const</span> settings  = { ...defaults, ...overrides };
+
+console.<span class="fn">log</span>(settings);</code></pre>
+    <div class="output">{ theme: "dark", font: 18, sidebar: false }</div>
+</div>
+
+<!-- 11. Override property -->
+<div class="example-block">
+    <div class="example-label">SPREAD — override a single property immutably</div>
+<pre><code><span class="kw">const</span> user = { name: <span class="str">'Ada'</span>, age: <span class="num">25</span>, role: <span class="str">'dev'</span> };
+
+<span class="kw">const</span> older   = { ...user, age: <span class="num">26</span> };
+<span class="kw">const</span> promoted = { ...user, role: <span class="str">'lead'</span> };
+
+console.<span class="fn">log</span>(user);
+console.<span class="fn">log</span>(older);
+console.<span class="fn">log</span>(promoted);</code></pre>
+    <div class="output">{ name: "Ada", age: 25, role: "dev" }</div>
+    <div class="output">{ name: "Ada", age: 26, role: "dev" }</div>
+    <div class="output">{ name: "Ada", age: 25, role: "lead" }</div>
+</div>
+
+<!-- 12. Shallow copy gotcha -->
+<div class="example-block">
+    <div class="example-label">⚠️ SHALLOW COPY GOTCHA — nested objects are shared!</div>
+<pre><code><span class="kw">const</span> original = {
+    name: <span class="str">'Ada'</span>,
+    scores: [<span class="num">90</span>, <span class="num">85</span>, <span class="num">92</span>]    <span class="cm">// nested array (reference!)</span>
+};
+
+<span class="kw">const</span> clone = { ...original };
+clone.name = <span class="str">'Tim'</span>;              <span class="cm">// ✓ does not affect original</span>
+clone.scores.<span class="fn">push</span>(<span class="num">100</span>);          <span class="cm">// ✗ DOES affect original!</span>
+
+console.<span class="fn">log</span>(original.name);
+console.<span class="fn">log</span>(original.scores);     <span class="cm">// oops, 100 is here too!</span></code></pre>
+    <div class="output">"Ada"</div>
+    <div class="output">[90, 85, 92, 100]    ← mutation leaked!</div>
+</div>
+
+<div class="note">Spread only copies one level deep. For nested objects/arrays, use <code>structuredClone(obj)</code> or <code>JSON.parse(JSON.stringify(obj))</code>.</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: CLASSES -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2 class="section-title"><span class="section-num">4</span> Classes</h2>
+
+<p class="concept"><code>class</code> — Syntactic sugar over prototypes. Cleaner, familiar OOP syntax.</p>
+
+<!-- 1. ES5 vs ES6 -->
+<div class="vs-row">
+    <div class="vs-item vs-bad">
+        <div class="vs-label vs-label-bad">❌ ES5 — Constructor Function</div>
+        <div class="vs-content">
+<pre><code><span class="kw">function</span> <span class="fn">Person</span>(name, age) {
+    <span class="kw">this</span>.name = name;
+    <span class="kw">this</span>.age = age;
+}
+Person.prototype.<span class="fn">greet</span> = <span class="kw">function</span>() {
+    <span class="kw">return</span> <span class="str">'Hi, I am '</span> + <span class="kw">this</span>.name;
+};</code></pre>
+        </div>
+    </div>
+    <div class="vs-item vs-good">
+        <div class="vs-label vs-label-good">✅ ES6 — Class</div>
+        <div class="vs-content">
+<pre><code><span class="kw">class</span> <span class="fn">Person</span> {
+    <span class="fn">constructor</span>(name, age) {
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.age = age;
+    }
+    <span class="fn">greet</span>() {
+        <span class="kw">return</span> <span class="str">`Hi, I am ${this.name}`</span>;
+    }
+}</code></pre>
+        </div>
+    </div>
+</div>
+
+<!-- 2. Basic class + constructor -->
+<div class="example-block">
+    <div class="example-label">BASIC CLASS + CONSTRUCTOR</div>
+<pre><code><span class="kw">class</span> <span class="fn">Car</span> {
+    <span class="fn">constructor</span>(make, model, year) {
+        <span class="kw">this</span>.make = make;
+        <span class="kw">this</span>.model = model;
+        <span class="kw">this</span>.year = year;
+    }
+}
+
+<span class="kw">const</span> car = <span class="kw">new</span> Car(<span class="str">'Tesla'</span>, <span class="str">'Model 3'</span>, <span class="num">2024</span>);
+console.<span class="fn">log</span>(car.make);
+console.<span class="fn">log</span>(car.model);
+console.<span class="fn">log</span>(car.year);</code></pre>
+    <div class="output">"Tesla"</div>
+    <div class="output">"Model 3"</div>
+    <div class="output">2024</div>
+</div>
+
+<!-- 3. Methods -->
+<div class="example-block">
+    <div class="example-label">METHODS — no function keyword needed</div>
+<pre><code><span class="kw">class</span> <span class="fn">Calculator</span> {
+    <span class="fn">constructor</span>(value = <span class="num">0</span>) {
+        <span class="kw">this</span>.value = value;
+    }
+    <span class="fn">add</span>(n) { <span class="kw">this</span>.value += n; <span class="kw">return this</span>; }
+    <span class="fn">sub</span>(n) { <span class="kw">this</span>.value -= n; <span class="kw">return this</span>; }
+    <span class="fn">mul</span>(n) { <span class="kw">this</span>.value *= n; <span class="kw">return this</span>; }
+    <span class="fn">result</span>() { <span class="kw">return</span> <span class="kw">this</span>.value; }
+}
+
+<span class="cm">// Method chaining</span>
+<span class="kw">const</span> ans = <span class="kw">new</span> Calculator(<span class="num">10</span>).<span class="fn">add</span>(<span class="num">5</span>).<span class="fn">mul</span>(<span class="num">2</span>).<span class="fn">sub</span>(<span class="num">3</span>).<span class="fn">result</span>();
+console.<span class="fn">log</span>(ans);</code></pre>
+    <div class="output">27</div>
+</div>
+
+<!-- 4. Getter / Setter -->
+<div class="example-block">
+    <div class="example-label">GETTER / SETTER — computed properties</div>
+<pre><code><span class="kw">class</span> <span class="fn">Circle</span> {
+    <span class="fn">constructor</span>(radius) {
+        <span class="kw">this</span>.radius = radius;
+    }
+    <span class="kw">get</span> <span class="fn">diameter</span>()  { <span class="kw">return</span> <span class="kw">this</span>.radius * <span class="num">2</span>; }
+    <span class="kw">get</span> <span class="fn">area</span>()      { <span class="kw">return</span> Math.PI * <span class="kw">this</span>.radius ** <span class="num">2</span>; }
+    <span class="kw">set</span> <span class="fn">diameter</span>(d) { <span class="kw">this</span>.radius = d / <span class="num">2</span>; }
+}
+
+<span class="kw">const</span> c = <span class="kw">new</span> Circle(<span class="num">5</span>);
+console.<span class="fn">log</span>(c.diameter);         <span class="cm">// getter — no () needed</span>
+console.<span class="fn">log</span>(c.area.<span class="fn">toFixed</span>(<span class="num">2</span>));
+
+c.diameter = <span class="num">20</span>;                 <span class="cm">// setter — looks like assignment</span>
+console.<span class="fn">log</span>(c.radius);            <span class="cm">// radius updated automatically</span></code></pre>
+    <div class="output">10</div>
+    <div class="output">"78.54"</div>
+    <div class="output">10</div>
+</div>
+
+<!-- 5. Static method -->
+<div class="example-block">
+    <div class="example-label">STATIC METHOD — called on the class, not instances</div>
+<pre><code><span class="kw">class</span> <span class="fn">MathUtils</span> {
+    <span class="kw">static</span> <span class="fn">clamp</span>(val, min, max) {
+        <span class="kw">return</span> Math.<span class="fn">min</span>(Math.<span class="fn">max</span>(val, min), max);
+    }
+    <span class="kw">static</span> <span class="fn">lerp</span>(a, b, t) {
+        <span class="kw">return</span> a + (b - a) * t;
+    }
+}
+
+console.<span class="fn">log</span>(MathUtils.<span class="fn">clamp</span>(<span class="num">150</span>, <span class="num">0</span>, <span class="num">100</span>));
+console.<span class="fn">log</span>(MathUtils.<span class="fn">clamp</span>(<span class="num">-5</span>, <span class="num">0</span>, <span class="num">100</span>));
+console.<span class="fn">log</span>(MathUtils.<span class="fn">lerp</span>(<span class="num">0</span>, <span class="num">100</span>, <span class="num">0.5</span>));</code></pre>
+    <div class="output">100</div>
+    <div class="output">0</div>
+    <div class="output">50</div>
+</div>
+
+<!-- 6. extends + super() -->
+<div class="example-block">
+    <div class="example-label">EXTENDS + SUPER — inheritance</div>
+<pre><code><span class="kw">class</span> <span class="fn">Animal</span> {
+    <span class="fn">constructor</span>(name) {
+        <span class="kw">this</span>.name = name;
+    }
+    <span class="fn">speak</span>() {
+        <span class="kw">return</span> <span class="str">`${this.name} makes a sound.`</span>;
+    }
+}
+
+<span class="kw">class</span> <span class="fn">Dog</span> <span class="kw">extends</span> <span class="fn">Animal</span> {
+    <span class="fn">constructor</span>(name, breed) {
+        <span class="kw">super</span>(name);        <span class="cm">// call parent constructor FIRST</span>
+        <span class="kw">this</span>.breed = breed;
+    }
+}
+
+<span class="kw">const</span> rex = <span class="kw">new</span> Dog(<span class="str">'Rex'</span>, <span class="str">'Shepherd'</span>);
+console.<span class="fn">log</span>(rex.name);
+console.<span class="fn">log</span>(rex.breed);
+console.<span class="fn">log</span>(rex.<span class="fn">speak</span>());  <span class="cm">// inherited method</span></code></pre>
+    <div class="output">"Rex"</div>
+    <div class="output">"Shepherd"</div>
+    <div class="output">"Rex makes a sound."</div>
+</div>
+
+<!-- 7. Override method -->
+<div class="example-block">
+    <div class="example-label">METHOD OVERRIDE — child replaces parent method</div>
+<pre><code><span class="kw">class</span> <span class="fn">Animal</span> {
+    <span class="fn">constructor</span>(name) { <span class="kw">this</span>.name = name; }
+    <span class="fn">speak</span>() { <span class="kw">return</span> <span class="str">`${this.name} makes a sound.`</span>; }
+}
+
+<span class="kw">class</span> <span class="fn">Cat</span> <span class="kw">extends</span> <span class="fn">Animal</span> {
+    <span class="fn">speak</span>() {
+        <span class="kw">return</span> <span class="str">`${this.name} says Meow! 🐱`</span>;  <span class="cm">// overrides parent</span>
+    }
+}
+
+<span class="kw">class</span> <span class="fn">Dog</span> <span class="kw">extends</span> <span class="fn">Animal</span> {
+    <span class="fn">speak</span>() {
+        <span class="kw">return</span> <span class="str">`${this.name} says Woof! 🐶`</span>;
+    }
+}
+
+console.<span class="fn">log</span>(<span class="kw">new</span> Cat(<span class="str">'Luna'</span>).<span class="fn">speak</span>());
+console.<span class="fn">log</span>(<span class="kw">new</span> Dog(<span class="str">'Rex'</span>).<span class="fn">speak</span>());</code></pre>
+    <div class="output">"Luna says Meow! 🐱"</div>
+    <div class="output">"Rex says Woof! 🐶"</div>
+</div>
+
+<!-- 8. super.method() -->
+<div class="example-block">
+    <div class="example-label">SUPER.METHOD() — extend parent instead of replacing</div>
+<pre><code><span class="kw">class</span> <span class="fn">Component</span> {
+    <span class="fn">render</span>() {
+        <span class="kw">return</span> <span class="str">'&lt;div&gt;'</span>;
+    }
+}
+
+<span class="kw">class</span> <span class="fn">Button</span> <span class="kw">extends</span> <span class="fn">Component</span> {
+    <span class="fn">constructor</span>(label) {
+        <span class="kw">super</span>();
+        <span class="kw">this</span>.label = label;
+    }
+    <span class="fn">render</span>() {
+        <span class="kw">const</span> wrapper = <span class="kw">super</span>.<span class="fn">render</span>();   <span class="cm">// call parent's render</span>
+        <span class="kw">return</span> <span class="str">`${wrapper}&lt;button&gt;${this.label}&lt;/button&gt;&lt;/div&gt;`</span>;
+    }
+}
+
+console.<span class="fn">log</span>(<span class="kw">new</span> Button(<span class="str">'Click Me'</span>).<span class="fn">render</span>());</code></pre>
+    <div class="output">"&lt;div&gt;&lt;button&gt;Click Me&lt;/button&gt;&lt;/div&gt;"</div>
+</div>
+
+<!-- 9. Private # fields -->
+<div class="example-block">
+    <div class="example-label">PRIVATE # FIELDS — truly inaccessible from outside</div>
+<pre><code><span class="kw">class</span> <span class="fn">BankAccount</span> {
+    #balance = <span class="num">0</span>;  <span class="cm">// private field</span>
+
+    <span class="fn">constructor</span>(owner, initial = <span class="num">0</span>) {
+        <span class="kw">this</span>.owner = owner;
+        <span class="kw">this</span>.#balance = initial;
+    }
+
+    <span class="fn">deposit</span>(amount) {
+        <span class="kw">if</span> (amount > <span class="num">0</span>) <span class="kw">this</span>.#balance += amount;
+        <span class="kw">return this</span>;
+    }
+
+    <span class="fn">withdraw</span>(amount) {
+        <span class="kw">if</span> (amount > <span class="num">0</span> && amount <= <span class="kw">this</span>.#balance) {
+            <span class="kw">this</span>.#balance -= amount;
+        }
+        <span class="kw">return this</span>;
+    }
+
+    <span class="kw">get</span> <span class="fn">balance</span>() { <span class="kw">return</span> <span class="kw">this</span>.#balance; }
+}
+
+<span class="kw">const</span> acct = <span class="kw">new</span> BankAccount(<span class="str">'Ada'</span>, <span class="num">1000</span>);
+acct.<span class="fn">deposit</span>(<span class="num">500</span>).<span class="fn">withdraw</span>(<span class="num">200</span>);
+console.<span class="fn">log</span>(acct.balance);
+<span class="cm">// acct.#balance → SyntaxError! Can't access from outside</span></code></pre>
+    <div class="output">1300</div>
+</div>
+
+<!-- 10. Real: ShoppingCart -->
+<div class="example-block">
+    <div class="example-label">REAL WORLD — ShoppingCart class</div>
+<pre><code><span class="kw">class</span> <span class="fn">ShoppingCart</span> {
+    #items = [];
+
+    <span class="fn">addItem</span>(name, price, qty = <span class="num">1</span>) {
+        <span class="kw">this</span>.#items.<span class="fn">push</span>({ name, price, qty });
+        <span class="kw">return this</span>;
+    }
+
+    <span class="kw">get</span> <span class="fn">total</span>() {
+        <span class="kw">return</span> <span class="kw">this</span>.#items.<span class="fn">reduce</span>((sum, i) <span class="kw">=></span> sum + i.price * i.qty, <span class="num">0</span>);
+    }
+
+    <span class="kw">get</span> <span class="fn">count</span>() {
+        <span class="kw">return</span> <span class="kw">this</span>.#items.<span class="fn">reduce</span>((sum, i) <span class="kw">=></span> sum + i.qty, <span class="num">0</span>);
+    }
+
+    <span class="fn">summary</span>() {
+        <span class="kw">return</span> <span class="kw">this</span>.#items
+            .<span class="fn">map</span>(i <span class="kw">=></span> <span class="str">`${i.name} x${i.qty} = $${(i.price * i.qty).toFixed(2)}`</span>)
+            .<span class="fn">join</span>(<span class="str">'\n'</span>);
+    }
+}
+
+<span class="kw">const</span> cart = <span class="kw">new</span> ShoppingCart();
+cart.<span class="fn">addItem</span>(<span class="str">'Coffee'</span>, <span class="num">4.99</span>, <span class="num">2</span>)
+    .<span class="fn">addItem</span>(<span class="str">'Muffin'</span>, <span class="num">3.50</span>)
+    .<span class="fn">addItem</span>(<span class="str">'Juice'</span>, <span class="num">2.99</span>, <span class="num">3</span>);
+
+console.<span class="fn">log</span>(cart.<span class="fn">summary</span>());
+console.<span class="fn">log</span>(<span class="str">`Items: ${cart.count} | Total: $${cart.total.toFixed(2)}`</span>);</code></pre>
+    <div class="output">Coffee x2 = $9.98
+Muffin x1 = $3.50
+Juice x3 = $8.97</div>
+    <div class="output">Items: 6 | Total: $22.45</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CHALLENGE 1: SHOPPING CART -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="challenge">
+    <div class="challenge-title">🏆 Challenge 1: Shopping Cart Class</div>
+    <p style="color:#c9d1d9;margin-bottom:12px;">Build a <code>ShoppingCart</code> class with:</p>
+    <ul style="color:#c9d1d9;margin-left:20px;margin-bottom:16px;line-height:2">
+        <li><code>addItem(name, price, qty)</code> — adds item, returns <code>this</code> for chaining</li>
+        <li><code>removeItem(name)</code> — removes item by name</li>
+        <li><code>getTotal()</code> — uses <code>.reduce()</code> to sum price × qty</li>
+        <li><code>getSummary()</code> — returns a template literal summary string</li>
+    </ul>
+
+    <p style="color:#7a8599;font-size:14px;margin-bottom:8px;">Expected output from demo code below:</p>
+    <div class="demo-output">🛒 Shopping Cart
+────────────────────
+Laptop x1 = $999.99
+Mouse x2 = $49.98
+Keyboard x1 = $75.00
+────────────────────
+Total: $1,124.97 (4 items)</div>
+
+    <button class="hint-btn" onclick="toggleHint(this)">Show Hint</button>
+    <div class="hint">
+        <div class="hint-label">Hint</div>
+        <p style="font-size:13px;color:#fbbf24">Use <code>#items = []</code> for a private array. In <code>removeItem</code>, use <code>.filter()</code> to keep everything except the named item. In <code>getTotal</code>, use <code>.reduce((sum, item) => sum + item.price * item.qty, 0)</code>. For the summary, use <code>.map()</code> + <code>.join('\n')</code>.</p>
+    </div>
+
+    <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+        <div class="sol-label">Solution</div>
+<pre><code><span class="kw">class</span> <span class="fn">ShoppingCart</span> {
+    #items = [];
+
+    <span class="fn">addItem</span>(name, price, qty = <span class="num">1</span>) {
+        <span class="kw">this</span>.#items.<span class="fn">push</span>({ name, price, qty });
+        <span class="kw">return this</span>;
+    }
+
+    <span class="fn">removeItem</span>(name) {
+        <span class="kw">this</span>.#items = <span class="kw">this</span>.#items.<span class="fn">filter</span>(i <span class="kw">=></span> i.name !== name);
+        <span class="kw">return this</span>;
+    }
+
+    <span class="fn">getTotal</span>() {
+        <span class="kw">return</span> <span class="kw">this</span>.#items.<span class="fn">reduce</span>((sum, i) <span class="kw">=></span> sum + i.price * i.qty, <span class="num">0</span>);
+    }
+
+    <span class="fn">getSummary</span>() {
+        <span class="kw">const</span> itemCount = <span class="kw">this</span>.#items.<span class="fn">reduce</span>((s, i) <span class="kw">=></span> s + i.qty, <span class="num">0</span>);
+        <span class="kw">const</span> lines = <span class="kw">this</span>.#items
+            .<span class="fn">map</span>(i <span class="kw">=></span> <span class="str">`${i.name} x${i.qty} = $${(i.price * i.qty).toFixed(2)}`</span>)
+            .<span class="fn">join</span>(<span class="str">'\n'</span>);
+        <span class="kw">const</span> total = <span class="kw">this</span>.<span class="fn">getTotal</span>().<span class="fn">toLocaleString</span>(<span class="str">'en-US'</span>, {
+            minimumFractionDigits: <span class="num">2</span>
+        });
+        <span class="kw">return</span> <span class="str">`🛒 Shopping Cart\n${'─'.repeat(20)}\n${lines}\n${'─'.repeat(20)}\nTotal: $${total} (${itemCount} items)`</span>;
+    }
+}
+
+<span class="cm">// Demo</span>
+<span class="kw">const</span> cart = <span class="kw">new</span> ShoppingCart();
+cart.<span class="fn">addItem</span>(<span class="str">'Laptop'</span>, <span class="num">999.99</span>)
+    .<span class="fn">addItem</span>(<span class="str">'Mouse'</span>, <span class="num">24.99</span>, <span class="num">2</span>)
+    .<span class="fn">addItem</span>(<span class="str">'Keyboard'</span>, <span class="num">75.00</span>);
+
+console.<span class="fn">log</span>(cart.<span class="fn">getSummary</span>());</code></pre>
+    </div>
+</div>
+
+<!-- CHALLENGE 1 LIVE DEMO -->
+<div style="margin-bottom:48px">
+    <h3 style="color:#f59e0b;font-size:16px;font-weight:700;margin-bottom:12px">▶ Challenge 1 — Live Demo</h3>
+    <div id="cart-demo" class="demo-output" style="color:#10b981"></div>
+</div>
+
+<script>
+    // Challenge 1 live demo
+    class ShoppingCart {
+        #items = [];
+        addItem(name, price, qty = 1) {
+            this.#items.push({ name, price, qty });
+            return this;
+        }
+        removeItem(name) {
+            this.#items = this.#items.filter(i => i.name !== name);
+            return this;
+        }
+        getTotal() {
+            return this.#items.reduce((sum, i) => sum + i.price * i.qty, 0);
+        }
+        getSummary() {
+            const itemCount = this.#items.reduce((s, i) => s + i.qty, 0);
+            const lines = this.#items
+                .map(i => `${i.name} x${i.qty} = $${(i.price * i.qty).toFixed(2)}`)
+                .join('\n');
+            const total = this.getTotal().toLocaleString('en-US', {
+                minimumFractionDigits: 2
+            });
+            return `🛒 Shopping Cart\n${'─'.repeat(20)}\n${lines}\n${'─'.repeat(20)}\nTotal: $${total} (${itemCount} items)`;
+        }
+    }
+
+    const cart = new ShoppingCart();
+    cart.addItem('Laptop', 999.99)
+        .addItem('Mouse', 24.99, 2)
+        .addItem('Keyboard', 75.00);
+
+    document.getElementById('cart-demo').textContent = cart.getSummary();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CHALLENGE 2: FUNCTION TOOLKIT -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="challenge">
+    <div class="challenge-title">🏆 Challenge 2: Function Toolkit</div>
+    <p style="color:#c9d1d9;margin-bottom:12px;">Write 5 arrow utility functions using rest/spread:</p>
+    <ul style="color:#c9d1d9;margin-left:20px;margin-bottom:16px;line-height:2">
+        <li><code>double(...nums)</code> — returns array with each number doubled</li>
+        <li><code>evens(...nums)</code> — returns only even numbers</li>
+        <li><code>sum(...nums)</code> — returns total of all numbers</li>
+        <li><code>merge(...objects)</code> — merges all objects using spread</li>
+        <li><code>pick(obj, ...keys)</code> — returns new object with only the listed keys</li>
+    </ul>
+
+    <p style="color:#7a8599;font-size:14px;margin-bottom:8px;">Expected output:</p>
+    <div class="demo-output">double(1,2,3,4,5)     → [2, 4, 6, 8, 10]
+evens(1,2,3,4,5,6)    → [2, 4, 6]
+sum(10,20,30)         → 60
+merge({a:1},{b:2})    → {a:1, b:2}
+pick(user,'name','age') → {name:"Ada", age:25}</div>
+
+    <button class="hint-btn" onclick="toggleHint(this)">Show Hint</button>
+    <div class="hint">
+        <div class="hint-label">Hint</div>
+        <p style="font-size:13px;color:#fbbf24"><code>double</code>: use <code>nums.map(n => n * 2)</code>. <code>evens</code>: use <code>nums.filter(n => n % 2 === 0)</code>. <code>sum</code>: use <code>nums.reduce()</code>. <code>merge</code>: use <code>objects.reduce((acc, obj) => ({...acc, ...obj}), {})</code>. <code>pick</code>: use <code>Object.fromEntries(keys.filter(k => k in obj).map(k => [k, obj[k]]))</code>.</p>
+    </div>
+
+    <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+        <div class="sol-label">Solution</div>
+<pre><code><span class="cm">// 1. Double all numbers</span>
+<span class="kw">const</span> double = (...nums) <span class="kw">=></span> nums.<span class="fn">map</span>(n <span class="kw">=></span> n * <span class="num">2</span>);
+
+<span class="cm">// 2. Filter to evens only</span>
+<span class="kw">const</span> evens = (...nums) <span class="kw">=></span> nums.<span class="fn">filter</span>(n <span class="kw">=></span> n % <span class="num">2</span> === <span class="num">0</span>);
+
+<span class="cm">// 3. Sum all numbers</span>
+<span class="kw">const</span> sum = (...nums) <span class="kw">=></span> nums.<span class="fn">reduce</span>((a, b) <span class="kw">=></span> a + b, <span class="num">0</span>);
+
+<span class="cm">// 4. Merge all objects</span>
+<span class="kw">const</span> merge = (...objects) <span class="kw">=></span> objects.<span class="fn">reduce</span>((acc, obj) <span class="kw">=></span> ({ ...acc, ...obj }), {});
+
+<span class="cm">// 5. Pick specific keys from object</span>
+<span class="kw">const</span> pick = (obj, ...keys) <span class="kw">=></span> {
+    <span class="kw">return</span> Object.<span class="fn">fromEntries</span>(
+        keys.<span class="fn">filter</span>(k <span class="kw">=></span> k <span class="kw">in</span> obj).<span class="fn">map</span>(k <span class="kw">=></span> [k, obj[k]])
+    );
+};
+
+<span class="cm">// Test</span>
+console.<span class="fn">log</span>(double(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>));
+console.<span class="fn">log</span>(evens(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>));
+console.<span class="fn">log</span>(sum(<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>));
+console.<span class="fn">log</span>(merge({ a: <span class="num">1</span> }, { b: <span class="num">2</span> }, { c: <span class="num">3</span> }));
+
+<span class="kw">const</span> user = { name: <span class="str">'Ada'</span>, age: <span class="num">25</span>, role: <span class="str">'dev'</span>, city: <span class="str">'London'</span> };
+console.<span class="fn">log</span>(pick(user, <span class="str">'name'</span>, <span class="str">'age'</span>));</code></pre>
+    </div>
+</div>
+
+<!-- CHALLENGE 2 LIVE DEMO -->
+<div style="margin-bottom:48px">
+    <h3 style="color:#f59e0b;font-size:16px;font-weight:700;margin-bottom:12px">▶ Challenge 2 — Live Demo</h3>
+    <div id="toolkit-demo" class="demo-output" style="color:#10b981"></div>
+</div>
+
+<script>
+    // Challenge 2 live demo
+    const double = (...nums) => nums.map(n => n * 2);
+    const evens = (...nums) => nums.filter(n => n % 2 === 0);
+    const sum = (...nums) => nums.reduce((a, b) => a + b, 0);
+    const merge = (...objects) => objects.reduce((acc, obj) => ({ ...acc, ...obj }), {});
+    const pick = (obj, ...keys) => Object.fromEntries(
+        keys.filter(k => k in obj).map(k => [k, obj[k]])
+    );
+
+    const user = { name: 'Ada', age: 25, role: 'dev', city: 'London' };
+
+    const output2 = [
+        `double(1,2,3,4,5)       → [${double(1,2,3,4,5)}]`,
+        `evens(1,2,3,4,5,6)      → [${evens(1,2,3,4,5,6)}]`,
+        `sum(10,20,30)            → ${sum(10,20,30)}`,
+        `merge({a:1},{b:2},{c:3}) → ${JSON.stringify(merge({a:1},{b:2},{c:3}))}`,
+        `pick(user,'name','age') → ${JSON.stringify(pick(user,'name','age'))}`
+    ].join('\n');
+
+    document.getElementById('toolkit-demo').textContent = output2;
+</script>
+
+
+</div> <!-- /.container -->
+
+<script>
+function toggleSolution(btn) {
+    const s = btn.nextElementSibling;
+    s.classList.toggle('show');
+    btn.textContent = s.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+}
+function toggleHint(btn) {
+    const h = btn.nextElementSibling;
+    h.classList.toggle('show');
+    btn.textContent = h.classList.contains('show') ? 'Hide Hint' : 'Show Hint';
+}
+</script>
+
+</body>
+</html>

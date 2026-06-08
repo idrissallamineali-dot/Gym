@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUGX Gaming – Best Gaming Site Ever</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif']
+                    },
+                    colors: {
+                        dark: '#17202a',
+                        darker: '#0f1620',
+                        card: '#1e2530',
+                        primary: '#3b82f6',
+                        muted: '#afafaf'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .section-label {
+            letter-spacing: 0.15em;
+        }
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-dark text-white font-poppins">
+
+    <!-- =============================================
+         1. STICKY NAVBAR
+    ============================================== -->
+    <nav class="sticky top-0 z-50 bg-[#17202a]/95 backdrop-blur-sm border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-16">
+
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2">
+                    <span class="text-primary text-2xl font-black tracking-wider">LUG</span><span class="text-white text-2xl font-black tracking-wider">X</span>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <ul class="hidden md:flex items-center gap-8">
+                    <li><a href="#" class="text-white text-sm font-medium transition hover:text-primary">Home</a></li>
+                    <li><a href="#trending" class="text-white/70 hover:text-white transition text-sm font-medium">Our Shop</a></li>
+                    <li><a href="#most-played" class="text-white/70 hover:text-white transition text-sm font-medium">Product Details</a></li>
+                    <li><a href="#footer" class="text-white/70 hover:text-white transition text-sm font-medium">Contact Us</a></li>
+                </ul>
+
+                <!-- Sign In Button -->
+                <div class="flex items-center gap-4">
+                    <a href="#" class="hidden md:inline-flex items-center gap-2 bg-primary text-white rounded-full px-6 py-2 text-sm font-semibold hover:bg-blue-600 transition">
+                        <i class="fa-regular fa-user text-xs"></i>
+                        Sign In
+                    </a>
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobile-menu-btn" class="md:hidden text-white/70 hover:text-white transition">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#17202a] border-t border-white/10 px-6 py-4">
+            <ul class="flex flex-col gap-4">
+                <li><a href="#" class="text-white text-sm font-medium block hover:text-primary transition">Home</a></li>
+                <li><a href="#trending" class="text-white/70 text-sm font-medium block hover:text-white transition">Our Shop</a></li>
+                <li><a href="#most-played" class="text-white/70 text-sm font-medium block hover:text-white transition">Product Details</a></li>
+                <li><a href="#footer" class="text-white/70 text-sm font-medium block hover:text-white transition">Contact Us</a></li>
+                <li><a href="#" class="inline-flex items-center gap-2 bg-primary text-white rounded-full px-6 py-2 text-sm font-semibold hover:bg-blue-600 transition w-fit">
+                    <i class="fa-regular fa-user text-xs"></i> Sign In
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- =============================================
+         2. HERO BANNER
+    ============================================== -->
+    <section class="py-24 bg-dark">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+
+                <!-- LEFT SIDE -->
+                <div class="lg:w-1/2 text-center lg:text-left">
+                    <h6 class="text-primary text-sm font-semibold uppercase tracking-widest mb-4 section-label">
+                        Welcome to lugx
+                    </h6>
+                    <h2 class="text-5xl font-black leading-tight mb-6">
+                        BEST<br>
+                        <span class="text-primary">GAMING</span><br>
+                        SITE EVER!
+                    </h2>
+                    <p class="text-muted mb-8 leading-relaxed max-w-md mx-auto lg:mx-0">
+                        Discover thousands of games at unbeatable prices. Whether you're into action, RPG, racing, or sports — your next favorite game is waiting here. Dive in and level up your collection today.
+                    </p>
+
+                    <!-- Search Bar -->
+                    <div class="bg-card rounded-full flex overflow-hidden shadow-lg max-w-md mx-auto lg:mx-0">
+                        <input
+                            type="text"
+                            placeholder="Search your games here..."
+                            class="bg-transparent flex-1 px-6 py-4 text-white outline-none placeholder:text-muted text-sm"
+                        >
+                        <button class="bg-primary px-8 py-4 text-white font-semibold hover:bg-blue-600 transition text-sm rounded-full">
+                            <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
+                        </button>
+                    </div>
+
+                    <!-- Stats Row -->
+                    <div class="flex items-center gap-8 mt-10 justify-center lg:justify-start">
+                        <div>
+                            <p class="text-white font-black text-2xl">1.2K+</p>
+                            <p class="text-muted text-xs mt-1">Games Available</p>
+                        </div>
+                        <div class="w-px h-10 bg-white/10"></div>
+                        <div>
+                            <p class="text-white font-black text-2xl">50K+</p>
+                            <p class="text-muted text-xs mt-1">Active Players</p>
+                        </div>
+                        <div class="w-px h-10 bg-white/10"></div>
+                        <div>
+                            <p class="text-white font-black text-2xl">4.9★</p>
+                            <p class="text-muted text-xs mt-1">User Rating</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE -->
+                <div class="lg:w-1/2 relative w-full max-w-md mx-auto lg:max-w-none">
+                    <div class="relative">
+                        <!-- Glow effect -->
+                        <div class="absolute inset-0 bg-primary/20 rounded-2xl blur-3xl scale-105"></div>
+
+                        <img
+                            src="https://picsum.photos/seed/hero-game/500/600"
+                            alt="Featured Game"
+                            class="relative rounded-2xl w-full object-cover shadow-2xl"
+                        >
+
+                        <!-- Price Badge -->
+                        <div class="absolute bottom-6 left-6 bg-green-500 text-white px-5 py-2 rounded-full font-bold text-lg shadow-lg">
+                            $29.99
+                        </div>
+
+                        <!-- Discount Badge -->
+                        <div class="absolute top-6 right-6 bg-red-500 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
+                            -40% OFF
+                        </div>
+
+                        <!-- Rating Badge -->
+                        <div class="absolute top-6 left-6 bg-dark/90 backdrop-blur-sm text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2">
+                            <i class="fa-solid fa-star text-yellow-400"></i>
+                            <span>4.9 / 5.0</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating card -->
+                    <div class="absolute -bottom-4 -right-4 bg-card border border-white/10 rounded-xl p-4 shadow-xl hidden lg:block">
+                        <p class="text-xs text-muted mb-1">New Release</p>
+                        <p class="text-white text-sm font-bold">Cyber Odyssey 2048</p>
+                        <div class="flex items-center gap-1 mt-1">
+                            <i class="fa-solid fa-star text-yellow-400 text-xs"></i>
+                            <i class="fa-solid fa-star text-yellow-400 text-xs"></i>
+                            <i class="fa-solid fa-star text-yellow-400 text-xs"></i>
+                            <i class="fa-solid fa-star text-yellow-400 text-xs"></i>
+                            <i class="fa-solid fa-star-half-stroke text-yellow-400 text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+         3. FEATURES ROW
+    ============================================== -->
+    <section class="py-12 bg-darker">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto px-6">
+
+            <!-- Feature 1 -->
+            <div class="flex flex-col items-center bg-card rounded-xl p-8 hover:bg-primary/10 transition cursor-pointer group border border-white/5 hover:border-primary/30">
+                <i class="fa-solid fa-database text-primary text-3xl mb-4 group-hover:scale-110 transition"></i>
+                <h4 class="text-white text-sm font-semibold mb-1">Free Storage</h4>
+                <p class="text-muted text-xs text-center mt-2">Store your game data securely in the cloud at no cost.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="flex flex-col items-center bg-card rounded-xl p-8 hover:bg-primary/10 transition cursor-pointer group border border-white/5 hover:border-primary/30">
+                <i class="fa-solid fa-users text-primary text-3xl mb-4 group-hover:scale-110 transition"></i>
+                <h4 class="text-white text-sm font-semibold mb-1">User More</h4>
+                <p class="text-muted text-xs text-center mt-2">Join a growing community of passionate gamers worldwide.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="flex flex-col items-center bg-card rounded-xl p-8 hover:bg-primary/10 transition cursor-pointer group border border-white/5 hover:border-primary/30">
+                <i class="fa-solid fa-reply text-primary text-3xl mb-4 group-hover:scale-110 transition"></i>
+                <h4 class="text-white text-sm font-semibold mb-1">Reply Ready</h4>
+                <p class="text-muted text-xs text-center mt-2">24/7 support team always ready to answer your questions.</p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="flex flex-col items-center bg-card rounded-xl p-8 hover:bg-primary/10 transition cursor-pointer group border border-white/5 hover:border-primary/30">
+                <i class="fa-solid fa-table-columns text-primary text-3xl mb-4 group-hover:scale-110 transition"></i>
+                <h4 class="text-white text-sm font-semibold mb-1">Easy Layout</h4>
+                <p class="text-muted text-xs text-center mt-2">Navigate our intuitive storefront and find games in seconds.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =============================================
+         4. TRENDING GAMES SECTION
+    ============================================== -->
+    <section id="trending" class="py-16 bg-dark">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <!-- Section Header -->
+            <div class="flex justify-between items-center mb-10">
+                <div>
+                    <h6 class="text-primary text-xs font-semibold uppercase tracking-widest mb-2 section-label">Trending</h6>
+                    <h2 class="text-3xl font-black text-white">Trending Games</h2>
+                </div>
+                <a href="#" class="border-2 border-primary text-primary px-6 py-2 rounded-full hover:bg-primary hover:text-white transition text-sm font-semibold">
+                    View All
+                </a>
+            </div>
+
+            <!-- Game Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- Card 1 -->
+                <div class="bg-card rounded-xl overflow-hidden group hover:-translate-y-2 transition duration-300 border border-white/5 hover:border-primary/20">
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/game1/300/350"
+                            alt="Game 1"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 220px;"
+                        >
+                        <div class="absolute bottom-3 right-3 bg-dark/90 text-white px-4 py-1 rounded-full text-sm font-bold">
+                            $19.99
+                        </div>
+                        <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition duration-300"></div>
+                    </div>
+                    <div class="p-5 flex items-center justify-between">
+                        <div>
+                            <span class="text-primary text-xs font-semibold uppercase block mb-1">Action</span>
+                            <h4 class="text-white text-sm font-semibold">Shadow Strike X</h4>
+                        </div>
+                        <i class="fa-solid fa-shopping-bag text-muted hover:text-primary transition cursor-pointer text-lg"></i>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-card rounded-xl overflow-hidden group hover:-translate-y-2 transition duration-300 border border-white/5 hover:border-primary/20">
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/game2/300/350"
+                            alt="Game 2"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 220px;"
+                        >
+                        <div class="absolute bottom-3 right-3 bg-dark/90 text-white px-4 py-1 rounded-full text-sm font-bold">
+                            <em class="line-through text-muted text-xs mr-1">$28</em>$14.99
+                        </div>
+                        <div class="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">SALE</div>
+                        <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition duration-300"></div>
+                    </div>
+                    <div class="p-5 flex items-center justify-between">
+                        <div>
+                            <span class="text-primary text-xs font-semibold uppercase block mb-1">RPG</span>
+                            <h4 class="text-white text-sm font-semibold">Realm of Echoes</h4>
+                        </div>
+                        <i class="fa-solid fa-shopping-bag text-muted hover:text-primary transition cursor-pointer text-lg"></i>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-card rounded-xl overflow-hidden group hover:-translate-y-2 transition duration-300 border border-white/5 hover:border-primary/20">
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/game3/300/350"
+                            alt="Game 3"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 220px;"
+                        >
+                        <div class="absolute bottom-3 right-3 bg-dark/90 text-white px-4 py-1 rounded-full text-sm font-bold">
+                            $39.99
+                        </div>
+                        <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition duration-300"></div>
+                    </div>
+                    <div class="p-5 flex items-center justify-between">
+                        <div>
+                            <span class="text-primary text-xs font-semibold uppercase block mb-1">Adventure</span>
+                            <h4 class="text-white text-sm font-semibold">Neon Frontier</h4>
+                        </div>
+                        <i class="fa-solid fa-shopping-bag text-muted hover:text-primary transition cursor-pointer text-lg"></i>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-card rounded-xl overflow-hidden group hover:-translate-y-2 transition duration-300 border border-white/5 hover:border-primary/20">
+                    <div class="relative overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/game4/300/350"
+                            alt="Game 4"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 220px;"
+                        >
+                        <div class="absolute bottom-3 right-3 bg-dark/90 text-white px-4 py-1 rounded-full text-sm font-bold">
+                            <em class="line-through text-muted text-xs mr-1">$45</em>$24.99
+                        </div>
+                        <div class="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">HOT</div>
+                        <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition duration-300"></div>
+                    </div>
+                    <div class="p-5 flex items-center justify-between">
+                        <div>
+                            <span class="text-primary text-xs font-semibold uppercase block mb-1">Racing</span>
+                            <h4 class="text-white text-sm font-semibold">Turbo Velocity</h4>
+                        </div>
+                        <i class="fa-solid fa-shopping-bag text-muted hover:text-primary transition cursor-pointer text-lg"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+         5. MOST PLAYED SECTION
+    ============================================== -->
+    <section id="most-played" class="py-16 bg-darker">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <!-- Section Header -->
+            <div class="flex justify-between items-center mb-10">
+                <div>
+                    <h6 class="text-primary text-xs font-semibold uppercase tracking-widest mb-2 section-label">TOP GAMES</h6>
+                    <h2 class="text-3xl font-black text-white">Most Played</h2>
+                </div>
+                <a href="#" class="border-2 border-primary text-primary px-6 py-2 rounded-full hover:bg-primary hover:text-white transition text-sm font-semibold">
+                    View All
+                </a>
+            </div>
+
+            <!-- 6 Smaller Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+
+                <!-- Small Card 1 -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/20 group">
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/top1/200/220"
+                            alt="Top Game 1"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 140px;"
+                        >
+                    </div>
+                    <div class="p-4 text-center">
+                        <span class="text-primary text-xs font-semibold uppercase">Action</span>
+                        <h4 class="text-white text-sm font-semibold my-2">Iron Siege</h4>
+                        <a href="#" class="text-muted text-xs hover:text-primary transition">Explore</a>
+                    </div>
+                </div>
+
+                <!-- Small Card 2 -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/20 group">
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/top2/200/220"
+                            alt="Top Game 2"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 140px;"
+                        >
+                    </div>
+                    <div class="p-4 text-center">
+                        <span class="text-primary text-xs font-semibold uppercase">Sports</span>
+                        <h4 class="text-white text-sm font-semibold my-2">Kick Legend</h4>
+                        <a href="#" class="text-muted text-xs hover:text-primary transition">Explore</a>
+                    </div>
+                </div>
+
+                <!-- Small Card 3 -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/20 group">
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/top3/200/220"
+                            alt="Top Game 3"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 140px;"
+                        >
+                    </div>
+                    <div class="p-4 text-center">
+                        <span class="text-primary text-xs font-semibold uppercase">RPG</span>
+                        <h4 class="text-white text-sm font-semibold my-2">Dragon Myth</h4>
+                        <a href="#" class="text-muted text-xs hover:text-primary transition">Explore</a>
+                    </div>
+                </div>
+
+                <!-- Small Card 4 -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/20 group">
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/top4/200/220"
+                            alt="Top Game 4"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 140px;"
+                        >
+                    </div>
+                    <div class="p-4 text-center">
+                        <span class="text-primary text-xs font-semibold uppercase">Racing</span>
+                        <h4 class="text-white text-sm font-semibold my-2">Speed Rush</h4>
+                        <a href="#" class="text-muted text-xs hover:text-primary transition">Explore</a>
+                    </div>
+                </div>
+
+                <!-- Small Card 5 -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/20 group">
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/top5/200/220"
+                            alt="Top Game 5"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 140px;"
+                        >
+                    </div>
+                    <div class="p-4 text-center">
+                        <span class="text-primary text-xs font-semibold uppercase">Adventure</span>
+                        <h4 class="text-white text-sm font-semibold my-2">Lost Jungle</h4>
+                        <a href="#" class="text-muted text-xs hover:text-primary transition">Explore</a>
+                    </div>
+                </div>
+
+                <!-- Small Card 6 -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/20 group">
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/top6/200/220"
+                            alt="Top Game 6"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 140px;"
+                        >
+                    </div>
+                    <div class="p-4 text-center">
+                        <span class="text-primary text-xs font-semibold uppercase">Strategy</span>
+                        <h4 class="text-white text-sm font-semibold my-2">War Council</h4>
+                        <a href="#" class="text-muted text-xs hover:text-primary transition">Explore</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+         6. TOP CATEGORIES SECTION
+    ============================================== -->
+    <section id="categories" class="py-16 bg-dark">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <!-- Centered Heading -->
+            <div class="text-center mb-12">
+                <h6 class="text-primary text-xs font-semibold uppercase tracking-widest mb-2 section-label">Browse</h6>
+                <h2 class="text-3xl font-black text-white">Top Categories</h2>
+                <p class="text-muted mt-3 max-w-md mx-auto text-sm">Explore our curated game categories and find your perfect play style.</p>
+            </div>
+
+            <!-- 5 Category Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+
+                <!-- Category 1: Action -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/30 group cursor-pointer">
+                    <div class="p-4 flex items-center gap-2">
+                        <i class="fa-solid fa-bolt text-primary text-sm"></i>
+                        <h4 class="text-white text-sm font-semibold">Action</h4>
+                    </div>
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/cat-action/250/160"
+                            alt="Action Games"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 160px;"
+                        >
+                    </div>
+                    <div class="px-4 py-3">
+                        <p class="text-muted text-xs">320+ Games</p>
+                    </div>
+                </div>
+
+                <!-- Category 2: Adventure -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/30 group cursor-pointer">
+                    <div class="p-4 flex items-center gap-2">
+                        <i class="fa-solid fa-compass text-primary text-sm"></i>
+                        <h4 class="text-white text-sm font-semibold">Adventure</h4>
+                    </div>
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/cat-adventure/250/160"
+                            alt="Adventure Games"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 160px;"
+                        >
+                    </div>
+                    <div class="px-4 py-3">
+                        <p class="text-muted text-xs">180+ Games</p>
+                    </div>
+                </div>
+
+                <!-- Category 3: Racing -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/30 group cursor-pointer">
+                    <div class="p-4 flex items-center gap-2">
+                        <i class="fa-solid fa-flag-checkered text-primary text-sm"></i>
+                        <h4 class="text-white text-sm font-semibold">Racing</h4>
+                    </div>
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/cat-racing/250/160"
+                            alt="Racing Games"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 160px;"
+                        >
+                    </div>
+                    <div class="px-4 py-3">
+                        <p class="text-muted text-xs">95+ Games</p>
+                    </div>
+                </div>
+
+                <!-- Category 4: Sports -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/30 group cursor-pointer">
+                    <div class="p-4 flex items-center gap-2">
+                        <i class="fa-solid fa-futbol text-primary text-sm"></i>
+                        <h4 class="text-white text-sm font-semibold">Sports</h4>
+                    </div>
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/cat-sports/250/160"
+                            alt="Sports Games"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 160px;"
+                        >
+                    </div>
+                    <div class="px-4 py-3">
+                        <p class="text-muted text-xs">140+ Games</p>
+                    </div>
+                </div>
+
+                <!-- Category 5: RPG -->
+                <div class="bg-card rounded-xl overflow-hidden hover:-translate-y-1 transition duration-300 border border-white/5 hover:border-primary/30 group cursor-pointer">
+                    <div class="p-4 flex items-center gap-2">
+                        <i class="fa-solid fa-dragon text-primary text-sm"></i>
+                        <h4 class="text-white text-sm font-semibold">RPG</h4>
+                    </div>
+                    <div class="overflow-hidden">
+                        <img
+                            src="https://picsum.photos/seed/cat-rpg/250/160"
+                            alt="RPG Games"
+                            class="w-full object-cover group-hover:scale-105 transition duration-300"
+                            style="height: 160px;"
+                        >
+                    </div>
+                    <div class="px-4 py-3">
+                        <p class="text-muted text-xs">210+ Games</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+         7. CTA SECTION — Shop + Newsletter
+    ============================================== -->
+    <section class="py-16 bg-darker">
+        <div class="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto px-6">
+
+            <!-- LEFT BOX: Shop CTA -->
+            <div class="lg:w-5/12 bg-card rounded-2xl p-10 border border-white/5 relative overflow-hidden">
+                <!-- Decorative glow -->
+                <div class="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <h6 class="text-primary text-xs font-semibold uppercase tracking-widest mb-3 section-label relative">Our Shop</h6>
+                <h2 class="text-3xl font-black text-white leading-tight mb-4 relative">
+                    Unbeatable<br>
+                    <em class="text-primary not-italic">Prices</em> For<br>
+                    Every Gamer
+                </h2>
+                <p class="text-muted text-sm leading-relaxed mb-2 relative">
+                    Browse our handpicked selection of premium titles. From AAA blockbusters to indie gems — all at prices you'll love. New deals added every week.
+                </p>
+
+                <!-- Mini feature list -->
+                <ul class="mt-6 space-y-3 mb-6 relative">
+                    <li class="flex items-center gap-3 text-sm text-muted">
+                        <i class="fa-solid fa-circle-check text-green-400 text-sm flex-shrink-0"></i>
+                        Instant digital delivery to your account
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-muted">
+                        <i class="fa-solid fa-circle-check text-green-400 text-sm flex-shrink-0"></i>
+                        30-day money-back guarantee
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-muted">
+                        <i class="fa-solid fa-circle-check text-green-400 text-sm flex-shrink-0"></i>
+                        Exclusive member-only discount bundles
+                    </li>
+                </ul>
+
+                <a href="#" class="inline-block bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-600 transition mt-4 relative text-sm">
+                    <i class="fa-solid fa-store mr-2"></i>Shop Now
+                </a>
+            </div>
+
+            <!-- MIDDLE: Featured Game Image -->
+            <div class="hidden lg:flex lg:w-2/12 items-end justify-center">
+                <div class="relative w-full">
+                    <div class="absolute inset-0 bg-primary/10 rounded-2xl blur-2xl"></div>
+                    <img
+                        src="https://picsum.photos/seed/cta-game/220/350"
+                        alt="Featured CTA Game"
+                        class="relative rounded-2xl w-full object-cover shadow-2xl"
+                        style="height: 320px;"
+                    >
+                </div>
+            </div>
+
+            <!-- RIGHT BOX: Newsletter -->
+            <div class="lg:w-5/12 lg:ml-auto bg-card rounded-2xl p-10 border border-white/5 relative overflow-hidden">
+                <!-- Decorative glow -->
+                <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <h6 class="text-primary text-xs font-semibold uppercase tracking-widest mb-3 section-label relative">NEWSLETTER</h6>
+                <h2 class="text-3xl font-black text-white leading-tight mb-4 relative">
+                    Never Miss<br>
+                    A Deal –<br>
+                    <em class="text-primary not-italic">Subscribe</em> Now
+                </h2>
+                <p class="text-muted text-sm leading-relaxed relative">
+                    Get exclusive game deals, new release alerts, and gaming news delivered straight to your inbox. Join over 50,000 subscribers today.
+                </p>
+
+                <!-- Email Form -->
+                <div class="flex bg-dark rounded-full overflow-hidden mt-6 border border-white/10 relative">
+                    <input
+                        type="email"
+                        placeholder="Enter your email address..."
+                        class="bg-transparent flex-1 px-6 py-4 text-white outline-none placeholder:text-muted text-sm"
+                    >
+                    <button class="bg-primary px-8 py-4 text-white font-semibold text-sm hover:bg-blue-600 transition rounded-full flex-shrink-0">
+                        Subscribe
+                    </button>
+                </div>
+
+                <!-- Trust badges -->
+                <div class="flex items-center gap-6 mt-6 relative">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved text-green-400 text-sm"></i>
+                        <span class="text-muted text-xs">No spam, ever</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-lock text-green-400 text-sm"></i>
+                        <span class="text-muted text-xs">Privacy protected</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =============================================
+         BONUS: TESTIMONIALS / COMMUNITY SECTION
+    ============================================== -->
+    <section class="py-16 bg-dark">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="text-center mb-12">
+                <h6 class="text-primary text-xs font-semibold uppercase tracking-widest mb-2 section-label">Community</h6>
+                <h2 class="text-3xl font-black text-white">What Gamers Say</h2>
+                <p class="text-muted mt-3 max-w-md mx-auto text-sm">Trusted by over 50,000 gamers around the world.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Testimonial 1 -->
+                <div class="bg-card rounded-xl p-6 border border-white/5 hover:border-primary/20 transition">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                    </div>
+                    <p class="text-muted text-sm leading-relaxed mb-5">
+                        "LUGX has completely changed how I buy games. The prices are incredible and delivery is instant. Never going back to another store!"
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/user1/40/40" alt="User" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p class="text-white text-sm font-semibold">Alex Morgan</p>
+                            <p class="text-muted text-xs">Pro Gamer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-card rounded-xl p-6 border border-white/5 hover:border-primary/20 transition">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                    </div>
+                    <p class="text-muted text-sm leading-relaxed mb-5">
+                        "Best gaming platform I've used. The category browser is super intuitive and the deals during sales are absolutely insane. 10/10!"
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/user2/40/40" alt="User" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p class="text-white text-sm font-semibold">Sarah Chen</p>
+                            <p class="text-muted text-xs">Streamer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-card rounded-xl p-6 border border-white/5 hover:border-primary/20 transition">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+                        <i class="fa-solid fa-star-half-stroke text-yellow-400 text-sm"></i>
+                    </div>
+                    <p class="text-muted text-sm leading-relaxed mb-5">
+                        "I've been a member since launch and the platform keeps getting better. Support team responds lightning fast. Highly recommend to all gamers."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/user3/40/40" alt="User" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p class="text-white text-sm font-semibold">Jordan Blake</p>
+                            <p class="text-muted text-xs">Casual Gamer</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+         8. FOOTER
+    ============================================== -->
+    <footer id="footer" class="py-8 bg-dark border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+
+            <!-- Footer Top: Logo + Social -->
+            <div class="flex flex-col items-center mb-6">
+                <div class="mb-4">
+                    <span class="text-primary text-2xl font-black tracking-wider">LUG</span><span class="text-white text-2xl font-black tracking-wider">X</span>
+                    <p class="text-muted text-xs mt-1">Your ultimate gaming destination</p>
+                </div>
+                <!-- Social Icons -->
+                <div class="flex items-center gap-4">
+                    <a href="#" class="w-9 h-9 rounded-full bg-card border border-white/10 flex items-center justify-center text-muted hover:text-primary hover:border-primary transition">
+                        <i class="fa-brands fa-facebook-f text-sm"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-card border border-white/10 flex items-center justify-center text-muted hover:text-primary hover:border-primary transition">
+                        <i class="fa-brands fa-x-twitter text-sm"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-card border border-white/10 flex items-center justify-center text-muted hover:text-primary hover:border-primary transition">
+                        <i class="fa-brands fa-instagram text-sm"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-card border border-white/10 flex items-center justify-center text-muted hover:text-primary hover:border-primary transition">
+                        <i class="fa-brands fa-discord text-sm"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-card border border-white/10 flex items-center justify-center text-muted hover:text-primary hover:border-primary transition">
+                        <i class="fa-brands fa-youtube text-sm"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="flex flex-wrap items-center justify-center gap-6 mb-6">
+                <a href="#" class="text-muted text-xs hover:text-white transition">Home</a>
+                <a href="#" class="text-muted text-xs hover:text-white transition">Our Shop</a>
+                <a href="#" class="text-muted text-xs hover:text-white transition">Categories</a>
+                <a href="#" class="text-muted text-xs hover:text-white transition">About Us</a>
+                <a href="#" class="text-muted text-xs hover:text-white transition">Privacy Policy</a>
+                <a href="#" class="text-muted text-xs hover:text-white transition">Terms of Service</a>
+                <a href="#" class="text-muted text-xs hover:text-white transition">Contact Us</a>
+            </div>
+
+            <div class="border-t border-white/5 pt-6">
+                <p class="text-muted text-sm">
+                    Copyright &copy; 2048 LUGX Gaming Company. All rights reserved.
+                </p>
+                <p class="text-muted/50 text-xs mt-2">
+                    Design inspired by TemplateMo 589 LUGX Gaming &mdash; Tailwind CSS implementation for educational purposes.
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- =============================================
+         JAVASCRIPT: Mobile Menu Toggle
+    ============================================== -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.className = 'fa-solid fa-bars text-xl';
+            } else {
+                icon.className = 'fa-solid fa-xmark text-xl';
+            }
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenuBtn.querySelector('i').className = 'fa-solid fa-bars text-xl';
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-2xl');
+            } else {
+                navbar.classList.remove('shadow-2xl');
+            }
+        });
+    </script>
+
+</body>
+</html>

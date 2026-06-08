@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Katas — 20 Challenges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16px;padding:40px 20px}.container{max-width:820px;margin:0 auto}h1{font-size:38px;font-weight:700;color:#f0f6fc;margin-bottom:12px}.subtitle{font-size:17px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px}p{margin-bottom:18px;color:#b0bac9}strong{color:#e2e8f0}code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14px}pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:22px 24px;margin:12px 0 20px;overflow-x:auto}pre code{background:none;padding:0;font-size:14px;line-height:1.7;color:#c9d1d9}.cm{color:#5e6e8a;font-style:italic}hr{border:none;border-top:1px solid #1e2d4a;margin:36px 0}.kata{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:28px;margin:24px 0}.kata-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}.kata-num{background:#f59e0b;color:#0d1117;font-size:13px;font-weight:700;padding:4px 12px;border-radius:8px}.kata-diff{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:6px}.diff-easy{background:rgba(16,185,129,.15);color:#10b981}.diff-medium{background:rgba(245,158,11,.15);color:#f59e0b}.diff-hard{background:rgba(248,81,73,.15);color:#f85149}.kata h3{font-size:18px;font-weight:600;color:#f0f6fc;margin-bottom:10px}.kata p{font-size:15px;color:#9aa5b4;margin-bottom:12px}.constraint{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);border-radius:10px;padding:10px 16px;margin:12px 0;font-size:13px;font-weight:600;color:#a78bfa}.constraint::before{content:'⛔ CONSTRAINT: ';font-weight:700}.solution-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#10b981;font-size:13px;font-weight:600;padding:8px 18px;border-radius:10px;cursor:pointer;transition:.2s;margin-top:8px}.solution-btn:hover{background:rgba(16,185,129,.15)}.solution{display:none;margin-top:16px;padding:16px 20px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}.solution.show{display:block}.solution-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#10b981;margin-bottom:10px}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🧱 Object Katas</h1>
+    <p class="subtitle">20 challenges focused on object manipulation, destructuring, prototypes, and patterns. Constraints force you to use specific techniques.</p>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">01</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Pick</h3>
+    <p>Write <code>pick(obj, keys)</code>. Return a new object with only the specified keys.</p>
+    <pre><code>pick({ a:1, b:2, c:3 }, ["a","c"])   <span class="cm">// { a: 1, c: 3 }</span></code></pre>
+    <div class="constraint">Use reduce.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const pick = (obj, keys) =>
+    keys.reduce((result, key) => {
+        if (key in obj) result[key] = obj[key];
+        return result;
+    }, {});</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">02</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Omit</h3>
+    <p>Write <code>omit(obj, keys)</code>. Return a new object WITHOUT the specified keys.</p>
+    <pre><code>omit({ a:1, b:2, c:3 }, ["b"])   <span class="cm">// { a: 1, c: 3 }</span></code></pre>
+    <div class="constraint">Use Object.entries(), filter, and Object.fromEntries().</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const omit = (obj, keys) =>
+    Object.fromEntries(
+        Object.entries(obj).filter(([key]) => !keys.includes(key))
+    );</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">03</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Invert</h3>
+    <p>Write <code>invert(obj)</code>. Swap keys and values.</p>
+    <pre><code>invert({ a: 1, b: 2, c: 3 })   <span class="cm">// { "1": "a", "2": "b", "3": "c" }</span></code></pre>
+    <div class="constraint">Use Object.fromEntries and Object.entries with map.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const invert = obj =>
+    Object.fromEntries(Object.entries(obj).map(([k, v]) => [v, k]));</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">04</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Deep Merge</h3>
+    <p>Write <code>deepMerge(target, source)</code>. Recursively merge — nested objects are merged, not overwritten.</p>
+    <pre><code>deepMerge(
+    { a: 1, b: { x: 1, y: 2 } },
+    { b: { y: 99, z: 3 }, c: 4 }
+)
+<span class="cm">// { a: 1, b: { x: 1, y: 99, z: 3 }, c: 4 }</span></code></pre>
+    <div class="constraint">Use recursion and typeof checks. Do NOT mutate the originals.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function deepMerge(target, source) {
+    const result = { ...target };
+    for (const key of Object.keys(source)) {
+        if (
+            source[key] && typeof source[key] === "object" && !Array.isArray(source[key])
+            && target[key] && typeof target[key] === "object" && !Array.isArray(target[key])
+        ) {
+            result[key] = deepMerge(target[key], source[key]);
+        } else {
+            result[key] = source[key];
+        }
+    }
+    return result;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">05</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Flatten Object</h3>
+    <p>Write <code>flattenObj(obj)</code>. Flatten nested objects into dot-notation keys.</p>
+    <pre><code>flattenObj({ a: { b: { c: 1 } }, d: 2 })
+<span class="cm">// { "a.b.c": 1, "d": 2 }</span></code></pre>
+    <div class="constraint">Use recursion. Build the prefix as you recurse deeper.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function flattenObj(obj, prefix = "", result = {}) {
+    for (const [key, value] of Object.entries(obj)) {
+        const newKey = prefix ? `${prefix}.${key}` : key;
+        if (value && typeof value === "object" && !Array.isArray(value)) {
+            flattenObj(value, newKey, result);
+        } else {
+            result[newKey] = value;
+        }
+    }
+    return result;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">06</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Unflatten Object</h3>
+    <p>Write <code>unflattenObj(obj)</code>. Reverse of flatten.</p>
+    <pre><code>unflattenObj({ "a.b.c": 1, "d": 2 })
+<span class="cm">// { a: { b: { c: 1 } }, d: 2 }</span></code></pre>
+    <div class="constraint">Use reduce and split("."). Build nested objects with a loop.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function unflattenObj(obj) {
+    return Object.entries(obj).reduce((result, [path, value]) => {
+        const keys = path.split(".");
+        let current = result;
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!current[keys[i]]) current[keys[i]] = {};
+            current = current[keys[i]];
+        }
+        current[keys[keys.length - 1]] = value;
+        return result;
+    }, {});
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">07</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Deep Clone</h3>
+    <p>Write <code>deepClone(obj)</code>.</p>
+    <pre><code>const original = { a: 1, b: { c: [2, 3] } };
+const clone = deepClone(original);
+clone.b.c.push(4);
+original.b.c  <span class="cm">// [2, 3] — untouched!</span></code></pre>
+    <div class="constraint">Do NOT use structuredClone or JSON.parse/stringify. Use recursion.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function deepClone(obj) {
+    if (obj === null || typeof obj !== "object") return obj;
+    if (Array.isArray(obj)) return obj.map(item => deepClone(item));
+    const clone = {};
+    for (const [key, value] of Object.entries(obj)) {
+        clone[key] = deepClone(value);
+    }
+    return clone;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">08</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Deep Equal</h3>
+    <p>Write <code>deepEqual(a, b)</code>.</p>
+    <pre><code>deepEqual({ a: { b: 1 } }, { a: { b: 1 } })  <span class="cm">// true</span>
+deepEqual({ a: { b: 1 } }, { a: { b: 2 } })  <span class="cm">// false</span>
+deepEqual([1, [2]], [1, [2]])                  <span class="cm">// true</span></code></pre>
+    <div class="constraint">Use recursion and Object.keys. Handle arrays, objects, and primitives.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function deepEqual(a, b) {
+    if (a === b) return true;
+    if (a === null || b === null) return false;
+    if (typeof a !== "object" || typeof b !== "object") return false;
+    if (Array.isArray(a) !== Array.isArray(b)) return false;
+    const keysA = Object.keys(a), keysB = Object.keys(b);
+    if (keysA.length !== keysB.length) return false;
+    return keysA.every(key => deepEqual(a[key], b[key]));
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">09</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Map Values</h3>
+    <p>Write <code>mapValues(obj, fn)</code>. Transform all values in an object.</p>
+    <pre><code>mapValues({ a: 1, b: 2, c: 3 }, n => n * 10)
+<span class="cm">// { a: 10, b: 20, c: 30 }</span></code></pre>
+    <div class="constraint">Use Object.fromEntries, Object.entries, and map.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const mapValues = (obj, fn) =>
+    Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, fn(v)]));</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">10</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Filter Object</h3>
+    <p>Write <code>filterObj(obj, fn)</code>. Keep only key-value pairs where the value passes the test.</p>
+    <pre><code>filterObj({ a: 1, b: 2, c: 3, d: 4 }, v => v > 2)
+<span class="cm">// { c: 3, d: 4 }</span></code></pre>
+    <div class="constraint">Use Object.fromEntries and filter.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const filterObj = (obj, fn) =>
+    Object.fromEntries(Object.entries(obj).filter(([k, v]) => fn(v)));</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">11</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>To Query String</h3>
+    <p>Write <code>toQS(obj)</code>.</p>
+    <pre><code>toQS({ name: "Idris", age: 25, city: "Paris" })
+<span class="cm">// "name=Idris&age=25&city=Paris"</span></code></pre>
+    <div class="constraint">Use entries, map, join. One chain.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const toQS = obj =>
+    Object.entries(obj).map(([k, v]) => `${k}=${v}`).join("&");</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">12</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>From Query String</h3>
+    <p>Write <code>fromQS(str)</code>.</p>
+    <pre><code>fromQS("name=Idris&age=25&city=Paris")
+<span class="cm">// { name: "Idris", age: "25", city: "Paris" }</span></code></pre>
+    <div class="constraint">Use split, map, and Object.fromEntries.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const fromQS = str =>
+    Object.fromEntries(str.split("&").map(pair => pair.split("=")));</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">13</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Group By</h3>
+    <p>Write <code>groupBy(arr, key)</code>.</p>
+    <pre><code>groupBy([{c:"Paris",n:"A"},{c:"London",n:"B"},{c:"Paris",n:"C"}], "c")
+<span class="cm">// { Paris: [{...},{...}], London: [{...}] }</span></code></pre>
+    <div class="constraint">Use reduce only.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function groupBy(arr, key) {
+    return arr.reduce((groups, item) => {
+        const group = item[key];
+        if (!groups[group]) groups[group] = [];
+        groups[group].push(item);
+        return groups;
+    }, {});
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">14</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Count By</h3>
+    <p>Write <code>countBy(arr, fn)</code>. Count occurrences by a key function.</p>
+    <pre><code>countBy([1,2,3,4,5], n => n % 2 === 0 ? "even" : "odd")
+<span class="cm">// { odd: 3, even: 2 }</span></code></pre>
+    <div class="constraint">Use reduce.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function countBy(arr, fn) {
+    return arr.reduce((acc, item) => {
+        const key = fn(item);
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+    }, {});
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">15</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Defaults</h3>
+    <p>Write <code>defaults(obj, defs)</code>. Fill in missing properties from a defaults object.</p>
+    <pre><code>defaults({ theme: "dark" }, { theme: "light", lang: "en", debug: false })
+<span class="cm">// { theme: "dark", lang: "en", debug: false }</span></code></pre>
+    <div class="constraint">Use spread with the correct order (defaults first, obj second to override).</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const defaults = (obj, defs) => ({ ...defs, ...obj });</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">16</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Diff Objects</h3>
+    <p>Write <code>diff(a, b)</code>. Return object with only the properties that have different values.</p>
+    <pre><code>diff({ x: 1, y: 2, z: 3 }, { x: 1, y: 99, z: 3 })
+<span class="cm">// { y: 99 }</span></code></pre>
+    <div class="constraint">Use Object.keys, filter, and reduce.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function diff(a, b) {
+    return Object.keys(b)
+        .filter(key => a[key] !== b[key])
+        .reduce((result, key) => { result[key] = b[key]; return result; }, {});
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">17</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Path Get</h3>
+    <p>Write <code>get(obj, path)</code>. Access deeply nested properties safely via string path.</p>
+    <pre><code>const data = { a: { b: { c: 42 } } };
+get(data, "a.b.c")       <span class="cm">// 42</span>
+get(data, "a.x.y")       <span class="cm">// undefined (no crash)</span></code></pre>
+    <div class="constraint">Use split(".") and reduce with optional chaining.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const get = (obj, path) =>
+    path.split(".").reduce((acc, key) => acc?.[key], obj);</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">18</span><span class="kata-diff diff-medium">Medium</span></div>
+    <h3>Path Set</h3>
+    <p>Write <code>set(obj, path, value)</code>. Set a deeply nested property, creating intermediate objects.</p>
+    <pre><code>const obj = {};
+set(obj, "a.b.c", 42);
+obj  <span class="cm">// { a: { b: { c: 42 } } }</span></code></pre>
+    <div class="constraint">Use split("."), a for loop, and bracket notation. Mutate the original.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function set(obj, path, value) {
+    const keys = path.split(".");
+    let current = obj;
+    for (let i = 0; i < keys.length - 1; i++) {
+        if (!current[keys[i]] || typeof current[keys[i]] !== "object") {
+            current[keys[i]] = {};
+        }
+        current = current[keys[i]];
+    }
+    current[keys[keys.length - 1]] = value;
+}</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">19</span><span class="kata-diff diff-easy">Easy</span></div>
+    <h3>Create Enum</h3>
+    <p>Write <code>createEnum(...values)</code>.</p>
+    <pre><code>createEnum("RED", "GREEN", "BLUE")
+<span class="cm">// { RED: 0, GREEN: 1, BLUE: 2 }</span></code></pre>
+    <div class="constraint">Use reduce with the index parameter.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>const createEnum = (...values) =>
+    values.reduce((obj, val, i) => { obj[val] = i; return obj; }, {});</code></pre></div></div>
+
+    <div class="kata"><div class="kata-header"><span class="kata-num">20</span><span class="kata-diff diff-hard">Hard</span></div>
+    <h3>Observable Object (Proxy)</h3>
+    <p>Write <code>observable(obj, onChange)</code>. When any property is set, call <code>onChange(key, oldVal, newVal)</code>.</p>
+    <pre><code>const logs = [];
+const user = observable({ name: "Idris", age: 25 },
+    (key, oldVal, newVal) => logs.push(`${key}: ${oldVal} → ${newVal}`)
+);
+user.name = "Updated";
+user.age = 26;
+logs  <span class="cm">// ["name: Idris → Updated", "age: 25 → 26"]</span></code></pre>
+    <div class="constraint">Use Proxy with a set trap.</div>
+    <button class="solution-btn" onclick="toggle(this)">Show Solution</button>
+    <div class="solution"><p class="solution-label">Solution</p>
+    <pre><code>function observable(obj, onChange) {
+    return new Proxy(obj, {
+        set(target, key, value) {
+            const oldVal = target[key];
+            target[key] = value;
+            onChange(key, oldVal, value);
+            return true;
+        }
+    });
+}</code></pre></div></div>
+
+</div>
+<script>
+function toggle(btn){const s=btn.nextElementSibling;s.classList.toggle('show');btn.textContent=s.classList.contains('show')?'Hide Solution':'Show Solution';}
+</script>
+</body>
+</html>

@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07 — Objects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+        .container { max-width: 820px; margin: 0 auto; }
+        .doc-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; margin-bottom: 48px; }
+        .doc-nav span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #5e6e8a; }
+        .doc-nav a { color: #58a6ff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 8px 18px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 10px; transition: 0.2s; }
+        .doc-nav a:hover { background: rgba(88,166,255,0.15); }
+        h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+        h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+        h2 .num { color: #58a6ff; }
+        h3 { font-size: 19px; font-weight: 600; color: #e2e8f0; margin-top: 36px; margin-bottom: 12px; }
+        h4 { font-size: 16px; font-weight: 600; color: #d0d8e4; margin-top: 28px; margin-bottom: 10px; }
+        p { margin-bottom: 18px; color: #b0bac9; }
+        strong { color: #e2e8f0; }
+        em { color: #93aac9; font-style: italic; }
+        code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+        pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 16px 0 24px 0; overflow-x: auto; position: relative; }
+        pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+        .code-label { position: absolute; top: 10px; right: 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #3d4f6f; }
+        .kw { color: #ff7b72; } .str { color: #a5d6ff; } .fn { color: #d2a8ff; } .cm { color: #5e6e8a; font-style: italic; } .num-lit { color: #79c0ff; } .bool { color: #ff7b72; }
+        table { width: 100%; border-collapse: collapse; margin: 18px 0 28px 0; }
+        th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5e6e8a; padding: 12px 18px; border-bottom: 2px solid #1e2d4a; }
+        td { padding: 14px 18px; border-bottom: 1px solid #141a2e; font-size: 15px; }
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(88,166,255,0.03); }
+        .callout { border-left: 4px solid; border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 22px 0; font-size: 14.5px; }
+        .callout-blue { background: rgba(88,166,255,0.06); border-color: #58a6ff; }
+        .callout-amber { background: rgba(245,158,11,0.06); border-color: #f59e0b; }
+        .callout-green { background: rgba(16,185,129,0.06); border-color: #10b981; }
+        .callout-red { background: rgba(248,81,73,0.06); border-color: #f85149; }
+        .callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-blue strong { color: #58a6ff; } .callout-amber strong { color: #f59e0b; } .callout-green strong { color: #10b981; } .callout-red strong { color: #f85149; }
+        hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+        ul, ol { margin: 12px 0 20px 24px; color: #b0bac9; }
+        li { margin-bottom: 8px; }
+        .flow-diagram { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 24px; margin: 20px 0 28px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; color: #8b949e; white-space: pre; overflow-x: auto; }
+        .fd-box { color: #58a6ff; } .fd-action { color: #d2a8ff; } .fd-label { color: #5e6e8a; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .fd-key { color: #ff7b72; } .fd-val { color: #a5d6ff; }
+        .bottom-nav { margin-top: 64px; display: flex; justify-content: space-between; gap: 16px; }
+        .bottom-nav a { flex: 1; padding: 20px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; text-decoration: none; transition: 0.2s; }
+        .bottom-nav a:hover { border-color: #58a6ff; }
+        .bottom-nav .label { font-size: 12px; color: #5e6e8a; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        .bottom-nav .title { font-size: 16px; font-weight: 600; color: #58a6ff; }
+        .bottom-nav .prev { text-align: left; } .bottom-nav .next { text-align: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <nav class="doc-nav">
+            <span>JS Fundamentals</span>
+            <a href="06-arrays.html">← Prev</a>
+            <span>Lesson 07</span>
+        </nav>
+
+        <h1>07 — Objects</h1>
+        <p class="subtitle">Objects are the backbone of JavaScript. Nearly everything in JS is an object — arrays, functions, dates, errors. Understanding how to create, access, manipulate, and iterate over objects is fundamental to every line of code you will ever write.</p>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">1.</span> What Is an Object?</h2>
+
+        <p>An object is an <strong>unordered collection of key-value pairs</strong>. Each pair is called a <strong>property</strong>. The key (or property name) is always a string (or Symbol), and the value can be anything — a number, string, boolean, array, function, or even another object.</p>
+
+        <div class="flow-diagram"><span class="fd-label">Object structure</span>
+
+    ┌─────────────────────────────────────────────┐
+    │  <span class="fd-box">Object</span>                                      │
+    │                                             │
+    │  <span class="fd-key">key</span>         →  <span class="fd-val">value</span>                       │
+    │  ─────────────────────────────────────────   │
+    │  <span class="fd-key">"name"</span>      →  <span class="fd-val">"Idris"</span>                     │
+    │  <span class="fd-key">"age"</span>       →  <span class="fd-val">25</span>                          │
+    │  <span class="fd-key">"isActive"</span>  →  <span class="fd-val">true</span>                        │
+    │  <span class="fd-key">"skills"</span>    →  <span class="fd-val">["JS", "CSS", "HTML"]</span>        │
+    │  <span class="fd-key">"greet"</span>     →  <span class="fd-val">function() { ... }</span>          │
+    └─────────────────────────────────────────────┘</div>
+
+        <p>Unlike arrays (which are ordered by index), objects organize data by <strong>meaningful names</strong>. This makes them perfect for representing real-world entities — a user, a product, a configuration.</p>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">2.</span> Creating Objects</h2>
+
+        <h3>2.1 — Object Literal (The Standard Way)</h3>
+
+        <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    age: <span class="num-lit">25</span>,
+    isTraining: <span class="bool">true</span>,
+    skills: [<span class="str">"JS"</span>, <span class="str">"CSS"</span>, <span class="str">"HTML"</span>]
+};</code></pre>
+
+        <h3>2.2 — Empty Object (Add Properties Later)</h3>
+
+        <pre><code><span class="kw">const</span> config = {};
+config.theme = <span class="str">"dark"</span>;
+config.language = <span class="str">"en"</span>;</code></pre>
+
+        <h3>2.3 — <code>Object.create()</code></h3>
+
+        <p>Creates a new object with a specified prototype. We will cover prototypes later, but know this exists.</p>
+
+        <pre><code><span class="kw">const</span> proto = { greet() { <span class="kw">return</span> <span class="str">`Hello, ${<span class="kw">this</span>.name}`</span>; } };
+<span class="kw">const</span> user = <span class="fn">Object</span>.<span class="fn">create</span>(proto);
+user.name = <span class="str">"Idris"</span>;
+user.<span class="fn">greet</span>();  <span class="cm">// "Hello, Idris"</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">3.</span> Accessing Properties</h2>
+
+        <p>There are two ways to access a property on an object. Knowing when to use which is critical.</p>
+
+        <h3>3.1 — Dot Notation</h3>
+
+        <p>The most common way. Clean and readable. Use this by default.</p>
+
+        <pre><code><span class="kw">const</span> user = { name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span> };
+
+user.name;   <span class="cm">// "Idris"</span>
+user.age;    <span class="cm">// 25</span></code></pre>
+
+        <h3>3.2 — Bracket Notation</h3>
+
+        <p>Uses a <strong>string</strong> (or variable containing a string) inside brackets. Required in three situations:</p>
+
+        <pre><code><span class="cm">// 1. When the key is stored in a variable:</span>
+<span class="kw">const</span> key = <span class="str">"name"</span>;
+user[key];            <span class="cm">// "Idris"</span>
+user.key;             <span class="cm">// undefined — looks for a property literally called "key"</span>
+
+<span class="cm">// 2. When the key has special characters or spaces:</span>
+<span class="kw">const</span> obj = { <span class="str">"first name"</span>: <span class="str">"Idris"</span>, <span class="str">"background-color"</span>: <span class="str">"blue"</span> };
+obj[<span class="str">"first name"</span>];       <span class="cm">// "Idris"</span>
+obj[<span class="str">"background-color"</span>];  <span class="cm">// "blue"</span>
+<span class="cm">// obj.first name → SyntaxError</span>
+<span class="cm">// obj.background-color → interpreted as subtraction!</span>
+
+<span class="cm">// 3. When the key is computed dynamically:</span>
+<span class="kw">const</span> prefix = <span class="str">"user"</span>;
+<span class="kw">const</span> data = { user1: <span class="str">"Alice"</span>, user2: <span class="str">"Bob"</span> };
+data[prefix + <span class="str">"1"</span>];     <span class="cm">// "Alice"</span>
+data[<span class="str">`${prefix}2`</span>];     <span class="cm">// "Bob"</span></code></pre>
+
+        <div class="callout callout-green">
+            <strong>Rule of thumb</strong>
+            Use <strong>dot notation</strong> when the key is a simple, known name.<br>
+            Use <strong>bracket notation</strong> when the key is dynamic, has special characters, or is stored in a variable.
+        </div>
+
+        <h3>3.3 — Accessing Non-Existent Properties</h3>
+
+        <pre><code>user.email;             <span class="cm">// undefined — no error, just undefined</span>
+user.address.city;      <span class="cm">// ❌ TypeError: Cannot read properties of undefined</span>
+user?.address?.city;    <span class="cm">// undefined — safe with optional chaining (Lesson 03)</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">4.</span> Adding, Modifying, and Deleting Properties</h2>
+
+        <p>Objects are <strong>mutable</strong> — you can change them after creation, even if declared with <code>const</code> (remember: <code>const</code> locks the reference, not the contents).</p>
+
+        <pre><code><span class="kw">const</span> user = { name: <span class="str">"Idris"</span> };
+
+<span class="cm">// Add new properties:</span>
+user.age = <span class="num-lit">25</span>;
+user.skills = [<span class="str">"JS"</span>, <span class="str">"CSS"</span>];
+user[<span class="str">"is-active"</span>] = <span class="bool">true</span>;
+
+<span class="cm">// Modify existing properties:</span>
+user.name = <span class="str">"Idris Updated"</span>;
+user.age = <span class="num-lit">26</span>;
+
+<span class="cm">// Delete properties:</span>
+<span class="kw">delete</span> user[<span class="str">"is-active"</span>];
+<span class="fn">console</span>.<span class="fn">log</span>(user);
+<span class="cm">// { name: "Idris Updated", age: 26, skills: ["JS", "CSS"] }</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">5.</span> Methods: Functions Inside Objects</h2>
+
+        <p>When a function is stored as a property of an object, it is called a <strong>method</strong>.</p>
+
+        <pre><code><span class="kw">const</span> calculator = {
+    <span class="cm">// ES5 way:</span>
+    add: <span class="kw">function</span>(a, b) {
+        <span class="kw">return</span> a + b;
+    },
+
+    <span class="cm">// ES6 shorthand (preferred):</span>
+    subtract(a, b) {
+        <span class="kw">return</span> a - b;
+    }
+};
+
+calculator.<span class="fn">add</span>(<span class="num-lit">5</span>, <span class="num-lit">3</span>);       <span class="cm">// 8</span>
+calculator.<span class="fn">subtract</span>(<span class="num-lit">10</span>, <span class="num-lit">4</span>);  <span class="cm">// 6</span></code></pre>
+
+        <h3>5.1 — <code>this</code> Inside Methods</h3>
+
+        <p>Inside a method (regular function), <code>this</code> refers to <strong>the object the method belongs to</strong>:</p>
+
+        <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    age: <span class="num-lit">25</span>,
+
+    introduce() {
+        <span class="kw">return</span> <span class="str">`Hi, I'm ${<span class="kw">this</span>.name} and I'm ${<span class="kw">this</span>.age}.`</span>;
+    },
+
+    birthday() {
+        <span class="kw">this</span>.age++;
+        <span class="kw">return</span> <span class="str">`Happy birthday! Now ${<span class="kw">this</span>.age}.`</span>;
+    }
+};
+
+user.<span class="fn">introduce</span>();  <span class="cm">// "Hi, I'm Idris and I'm 25."</span>
+user.<span class="fn">birthday</span>();   <span class="cm">// "Happy birthday! Now 26."</span></code></pre>
+
+        <div class="callout callout-red">
+            <strong>Do NOT use arrow functions for object methods</strong>
+            Arrow functions do not have their own <code>this</code>. They inherit <code>this</code> from the surrounding scope, which for a top-level object is the global scope (or <code>undefined</code> in strict mode):
+            <br><br>
+            <code>const user = { name: "Idris", greet: () => this.name };</code><br>
+            <code>user.greet(); // undefined ← broken!</code>
+            <br><br>
+            Always use regular functions or ES6 shorthand for object methods.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">6.</span> ES6 Object Enhancements</h2>
+
+        <p>ES6 introduced several shortcuts that make working with objects cleaner.</p>
+
+        <h3>6.1 — Property Shorthand</h3>
+
+        <p>When a variable name matches the property name, you can skip the colon:</p>
+
+        <pre><code><span class="kw">const</span> name = <span class="str">"Idris"</span>;
+<span class="kw">const</span> age = <span class="num-lit">25</span>;
+<span class="kw">const</span> role = <span class="str">"Developer"</span>;
+
+<span class="cm">// Without shorthand:</span>
+<span class="kw">const</span> user = { name: name, age: age, role: role };
+
+<span class="cm">// With shorthand (ES6):</span>
+<span class="kw">const</span> user2 = { name, age, role };
+
+<span class="cm">// Both create: { name: "Idris", age: 25, role: "Developer" }</span></code></pre>
+
+        <h3>6.2 — Computed Property Names</h3>
+
+        <p>You can use an expression inside <code>[]</code> as a property name when creating an object:</p>
+
+        <pre><code><span class="kw">const</span> field = <span class="str">"email"</span>;
+
+<span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    [field]: <span class="str">"idris@example.com"</span>,          <span class="cm">// email: "idris@example.com"</span>
+    [<span class="str">`${field}Verified`</span>]: <span class="bool">true</span>             <span class="cm">// emailVerified: true</span>
+};</code></pre>
+
+        <h3>6.3 — Method Shorthand</h3>
+
+        <pre><code><span class="cm">// Old way:</span>
+<span class="kw">const</span> obj = {
+    sayHi: <span class="kw">function</span>() { <span class="kw">return</span> <span class="str">"Hi"</span>; }
+};
+
+<span class="cm">// ES6 shorthand:</span>
+<span class="kw">const</span> obj2 = {
+    sayHi() { <span class="kw">return</span> <span class="str">"Hi"</span>; }
+};</code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">7.</span> Object Destructuring (ES6)</h2>
+
+        <p>Destructuring lets you <strong>unpack properties</strong> from an object into individual variables. This is used <strong>constantly</strong> in modern JavaScript.</p>
+
+        <h3>7.1 — Basic Destructuring</h3>
+
+        <pre><code><span class="kw">const</span> user = { name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span>, role: <span class="str">"Developer"</span> };
+
+<span class="cm">// Without destructuring:</span>
+<span class="kw">const</span> name = user.name;
+<span class="kw">const</span> age = user.age;
+
+<span class="cm">// With destructuring:</span>
+<span class="kw">const</span> { name, age, role } = user;
+<span class="fn">console</span>.<span class="fn">log</span>(name);  <span class="cm">// "Idris"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(age);   <span class="cm">// 25</span>
+<span class="fn">console</span>.<span class="fn">log</span>(role);  <span class="cm">// "Developer"</span></code></pre>
+
+        <h3>7.2 — Rename Variables</h3>
+
+        <pre><code><span class="cm">// Use a colon to give the variable a different name:</span>
+<span class="kw">const</span> { name: userName, age: userAge } = user;
+<span class="fn">console</span>.<span class="fn">log</span>(userName);  <span class="cm">// "Idris"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(userAge);   <span class="cm">// 25</span>
+<span class="cm">// 'name' and 'age' are NOT created — only 'userName' and 'userAge'</span></code></pre>
+
+        <h3>7.3 — Default Values</h3>
+
+        <pre><code><span class="kw">const</span> { name, email = <span class="str">"not set"</span> } = user;
+<span class="fn">console</span>.<span class="fn">log</span>(email);  <span class="cm">// "not set" (user has no email property)</span></code></pre>
+
+        <h3>7.4 — Nested Destructuring</h3>
+
+        <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    address: {
+        city: <span class="str">"Paris"</span>,
+        country: <span class="str">"France"</span>
+    }
+};
+
+<span class="kw">const</span> { address: { city, country } } = user;
+<span class="fn">console</span>.<span class="fn">log</span>(city);     <span class="cm">// "Paris"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(country);  <span class="cm">// "France"</span>
+<span class="cm">// Note: 'address' itself is NOT created as a variable</span></code></pre>
+
+        <h3>7.5 — Rest With Objects</h3>
+
+        <pre><code><span class="kw">const</span> { name, ...rest } = { name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span>, role: <span class="str">"Dev"</span> };
+<span class="fn">console</span>.<span class="fn">log</span>(name);  <span class="cm">// "Idris"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(rest);  <span class="cm">// { age: 25, role: "Dev" }</span></code></pre>
+
+        <h3>7.6 — Destructuring in Function Parameters</h3>
+
+        <p>This is <strong>extremely common</strong> — you destructure the argument directly in the function signature:</p>
+
+        <pre><code><span class="cm">// Without destructuring:</span>
+<span class="kw">function</span> <span class="fn">greet</span>(user) {
+    <span class="kw">return</span> <span class="str">`Hello, ${user.name}! Age: ${user.age}`</span>;
+}
+
+<span class="cm">// With destructuring (cleaner — you see exactly what you need):</span>
+<span class="kw">function</span> <span class="fn">greet</span>({ name, age }) {
+    <span class="kw">return</span> <span class="str">`Hello, ${name}! Age: ${age}`</span>;
+}
+
+<span class="fn">greet</span>({ name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span> });  <span class="cm">// "Hello, Idris! Age: 25"</span></code></pre>
+
+        <div class="callout callout-green">
+            <strong>This pattern is everywhere</strong>
+            React components, Express route handlers, API response parsing, configuration objects — destructuring in parameters is the standard way professionals write clean, readable function signatures.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">8.</span> The Spread Operator With Objects</h2>
+
+        <pre><code><span class="cm">// Shallow copy an object:</span>
+<span class="kw">const</span> original = { name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span> };
+<span class="kw">const</span> copy = { ...original };
+copy.age = <span class="num-lit">30</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(original.age);  <span class="cm">// 25 — safe!</span>
+
+<span class="cm">// Merge objects (later properties overwrite earlier ones):</span>
+<span class="kw">const</span> defaults = { theme: <span class="str">"light"</span>, lang: <span class="str">"en"</span>, debug: <span class="bool">false</span> };
+<span class="kw">const</span> userPrefs = { theme: <span class="str">"dark"</span>, lang: <span class="str">"fr"</span> };
+
+<span class="kw">const</span> settings = { ...defaults, ...userPrefs };
+<span class="cm">// { theme: "dark", lang: "fr", debug: false }</span>
+<span class="cm">// userPrefs overwrites defaults for theme and lang</span>
+
+<span class="cm">// Add or override specific properties:</span>
+<span class="kw">const</span> updated = { ...original, age: <span class="num-lit">26</span>, email: <span class="str">"a@b.com"</span> };
+<span class="cm">// { name: "Idris", age: 26, email: "a@b.com" }</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>Spread creates a shallow copy only</strong>
+            Nested objects inside the spread are still shared references. If you need a fully independent deep copy, use <code>structuredClone(obj)</code>.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">9.</span> Checking If a Property Exists</h2>
+
+        <pre><code><span class="kw">const</span> user = { name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span> };
+
+<span class="cm">// Method 1: 'in' operator (checks own + inherited properties)</span>
+<span class="str">"name"</span> <span class="kw">in</span> user;     <span class="cm">// true</span>
+<span class="str">"email"</span> <span class="kw">in</span> user;    <span class="cm">// false</span>
+
+<span class="cm">// Method 2: hasOwnProperty() (checks OWN properties only)</span>
+user.<span class="fn">hasOwnProperty</span>(<span class="str">"name"</span>);   <span class="cm">// true</span>
+user.<span class="fn">hasOwnProperty</span>(<span class="str">"toString"</span>);  <span class="cm">// false (inherited from Object prototype)</span>
+
+<span class="cm">// Method 3: Compare to undefined (works but fragile)</span>
+user.name !== <span class="bool">undefined</span>;   <span class="cm">// true</span>
+<span class="cm">// Fails if the property exists but is explicitly set to undefined</span>
+
+<span class="cm">// Modern best practice: Object.hasOwn() (ES2022)</span>
+<span class="fn">Object</span>.<span class="fn">hasOwn</span>(user, <span class="str">"name"</span>);   <span class="cm">// true</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">10.</span> Iterating Over Objects</h2>
+
+        <p>Objects are not directly iterable with <code>for...of</code>. You need to convert them first. Here are all the ways:</p>
+
+        <h3>10.1 — <code>Object.keys()</code> → Array of Key Names</h3>
+
+        <pre><code><span class="kw">const</span> user = { name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span>, role: <span class="str">"Dev"</span> };
+
+<span class="fn">Object</span>.<span class="fn">keys</span>(user);
+<span class="cm">// ["name", "age", "role"]</span></code></pre>
+
+        <h3>10.2 — <code>Object.values()</code> → Array of Values</h3>
+
+        <pre><code><span class="fn">Object</span>.<span class="fn">values</span>(user);
+<span class="cm">// ["Idris", 25, "Dev"]</span></code></pre>
+
+        <h3>10.3 — <code>Object.entries()</code> → Array of [key, value] Pairs</h3>
+
+        <pre><code><span class="fn">Object</span>.<span class="fn">entries</span>(user);
+<span class="cm">// [["name", "Idris"], ["age", 25], ["role", "Dev"]]</span></code></pre>
+
+        <h3>10.4 — Looping Patterns</h3>
+
+        <pre><code><span class="cm">// Pattern 1: for...in (iterates over keys directly)</span>
+<span class="kw">for</span> (<span class="kw">const</span> key <span class="kw">in</span> user) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${key}: ${user[key]}`</span>);
+}
+
+<span class="cm">// Pattern 2: Object.keys() + forEach</span>
+<span class="fn">Object</span>.<span class="fn">keys</span>(user).<span class="fn">forEach</span>(key => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${key}: ${user[key]}`</span>);
+});
+
+<span class="cm">// Pattern 3: Object.entries() + for...of (cleanest — gives both key and value)</span>
+<span class="kw">for</span> (<span class="kw">const</span> [key, value] <span class="kw">of</span> <span class="fn">Object</span>.<span class="fn">entries</span>(user)) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${key}: ${value}`</span>);
+}
+
+<span class="cm">// Pattern 4: Object.entries() + destructuring with map/filter/reduce</span>
+<span class="kw">const</span> stringValues = <span class="fn">Object</span>.<span class="fn">entries</span>(user)
+    .<span class="fn">filter</span>(([key, val]) => <span class="kw">typeof</span> val === <span class="str">"string"</span>)
+    .<span class="fn">map</span>(([key, val]) => <span class="str">`${key}=${val}`</span>);
+<span class="cm">// ["name=Idris", "role=Dev"]</span></code></pre>
+
+        <div class="callout callout-blue">
+            <strong>Object.entries() is the modern standard</strong>
+            It converts the object to an array of pairs, which means you can use all the powerful array methods (<code>map</code>, <code>filter</code>, <code>reduce</code>) on objects. This is the bridge between objects and arrays.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">11.</span> <code>Object.assign()</code>, <code>Object.freeze()</code>, and <code>Object.seal()</code></h2>
+
+        <h3>11.1 — <code>Object.assign()</code> — Merge / Copy Objects</h3>
+
+        <pre><code><span class="cm">// Copy into a new object:</span>
+<span class="kw">const</span> copy = <span class="fn">Object</span>.<span class="fn">assign</span>({}, user);
+
+<span class="cm">// Merge multiple objects into a target:</span>
+<span class="kw">const</span> target = { a: <span class="num-lit">1</span> };
+<span class="kw">const</span> source1 = { b: <span class="num-lit">2</span> };
+<span class="kw">const</span> source2 = { c: <span class="num-lit">3</span> };
+
+<span class="fn">Object</span>.<span class="fn">assign</span>(target, source1, source2);
+<span class="fn">console</span>.<span class="fn">log</span>(target);  <span class="cm">// { a: 1, b: 2, c: 3 } — target is mutated!</span>
+
+<span class="cm">// Nowadays, the spread operator is preferred for copying/merging.</span></code></pre>
+
+        <h3>11.2 — <code>Object.freeze()</code> — Make an Object Fully Immutable</h3>
+
+        <pre><code><span class="kw">const</span> config = <span class="fn">Object</span>.<span class="fn">freeze</span>({
+    apiUrl: <span class="str">"https://api.example.com"</span>,
+    timeout: <span class="num-lit">5000</span>
+});
+
+config.apiUrl = <span class="str">"hacked!"</span>;   <span class="cm">// ❌ Silently fails (or throws in strict mode)</span>
+config.newProp = <span class="str">"test"</span>;     <span class="cm">// ❌ Cannot add</span>
+<span class="kw">delete</span> config.timeout;       <span class="cm">// ❌ Cannot delete</span>
+
+<span class="fn">console</span>.<span class="fn">log</span>(config.apiUrl);  <span class="cm">// "https://api.example.com" — unchanged</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>Freeze is shallow</strong>
+            <code>Object.freeze()</code> only freezes the top level. Nested objects can still be mutated:
+            <br><br>
+            <code>const obj = Object.freeze({ inner: { x: 1 } });</code><br>
+            <code>obj.inner.x = 99; // ✅ This works! Inner object is not frozen.</code>
+            <br><br>
+            To deep-freeze, you would need to recursively freeze every nested object.
+        </div>
+
+        <h3>11.3 — <code>Object.seal()</code> — Allow Modification, Prevent Add/Delete</h3>
+
+        <pre><code><span class="kw">const</span> user = <span class="fn">Object</span>.<span class="fn">seal</span>({ name: <span class="str">"Idris"</span>, age: <span class="num-lit">25</span> });
+
+user.name = <span class="str">"Updated"</span>;   <span class="cm">// ✅ Can modify existing</span>
+user.email = <span class="str">"a@b.com"</span>;  <span class="cm">// ❌ Cannot add new</span>
+<span class="kw">delete</span> user.age;          <span class="cm">// ❌ Cannot delete</span></code></pre>
+
+        <table>
+            <thead>
+                <tr><th>Action</th><th>Normal Object</th><th><code>Object.seal()</code></th><th><code>Object.freeze()</code></th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Read properties</td><td>✅</td><td>✅</td><td>✅</td></tr>
+                <tr><td>Modify values</td><td>✅</td><td>✅</td><td>❌</td></tr>
+                <tr><td>Add properties</td><td>✅</td><td>❌</td><td>❌</td></tr>
+                <tr><td>Delete properties</td><td>✅</td><td>❌</td><td>❌</td></tr>
+            </tbody>
+        </table>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">12.</span> <code>Object.fromEntries()</code> — Array of Pairs → Object</h2>
+
+        <p>The reverse of <code>Object.entries()</code>. Converts an array of <code>[key, value]</code> pairs back into an object.</p>
+
+        <pre><code><span class="kw">const</span> entries = [[<span class="str">"name"</span>, <span class="str">"Idris"</span>], [<span class="str">"age"</span>, <span class="num-lit">25</span>]];
+
+<span class="kw">const</span> obj = <span class="fn">Object</span>.<span class="fn">fromEntries</span>(entries);
+<span class="cm">// { name: "Idris", age: 25 }</span>
+
+<span class="cm">// Powerful pattern: transform an object's values using entries + fromEntries</span>
+<span class="kw">const</span> prices = { apple: <span class="num-lit">1</span>, banana: <span class="num-lit">2</span>, cherry: <span class="num-lit">3</span> };
+
+<span class="kw">const</span> doubled = <span class="fn">Object</span>.<span class="fn">fromEntries</span>(
+    <span class="fn">Object</span>.<span class="fn">entries</span>(prices).<span class="fn">map</span>(([fruit, price]) => [fruit, price * <span class="num-lit">2</span>])
+);
+<span class="cm">// { apple: 2, banana: 4, cherry: 6 }</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">13.</span> Nested Objects and Real-World Patterns</h2>
+
+        <pre><code><span class="kw">const</span> student = {
+    id: <span class="num-lit">42</span>,
+    name: <span class="str">"Idris"</span>,
+    contact: {
+        email: <span class="str">"idris@example.com"</span>,
+        phone: {
+            mobile: <span class="str">"+33 6 12 34 56 78"</span>,
+            work: <span class="bool">null</span>
+        }
+    },
+    courses: [
+        { name: <span class="str">"JS Fundamentals"</span>, completed: <span class="bool">true</span> },
+        { name: <span class="str">"ES6"</span>, completed: <span class="bool">false</span> }
+    ]
+};
+
+<span class="cm">// Access deeply nested data:</span>
+student.contact.phone.mobile;           <span class="cm">// "+33 6 12 34 56 78"</span>
+student.courses[<span class="num-lit">1</span>].name;                <span class="cm">// "ES6"</span>
+
+<span class="cm">// Safe access with optional chaining:</span>
+student.contact?.phone?.work;           <span class="cm">// null</span>
+student.contact?.fax?.number;           <span class="cm">// undefined (no crash)</span>
+
+<span class="cm">// Destructure nested data:</span>
+<span class="kw">const</span> { contact: { email }, courses } = student;
+<span class="fn">console</span>.<span class="fn">log</span>(email);    <span class="cm">// "idris@example.com"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(courses);  <span class="cm">// [{...}, {...}]</span>
+
+<span class="cm">// Find incomplete courses using array methods on nested data:</span>
+<span class="kw">const</span> incomplete = student.courses
+    .<span class="fn">filter</span>(c => !c.completed)
+    .<span class="fn">map</span>(c => c.name);
+<span class="cm">// ["ES6"]</span></code></pre>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">14.</span> Factory Functions & Constructor Functions</h2>
+
+        <p>When you need to create <strong>many objects with the same shape</strong>, don't repeat the object literal. Use a function to generate them.</p>
+
+        <h3>14.1 — Factory Function (Returns a New Object)</h3>
+
+        <pre><code><span class="kw">function</span> <span class="fn">createUser</span>(name, age) {
+    <span class="kw">return</span> {
+        name,
+        age,
+        greet() {
+            <span class="kw">return</span> <span class="str">`Hi, I'm ${<span class="kw">this</span>.name}`</span>;
+        }
+    };
+}
+
+<span class="kw">const</span> user1 = <span class="fn">createUser</span>(<span class="str">"Idris"</span>, <span class="num-lit">25</span>);
+<span class="kw">const</span> user2 = <span class="fn">createUser</span>(<span class="str">"Alice"</span>, <span class="num-lit">30</span>);
+
+user1.<span class="fn">greet</span>();  <span class="cm">// "Hi, I'm Idris"</span>
+user2.<span class="fn">greet</span>();  <span class="cm">// "Hi, I'm Alice"</span></code></pre>
+
+        <h3>14.2 — Constructor Function (Uses <code>new</code>)</h3>
+
+        <pre><code><span class="kw">function</span> <span class="fn">User</span>(name, age) {
+    <span class="kw">this</span>.name = name;
+    <span class="kw">this</span>.age = age;
+    <span class="kw">this</span>.greet = <span class="kw">function</span>() {
+        <span class="kw">return</span> <span class="str">`Hi, I'm ${<span class="kw">this</span>.name}`</span>;
+    };
+}
+
+<span class="kw">const</span> user3 = <span class="kw">new</span> <span class="fn">User</span>(<span class="str">"Bob"</span>, <span class="num-lit">28</span>);
+user3.<span class="fn">greet</span>();  <span class="cm">// "Hi, I'm Bob"</span></code></pre>
+
+        <p>The <code>new</code> keyword does three things automatically:</p>
+        <ol>
+            <li>Creates a new empty object <code>{}</code>.</li>
+            <li>Sets <code>this</code> inside the function to point to that new object.</li>
+            <li>Returns the new object (implicitly).</li>
+        </ol>
+
+        <div class="callout callout-blue">
+            <strong>Convention</strong>
+            Constructor functions are named in <strong>PascalCase</strong> (<code>User</code>, <code>Product</code>, <code>Order</code>) to distinguish them from regular functions. If you see PascalCase, it means "call me with <code>new</code>."
+            <br><br>
+            Modern JS uses the <code>class</code> syntax instead of constructor functions — same concept, cleaner code.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">15.</span> Prototypes — How Objects Inherit</h2>
+
+        <p>Every object in JavaScript has a hidden internal link to another object called its <strong>prototype</strong>. When you access a property that does not exist on the object, the engine automatically looks up the <strong>prototype chain</strong>.</p>
+
+        <pre><code><span class="kw">const</span> user = { name: <span class="str">"Idris"</span> };
+
+<span class="cm">// 'user' doesn't have a toString() method.</span>
+<span class="cm">// But it works because the engine finds it on Object.prototype:</span>
+user.<span class="fn">toString</span>();  <span class="cm">// "[object Object]"</span></code></pre>
+
+        <div class="flow-diagram"><span class="fd-label">The Prototype Chain</span>
+
+    <span class="fd-action">user</span> { name: "Idris" }
+      │
+      └──▶ <span class="fd-box">Object.prototype</span> { toString(), hasOwnProperty(), ... }
+              │
+              └──▶ <span class="fd-key">null</span>  (end of chain)
+
+When you call <span class="fd-action">user.toString()</span>:
+  1. Engine checks user → no toString() found.
+  2. Engine checks Object.prototype → found! Uses it.</div>
+
+        <p>You do not need to master prototypes right now, but understanding that this chain exists explains <strong>why</strong> every object has methods like <code>toString()</code>, <code>hasOwnProperty()</code>, and <code>valueOf()</code> even though you never defined them.</p>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">16.</span> Key Vocabulary Summary</h2>
+
+        <table>
+            <thead>
+                <tr><th>Term</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Object</strong></td><td>An unordered collection of key-value pairs (properties).</td></tr>
+                <tr><td><strong>Property</strong></td><td>A single key-value pair inside an object.</td></tr>
+                <tr><td><strong>Method</strong></td><td>A function stored as an object property.</td></tr>
+                <tr><td><strong>Dot Notation</strong></td><td><code>obj.key</code> — standard way to access properties.</td></tr>
+                <tr><td><strong>Bracket Notation</strong></td><td><code>obj["key"]</code> — required for dynamic or special-character keys.</td></tr>
+                <tr><td><strong>Property Shorthand</strong></td><td>ES6: <code>{ name }</code> instead of <code>{ name: name }</code>.</td></tr>
+                <tr><td><strong>Computed Property</strong></td><td>ES6: <code>{ [variable]: value }</code> — dynamic key names.</td></tr>
+                <tr><td><strong>Destructuring</strong></td><td>ES6: <code>const { name, age } = obj</code> — unpack properties into variables.</td></tr>
+                <tr><td><strong>Spread (objects)</strong></td><td><code>{ ...obj }</code> — shallow copy or merge objects.</td></tr>
+                <tr><td><strong>Object.keys()</strong></td><td>Returns an array of an object's property names.</td></tr>
+                <tr><td><strong>Object.values()</strong></td><td>Returns an array of an object's values.</td></tr>
+                <tr><td><strong>Object.entries()</strong></td><td>Returns an array of [key, value] pairs.</td></tr>
+                <tr><td><strong>Object.fromEntries()</strong></td><td>Converts an array of [key, value] pairs back into an object.</td></tr>
+                <tr><td><strong>Object.freeze()</strong></td><td>Makes an object fully immutable (cannot add, delete, or modify).</td></tr>
+                <tr><td><strong>Object.seal()</strong></td><td>Prevents adding/deleting properties, but allows modifying existing ones.</td></tr>
+                <tr><td><strong>Factory Function</strong></td><td>A function that returns a new object — used to create many similar objects.</td></tr>
+                <tr><td><strong>Constructor Function</strong></td><td>A function called with <code>new</code> that creates and returns an object via <code>this</code>.</td></tr>
+                <tr><td><strong>Prototype</strong></td><td>A hidden linked object from which properties are inherited.</td></tr>
+                <tr><td><strong>Prototype Chain</strong></td><td>The lookup path the engine follows when a property is not found on the object itself.</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="bottom-nav">
+            <a href="06-arrays.html" class="prev">
+                <span class="label">← Previous</span>
+                <span class="title">06 — Arrays & Array Methods</span>
+            </a>
+            <a href="#" class="next">
+                <span class="label">Next →</span>
+                <span class="title">08 — Coming Soon</span>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

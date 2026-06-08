@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: ES6 Functions — The Complete Masterclass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:900px;margin:0 auto}
+        h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#a78bfa;margin-bottom:8px}
+        .subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        .section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+        .section-num{background:#1e2d4a;color:#a78bfa;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+        h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #a78bfa;padding-left:14px}
+        h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+        p{margin-bottom:20px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+        .kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.num{color:#79c0ff}.bool{color:#ff7b72}
+        ul,ol{margin:12px 0 24px 24px;color:#b0bac9}li{margin-bottom:10px}li strong{color:#e2e8f0}
+        .co{border-radius:12px;padding:24px;margin:32px 0;font-size:15.5px;line-height:1.7;border:1px solid rgba(255,255,255,0.05)}
+        .co-r{background:rgba(248,81,73,.04);border-left:4px solid #f85149}.co-r strong{color:#f85149}
+        .co-g{background:rgba(16,185,129,.04);border-left:4px solid #10b981}.co-g strong{color:#10b981}
+        .co-p{background:rgba(139,92,246,.04);border-left:4px solid #a78bfa}.co-p strong{color:#a78bfa}
+        .co-y{background:rgba(245,158,11,.04);border-left:4px solid #f59e0b}.co-y strong{color:#f59e0b}
+        .co-b{background:rgba(88,166,255,.04);border-left:4px solid #58a6ff}.co-b strong{color:#58a6ff}
+        table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14.5px}
+        th{background:#161b2e;color:#a78bfa;text-align:left;padding:14px 18px;font-weight:600;border:1px solid #1e2d4a}
+        td{padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9}tr:nth-child(even) td{background:rgba(22,27,46,.5)}
+        .q{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:32px;margin:44px 0;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+        .q-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+        .q-num{background:#f85149;color:#fff;font-size:14px;font-weight:700;padding:6px 14px;border-radius:8px;text-transform:uppercase;letter-spacing:1px}
+        .q h4{font-size:20px;font-weight:700;color:#f0f6fc;margin:0;border:none;padding:0}
+        .sol-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);color:#10b981;font-size:14px;font-weight:600;padding:10px 20px;border-radius:8px;cursor:pointer;transition:.2s;margin-top:12px}
+        .sol-btn:hover{background:rgba(16,185,129,.15)}
+        .sol{display:none;margin-top:20px;padding:20px 24px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}
+        .sol.show{display:block}
+        .sol-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#10b981;margin-bottom:12px}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="lesson-num">Full Masterclass</p>
+    <h1>ES6 Functions: The Complete Deep Dive</h1>
+    <p class="subtitle">Arrow functions, default parameters, destructured parameters, JavaScript classes, inheritance, and the <code>this</code> keyword — the concept that breaks 90% of JavaScript developers.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">2.1</span> Arrow Functions</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>The Evolution of Function Syntax</h3>
+    <p>ES6 introduced arrow functions (<code>=></code>) as a shorter way to write functions. But they're not just syntactic sugar — they behave fundamentally differently regarding <code>this</code> (we'll cover that deeply in section 2.11).</p>
+
+    <h4>Step 1: From function declaration to arrow</h4>
+    <pre><code><span class="cm">// 1. Function Declaration (ES5)</span>
+<span class="kw">function</span> <span class="fn">add</span>(a, b) {
+    <span class="kw">return</span> a + b;
+}
+
+<span class="cm">// 2. Function Expression (ES5)</span>
+<span class="kw">const</span> add = <span class="kw">function</span>(a, b) {
+    <span class="kw">return</span> a + b;
+};
+
+<span class="cm">// 3. Arrow Function (ES6)</span>
+<span class="kw">const</span> add = (a, b) => {
+    <span class="kw">return</span> a + b;
+};</code></pre>
+
+    <h4>Step 2: Implicit Return (The Concise Body)</h4>
+    <p>If the function body is a single expression, you can remove the curly braces <code>{}</code> AND the <code>return</code> keyword. The expression's result is automatically returned.</p>
+    <pre><code><span class="cm">// With block body (explicit return)</span>
+<span class="kw">const</span> add = (a, b) => { <span class="kw">return</span> a + b; };
+
+<span class="cm">// With concise body (implicit return) — same result</span>
+<span class="kw">const</span> add = (a, b) => a + b;</code></pre>
+
+    <h4>Step 3: Single Parameter — Drop the Parentheses</h4>
+    <p>If the function takes exactly ONE parameter, the parentheses are optional.</p>
+    <pre><code><span class="cm">// With parentheses</span>
+<span class="kw">const</span> double = (n) => n * <span class="num">2</span>;
+
+<span class="cm">// Without parentheses (only for single param)</span>
+<span class="kw">const</span> double = n => n * <span class="num">2</span>;
+
+<span class="cm">// Zero parameters — parentheses REQUIRED</span>
+<span class="kw">const</span> greet = () => <span class="str">"Hello!"</span>;
+
+<span class="cm">// Two+ parameters — parentheses REQUIRED</span>
+<span class="kw">const</span> add = (a, b) => a + b;</code></pre>
+
+    <h4>The Object Return Trap</h4>
+    <p>This trips up EVERYONE. When you want to implicitly return an object literal, you <strong>must</strong> wrap it in parentheses. Otherwise JavaScript thinks the curly braces are the function body.</p>
+
+    <pre><code><span class="cm">// ❌ BUG: The engine sees {} as a function body, not an object</span>
+<span class="kw">const</span> makeUser = name => { name: name };
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">makeUser</span>(<span class="str">"Idris"</span>)); <span class="cm">// undefined (!!)</span>
+
+<span class="cm">// ✅ FIX: Wrap the object in parentheses</span>
+<span class="kw">const</span> makeUser = name => ({ name: name });
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">makeUser</span>(<span class="str">"Idris"</span>)); <span class="cm">// { name: "Idris" }</span>
+
+<span class="cm">// ✅ Even shorter with property shorthand</span>
+<span class="kw">const</span> makeUser = name => ({ name });</code></pre>
+
+    <h3>Real-World Arrow Function Patterns</h3>
+
+    <h4>Pattern 1: Array Method Callbacks</h4>
+    <p>Arrow functions are most famously used as <strong>callbacks</strong> inside array methods like <code>.map()</code>, <code>.filter()</code>, and <code>.find()</code>. Let's demystify exactly what they do, so you don't get lost!</p>
+
+    <div class="co co-b">
+        <strong>💡 The Conveyor Belt Analogy</strong><br>
+        High-order array methods are like <strong>pre-built loops</strong>. You do NOT write the <code>for</code> loop yourself. The browser handles the looping and passes each item, one by one, to your arrow function. Your arrow function is the <strong>recipe</strong> that tells the machine what to do with that item.
+    </div>
+
+    <h4>1. Transforming Data with <code>.map()</code></h4>
+    <p><code>.map()</code> loops over every item, runs your function on it, and collects the returned values into a <strong>new array</strong> of the exact same length.</p>
+    <pre><code><span class="kw">const</span> nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+
+<span class="cm">// ❌ WITHOUT Array Methods (Standard Loop):</span>
+<span class="kw">const</span> doubledOld = [];
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < nums.length; i++) {
+    doubledOld.<span class="fn">push</span>(nums[i] * <span class="num">2</span>);
+}
+
+<span class="cm">// ✅ WITH Array Method + Arrow Function:</span>
+<span class="kw">const</span> doubledNew = nums.<span class="fn">map</span>(n => n * <span class="num">2</span>); <span class="cm">// [2, 4, 6]</span>
+<span class="cm">// Read it: "Map each number 'n' to 'n * 2'"</span></code></pre>
+
+    <h4>2. Filtering Data with <code>.filter()</code></h4>
+    <p><code>.filter()</code> loops over every item and runs a test function. If your arrow function returns <code>true</code>, the item is kept; if <code>false</code>, it is discarded.</p>
+    <pre><code><span class="kw">const</span> scores = [<span class="num">5</span>, <span class="num">12</span>, <span class="num">8</span>, <span class="num">20</span>];
+
+<span class="cm">// ❌ WITHOUT Array Methods (Standard Loop):</span>
+<span class="kw">const</span> passingOld = [];
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < scores.length; i++) {
+    <span class="kw">if</span> (scores[i] > <span class="num">10</span>) {
+        passingOld.<span class="fn">push</span>(scores[i]);
+    }
+}
+
+<span class="cm">// ✅ WITH Array Method + Arrow Function:</span>
+<span class="kw">const</span> passingNew = scores.<span class="fn">filter</span>(s => s > <span class="num">10</span>); <span class="cm">// [12, 20]</span>
+<span class="cm">// Read it: "Filter scores to keep only elements 's' greater than 10"</span></code></pre>
+
+    <h4>3. Accumulating with <code>.reduce()</code></h4>
+    <p><code>.reduce()</code> boils an array down to a single value (like a sum). It takes an accumulator (running total) and the current element.</p>
+    <pre><code><span class="kw">const</span> vals = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>];
+
+<span class="cm">// ❌ WITHOUT Array Methods (Standard Loop):</span>
+<span class="kw">let</span> sumOld = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < vals.length; i++) {
+    sumOld += vals[i];
+}
+
+<span class="cm">// ✅ WITH Array Method + Arrow Function:</span>
+<span class="kw">const</span> sumNew = vals.<span class="fn">reduce</span>((total, n) => total + n, <span class="num">0</span>); <span class="cm">// 60</span>
+<span class="cm">// Read it: "Reduce values starting at 0, adding each 'n' to the total"</span></code></pre>
+
+    <h4>4. Sorting with <code>.sort()</code></h4>
+    <p>To sort numbers, we pass a comparison callback <code>(a, b) => a - b</code>. If the result is negative, <code>a</code> comes first. If positive, <code>b</code> comes first.</p>
+    <pre><code><span class="kw">const</span> list = [<span class="num">10</span>, <span class="num">2</span>, <span class="num">8</span>];
+<span class="kw">const</span> ascending = [...list].<span class="fn">sort</span>((a, b) => a - b);  <span class="cm">// [2, 8, 10]</span>
+<span class="kw">const</span> descending = [...list].<span class="fn">sort</span>((a, b) => b - a); <span class="cm">// [10, 8, 2]</span></code></pre>
+
+    <h4>5. Chaining Operations</h4>
+    <p>Because these methods return new arrays, you can **chain** them together. Let's read this chain like a sentence:</p>
+    <pre><code><span class="kw">const</span> numbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>];
+
+<span class="kw">const</span> result = numbers
+    .<span class="fn">filter</span>(n => n > <span class="num">2</span>)               <span class="cm">// Step 1: Keep numbers > 2 → [3, 4, 5]</span>
+    .<span class="fn">map</span>(n => n * <span class="num">10</span>)                 <span class="cm">// Step 2: Multiply each by 10 → [30, 40, 50]</span>
+    .<span class="fn">reduce</span>((sum, n) => sum + n, <span class="num">0</span>);  <span class="cm">// Step 3: Add them all up → 120</span>
+
+<span class="fn">console</span>.<span class="fn">log</span>(result); <span class="cm">// 120</span></code></pre>
+
+    <h4>Pattern 2: Immediately Invoked Arrow Functions</h4>
+    <pre><code><span class="kw">const</span> result = (() => {
+    <span class="kw">const</span> x = <span class="num">10</span>;
+    <span class="kw">const</span> y = <span class="num">20</span>;
+    <span class="kw">return</span> x + y;
+})();
+<span class="fn">console</span>.<span class="fn">log</span>(result); <span class="cm">// 30</span></code></pre>
+
+    <h4>Pattern 3: Currying (Functions that return functions)</h4>
+    <p>Arrows make currying incredibly clean. This is a common pattern in functional programming and React (Higher-Order Components).</p>
+    <pre><code><span class="cm">// A function that creates custom multipliers</span>
+<span class="kw">const</span> multiply = factor => num => num * factor;
+
+<span class="kw">const</span> double = <span class="fn">multiply</span>(<span class="num">2</span>);
+<span class="kw">const</span> triple = <span class="fn">multiply</span>(<span class="num">3</span>);
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">double</span>(<span class="num">5</span>)); <span class="cm">// 10</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">triple</span>(<span class="num">5</span>)); <span class="cm">// 15</span>
+
+<span class="cm">// What this actually looks like expanded:</span>
+<span class="kw">const</span> multiply = <span class="kw">function</span>(factor) {
+    <span class="kw">return function</span>(num) {
+        <span class="kw">return</span> num * factor;
+    };
+};</code></pre>
+
+    <div class="co co-r">
+        <strong>⚠️ Things Arrow Functions CANNOT Do</strong><br>
+        Arrow functions are NOT a replacement for all functions. They lack certain features:<br><br>
+        1. <strong>No own <code>this</code></strong> — they inherit from the parent scope (more in 2.11)<br>
+        2. <strong>No <code>arguments</code> object</strong> — use rest parameters <code>(...args)</code> instead<br>
+        3. <strong>Cannot be used as constructors</strong> — <code>new (() => {})</code> throws a TypeError<br>
+        4. <strong>No <code>prototype</code> property</strong> — they cannot be used with <code>new</code><br>
+        5. <strong>Cannot be used as generators</strong> — no <code>function*</code> equivalent
+    </div>
+
+    <pre><code><span class="cm">// No 'arguments' object</span>
+<span class="kw">const</span> bad = () => {
+    <span class="fn">console</span>.<span class="fn">log</span>(arguments); <span class="cm">// ReferenceError (in strict mode)</span>
+};
+
+<span class="cm">// Fix: use rest parameters</span>
+<span class="kw">const</span> good = (...args) => {
+    <span class="fn">console</span>.<span class="fn">log</span>(args); <span class="cm">// [1, 2, 3] — a real array</span>
+};
+<span class="fn">good</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>);
+
+<span class="cm">// Cannot be used as constructors</span>
+<span class="kw">const</span> Person = (name) => { <span class="kw">this</span>.name = name; };
+<span class="kw">new</span> <span class="fn">Person</span>(<span class="str">"Idris"</span>); <span class="cm">// TypeError: Person is not a constructor</span></code></pre>
+
+    <!-- QUIZ -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">2.2 Quiz</span><h4>Arrow Functions</h4></div>
+        <p><strong>Q1:</strong> Convert this function to the shortest possible arrow function.</p>
+        <pre><code>function isEven(num) {
+    return num % 2 === 0;
+}</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const isEven = num => num % 2 === 0;</code></pre>
+            <p>Single parameter = no parentheses. Single expression = no braces, no return.</p>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">2.2 Quiz</span><h4>Object Return Trap</h4></div>
+        <p><strong>Q2:</strong> What does this return? Why?</p>
+        <pre><code>const getUser = () => { name: "Idris", age: 25 };
+console.log(getUser());</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <p><strong>undefined.</strong> The engine interprets <code>{ name: "Idris", age: 25 }</code> as a function body with a label expression (<code>name:</code> is a label, <code>"Idris"</code> is a standalone string). No <code>return</code> statement exists, so it returns <code>undefined</code>. Fix: <code>() => ({ name: "Idris", age: 25 })</code></p>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">2.2 Quiz</span><h4>Currying</h4></div>
+        <p><strong>Q3:</strong> What does <code>result</code> equal?</p>
+        <pre><code>const greet = greeting => name => `${greeting}, ${name}!`;
+const result = greet("Hello")("Idris");</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <p><strong>"Hello, Idris!"</strong>. <code>greet("Hello")</code> returns a new function <code>name => \`Hello, ${name}!\`</code>. Then we immediately call that function with <code>("Idris")</code>.</p>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">2.3</span> Default Function Parameters</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>The ES5 Problem</h3>
+    <p>In ES5, there was no way to set default parameter values. Developers used the <code>||</code> operator, which was buggy because it triggered on <strong>any</strong> falsy value (including <code>0</code>, <code>""</code>, and <code>false</code>).</p>
+
+    <pre><code><span class="cm">// ES5: The buggy pattern</span>
+<span class="kw">function</span> <span class="fn">greet</span>(name) {
+    name = name || <span class="str">"Guest"</span>;
+    <span class="kw">return</span> <span class="str">"Hello, "</span> + name;
+}
+<span class="fn">greet</span>(<span class="str">""</span>);    <span class="cm">// "Hello, Guest" — BUG! Empty string IS a valid name.</span>
+<span class="fn">greet</span>(<span class="num">0</span>);     <span class="cm">// "Hello, Guest" — BUG! 0 IS a valid value.</span>
+<span class="fn">greet</span>(<span class="bool">false</span>); <span class="cm">// "Hello, Guest" — BUG!</span></code></pre>
+
+    <h3>The ES6 Fix: Default Parameters</h3>
+    <p>Default parameters only trigger when the argument is <code>undefined</code> (not passed, or explicitly <code>undefined</code>). They do NOT trigger on other falsy values.</p>
+
+    <pre><code><span class="kw">function</span> <span class="fn">greet</span>(name = <span class="str">"Guest"</span>) {
+    <span class="kw">return</span> <span class="str">`Hello, ${name}`</span>;
+}
+
+<span class="fn">greet</span>();           <span class="cm">// "Hello, Guest" ← default used</span>
+<span class="fn">greet</span>(<span class="bool">undefined</span>); <span class="cm">// "Hello, Guest" ← default used</span>
+<span class="fn">greet</span>(<span class="str">""</span>);         <span class="cm">// "Hello, "      ← empty string kept! ✅</span>
+<span class="fn">greet</span>(<span class="num">0</span>);          <span class="cm">// "Hello, 0"     ← zero kept! ✅</span>
+<span class="fn">greet</span>(<span class="bool">null</span>);       <span class="cm">// "Hello, null"  ← null kept (not undefined)</span>
+<span class="fn">greet</span>(<span class="str">"Idris"</span>);    <span class="cm">// "Hello, Idris" ← normal</span></code></pre>
+
+    <h4>Defaults Can Be Expressions</h4>
+    <p>Default values are evaluated at call time (not at definition time). They can be any expression: function calls, other parameters, math — anything.</p>
+
+    <pre><code><span class="cm">// Default that references another parameter</span>
+<span class="kw">function</span> <span class="fn">createRange</span>(start, end = start + <span class="num">10</span>) {
+    <span class="kw">return</span> [start, end];
+}
+<span class="fn">createRange</span>(<span class="num">5</span>);     <span class="cm">// [5, 15]</span>
+<span class="fn">createRange</span>(<span class="num">5</span>, <span class="num">20</span>); <span class="cm">// [5, 20]</span>
+
+<span class="cm">// Default that calls a function</span>
+<span class="kw">let</span> id = <span class="num">0</span>;
+<span class="kw">function</span> <span class="fn">nextId</span>() { <span class="kw">return</span> ++id; }
+
+<span class="kw">function</span> <span class="fn">createUser</span>(name, uniqueId = <span class="fn">nextId</span>()) {
+    <span class="kw">return</span> { name, uniqueId };
+}
+<span class="fn">createUser</span>(<span class="str">"Idris"</span>);  <span class="cm">// { name: "Idris", uniqueId: 1 }</span>
+<span class="fn">createUser</span>(<span class="str">"Ali"</span>);    <span class="cm">// { name: "Ali",   uniqueId: 2 }</span>
+<span class="fn">createUser</span>(<span class="str">"Omar"</span>, <span class="num">99</span>); <span class="cm">// { name: "Omar", uniqueId: 99 }</span></code></pre>
+
+    <h4>Defaults with Arrow Functions</h4>
+    <pre><code><span class="kw">const</span> tax = (price, rate = <span class="num">0.2</span>) => price * rate;
+<span class="fn">tax</span>(<span class="num">100</span>);      <span class="cm">// 20</span>
+<span class="fn">tax</span>(<span class="num">100</span>, <span class="num">0.1</span>); <span class="cm">// 10</span></code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">2.4</span> Defaults and Destructuring</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <p>The real power comes when you combine destructured parameters with defaults. This is the exact pattern used in every React component, every Express.js route handler, and every modern API function.</p>
+
+    <h3>Destructured Object Parameters with Defaults</h3>
+    <pre><code><span class="kw">function</span> <span class="fn">createCard</span>({
+    title,
+    subtitle = <span class="str">"No subtitle"</span>,
+    theme = <span class="str">"dark"</span>,
+    rounded = <span class="bool">true</span>
+}) {
+    <span class="fn">console</span>.<span class="fn">log</span>(title, subtitle, theme, rounded);
+}
+
+<span class="fn">createCard</span>({ title: <span class="str">"Hello"</span> });
+<span class="cm">// "Hello", "No subtitle", "dark", true</span>
+
+<span class="fn">createCard</span>({ title: <span class="str">"News"</span>, theme: <span class="str">"light"</span>, rounded: <span class="bool">false</span> });
+<span class="cm">// "News", "No subtitle", "light", false</span></code></pre>
+
+    <h4>Providing a Default for the Entire Object</h4>
+    <p>What if someone calls the function with <strong>no arguments at all</strong>? The destructuring will crash because it tries to destructure <code>undefined</code>. Fix: default the whole parameter to <code>{}</code>.</p>
+
+    <pre><code><span class="cm">// ❌ Crashes if called with no arguments</span>
+<span class="kw">function</span> <span class="fn">setup</span>({ debug = <span class="bool">false</span>, verbose = <span class="bool">false</span> }) {}
+<span class="fn">setup</span>(); <span class="cm">// TypeError: Cannot destructure property 'debug' of undefined</span>
+
+<span class="cm">// ✅ Fix: default the whole parameter to {}</span>
+<span class="kw">function</span> <span class="fn">setup</span>({ debug = <span class="bool">false</span>, verbose = <span class="bool">false</span> } = {}) {}
+<span class="fn">setup</span>(); <span class="cm">// Works! debug = false, verbose = false</span></code></pre>
+
+    <h3>Destructured Array Parameters with Defaults</h3>
+    <pre><code><span class="kw">function</span> <span class="fn">drawLine</span>([x1 = <span class="num">0</span>, y1 = <span class="num">0</span>], [x2 = <span class="num">0</span>, y2 = <span class="num">0</span>]) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`From (${x1},${y1}) to (${x2},${y2})`</span>);
+}
+<span class="fn">drawLine</span>([<span class="num">5</span>], [<span class="num">10</span>, <span class="num">20</span>]); <span class="cm">// "From (5,0) to (10,20)"</span></code></pre>
+
+    <!-- QUIZ -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">2.5 Quiz</span><h4>Defaults and Destructuring</h4></div>
+        <p><strong>Q1:</strong> Write a function <code>createUser</code> that accepts an object with <code>name</code>, <code>role</code> (default "user"), and <code>active</code> (default true). It should return the object. It must also work when called with <strong>no arguments at all</strong>.</p>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const createUser = ({ name = "Guest", role = "user", active = true } = {}) => {
+    return { name, role, active };
+};</code></pre>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">2.5 Quiz</span><h4>Default Evaluation Trap</h4></div>
+        <p><strong>Q2:</strong> What does <code>result</code> equal?</p>
+        <pre><code>let counter = 0;
+function getId() { return ++counter; }
+
+function makeItem(name, id = getId()) {
+    return { name, id };
+}
+
+const a = makeItem("X");
+const b = makeItem("Y");
+const c = makeItem("Z", 100);
+const result = [a.id, b.id, c.id];</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <p><strong>[1, 2, 100]</strong>. Defaults are evaluated <em>at call time</em>, not at definition time. The first two calls trigger <code>getId()</code>, incrementing the counter. The third call provides an explicit id (100), so the default is never evaluated.</p>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">2.6 - 2.7</span> JavaScript Classes</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>What Classes Actually Are</h3>
+    <p>ES6 classes are <strong>syntactic sugar</strong> over JavaScript's existing prototype-based inheritance. Under the hood, they still use prototypes. Classes just make the syntax cleaner and more familiar to developers coming from Java, C#, or Python.</p>
+
+    <div class="co co-b">
+        <strong>🧠 Mental Model</strong><br>
+        A class is a <strong>blueprint</strong> for creating objects. The <code>constructor</code> is the machine that stamps out individual objects from that blueprint. Each object created is called an <strong>instance</strong>.
+    </div>
+
+    <h3>Creating a Class</h3>
+    <pre><code><span class="kw">class</span> <span class="fn">Player</span> {
+    <span class="cm">// The constructor runs automatically when you use 'new'</span>
+    <span class="fn">constructor</span>(name, score) {
+        <span class="kw">this</span>.name = name;    <span class="cm">// instance property</span>
+        <span class="kw">this</span>.score = score;  <span class="cm">// instance property</span>
+    }
+
+    <span class="cm">// Methods — shared by ALL instances via the prototype</span>
+    <span class="fn">greet</span>() {
+        <span class="kw">return</span> <span class="str">`Hi, I'm ${this.name}`</span>;
+    }
+
+    <span class="fn">addPoints</span>(points) {
+        <span class="kw">this</span>.score += points;
+        <span class="kw">return</span> <span class="kw">this</span>.score;
+    }
+}
+
+<span class="cm">// Creating instances</span>
+<span class="kw">const</span> p1 = <span class="kw">new</span> <span class="fn">Player</span>(<span class="str">"Idris"</span>, <span class="num">0</span>);
+<span class="kw">const</span> p2 = <span class="kw">new</span> <span class="fn">Player</span>(<span class="str">"Ali"</span>, <span class="num">50</span>);
+
+<span class="fn">console</span>.<span class="fn">log</span>(p1.<span class="fn">greet</span>());       <span class="cm">// "Hi, I'm Idris"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(p2.<span class="fn">addPoints</span>(<span class="num">10</span>)); <span class="cm">// 60</span>
+
+<span class="cm">// They are independent instances</span>
+<span class="fn">console</span>.<span class="fn">log</span>(p1.score); <span class="cm">// 0 (p1 was not affected by p2)</span></code></pre>
+
+    <h3>Getters and Setters</h3>
+    <p>Getters and setters let you define properties that are computed dynamically. They look like property access but run a function internally.</p>
+
+    <pre><code><span class="kw">class</span> <span class="fn">Circle</span> {
+    <span class="fn">constructor</span>(radius) {
+        <span class="kw">this</span>.radius = radius;
+    }
+
+    <span class="cm">// Getter: access like a property, not a method call</span>
+    <span class="kw">get</span> <span class="fn">area</span>() {
+        <span class="kw">return</span> <span class="fn">Math</span>.PI * <span class="kw">this</span>.radius ** <span class="num">2</span>;
+    }
+
+    <span class="cm">// Getter with formatting</span>
+    <span class="kw">get</span> <span class="fn">diameter</span>() {
+        <span class="kw">return</span> <span class="kw">this</span>.radius * <span class="num">2</span>;
+    }
+
+    <span class="cm">// Setter: assign like a property, validation runs internally</span>
+    <span class="kw">set</span> <span class="fn">diameter</span>(d) {
+        <span class="kw">if</span> (d < <span class="num">0</span>) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"Diameter cannot be negative"</span>);
+        <span class="kw">this</span>.radius = d / <span class="num">2</span>;
+    }
+}
+
+<span class="kw">const</span> c = <span class="kw">new</span> <span class="fn">Circle</span>(<span class="num">5</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(c.area);     <span class="cm">// 78.54 — accessed like a property, not c.area()</span>
+<span class="fn">console</span>.<span class="fn">log</span>(c.diameter); <span class="cm">// 10</span>
+c.diameter = <span class="num">20</span>;         <span class="cm">// Triggers the setter, updates radius to 10</span>
+<span class="fn">console</span>.<span class="fn">log</span>(c.radius);   <span class="cm">// 10</span></code></pre>
+
+    <h3>Static Methods</h3>
+    <p>Static methods belong to the <strong>class itself</strong>, not to instances. You call them on the class name directly. Common use: utility functions and factory methods.</p>
+
+    <pre><code><span class="kw">class</span> <span class="fn">MathHelper</span> {
+    <span class="kw">static</span> <span class="fn">add</span>(a, b) { <span class="kw">return</span> a + b; }
+    <span class="kw">static</span> <span class="fn">random</span>(min, max) {
+        <span class="kw">return</span> <span class="fn">Math</span>.<span class="fn">floor</span>(<span class="fn">Math</span>.<span class="fn">random</span>() * (max - min + <span class="num">1</span>)) + min;
+    }
+}
+
+<span class="cm">// Called on the class, NOT on an instance</span>
+<span class="fn">MathHelper</span>.<span class="fn">add</span>(<span class="num">5</span>, <span class="num">10</span>);     <span class="cm">// 15</span>
+<span class="fn">MathHelper</span>.<span class="fn">random</span>(<span class="num">1</span>, <span class="num">100</span>); <span class="cm">// e.g. 42</span>
+
+<span class="cm">// Cannot call on instances:</span>
+<span class="kw">const</span> m = <span class="kw">new</span> <span class="fn">MathHelper</span>();
+m.<span class="fn">add</span>(<span class="num">5</span>, <span class="num">10</span>); <span class="cm">// TypeError: m.add is not a function</span></code></pre>
+
+    <!-- QUIZ -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">2.8 Quiz</span><h4>Classes</h4></div>
+        <p><strong>Q1:</strong> Create a class <code>BankAccount</code> with a constructor that takes <code>owner</code> and <code>balance</code> (default 0). Add methods <code>deposit(amount)</code> and <code>withdraw(amount)</code> (which should throw an error if amount > balance). Add a getter <code>summary</code> that returns <code>"Owner: X, Balance: Y"</code>.</p>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>class BankAccount {
+    constructor(owner, balance = 0) {
+        this.owner = owner;
+        this.balance = balance;
+    }
+
+    deposit(amount) {
+        this.balance += amount;
+        return this.balance;
+    }
+
+    withdraw(amount) {
+        if (amount > this.balance) {
+            throw new Error("Insufficient funds");
+        }
+        this.balance -= amount;
+        return this.balance;
+    }
+
+    get summary() {
+        return `Owner: ${this.owner}, Balance: ${this.balance}`;
+    }
+}</code></pre>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">2.9</span> Super and Extends (Inheritance)</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>Inheritance: Creating Specialized Classes</h3>
+    <p><code>extends</code> creates a child class that inherits all methods and properties from a parent class. <code>super()</code> calls the parent's constructor. You <strong>must</strong> call <code>super()</code> before using <code>this</code> in the child's constructor.</p>
+
+    <pre><code><span class="kw">class</span> <span class="fn">Animal</span> {
+    <span class="fn">constructor</span>(name, sound) {
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.sound = sound;
+    }
+
+    <span class="fn">speak</span>() {
+        <span class="kw">return</span> <span class="str">`${this.name} says ${this.sound}`</span>;
+    }
+}
+
+<span class="kw">class</span> <span class="fn">Dog</span> <span class="kw">extends</span> <span class="fn">Animal</span> {
+    <span class="fn">constructor</span>(name) {
+        <span class="cm">// super() MUST be called before 'this'</span>
+        <span class="kw">super</span>(name, <span class="str">"Woof"</span>); <span class="cm">// Calls Animal's constructor</span>
+        <span class="kw">this</span>.tricks = [];    <span class="cm">// Dog-specific property</span>
+    }
+
+    <span class="cm">// Dog-specific method</span>
+    <span class="fn">learnTrick</span>(trick) {
+        <span class="kw">this</span>.tricks.<span class="fn">push</span>(trick);
+    }
+
+    <span class="cm">// Override the parent method</span>
+    <span class="fn">speak</span>() {
+        <span class="kw">return</span> <span class="kw">super</span>.<span class="fn">speak</span>() + <span class="str">"!"</span>; <span class="cm">// Call parent version + customize</span>
+    }
+}
+
+<span class="kw">const</span> rex = <span class="kw">new</span> <span class="fn">Dog</span>(<span class="str">"Rex"</span>);
+rex.<span class="fn">learnTrick</span>(<span class="str">"sit"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(rex.<span class="fn">speak</span>());    <span class="cm">// "Rex says Woof!"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(rex.tricks);     <span class="cm">// ["sit"]</span>
+<span class="fn">console</span>.<span class="fn">log</span>(rex <span class="kw">instanceof</span> Dog);    <span class="cm">// true</span>
+<span class="fn">console</span>.<span class="fn">log</span>(rex <span class="kw">instanceof</span> Animal); <span class="cm">// true</span></code></pre>
+
+    <h3>The super() Rule</h3>
+    <div class="co co-r">
+        <strong>⚠️ You MUST call super() before using this</strong><br>
+        If you forget <code>super()</code>, or try to access <code>this</code> before calling it, you get a <code>ReferenceError</code>.
+    </div>
+
+    <pre><code><span class="kw">class</span> <span class="fn">Cat</span> <span class="kw">extends</span> <span class="fn">Animal</span> {
+    <span class="fn">constructor</span>(name) {
+        <span class="kw">this</span>.indoor = <span class="bool">true</span>; <span class="cm">// ❌ ReferenceError: Must call super before 'this'</span>
+        <span class="kw">super</span>(name, <span class="str">"Meow"</span>);
+    }
+}
+
+<span class="cm">// If you don't need extra constructor logic, you can omit it entirely.</span>
+<span class="cm">// The parent's constructor is inherited automatically.</span>
+<span class="kw">class</span> <span class="fn">Fish</span> <span class="kw">extends</span> <span class="fn">Animal</span> {
+    <span class="cm">// No constructor needed! Animal's constructor is used.</span>
+    <span class="fn">swim</span>() { <span class="kw">return</span> <span class="str">`${this.name} is swimming`</span>; }
+}
+
+<span class="kw">const</span> nemo = <span class="kw">new</span> <span class="fn">Fish</span>(<span class="str">"Nemo"</span>, <span class="str">"blub"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(nemo.<span class="fn">speak</span>()); <span class="cm">// "Nemo says blub" (inherited method)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(nemo.<span class="fn">swim</span>());  <span class="cm">// "Nemo is swimming" (own method)</span></code></pre>
+
+    <h3>Method Overriding with super</h3>
+    <p>A child class can define a method with the same name as the parent to override it. Use <code>super.methodName()</code> to call the parent's version if you want to extend (not fully replace) the behavior.</p>
+
+    <pre><code><span class="kw">class</span> <span class="fn">Shape</span> {
+    <span class="fn">constructor</span>(color) { <span class="kw">this</span>.color = color; }
+    <span class="fn">describe</span>() { <span class="kw">return</span> <span class="str">`A ${this.color} shape`</span>; }
+}
+
+<span class="kw">class</span> <span class="fn">Square</span> <span class="kw">extends</span> <span class="fn">Shape</span> {
+    <span class="fn">constructor</span>(color, size) {
+        <span class="kw">super</span>(color);
+        <span class="kw">this</span>.size = size;
+    }
+
+    <span class="cm">// Override describe, but use the parent's version as a base</span>
+    <span class="fn">describe</span>() {
+        <span class="kw">return</span> <span class="kw">super</span>.<span class="fn">describe</span>() + <span class="str">` (square, ${this.size}px)`</span>;
+    }
+}
+
+<span class="kw">const</span> sq = <span class="kw">new</span> <span class="fn">Square</span>(<span class="str">"blue"</span>, <span class="num">50</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(sq.<span class="fn">describe</span>()); <span class="cm">// "A blue shape (square, 50px)"</span></code></pre>
+
+    <!-- QUIZ -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">2.10 Quiz</span><h4>Super and Extends</h4></div>
+        <p><strong>Q1:</strong> Create a class <code>Vehicle</code> with <code>make</code> and <code>speed</code> (default 0). Add method <code>accelerate(amount)</code> and <code>brake(amount)</code>. Then create a child class <code>ElectricVehicle</code> that adds a <code>battery</code> property (default 100) and overrides <code>accelerate</code> to reduce battery by 1 on each call (using <code>super.accelerate()</code> to also increase speed).</p>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>class Vehicle {
+    constructor(make, speed = 0) {
+        this.make = make;
+        this.speed = speed;
+    }
+    accelerate(amount) { this.speed += amount; }
+    brake(amount) { this.speed = Math.max(0, this.speed - amount); }
+}
+
+class ElectricVehicle extends Vehicle {
+    constructor(make, battery = 100) {
+        super(make);
+        this.battery = battery;
+    }
+    accelerate(amount) {
+        super.accelerate(amount);
+        this.battery = Math.max(0, this.battery - 1);
+    }
+}</code></pre>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">2.11</span> Working with 'this'</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <div class="co co-p">
+        <strong>🧠 The Golden Rule of 'this'</strong><br>
+        In a <strong>regular function</strong>, <code>this</code> is determined by <strong>HOW the function is called</strong> (runtime binding).<br>
+        In an <strong>arrow function</strong>, <code>this</code> is determined by <strong>WHERE the function is written</strong> (lexical binding).
+    </div>
+
+    <h3>Rule 1: Global Context</h3>
+    <pre><code><span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>); <span class="cm">// In a browser: the Window object</span>
+                     <span class="cm">// In Node.js: {} (empty module object)</span></code></pre>
+
+    <h3>Rule 2: Object Method (Implicit Binding)</h3>
+    <p>When a function is called as a method of an object, <code>this</code> refers to the object <strong>before the dot</strong>.</p>
+    <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    <span class="fn">greet</span>() {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.name); <span class="cm">// "Idris" — 'this' is the object before the dot</span>
+    }
+};
+user.<span class="fn">greet</span>(); <span class="cm">// 'this' = user</span></code></pre>
+
+    <h3>Rule 3: The "Extracted Method" Trap</h3>
+    <p>If you pull a method out of its object and call it standalone, <code>this</code> is lost.</p>
+    <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    <span class="fn">greet</span>() { <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.name); }
+};
+
+<span class="cm">// Call as method — works</span>
+user.<span class="fn">greet</span>(); <span class="cm">// "Idris"</span>
+
+<span class="cm">// Extract the function into a variable — 'this' is LOST</span>
+<span class="kw">const</span> fn = user.greet;
+<span class="fn">fn</span>(); <span class="cm">// undefined (or throws error in strict mode)</span>
+<span class="cm">// 'this' is now window (or undefined in strict mode)</span></code></pre>
+
+    <h3>Rule 4: Explicit Binding (call, apply, bind)</h3>
+    <p>You can force a specific <code>this</code> value using <code>.call()</code>, <code>.apply()</code>, or <code>.bind()</code>.</p>
+
+    <pre><code><span class="kw">function</span> <span class="fn">introduce</span>(greeting) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${greeting}, I'm ${this.name}`</span>);
+}
+
+<span class="kw">const</span> user = { name: <span class="str">"Idris"</span> };
+
+<span class="cm">// .call() — call immediately with a specific 'this'</span>
+<span class="fn">introduce</span>.<span class="fn">call</span>(user, <span class="str">"Hello"</span>); <span class="cm">// "Hello, I'm Idris"</span>
+
+<span class="cm">// .apply() — same as call, but args are an array</span>
+<span class="fn">introduce</span>.<span class="fn">apply</span>(user, [<span class="str">"Hi"</span>]); <span class="cm">// "Hi, I'm Idris"</span>
+
+<span class="cm">// .bind() — returns a NEW function with 'this' permanently set</span>
+<span class="kw">const</span> boundFn = introduce.<span class="fn">bind</span>(user);
+<span class="fn">boundFn</span>(<span class="str">"Hey"</span>); <span class="cm">// "Hey, I'm Idris"</span></code></pre>
+
+    <h3>Rule 5: Constructor (new keyword)</h3>
+    <p>When a function is called with <code>new</code>, <code>this</code> refers to the newly created object.</p>
+    <pre><code><span class="kw">function</span> <span class="fn">Player</span>(name) {
+    <span class="cm">// 'new' creates a fresh empty object and sets 'this' to it</span>
+    <span class="kw">this</span>.name = name; <span class="cm">// adds 'name' to the new object</span>
+}
+<span class="kw">const</span> p = <span class="kw">new</span> <span class="fn">Player</span>(<span class="str">"Idris"</span>); <span class="cm">// 'this' = the new Player object</span></code></pre>
+
+    <h3>Rule 6: Event Listeners</h3>
+    <p>In a DOM event listener using a regular function, <code>this</code> refers to the <strong>element</strong> that the listener is attached to.</p>
+    <pre><code>btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, <span class="kw">function</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>);          <span class="cm">// the &lt;button&gt; element</span>
+    <span class="kw">this</span>.classList.<span class="fn">toggle</span>(<span class="str">"active"</span>); <span class="cm">// works!</span>
+});
+
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>);          <span class="cm">// ❌ window! Arrow has no own 'this'</span>
+    <span class="kw">this</span>.classList.<span class="fn">toggle</span>(<span class="str">"active"</span>); <span class="cm">// TypeError!</span>
+});</code></pre>
+
+    <h3>The Priority Hierarchy</h3>
+    <p>When multiple rules conflict, this is the order of precedence (highest to lowest):</p>
+    <ol>
+        <li><strong><code>new</code></strong> binding (constructor)</li>
+        <li><strong>Explicit</strong> binding (<code>call</code>, <code>apply</code>, <code>bind</code>)</li>
+        <li><strong>Implicit</strong> binding (object method — <code>obj.method()</code>)</li>
+        <li><strong>Default</strong> binding (standalone call → <code>window</code> or <code>undefined</code>)</li>
+    </ol>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">2.12</span> Arrow Functions and 'this'</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <p>This is the section that separates junior developers from senior developers. Arrow functions do NOT have their own <code>this</code>. They inherit <code>this</code> from the surrounding scope at the time they are <strong>defined</strong> (lexical binding).</p>
+
+    <h3>The Classic Bug: setTimeout with 'this'</h3>
+    <pre><code><span class="kw">const</span> timer = {
+    seconds: <span class="num">0</span>,
+
+    <span class="cm">// ❌ BUG: Regular function inside setTimeout</span>
+    <span class="fn">startBad</span>() {
+        <span class="fn">setInterval</span>(<span class="kw">function</span>() {
+            <span class="kw">this</span>.seconds++; <span class="cm">// 'this' is window, not timer!</span>
+            <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.seconds); <span class="cm">// NaN</span>
+        }, <span class="num">1000</span>);
+    },
+
+    <span class="cm">// ✅ FIX: Arrow function inherits 'this' from startGood</span>
+    <span class="fn">startGood</span>() {
+        <span class="fn">setInterval</span>(() => {
+            <span class="kw">this</span>.seconds++; <span class="cm">// 'this' is timer! ✅</span>
+            <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.seconds); <span class="cm">// 1, 2, 3...</span>
+        }, <span class="num">1000</span>);
+    }
+};</code></pre>
+
+    <h3>The ES5 Workaround (Before Arrows Existed)</h3>
+    <p>Before ES6, developers had to save <code>this</code> into a variable (usually called <code>self</code> or <code>that</code>).</p>
+    <pre><code><span class="cm">// ES5 workaround — ugly but it worked</span>
+<span class="fn">startOld</span>: <span class="kw">function</span>() {
+    <span class="kw">var</span> self = <span class="kw">this</span>; <span class="cm">// save 'this' before it changes</span>
+    <span class="fn">setInterval</span>(<span class="kw">function</span>() {
+        self.seconds++; <span class="cm">// use 'self' instead of 'this'</span>
+    }, <span class="num">1000</span>);
+}</code></pre>
+
+    <h3>NEVER Use Arrow Functions as Object Methods</h3>
+    <pre><code><span class="cm">// ❌ Arrow as object method — 'this' is NOT the object</span>
+<span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    greet: () => {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.name); <span class="cm">// undefined! 'this' is window.</span>
+    }
+};
+
+<span class="cm">// ✅ Use method shorthand for object methods</span>
+<span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    <span class="fn">greet</span>() {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.name); <span class="cm">// "Idris" ✅</span>
+    }
+};</code></pre>
+
+    <h3>Arrow Functions Inside Class Methods</h3>
+    <p>This is a very common React pattern. You define an arrow function INSIDE a regular method so that <code>this</code> is always the class instance.</p>
+
+    <pre><code><span class="kw">class</span> <span class="fn">TodoList</span> {
+    <span class="fn">constructor</span>() {
+        <span class="kw">this</span>.items = [];
+    }
+
+    <span class="fn">fetchAndRender</span>() {
+        <span class="cm">// Arrow function inside a method — 'this' is the TodoList instance</span>
+        <span class="fn">fetch</span>(<span class="str">"/api/todos"</span>)
+            .<span class="fn">then</span>(res => res.<span class="fn">json</span>())
+            .<span class="fn">then</span>(data => {
+                <span class="kw">this</span>.items = data; <span class="cm">// ✅ 'this' is the TodoList instance</span>
+                <span class="kw">this</span>.<span class="fn">render</span>();
+            });
+    }
+
+    <span class="fn">render</span>() {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.items);
+    }
+}</code></pre>
+
+    <h3>The Complete Decision Guide</h3>
+    <table>
+        <tr><th>Situation</th><th>Use</th><th>Why</th></tr>
+        <tr><td>Array callbacks (<code>.map</code>, <code>.filter</code>)</td><td><strong>Arrow</strong></td><td>Short, clean, no <code>this</code> needed</td></tr>
+        <tr><td>setTimeout / setInterval</td><td><strong>Arrow</strong></td><td>Preserves <code>this</code> from surrounding method</td></tr>
+        <tr><td>Promise <code>.then()</code> chains</td><td><strong>Arrow</strong></td><td>Preserves <code>this</code> from surrounding method</td></tr>
+        <tr><td>Object methods</td><td><strong>Regular (shorthand)</strong></td><td>Needs its own <code>this</code> = the object</td></tr>
+        <tr><td>Event listeners (need <code>this</code> = element)</td><td><strong>Regular</strong></td><td>Needs <code>this</code> = the DOM element</td></tr>
+        <tr><td>Class methods</td><td><strong>Regular (shorthand)</strong></td><td>Needs <code>this</code> = the instance</td></tr>
+        <tr><td>Constructors</td><td><strong>Regular / Class</strong></td><td>Arrows cannot be constructors</td></tr>
+        <tr><td>Standalone utility functions</td><td><strong>Either</strong></td><td>No <code>this</code> involved</td></tr>
+    </table>
+
+    <!-- QUIZ -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">2.13 Quiz</span><h4>Arrow Functions and 'this'</h4></div>
+        <p><strong>Q1:</strong> What is the output?</p>
+        <pre><code>const obj = {
+    value: 42,
+    getValue: () => this.value,
+    getValueCorrect() { return this.value; }
+};
+
+console.log(obj.getValue());
+console.log(obj.getValueCorrect());</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <p><strong>undefined</strong> and <strong>42</strong>.</p>
+            <p><code>getValue</code> is an arrow function — it does NOT have its own <code>this</code>. It inherits <code>this</code> from the surrounding scope (the module/global scope), where <code>this.value</code> is <code>undefined</code>. <code>getValueCorrect</code> is a regular method — <code>this</code> correctly refers to <code>obj</code>.</p>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">2.13 Quiz</span><h4>The Callback Trap</h4></div>
+        <p><strong>Q2:</strong> Fix this code so that the <code>setTimeout</code> callback correctly prints the player's name.</p>
+        <pre><code>const player = {
+    name: "Idris",
+    delayedGreet() {
+        setTimeout(function() {
+            console.log("Hello, " + this.name);
+        }, 1000);
+    }
+};
+player.delayedGreet(); // Prints "Hello, undefined"</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>// Replace 'function()' with an arrow function:
+delayedGreet() {
+    setTimeout(() => {
+        console.log("Hello, " + this.name);
+    }, 1000);
+}</code></pre>
+            <p>The arrow function inherits <code>this</code> from <code>delayedGreet</code>, which is called on <code>player</code>, so <code>this.name</code> = "Idris".</p>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">2.13 Quiz</span><h4>The Chained 'this' Trap</h4></div>
+        <p><strong>Q3:</strong> Predict the output of ALL four lines.</p>
+        <pre><code>const obj = {
+    name: "Outer",
+    inner: {
+        name: "Inner",
+        getName() { return this.name; },
+        getNameArrow: () => this.name
+    }
+};
+
+console.log(obj.inner.getName());      // A
+console.log(obj.inner.getNameArrow()); // B
+
+const extracted = obj.inner.getName;
+console.log(extracted());              // C
+
+const bound = obj.inner.getName.bind(obj);
+console.log(bound());                  // D</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <p><strong>A: "Inner"</strong> — regular method, <code>this</code> = the object before the dot (<code>obj.inner</code>).<br>
+            <strong>B: undefined</strong> — arrow function, <code>this</code> = surrounding scope (module/global), not <code>obj</code>.<br>
+            <strong>C: undefined</strong> — extracted from object, standalone call, <code>this</code> = window/undefined.<br>
+            <strong>D: "Outer"</strong> — <code>.bind(obj)</code> permanently sets <code>this</code> = <code>obj</code> (not <code>obj.inner</code>).</p>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">2.14</span> Lesson 2 Summary</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <table>
+        <tr><th>Concept</th><th>What You Know Now</th></tr>
+        <tr><td><strong>Arrow Functions</strong></td><td>Concise syntax, implicit return, object return trap <code>() => ({})</code>, currying pattern. Cannot be constructors, have no <code>arguments</code>, no <code>prototype</code>.</td></tr>
+        <tr><td><strong>Default Parameters</strong></td><td>Trigger only on <code>undefined</code> (not 0, "", false, null). Can be expressions, function calls, or reference other params. Evaluated at call time.</td></tr>
+        <tr><td><strong>Destructured Params</strong></td><td>Combine destructuring + defaults in function signatures. Use <code>= {}</code> to protect against zero-argument calls. This is the React props pattern.</td></tr>
+        <tr><td><strong>Classes</strong></td><td>Syntactic sugar over prototypes. <code>constructor</code> initializes instances. Methods are shared via prototype. <code>get</code>/<code>set</code> for computed properties. <code>static</code> for class-level utilities.</td></tr>
+        <tr><td><strong>Inheritance</strong></td><td><code>extends</code> creates child classes. <code>super()</code> calls parent constructor (must come before <code>this</code>). <code>super.method()</code> calls parent methods. <code>instanceof</code> checks the entire chain.</td></tr>
+        <tr><td><strong>'this' Keyword</strong></td><td>Determined by <em>how</em> the function is called: global → window, method → object, new → instance, call/apply/bind → explicit. Priority: new > bind > method > default.</td></tr>
+        <tr><td><strong>Arrow + 'this'</strong></td><td>Arrows inherit <code>this</code> lexically (from where they're written). Perfect for callbacks inside methods. Never use as object methods or event listeners that need <code>this</code> = element.</td></tr>
+    </table>
+
+    <div class="co co-g">
+        <strong>✅ You Now Understand</strong><br>
+        Functions are the heart of JavaScript. You've mastered arrow syntax, default parameters, destructured parameters, classes with inheritance, and the most confusing concept in the language: <code>this</code>. Next up: <strong>ES6 Built-Ins</strong> (Symbols, Iterators, Sets, Maps, Promises).
+    </div>
+
+</div>
+
+<script>
+function toggle(btn){const s=btn.nextElementSibling;s.classList.toggle('show');btn.textContent=s.classList.contains('show')?'Hide Answer':'Show Answer';}
+</script>
+</body>
+</html>

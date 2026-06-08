@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial #2 — Tailwind Flexbox Mastery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0c10',
+                        cardBg: '#121319',
+                        borderSlate: '#1f222e',
+                        textMuted: '#8e929f'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .demo-box {
+                @apply w-14 h-14 rounded-lg flex items-center justify-center font-mono text-sm font-semibold;
+            }
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-white font-sans leading-relaxed">
+
+    <!-- ===== HEADER ===== -->
+    <header class="border-b border-borderSlate bg-cardBg/60 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-mono bg-white/10 text-textMuted px-2 py-0.5 rounded">02</span>
+                <h1 class="text-lg font-semibold tracking-tight">Tailwind Flexbox Mastery</h1>
+            </div>
+            <span class="text-xs text-textMuted font-mono">CSS ➜ Tailwind Series</span>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-20">
+
+        <!-- ===== INTRO ===== -->
+        <section class="space-y-4">
+            <p class="text-textMuted text-lg leading-relaxed max-w-3xl">
+                You already understand Flexbox in raw CSS — <code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">display: flex</code>,
+                <code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">justify-content</code>,
+                <code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">align-items</code>, the whole model.
+                This tutorial maps every property you know to its Tailwind utility class, then puts it all into practice with live demos.
+            </p>
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-4 flex items-start gap-3 max-w-2xl">
+                <span class="text-lg leading-none mt-0.5">💡</span>
+                <p class="text-sm text-textMuted">Every live demo below is rendered with <em>only</em> Tailwind classes. No custom CSS. Open DevTools and inspect any element to see exactly which utilities are applied.</p>
+            </div>
+        </section>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 1: The Translation Table                             -->
+        <!-- ============================================================ -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold tracking-tight">Section 1 — The Complete Translation Table</h2>
+                <p class="text-textMuted">Every raw CSS Flexbox property mapped to its Tailwind utility class.</p>
+            </div>
+
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-borderSlate text-left">
+                            <th class="px-5 py-3 text-textMuted font-medium font-mono text-xs uppercase tracking-wider">Raw CSS</th>
+                            <th class="px-5 py-3 text-textMuted font-medium font-mono text-xs uppercase tracking-wider">Tailwind Class</th>
+                            <th class="px-5 py-3 text-textMuted font-medium font-mono text-xs uppercase tracking-wider hidden md:table-cell">What It Does</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-borderSlate">
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">display: flex</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">flex</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Turns the element into a flex container</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">flex-direction: column</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">flex-col</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Stacks children vertically instead of horizontally</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">flex-direction: row</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">flex-row</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Default: children placed horizontally (left to right)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">justify-content: flex-start</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">justify-start</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Pack items to the start of the main axis</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">justify-content: center</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">justify-center</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Center items along the main axis</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">justify-content: flex-end</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">justify-end</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Pack items to the end of the main axis</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">justify-content: space-between</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">justify-between</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">First item at start, last at end, equal space in between</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">justify-content: space-around</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">justify-around</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Equal space around each item (half-size at edges)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">justify-content: space-evenly</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">justify-evenly</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Truly equal space between and around every item</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">align-items: center</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">items-center</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Center items on the cross axis</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">align-items: flex-start</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">items-start</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Align items to the start of the cross axis</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">align-items: flex-end</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">items-end</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Align items to the end of the cross axis</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">align-items: stretch</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">items-stretch</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Stretch items to fill the cross axis (default)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">align-self: flex-start</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">self-start</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Override align-items for a single child — push to start</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">align-self: center</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">self-center</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Override align-items for a single child — center</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">align-self: flex-end</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">self-end</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Override align-items for a single child — push to end</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">flex-wrap: wrap</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">flex-wrap</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Allow items to wrap onto multiple lines</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">flex-shrink: 0</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">shrink-0</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Prevent the item from shrinking below its natural size</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">flex-grow: 1</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">grow</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Allow the item to grow and fill remaining space</td>
+                        </tr>
+                        <tr>
+                            <td class="px-5 py-3 font-mono text-white/70">gap: 16px</td>
+                            <td class="px-5 py-3 font-mono text-white font-semibold">gap-4</td>
+                            <td class="px-5 py-3 text-textMuted hidden md:table-cell">Add 1rem (16px) gap between flex/grid children</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Quick note on gap scale -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-5 space-y-3">
+                <h3 class="text-sm font-semibold text-white/90">📏 Gap Scale Reference</h3>
+                <p class="text-xs text-textMuted">Tailwind's spacing scale uses a <strong class="text-white/80">4px base unit</strong>. So <code class="font-mono bg-white/5 px-1 rounded">gap-1</code> = 4px, <code class="font-mono bg-white/5 px-1 rounded">gap-2</code> = 8px, <code class="font-mono bg-white/5 px-1 rounded">gap-4</code> = 16px, <code class="font-mono bg-white/5 px-1 rounded">gap-8</code> = 32px, etc.</p>
+                <div class="flex flex-wrap gap-3 text-xs font-mono text-textMuted">
+                    <span class="bg-white/5 px-2 py-1 rounded">gap-1 → 4px</span>
+                    <span class="bg-white/5 px-2 py-1 rounded">gap-2 → 8px</span>
+                    <span class="bg-white/5 px-2 py-1 rounded">gap-3 → 12px</span>
+                    <span class="bg-white/5 px-2 py-1 rounded">gap-4 → 16px</span>
+                    <span class="bg-white/5 px-2 py-1 rounded">gap-6 → 24px</span>
+                    <span class="bg-white/5 px-2 py-1 rounded">gap-8 → 32px</span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 2: Horizontal Centering (justify-content)            -->
+        <!-- ============================================================ -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold tracking-tight">Section 2 — Horizontal Centering (justify-content)</h2>
+                <p class="text-textMuted"><code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">justify-*</code> controls how children are spaced along the <strong class="text-white/80">main axis</strong> (horizontal in a default row).</p>
+            </div>
+
+            <!-- justify-start -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">justify-start</span>
+                    <span class="text-xs text-textMuted font-mono">justify-content: flex-start</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex justify-start gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4">
+                        <div class="demo-box bg-white/10">A</div>
+                        <div class="demo-box bg-white/10">B</div>
+                        <div class="demo-box bg-white/10">C</div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="<span class="text-white">flex justify-start gap-3</span>"&gt;
+  &lt;div&gt;A&lt;/div&gt;
+  &lt;div&gt;B&lt;/div&gt;
+  &lt;div&gt;C&lt;/div&gt;
+&lt;/div&gt;
+
+/* Raw CSS equivalent */
+display: flex;
+justify-content: flex-start;  /* default, items packed to left */
+gap: 12px;</code></pre>
+                </div>
+            </div>
+
+            <!-- justify-center -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">justify-center</span>
+                    <span class="text-xs text-textMuted font-mono">justify-content: center</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex justify-center gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4">
+                        <div class="demo-box bg-white/10">A</div>
+                        <div class="demo-box bg-white/10">B</div>
+                        <div class="demo-box bg-white/10">C</div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="<span class="text-white">flex justify-center gap-3</span>"&gt;
+
+/* Raw CSS equivalent */
+display: flex;
+justify-content: center;
+gap: 12px;</code></pre>
+                </div>
+            </div>
+
+            <!-- justify-between -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">justify-between</span>
+                    <span class="text-xs text-textMuted font-mono">justify-content: space-between</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex justify-between bg-white/[0.03] border border-white/5 rounded-lg p-4">
+                        <div class="demo-box bg-white/10">A</div>
+                        <div class="demo-box bg-white/10">B</div>
+                        <div class="demo-box bg-white/10">C</div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="<span class="text-white">flex justify-between</span>"&gt;
+
+/* Raw CSS equivalent */
+display: flex;
+justify-content: space-between;  /* first item left edge, last item right edge */</code></pre>
+                </div>
+            </div>
+
+            <!-- justify-evenly -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">justify-evenly</span>
+                    <span class="text-xs text-textMuted font-mono">justify-content: space-evenly</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex justify-evenly bg-white/[0.03] border border-white/5 rounded-lg p-4">
+                        <div class="demo-box bg-white/10">A</div>
+                        <div class="demo-box bg-white/10">B</div>
+                        <div class="demo-box bg-white/10">C</div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="<span class="text-white">flex justify-evenly</span>"&gt;
+
+/* Raw CSS equivalent */
+display: flex;
+justify-content: space-evenly;  /* truly equal gaps everywhere, including edges */</code></pre>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 3: Vertical Centering (align-items)                  -->
+        <!-- ============================================================ -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold tracking-tight">Section 3 — Vertical Centering (align-items)</h2>
+                <p class="text-textMuted"><code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">items-*</code> controls alignment on the <strong class="text-white/80">cross axis</strong> (vertical in a default row). Notice the boxes below have different heights to make alignment visible.</p>
+            </div>
+
+            <!-- items-start -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">items-start</span>
+                    <span class="text-xs text-textMuted font-mono">align-items: flex-start</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex items-start gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4 min-h-[120px]">
+                        <div class="w-14 h-10 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">S</div>
+                        <div class="w-14 h-20 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">M</div>
+                        <div class="w-14 h-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">L</div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="<span class="text-white">flex items-start gap-3</span>"&gt;
+
+/* Raw CSS */
+display: flex;
+align-items: flex-start;  /* all items pressed to the top */</code></pre>
+                </div>
+            </div>
+
+            <!-- items-center -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">items-center</span>
+                    <span class="text-xs text-textMuted font-mono">align-items: center</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex items-center gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4 min-h-[120px]">
+                        <div class="w-14 h-10 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">S</div>
+                        <div class="w-14 h-20 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">M</div>
+                        <div class="w-14 h-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">L</div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="<span class="text-white">flex items-center gap-3</span>"&gt;
+
+/* Raw CSS */
+display: flex;
+align-items: center;  /* vertically centered */</code></pre>
+                </div>
+            </div>
+
+            <!-- items-end -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">items-end</span>
+                    <span class="text-xs text-textMuted font-mono">align-items: flex-end</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex items-end gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4 min-h-[120px]">
+                        <div class="w-14 h-10 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">S</div>
+                        <div class="w-14 h-20 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">M</div>
+                        <div class="w-14 h-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">L</div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="<span class="text-white">flex items-end gap-3</span>"&gt;
+
+/* Raw CSS */
+display: flex;
+align-items: flex-end;  /* all items pressed to the bottom */</code></pre>
+                </div>
+            </div>
+
+            <!-- items-stretch -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">items-stretch</span>
+                    <span class="text-xs text-textMuted font-mono">align-items: stretch (default)</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex items-stretch gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4 min-h-[120px]">
+                        <div class="w-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">S</div>
+                        <div class="w-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">M</div>
+                        <div class="w-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-sm font-semibold">L</div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;!-- Remove explicit height and items stretch to fill the container --&gt;
+&lt;div class="<span class="text-white">flex items-stretch gap-3</span> min-h-[120px]"&gt;
+
+/* Raw CSS */
+display: flex;
+align-items: stretch;  /* default — all items grow to match tallest */</code></pre>
+                </div>
+            </div>
+
+            <!-- Perfect center -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">⭐ Perfect Center — Both Axes</span>
+                    <span class="text-xs text-textMuted font-mono">justify-center + items-center</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex justify-center items-center bg-white/[0.03] border border-white/5 rounded-lg h-40">
+                        <div class="demo-box bg-white/10 text-white">🎯</div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="<span class="text-white">flex justify-center items-center</span> h-40"&gt;
+  &lt;div&gt;🎯&lt;/div&gt;
+&lt;/div&gt;
+
+/* Raw CSS equivalent */
+display: flex;
+justify-content: center;  /* horizontal center */
+align-items: center;       /* vertical center */
+height: 10rem;</code></pre>
+                    <div class="flex items-start gap-3 mt-2">
+                        <span class="text-lg leading-none mt-0.5">🔑</span>
+                        <p class="text-sm text-textMuted"><strong class="text-white/90">This is the most important pattern in Flexbox.</strong> Combining <code class="font-mono bg-white/5 px-1 rounded">flex justify-center items-center</code> perfectly centers any child both horizontally and vertically. You'll use this constantly.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 4: Column Layouts (flex-col)                         -->
+        <!-- ============================================================ -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold tracking-tight">Section 4 — Column Layouts (flex-col)</h2>
+                <p class="text-textMuted">Add <code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">flex-col</code> to switch the main axis from horizontal to vertical. Now <code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">justify-*</code> controls vertical spacing and <code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">items-*</code> controls horizontal alignment.</p>
+            </div>
+
+            <!-- flex-row vs flex-col comparison -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                    <div class="px-5 py-3 border-b border-borderSlate">
+                        <span class="text-sm font-semibold">flex (row — default)</span>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4">
+                            <div class="demo-box bg-white/10">1</div>
+                            <div class="demo-box bg-white/10">2</div>
+                            <div class="demo-box bg-white/10">3</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                    <div class="px-5 py-3 border-b border-borderSlate">
+                        <span class="text-sm font-semibold">flex flex-col</span>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex flex-col gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4">
+                            <div class="demo-box bg-white/10">1</div>
+                            <div class="demo-box bg-white/10">2</div>
+                            <div class="demo-box bg-white/10">3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Menu Demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">Live Demo — Sidebar Menu with flex-col</span>
+                    <span class="text-xs text-textMuted font-mono">flex flex-col gap-1</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex gap-6">
+                        <!-- Sidebar -->
+                        <nav class="flex flex-col gap-1 w-48 bg-white/[0.03] border border-white/5 rounded-lg p-3">
+                            <a href="#" class="px-3 py-2 rounded-md bg-white/10 text-white text-sm font-medium">🏠 Dashboard</a>
+                            <a href="#" class="px-3 py-2 rounded-md hover:bg-white/5 text-textMuted text-sm">📊 Analytics</a>
+                            <a href="#" class="px-3 py-2 rounded-md hover:bg-white/5 text-textMuted text-sm">👥 Users</a>
+                            <a href="#" class="px-3 py-2 rounded-md hover:bg-white/5 text-textMuted text-sm">⚙️ Settings</a>
+                            <a href="#" class="px-3 py-2 rounded-md hover:bg-white/5 text-textMuted text-sm">📁 Files</a>
+                        </nav>
+                        <!-- Content -->
+                        <div class="flex-1 bg-white/[0.03] border border-white/5 rounded-lg p-4 flex items-center justify-center text-textMuted text-sm">
+                            Main content area
+                        </div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;nav class="<span class="text-white">flex flex-col gap-1</span> w-48 p-3"&gt;
+  &lt;a class="px-3 py-2 rounded-md bg-white/10"&gt;🏠 Dashboard&lt;/a&gt;
+  &lt;a class="px-3 py-2 rounded-md"&gt;📊 Analytics&lt;/a&gt;
+  &lt;a class="px-3 py-2 rounded-md"&gt;👥 Users&lt;/a&gt;
+&lt;/nav&gt;
+
+/* Raw CSS equivalent */
+display: flex;
+flex-direction: column;  /* stack links vertically */
+gap: 4px;</code></pre>
+                </div>
+            </div>
+
+            <!-- Card with stacked content -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">Live Demo — Card with Stacked Content</span>
+                    <span class="text-xs text-textMuted font-mono">flex flex-col gap-3</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="max-w-xs">
+                        <div class="flex flex-col gap-3 bg-white/[0.03] border border-white/5 rounded-xl p-5">
+                            <div class="w-full h-32 bg-white/10 rounded-lg flex items-center justify-center text-textMuted text-sm">Image Placeholder</div>
+                            <h3 class="text-base font-semibold">Card Title</h3>
+                            <p class="text-sm text-textMuted leading-relaxed">A short description that sits neatly stacked below the image and title thanks to flex-col.</p>
+                            <button class="bg-white/10 hover:bg-white/15 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Read More</button>
+                        </div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="<span class="text-white">flex flex-col gap-3</span> p-5 rounded-xl"&gt;
+  &lt;div&gt;Image&lt;/div&gt;
+  &lt;h3&gt;Card Title&lt;/h3&gt;
+  &lt;p&gt;Description...&lt;/p&gt;
+  &lt;button&gt;Read More&lt;/button&gt;
+&lt;/div&gt;
+
+/* Raw CSS */
+display: flex;
+flex-direction: column;
+gap: 12px;
+padding: 1.25rem;</code></pre>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 5: Flex Wrap for Responsive Grids                    -->
+        <!-- ============================================================ -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold tracking-tight">Section 5 — Flex Wrap for Responsive Grids</h2>
+                <p class="text-textMuted">Without <code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">flex-wrap</code>, flex children are forced onto a single line and will shrink to fit. Add it and children naturally flow to the next row when they run out of space.</p>
+            </div>
+
+            <!-- No wrap vs wrap comparison -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                    <div class="px-5 py-3 border-b border-borderSlate">
+                        <span class="text-sm font-semibold">❌ Without flex-wrap</span>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4">
+                            <div class="w-24 h-14 shrink rounded-lg bg-white/10 flex items-center justify-center font-mono text-xs">Squish</div>
+                            <div class="w-24 h-14 shrink rounded-lg bg-white/10 flex items-center justify-center font-mono text-xs">Squish</div>
+                            <div class="w-24 h-14 shrink rounded-lg bg-white/10 flex items-center justify-center font-mono text-xs">Squish</div>
+                            <div class="w-24 h-14 shrink rounded-lg bg-white/10 flex items-center justify-center font-mono text-xs">Squish</div>
+                            <div class="w-24 h-14 shrink rounded-lg bg-white/10 flex items-center justify-center font-mono text-xs">Squish</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                    <div class="px-5 py-3 border-b border-borderSlate">
+                        <span class="text-sm font-semibold">✅ With flex-wrap</span>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex flex-wrap gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4">
+                            <div class="w-24 h-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-xs">Card</div>
+                            <div class="w-24 h-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-xs">Card</div>
+                            <div class="w-24 h-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-xs">Card</div>
+                            <div class="w-24 h-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-xs">Card</div>
+                            <div class="w-24 h-14 rounded-lg bg-white/10 flex items-center justify-center font-mono text-xs">Card</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6-card wrapping gallery -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">Live Demo — 6 Card Wrapping Gallery</span>
+                    <span class="text-xs text-textMuted font-mono">flex flex-wrap gap-4</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex flex-wrap gap-4">
+                        <div class="basis-[calc(33.333%-1rem)] min-w-[200px] bg-white/[0.03] border border-white/5 rounded-xl p-4 flex flex-col gap-2">
+                            <div class="h-24 bg-white/10 rounded-lg"></div>
+                            <h4 class="text-sm font-semibold">Gallery Item 1</h4>
+                            <p class="text-xs text-textMuted">A wrapped flex item</p>
+                        </div>
+                        <div class="basis-[calc(33.333%-1rem)] min-w-[200px] bg-white/[0.03] border border-white/5 rounded-xl p-4 flex flex-col gap-2">
+                            <div class="h-24 bg-white/10 rounded-lg"></div>
+                            <h4 class="text-sm font-semibold">Gallery Item 2</h4>
+                            <p class="text-xs text-textMuted">A wrapped flex item</p>
+                        </div>
+                        <div class="basis-[calc(33.333%-1rem)] min-w-[200px] bg-white/[0.03] border border-white/5 rounded-xl p-4 flex flex-col gap-2">
+                            <div class="h-24 bg-white/10 rounded-lg"></div>
+                            <h4 class="text-sm font-semibold">Gallery Item 3</h4>
+                            <p class="text-xs text-textMuted">A wrapped flex item</p>
+                        </div>
+                        <div class="basis-[calc(33.333%-1rem)] min-w-[200px] bg-white/[0.03] border border-white/5 rounded-xl p-4 flex flex-col gap-2">
+                            <div class="h-24 bg-white/10 rounded-lg"></div>
+                            <h4 class="text-sm font-semibold">Gallery Item 4</h4>
+                            <p class="text-xs text-textMuted">A wrapped flex item</p>
+                        </div>
+                        <div class="basis-[calc(33.333%-1rem)] min-w-[200px] bg-white/[0.03] border border-white/5 rounded-xl p-4 flex flex-col gap-2">
+                            <div class="h-24 bg-white/10 rounded-lg"></div>
+                            <h4 class="text-sm font-semibold">Gallery Item 5</h4>
+                            <p class="text-xs text-textMuted">A wrapped flex item</p>
+                        </div>
+                        <div class="basis-[calc(33.333%-1rem)] min-w-[200px] bg-white/[0.03] border border-white/5 rounded-xl p-4 flex flex-col gap-2">
+                            <div class="h-24 bg-white/10 rounded-lg"></div>
+                            <h4 class="text-sm font-semibold">Gallery Item 6</h4>
+                            <p class="text-xs text-textMuted">A wrapped flex item</p>
+                        </div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="<span class="text-white">flex flex-wrap gap-4</span>"&gt;
+  &lt;div class="<span class="text-white">basis-[calc(33.333%-1rem)] min-w-[200px]</span>"&gt;
+    Card content...
+  &lt;/div&gt;
+  &lt;!-- repeat 6 times --&gt;
+&lt;/div&gt;
+
+/* Raw CSS equivalent */
+.gallery { display: flex; flex-wrap: wrap; gap: 16px; }
+.gallery-item {
+  flex-basis: calc(33.333% - 1rem);  /* 3 columns accounting for gap */
+  min-width: 200px;                  /* wraps earlier on small screens */
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 6: flex-shrink and flex-grow                         -->
+        <!-- ============================================================ -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold tracking-tight">Section 6 — flex-shrink and flex-grow</h2>
+                <p class="text-textMuted">Two of the most practical utilities: <code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">shrink-0</code> protects an element's size, and <code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">grow</code> tells it to absorb all remaining space.</p>
+            </div>
+
+            <!-- shrink-0 demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">shrink-0 — Protecting an Avatar from Getting Squished</span>
+                    <span class="text-xs text-textMuted font-mono">flex-shrink: 0</span>
+                </div>
+                <div class="p-5 space-y-4">
+                    <p class="text-sm text-textMuted">Without <code class="font-mono bg-white/5 px-1 rounded">shrink-0</code>, a circle avatar gets crushed when text is long:</p>
+                    <!-- Without shrink-0 -->
+                    <div class="space-y-1">
+                        <span class="text-xs text-textMuted font-mono">❌ Without shrink-0</span>
+                        <div class="flex items-center gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4 max-w-sm">
+                            <div class="w-12 h-12 rounded-full bg-white/15 flex items-center justify-center text-sm">👤</div>
+                            <p class="text-sm text-textMuted">This is a really long description text that will cause the avatar to shrink down and look horrible because flex shrink is on by default.</p>
+                        </div>
+                    </div>
+                    <!-- With shrink-0 -->
+                    <div class="space-y-1">
+                        <span class="text-xs text-textMuted font-mono">✅ With shrink-0</span>
+                        <div class="flex items-center gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4 max-w-sm">
+                            <div class="w-12 h-12 rounded-full bg-white/15 shrink-0 flex items-center justify-center text-sm">👤</div>
+                            <p class="text-sm text-textMuted">This is a really long description text and the avatar stays perfectly circular thanks to shrink-0 protecting its width.</p>
+                        </div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="flex items-center gap-3"&gt;
+  &lt;div class="w-12 h-12 rounded-full <span class="text-white">shrink-0</span>"&gt;👤&lt;/div&gt;
+  &lt;p&gt;Long text that can't squish the avatar...&lt;/p&gt;
+&lt;/div&gt;
+
+/* Raw CSS */
+.avatar {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;  /* NEVER shrink below 48×48 */
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- grow demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">grow — Search Bar Filling Remaining Space</span>
+                    <span class="text-xs text-textMuted font-mono">flex-grow: 1</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex items-center gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-3">
+                        <div class="text-sm font-semibold shrink-0 px-3">Logo</div>
+                        <input type="text" placeholder="Search..." class="grow bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm text-white placeholder:text-textMuted outline-none focus:border-white/20 transition-colors">
+                        <button class="shrink-0 bg-white/10 hover:bg-white/15 text-sm px-4 py-2 rounded-lg transition-colors">Profile</button>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="flex items-center gap-3"&gt;
+  &lt;div class="<span class="text-white">shrink-0</span>"&gt;Logo&lt;/div&gt;
+  &lt;input class="<span class="text-white">grow</span>" placeholder="Search..."&gt;
+  &lt;button class="<span class="text-white">shrink-0</span>"&gt;Profile&lt;/button&gt;
+&lt;/div&gt;
+
+/* Raw CSS */
+.logo    { flex-shrink: 0; }
+.search  { flex-grow: 1; }   /* absorbs ALL remaining horizontal space */
+.profile { flex-shrink: 0; }</code></pre>
+                </div>
+            </div>
+
+            <!-- Full navbar demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">Live Demo — Complete Navbar (shrink-0 + grow)</span>
+                    <span class="text-xs text-textMuted font-mono">Real-world pattern</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <nav class="flex items-center gap-4 bg-white/[0.03] border border-white/5 rounded-xl px-5 py-3">
+                        <!-- Logo -->
+                        <div class="shrink-0 flex items-center gap-2">
+                            <div class="w-8 h-8 bg-white/15 rounded-lg flex items-center justify-center text-sm">⚡</div>
+                            <span class="font-semibold text-sm">AppName</span>
+                        </div>
+                        <!-- Search -->
+                        <div class="grow">
+                            <input type="text" placeholder="Search anything..." class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm text-white placeholder:text-textMuted outline-none focus:border-white/20 transition-colors">
+                        </div>
+                        <!-- Actions -->
+                        <div class="shrink-0 flex items-center gap-2">
+                            <button class="bg-white/10 hover:bg-white/15 text-sm px-3 py-2 rounded-lg transition-colors">🔔</button>
+                            <button class="bg-white/10 hover:bg-white/15 text-sm px-3 py-2 rounded-lg transition-colors">⚙️</button>
+                            <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-xs">JD</div>
+                        </div>
+                    </nav>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;nav class="<span class="text-white">flex items-center gap-4</span>"&gt;
+  &lt;div class="<span class="text-white">shrink-0</span>"&gt;Logo&lt;/div&gt;        &lt;!-- never shrinks --&gt;
+  &lt;div class="<span class="text-white">grow</span>"&gt;Search bar&lt;/div&gt;    &lt;!-- takes all remaining space --&gt;
+  &lt;div class="<span class="text-white">shrink-0</span>"&gt;Actions&lt;/div&gt;     &lt;!-- never shrinks --&gt;
+&lt;/nav&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 7: align-self (Individual Override)                  -->
+        <!-- ============================================================ -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold tracking-tight">Section 7 — align-self (Individual Override)</h2>
+                <p class="text-textMuted"><code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">self-*</code> overrides the parent's <code class="font-mono text-white/80 bg-white/5 px-1.5 py-0.5 rounded text-sm">items-*</code> for a single child. Think of it as "I don't care what the group is doing — I go here."</p>
+            </div>
+
+            <!-- self-start / self-center / self-end demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate">
+                    <span class="text-sm font-semibold">self-start, self-center, self-end in a Single Container</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex items-start gap-3 bg-white/[0.03] border border-white/5 rounded-lg p-4 h-36">
+                        <div class="demo-box bg-white/10 self-start">
+                            <span class="text-[10px] leading-tight text-center">self<br>start</span>
+                        </div>
+                        <div class="demo-box bg-white/10 self-center">
+                            <span class="text-[10px] leading-tight text-center">self<br>center</span>
+                        </div>
+                        <div class="demo-box bg-white/10 self-end">
+                            <span class="text-[10px] leading-tight text-center">self<br>end</span>
+                        </div>
+                        <div class="demo-box bg-white/10 self-start">
+                            <span class="text-[10px] leading-tight text-center">self<br>start</span>
+                        </div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="flex items-start gap-3 h-36"&gt;
+  &lt;div class="<span class="text-white">self-start</span>"&gt;Top&lt;/div&gt;
+  &lt;div class="<span class="text-white">self-center</span>"&gt;Middle&lt;/div&gt;
+  &lt;div class="<span class="text-white">self-end</span>"&gt;Bottom&lt;/div&gt;
+  &lt;div class="<span class="text-white">self-start</span>"&gt;Top&lt;/div&gt;
+&lt;/div&gt;
+
+/* Raw CSS */
+.box-1 { align-self: flex-start; }
+.box-2 { align-self: center; }
+.box-3 { align-self: flex-end; }
+.box-4 { align-self: flex-start; }</code></pre>
+                </div>
+            </div>
+
+            <!-- Badges on cards demo -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">Live Demo — Badges Positioned on Cards</span>
+                    <span class="text-xs text-textMuted font-mono">self-start / self-end on flex-col</span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <div class="flex flex-wrap gap-4">
+                        <!-- Card 1: badge top-left (self-start) -->
+                        <div class="flex flex-col gap-3 bg-white/[0.03] border border-white/5 rounded-xl p-5 w-56">
+                            <span class="self-start text-[10px] font-mono bg-white/10 text-textMuted px-2 py-0.5 rounded-full uppercase tracking-wider">New</span>
+                            <h4 class="text-sm font-semibold">Feature Card</h4>
+                            <p class="text-xs text-textMuted leading-relaxed">The "New" badge is pushed left by self-start.</p>
+                            <button class="self-end text-xs bg-white/10 hover:bg-white/15 px-3 py-1.5 rounded-lg transition-colors mt-auto">View →</button>
+                        </div>
+                        <!-- Card 2: badge top-right (self-end) -->
+                        <div class="flex flex-col gap-3 bg-white/[0.03] border border-white/5 rounded-xl p-5 w-56">
+                            <span class="self-end text-[10px] font-mono bg-white/10 text-textMuted px-2 py-0.5 rounded-full uppercase tracking-wider">Pro</span>
+                            <h4 class="text-sm font-semibold">Premium Card</h4>
+                            <p class="text-xs text-textMuted leading-relaxed">The "Pro" badge is pushed right by self-end.</p>
+                            <button class="self-end text-xs bg-white/10 hover:bg-white/15 px-3 py-1.5 rounded-lg transition-colors mt-auto">View →</button>
+                        </div>
+                        <!-- Card 3: badge centered (self-center) -->
+                        <div class="flex flex-col gap-3 bg-white/[0.03] border border-white/5 rounded-xl p-5 w-56">
+                            <span class="self-center text-[10px] font-mono bg-white/10 text-textMuted px-2 py-0.5 rounded-full uppercase tracking-wider">Beta</span>
+                            <h4 class="text-sm font-semibold text-center">Beta Card</h4>
+                            <p class="text-xs text-textMuted leading-relaxed text-center">The "Beta" badge is centered by self-center.</p>
+                            <button class="self-center text-xs bg-white/10 hover:bg-white/15 px-3 py-1.5 rounded-lg transition-colors mt-auto">View →</button>
+                        </div>
+                    </div>
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-3 overflow-x-auto"><code>&lt;div class="flex flex-col gap-3"&gt;
+  &lt;!-- In a flex-col container, self-start/end controls LEFT/RIGHT --&gt;
+  &lt;span class="<span class="text-white">self-start</span>"&gt;New&lt;/span&gt;     &lt;!-- badge pushed LEFT  --&gt;
+  &lt;span class="<span class="text-white">self-end</span>"&gt;Pro&lt;/span&gt;       &lt;!-- badge pushed RIGHT --&gt;
+  &lt;span class="<span class="text-white">self-center</span>"&gt;Beta&lt;/span&gt;  &lt;!-- badge CENTERED     --&gt;
+&lt;/div&gt;
+
+/* Raw CSS */
+.badge-left   { align-self: flex-start; }
+.badge-right  { align-self: flex-end; }
+.badge-center { align-self: center; }</code></pre>
+                    <div class="flex items-start gap-3 mt-2">
+                        <span class="text-lg leading-none mt-0.5">🔑</span>
+                        <p class="text-sm text-textMuted"><strong class="text-white/90">Key insight:</strong> In <code class="font-mono bg-white/5 px-1 rounded">flex-col</code>, the cross axis is <em>horizontal</em>, so <code class="font-mono bg-white/5 px-1 rounded">self-start</code> means LEFT and <code class="font-mono bg-white/5 px-1 rounded">self-end</code> means RIGHT. The axes flip compared to <code class="font-mono bg-white/5 px-1 rounded">flex-row</code>!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================ -->
+        <!-- SECTION 8: Complete Dashboard                                -->
+        <!-- ============================================================ -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold tracking-tight">Section 8 — Build a Complete Dashboard</h2>
+                <p class="text-textMuted">Everything from Sections 1–7 combined. This dashboard uses <strong class="text-white/80">only Tailwind flex utilities</strong> — no CSS Grid, no custom CSS.</p>
+            </div>
+
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate flex items-center justify-between">
+                    <span class="text-sm font-semibold">🖥️ Live Rendered Dashboard</span>
+                    <span class="text-xs text-textMuted font-mono">Pure Tailwind Flexbox</span>
+                </div>
+                <div class="p-5">
+                    <!-- Dashboard Container -->
+                    <div class="flex flex-col gap-5 bg-white/[0.02] border border-white/5 rounded-2xl p-5">
+
+                        <!-- Header Bar: brand left, profile right -->
+                        <header class="flex items-center justify-between bg-white/[0.03] border border-white/5 rounded-xl px-5 py-3">
+                            <div class="flex items-center gap-3 shrink-0">
+                                <div class="w-9 h-9 bg-white/15 rounded-lg flex items-center justify-center font-semibold text-sm">⚡</div>
+                                <span class="font-semibold text-sm">Dashboard</span>
+                            </div>
+                            <div class="flex items-center gap-3 shrink-0">
+                                <span class="text-xs text-textMuted hidden sm:inline">admin@example.com</span>
+                                <div class="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center text-xs font-semibold shrink-0">AD</div>
+                            </div>
+                        </header>
+
+                        <!-- Stats Row -->
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex-1 min-w-[140px] flex flex-col gap-1 bg-white/[0.03] border border-white/5 rounded-xl p-4">
+                                <span class="text-xs text-textMuted">Revenue</span>
+                                <span class="text-xl font-bold">$48,290</span>
+                                <span class="text-xs text-green-500/80">↑ 12%</span>
+                            </div>
+                            <div class="flex-1 min-w-[140px] flex flex-col gap-1 bg-white/[0.03] border border-white/5 rounded-xl p-4">
+                                <span class="text-xs text-textMuted">Users</span>
+                                <span class="text-xl font-bold">3,842</span>
+                                <span class="text-xs text-green-500/80">↑ 8%</span>
+                            </div>
+                            <div class="flex-1 min-w-[140px] flex flex-col gap-1 bg-white/[0.03] border border-white/5 rounded-xl p-4">
+                                <span class="text-xs text-textMuted">Orders</span>
+                                <span class="text-xl font-bold">1,204</span>
+                                <span class="text-xs text-red-400/80">↓ 3%</span>
+                            </div>
+                        </div>
+
+                        <!-- 3 Cards in a Wrapping Flex Grid -->
+                        <div class="flex flex-wrap gap-4">
+
+                            <!-- Card 1 -->
+                            <div class="flex-1 min-w-[250px] flex flex-col gap-3 justify-between bg-white/[0.03] border border-white/5 rounded-xl p-5">
+                                <div class="flex flex-col gap-3">
+                                    <span class="self-start text-[10px] font-mono bg-white/10 text-textMuted px-2 py-0.5 rounded-full uppercase tracking-wider">Active</span>
+                                    <h3 class="text-base font-semibold">Project Alpha</h3>
+                                    <p class="text-xs text-textMuted leading-relaxed">A real-time analytics dashboard with live data streaming and WebSocket integration.</p>
+                                </div>
+                                <div class="flex items-center gap-3 pt-2 border-t border-white/5">
+                                    <div class="w-7 h-7 bg-white/15 rounded-full shrink-0 flex items-center justify-center text-[10px]">AK</div>
+                                    <span class="text-xs text-textMuted grow">Assigned to Anika</span>
+                                    <span class="self-end text-[10px] font-mono text-textMuted">2d ago</span>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="flex-1 min-w-[250px] flex flex-col gap-3 justify-between bg-white/[0.03] border border-white/5 rounded-xl p-5">
+                                <div class="flex flex-col gap-3">
+                                    <span class="self-end text-[10px] font-mono bg-white/10 text-textMuted px-2 py-0.5 rounded-full uppercase tracking-wider">Review</span>
+                                    <h3 class="text-base font-semibold">Project Beta</h3>
+                                    <p class="text-xs text-textMuted leading-relaxed">E-commerce checkout flow redesign with A/B testing framework built in.</p>
+                                </div>
+                                <div class="flex items-center gap-3 pt-2 border-t border-white/5">
+                                    <div class="w-7 h-7 bg-white/15 rounded-full shrink-0 flex items-center justify-center text-[10px]">MR</div>
+                                    <span class="text-xs text-textMuted grow">Assigned to Marco</span>
+                                    <span class="self-end text-[10px] font-mono text-textMuted">5d ago</span>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="flex-1 min-w-[250px] flex flex-col gap-3 justify-between bg-white/[0.03] border border-white/5 rounded-xl p-5">
+                                <div class="flex flex-col gap-3">
+                                    <span class="self-start text-[10px] font-mono bg-white/10 text-textMuted px-2 py-0.5 rounded-full uppercase tracking-wider">Draft</span>
+                                    <h3 class="text-base font-semibold">Project Gamma</h3>
+                                    <p class="text-xs text-textMuted leading-relaxed">Internal documentation portal with full-text search and Markdown rendering.</p>
+                                </div>
+                                <div class="flex items-center gap-3 pt-2 border-t border-white/5">
+                                    <div class="w-7 h-7 bg-white/15 rounded-full shrink-0 flex items-center justify-center text-[10px]">SL</div>
+                                    <span class="text-xs text-textMuted grow">Assigned to Sarah</span>
+                                    <span class="self-end text-[10px] font-mono text-textMuted">1w ago</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Feed -->
+                        <div class="flex flex-col gap-3 bg-white/[0.03] border border-white/5 rounded-xl p-5">
+                            <h3 class="text-sm font-semibold">Recent Activity</h3>
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-7 h-7 bg-white/15 rounded-full shrink-0 flex items-center justify-center text-[10px]">AK</div>
+                                    <p class="text-xs text-textMuted grow">Anika deployed v2.1.0 to production</p>
+                                    <span class="shrink-0 text-[10px] font-mono text-textMuted">2m ago</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-7 h-7 bg-white/15 rounded-full shrink-0 flex items-center justify-center text-[10px]">MR</div>
+                                    <p class="text-xs text-textMuted grow">Marco opened PR #347 for checkout fix</p>
+                                    <span class="shrink-0 text-[10px] font-mono text-textMuted">1h ago</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-7 h-7 bg-white/15 rounded-full shrink-0 flex items-center justify-center text-[10px]">SL</div>
+                                    <p class="text-xs text-textMuted grow">Sarah updated docs for API v3</p>
+                                    <span class="shrink-0 text-[10px] font-mono text-textMuted">4h ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code breakdown -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl overflow-hidden">
+                <div class="px-5 py-3 border-b border-borderSlate">
+                    <span class="text-sm font-semibold">📋 Dashboard Code Breakdown</span>
+                </div>
+                <div class="p-5 space-y-4">
+                    <pre class="font-mono text-xs text-textMuted bg-white/[0.02] rounded-lg p-4 overflow-x-auto"><code><span class="text-white/50">&lt;!-- 1. HEADER: brand left, profile right --&gt;</span>
+&lt;header class="<span class="text-white">flex items-center justify-between</span>"&gt;
+  &lt;div class="<span class="text-white">flex items-center gap-3 shrink-0</span>"&gt;Logo + Brand&lt;/div&gt;
+  &lt;div class="<span class="text-white">flex items-center gap-3 shrink-0</span>"&gt;Email + Avatar&lt;/div&gt;
+&lt;/header&gt;
+
+<span class="text-white/50">&lt;!-- Raw CSS: display:flex; align-items:center; justify-content:space-between --&gt;</span>
+
+
+<span class="text-white/50">&lt;!-- 2. CARD GRID: 3 cards wrapping with gap --&gt;</span>
+&lt;div class="<span class="text-white">flex flex-wrap gap-4</span>"&gt;
+  &lt;div class="<span class="text-white">flex-1 min-w-[250px] flex flex-col gap-3 justify-between</span>"&gt;
+    ...card content...
+  &lt;/div&gt;
+&lt;/div&gt;
+
+<span class="text-white/50">&lt;!-- Raw CSS: display:flex; flex-wrap:wrap; gap:16px
+     Each card: flex:1; min-width:250px; display:flex;
+     flex-direction:column; gap:12px; justify-content:space-between --&gt;</span>
+
+
+<span class="text-white/50">&lt;!-- 3. BADGES with self-start / self-end --&gt;</span>
+&lt;span class="<span class="text-white">self-start</span>"&gt;Active&lt;/span&gt;  <span class="text-white/50">&lt;!-- align-self:flex-start --&gt;</span>
+&lt;span class="<span class="text-white">self-end</span>"&gt;Review&lt;/span&gt;    <span class="text-white/50">&lt;!-- align-self:flex-end --&gt;</span>
+
+
+<span class="text-white/50">&lt;!-- 4. AVATAR protected with shrink-0 --&gt;</span>
+&lt;div class="<span class="text-white">w-7 h-7 rounded-full shrink-0</span>"&gt;AK&lt;/div&gt;
+
+<span class="text-white/50">&lt;!-- Raw CSS: width:28px; height:28px; border-radius:50%; flex-shrink:0 --&gt;</span>
+
+
+<span class="text-white/50">&lt;!-- 5. ACTIVITY ROW: avatar fixed, text grows, timestamp fixed --&gt;</span>
+&lt;div class="<span class="text-white">flex items-center gap-3</span>"&gt;
+  &lt;div class="<span class="text-white">shrink-0</span>"&gt;Avatar&lt;/div&gt;
+  &lt;p class="<span class="text-white">grow</span>"&gt;Description text&lt;/p&gt;
+  &lt;span class="<span class="text-white">shrink-0</span>"&gt;2m ago&lt;/span&gt;
+&lt;/div&gt;
+
+<span class="text-white/50">&lt;!-- Raw CSS: display:flex; align-items:center; gap:12px;
+     .avatar { flex-shrink:0 }  .text { flex-grow:1 }  .time { flex-shrink:0 } --&gt;</span></code></pre>
+                </div>
+            </div>
+
+            <!-- Cheat sheet -->
+            <div class="bg-cardBg border border-borderSlate rounded-xl p-5 space-y-4">
+                <h3 class="text-sm font-semibold">🧠 Patterns Used in This Dashboard</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="bg-white/[0.03] border border-white/5 rounded-lg p-3 space-y-1">
+                        <span class="font-mono text-white/80">flex items-center justify-between</span>
+                        <p class="text-textMuted">Header — push items to opposite edges</p>
+                    </div>
+                    <div class="bg-white/[0.03] border border-white/5 rounded-lg p-3 space-y-1">
+                        <span class="font-mono text-white/80">flex flex-wrap gap-4</span>
+                        <p class="text-textMuted">Card grid — responsive wrapping layout</p>
+                    </div>
+                    <div class="bg-white/[0.03] border border-white/5 rounded-lg p-3 space-y-1">
+                        <span class="font-mono text-white/80">flex flex-col gap-3 justify-between</span>
+                        <p class="text-textMuted">Card internals — stacked with footer pushed down</p>
+                    </div>
+                    <div class="bg-white/[0.03] border border-white/5 rounded-lg p-3 space-y-1">
+                        <span class="font-mono text-white/80">shrink-0</span>
+                        <p class="text-textMuted">Protect fixed-size elements (avatars, icons)</p>
+                    </div>
+                    <div class="bg-white/[0.03] border border-white/5 rounded-lg p-3 space-y-1">
+                        <span class="font-mono text-white/80">grow</span>
+                        <p class="text-textMuted">Fill remaining space (descriptions, search bars)</p>
+                    </div>
+                    <div class="bg-white/[0.03] border border-white/5 rounded-lg p-3 space-y-1">
+                        <span class="font-mono text-white/80">self-start / self-end</span>
+                        <p class="text-textMuted">Position badges independently within cards</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="border-t border-borderSlate pt-8 pb-12 space-y-3">
+            <div class="flex items-center justify-between">
+                <span class="text-xs text-textMuted font-mono">Tutorial 02 — Tailwind Flexbox Mastery</span>
+                <span class="text-xs text-textMuted font-mono">CSS ➜ Tailwind Series</span>
+            </div>
+            <p class="text-xs text-textMuted/60">You now know every Flexbox utility in Tailwind. The next step: responsive design with breakpoint prefixes.</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>

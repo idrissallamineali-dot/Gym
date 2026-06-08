@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03 — Conditionals & Logic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+        .container { max-width: 820px; margin: 0 auto; }
+        .doc-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; margin-bottom: 48px; }
+        .doc-nav span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #5e6e8a; }
+        .doc-nav a { color: #58a6ff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 8px 18px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 10px; transition: 0.2s; }
+        .doc-nav a:hover { background: rgba(88,166,255,0.15); }
+        h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+        h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+        h2 .num { color: #58a6ff; }
+        h3 { font-size: 19px; font-weight: 600; color: #e2e8f0; margin-top: 36px; margin-bottom: 12px; }
+        h4 { font-size: 16px; font-weight: 600; color: #d0d8e4; margin-top: 28px; margin-bottom: 10px; }
+        p { margin-bottom: 18px; color: #b0bac9; }
+        strong { color: #e2e8f0; }
+        em { color: #93aac9; font-style: italic; }
+        code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+        pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 16px 0 24px 0; overflow-x: auto; position: relative; }
+        pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+        .code-label { position: absolute; top: 10px; right: 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #3d4f6f; }
+        .kw { color: #ff7b72; } .str { color: #a5d6ff; } .fn { color: #d2a8ff; } .cm { color: #5e6e8a; font-style: italic; } .num-lit { color: #79c0ff; } .bool { color: #ff7b72; }
+        table { width: 100%; border-collapse: collapse; margin: 18px 0 28px 0; }
+        th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5e6e8a; padding: 12px 18px; border-bottom: 2px solid #1e2d4a; }
+        td { padding: 14px 18px; border-bottom: 1px solid #141a2e; font-size: 15px; }
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(88,166,255,0.03); }
+        .callout { border-left: 4px solid; border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 22px 0; font-size: 14.5px; }
+        .callout-blue { background: rgba(88,166,255,0.06); border-color: #58a6ff; }
+        .callout-amber { background: rgba(245,158,11,0.06); border-color: #f59e0b; }
+        .callout-green { background: rgba(16,185,129,0.06); border-color: #10b981; }
+        .callout-red { background: rgba(248,81,73,0.06); border-color: #f85149; }
+        .callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-blue strong { color: #58a6ff; } .callout-amber strong { color: #f59e0b; } .callout-green strong { color: #10b981; } .callout-red strong { color: #f85149; }
+        hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+        ul, ol { margin: 12px 0 20px 24px; color: #b0bac9; }
+        li { margin-bottom: 8px; }
+        .flow-diagram { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 24px; margin: 20px 0 28px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; color: #8b949e; white-space: pre; overflow-x: auto; }
+        .fd-yes { color: #10b981; font-weight: 700; } .fd-no { color: #f85149; font-weight: 700; } .fd-box { color: #58a6ff; } .fd-action { color: #d2a8ff; }
+        .bottom-nav { margin-top: 64px; display: flex; justify-content: space-between; gap: 16px; }
+        .bottom-nav a { flex: 1; padding: 20px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; text-decoration: none; transition: 0.2s; }
+        .bottom-nav a:hover { border-color: #58a6ff; }
+        .bottom-nav .label { font-size: 12px; color: #5e6e8a; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+        .bottom-nav .title { font-size: 16px; font-weight: 600; color: #58a6ff; }
+        .bottom-nav .prev { text-align: left; } .bottom-nav .next { text-align: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <nav class="doc-nav">
+            <span>JS Fundamentals</span>
+            <a href="02-variables-and-data-types.html">← Prev</a>
+            <span>Lesson 03</span>
+        </nav>
+
+        <h1>03 — Conditionals & Logic</h1>
+        <p class="subtitle">How to make your program think, decide, and take different paths. This is the brain of every application.</p>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">1.</span> What Are Conditionals?</h2>
+
+        <p>A conditional is a <strong>decision point</strong> in your code. The program evaluates a <strong>condition</strong> (an expression that resolves to <code>true</code> or <code>false</code>) and then executes different blocks of code depending on the result.</p>
+
+        <p>Without conditionals, your code would execute the same instructions every time, regardless of the situation. Conditionals give your program <strong>intelligence</strong>.</p>
+
+        <div class="flow-diagram"><span class="fd-box">[ Start ]</span>
+    │
+    ▼
+<span class="fd-box">[ Is the condition true? ]</span>
+    │               │
+  <span class="fd-yes">YES</span>             <span class="fd-no">NO</span>
+    │               │
+    ▼               ▼
+<span class="fd-action">[ Do this ]</span>     <span class="fd-action">[ Do that ]</span>
+    │               │
+    └───────┬───────┘
+            ▼
+    <span class="fd-box">[ Continue ]</span></div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">2.</span> Comparison Operators</h2>
+
+        <p>Before we write conditions, we need the tools that <strong>produce</strong> <code>true</code> or <code>false</code>. These are the comparison operators:</p>
+
+        <table>
+            <thead>
+                <tr><th>Operator</th><th>Meaning</th><th>Example</th><th>Result</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>===</code></td><td>Strict equal (value AND type)</td><td><code>5 === 5</code></td><td><code>true</code></td></tr>
+                <tr><td><code>!==</code></td><td>Strict not equal</td><td><code>5 !== "5"</code></td><td><code>true</code></td></tr>
+                <tr><td><code>></code></td><td>Greater than</td><td><code>10 > 5</code></td><td><code>true</code></td></tr>
+                <tr><td><code><</code></td><td>Less than</td><td><code>3 < 7</code></td><td><code>true</code></td></tr>
+                <tr><td><code>>=</code></td><td>Greater than or equal</td><td><code>5 >= 5</code></td><td><code>true</code></td></tr>
+                <tr><td><code><=</code></td><td>Less than or equal</td><td><code>4 <= 3</code></td><td><code>false</code></td></tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-red">
+            <strong>Reminder from Lesson 02</strong>
+            Always use <code>===</code> and <code>!==</code> (strict). Never use <code>==</code> and <code>!=</code> (loose) — they perform type coercion and produce unexpected results.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">3.</span> <code>if</code>, <code>else if</code>, <code>else</code></h2>
+
+        <p>This is the most fundamental conditional structure in all programming.</p>
+
+        <h3>3.1 — <code>if</code> (Single Branch)</h3>
+
+        <p>Execute a block of code <strong>only if</strong> the condition is true. If false, skip it entirely.</p>
+
+        <pre><code><span class="kw">let</span> temperature = <span class="num-lit">35</span>;
+
+<span class="kw">if</span> (temperature > <span class="num-lit">30</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"It's hot outside!"</span>);
+}
+<span class="cm">// This runs only when temperature is above 30</span></code></pre>
+
+        <h3>3.2 — <code>if...else</code> (Two Branches)</h3>
+
+        <p>Do one thing if true, a <strong>different</strong> thing if false.</p>
+
+        <pre><code><span class="kw">let</span> age = <span class="num-lit">16</span>;
+
+<span class="kw">if</span> (age >= <span class="num-lit">18</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"You can vote."</span>);
+} <span class="kw">else</span> {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"You cannot vote yet."</span>);
+}</code></pre>
+
+        <h3>3.3 — <code>if...else if...else</code> (Multiple Branches)</h3>
+
+        <p>When you have <strong>more than two possible outcomes</strong>, chain <code>else if</code> blocks. The engine evaluates them <strong>top to bottom</strong> and stops at the <strong>first one that is true</strong>.</p>
+
+        <pre><code><span class="kw">let</span> score = <span class="num-lit">73</span>;
+
+<span class="kw">if</span> (score >= <span class="num-lit">90</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Grade: A"</span>);
+} <span class="kw">else if</span> (score >= <span class="num-lit">80</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Grade: B"</span>);
+} <span class="kw">else if</span> (score >= <span class="num-lit">70</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Grade: C"</span>);       <span class="cm">// ← This one runs (73 >= 70 is true)</span>
+} <span class="kw">else if</span> (score >= <span class="num-lit">60</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Grade: D"</span>);       <span class="cm">// ← Skipped even though 73 >= 60 is also true</span>
+} <span class="kw">else</span> {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Grade: F"</span>);
+}</code></pre>
+
+        <div class="callout callout-amber">
+            <strong>Critical: Order matters</strong>
+            The engine stops at the <strong>first</strong> <code>true</code> branch and ignores the rest. If you put the most general condition first (like <code>score >= 60</code>), it would catch everything and the more specific conditions below it would never run. Always order from <strong>most specific to least specific</strong>.
+        </div>
+
+        <h3>3.4 — Nested <code>if</code> Statements</h3>
+
+        <p>You can put an <code>if</code> inside another <code>if</code>. This is called <strong>nesting</strong>.</p>
+
+        <pre><code><span class="kw">let</span> isLoggedIn = <span class="bool">true</span>;
+<span class="kw">let</span> isAdmin = <span class="bool">false</span>;
+
+<span class="kw">if</span> (isLoggedIn) {
+    <span class="kw">if</span> (isAdmin) {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Welcome, Admin!"</span>);
+    } <span class="kw">else</span> {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Welcome, User!"</span>);
+    }
+} <span class="kw">else</span> {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Please log in."</span>);
+}</code></pre>
+
+        <div class="callout callout-blue">
+            <strong>Avoid deep nesting</strong>
+            Deeply nested <code>if</code> statements become hard to read quickly. Professional developers flatten them using <strong>guard clauses</strong> (covered in Section 8 of this lesson). As a rule, try to avoid going more than 2 levels deep.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">4.</span> Logical Operators</h2>
+
+        <p>Logical operators let you <strong>combine multiple conditions</strong> into one expression. There are three:</p>
+
+        <table>
+            <thead>
+                <tr><th>Operator</th><th>Name</th><th>Meaning</th><th>Example</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>&&</code></td><td>AND</td><td>Both sides must be true</td><td><code>age > 18 && hasID</code></td></tr>
+                <tr><td><code>||</code></td><td>OR</td><td>At least one side must be true</td><td><code>isAdmin || isModerator</code></td></tr>
+                <tr><td><code>!</code></td><td>NOT</td><td>Flips true to false, false to true</td><td><code>!isLoggedIn</code></td></tr>
+            </tbody>
+        </table>
+
+        <h3>4.1 — AND (<code>&&</code>)</h3>
+
+        <p>Returns <code>true</code> <strong>only if both</strong> conditions are true.</p>
+
+        <pre><code><span class="kw">let</span> age = <span class="num-lit">25</span>;
+<span class="kw">let</span> hasLicense = <span class="bool">true</span>;
+
+<span class="kw">if</span> (age >= <span class="num-lit">18</span> && hasLicense) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"You can drive."</span>);
+}
+
+<span class="cm">// Truth table for AND:</span>
+<span class="cm">// true  && true  → true</span>
+<span class="cm">// true  && false → false</span>
+<span class="cm">// false && true  → false</span>
+<span class="cm">// false && false → false</span></code></pre>
+
+        <h3>4.2 — OR (<code>||</code>)</h3>
+
+        <p>Returns <code>true</code> if <strong>at least one</strong> condition is true.</p>
+
+        <pre><code><span class="kw">let</span> isAdmin = <span class="bool">false</span>;
+<span class="kw">let</span> isModerator = <span class="bool">true</span>;
+
+<span class="kw">if</span> (isAdmin || isModerator) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"You have elevated permissions."</span>);
+}
+
+<span class="cm">// Truth table for OR:</span>
+<span class="cm">// true  || true  → true</span>
+<span class="cm">// true  || false → true</span>
+<span class="cm">// false || true  → true</span>
+<span class="cm">// false || false → false</span></code></pre>
+
+        <h3>4.3 — NOT (<code>!</code>)</h3>
+
+        <p>Flips a boolean to its opposite.</p>
+
+        <pre><code><span class="kw">let</span> isOnline = <span class="bool">false</span>;
+
+<span class="kw">if</span> (!isOnline) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"User is offline."</span>);  <span class="cm">// This runs — !false is true</span>
+}
+
+<span class="cm">// Double NOT (!!) converts any value to its boolean equivalent:</span>
+!!<span class="str">"hello"</span>;   <span class="cm">// true  (non-empty string is truthy)</span>
+!!<span class="num-lit">0</span>;         <span class="cm">// false (0 is falsy)</span>
+!!<span class="bool">null</span>;      <span class="cm">// false</span>
+!![];        <span class="cm">// true  (empty array is truthy — remember from Lesson 02)</span></code></pre>
+
+        <h3>4.4 — Combining Operators (Operator Precedence)</h3>
+
+        <p>When you mix <code>&&</code> and <code>||</code> in the same expression, <code>&&</code> has <strong>higher precedence</strong> — it is evaluated first, just like multiplication before addition in math.</p>
+
+        <pre><code><span class="kw">let</span> a = <span class="bool">true</span>, b = <span class="bool">false</span>, c = <span class="bool">true</span>;
+
+<span class="cm">// This:</span>
+a || b && c;
+<span class="cm">// Is evaluated as:</span>
+a || (b && c);    <span class="cm">// true || (false && true) → true || false → true</span>
+
+<span class="cm">// NOT as:</span>
+(a || b) && c;    <span class="cm">// (true || false) && true → true && true → true</span>
+
+<span class="cm">// To avoid confusion, ALWAYS use parentheses to make your intent explicit:</span>
+<span class="kw">if</span> ((age >= <span class="num-lit">18</span> && hasID) || isVIP) { ... }</code></pre>
+
+        <div class="callout callout-green">
+            <strong>Pro rule</strong>
+            When in doubt, add parentheses <code>( )</code>. They cost nothing and make your code crystal clear to anyone reading it.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">5.</span> Short-Circuit Evaluation</h2>
+
+        <p>This is an <strong>advanced but essential</strong> concept. The logical operators <code>&&</code> and <code>||</code> do not just return <code>true</code> or <code>false</code> — they return the <strong>actual value</strong> that determined the outcome, and they <strong>stop evaluating as soon as the result is known</strong>.</p>
+
+        <h3>5.1 — <code>||</code> Short-Circuit (Returns the First Truthy Value)</h3>
+
+        <p>The <code>||</code> operator evaluates left to right. It returns the <strong>first truthy value</strong> it finds, or the last value if none are truthy.</p>
+
+        <pre><code><span class="kw">let</span> username = <span class="str">""</span>;
+<span class="kw">let</span> displayName = username || <span class="str">"Anonymous"</span>;
+<span class="cm">// "" is falsy, so || moves to the right side</span>
+<span class="cm">// displayName = "Anonymous"</span>
+
+<span class="kw">let</span> username2 = <span class="str">"Idris"</span>;
+<span class="kw">let</span> displayName2 = username2 || <span class="str">"Anonymous"</span>;
+<span class="cm">// "Idris" is truthy, so || stops immediately</span>
+<span class="cm">// displayName2 = "Idris"</span></code></pre>
+
+        <p>This is a very common pattern for providing <strong>default values</strong>.</p>
+
+        <h3>5.2 — <code>&&</code> Short-Circuit (Returns the First Falsy Value)</h3>
+
+        <p>The <code>&&</code> operator returns the <strong>first falsy value</strong> it finds, or the last value if all are truthy.</p>
+
+        <pre><code><span class="kw">let</span> user = { name: <span class="str">"Idris"</span> };
+<span class="kw">let</span> greeting = user && user.name && <span class="str">`Hello, ${user.name}`</span>;
+<span class="cm">// user is truthy → continue</span>
+<span class="cm">// user.name is truthy → continue</span>
+<span class="cm">// returns "Hello, Idris"</span>
+
+<span class="kw">let</span> noUser = <span class="bool">null</span>;
+<span class="kw">let</span> greeting2 = noUser && noUser.name;
+<span class="cm">// null is falsy → stops immediately, returns null</span>
+<span class="cm">// noUser.name is NEVER accessed (no error!)</span></code></pre>
+
+        <div class="callout callout-amber">
+            <strong>Watch out with || and the value 0</strong>
+            Because <code>0</code> is falsy, using <code>||</code> for defaults can cause bugs when <code>0</code> is a valid value:
+            <br><br>
+            <code>let count = 0; let result = count || 10;</code> → <code>result</code> is <code>10</code>, not <code>0</code>!
+            <br><br>
+            This is why <code>??</code> (Nullish Coalescing) was invented — see Section 7.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">6.</span> The Ternary Operator</h2>
+
+        <p>The ternary operator is a <strong>one-line shorthand</strong> for a simple <code>if...else</code>. It is the only operator in JavaScript that takes three operands.</p>
+
+        <pre><code><span class="cm">// Syntax: condition ? valueIfTrue : valueIfFalse</span>
+
+<span class="kw">let</span> age = <span class="num-lit">20</span>;
+<span class="kw">let</span> status = age >= <span class="num-lit">18</span> ? <span class="str">"Adult"</span> : <span class="str">"Minor"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(status);  <span class="cm">// "Adult"</span></code></pre>
+
+        <p>This is equivalent to:</p>
+
+        <pre><code><span class="kw">let</span> status;
+<span class="kw">if</span> (age >= <span class="num-lit">18</span>) {
+    status = <span class="str">"Adult"</span>;
+} <span class="kw">else</span> {
+    status = <span class="str">"Minor"</span>;
+}</code></pre>
+
+        <h4>You can nest ternaries (but be careful):</h4>
+
+        <pre><code><span class="kw">let</span> score = <span class="num-lit">85</span>;
+<span class="kw">let</span> grade = score >= <span class="num-lit">90</span> ? <span class="str">"A"</span>
+          : score >= <span class="num-lit">80</span> ? <span class="str">"B"</span>
+          : score >= <span class="num-lit">70</span> ? <span class="str">"C"</span>
+          : <span class="str">"F"</span>;
+
+<span class="fn">console</span>.<span class="fn">log</span>(grade);  <span class="cm">// "B"</span></code></pre>
+
+        <div class="callout callout-blue">
+            <strong>When to use the ternary</strong>
+            Use it for <strong>simple, single-value assignments</strong>. If the logic involves multiple statements, side effects, or complex conditions, use a regular <code>if...else</code> — readability matters more than brevity.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">7.</span> Nullish Coalescing (<code>??</code>) and Optional Chaining (<code>?.</code>)</h2>
+
+        <p>These two ES2020 operators solve real problems that <code>||</code> and <code>&&</code> could not handle cleanly.</p>
+
+        <h3>7.1 — Nullish Coalescing (<code>??</code>)</h3>
+
+        <p>The <code>??</code> operator returns the right-hand value <strong>only if</strong> the left-hand value is <code>null</code> or <code>undefined</code>. It does NOT treat <code>0</code>, <code>""</code>, or <code>false</code> as "missing."</p>
+
+        <pre><code><span class="cm">// Problem with ||:</span>
+<span class="kw">let</span> count = <span class="num-lit">0</span>;
+<span class="kw">let</span> result = count || <span class="num-lit">10</span>;   <span class="cm">// 10 ← WRONG! 0 is a valid count</span>
+
+<span class="cm">// Solution with ??:</span>
+<span class="kw">let</span> result2 = count ?? <span class="num-lit">10</span>;  <span class="cm">// 0 ← CORRECT! 0 is not null/undefined</span>
+
+<span class="cm">// Only null and undefined trigger the fallback:</span>
+<span class="bool">null</span> ?? <span class="str">"default"</span>;       <span class="cm">// "default"</span>
+<span class="bool">undefined</span> ?? <span class="str">"default"</span>;  <span class="cm">// "default"</span>
+<span class="num-lit">0</span> ?? <span class="str">"default"</span>;           <span class="cm">// 0</span>
+<span class="str">""</span> ?? <span class="str">"default"</span>;          <span class="cm">// ""</span>
+<span class="bool">false</span> ?? <span class="str">"default"</span>;      <span class="cm">// false</span></code></pre>
+
+        <h3>7.2 — Optional Chaining (<code>?.</code>)</h3>
+
+        <p>When accessing properties on an object that might be <code>null</code> or <code>undefined</code>, you would normally crash with a TypeError. Optional chaining <strong>safely returns <code>undefined</code></strong> instead of throwing an error.</p>
+
+        <pre><code><span class="kw">let</span> user = {
+    name: <span class="str">"Idris"</span>,
+    address: {
+        city: <span class="str">"Paris"</span>
+    }
+};
+
+<span class="cm">// Safe access — works fine:</span>
+user?.address?.city;       <span class="cm">// "Paris"</span>
+
+<span class="cm">// Safe access — property doesn't exist:</span>
+user?.phone?.number;       <span class="cm">// undefined (no crash!)</span>
+
+<span class="cm">// Without optional chaining, this would crash:</span>
+<span class="cm">// user.phone.number → TypeError: Cannot read properties of undefined</span>
+
+<span class="cm">// Works with methods too:</span>
+user.greet?.();            <span class="cm">// undefined (greet doesn't exist, but no error)</span>
+
+<span class="cm">// Works with arrays:</span>
+<span class="kw">let</span> arr = <span class="bool">null</span>;
+arr?.[<span class="num-lit">0</span>];                  <span class="cm">// undefined (no crash)</span></code></pre>
+
+        <div class="callout callout-green">
+            <strong>Combine them for maximum safety</strong>
+            <code>let city = user?.address?.city ?? "Unknown";</code>
+            <br>This safely accesses the nested property and provides a fallback if any part of the chain is missing.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">8.</span> The <code>switch</code> Statement</h2>
+
+        <p>When you are comparing <strong>one variable against many specific values</strong>, a <code>switch</code> is cleaner than a long chain of <code>else if</code>.</p>
+
+        <pre><code><span class="kw">let</span> day = <span class="str">"Monday"</span>;
+
+<span class="kw">switch</span> (day) {
+    <span class="kw">case</span> <span class="str">"Monday"</span>:
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Start of the work week."</span>);
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="str">"Friday"</span>:
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Almost weekend!"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="str">"Saturday"</span>:
+    <span class="kw">case</span> <span class="str">"Sunday"</span>:
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Weekend!"</span>);   <span class="cm">// ← Multiple cases can share one block</span>
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Regular day."</span>);
+}</code></pre>
+
+        <div class="callout callout-red">
+            <strong>Never forget the break!</strong>
+            Without <code>break</code>, the engine will <strong>fall through</strong> and execute every case below the matched one, regardless of whether they match. This is one of the most common bugs in JavaScript.
+        </div>
+
+        <pre><code><span class="cm">// FALL-THROUGH BUG:</span>
+<span class="kw">let</span> fruit = <span class="str">"apple"</span>;
+
+<span class="kw">switch</span> (fruit) {
+    <span class="kw">case</span> <span class="str">"apple"</span>:
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Apple!"</span>);   <span class="cm">// ← This runs</span>
+        <span class="cm">// NO BREAK HERE!</span>
+    <span class="kw">case</span> <span class="str">"banana"</span>:
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Banana!"</span>);  <span class="cm">// ← This ALSO runs (fall-through!)</span>
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Other"</span>);
+}
+<span class="cm">// Output: "Apple!" and "Banana!" — almost certainly a bug</span></code></pre>
+
+        <p><strong>When to use <code>switch</code> vs <code>if...else</code>:</strong></p>
+        <ul>
+            <li>Use <code>switch</code> when comparing <strong>one value</strong> against multiple <strong>exact matches</strong>.</li>
+            <li>Use <code>if...else</code> when conditions involve <strong>ranges</strong>, <strong>complex logic</strong>, or <strong>different variables</strong>.</li>
+        </ul>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">9.</span> Guard Clauses (Early Returns)</h2>
+
+        <p>A <strong>guard clause</strong> is a pattern where you handle the "wrong" or "edge" cases first and <strong>return early</strong>, so the main logic of your function stays flat and readable instead of being deeply nested.</p>
+
+        <h3>Without guard clauses (deeply nested — hard to read):</h3>
+
+        <pre><code><span class="kw">function</span> <span class="fn">processOrder</span>(user, item) {
+    <span class="kw">if</span> (user) {
+        <span class="kw">if</span> (user.isVerified) {
+            <span class="kw">if</span> (item.inStock) {
+                <span class="kw">if</span> (user.balance >= item.price) {
+                    <span class="cm">// Finally, the actual logic buried 4 levels deep!</span>
+                    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Order placed!"</span>);
+                }
+            }
+        }
+    }
+}</code></pre>
+
+        <h3>With guard clauses (flat and clean — professional standard):</h3>
+
+        <pre><code><span class="kw">function</span> <span class="fn">processOrder</span>(user, item) {
+    <span class="kw">if</span> (!user) <span class="kw">return</span> <span class="str">"No user provided."</span>;
+    <span class="kw">if</span> (!user.isVerified) <span class="kw">return</span> <span class="str">"User is not verified."</span>;
+    <span class="kw">if</span> (!item.inStock) <span class="kw">return</span> <span class="str">"Item is out of stock."</span>;
+    <span class="kw">if</span> (user.balance < item.price) <span class="kw">return</span> <span class="str">"Insufficient balance."</span>;
+
+    <span class="cm">// Main logic — clean and clear, no nesting</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Order placed!"</span>);
+}</code></pre>
+
+        <div class="callout callout-green">
+            <strong>This is how professionals write code</strong>
+            Guard clauses eliminate "pyramid of doom" nesting. They make your code scannable — any reader can immediately see all the failure conditions at the top, and the happy path at the bottom. Adopt this pattern from day one.
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================================ -->
+        <h2><span class="num">10.</span> Key Vocabulary Summary</h2>
+
+        <table>
+            <thead>
+                <tr><th>Term</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Condition</strong></td><td>An expression that evaluates to <code>true</code> or <code>false</code></td></tr>
+                <tr><td><strong>Branch</strong></td><td>A path of execution chosen based on a condition</td></tr>
+                <tr><td><strong>Comparison Operator</strong></td><td>Operators that produce booleans (<code>===</code>, <code>!==</code>, <code>></code>, <code><</code>, etc.)</td></tr>
+                <tr><td><strong>Logical Operator</strong></td><td><code>&&</code> (AND), <code>||</code> (OR), <code>!</code> (NOT)</td></tr>
+                <tr><td><strong>Short-Circuit</strong></td><td>The engine stops evaluating an expression as soon as the result is determined</td></tr>
+                <tr><td><strong>Ternary</strong></td><td>A one-line conditional: <code>condition ? ifTrue : ifFalse</code></td></tr>
+                <tr><td><strong>Nullish Coalescing (<code>??</code>)</strong></td><td>Returns the right side only if the left is <code>null</code> or <code>undefined</code></td></tr>
+                <tr><td><strong>Optional Chaining (<code>?.</code>)</strong></td><td>Safely access nested properties without crashing on <code>null</code>/<code>undefined</code></td></tr>
+                <tr><td><strong>Fall-through</strong></td><td>A <code>switch</code> bug where execution continues into the next case without <code>break</code></td></tr>
+                <tr><td><strong>Guard Clause</strong></td><td>An early return that handles edge cases first, keeping the main logic flat</td></tr>
+                <tr><td><strong>Operator Precedence</strong></td><td>The order in which operators are evaluated (<code>&&</code> before <code>||</code>)</td></tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="bottom-nav">
+            <a href="02-variables-and-data-types.html" class="prev">
+                <span class="label">← Previous</span>
+                <span class="title">02 — Variables & Data Types</span>
+            </a>
+            <a href="04-loops.html" class="next">
+                <span class="label">Next →</span>
+                <span class="title">04 — Loops</span>
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

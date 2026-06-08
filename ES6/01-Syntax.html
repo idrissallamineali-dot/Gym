@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: ES6 Syntax — The Complete Masterclass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16.5px;padding:60px 20px}
+        .container{max-width:900px;margin:0 auto}
+        h1{font-size:46px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+        .lesson-num{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#f59e0b;margin-bottom:8px}
+        .subtitle{font-size:19px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:32px;line-height:1.7}
+        .section-title{font-size:32px;font-weight:800;color:#f0f6fc;margin-top:90px;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #1e2d4a;display:flex;align-items:center;gap:16px}
+        .section-num{background:#1e2d4a;color:#7dd3fc;font-size:16px;padding:6px 14px;border-radius:10px;font-weight:700;white-space:nowrap}
+        h3{font-size:24px;font-weight:700;color:#e2e8f0;margin-top:44px;margin-bottom:16px;border-left:4px solid #f59e0b;padding-left:14px}
+        h4{font-size:19px;font-weight:600;color:#c9d1d9;margin-top:28px;margin-bottom:12px}
+        p{margin-bottom:20px;color:#b0bac9}
+        strong{color:#e2e8f0}
+        code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 7px;border-radius:5px;font-size:14.5px}
+        pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:20px 0 32px;overflow-x:auto}
+        pre code{background:none;padding:0;font-size:14.5px;line-height:1.7;color:#c9d1d9}
+        .kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.cm{color:#5e6e8a;font-style:italic}.num{color:#79c0ff}.bool{color:#ff7b72}
+        ul,ol{margin:12px 0 24px 24px;color:#b0bac9}li{margin-bottom:10px}li strong{color:#e2e8f0}
+        .co{border-radius:12px;padding:24px;margin:32px 0;font-size:15.5px;line-height:1.7;border:1px solid rgba(255,255,255,0.05)}
+        .co-r{background:rgba(248,81,73,.04);border-left:4px solid #f85149}.co-r strong{color:#f85149}
+        .co-g{background:rgba(16,185,129,.04);border-left:4px solid #10b981}.co-g strong{color:#10b981}
+        .co-p{background:rgba(139,92,246,.04);border-left:4px solid #a78bfa}.co-p strong{color:#a78bfa}
+        .co-y{background:rgba(245,158,11,.04);border-left:4px solid #f59e0b}.co-y strong{color:#f59e0b}
+        .co-b{background:rgba(88,166,255,.04);border-left:4px solid #58a6ff}.co-b strong{color:#58a6ff}
+        .dg{background:#0d1117;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:24px 0;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.6;color:#8b949e;white-space:pre;overflow-x:auto}
+        .dg .hi{color:#58a6ff;font-weight:700}.dg .gr{color:#10b981}.dg .yl{color:#f59e0b}.dg .rd{color:#f85149}.dg .pr{color:#a78bfa}.dg .wh{color:#f0f6fc}
+        table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14.5px}
+        th{background:#161b2e;color:#f59e0b;text-align:left;padding:14px 18px;font-weight:600;border:1px solid #1e2d4a}
+        td{padding:14px 18px;border:1px solid #1e2d4a;color:#b0bac9}tr:nth-child(even) td{background:rgba(22,27,46,.5)}
+        .q{background:#161b2e;border:1px solid #1e2d4a;border-radius:14px;padding:32px;margin:44px 0;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+        .q-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+        .q-num{background:#f85149;color:#fff;font-size:14px;font-weight:700;padding:6px 14px;border-radius:8px;text-transform:uppercase;letter-spacing:1px}
+        .q h4{font-size:20px;font-weight:700;color:#f0f6fc;margin:0;border:none;padding:0}
+        .sol-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);color:#10b981;font-size:14px;font-weight:600;padding:10px 20px;border-radius:8px;cursor:pointer;transition:.2s;margin-top:12px}
+        .sol-btn:hover{background:rgba(16,185,129,.15)}
+        .sol{display:none;margin-top:20px;padding:20px 24px;background:rgba(16,185,129,.04);border-left:3px solid #10b981;border-radius:0 10px 10px 0}
+        .sol.show{display:block}
+        .sol-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#10b981;margin-bottom:12px}
+        hr{border:none;border-top:1px solid #1e2d4a;margin:48px 0}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <p class="lesson-num">Full Masterclass</p>
+    <h1>ES6 Syntax: The Complete Deep Dive</h1>
+    <p class="subtitle">Every concept explained with mental models, memory diagrams, edge cases, tricky interview patterns, and real-world usage. This is the only document you need on ES6 Syntax.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.1</span> Harmony, ES6, ES2015...</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>JavaScript vs. ECMAScript</h3>
+    <p><strong>ECMAScript</strong> is the <em>specification</em> — a document that describes how the language should behave. It is maintained by a committee called <strong>TC39</strong> (Technical Committee 39). <strong>JavaScript</strong> is the <em>implementation</em> of that specification. Browser engines (Chrome's V8, Firefox's SpiderMonkey, Safari's JavaScriptCore) each write their own implementation based on the ECMAScript spec.</p>
+
+    <div class="co co-b">
+        <strong>🧠 Mental Model</strong><br>
+        ECMAScript = the recipe book.<br>
+        JavaScript = the actual dish that the chef (the browser engine) cooks from that recipe.
+    </div>
+
+    <h3>The Timeline</h3>
+    <table>
+        <tr><th>Year</th><th>Version</th><th>What Happened</th></tr>
+        <tr><td>1997</td><td>ES1</td><td>JavaScript is born and standardized.</td></tr>
+        <tr><td>1999</td><td>ES3</td><td>Regular expressions, try/catch, switch.</td></tr>
+        <tr><td>2009</td><td>ES5</td><td>strict mode, JSON, Array methods (forEach, map, filter, reduce).</td></tr>
+        <tr><td>2015</td><td><strong>ES6 / ES2015</strong></td><td>MASSIVE update: let/const, arrows, classes, modules, promises, destructuring, spread/rest, for...of, template literals, symbols, iterators, generators, Map, Set, WeakMap, WeakSet, Proxy, Reflect.</td></tr>
+        <tr><td>2016+</td><td>ES2016, ES2017...</td><td>Small yearly updates (async/await, Object.entries, optional chaining, nullish coalescing...).</td></tr>
+    </table>
+
+    <h3>Why Was ES6 So Important?</h3>
+    <p>Between ES5 (2009) and ES6 (2015), JavaScript exploded in popularity. Node.js was born. Single-page applications (SPAs) became the norm. Developers were building massive applications with a language that was never designed for it. ES6 was a <strong>6-year effort</strong> to modernize JavaScript into a language capable of scaling to enterprise-level codebases.</p>
+
+    <p>During those 6 years of development, the upcoming version was codenamed <strong>"Harmony"</strong>. As it got closer to completion, people started calling it <strong>ES6</strong> (the 6th edition). Finally, right before release, the committee switched to a yearly naming convention and officially named it <strong>ES2015</strong>.</p>
+
+    <div class="co co-y">
+        <strong>💡 In Practice</strong><br>
+        Most developers just say "ES6." But "ES6" and "ES2015" are the exact same thing. Everything from ES6 onward is collectively called <strong>"Modern JavaScript"</strong> or <strong>"ES6+"</strong>.
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.2</span> Let and Const</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>The Problem: var is Function Scoped</h3>
+    <p>In most programming languages, a variable declared inside a block (like an <code>if</code> statement or a <code>for</code> loop) only exists inside that block. JavaScript's <code>var</code> broke this convention. It was <strong>function scoped</strong>, meaning it leaked out of all blocks except function bodies.</p>
+
+    <pre><code><span class="kw">function</span> <span class="fn">checkScore</span>() {
+    <span class="kw">var</span> score = <span class="num">50</span>;
+
+    <span class="kw">if</span> (score >= <span class="num">50</span>) {
+        <span class="kw">var</span> passed = <span class="bool">true</span>;   <span class="cm">// Declared INSIDE the if block</span>
+        <span class="kw">var</span> message = <span class="str">"You passed!"</span>;
+    }
+
+    <span class="fn">console</span>.<span class="fn">log</span>(passed);  <span class="cm">// true  — it leaked out!</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(message); <span class="cm">// "You passed!" — it leaked out!</span>
+}
+<span class="fn">checkScore</span>();
+
+<span class="cm">// This causes real bugs when variable names collide:</span>
+<span class="kw">function</span> <span class="fn">buggyCode</span>() {
+    <span class="kw">var</span> x = <span class="num">10</span>;
+    <span class="kw">for</span> (<span class="kw">var</span> x = <span class="num">0</span>; x < <span class="num">3</span>; x++) {} <span class="cm">// The loop variable OVERWRITES the original x!</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(x); <span class="cm">// 3 — our original x = 10 is gone forever!</span>
+}</code></pre>
+
+    <h3>The Fix: let and const are Block Scoped</h3>
+    <p>ES6 introduced <code>let</code> and <code>const</code>. They are <strong>block scoped</strong>, which means they exist ONLY inside the nearest pair of curly braces <code>{}</code>.</p>
+
+    <pre><code><span class="kw">function</span> <span class="fn">checkScoreES6</span>() {
+    <span class="kw">let</span> score = <span class="num">50</span>;
+
+    <span class="kw">if</span> (score >= <span class="num">50</span>) {
+        <span class="kw">let</span> passed = <span class="bool">true</span>;
+        <span class="kw">const</span> message = <span class="str">"You passed!"</span>;
+    }
+
+    <span class="fn">console</span>.<span class="fn">log</span>(passed);  <span class="cm">// ReferenceError: passed is not defined</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(message); <span class="cm">// ReferenceError: message is not defined</span>
+}
+
+<span class="cm">// The loop variable is now safely isolated:</span>
+<span class="kw">function</span> <span class="fn">fixedCode</span>() {
+    <span class="kw">let</span> x = <span class="num">10</span>;
+    <span class="kw">for</span> (<span class="kw">let</span> x = <span class="num">0</span>; x < <span class="num">3</span>; x++) {} <span class="cm">// This 'x' is a DIFFERENT variable, locked in the loop.</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(x); <span class="cm">// 10 — our original x is perfectly safe!</span>
+}</code></pre>
+
+    <h3>Hoisting: The Creation Phase</h3>
+    <p>When JavaScript runs your code, it doesn't just go line by line. It first does a <strong>Creation Phase</strong> where it scans the entire scope and allocates memory for all variable declarations. This is called <strong>hoisting</strong>.</p>
+
+    <h4>How var hoisting works:</h4>
+    <p><code>var</code> is hoisted AND immediately initialized to <code>undefined</code>. That's why you can access it before its declaration line — you just get <code>undefined</code> instead of an error.</p>
+
+    <pre><code><span class="fn">console</span>.<span class="fn">log</span>(playerName); <span class="cm">// undefined (not an error!)</span>
+<span class="kw">var</span> playerName = <span class="str">"Idris"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(playerName); <span class="cm">// "Idris"</span>
+
+<span class="cm">// What the engine actually does during the Creation Phase:</span>
+<span class="cm">// var playerName = undefined;   ← hoisted + initialized</span>
+<span class="cm">// console.log(playerName);      ← undefined</span>
+<span class="cm">// playerName = "Idris";         ← assignment happens at runtime</span>
+<span class="cm">// console.log(playerName);      ← "Idris"</span></code></pre>
+
+    <h4>How let/const hoisting works (The Temporal Dead Zone):</h4>
+    <p><code>let</code> and <code>const</code> ARE hoisted — but they are <strong>NOT initialized</strong>. They sit in memory in an <strong>uninitialized</strong> state. If you try to access them before their declaration line, the engine throws a <code>ReferenceError</code>. The zone between the start of the block and the declaration line is called the <strong>Temporal Dead Zone (TDZ)</strong>.</p>
+
+    <pre><code><span class="cm">// ┌─── TEMPORAL DEAD ZONE for 'score' ───┐</span>
+<span class="cm">// │                                       │</span>
+   <span class="fn">console</span>.<span class="fn">log</span>(score); <span class="cm">// ❌ ReferenceError   │</span>
+   <span class="kw">const</span> x = <span class="num">10</span>;      <span class="cm">//                     │</span>
+   <span class="fn">console</span>.<span class="fn">log</span>(score); <span class="cm">// ❌ Still in TDZ!    │</span>
+<span class="cm">// │                                       │</span>
+   <span class="kw">let</span> score = <span class="num">100</span>;   <span class="cm">// ← TDZ ENDS HERE ───┘</span>
+   <span class="fn">console</span>.<span class="fn">log</span>(score); <span class="cm">// ✅ 100</span></code></pre>
+
+    <h3>The TDZ Interview Trap</h3>
+    <p>This is the tricky part. Even if a variable with the same name exists in an outer scope, the TDZ of the inner scope <strong>shadows</strong> it and causes an error.</p>
+
+    <pre><code><span class="kw">let</span> color = <span class="str">"global red"</span>;
+
+<span class="kw">function</span> <span class="fn">paint</span>() {
+    <span class="cm">// You might expect this to print "global red".</span>
+    <span class="cm">// But it doesn't! The 'let color' on line 7 is hoisted</span>
+    <span class="cm">// to the top of this function block, creating a TDZ.</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(color); <span class="cm">// ❌ ReferenceError: Cannot access 'color' before initialization</span>
+    <span class="kw">let</span> color = <span class="str">"local blue"</span>;
+}
+<span class="fn">paint</span>();</code></pre>
+
+    <h3>var Attaches to the Global Object</h3>
+    <p>In the browser, the global object is <code>window</code>. When you declare a variable with <code>var</code> in the global scope (outside any function), it physically attaches itself as a property of the <code>window</code> object. This can accidentally overwrite browser APIs.</p>
+
+    <pre><code><span class="kw">var</span> name = <span class="str">"Idris"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(window.name); <span class="cm">// "Idris" — leaked to the global object!</span>
+
+<span class="cm">// Dangerous: what if you accidentally overwrite a browser API?</span>
+<span class="kw">var</span> fetch = <span class="str">"data"</span>; <span class="cm">// You just destroyed the fetch() API!</span>
+
+<span class="cm">// let and const do NOT attach to window.</span>
+<span class="kw">let</span> token = <span class="str">"ABC"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(window.token); <span class="cm">// undefined (Safe!)</span></code></pre>
+
+    <h3>var Allows Redeclaration, let/const Do Not</h3>
+    <pre><code><span class="kw">var</span> x = <span class="num">10</span>;
+<span class="kw">var</span> x = <span class="num">20</span>; <span class="cm">// ✅ No error! This silently overwrites x. Dangerous.</span>
+
+<span class="kw">let</span> y = <span class="num">10</span>;
+<span class="kw">let</span> y = <span class="num">20</span>; <span class="cm">// ❌ SyntaxError: Identifier 'y' has already been declared</span></code></pre>
+
+    <h3>const: Reassignment vs. Mutation</h3>
+    <p><code>const</code> prevents <strong>reassignment</strong> (changing what the variable points to). It does NOT prevent <strong>mutation</strong> (changing the contents of what it points to).</p>
+
+    <div class="co co-p">
+        <strong>🧠 Mental Model: The Box Analogy</strong><br>
+        Think of <code>const</code> as a box with a label glued on it. You cannot rip the label off and glue it onto a different box (<strong>reassignment</strong>). But you can absolutely open the box and change the items inside it (<strong>mutation</strong>).
+    </div>
+
+    <pre><code><span class="cm">// REASSIGNMENT (changing what the variable points to)</span>
+<span class="kw">const</span> name = <span class="str">"Idris"</span>;
+name = <span class="str">"Ali"</span>; <span class="cm">// ❌ TypeError: Assignment to constant variable</span>
+
+<span class="cm">// MUTATION (changing the contents of the thing it points to)</span>
+<span class="kw">const</span> user = { name: <span class="str">"Idris"</span>, age: <span class="num">25</span> };
+user.name = <span class="str">"Ali"</span>;   <span class="cm">// ✅ Works! We changed a property INSIDE the object.</span>
+user.role = <span class="str">"admin"</span>; <span class="cm">// ✅ Works! We added a new property.</span>
+<span class="kw">delete</span> user.age;     <span class="cm">// ✅ Works! We deleted a property.</span>
+
+<span class="kw">const</span> nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+nums.<span class="fn">push</span>(<span class="num">4</span>);       <span class="cm">// ✅ Works! [1, 2, 3, 4]</span>
+nums[<span class="num">0</span>] = <span class="num">999</span>;     <span class="cm">// ✅ Works! [999, 2, 3, 4]</span>
+
+<span class="cm">// But you CANNOT point the variable to a completely new object/array:</span>
+user = { name: <span class="str">"Ali"</span> };  <span class="cm">// ❌ TypeError</span>
+nums = [<span class="num">5</span>, <span class="num">6</span>];          <span class="cm">// ❌ TypeError</span></code></pre>
+
+    <h3>How to TRULY Freeze an Object: Object.freeze()</h3>
+    <p>If you want a truly immutable object where even the contents cannot change, you need <code>Object.freeze()</code>.</p>
+
+    <pre><code><span class="kw">const</span> config = <span class="fn">Object</span>.<span class="fn">freeze</span>({
+    apiUrl: <span class="str">"https://api.example.com"</span>,
+    timeout: <span class="num">5000</span>
+});
+
+config.apiUrl = <span class="str">"hacked"</span>; <span class="cm">// Silently fails (or throws in strict mode)</span>
+config.newProp = <span class="str">"test"</span>;  <span class="cm">// Silently fails</span>
+<span class="fn">console</span>.<span class="fn">log</span>(config.apiUrl); <span class="cm">// "https://api.example.com" (unchanged!)</span></code></pre>
+
+    <div class="co co-r">
+        <strong>⚠️ Object.freeze() is Shallow!</strong><br>
+        <code>Object.freeze()</code> only freezes the top level. If your object contains nested objects, those nested objects are still mutable! To deep-freeze, you must recursively freeze every nested object.
+    </div>
+
+    <pre><code><span class="kw">const</span> nested = <span class="fn">Object</span>.<span class="fn">freeze</span>({
+    level1: <span class="str">"frozen"</span>,
+    deep: { level2: <span class="str">"NOT frozen"</span> }
+});
+
+nested.level1 = <span class="str">"changed"</span>;      <span class="cm">// ❌ Fails (frozen)</span>
+nested.deep.level2 = <span class="str">"changed"</span>; <span class="cm">// ✅ Works! (nested object is NOT frozen)</span></code></pre>
+
+    <h3>The Classic Loop Interview Question</h3>
+    <p>This is the most famous <code>var</code> vs <code>let</code> interview question. You WILL see it.</p>
+
+    <pre><code><span class="cm">// ❌ The Bug (var)</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+    <span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(i), <span class="num">100</span>);
+}
+<span class="cm">// Output: 3, 3, 3</span>
+<span class="cm">// Why? There is only ONE 'i' in memory (var is function scoped).</span>
+<span class="cm">// By the time the timeouts fire, the loop is done and i === 3.</span>
+<span class="cm">// All 3 callbacks read the same 'i', which is 3.</span>
+
+<span class="cm">// ✅ The Fix (let)</span>
+<span class="kw">for</span> (<span class="kw">let</span> j = <span class="num">0</span>; j < <span class="num">3</span>; j++) {
+    <span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(j), <span class="num">100</span>);
+}
+<span class="cm">// Output: 0, 1, 2</span>
+<span class="cm">// Why? 'let' creates a BRAND NEW variable in memory for EVERY iteration.</span>
+<span class="cm">// Each callback closes over its own private copy of 'j'.</span></code></pre>
+
+    <div class="co co-g">
+        <strong>✅ The Rule</strong><br>
+        1. <strong>Default to <code>const</code></strong> for everything.<br>
+        2. Use <code>let</code> ONLY when you know you will reassign (like a loop counter or accumulator).<br>
+        3. <strong>Never use <code>var</code></strong>. There is zero reason to use it in modern JavaScript.
+    </div>
+
+    <!-- QUIZ -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.3 Quiz</span><h4>Using Let and Const</h4></div>
+        <p><strong>Q1:</strong> What is the output?</p>
+        <pre><code><span class="kw">const</span> config = { theme: <span class="str">"dark"</span> };
+config.theme = <span class="str">"light"</span>;
+config = { theme: <span class="str">"blue"</span> };</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <p>Line 2 succeeds (mutating the object is allowed). Line 3 throws <strong>TypeError: Assignment to constant variable</strong> (reassigning the variable to a new object is forbidden).</p>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.3 Quiz</span><h4>TDZ Trap</h4></div>
+        <p><strong>Q2:</strong> Does this print "outer", "undefined", or throw an error?</p>
+        <pre><code><span class="kw">let</span> value = <span class="str">"outer"</span>;
+{
+    <span class="fn">console</span>.<span class="fn">log</span>(value);
+    <span class="kw">let</span> value = <span class="str">"inner"</span>;
+}</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <p><strong>ReferenceError: Cannot access 'value' before initialization.</strong> The inner <code>let value</code> is hoisted to the top of its block, creating a TDZ. Even though an outer <code>value</code> exists, the inner declaration shadows it, and the <code>console.log</code> is trapped inside the TDZ.</p>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.3 Quiz</span><h4>Scope Isolation</h4></div>
+        <p><strong>Q3:</strong> What is the output?</p>
+        <pre><code><span class="kw">let</span> x = <span class="num">1</span>;
+{
+    <span class="kw">let</span> x = <span class="num">2</span>;
+    {
+        <span class="kw">let</span> x = <span class="num">3</span>;
+        <span class="fn">console</span>.<span class="fn">log</span>(x); <span class="cm">// A</span>
+    }
+    <span class="fn">console</span>.<span class="fn">log</span>(x); <span class="cm">// B</span>
+}
+<span class="fn">console</span>.<span class="fn">log</span>(x); <span class="cm">// C</span></code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <p><strong>A: 3, B: 2, C: 1.</strong> Each <code>let x</code> creates a completely separate variable, locked inside its own block. They do not interfere with each other.</p>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.4</span> Template Literals</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>The ES5 Pain: String Concatenation</h3>
+    <pre><code><span class="cm">// ES5: Building a string was painful.</span>
+<span class="kw">var</span> name = <span class="str">"Idris"</span>;
+<span class="kw">var</span> age = <span class="num">25</span>;
+<span class="kw">var</span> greeting = <span class="str">"Hello, my name is "</span> + name + <span class="str">" and I am "</span> + age + <span class="str">" years old."</span>;
+
+<span class="cm">// Multi-line strings required ugly escape characters:</span>
+<span class="kw">var</span> html = <span class="str">"&lt;div&gt;\n"</span> +
+           <span class="str">"  &lt;h1&gt;"</span> + title + <span class="str">"&lt;/h1&gt;\n"</span> +
+           <span class="str">"  &lt;p&gt;"</span> + content + <span class="str">"&lt;/p&gt;\n"</span> +
+           <span class="str">"&lt;/div&gt;"</span>;</code></pre>
+
+    <h3>ES6 Template Literals: The Fix</h3>
+    <p>Template literals use <strong>backticks</strong> (<code>` `</code>) instead of quotes. They support <strong>multi-line strings</strong> natively and <strong>expression interpolation</strong> with <code>${}</code>.</p>
+
+    <pre><code><span class="cm">// Clean string interpolation</span>
+<span class="kw">const</span> greeting = <span class="str">`Hello, my name is ${name} and I am ${age} years old.`</span>;
+
+<span class="cm">// Multi-line strings just work. No \n needed.</span>
+<span class="kw">const</span> html = <span class="str">`
+  &lt;div&gt;
+    &lt;h1&gt;${title}&lt;/h1&gt;
+    &lt;p&gt;${content}&lt;/p&gt;
+  &lt;/div&gt;
+`</span>;</code></pre>
+
+    <h3>Expressions Inside ${}</h3>
+    <p>You can put ANY valid JavaScript expression inside <code>${}</code>: math, function calls, ternaries, array methods — anything that returns a value.</p>
+
+    <pre><code><span class="cm">// Math</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Tax: $${(price * 0.2).toFixed(2)}`</span>);
+
+<span class="cm">// Ternary</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Status: ${isActive ? "Online" : "Offline"}`</span>);
+
+<span class="cm">// Function calls</span>
+<span class="kw">function</span> <span class="fn">shout</span>(str) { <span class="kw">return</span> str.<span class="fn">toUpperCase</span>() + <span class="str">"!!!"</span>; }
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${shout("hello")}`</span>); <span class="cm">// "HELLO!!!"</span>
+
+<span class="cm">// Array methods</span>
+<span class="kw">const</span> items = [<span class="str">"Apple"</span>, <span class="str">"Banana"</span>];
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Items: ${items.join(", ")}`</span>); <span class="cm">// "Items: Apple, Banana"</span></code></pre>
+
+    <h3>Nesting Template Literals</h3>
+    <p>When generating complex HTML from arrays, you can nest template literals inside each other using <code>.map()</code> and <code>.join()</code>.</p>
+
+    <pre><code><span class="kw">const</span> users = [
+    { name: <span class="str">"Idris"</span>, role: <span class="str">"admin"</span> },
+    { name: <span class="str">"Ali"</span>, role: <span class="str">"user"</span> }
+];
+
+<span class="kw">const</span> table = <span class="str">`
+  &lt;table&gt;
+    ${users.<span class="fn">map</span>(u => <span class="str">`
+      &lt;tr&gt;
+        &lt;td&gt;${u.name}&lt;/td&gt;
+        &lt;td&gt;${u.role}&lt;/td&gt;
+      &lt;/tr&gt;
+    `</span>).<span class="fn">join</span>(<span class="str">""</span>)}
+  &lt;/table&gt;
+`</span>;</code></pre>
+
+    <h3>Tagged Template Literals (Advanced)</h3>
+    <p>You can run a template literal through a <strong>tag function</strong> before it evaluates. The function receives the static string parts and the dynamic values separately. This is how libraries like React's <code>styled-components</code> work under the hood. It's also essential for <strong>HTML sanitization</strong> to prevent XSS attacks.</p>
+
+    <pre><code><span class="kw">function</span> <span class="fn">highlight</span>(strings, ...values) {
+    <span class="cm">// strings = ["I bought ", " for ", ""]</span>
+    <span class="cm">// values  = ["apples", "$5"]</span>
+    <span class="kw">return</span> strings.<span class="fn">reduce</span>((result, str, i) => {
+        <span class="kw">const</span> val = values[i] !== <span class="bool">undefined</span> ? <span class="str">`&lt;mark&gt;${values[i]}&lt;/mark&gt;`</span> : <span class="str">""</span>;
+        <span class="kw">return</span> result + str + val;
+    }, <span class="str">""</span>);
+}
+
+<span class="kw">const</span> item = <span class="str">"apples"</span>;
+<span class="kw">const</span> cost = <span class="str">"$5"</span>;
+<span class="kw">const</span> html = <span class="fn">highlight</span><span class="str">`I bought ${item} for ${cost}`</span>;
+<span class="cm">// "I bought &lt;mark&gt;apples&lt;/mark&gt; for &lt;mark&gt;$5&lt;/mark&gt;"</span></code></pre>
+
+    <h4>Real-World Use Case: HTML Sanitization</h4>
+    <pre><code><span class="kw">function</span> <span class="fn">safeHTML</span>(strings, ...values) {
+    <span class="kw">return</span> strings.<span class="fn">reduce</span>((result, str, i) => {
+        <span class="kw">let</span> val = <span class="fn">String</span>(values[i] ?? <span class="str">""</span>);
+        <span class="cm">// Escape dangerous HTML characters</span>
+        val = val.<span class="fn">replace</span>(<span class="str">/&amp;/g</span>, <span class="str">"&amp;amp;"</span>)
+                 .<span class="fn">replace</span>(<span class="str">/&lt;/g</span>, <span class="str">"&amp;lt;"</span>)
+                 .<span class="fn">replace</span>(<span class="str">/&gt;/g</span>, <span class="str">"&amp;gt;"</span>);
+        <span class="kw">return</span> result + str + val;
+    }, <span class="str">""</span>);
+}
+
+<span class="kw">const</span> userInput = <span class="str">'&lt;script&gt;alert("hacked")&lt;/script&gt;'</span>;
+<span class="kw">const</span> safe = <span class="fn">safeHTML</span><span class="str">`&lt;p&gt;Welcome, ${userInput}&lt;/p&gt;`</span>;
+<span class="cm">// "&lt;p&gt;Welcome, &amp;lt;script&amp;gt;alert(&amp;quot;hacked&amp;quot;)&amp;lt;/script&amp;gt;&lt;/p&gt;"</span>
+<span class="cm">// The script tag is neutralized!</span></code></pre>
+
+    <!-- QUIZ -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.5 Quiz</span><h4>Build an HTML Fragment</h4></div>
+        <p><strong>Q1:</strong> Convert this ES5 concatenation into one ES6 template literal.</p>
+        <pre><code>var items = ["Eggs", "Milk", "Bread"];
+var html = "&lt;ul&gt;" + "\n";
+for (var i = 0; i < items.length; i++) {
+    html += "  &lt;li&gt;" + items[i] + "&lt;/li&gt;" + "\n";
+}
+html += "&lt;/ul&gt;";</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const items = ["Eggs", "Milk", "Bread"];
+const html = `
+&lt;ul&gt;
+  ${items.map(item => `&lt;li&gt;${item}&lt;/li&gt;`).join("\n  ")}
+&lt;/ul&gt;`;</code></pre>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.5 Quiz</span><h4>Expression Interpolation</h4></div>
+        <p><strong>Q2:</strong> Write a single template literal that outputs: <code>"The average of 10, 20, 30 is 20"</code>. You must calculate the average INSIDE the <code>${}</code>.</p>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const nums = [10, 20, 30];
+const str = `The average of ${nums.join(", ")} is ${nums.reduce((a, b) => a + b, 0) / nums.length}`;</code></pre>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.6</span> Destructuring</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <p>Destructuring is a way to <strong>extract</strong> values from arrays and objects into distinct variables in a single statement.</p>
+
+    <h3>Object Destructuring</h3>
+    <pre><code><span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    age: <span class="num">25</span>,
+    email: <span class="str">"idris@mail.com"</span>
+};
+
+<span class="cm">// ES5: Extract properties one by one</span>
+<span class="kw">var</span> name = user.name;
+<span class="kw">var</span> age = user.age;
+
+<span class="cm">// ES6: Extract multiple properties in one line</span>
+<span class="kw">const</span> { name, age, email } = user;</code></pre>
+
+    <h4>Renaming Variables</h4>
+    <p>If you want the variable name to differ from the property name, use <code>propertyName: newName</code>.</p>
+    <pre><code><span class="kw">const</span> response = { status: <span class="num">200</span>, data: [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>] };
+
+<span class="cm">// Extract 'status' but call the variable 'httpStatus'</span>
+<span class="kw">const</span> { status: httpStatus, data: payload } = response;
+<span class="fn">console</span>.<span class="fn">log</span>(httpStatus); <span class="cm">// 200</span>
+<span class="fn">console</span>.<span class="fn">log</span>(payload);    <span class="cm">// [1, 2, 3]</span></code></pre>
+
+    <h4>Default Values</h4>
+    <p>If a property doesn't exist, you can assign a fallback to prevent <code>undefined</code>.</p>
+    <pre><code><span class="kw">const</span> settings = { theme: <span class="str">"dark"</span> };
+
+<span class="kw">const</span> { theme, fontSize = <span class="num">16</span>, lang = <span class="str">"en"</span> } = settings;
+<span class="fn">console</span>.<span class="fn">log</span>(theme);    <span class="cm">// "dark" (from object)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(fontSize); <span class="cm">// 16    (default, because fontSize doesn't exist)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(lang);     <span class="cm">// "en"  (default)</span></code></pre>
+
+    <h4>Renaming AND Defaulting at the Same Time</h4>
+    <pre><code><span class="kw">const</span> data = { resp: <span class="str">"ok"</span> };
+<span class="kw">const</span> { resp: responseStatus = <span class="str">"failed"</span> } = data;
+<span class="fn">console</span>.<span class="fn">log</span>(responseStatus); <span class="cm">// "ok"</span>
+
+<span class="kw">const</span> empty = {};
+<span class="kw">const</span> { resp: status2 = <span class="str">"failed"</span> } = empty;
+<span class="fn">console</span>.<span class="fn">log</span>(status2); <span class="cm">// "failed" (default applied because resp doesn't exist)</span></code></pre>
+
+    <h4>Deep / Nested Destructuring</h4>
+    <pre><code><span class="kw">const</span> company = {
+    name: <span class="str">"TechCorp"</span>,
+    address: {
+        city: <span class="str">"London"</span>,
+        zip: <span class="str">"EC1A"</span>,
+        geo: { lat: <span class="num">51.5</span>, lng: <span class="num">-0.09</span> }
+    }
+};
+
+<span class="cm">// Extract deeply nested values:</span>
+<span class="kw">const</span> { address: { city, geo: { lat } } } = company;
+<span class="fn">console</span>.<span class="fn">log</span>(city); <span class="cm">// "London"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(lat);  <span class="cm">// 51.5</span></code></pre>
+
+    <h3>Array Destructuring</h3>
+    <p>Arrays destructure by <strong>position</strong>, not by name.</p>
+
+    <pre><code><span class="kw">const</span> rgb = [<span class="num">255</span>, <span class="num">100</span>, <span class="num">50</span>];
+
+<span class="cm">// Extract all three</span>
+<span class="kw">const</span> [r, g, b] = rgb;
+
+<span class="cm">// Skip items with empty commas</span>
+<span class="kw">const</span> [red, , blue] = rgb;
+<span class="fn">console</span>.<span class="fn">log</span>(blue); <span class="cm">// 50</span>
+
+<span class="cm">// Default values</span>
+<span class="kw">const</span> [a, b, c, d = <span class="num">0</span>] = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>];
+<span class="fn">console</span>.<span class="fn">log</span>(d); <span class="cm">// 0 (default applied)</span>
+
+<span class="cm">// Swap variables without a temporary variable!</span>
+<span class="kw">let</span> x = <span class="num">1</span>, y = <span class="num">2</span>;
+[x, y] = [y, x]; <span class="cm">// x is now 2, y is now 1</span></code></pre>
+
+    <h3>Destructuring Function Parameters (The React Pattern)</h3>
+    <p>This is the most important real-world use case. Instead of passing a large options object and accessing <code>options.title</code>, you destructure directly in the parameter list. <strong>This is exactly how React components receive props.</strong></p>
+
+    <pre><code><span class="cm">// Without destructuring (ugly)</span>
+<span class="kw">function</span> <span class="fn">createCard</span>(options) {
+    <span class="fn">console</span>.<span class="fn">log</span>(options.title);
+    <span class="fn">console</span>.<span class="fn">log</span>(options.subtitle);
+    <span class="fn">console</span>.<span class="fn">log</span>(options.active);
+}
+
+<span class="cm">// With destructuring + defaults (clean)</span>
+<span class="kw">function</span> <span class="fn">createCard</span>({ title, subtitle = <span class="str">"No subtitle"</span>, active = <span class="bool">false</span> }) {
+    <span class="fn">console</span>.<span class="fn">log</span>(title, subtitle, active);
+}
+
+<span class="fn">createCard</span>({ title: <span class="str">"Hello"</span> });
+<span class="cm">// "Hello", "No subtitle", false</span></code></pre>
+
+    <h3>Destructuring Nested Objects AND Arrays Together</h3>
+    <pre><code><span class="kw">const</span> apiResponse = {
+    status: <span class="num">200</span>,
+    data: {
+        users: [
+            { id: <span class="num">1</span>, name: <span class="str">"Idris"</span> },
+            { id: <span class="num">2</span>, name: <span class="str">"Ali"</span> }
+        ]
+    }
+};
+
+<span class="cm">// Extract the first user's name directly:</span>
+<span class="kw">const</span> { data: { users: [firstUser] } } = apiResponse;
+<span class="fn">console</span>.<span class="fn">log</span>(firstUser.name); <span class="cm">// "Idris"</span>
+
+<span class="cm">// Or go even deeper:</span>
+<span class="kw">const</span> { data: { users: [{ name: firstName }] } } = apiResponse;
+<span class="fn">console</span>.<span class="fn">log</span>(firstName); <span class="cm">// "Idris"</span></code></pre>
+
+    <!-- QUIZ -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.7 Quiz</span><h4>Destructuring Arrays</h4></div>
+        <p><strong>Q1:</strong> Extract the second and fourth items from <code>[10, 20, 30, 40, 50]</code> into variables <code>b</code> and <code>d</code>. Skip the rest.</p>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const [, b, , d] = [10, 20, 30, 40, 50];</code></pre>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.7 Quiz</span><h4>Nested Destructuring</h4></div>
+        <p><strong>Q2:</strong> Given this object, extract the city into a variable called <code>city</code> in one line.</p>
+        <pre><code>const user = { profile: { address: { city: "Paris" } } };</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const { profile: { address: { city } } } = user;</code></pre>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.8</span> Object Literal Shorthand</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>Property Shorthand</h3>
+    <p>When the variable name and the property name are the same, you can skip the duplication.</p>
+    <pre><code><span class="kw">const</span> name = <span class="str">"Idris"</span>;
+<span class="kw">const</span> age = <span class="num">25</span>;
+<span class="kw">const</span> role = <span class="str">"admin"</span>;
+
+<span class="cm">// ES5: Repetitive</span>
+<span class="kw">var</span> user = { name: name, age: age, role: role };
+
+<span class="cm">// ES6: Shorthand</span>
+<span class="kw">const</span> user = { name, age, role };
+<span class="cm">// Exactly the same result: { name: "Idris", age: 25, role: "admin" }</span></code></pre>
+
+    <h3>Method Shorthand</h3>
+    <p>You no longer need to write <code>: function</code> for methods inside objects.</p>
+    <pre><code><span class="cm">// ES5</span>
+<span class="kw">var</span> calc = {
+    add: <span class="kw">function</span>(a, b) { <span class="kw">return</span> a + b; },
+    sub: <span class="kw">function</span>(a, b) { <span class="kw">return</span> a - b; }
+};
+
+<span class="cm">// ES6 Method Shorthand</span>
+<span class="kw">const</span> calc = {
+    <span class="fn">add</span>(a, b) { <span class="kw">return</span> a + b; },
+    <span class="fn">sub</span>(a, b) { <span class="kw">return</span> a - b; }
+};</code></pre>
+
+    <h3>Computed Property Names</h3>
+    <p>You can use variables or expressions as keys directly inside an object literal using square brackets <code>[]</code>.</p>
+    <pre><code><span class="kw">const</span> field = <span class="str">"email"</span>;
+
+<span class="cm">// ES5: Had to create the object first, then add the dynamic key</span>
+<span class="kw">var</span> user = {};
+user[field] = <span class="str">"idris@mail.com"</span>;
+
+<span class="cm">// ES6: Do it inline</span>
+<span class="kw">const</span> user = {
+    name: <span class="str">"Idris"</span>,
+    [field]: <span class="str">"idris@mail.com"</span>,          <span class="cm">// key = "email"</span>
+    [<span class="str">"is"</span> + <span class="str">"Active"</span>]: <span class="bool">true</span>,            <span class="cm">// key = "isActive"</span>
+    [<span class="str">`score_${<span class="num">2024</span>}`</span>]: <span class="num">100</span>            <span class="cm">// key = "score_2024"</span>
+};</code></pre>
+
+    <h3>Returning Shorthand Objects from Arrow Functions</h3>
+    <p>When returning an object from a single-line arrow function, you MUST wrap it in parentheses. Otherwise, the engine confuses the object's <code>{}</code> with the function body's <code>{}</code>.</p>
+    <pre><code><span class="cm">// ❌ BUG: Returns undefined (engine thinks {} is the function body)</span>
+<span class="kw">const</span> makeUser = (name) => { name };
+
+<span class="cm">// ✅ FIX: Wrap in parentheses</span>
+<span class="kw">const</span> makeUser = (name) => ({ name });
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">makeUser</span>(<span class="str">"Idris"</span>)); <span class="cm">// { name: "Idris" }</span></code></pre>
+
+    <!-- CHECKUP -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.9 Checkup</span><h4>Lesson 1 Checkup</h4></div>
+        <p><strong>Q1:</strong> Rewrite this ES5 object using all three ES6 shorthand features (property, method, computed).</p>
+        <pre><code>var prefix = "user";
+var name = "Idris";
+var obj = {};
+obj.name = name;
+obj.greet = function() { return "Hi " + this.name; };
+obj[prefix + "Id"] = 42;</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const prefix = "user";
+const name = "Idris";
+const obj = {
+    name,                                  // Property shorthand
+    greet() { return `Hi ${this.name}`; }, // Method shorthand
+    [`${prefix}Id`]: 42                    // Computed property
+};</code></pre>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.10 - 1.12</span> Iteration & The For...of Loop</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <h3>1.10 What is an Iterable?</h3>
+    <p>An <strong>iterable</strong> is any object that implements the <code>Symbol.iterator</code> method. Built-in iterables include: <strong>Arrays, Strings, Maps, Sets, NodeLists, TypedArrays, and the arguments object</strong>. Plain objects <code>{}</code> are NOT iterable.</p>
+
+    <h3>1.11 The Family of Loops: Deep Comparison</h3>
+
+    <pre><code><span class="kw">const</span> fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"mango"</span>];
+
+<span class="cm">// ─── 1. Classic For Loop (ES3) ───</span>
+<span class="cm">// Verbose. Error-prone (off-by-one). But gives you full control.</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < fruits.length; i++) {
+    <span class="fn">console</span>.<span class="fn">log</span>(fruits[i]);
+}
+
+<span class="cm">// ─── 2. for...in (ES5) — TERRIBLE FOR ARRAYS ───</span>
+<span class="cm">// Designed for objects, NOT arrays.</span>
+<span class="cm">// Iterates over KEYS (not values), and keys are STRINGS.</span>
+<span class="cm">// Also iterates over inherited prototype properties!</span>
+<span class="kw">for</span> (<span class="kw">const</span> key <span class="kw">in</span> fruits) {
+    <span class="fn">console</span>.<span class="fn">log</span>(key);        <span class="cm">// "0", "1", "2" (strings, not numbers!)</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(fruits[key]); <span class="cm">// "apple", "banana", "mango"</span>
+}
+
+<span class="cm">// ─── 3. forEach (ES5) ───</span>
+<span class="cm">// Clean, but you CANNOT use 'break', 'continue', or 'return' to exit.</span>
+<span class="cm">// It ALWAYS runs through every item.</span>
+fruits.<span class="fn">forEach</span>((fruit, index) => {
+    <span class="cm">// if (fruit === "banana") break; ← SyntaxError!</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(index, fruit);
+});
+
+<span class="cm">// ─── 4. for...of (ES6) — THE WINNER ───</span>
+<span class="cm">// Iterates over VALUES directly (not keys).</span>
+<span class="cm">// Works with break, continue, return.</span>
+<span class="cm">// Works on all iterables (arrays, strings, maps, sets, NodeLists).</span>
+<span class="kw">for</span> (<span class="kw">const</span> fruit <span class="kw">of</span> fruits) {
+    <span class="kw">if</span> (fruit === <span class="str">"banana"</span>) <span class="kw">continue</span>; <span class="cm">// ✅ Works!</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(fruit);
+}</code></pre>
+
+    <h3>1.12 for...of in Depth</h3>
+
+    <h4>Looping Over Strings</h4>
+    <pre><code><span class="kw">for</span> (<span class="kw">const</span> char <span class="kw">of</span> <span class="str">"Hello"</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(char); <span class="cm">// "H", "e", "l", "l", "o"</span>
+}</code></pre>
+
+    <h4>Looping Over a Map</h4>
+    <pre><code><span class="kw">const</span> scores = <span class="kw">new</span> <span class="fn">Map</span>();
+scores.<span class="fn">set</span>(<span class="str">"Idris"</span>, <span class="num">95</span>);
+scores.<span class="fn">set</span>(<span class="str">"Ali"</span>, <span class="num">88</span>);
+
+<span class="kw">for</span> (<span class="kw">const</span> [name, score] <span class="kw">of</span> scores) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${name}: ${score}`</span>);
+}
+<span class="cm">// "Idris: 95", "Ali: 88"</span></code></pre>
+
+    <h4>Looping Over a Set</h4>
+    <pre><code><span class="kw">const</span> unique = <span class="kw">new</span> <span class="fn">Set</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">3</span>]);
+
+<span class="kw">for</span> (<span class="kw">const</span> num <span class="kw">of</span> unique) {
+    <span class="fn">console</span>.<span class="fn">log</span>(num); <span class="cm">// 1, 2, 3 (duplicates removed)</span>
+}</code></pre>
+
+    <h4>Looping Over DOM NodeLists</h4>
+    <pre><code><span class="kw">const</span> buttons = document.<span class="fn">querySelectorAll</span>(<span class="str">"button"</span>);
+
+<span class="cm">// for...of works directly on NodeLists! No need to convert to array.</span>
+<span class="kw">for</span> (<span class="kw">const</span> btn <span class="kw">of</span> buttons) {
+    btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"clicked"</span>));
+}</code></pre>
+
+    <h4>Getting the Index with .entries()</h4>
+    <p>If you need the index alongside the value (like <code>forEach</code> gives you), combine <code>for...of</code> with <code>.entries()</code> and destructuring.</p>
+    <pre><code><span class="kw">const</span> colors = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>];
+
+<span class="kw">for</span> (<span class="kw">const</span> [index, color] <span class="kw">of</span> colors.<span class="fn">entries</span>()) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${index}: ${color}`</span>);
+}
+<span class="cm">// "0: red", "1: green", "2: blue"</span></code></pre>
+
+    <h4>Using break to Stop Early</h4>
+    <pre><code><span class="kw">const</span> nums = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>];
+
+<span class="kw">for</span> (<span class="kw">const</span> num <span class="kw">of</span> nums) {
+    <span class="kw">if</span> (num > <span class="num">25</span>) <span class="kw">break</span>; <span class="cm">// Stop immediately</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(num);
+}
+<span class="cm">// Only prints: 10, 20</span></code></pre>
+
+    <div class="co co-r">
+        <strong>⚠️ for...of Does NOT Work on Plain Objects</strong><br>
+        Plain objects <code>{}</code> are not iterable. If you try <code>for (const x of myObj)</code>, you get a <code>TypeError</code>.<br><br>
+        <strong>To loop over an object, use:</strong><br>
+        <code>Object.keys(obj)</code> → array of keys<br>
+        <code>Object.values(obj)</code> → array of values<br>
+        <code>Object.entries(obj)</code> → array of [key, value] pairs
+    </div>
+
+    <pre><code><span class="kw">const</span> user = { name: <span class="str">"Idris"</span>, age: <span class="num">25</span>, role: <span class="str">"admin"</span> };
+
+<span class="cm">// Loop over an object using for...of + Object.entries()</span>
+<span class="kw">for</span> (<span class="kw">const</span> [key, value] <span class="kw">of</span> <span class="fn">Object</span>.<span class="fn">entries</span>(user)) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`${key}: ${value}`</span>);
+}
+<span class="cm">// "name: Idris", "age: 25", "role: admin"</span></code></pre>
+
+    <!-- QUIZ -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.13 Quiz</span><h4>Writing a For...of Loop</h4></div>
+        <p><strong>Q1:</strong> Use <code>for...of</code> with <code>.entries()</code> to loop over <code>["a", "b", "c"]</code> and log each item with its index in the format <code>"0: a"</code>.</p>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const letters = ["a", "b", "c"];
+for (const [i, letter] of letters.entries()) {
+    console.log(`${i}: ${letter}`);
+}</code></pre>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.13 Quiz</span><h4>Loop Over an Object</h4></div>
+        <p><strong>Q2:</strong> Loop over <code>const scores = { math: 90, english: 85, science: 92 }</code> using <code>for...of</code> and print each subject and score.</p>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const scores = { math: 90, english: 85, science: 92 };
+for (const [subject, score] of Object.entries(scores)) {
+    console.log(`${subject}: ${score}`);
+}</code></pre>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.14</span> Spread... Operator</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <p>The spread operator (<code>...</code>) takes an iterable and <strong>expands</strong> (unpacks) its elements.</p>
+
+    <h3>Spreading Arrays</h3>
+    <pre><code><span class="cm">// Copying an array (shallow copy)</span>
+<span class="kw">const</span> original = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+<span class="kw">const</span> copy = [...original]; <span class="cm">// [1, 2, 3] — a new array, safe to mutate</span>
+
+<span class="cm">// Merging arrays</span>
+<span class="kw">const</span> a = [<span class="num">1</span>, <span class="num">2</span>];
+<span class="kw">const</span> b = [<span class="num">3</span>, <span class="num">4</span>];
+<span class="kw">const</span> merged = [...a, ...b, <span class="num">5</span>]; <span class="cm">// [1, 2, 3, 4, 5]</span>
+
+<span class="cm">// Adding items at specific positions</span>
+<span class="kw">const</span> middle = [<span class="num">0</span>, ...a, <span class="num">99</span>, ...b]; <span class="cm">// [0, 1, 2, 99, 3, 4]</span></code></pre>
+
+    <h3>Spreading Strings</h3>
+    <pre><code><span class="kw">const</span> chars = [...<span class="str">"Hello"</span>]; <span class="cm">// ["H", "e", "l", "l", "o"]</span></code></pre>
+
+    <h3>Spreading Objects</h3>
+    <pre><code><span class="cm">// Copying an object</span>
+<span class="kw">const</span> user = { name: <span class="str">"Idris"</span>, age: <span class="num">25</span> };
+<span class="kw">const</span> clone = { ...user }; <span class="cm">// { name: "Idris", age: 25 }</span>
+
+<span class="cm">// Merging objects (later properties overwrite earlier ones)</span>
+<span class="kw">const</span> defaults = { theme: <span class="str">"light"</span>, lang: <span class="str">"en"</span>, fontSize: <span class="num">14</span> };
+<span class="kw">const</span> userPrefs = { theme: <span class="str">"dark"</span>, fontSize: <span class="num">18</span> };
+<span class="kw">const</span> final = { ...defaults, ...userPrefs };
+<span class="cm">// { theme: "dark", lang: "en", fontSize: 18 }</span>
+<span class="cm">// userPrefs values overwrite defaults values</span></code></pre>
+
+    <h3>Spread in Function Calls</h3>
+    <pre><code><span class="kw">const</span> nums = [<span class="num">5</span>, <span class="num">10</span>, <span class="num">3</span>, <span class="num">8</span>];
+
+<span class="cm">// ES5 way to pass an array to Math.max:</span>
+<span class="fn">Math</span>.<span class="fn">max</span>.<span class="fn">apply</span>(<span class="bool">null</span>, nums); <span class="cm">// ugly</span>
+
+<span class="cm">// ES6 spread:</span>
+<span class="fn">Math</span>.<span class="fn">max</span>(...nums); <span class="cm">// 10 — clean!</span></code></pre>
+
+    <div class="co co-r">
+        <strong>⚠️ The Shallow Copy Trap</strong><br>
+        Spread creates a <strong>shallow copy</strong>. If your object contains nested objects, only the <em>references</em> are copied, not the deep values. Mutating nested properties on the copy will affect the original!
+    </div>
+
+    <pre><code><span class="kw">const</span> original = {
+    name: <span class="str">"Idris"</span>,
+    settings: { theme: <span class="str">"dark"</span> } <span class="cm">// nested object</span>
+};
+<span class="kw">const</span> copy = { ...original };
+
+<span class="cm">// Top-level properties are safe:</span>
+copy.name = <span class="str">"Ali"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(original.name); <span class="cm">// "Idris" ✅ (original unchanged)</span>
+
+<span class="cm">// Nested objects are NOT safe — they share the same reference:</span>
+copy.settings.theme = <span class="str">"light"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(original.settings.theme); <span class="cm">// "light" 😱 (original was mutated!)</span>
+
+<span class="cm">// Fix: Spread the nested objects too</span>
+<span class="kw">const</span> deepCopy = { 
+    ...original, 
+    settings: { ...original.settings } 
+};</code></pre>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.15</span> ...Rest Parameter</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <p>The rest parameter uses the same <code>...</code> syntax, but does the <strong>opposite</strong> of spread. It <strong>gathers</strong> multiple elements into a single array.</p>
+
+    <div class="co co-y">
+        <strong>💡 How to Tell Them Apart</strong><br>
+        <strong>Spread</strong> = used where VALUES are expected (right side of <code>=</code>, function arguments).<br>
+        <strong>Rest</strong> = used where NAMES are expected (left side of <code>=</code>, function parameters).
+    </div>
+
+    <h3>Rest in Function Parameters</h3>
+    <p>In ES5, you had to use the <code>arguments</code> object to handle variable-length arguments. But <code>arguments</code> is NOT a real array — you couldn't use <code>.map()</code>, <code>.filter()</code>, or <code>.reduce()</code> on it. The rest parameter fixes this by giving you a real array.</p>
+
+    <pre><code><span class="cm">// ES5: The ugly way</span>
+<span class="kw">function</span> <span class="fn">sumOld</span>() {
+    <span class="kw">var</span> args = <span class="fn">Array</span>.prototype.slice.<span class="fn">call</span>(arguments); <span class="cm">// convert to array</span>
+    <span class="kw">return</span> args.<span class="fn">reduce</span>(<span class="kw">function</span>(a, b) { <span class="kw">return</span> a + b; }, <span class="num">0</span>);
+}
+
+<span class="cm">// ES6: Clean and modern</span>
+<span class="kw">function</span> <span class="fn">sum</span>(...numbers) {
+    <span class="cm">// 'numbers' is a REAL array. Full access to .map(), .filter(), .reduce().</span>
+    <span class="kw">return</span> numbers.<span class="fn">reduce</span>((acc, n) => acc + n, <span class="num">0</span>);
+}
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">sum</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>)); <span class="cm">// 10</span></code></pre>
+
+    <h4>Mixing Named Parameters with Rest</h4>
+    <p>Rest must always be the LAST parameter. Named parameters grab their values first, then rest collects everything else.</p>
+    <pre><code><span class="kw">function</span> <span class="fn">createTeam</span>(captain, ...members) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Captain: ${captain}`</span>);
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Team: ${members.join(", ")}`</span>);
+}
+
+<span class="fn">createTeam</span>(<span class="str">"Idris"</span>, <span class="str">"Ali"</span>, <span class="str">"Omar"</span>, <span class="str">"Yusuf"</span>);
+<span class="cm">// Captain: Idris</span>
+<span class="cm">// Team: Ali, Omar, Yusuf</span></code></pre>
+
+    <h3>Rest in Array Destructuring</h3>
+    <pre><code><span class="kw">const</span> [first, second, ...remaining] = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>];
+<span class="fn">console</span>.<span class="fn">log</span>(first);     <span class="cm">// 10</span>
+<span class="fn">console</span>.<span class="fn">log</span>(second);    <span class="cm">// 20</span>
+<span class="fn">console</span>.<span class="fn">log</span>(remaining); <span class="cm">// [30, 40, 50]</span></code></pre>
+
+    <h3>Rest in Object Destructuring (Remove a Property)</h3>
+    <p>This is a common pattern to create a copy of an object with specific properties removed — without using the <code>delete</code> keyword (which mutates the original).</p>
+
+    <pre><code><span class="kw">const</span> user = { 
+    id: <span class="num">1</span>, 
+    name: <span class="str">"Idris"</span>, 
+    password: <span class="str">"secret123"</span>, 
+    role: <span class="str">"admin"</span> 
+};
+
+<span class="cm">// Remove 'password' and 'id', keep everything else</span>
+<span class="kw">const</span> { password, id, ...safeUser } = user;
+<span class="fn">console</span>.<span class="fn">log</span>(safeUser); <span class="cm">// { name: "Idris", role: "admin" }</span>
+<span class="fn">console</span>.<span class="fn">log</span>(user);     <span class="cm">// Original is untouched!</span></code></pre>
+
+    <!-- QUIZ -->
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.16 Quiz</span><h4>Using the Rest Parameter</h4></div>
+        <p><strong>Q1:</strong> Write a function <code>multiply(multiplier, ...items)</code> that multiplies each item by the multiplier and returns a new array.</p>
+        <pre><code>multiply(2, 1, 2, 3); // → [2, 4, 6]</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const multiply = (multiplier, ...items) => {
+    return items.map(item => item * multiplier);
+};</code></pre>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.16 Quiz</span><h4>Rest vs Spread</h4></div>
+        <p><strong>Q2:</strong> For each line, identify whether <code>...</code> is being used as <strong>Spread</strong> or <strong>Rest</strong>.</p>
+        <pre><code>const [a, ...b] = [1, 2, 3, 4];      // Line A
+const c = [...b, 5, 6];               // Line B
+function test(...args) {}              // Line C
+test(...c);                            // Line D</code></pre>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <p><strong>Line A: Rest</strong> (gathering remaining elements into <code>b</code>)<br>
+            <strong>Line B: Spread</strong> (expanding <code>b</code> into a new array)<br>
+            <strong>Line C: Rest</strong> (gathering function arguments into <code>args</code>)<br>
+            <strong>Line D: Spread</strong> (expanding <code>c</code> into individual arguments)</p>
+        </div>
+    </div>
+
+    <div class="q">
+        <div class="q-header"><span class="q-num">1.16 Quiz</span><h4>Object Rest</h4></div>
+        <p><strong>Q3:</strong> Given <code>const product = { id: 1, name: "Laptop", price: 999, stock: 50 }</code>, create a new object called <code>display</code> that contains everything EXCEPT <code>id</code> and <code>stock</code>. Do it in one line.</p>
+        <button class="sol-btn" onclick="toggle(this)">Show Answer</button>
+        <div class="sol">
+            <p class="sol-label">Answer</p>
+            <pre><code>const { id, stock, ...display } = product;
+// display = { name: "Laptop", price: 999 }</code></pre>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <h2 class="section-title"><span class="section-num">1.17</span> Lesson 1 Summary</h2>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <table>
+        <tr><th>Concept</th><th>What You Know Now</th></tr>
+        <tr><td><strong>let/const vs var</strong></td><td>Block scope vs function scope. TDZ prevents access before declaration. <code>var</code> attaches to <code>window</code>, <code>let/const</code> don't. <code>const</code> prevents reassignment, not mutation. Use <code>Object.freeze()</code> for true immutability.</td></tr>
+        <tr><td><strong>Template Literals</strong></td><td>Backticks for interpolation and multi-line strings. Any expression works inside <code>${}</code>. Tagged templates allow custom parsing (sanitization, styled-components).</td></tr>
+        <tr><td><strong>Destructuring</strong></td><td>Extract from objects (by name) and arrays (by position). Supports renaming, defaults, nesting, and function parameter destructuring (the React pattern).</td></tr>
+        <tr><td><strong>Object Shorthand</strong></td><td>Property shorthand, method shorthand, computed property names. Watch the arrow function object return trap <code>() => ({})</code>.</td></tr>
+        <tr><td><strong>for...of</strong></td><td>Iterates over values of any iterable. Supports <code>break</code>/<code>continue</code>. Use <code>.entries()</code> for index access. Does NOT work on plain objects (use <code>Object.entries()</code>).</td></tr>
+        <tr><td><strong>Spread</strong></td><td>Expands iterables into elements. Used for copying, merging, and passing arrays to functions. Creates <strong>shallow</strong> copies only.</td></tr>
+        <tr><td><strong>Rest</strong></td><td>Gathers remaining elements into an array. Used in function params and destructuring. Replaces the old <code>arguments</code> object.</td></tr>
+    </table>
+
+    <div class="co co-g">
+        <strong>✅ You're Ready</strong><br>
+        You now have the deep mental models for ES6 Syntax. Every concept here is used daily in React, Node.js, and modern JavaScript codebases. Next up: <strong>ES6 Functions</strong> (Arrow Functions, Default Parameters, and <code>this</code>).
+    </div>
+
+</div>
+
+<script>
+function toggle(btn){const s=btn.nextElementSibling;s.classList.toggle('show');btn.textContent=s.classList.contains('show')?'Hide Answer':'Show Answer';}
+</script>
+</body>
+</html>

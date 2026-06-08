@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 1: Selectors, Box Model & Display</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;background-color:#0f111a;color:#c9d1d9;line-height:1.8;font-size:16px;padding:60px 20px}
+    .container{max-width:1000px;margin:0 auto}
+    h1{font-size:40px;font-weight:800;color:#f0f6fc;margin-bottom:6px;letter-spacing:-1.5px}
+    .lesson-num{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:#10b981;margin-bottom:8px}
+    .subtitle{font-size:17px;color:#7a8599;margin-bottom:48px;border-bottom:1px solid #1e2d4a;padding-bottom:28px;line-height:1.7}
+    .section-title{font-size:26px;font-weight:800;color:#f0f6fc;margin-top:72px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #1e2d4a;display:flex;align-items:center;gap:12px}
+    .section-num{background:#1e2d4a;color:#10b981;font-size:13px;padding:4px 12px;border-radius:8px;font-weight:700}
+    .concept{font-size:15px;color:#e2e8f0;margin:20px 0 12px;padding:10px 14px;background:#161b2e;border-left:4px solid #10b981;border-radius:0 8px 8px 0}
+    code{font-family:'JetBrains Mono',monospace;background:#1a2035;color:#7dd3fc;padding:2px 6px;border-radius:4px;font-size:13px}
+    pre{background:#0d1117;border:1px solid #1e2d4a;border-radius:10px;padding:18px;margin:8px 0;overflow-x:auto}
+    pre code{background:none;padding:0;font-size:12.5px;line-height:1.7;color:#c9d1d9}
+    .example-row{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 28px;align-items:flex-start}
+    .example-item{background:#0d1117;border:1px solid #1e2d4a;border-radius:10px;overflow:hidden;flex:1;min-width:110px}
+    .example-label{background:#1e2d4a;color:#10b981;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:5px 10px;text-align:center}
+    .example-render{padding:14px;display:flex;justify-content:center;align-items:center;min-height:75px;flex-direction:column;gap:6px}
+    .vs-row{display:flex;gap:14px;margin:12px 0 28px}
+    .vs-item{flex:1;border-radius:10px;overflow:hidden;border:1px solid #1e2d4a}
+    .vs-bad{border-color:rgba(248,81,73,0.4)}.vs-good{border-color:rgba(16,185,129,0.4)}
+    .vs-label{padding:7px 12px;font-size:11px;font-weight:700;text-align:center}
+    .vs-label-bad{background:rgba(248,81,73,0.1);color:#f85149}.vs-label-good{background:rgba(16,185,129,0.1);color:#10b981}
+    .vs-content{padding:14px;background:#0d1117}
+    .note{background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);border-radius:8px;padding:10px 14px;margin:10px 0 20px;font-size:13px;color:#6ee7b7}
+    .note::before{content:'💡 '}
+    .challenge{background:#161b2e;border:2px solid #f59e0b;border-radius:14px;padding:26px;margin:48px 0}
+    .challenge-title{font-size:19px;font-weight:800;color:#f59e0b;margin-bottom:12px}
+    .solution-btn{font-family:'Inter',sans-serif;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);color:#10b981;font-size:13px;font-weight:600;padding:8px 15px;border-radius:8px;cursor:pointer;transition:0.2s;margin-top:12px;margin-right:8px}
+    .hint-btn{font-family:'Inter',sans-serif;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);color:#f59e0b;font-size:13px;font-weight:600;padding:8px 15px;border-radius:8px;cursor:pointer;transition:0.2s;margin-top:12px}
+    .solution,.hint{display:none;margin-top:12px;padding:14px;border-radius:0 8px 8px 0}
+    .solution{background:rgba(16,185,129,0.04);border-left:3px solid #10b981}
+    .hint{background:rgba(245,158,11,0.04);border-left:3px solid #f59e0b}
+    .solution.show,.hint.show{display:block}
+
+    /* ─── Demo table styles ─── */
+    .ref-table{width:100%;border-collapse:collapse;margin:12px 0 28px;font-size:13px}
+    .ref-table th{background:#1e2d4a;color:#10b981;padding:8px 14px;text-align:left;font-weight:700;font-family:'JetBrains Mono',monospace}
+    .ref-table td{padding:8px 14px;border-bottom:1px solid #1e2d4a;color:#c9d1d9;vertical-align:middle}
+    .ref-table tr:last-child td{border-bottom:none}
+    .ref-table tr:hover td{background:#0d1117}
+    .ref-table td:first-child{font-family:'JetBrains Mono',monospace;color:#7dd3fc}
+    .ref-table td.check-yes{color:#10b981;font-weight:700;text-align:center}
+    .ref-table td.check-no{color:#f85149;font-weight:700;text-align:center}
+
+    /* ─── specificity score card ─── */
+    .spec-cards{display:flex;gap:12px;margin:14px 0 28px;flex-wrap:wrap}
+    .spec-card{flex:1;min-width:130px;border-radius:12px;overflow:hidden;text-align:center}
+    .spec-card-score{font-size:42px;font-weight:800;padding:18px 10px 6px}
+    .spec-card-type{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;padding:4px 10px 14px}
+    .spec-card-example{font-family:'JetBrains Mono',monospace;font-size:12px;padding:8px;border-top:1px solid rgba(255,255,255,0.06)}
+
+    /* ─── Box model visual ─── */
+    .boxmodel-wrap{margin:14px 0 28px;display:flex;justify-content:center}
+    .bm-margin{background:rgba(248,113,113,0.08);border:2px dashed rgba(248,113,113,0.35);padding:30px;border-radius:12px;position:relative;display:inline-block}
+    .bm-border{background:rgba(251,191,36,0.06);border:4px solid rgba(251,191,36,0.5);padding:24px;border-radius:8px;position:relative}
+    .bm-padding{background:rgba(52,211,153,0.08);border:2px dashed rgba(52,211,153,0.35);padding:24px;border-radius:6px;position:relative}
+    .bm-content{background:#1d4ed8;color:#fff;padding:20px 40px;border-radius:4px;font-weight:700;font-size:15px;text-align:center;white-space:nowrap}
+    .bm-label{position:absolute;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;border-radius:4px;padding:2px 7px}
+    .bm-label-margin{color:rgba(248,113,113,0.9);top:6px;left:8px}
+    .bm-label-border{color:rgba(251,191,36,0.9);top:6px;left:8px}
+    .bm-label-padding{color:rgba(52,211,153,0.9);top:6px;left:8px}
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ── HEADER ── -->
+  <div class="lesson-num">CSS by Examples</div>
+  <h1>Session 1: Selectors, Box Model &amp; Display</h1>
+  <p class="subtitle">Less reading, more seeing. Every concept shown through live examples.</p>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 1 — CSS SELECTORS
+  ══════════════════════════════════════════ -->
+  <h2 class="section-title"><span class="section-num">1</span> CSS Selectors</h2>
+
+  <!-- ─── Element Selector ─── -->
+  <div class="concept"><strong>Element selector</strong> — targets <em>every</em> element of that HTML tag on the page</div>
+  <pre><code>p { color: #60a5fa; }          /* every &lt;p&gt; turns blue */
+div { background: #1e2d4a; }  /* every &lt;div&gt; gets dark bg */</code></pre>
+
+  <p style="font-size:13px;color:#7a8599;margin-bottom:6px;">All three paragraphs turn blue — no class needed:</p>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">p { color: #60a5fa }</div>
+      <div class="example-render">
+        <style>.el-p p{color:#60a5fa;font-size:13px}</style>
+        <div class="el-p">
+          <p>First paragraph</p>
+          <p>Second paragraph</p>
+          <p>Third paragraph</p>
+        </div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">div { background: #1e3a5f }</div>
+      <div class="example-render" style="gap:4px;">
+        <style>.el-div-demo div{background:#1e3a5f;color:#7dd3fc;font-size:12px;padding:6px 12px;border-radius:4px;width:100%;text-align:center}</style>
+        <div class="el-div-demo">
+          <div>Box One</div>
+          <div>Box Two</div>
+          <div>Box Three</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vs-row">
+    <div class="vs-item vs-bad">
+      <div class="vs-label vs-label-bad">❌ Without selector — plain text</div>
+      <div class="vs-content" style="display:flex;flex-direction:column;gap:5px;">
+        <p style="font-size:13px;color:#c9d1d9;">Paragraph one</p>
+        <p style="font-size:13px;color:#c9d1d9;">Paragraph two</p>
+        <p style="font-size:13px;color:#c9d1d9;">Paragraph three</p>
+      </div>
+    </div>
+    <div class="vs-item vs-good">
+      <div class="vs-label vs-label-good">✅ With p { color: #f472b6 }</div>
+      <div class="vs-content" style="display:flex;flex-direction:column;gap:5px;">
+        <p style="font-size:13px;color:#f472b6;">Paragraph one</p>
+        <p style="font-size:13px;color:#f472b6;">Paragraph two</p>
+        <p style="font-size:13px;color:#f472b6;">Paragraph three</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Class Selector ─── -->
+  <div class="concept"><strong>Class selector</strong> — targets elements that have a specific <code>class</code> attribute. Starts with a dot <code>.</code></div>
+  <pre><code>.highlight { background: #fde68a; color: #1e1e1e; }</code></pre>
+
+  <p style="font-size:13px;color:#7a8599;margin-bottom:6px;">Only the 2 boxes with <code>class="highlight"</code> change — the others stay untouched:</p>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">no class</div>
+      <div class="example-render">
+        <div style="background:#1e2d4a;color:#7a8599;padding:10px 20px;border-radius:6px;font-size:13px;width:100%;text-align:center;">Box A</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">class="highlight"</div>
+      <div class="example-render">
+        <div style="background:#fde68a;color:#1e1e1e;padding:10px 20px;border-radius:6px;font-size:13px;font-weight:700;width:100%;text-align:center;">Box B ✨</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">no class</div>
+      <div class="example-render">
+        <div style="background:#1e2d4a;color:#7a8599;padding:10px 20px;border-radius:6px;font-size:13px;width:100%;text-align:center;">Box C</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">class="highlight"</div>
+      <div class="example-render">
+        <div style="background:#fde68a;color:#1e1e1e;padding:10px 20px;border-radius:6px;font-size:13px;font-weight:700;width:100%;text-align:center;">Box D ✨</div>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:#7a8599;margin-bottom:6px;margin-top:4px;">One element with <strong>two classes</strong> — both <code>.card</code> and <code>.featured</code> styles apply at once:</p>
+  <pre><code>.card     { border: 2px solid #334155; border-radius: 10px; padding: 16px; }
+.featured { border-color: #f59e0b; background: rgba(245,158,11,0.06); }</code></pre>
+
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">class="card"</div>
+      <div class="example-render">
+        <div style="border:2px solid #334155;border-radius:10px;padding:16px;font-size:13px;color:#c9d1d9;width:100%;text-align:center;">Regular card</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">class="card featured"</div>
+      <div class="example-render">
+        <div style="border:2px solid #f59e0b;border-radius:10px;padding:16px;background:rgba(245,158,11,0.06);font-size:13px;color:#f59e0b;font-weight:700;width:100%;text-align:center;">⭐ Featured card</div>
+      </div>
+    </div>
+  </div>
+  <div class="note">A single element can have as many classes as you want. Each class adds more styles — they stack.</div>
+
+  <!-- ─── ID Selector ─── -->
+  <div class="concept"><strong>ID selector</strong> — targets exactly <em>one</em> unique element. Starts with a hash <code>#</code>. Each ID must appear only once per page.</div>
+  <pre><code>#special { background: #7c3aed; color: #fff; border: 2px solid #a78bfa; }</code></pre>
+
+  <p style="font-size:13px;color:#7a8599;margin-bottom:6px;">Three boxes — only <code>id="special"</code> gets styled:</p>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">id="box-one"</div>
+      <div class="example-render">
+        <div style="background:#1e2d4a;color:#7a8599;padding:12px 20px;border-radius:6px;font-size:13px;width:100%;text-align:center;">Box One</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">id="special" ← hits</div>
+      <div class="example-render">
+        <div style="background:#7c3aed;color:#fff;border:2px solid #a78bfa;padding:12px 20px;border-radius:6px;font-size:13px;font-weight:700;width:100%;text-align:center;">Special ✦</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">id="box-three"</div>
+      <div class="example-render">
+        <div style="background:#1e2d4a;color:#7a8599;padding:12px 20px;border-radius:6px;font-size:13px;width:100%;text-align:center;">Box Three</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Descendant Selector ─── -->
+  <div class="concept"><strong>Descendant selector</strong> — <code>.nav a</code> targets <code>&lt;a&gt;</code> tags that live <em>inside</em> a <code>.nav</code> element. Anything outside is unaffected.</div>
+  <pre><code>.nav a { color: #fff; background: #1d4ed8; padding: 4px 10px; border-radius: 4px; text-decoration: none; }</code></pre>
+
+  <div class="vs-row">
+    <div class="vs-item vs-good">
+      <div class="vs-label vs-label-good">✅ Links INSIDE .nav — styled</div>
+      <div class="vs-content">
+        <style>.demo-nav-inside a{color:#fff;background:#1d4ed8;padding:4px 10px;border-radius:4px;text-decoration:none;font-size:13px;margin-right:6px;display:inline-block}</style>
+        <div class="demo-nav-inside">
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="vs-item vs-bad">
+      <div class="vs-label vs-label-bad">❌ Links OUTSIDE .nav — untouched</div>
+      <div class="vs-content">
+        <a href="#" style="color:#60a5fa;font-size:13px;margin-right:10px;">Home</a>
+        <a href="#" style="color:#60a5fa;font-size:13px;margin-right:10px;">About</a>
+        <a href="#" style="color:#60a5fa;font-size:13px;">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Grouping Selector ─── -->
+  <div class="concept"><strong>Grouping selector</strong> — separate multiple selectors with commas to apply the same rule to all of them at once.</div>
+  <pre><code>h1, h2, h3 { color: #10b981; font-family: 'Inter', sans-serif; }</code></pre>
+
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">h1</div>
+      <div class="example-render">
+        <h1 style="font-size:22px;color:#10b981;letter-spacing:-0.5px;">Heading 1</h1>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">h2</div>
+      <div class="example-render">
+        <h2 style="font-size:18px;color:#10b981;font-weight:700;">Heading 2</h2>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">h3</div>
+      <div class="example-render">
+        <h3 style="font-size:15px;color:#10b981;font-weight:600;">Heading 3</h3>
+      </div>
+    </div>
+  </div>
+  <div class="note">Same color, three different tags — one rule does all the work.</div>
+
+  <!-- ─── Chaining Selector ─── -->
+  <div class="concept"><strong>Chaining selector</strong> — <code>a.btn</code> means "an <code>&lt;a&gt;</code> tag that ALSO has class <code>btn</code>". No space between them.</div>
+  <pre><code>a.btn { background: #10b981; color: #fff; padding: 8px 18px; border-radius: 6px; text-decoration: none; }</code></pre>
+
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">&lt;a&gt; alone</div>
+      <div class="example-render">
+        <a href="#" style="color:#60a5fa;font-size:13px;text-decoration:underline;">Just a link</a>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">&lt;div class="btn"&gt;</div>
+      <div class="example-render">
+        <div style="background:#1e2d4a;color:#7a8599;padding:8px 18px;border-radius:6px;font-size:13px;">div.btn (no hit)</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">&lt;a class="btn"&gt; ← HITS ✦</div>
+      <div class="example-render">
+        <a href="#" style="background:#10b981;color:#fff;padding:8px 18px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:700;">CTA Button ✦</a>
+      </div>
+    </div>
+  </div>
+  <div class="note">Only the element that matches BOTH conditions gets the style. It must be an <code>&lt;a&gt;</code> AND have class <code>btn</code>.</div>
+
+  <!-- ─── Selector Reference Table ─── -->
+  <div class="concept"><strong>Selector reference</strong> — quick cheat-sheet</div>
+  <table class="ref-table">
+    <thead>
+      <tr><th>Selector</th><th>Example</th><th>What it targets</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Element</td><td>p</td><td>Every &lt;p&gt; on the page</td></tr>
+      <tr><td>Class</td><td>.card</td><td>Every element with class="card"</td></tr>
+      <tr><td>ID</td><td>#hero</td><td>The one element with id="hero"</td></tr>
+      <tr><td>Descendant</td><td>.nav a</td><td>&lt;a&gt; tags inside .nav only</td></tr>
+      <tr><td>Child</td><td>.list &gt; li</td><td>Direct &lt;li&gt; children of .list</td></tr>
+      <tr><td>Grouping</td><td>h1, h2, h3</td><td>All three heading types</td></tr>
+      <tr><td>Chaining</td><td>a.btn</td><td>&lt;a&gt; that also has class btn</td></tr>
+      <tr><td>Pseudo-class</td><td>a:hover</td><td>&lt;a&gt; while mouse hovers over it</td></tr>
+      <tr><td>Universal</td><td>*</td><td>Every single element on the page</td></tr>
+    </tbody>
+  </table>
+
+
+  <!-- ══════════════════════════════════════════
+       SECTION 2 — SPECIFICITY
+  ══════════════════════════════════════════ -->
+  <h2 class="section-title"><span class="section-num">2</span> Specificity — Who Wins When Rules Fight?</h2>
+
+  <p style="font-size:14px;color:#7a8599;margin-bottom:10px;">When two CSS rules target the same element, the one with the <strong style="color:#e2e8f0;">higher specificity score</strong> wins. Think of it as a point system.</p>
+
+  <div class="spec-cards">
+    <div class="spec-card" style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);">
+      <div class="spec-card-score" style="color:#818cf8;">1</div>
+      <div class="spec-card-type" style="color:#818cf8;">Element</div>
+      <div class="spec-card-example" style="color:#7a8599;">p { }<br>div { }<br>h1 { }</div>
+    </div>
+    <div class="spec-card" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);">
+      <div class="spec-card-score" style="color:#10b981;">10</div>
+      <div class="spec-card-type" style="color:#10b981;">Class</div>
+      <div class="spec-card-example" style="color:#7a8599;">.card { }<br>.nav { }<br>.btn { }</div>
+    </div>
+    <div class="spec-card" style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);">
+      <div class="spec-card-score" style="color:#f59e0b;">100</div>
+      <div class="spec-card-type" style="color:#f59e0b;">ID</div>
+      <div class="spec-card-example" style="color:#7a8599;">#hero { }<br>#nav { }<br>#logo { }</div>
+    </div>
+    <div class="spec-card" style="background:rgba(248,81,73,0.08);border:1px solid rgba(248,81,73,0.25);">
+      <div class="spec-card-score" style="color:#f85149;">1000</div>
+      <div class="spec-card-type" style="color:#f85149;">Inline</div>
+      <div class="spec-card-example" style="color:#7a8599;">style="color:red"<br>(directly on element)</div>
+    </div>
+  </div>
+
+  <!-- Conflict Demo 1 -->
+  <div class="concept"><strong>Demo 1</strong> — <code>a{color:blue}</code> <em>vs</em> <code>.nav a{color:red}</code> — score 1 vs score 11</div>
+  <pre><code>a         { color: blue; }   /* score:  1 */
+.nav a    { color: red;  }   /* score: 11 ← WINS */</code></pre>
+
+  <div class="vs-row">
+    <div class="vs-item">
+      <div class="vs-label" style="background:#161b2e;color:#818cf8;">Score: 1 — a { color: blue }</div>
+      <div class="vs-content">
+        <a href="#" style="color:#60a5fa;font-size:13px;">A lone link → blue</a>
+      </div>
+    </div>
+    <div class="vs-item vs-good">
+      <div class="vs-label vs-label-good">Score: 11 — .nav a { color: red } WINS ✦</div>
+      <div class="vs-content">
+        <div>
+          <a href="#" style="color:#f87171;font-size:13px;font-weight:700;">Link inside .nav → RED wins</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conflict Demo 2 -->
+  <div class="concept"><strong>Demo 2</strong> — Equal specificity: the <em>last rule in the file</em> wins</div>
+  <pre><code>.box { color: orange; }   /* score: 10 */
+.box { color: purple; }   /* score: 10 — same score, but LAST → wins */</code></pre>
+
+  <div class="vs-row">
+    <div class="vs-item vs-bad">
+      <div class="vs-label vs-label-bad">First rule (loses — same score but earlier)</div>
+      <div class="vs-content">
+        <div style="font-size:13px;color:#fb923c;text-decoration:line-through;opacity:0.4;">.box { color: orange }</div>
+      </div>
+    </div>
+    <div class="vs-item vs-good">
+      <div class="vs-label vs-label-good">Last rule WINS ✦</div>
+      <div class="vs-content">
+        <div style="font-size:15px;color:#a78bfa;font-weight:700;">.box { color: purple }</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conflict Demo 3 -->
+  <div class="concept"><strong>Demo 3</strong> — Real navbar: why <code>.nav-links a:hover</code> beats plain <code>a:hover</code></div>
+  <pre><code>a:hover              { color: #aaa; }         /* score: 1+10 = 11 — pseudo-class counts as 10 */
+.nav-links a:hover   { color: #10b981; }      /* score: 10+1+10 = 21 ← WINS */</code></pre>
+
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">a:hover (score 11)</div>
+      <div class="example-render">
+        <a href="#" style="color:#aaa;font-size:13px;text-decoration:none;">plain link hover color</a>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">.nav-links a:hover (score 21) WINS</div>
+      <div class="example-render">
+        <a href="#" style="color:#10b981;font-size:13px;font-weight:700;text-decoration:none;">nav hover → green ✦</a>
+      </div>
+    </div>
+  </div>
+  <div class="note">Pseudo-classes like <code>:hover</code>, <code>:focus</code>, <code>:nth-child</code> each add 10 to the score — same as a class.</div>
+
+
+  <!-- ══════════════════════════════════════════
+       SECTION 3 — THE BOX MODEL
+  ══════════════════════════════════════════ -->
+  <h2 class="section-title"><span class="section-num">3</span> The Box Model</h2>
+
+  <p style="font-size:14px;color:#7a8599;margin-bottom:14px;">Every HTML element is a rectangular box made of four nested layers. The box model defines how those layers work together.</p>
+
+  <!-- Visual Box Model -->
+  <div class="boxmodel-wrap">
+    <div class="bm-margin">
+      <span class="bm-label bm-label-margin">MARGIN — space outside the border</span>
+      <div class="bm-border" style="margin-top:14px;">
+        <span class="bm-label bm-label-border">BORDER — the visible edge line</span>
+        <div class="bm-padding" style="margin-top:14px;">
+          <span class="bm-label bm-label-padding">PADDING — space inside the border</span>
+          <div style="margin-top:14px;" class="bm-content">
+            Content
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="ref-table" style="margin-top:0">
+    <thead>
+      <tr><th>Layer</th><th>Property</th><th>What it does</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Content</td><td>width, height</td><td>The actual text/image area</td></tr>
+      <tr><td>Padding</td><td>padding</td><td>Breathing room inside the border</td></tr>
+      <tr><td>Border</td><td>border</td><td>The visible edge around the element</td></tr>
+      <tr><td>Margin</td><td>margin</td><td>Space pushing other elements away</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ─── Padding ─── -->
+  <div class="concept"><strong>Padding</strong> — space between the content and the border. More padding = more breathing room inside.</div>
+  <pre><code>padding: 0;     /* flush to edge */
+padding: 8px;   /* small gap     */
+padding: 40px;  /* large gap     */
+
+/* Shorthand: top/bottom  left/right */
+padding: 8px 32px;</code></pre>
+
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">padding: 0</div>
+      <div class="example-render">
+        <div style="border:2px solid #10b981;background:#0d2818;color:#10b981;font-size:12px;padding:0;border-radius:4px;font-family:'JetBrains Mono',monospace;">Text</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">padding: 8px</div>
+      <div class="example-render">
+        <div style="border:2px solid #10b981;background:#0d2818;color:#10b981;font-size:12px;padding:8px;border-radius:4px;font-family:'JetBrains Mono',monospace;">Text</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">padding: 16px</div>
+      <div class="example-render">
+        <div style="border:2px solid #10b981;background:#0d2818;color:#10b981;font-size:12px;padding:16px;border-radius:4px;font-family:'JetBrains Mono',monospace;">Text</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">padding: 24px</div>
+      <div class="example-render">
+        <div style="border:2px solid #10b981;background:#0d2818;color:#10b981;font-size:12px;padding:24px;border-radius:4px;font-family:'JetBrains Mono',monospace;">Text</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">padding: 40px</div>
+      <div class="example-render">
+        <div style="border:2px solid #10b981;background:#0d2818;color:#10b981;font-size:12px;padding:40px;border-radius:4px;font-family:'JetBrains Mono',monospace;">Text</div>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:#7a8599;margin-bottom:6px;margin-top:4px;">Asymmetric padding — short top/bottom, wide left/right (great for buttons):</p>
+  <div class="example-row">
+    <div class="example-item" style="max-width:220px;">
+      <div class="example-label">padding: 8px 32px</div>
+      <div class="example-render">
+        <div style="border:2px solid #7c3aed;background:rgba(124,58,237,0.1);color:#a78bfa;font-size:13px;padding:8px 32px;border-radius:6px;font-weight:700;">Button</div>
+      </div>
+    </div>
+    <div class="example-item" style="max-width:220px;">
+      <div class="example-label">padding: 32px 8px (flipped)</div>
+      <div class="example-render">
+        <div style="border:2px solid #7c3aed;background:rgba(124,58,237,0.1);color:#a78bfa;font-size:13px;padding:32px 8px;border-radius:6px;font-weight:700;">Button</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vs-row">
+    <div class="vs-item vs-bad">
+      <div class="vs-label vs-label-bad">❌ Cramped — no padding</div>
+      <div class="vs-content">
+        <div style="background:#1e2d4a;border:1px solid #334155;border-radius:8px;padding:0;font-size:13px;color:#c9d1d9;">
+          <div style="padding:6px;background:#253350;font-weight:700;color:#f0f6fc;font-size:12px;">Pro Membership</div>
+          <div>Unlimited access to all features. No ads. Priority support.</div>
+          <div style="color:#10b981;font-weight:700;">$9/mo</div>
+        </div>
+      </div>
+    </div>
+    <div class="vs-item vs-good">
+      <div class="vs-label vs-label-good">✅ Comfortable — padding: 20px</div>
+      <div class="vs-content">
+        <div style="background:#1e2d4a;border:1px solid #334155;border-radius:8px;padding:20px;font-size:13px;color:#c9d1d9;">
+          <div style="font-weight:700;color:#f0f6fc;font-size:15px;margin-bottom:8px;">Pro Membership</div>
+          <div style="margin-bottom:12px;">Unlimited access to all features. No ads. Priority support.</div>
+          <div style="color:#10b981;font-weight:700;font-size:16px;">$9/mo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Margin ─── -->
+  <div class="concept"><strong>Margin</strong> — invisible space <em>outside</em> the element, pushing other elements away.</div>
+  <pre><code>margin: 0;       /* elements touch */
+margin: 12px;    /* small gap      */
+margin: 32px;    /* large gap      */
+
+/* Center a block element with a fixed width: */
+width: 300px;
+margin: 0 auto;  /* left and right auto = centered! */</code></pre>
+
+  <p style="font-size:13px;color:#7a8599;margin-bottom:6px;">Three boxes with different margin values:</p>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">margin: 0 — touching</div>
+      <div class="example-render" style="flex-direction:row;gap:0;justify-content:flex-start;padding:8px">
+        <div style="background:#1d4ed8;color:#fff;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;border-radius:4px;margin:0;">A</div>
+        <div style="background:#7c3aed;color:#fff;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;border-radius:4px;margin:0;">B</div>
+        <div style="background:#0f766e;color:#fff;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;border-radius:4px;margin:0;">C</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">margin: 6px — small gap</div>
+      <div class="example-render" style="flex-direction:row;justify-content:flex-start;padding:8px">
+        <div style="background:#1d4ed8;color:#fff;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;border-radius:4px;margin:6px;">A</div>
+        <div style="background:#7c3aed;color:#fff;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;border-radius:4px;margin:6px;">B</div>
+        <div style="background:#0f766e;color:#fff;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;border-radius:4px;margin:6px;">C</div>
+      </div>
+    </div>
+  </div>
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">margin: 20px — big gap</div>
+      <div class="example-render" style="flex-direction:row;justify-content:flex-start;padding:4px;overflow:visible">
+        <div style="background:#1d4ed8;color:#fff;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;border-radius:4px;margin:20px;">A</div>
+        <div style="background:#7c3aed;color:#fff;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;border-radius:4px;margin:20px;">B</div>
+        <div style="background:#0f766e;color:#fff;padding:8px 14px;font-size:12px;font-family:'JetBrains Mono',monospace;border-radius:4px;margin:20px;">C</div>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:#7a8599;margin-bottom:6px;margin-top:4px;"><strong style="color:#e2e8f0;">margin: 0 auto</strong> — centers a fixed-width block element:</p>
+  <div class="example-item" style="max-width:100%;">
+    <div class="example-label">width: 260px; margin: 0 auto — centered ✦</div>
+    <div class="example-render" style="min-height:60px;">
+      <div style="width:260px;margin:0 auto;background:#1d4ed8;color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:700;text-align:center;">I am centered!</div>
+    </div>
+  </div>
+
+  <div class="concept" style="margin-top:28px;"><strong>Margin Collapse</strong> — when two vertical margins meet, they collapse into one (the larger value wins). This surprises beginners!</div>
+  <pre><code>.box-a { margin-bottom: 30px; }
+.box-b { margin-top:    20px; }
+/* Gap between them = 30px (NOT 50px!) — the larger wins */</code></pre>
+
+  <div class="example-item" style="max-width:100%;margin-bottom:28px;">
+    <div class="example-label">margin-bottom:30px + margin-top:20px = 30px gap (not 50px!)</div>
+    <div class="example-render" style="flex-direction:column;align-items:stretch;padding:16px;gap:0;">
+      <div style="background:#1d4ed8;color:#fff;padding:10px 16px;font-size:13px;border-radius:6px;text-align:center;margin-bottom:30px;">Box A — margin-bottom: 30px</div>
+      <div style="background:#7c3aed;color:#fff;padding:10px 16px;font-size:13px;border-radius:6px;text-align:center;margin-top:20px;">Box B — margin-top: 20px</div>
+      <div style="text-align:center;color:#f59e0b;font-size:11px;font-family:'JetBrains Mono',monospace;margin-top:6px;">↑ gap = 30px, not 50px</div>
+    </div>
+  </div>
+
+  <!-- ─── Border ─── -->
+  <div class="concept"><strong>Border</strong> — the visible edge of an element. Syntax: <code>border: [width] [style] [color]</code></div>
+  <pre><code>border: 2px solid  #10b981;
+border: 2px dashed #f59e0b;
+border: 2px dotted #a78bfa;
+border: 4px double #60a5fa;
+border-bottom: 3px solid #10b981;  /* one side only */
+border-left:   4px solid #f85149;  /* accent line    */</code></pre>
+
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">solid</div>
+      <div class="example-render">
+        <div style="border:2px solid #10b981;padding:10px 16px;border-radius:6px;color:#10b981;font-size:12px;font-family:'JetBrains Mono',monospace;">solid</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">dashed</div>
+      <div class="example-render">
+        <div style="border:2px dashed #f59e0b;padding:10px 16px;border-radius:6px;color:#f59e0b;font-size:12px;font-family:'JetBrains Mono',monospace;">dashed</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">dotted</div>
+      <div class="example-render">
+        <div style="border:2px dotted #a78bfa;padding:10px 16px;border-radius:6px;color:#a78bfa;font-size:12px;font-family:'JetBrains Mono',monospace;">dotted</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">double</div>
+      <div class="example-render">
+        <div style="border:4px double #60a5fa;padding:10px 16px;border-radius:6px;color:#60a5fa;font-size:12px;font-family:'JetBrains Mono',monospace;">double</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">border-bottom</div>
+      <div class="example-render">
+        <div style="border-bottom:3px solid #10b981;padding:10px 16px;color:#c9d1d9;font-size:12px;font-family:'JetBrains Mono',monospace;">bottom only</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">border-left accent</div>
+      <div class="example-render">
+        <div style="border-left:4px solid #f85149;background:#1e1e1e;padding:10px 16px;color:#f87171;font-size:12px;font-family:'JetBrains Mono',monospace;">left accent</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Border Radius ─── -->
+  <div class="concept"><strong>border-radius</strong> — rounds the corners of the element. Use <code>50%</code> on an equal-width/height box for a perfect circle.</div>
+  <pre><code>border-radius: 0;     /* sharp corners */
+border-radius: 50%;   /* circle!        */</code></pre>
+
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">0</div>
+      <div class="example-render">
+        <div style="width:60px;height:60px;background:#1d4ed8;border-radius:0;"></div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">4px</div>
+      <div class="example-render">
+        <div style="width:60px;height:60px;background:#1d4ed8;border-radius:4px;"></div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">8px</div>
+      <div class="example-render">
+        <div style="width:60px;height:60px;background:#7c3aed;border-radius:8px;"></div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">16px</div>
+      <div class="example-render">
+        <div style="width:60px;height:60px;background:#7c3aed;border-radius:16px;"></div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">30px</div>
+      <div class="example-render">
+        <div style="width:60px;height:60px;background:#10b981;border-radius:30px;"></div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">50% (circle!)</div>
+      <div class="example-render">
+        <div style="width:60px;height:60px;background:#10b981;border-radius:50%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── box-sizing ─── -->
+  <div class="concept"><strong>box-sizing — CRITICAL!</strong> By default, padding and border are added ON TOP of the width. <code>border-box</code> fixes this so the size you set is the total size.</div>
+  <pre><code>/* Default (content-box): width 200px + padding 20px + border 5px = 250px actual */
+.box-a { width: 200px; padding: 20px; border: 5px solid red; }
+
+/* border-box: all-in-one, always 200px */
+.box-b { width: 200px; padding: 20px; border: 5px solid green; box-sizing: border-box; }</code></pre>
+
+  <div class="vs-row">
+    <div class="vs-item vs-bad" style="flex:none;width:auto;">
+      <div class="vs-label vs-label-bad">❌ Default (content-box) — actually 250px wide!</div>
+      <div class="vs-content" style="overflow-x:auto;">
+        <div style="width:200px;padding:20px;border:5px solid #f85149;background:#1e1e1e;color:#f87171;font-size:12px;font-family:'JetBrains Mono',monospace;box-sizing:content-box;border-radius:4px;">
+          width:200px but actual = 250px
+        </div>
+        <div style="font-size:11px;color:#f85149;margin-top:6px;font-family:'JetBrains Mono',monospace;">200 + 20+20 (pad) + 5+5 (brd) = 250px</div>
+      </div>
+    </div>
+    <div class="vs-item vs-good" style="flex:none;width:auto;">
+      <div class="vs-label vs-label-good">✅ box-sizing: border-box — always exactly 200px</div>
+      <div class="vs-content">
+        <div style="width:200px;padding:20px;border:5px solid #10b981;background:#0d2818;color:#6ee7b7;font-size:12px;font-family:'JetBrains Mono',monospace;box-sizing:border-box;border-radius:4px;">
+          width:200px = exactly 200px ✦
+        </div>
+        <div style="font-size:11px;color:#10b981;margin-top:6px;font-family:'JetBrains Mono',monospace;">200px total — padding/border INSIDE</div>
+      </div>
+    </div>
+  </div>
+  <div class="note">That's why every CSS file starts with <code>* { box-sizing: border-box; }</code> — it fixes this globally for every element.</div>
+
+
+  <!-- ══════════════════════════════════════════
+       SECTION 4 — DISPLAY PROPERTY
+  ══════════════════════════════════════════ -->
+  <h2 class="section-title"><span class="section-num">4</span> Display Property</h2>
+
+  <!-- display: block -->
+  <div class="concept"><strong>display: block</strong> — each element takes up the full width of its container and starts on a new line, even if the content is tiny.</div>
+  <pre><code>div { display: block; } /* default for div, p, h1, h2, header, section... */</code></pre>
+
+  <div class="example-item" style="max-width:100%;margin-bottom:28px;">
+    <div class="example-label">3 divs — each gets its own full-width row</div>
+    <div class="example-render" style="flex-direction:column;align-items:stretch;gap:5px;padding:12px;">
+      <div style="background:#1d4ed8;color:#fff;padding:10px 16px;border-radius:6px;font-size:13px;width:100%;">Block One — full width</div>
+      <div style="background:#7c3aed;color:#fff;padding:10px 16px;border-radius:6px;font-size:13px;width:100%;">Block Two — full width</div>
+      <div style="background:#0f766e;color:#fff;padding:10px 16px;border-radius:6px;font-size:13px;width:100%;">Block Three — full width</div>
+    </div>
+  </div>
+
+  <!-- display: inline -->
+  <div class="concept"><strong>display: inline</strong> — elements sit side by side on the same line like words in a sentence. Width and height are ignored. (<code>span</code>, <code>a</code>, <code>strong</code> are inline by default)</div>
+  <pre><code>span { display: inline; } /* default */
+span { width: 200px; }    /* IGNORED! inline elements ignore width/height */
+span { margin-top: 50px;} /* IGNORED! top/bottom margin ignored too */</code></pre>
+
+  <div class="example-item" style="max-width:100%;margin-bottom:18px;">
+    <div class="example-label">3 spans — sit side by side, wrap like text</div>
+    <div class="example-render" style="flex-direction:row;flex-wrap:wrap;justify-content:flex-start;padding:12px;gap:0;">
+      <span style="background:#1d4ed8;color:#fff;padding:6px 12px;font-size:13px;display:inline;">Span One</span>
+      <span style="background:#7c3aed;color:#fff;padding:6px 12px;font-size:13px;display:inline;">Span Two</span>
+      <span style="background:#0f766e;color:#fff;padding:6px 12px;font-size:13px;display:inline;">Span Three</span>
+    </div>
+  </div>
+
+  <div class="vs-row">
+    <div class="vs-item vs-bad">
+      <div class="vs-label vs-label-bad">❌ inline span — width: 200px has NO effect</div>
+      <div class="vs-content" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+        <span style="display:inline;background:#1d4ed8;color:#fff;padding:6px 12px;font-size:12px;width:200px;">A</span>
+        <span style="display:inline;background:#7c3aed;color:#fff;padding:6px 12px;font-size:12px;width:200px;">B</span>
+        <span style="font-size:11px;color:#f85149;font-family:'JetBrains Mono',monospace;">← width ignored!</span>
+      </div>
+    </div>
+    <div class="vs-item vs-bad">
+      <div class="vs-label vs-label-bad">❌ inline span — margin-top: 50px has NO effect</div>
+      <div class="vs-content" style="display:flex;gap:6px;align-items:center;">
+        <span style="display:inline;background:#1d4ed8;color:#fff;padding:6px 12px;font-size:12px;margin-top:50px;">A</span>
+        <span style="display:inline;background:#7c3aed;color:#fff;padding:6px 12px;font-size:12px;">B</span>
+        <span style="font-size:11px;color:#f85149;font-family:'JetBrains Mono',monospace;">← margin-top ignored!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- display: inline-block -->
+  <div class="concept"><strong>display: inline-block</strong> — the best of both worlds. Elements sit side by side AND accept width, height, and all margins.</div>
+  <pre><code>span {
+  display: inline-block;
+  width: 100px;
+  height: 80px;
+  margin: 10px;
+}</code></pre>
+
+  <div class="example-item" style="max-width:100%;margin-bottom:28px;">
+    <div class="example-label">3 inline-block spans — side by side WITH width and height</div>
+    <div class="example-render" style="flex-direction:row;justify-content:center;flex-wrap:wrap;gap:10px;padding:16px;">
+      <div style="display:inline-block;width:110px;height:80px;background:#1d4ed8;color:#fff;padding:10px;border-radius:8px;font-size:12px;font-family:'JetBrains Mono',monospace;text-align:center;vertical-align:top;line-height:1.4;">inline-block<br/>w:110px h:80px</div>
+      <div style="display:inline-block;width:110px;height:80px;background:#7c3aed;color:#fff;padding:10px;border-radius:8px;font-size:12px;font-family:'JetBrains Mono',monospace;text-align:center;vertical-align:top;line-height:1.4;">inline-block<br/>w:110px h:80px</div>
+      <div style="display:inline-block;width:110px;height:80px;background:#0f766e;color:#fff;padding:10px;border-radius:8px;font-size:12px;font-family:'JetBrains Mono',monospace;text-align:center;vertical-align:top;line-height:1.4;">inline-block<br/>w:110px h:80px</div>
+    </div>
+  </div>
+
+  <!-- display: none vs visibility: hidden -->
+  <div class="concept"><strong>display:none vs visibility:hidden</strong> — both hide an element visually, but in very different ways.</div>
+  <pre><code>display: none;        /* removed from layout — other elements fill the gap */
+visibility: hidden;   /* invisible, but still takes up its space (ghost!) */</code></pre>
+
+  <div class="vs-row">
+    <div class="vs-item vs-bad">
+      <div class="vs-label vs-label-bad">display:none on GREEN — RED and BLUE touch (gap gone)</div>
+      <div class="vs-content" style="display:flex;gap:6px;align-items:center;">
+        <div style="background:#f85149;color:#fff;padding:10px 16px;border-radius:6px;font-size:13px;font-weight:700;">RED</div>
+        <div style="display:none;background:#10b981;color:#fff;padding:10px 16px;border-radius:6px;font-size:13px;font-weight:700;">GREEN</div>
+        <div style="background:#60a5fa;color:#fff;padding:10px 16px;border-radius:6px;font-size:13px;font-weight:700;">BLUE</div>
+        <span style="font-size:11px;color:#f85149;font-family:'JetBrains Mono',monospace;">← green is gone!</span>
+      </div>
+    </div>
+    <div class="vs-item" style="border-color:rgba(245,158,11,0.4)">
+      <div class="vs-label" style="background:rgba(245,158,11,0.1);color:#f59e0b;">visibility:hidden on GREEN — gap remains (ghost!)</div>
+      <div class="vs-content" style="display:flex;gap:6px;align-items:center;">
+        <div style="background:#f85149;color:#fff;padding:10px 16px;border-radius:6px;font-size:13px;font-weight:700;">RED</div>
+        <div style="visibility:hidden;background:#10b981;color:#fff;padding:10px 16px;border-radius:6px;font-size:13px;font-weight:700;">GREEN</div>
+        <div style="background:#60a5fa;color:#fff;padding:10px 16px;border-radius:6px;font-size:13px;font-weight:700;">BLUE</div>
+        <span style="font-size:11px;color:#f59e0b;font-family:'JetBrains Mono',monospace;">← gap is still there!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Display Comparison Table -->
+  <div class="concept"><strong>Display comparison table</strong></div>
+  <table class="ref-table">
+    <thead>
+      <tr><th>Value</th><th>New line?</th><th>Full width?</th><th>Width/Height?</th><th>Top/bottom margin?</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>block</td>
+        <td class="check-yes">✅ Yes</td>
+        <td class="check-yes">✅ Yes</td>
+        <td class="check-yes">✅ Yes</td>
+        <td class="check-yes">✅ Yes</td>
+      </tr>
+      <tr>
+        <td>inline</td>
+        <td class="check-no">❌ No</td>
+        <td class="check-no">❌ No</td>
+        <td class="check-no">❌ No</td>
+        <td class="check-no">❌ No</td>
+      </tr>
+      <tr>
+        <td>inline-block</td>
+        <td class="check-no">❌ No</td>
+        <td class="check-no">❌ No</td>
+        <td class="check-yes">✅ Yes</td>
+        <td class="check-yes">✅ Yes</td>
+      </tr>
+      <tr>
+        <td>none</td>
+        <td colspan="4" style="color:#f85149;text-align:center;">Element removed from layout entirely — invisible AND takes no space</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ══════════════════════════════════════════
+       SECTION 5 — WIDTH, HEIGHT & UNITS
+  ══════════════════════════════════════════ -->
+  <h2 class="section-title"><span class="section-num">5</span> Width, Height &amp; Units</h2>
+
+  <div class="concept"><strong>Width values</strong> — four different ways to set how wide an element is.</div>
+  <pre><code>width: auto;       /* default — fills available space */
+width: 50%;        /* half of the parent's width */
+width: 250px;      /* exactly 250 pixels, always */
+max-width: 300px;  /* never wider than 300px, can shrink below */</code></pre>
+
+  <div class="example-item" style="max-width:100%;margin-bottom:10px;">
+    <div class="example-label">width: auto — fills its row</div>
+    <div class="example-render" style="align-items:stretch;padding:10px;">
+      <div style="width:auto;background:#1d4ed8;color:#fff;padding:10px 14px;border-radius:6px;font-size:12px;font-family:'JetBrains Mono',monospace;">auto — full width of parent</div>
+    </div>
+  </div>
+  <div class="example-item" style="max-width:100%;margin-bottom:10px;">
+    <div class="example-label">width: 50% — half the parent</div>
+    <div class="example-render" style="align-items:flex-start;padding:10px;">
+      <div style="width:50%;background:#7c3aed;color:#fff;padding:10px 14px;border-radius:6px;font-size:12px;font-family:'JetBrains Mono',monospace;">50% width</div>
+    </div>
+  </div>
+  <div class="example-item" style="max-width:100%;margin-bottom:10px;">
+    <div class="example-label">width: 250px — fixed size regardless of screen</div>
+    <div class="example-render" style="align-items:flex-start;padding:10px;">
+      <div style="width:250px;background:#0f766e;color:#fff;padding:10px 14px;border-radius:6px;font-size:12px;font-family:'JetBrains Mono',monospace;">250px — always this wide</div>
+    </div>
+  </div>
+  <div class="example-item" style="max-width:100%;margin-bottom:28px;">
+    <div class="example-label">max-width: 300px — can shrink, never grows past 300px</div>
+    <div class="example-render" style="align-items:flex-start;padding:10px;">
+      <div style="max-width:300px;width:100%;background:#92400e;color:#fcd34d;padding:10px 14px;border-radius:6px;font-size:12px;font-family:'JetBrains Mono',monospace;">max-width: 300px</div>
+    </div>
+  </div>
+
+  <!-- Units Reference -->
+  <div class="concept"><strong>CSS Units</strong> — px, %, rem, em, vh/vw</div>
+  <table class="ref-table">
+    <thead>
+      <tr><th>Unit</th><th>What it's relative to</th><th>Example</th><th>Best used for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>px</td><td>Screen pixel (fixed)</td><td>font-size: 16px</td><td>Precise sizing</td></tr>
+      <tr><td>%</td><td>Parent element's size</td><td>width: 50%</td><td>Responsive layouts</td></tr>
+      <tr><td>rem</td><td>Root font-size (usually 16px)</td><td>margin: 1.5rem</td><td>Spacing, font sizes</td></tr>
+      <tr><td>em</td><td>Current element's font-size</td><td>padding: 1em</td><td>Component-relative sizes</td></tr>
+      <tr><td>vh</td><td>1% of viewport height</td><td>height: 100vh</td><td>Full-screen sections</td></tr>
+      <tr><td>vw</td><td>1% of viewport width</td><td>width: 100vw</td><td>Full-width elements</td></tr>
+    </tbody>
+  </table>
+
+  <div class="example-row">
+    <div class="example-item">
+      <div class="example-label">16px (fixed)</div>
+      <div class="example-render">
+        <div style="font-size:16px;color:#c9d1d9;">Text at 16px</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">1rem (=16px default)</div>
+      <div class="example-render">
+        <div style="font-size:1rem;color:#7dd3fc;">Text at 1rem</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">1.5rem (=24px)</div>
+      <div class="example-render">
+        <div style="font-size:1.5rem;color:#a78bfa;">Text at 1.5rem</div>
+      </div>
+    </div>
+    <div class="example-item">
+      <div class="example-label">2rem (=32px)</div>
+      <div class="example-render">
+        <div style="font-size:2rem;color:#f59e0b;font-weight:700;">2rem</div>
+      </div>
+    </div>
+  </div>
+  <div class="note"><strong>rem is preferred over px for font sizes</strong> — if a user changes their browser font size, rem-based sizes scale with it. px does not.</div>
+
+
+  <!-- ══════════════════════════════════════════
+       CHALLENGE — 3 CARDS SIDE BY SIDE
+  ══════════════════════════════════════════ -->
+  <div class="challenge">
+    <div class="challenge-title">🎯 Clone Challenge — 3 Cards Side by Side (No Flexbox!)</div>
+    <p style="font-size:14px;color:#c9d1d9;margin-bottom:14px;">Recreate the layout below using only <code>display: inline-block</code>. No flexbox allowed. Each card should have a colored header, title, description, and price.</p>
+
+    <!-- Target Render -->
+    <div style="margin:16px 0 20px;padding:16px;background:#0d1117;border:1px solid #1e2d4a;border-radius:10px;">
+      <div style="font-size:11px;color:#10b981;font-family:'JetBrains Mono',monospace;font-weight:700;margin-bottom:10px;">▶ TARGET — Recreate this:</div>
+      <div style="font-size:0;">
+        <div style="display:inline-block;width:30%;margin:0 1.5%;vertical-align:top;background:#0f111a;border:1px solid #1e2d4a;border-radius:12px;overflow:hidden;font-size:14px;">
+          <div style="background:#1d4ed8;padding:18px;text-align:center;font-weight:700;color:#fff;font-size:15px;">🏋️ Starter</div>
+          <div style="padding:18px;">
+            <div style="font-weight:700;color:#f0f6fc;font-size:15px;margin-bottom:8px;">Basic Plan</div>
+            <div style="color:#7a8599;font-size:13px;margin-bottom:14px;line-height:1.6;">Access to all machines. Locker room. Free towels.</div>
+            <div style="color:#10b981;font-weight:800;font-size:22px;">$19<span style="font-size:13px;font-weight:400;color:#7a8599;">/mo</span></div>
+          </div>
+        </div>
+        <div style="display:inline-block;width:30%;margin:0 1.5%;vertical-align:top;background:#0f111a;border:2px solid #f59e0b;border-radius:12px;overflow:hidden;font-size:14px;">
+          <div style="background:#92400e;padding:18px;text-align:center;font-weight:700;color:#fcd34d;font-size:15px;">⭐ Pro</div>
+          <div style="padding:18px;">
+            <div style="font-weight:700;color:#f0f6fc;font-size:15px;margin-bottom:8px;">Pro Plan</div>
+            <div style="color:#7a8599;font-size:13px;margin-bottom:14px;line-height:1.6;">Everything in Starter + Classes, Personal trainer.</div>
+            <div style="color:#f59e0b;font-weight:800;font-size:22px;">$49<span style="font-size:13px;font-weight:400;color:#7a8599;">/mo</span></div>
+          </div>
+        </div>
+        <div style="display:inline-block;width:30%;margin:0 1.5%;vertical-align:top;background:#0f111a;border:1px solid #1e2d4a;border-radius:12px;overflow:hidden;font-size:14px;">
+          <div style="background:#7c3aed;padding:18px;text-align:center;font-weight:700;color:#fff;font-size:15px;">💎 Elite</div>
+          <div style="padding:18px;">
+            <div style="font-weight:700;color:#f0f6fc;font-size:15px;margin-bottom:8px;">Elite Plan</div>
+            <div style="color:#7a8599;font-size:13px;margin-bottom:14px;line-height:1.6;">All Pro features + Pool, Sauna, VIP lounge access.</div>
+            <div style="color:#a78bfa;font-weight:800;font-size:22px;">$89<span style="font-size:13px;font-weight:400;color:#7a8599;">/mo</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HTML Starter -->
+    <p style="font-size:13px;color:#7a8599;margin:10px 0 6px;">Here's the HTML — you just need to write the CSS:</p>
+    <pre><code>&lt;div class="cards-container"&gt;
+  &lt;div class="card"&gt;
+    &lt;div class="card-header starter"&gt;🏋️ Starter&lt;/div&gt;
+    &lt;div class="card-body"&gt;
+      &lt;h3&gt;Basic Plan&lt;/h3&gt;
+      &lt;p&gt;Access to all machines. Locker room. Free towels.&lt;/p&gt;
+      &lt;div class="price"&gt;$19&lt;span&gt;/mo&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="card featured"&gt;
+    &lt;div class="card-header pro"&gt;⭐ Pro&lt;/div&gt;
+    &lt;div class="card-body"&gt;
+      &lt;h3&gt;Pro Plan&lt;/h3&gt;
+      &lt;p&gt;Everything in Starter + Classes, Personal trainer.&lt;/p&gt;
+      &lt;div class="price"&gt;$49&lt;span&gt;/mo&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="card"&gt;
+    &lt;div class="card-header elite"&gt;💎 Elite&lt;/div&gt;
+    &lt;div class="card-body"&gt;
+      &lt;h3&gt;Elite Plan&lt;/h3&gt;
+      &lt;p&gt;All Pro features + Pool, Sauna, VIP lounge access.&lt;/p&gt;
+      &lt;div class="price"&gt;$89&lt;span&gt;/mo&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <button class="hint-btn" onclick="toggleHint(this)">Show Hint</button>
+    <div class="hint">
+      <strong style="color:#f59e0b;">Hints:</strong><br/>
+      • Set <code>font-size: 0</code> on the container to eliminate whitespace gaps between inline-block elements<br/>
+      • Set <code>font-size: 14px</code> (or desired size) back on the <code>.card</code><br/>
+      • Use <code>width: 30%</code> + <code>margin: 0 1.5%</code> on each card to fit 3 across<br/>
+      • Use <code>vertical-align: top</code> so cards align by their top edge
+    </div>
+
+    <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <strong style="color:#10b981;">Full CSS Solution:</strong>
+      <pre style="margin-top:10px;"><code>.cards-container {
+  font-size: 0;         /* kills whitespace gaps between inline-block */
+  text-align: center;
+}
+
+.card {
+  display: inline-block;
+  width: 30%;
+  margin: 0 1.5%;
+  vertical-align: top;  /* align by top, not baseline */
+  background: #0f111a;
+  border: 1px solid #1e2d4a;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 14px;       /* restore font size */
+}
+
+.card.featured {
+  border: 2px solid #f59e0b;
+}
+
+.card-header {
+  padding: 18px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+}
+
+.card-header.starter { background: #1d4ed8; }
+.card-header.pro     { background: #92400e; color: #fcd34d; }
+.card-header.elite   { background: #7c3aed; }
+
+.card-body {
+  padding: 18px;
+}
+
+.card-body h3 {
+  font-weight: 700;
+  color: #f0f6fc;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.card-body p {
+  color: #7a8599;
+  font-size: 13px;
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+.price {
+  font-weight: 800;
+  font-size: 22px;
+  color: #10b981;
+}
+
+.price span {
+  font-size: 13px;
+  font-weight: 400;
+  color: #7a8599;
+}
+
+.card.featured .price {
+  color: #f59e0b;
+}</code></pre>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       BONUS — DEBUG 5 CSS BUGS
+  ══════════════════════════════════════════ -->
+  <h2 class="section-title"><span class="section-num">★</span> Bonus: Debug 5 CSS Bugs</h2>
+  <p style="font-size:14px;color:#7a8599;margin-bottom:20px;">Each example below is <em>broken</em>. Can you spot the bug before revealing the fix?</p>
+
+  <!-- Bug 1 -->
+  <div class="challenge" style="margin-bottom:20px;">
+    <div class="challenge-title">🐛 Bug 1 — Link won't accept padding-top</div>
+    <p style="font-size:13px;color:#c9d1d9;margin-bottom:10px;">This button link is supposed to have equal padding on all sides but the top and bottom padding do nothing:</p>
+    <pre><code>a.nav-btn {
+  padding: 12px 20px;  /* top/bottom seems ignored! */
+  background: #1d4ed8;
+  color: white;
+}</code></pre>
+    <div style="margin:10px 0 14px;padding:14px;background:#0d1117;border:1px solid #1e2d4a;border-radius:8px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:11px;color:#f85149;font-family:'JetBrains Mono',monospace;margin-bottom:6px;">BROKEN — flat button:</div>
+        <a href="#" style="display:inline;background:#1d4ed8;color:#fff;padding:12px 20px;font-size:13px;text-decoration:none;border-radius:6px;">Nav Button</a>
+      </div>
+      <div style="color:#7a8599;font-size:20px;">→</div>
+      <div>
+        <div style="font-size:11px;color:#10b981;font-family:'JetBrains Mono',monospace;margin-bottom:6px;">FIXED — proper padding:</div>
+        <a href="#" style="display:inline-block;background:#1d4ed8;color:#fff;padding:12px 20px;font-size:13px;text-decoration:none;border-radius:6px;">Nav Button</a>
+      </div>
+    </div>
+    <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <strong style="color:#10b981;">Root cause:</strong> <code>&lt;a&gt;</code> is <strong>inline</strong> by default. Inline elements ignore top/bottom padding (visually) and ignore height entirely.<br/><br/>
+      <strong style="color:#10b981;">Fix:</strong><br/>
+      <code>a.nav-btn { display: inline-block; }</code><br/><br/>
+      Now it behaves like a block for sizing but stays inline-like for flow.
+    </div>
+  </div>
+
+  <!-- Bug 2 -->
+  <div class="challenge" style="margin-bottom:20px;">
+    <div class="challenge-title">🐛 Bug 2 — Box is wider than expected</div>
+    <p style="font-size:13px;color:#c9d1d9;margin-bottom:10px;">This sidebar should be exactly <code>250px</code> wide, but it keeps overflowing its container:</p>
+    <pre><code>.sidebar {
+  width: 250px;
+  padding: 20px;
+  border: 3px solid #334155;
+  /* actual width = 250 + 40 + 6 = 296px — oops! */
+}</code></pre>
+    <div style="margin:10px 0 14px;padding:14px;background:#0d1117;border:1px solid #1e2d4a;border-radius:8px;">
+      <div style="font-size:11px;color:#f85149;font-family:'JetBrains Mono',monospace;margin-bottom:6px;">BROKEN — actually 296px wide:</div>
+      <div style="width:250px;padding:20px;border:3px solid #334155;background:#1e2d4a;color:#c9d1d9;font-size:12px;box-sizing:content-box;border-radius:6px;">Sidebar content here</div>
+      <div style="font-size:11px;color:#f85149;margin-top:6px;font-family:'JetBrains Mono',monospace;">← this div is actually 296px</div>
+    </div>
+    <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <strong style="color:#10b981;">Root cause:</strong> Without <code>box-sizing: border-box</code>, CSS adds padding and border ON TOP of the width you set.<br/><br/>
+      <strong style="color:#10b981;">Fix:</strong><br/>
+      <code>.sidebar { box-sizing: border-box; }</code><br/><br/>
+      Now the 250px includes everything — content area shrinks to fit padding and border inside. Better still, put <code>* { box-sizing: border-box }</code> at the top of every CSS file.
+    </div>
+  </div>
+
+  <!-- Bug 3 -->
+  <div class="challenge" style="margin-bottom:20px;">
+    <div class="challenge-title">🐛 Bug 3 — Class style being overridden unexpectedly</div>
+    <p style="font-size:13px;color:#c9d1d9;margin-bottom:10px;">The <code>.price</code> class says green, but the text keeps showing red:</p>
+    <pre><code>#product-section .price { color: #f85149; }  /* score: 100+10 = 110 */
+.price                  { color: #10b981; }  /* score: 10 — LOSES */</code></pre>
+    <div style="margin:10px 0 14px;padding:14px;background:#0d1117;border:1px solid #1e2d4a;border-radius:8px;">
+      <style>#product-section .price-bug{color:#f85149;font-weight:700;font-size:18px;}</style>
+      <div id="product-section">
+        <div class="price-bug" style="font-family:'JetBrains Mono',monospace;">$49.99</div>
+        <div style="font-size:11px;color:#f85149;margin-top:4px;font-family:'JetBrains Mono',monospace;">← should be green, but ID wins!</div>
+      </div>
+    </div>
+    <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <strong style="color:#10b981;">Root cause:</strong> The ID selector (<code>#product-section</code>) gives the rule a score of 100+10 = 110, which crushes the plain class score of 10.<br/><br/>
+      <strong style="color:#10b981;">Fix options:</strong><br/>
+      1. Make the class rule more specific: <code>#product-section .price { color: #10b981; }</code><br/>
+      2. Remove the ID from the conflicting rule<br/>
+      3. (Last resort) Use <code>!important</code> — but avoid this if possible<br/><br/>
+      <strong>Golden rule:</strong> Avoid styling with IDs in CSS — use classes instead to keep specificity manageable.
+    </div>
+  </div>
+
+  <!-- Bug 4 -->
+  <div class="challenge" style="margin-bottom:20px;">
+    <div class="challenge-title">🐛 Bug 4 — Unexpected gap between stacked elements</div>
+    <p style="font-size:13px;color:#c9d1d9;margin-bottom:10px;">The gap between these two sections is 40px, but the designer set 20px on each. Why?</p>
+    <pre><code>.section-a { margin-bottom: 20px; }
+.section-b { margin-top:    20px; }
+/* expected gap: 40px — actual gap: 20px! */</code></pre>
+    <div style="margin:10px 0 14px;padding:14px;background:#0d1117;border:1px solid #1e2d4a;border-radius:8px;">
+      <div style="background:#1d4ed8;color:#fff;padding:12px 16px;border-radius:6px;font-size:13px;margin-bottom:20px;">Section A — margin-bottom: 20px</div>
+      <div style="background:#7c3aed;color:#fff;padding:12px 16px;border-radius:6px;font-size:13px;margin-top:20px;">Section B — margin-top: 20px</div>
+      <div style="font-size:11px;color:#f59e0b;margin-top:8px;font-family:'JetBrains Mono',monospace;">↑ gap = 20px (not 40px) — margins collapsed!</div>
+    </div>
+    <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <strong style="color:#10b981;">Root cause:</strong> <strong>Margin collapse</strong> — when two vertical margins meet, they merge into the larger value (not added together). 20px + 20px = 20px, not 40px.<br/><br/>
+      <strong style="color:#10b981;">Fix options:</strong><br/>
+      1. Use only <em>one</em> of the two margins (e.g., only margin-bottom)<br/>
+      2. Add <code>padding-top: 1px</code> to the second element (breaks collapse)<br/>
+      3. Wrap in a flex/grid container (collapse doesn't happen there)<br/><br/>
+      <strong>Best practice:</strong> Only set margin in one direction (e.g., always <code>margin-bottom</code>, never both) to avoid surprises.
+    </div>
+  </div>
+
+  <!-- Bug 5 -->
+  <div class="challenge" style="margin-bottom:48px;">
+    <div class="challenge-title">🐛 Bug 5 — Block element won't center horizontally</div>
+    <p style="font-size:13px;color:#c9d1d9;margin-bottom:10px;">This modal box should be centered on the page but it's stuck to the left:</p>
+    <pre><code>.modal {
+  margin: 0 auto;     /* centering attempt — doesn't work! */
+  background: #1e2d4a;
+  padding: 30px;
+  border-radius: 12px;
+}</code></pre>
+    <div style="margin:10px 0 14px;padding:14px;background:#0d1117;border:1px solid #1e2d4a;border-radius:8px;">
+      <div style="margin:0 auto;background:#1e2d4a;padding:20px;border-radius:10px;font-size:13px;color:#c9d1d9;">I want to be centered! 😢</div>
+      <div style="font-size:11px;color:#f85149;margin-top:6px;font-family:'JetBrains Mono',monospace;">← stuck to left — margin:auto needs a width!</div>
+    </div>
+    <button class="solution-btn" onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <strong style="color:#10b981;">Root cause:</strong> <code>margin: 0 auto</code> only centers a block element when it has a <strong>fixed width</strong>. Without a width, a block element already takes the full width — there's nothing to center.<br/><br/>
+      <strong style="color:#10b981;">Fix:</strong><br/>
+      <code>.modal { width: 400px; margin: 0 auto; }</code><br/>
+      — or for responsive layouts —<br/>
+      <code>.modal { max-width: 400px; width: 100%; margin: 0 auto; }</code><br/><br/>
+      Now the browser knows: "total width is 400px, put the remaining space equally on both sides."
+      <div style="margin-top:14px;padding:14px;background:#0d1117;border-radius:8px;">
+        <div style="max-width:300px;width:100%;margin:0 auto;background:#1e2d4a;padding:20px;border-radius:10px;font-size:13px;color:#10b981;text-align:center;font-weight:700;">Now I'm centered! ✦</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+  function toggleSolution(btn) {
+    const s = btn.nextElementSibling;
+    s.classList.toggle('show');
+    btn.textContent = s.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+  }
+  function toggleHint(btn) {
+    const h = btn.nextElementSibling;
+    h.classList.toggle('show');
+    btn.textContent = h.classList.contains('show') ? 'Hide Hint' : 'Show Hint';
+  }
+</script>
+</body>
+</html>

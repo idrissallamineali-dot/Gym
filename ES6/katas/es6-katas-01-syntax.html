@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES6 Katas — Session 1: Syntax (30 Challenges)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0b0c10; color: #d1d4dc; line-height: 1.6; font-size: 15px; padding: 60px 20px; }
+        .container { max-width: 860px; margin: 0 auto; }
+        .header { margin-bottom: 40px; border-bottom: 1px solid #1f222e; padding-bottom: 24px; }
+        .tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #8e929f; margin-bottom: 6px; }
+        h1 { font-size: 32px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; margin-bottom: 8px; }
+        .subtitle { font-size: 15px; color: #8e929f; }
+        
+        .score { display: flex; gap: 20px; margin: 20px 0 40px; flex-wrap: wrap; }
+        .score-box { background: #121319; border: 1px solid #1f222e; border-radius: 8px; padding: 14px 20px; text-align: center; flex: 1; min-width: 120px; }
+        .score-num { font-size: 28px; font-weight: 800; color: #ffffff; font-family: 'JetBrains Mono', monospace; }
+        .score-label { font-size: 10px; color: #8e929f; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+        .exercise { background-color: #121319; border: 1px solid #1f222e; border-radius: 8px; padding: 24px; margin: 20px 0; }
+        .exercise-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .exercise-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #ffffff; background: #262936; padding: 3px 8px; border-radius: 4px; }
+        .exercise-title { font-size: 16px; font-weight: 600; color: #ffffff; flex: 1; margin-left: 12px; }
+        
+        .status-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; }
+        .status-pending { background: #262936; color: #8e929f; }
+        .status-passed { background: #1c2820; color: #52c480; }
+        .status-failed { background: #2d1a1e; color: #e55361; }
+
+        .description { font-size: 14px; color: #afb2bb; margin-bottom: 16px; }
+        .io-box { background: #07080b; border: 1px solid #181922; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+        .io-line { display: flex; margin-bottom: 4px; }
+        .io-line:last-child { margin-bottom: 0; }
+        .label { color: #8e929f; width: 80px; flex-shrink: 0; }
+        .value { color: #ffffff; }
+        
+        .code-editor { width: 100%; height: 120px; background: #07080b; border: 1px solid #1f222e; border-radius: 6px; padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #ffffff; margin-top: 12px; resize: vertical; outline: none; }
+        .code-editor:focus { border-color: #3e4255; }
+        
+        .controls { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+        .run-btn { font-family: 'Inter', sans-serif; background: #1f222e; border: 1px solid #2d313f; color: #e1e3eb; font-size: 12px; font-weight: 600; padding: 8px 18px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .run-btn:hover { background: #262936; border-color: #3e4255; }
+        
+        .result-message { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; flex: 1; }
+        .res-success { color: #52c480; }
+        .res-error { color: #e55361; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <p class="tag">ES6 Katas — Session 1</p>
+        <h1>⚡ Syntax Katas</h1>
+        <p class="subtitle">Exactly 30 progressive exercises to master let/const, template literals, destructuring, and object shorthand. Solve them inside the interactive editors below!</p>
+    </div>
+
+    <div class="score">
+        <div class="score-box"><div class="score-num" id="done">0</div><div class="score-label">Completed</div></div>
+        <div class="score-box"><div class="score-num">30</div><div class="score-label">Total</div></div>
+    </div>
+
+    <!-- 01 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">01</span>
+            <h3 class="exercise-title">Block Scope Check</h3>
+            <span class="status-badge status-pending" id="status-01">Pending</span>
+        </div>
+        <p class="description">Write a function <code>blockScopeTest()</code> that declares <code>let x = 10</code> inside an <code>if(true)</code> block, then tries to return <code>x</code> outside the block. Calling it should throw a ReferenceError.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">blockScopeTest()</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">ReferenceError: x is not defined</span></div>
+        </div>
+        <textarea class="code-editor" id="code-01" spellcheck="false">function blockScopeTest() {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(1)">Run Tests</button>
+            <span class="result-message" id="result-01"></span>
+        </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">02</span>
+            <h3 class="exercise-title">Const Mutation</h3>
+            <span class="status-badge status-pending" id="status-02">Pending</span>
+        </div>
+        <p class="description">Write a function <code>mutateUser(user)</code> that receives a const user object reference, mutates its <code>age</code> to 26 and adds a <code>role: "admin"</code> property, returning the modified object without reassigning the variable.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", age: 25 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ name: "Idris", age: 26, role: "admin" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-02" spellcheck="false">function mutateUser(user) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(2)">Run Tests</button>
+            <span class="result-message" id="result-02"></span>
+        </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">03</span>
+            <h3 class="exercise-title">Loop Fix</h3>
+            <span class="status-badge status-pending" id="status-03">Pending</span>
+        </div>
+        <p class="description">Fix this loop using <code>let</code> block scope so that it logs <code>0</code>, <code>1</code>, and <code>2</code> instead of printing <code>3, 3, 3</code> asynchronously.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">loopFix()</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">Logs 0, 1, 2 via setTimeout</span></div>
+        </div>
+        <textarea class="code-editor" id="code-03" spellcheck="false">function loopFix() {
+    for (var i = 0; i < 3; i++) {
+        setTimeout(() => console.log(i), 100);
+    }
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(3)">Run Tests</button>
+            <span class="result-message" id="result-03"></span>
+        </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">04</span>
+            <h3 class="exercise-title">Freeze Check</h3>
+            <span class="status-badge status-pending" id="status-04">Pending</span>
+        </div>
+        <p class="description">Write a function <code>freezeCheck(obj)</code> that freezes the object using Object.freeze() and returns it completely immutable.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ apiUrl: "https://api.com", timeout: 5000 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">A frozen immutable object</span></div>
+        </div>
+        <textarea class="code-editor" id="code-04" spellcheck="false">function freezeCheck(obj) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(4)">Run Tests</button>
+            <span class="result-message" id="result-04"></span>
+        </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">05</span>
+            <h3 class="exercise-title">TDZ Prediction</h3>
+            <span class="status-badge status-pending" id="status-05">Pending</span>
+        </div>
+        <p class="description">Write a function <code>tdzPredict()</code> that deliberately triggers a Temporal Dead Zone <code>ReferenceError</code> by accessing a variable before its declaration inside a nested block.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">tdzPredict()</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">ReferenceError</span></div>
+        </div>
+        <textarea class="code-editor" id="code-05" spellcheck="false">function tdzPredict() {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(5)">Run Tests</button>
+            <span class="result-message" id="result-05"></span>
+        </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">06</span>
+            <h3 class="exercise-title">Greeting Builder</h3>
+            <span class="status-badge status-pending" id="status-06">Pending</span>
+        </div>
+        <p class="description">Write a function <code>greet(name, time)</code> that returns <code>"Good morning, [name]!"</code> if time is under 12, or <code>"Good evening, [name]!"</code> using a template literal with a ternary.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Idris", 9</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Good morning, Idris!"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-06" spellcheck="false">function greet(name, time) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(6)">Run Tests</button>
+            <span class="result-message" id="result-06"></span>
+        </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">07</span>
+            <h3 class="exercise-title">Price Tag</h3>
+            <span class="status-badge status-pending" id="status-07">Pending</span>
+        </div>
+        <p class="description">Write a function <code>priceTag(name, price, taxRate)</code> that returns a formatted price string with all math done inside the template literal expressions.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Shirt", 29.99, 0.2</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Shirt: $29.99 (+ $6.00 tax = $35.99)"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-07" spellcheck="false">function priceTag(name, price, taxRate) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(7)">Run Tests</button>
+            <span class="result-message" id="result-07"></span>
+        </div>
+    </div>
+
+    <!-- 08 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">08</span>
+            <h3 class="exercise-title">HTML List</h3>
+            <span class="status-badge status-pending" id="status-08">Pending</span>
+        </div>
+        <p class="description">Write a function <code>makeList(items)</code> that returns a full HTML unordered list string using `.map()` and `.join('')` inside template literals.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">["Eggs", "Milk"]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"&lt;ul&gt;&lt;li&gt;Eggs&lt;/li&gt;&lt;li&gt;Milk&lt;/li&gt;&lt;/ul&gt;"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-08" spellcheck="false">function makeList(items) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(8)">Run Tests</button>
+            <span class="result-message" id="result-08"></span>
+        </div>
+    </div>
+
+    <!-- 09 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">09</span>
+            <h3 class="exercise-title">Multiline Address</h3>
+            <span class="status-badge status-pending" id="status-09">Pending</span>
+        </div>
+        <p class="description">Write a function <code>formatAddress(user)</code> that returns a multiline address string using a single template literal with no escaped newline sequences.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", street: "123 Main St", city: "Paris", zip: "75001" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Idris\n123 Main St\nParis, 75001"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-09" spellcheck="false">function formatAddress(user) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(9)">Run Tests</button>
+            <span class="result-message" id="result-09"></span>
+        </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">10</span>
+            <h3 class="exercise-title">Table Row Generator</h3>
+            <span class="status-badge status-pending" id="status-10">Pending</span>
+        </div>
+        <p class="description">Write a function <code>makeTable(users)</code> that returns a full HTML table string from an array of user objects using nested template literals.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{name:"Idris",role:"admin"}]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"&lt;table&gt;&lt;tr&gt;&lt;td&gt;Idris&lt;/td&gt;&lt;td&gt;admin&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-10" spellcheck="false">function makeTable(users) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(10)">Run Tests</button>
+            <span class="result-message" id="result-10"></span>
+        </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">11</span>
+            <h3 class="exercise-title">Extract User Info</h3>
+            <span class="status-badge status-pending" id="status-11">Pending</span>
+        </div>
+        <p class="description">Write a function <code>extractUser(user)</code> that extracts only <code>name</code> and <code>email</code> from a user object using object destructuring in a single expression, returning them in a flat object.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", age: 25, email: "idris@mail.com" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ name: "Idris", email: "idris@mail.com" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-11" spellcheck="false">function extractUser(user) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(11)">Run Tests</button>
+            <span class="result-message" id="result-11"></span>
+        </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">12</span>
+            <h3 class="exercise-title">Rename on Extract</h3>
+            <span class="status-badge status-pending" id="status-12">Pending</span>
+        </div>
+        <p class="description">Write a function <code>renameExtract(response)</code> that extracts `status` and `data` from a response but renames them to `httpStatus` and `payload` using object destructuring.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ status: 200, data: [1, 2] }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ httpStatus: 200, payload: [1, 2] }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-12" spellcheck="false">function renameExtract(response) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(12)">Run Tests</button>
+            <span class="result-message" id="result-12"></span>
+        </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">13</span>
+            <h3 class="exercise-title">Default Values</h3>
+            <span class="status-badge status-pending" id="status-13">Pending</span>
+        </div>
+        <p class="description">Write a function <code>defaultExtract(settings)</code> that extracts `theme`, `fontSize`, and `lang` from a settings object, utilizing default values of <code>16</code> for fontSize and <code>"en"</code> for lang when they are omitted.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ theme: "dark" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ theme: "dark", fontSize: 16, lang: "en" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-13" spellcheck="false">function defaultExtract(settings) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(13)">Run Tests</button>
+            <span class="result-message" id="result-13"></span>
+        </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">14</span>
+            <h3 class="exercise-title">Deep Extract</h3>
+            <span class="status-badge status-pending" id="status-14">Pending</span>
+        </div>
+        <p class="description">Write a function <code>deepExtract(company)</code> that extracts and returns only the nested <code>city</code> property inside `company.address` in a single line using nested destructuring.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Tech", address: { city: "London" } }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"London"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-14" spellcheck="false">function deepExtract(company) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(14)">Run Tests</button>
+            <span class="result-message" id="result-14"></span>
+        </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">15</span>
+            <h3 class="exercise-title">Swap Variables</h3>
+            <span class="status-badge status-pending" id="status-15">Pending</span>
+        </div>
+        <p class="description">Write a function <code>swapVariables(a, b)</code> that swaps two values in a single statement using array destructuring assignment, returning them in a swapped array <code>[swappedA, swappedB]</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">1, 2</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[2, 1]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-15" spellcheck="false">function swapVariables(a, b) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(15)">Run Tests</button>
+            <span class="result-message" id="result-15"></span>
+        </div>
+    </div>
+
+    <!-- 16 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">16</span>
+            <h3 class="exercise-title">Skip Items</h3>
+            <span class="status-badge status-pending" id="status-16">Pending</span>
+        </div>
+        <p class="description">Write a function <code>skipItems(arr)</code> that extracts only the 2nd and 4th items of an array using commas in array destructuring, returning them in a flat array <code>[second, fourth]</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[10, 20, 30, 40, 50]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[20, 40]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-16" spellcheck="false">function skipItems(arr) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(16)">Run Tests</button>
+            <span class="result-message" id="result-16"></span>
+        </div>
+    </div>
+
+    <!-- 17 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">17</span>
+            <h3 class="exercise-title">Head and Tail</h3>
+            <span class="status-badge status-pending" id="status-17">Pending</span>
+        </div>
+        <p class="description">Write a function <code>headAndTail(nums)</code> that splits an array into its first item and the remaining tail items using the array rest operator, returning `[head, tail]`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[1, 2, 3, 4, 5]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">[1, [2, 3, 4, 5]]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-17" spellcheck="false">function headAndTail(nums) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(17)">Run Tests</button>
+            <span class="result-message" id="result-17"></span>
+        </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">18</span>
+            <h3 class="exercise-title">Function Param Destructure</h3>
+            <span class="status-badge status-pending" id="status-18">Pending</span>
+        </div>
+        <p class="description">Write a function <code>introduce(user)</code> that destructures <code>name</code> and <code>age</code> directly inside its parameter signature to return <code>"Hi, I'm [name] and I'm [age] years old"</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", age: 25 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Hi, I'm Idris and I'm 25 years old"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-18" spellcheck="false">function introduce({ name, age }) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(18)">Run Tests</button>
+            <span class="result-message" id="result-18"></span>
+        </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">19</span>
+            <h3 class="exercise-title">API Response</h3>
+            <span class="status-badge status-pending" id="status-19">Pending</span>
+        </div>
+        <p class="description">Write a function <code>apiResponse(res)</code> that extracts and returns the name of the first user inside `res.data.users` using deeply nested destructuring.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ status: 200, data: { users: [{ name: "Idris" }] } }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Idris"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-19" spellcheck="false">function apiResponse(res) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(19)">Run Tests</button>
+            <span class="result-message" id="result-19"></span>
+        </div>
+    </div>
+
+    <!-- 20 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">20</span>
+            <h3 class="exercise-title">Object Rest</h3>
+            <span class="status-badge status-pending" id="status-20">Pending</span>
+        </div>
+        <p class="description">Write a function <code>objectRest(user)</code> that extracts the <code>password</code> property and collects all other properties into a single combined object named `safeUser` using object rest, returning `safeUser`.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", password: "123", role: "admin" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ name: "Idris", role: "admin" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-20" spellcheck="false">function objectRest(user) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(20)">Run Tests</button>
+            <span class="result-message" id="result-20"></span>
+        </div>
+    </div>
+
+    <!-- 21 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">21</span>
+            <h3 class="exercise-title">Build User Object</h3>
+            <span class="status-badge status-pending" id="status-21">Pending</span>
+        </div>
+        <p class="description">Write a function <code>buildUser(name, age, role)</code> that returns an object literal utilizing ES6 property shorthand to avoid repeating key: value names.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Idris", 25, "admin"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ name: "Idris", age: 25, role: "admin" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-21" spellcheck="false">function buildUser(name, age, role) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(21)">Run Tests</button>
+            <span class="result-message" id="result-21"></span>
+        </div>
+    </div>
+
+    <!-- 22 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">22</span>
+            <h3 class="exercise-title">Method Shorthand</h3>
+            <span class="status-badge status-pending" id="status-22">Pending</span>
+        </div>
+        <p class="description">Write a function <code>getMethodShorthand()</code> that returns a calculator object mapping <code>add(a, b)</code> and <code>multiply(a, b)</code> using method shorthand declarations.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">getMethodShorthand()</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ add: f, multiply: f }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-22" spellcheck="false">function getMethodShorthand() {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(22)">Run Tests</button>
+            <span class="result-message" id="result-22"></span>
+        </div>
+    </div>
+
+    <!-- 23 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">23</span>
+            <h3 class="exercise-title">Computed Keys</h3>
+            <span class="status-badge status-pending" id="status-23">Pending</span>
+        </div>
+        <p class="description">Write a function <code>buildCustomObj(field, value)</code> that creates an object containing a dynamic key coming from the `field` argument using computed key syntax.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"email", "idris@mail.com"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ email: "idris@mail.com" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-23" spellcheck="false">function buildCustomObj(field, value) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(23)">Run Tests</button>
+            <span class="result-message" id="result-23"></span>
+        </div>
+    </div>
+
+    <!-- 24 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">24</span>
+            <h3 class="exercise-title">Arrow Return Object</h3>
+            <span class="status-badge status-pending" id="status-24">Pending</span>
+        </div>
+        <p class="description">Write an arrow function named <code>makeUser</code> that returns an object literal implicitly, resolving the curly brace block clash by wrapping it in parentheses.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Idris"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ name: "Idris", role: "user" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-24" spellcheck="false">const makeUser = (name) => {
+    // Make this an implicit arrow return wrapped in parens!
+};</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(24)">Run Tests</button>
+            <span class="result-message" id="result-24"></span>
+        </div>
+    </div>
+
+    <!-- 25 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">25</span>
+            <h3 class="exercise-title">Spread Merge</h3>
+            <span class="status-badge status-pending" id="status-25">Pending</span>
+        </div>
+        <p class="description">Write a function <code>spreadMerge(defaults, overrides)</code> that merges two objects together into a single combined object using the ES6 object spread operator.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ theme: "light" }, { theme: "dark" }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ theme: "dark" }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-25" spellcheck="false">function spreadMerge(defaults, overrides) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(25)">Run Tests</button>
+            <span class="result-message" id="result-25"></span>
+        </div>
+    </div>
+
+    <!-- 26 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">26</span>
+            <h3 class="exercise-title">User Card Combo</h3>
+            <span class="status-badge status-pending" id="status-26">Pending</span>
+        </div>
+        <p class="description">Write a function <code>userCard(user)</code> that receives a destructured `{ name, age, skills }` object to build an HTML card string utilizing nested map & template literal formats.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", age: 25, skills: ["JS", "CSS"] }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"&lt;div&gt;&lt;h2&gt;Idris (25)&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;JS&lt;/li&gt;&lt;li&gt;CSS&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-26" spellcheck="false">function userCard({ name, age, skills }) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(26)">Run Tests</button>
+            <span class="result-message" id="result-26"></span>
+        </div>
+    </div>
+
+    <!-- 27 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">27</span>
+            <h3 class="exercise-title">Config Builder</h3>
+            <span class="status-badge status-pending" id="status-27">Pending</span>
+        </div>
+        <p class="description">Write a function <code>buildConfig(overrides)</code> that accepts custom config options, spreads them over defaults of `{ theme: "dark", lang: "en", fontSize: 16, notifications: true }`, and safely handles empty calls.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ fontSize: 20 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ theme: "dark", lang: "en", fontSize: 20, notifications: true }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-27" spellcheck="false">function buildConfig(overrides) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(27)">Run Tests</button>
+            <span class="result-message" id="result-27"></span>
+        </div>
+    </div>
+
+    <!-- 28 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">28</span>
+            <h3 class="exercise-title">Clone and Modify</h3>
+            <span class="status-badge status-pending" id="status-28">Pending</span>
+        </div>
+        <p class="description">Write a function <code>cloneAndModify(user)</code> that returns a new user copy with age changed to 26 and role added as "admin", without mutating the original user object.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">{ name: "Idris", age: 25 }</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ name: "Idris", age: 26, role: "admin" } (cloned)</span></div>
+        </div>
+        <textarea class="code-editor" id="code-28" spellcheck="false">function cloneAndModify(user) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(28)">Run Tests</button>
+            <span class="result-message" id="result-28"></span>
+        </div>
+    </div>
+
+    <!-- 29 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">29</span>
+            <h3 class="exercise-title">Dynamic Key Builder</h3>
+            <span class="status-badge status-pending" id="status-29">Pending</span>
+        </div>
+        <p class="description">Write a function <code>buildScores(names, scores)</code> that maps name arrays to score arrays into a single dictionary object using `.reduce()` and computed dynamic keys.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">["Idris", "Ali"], [90, 85]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ Idris: 90, Ali: 85 }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-29" spellcheck="false">function buildScores(names, scores) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(29)">Run Tests</button>
+            <span class="result-message" id="result-29"></span>
+        </div>
+    </div>
+
+    <!-- 30 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">30</span>
+            <h3 class="exercise-title">Full Combo Challenge</h3>
+            <span class="status-badge status-pending" id="status-30">Pending</span>
+        </div>
+        <p class="description">Write a function <code>processUsers(users)</code> that filters active/inactive users and formats their details in a combined template literal string: <code>"Active: X (A), Y (B) | Inactive: Z (C)"</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">[{ name: "Idris", age: 25, active: true }, { name: "Ali", age: 30, active: false }]</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Active: Idris (25) | Inactive: Ali (30)"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-30" spellcheck="false">function processUsers(users) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(30)">Run Tests</button>
+            <span class="result-message" id="result-30"></span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// Deep equality helper for objects and arrays
+function deepEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (typeof a !== typeof b) return false;
+    if (typeof a === 'object') {
+        if (Array.isArray(a) !== Array.isArray(b)) return false;
+        if (Array.isArray(a)) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (!deepEqual(a[i], b[i])) return false;
+            }
+            return true;
+        } else {
+            const keysA = Object.keys(a);
+            const keysB = Object.keys(b);
+            if (keysA.length !== keysB.length) return false;
+            for (const key of keysA) {
+                if (!keysB.includes(key) || !deepEqual(a[key], b[key])) return false;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+// Safe deep cloning helper that preserves functions
+function safeClone(val) {
+    if (val === null || val === undefined) return val;
+    if (typeof val === 'function') return val;
+    if (Array.isArray(val)) {
+        return val.map(safeClone);
+    }
+    if (typeof val === 'object') {
+        const res = {};
+        for (const k in val) {
+            res[k] = safeClone(val[k]);
+        }
+        return res;
+    }
+    return val;
+}
+
+// Test cases database
+const testCases = {
+    1: {
+        functionName: "blockScopeTest",
+        cases: [
+            {
+                input: [],
+                expected: (got, args) => {
+                    // Running the function blockScopeTest should throw a ReferenceError
+                    try {
+                        got();
+                        return false;
+                    } catch (e) {
+                        return e instanceof ReferenceError;
+                    }
+                }
+            }
+        ]
+    },
+    2: {
+        functionName: "mutateUser",
+        cases: [
+            {
+                input: [{ name: "Idris", age: 25 }],
+                expected: (got, args) => got === args[0] && got.age === 26 && got.role === "admin"
+            }
+        ]
+    },
+    3: {
+        functionName: "loopFix",
+        cases: [
+            {
+                input: [],
+                expected: (fn) => {
+                    let logged = [];
+                    const originalSetTimeout = window.setTimeout;
+                    const originalLog = console.log;
+                    window.setTimeout = (cb) => { cb(); };
+                    console.log = (val) => { logged.push(val); };
+                    try {
+                        fn();
+                    } finally {
+                        window.setTimeout = originalSetTimeout;
+                        console.log = originalLog;
+                    }
+                    return deepEqual(logged, [0, 1, 2]);
+                }
+            }
+        ]
+    },
+    4: {
+        functionName: "freezeCheck",
+        cases: [
+            {
+                input: [{ apiUrl: "https://api.com", timeout: 5000 }],
+                expected: (got) => Object.isFrozen(got) && got.apiUrl === "https://api.com" && got.timeout === 5000
+            }
+        ]
+    },
+    5: {
+        functionName: "tdzPredict",
+        cases: [
+            {
+                input: [],
+                expected: (fn) => {
+                    try {
+                        fn();
+                        return false;
+                    } catch (e) {
+                        return e instanceof ReferenceError;
+                    }
+                }
+            }
+        ]
+    },
+    6: {
+        functionName: "greet",
+        cases: [
+            { input: ["Idris", 9], expected: "Good morning, Idris!" },
+            { input: ["Ali", 20], expected: "Good evening, Ali!" }
+        ]
+    },
+    7: {
+        functionName: "priceTag",
+        cases: [
+            { input: ["Shirt", 29.99, 0.2], expected: "Shirt: $29.99 (+ $6.00 tax = $35.99)" }
+        ]
+    },
+    8: {
+        functionName: "makeList",
+        cases: [
+            { input: [["Eggs", "Milk"]], expected: "<ul><li>Eggs</li><li>Milk</li></ul>" }
+        ]
+    },
+    9: {
+        functionName: "formatAddress",
+        cases: [
+            { input: [{ name: "Idris", street: "123 Main St", city: "Paris", zip: "75001" }], expected: "Idris\n123 Main St\nParis, 75001" }
+        ]
+    },
+    10: {
+        functionName: "makeTable",
+        cases: [
+            { input: [[{name:"Idris",role:"admin"}, {name:"Ali",role:"user"}]], expected: "<table><tr><td>Idris</td><td>admin</td></tr><tr><td>Ali</td><td>user</td></tr></table>" }
+        ]
+    },
+    11: {
+        functionName: "extractUser",
+        cases: [
+            { input: [{ name: "Idris", age: 25, email: "idris@mail.com" }], expected: { name: "Idris", email: "idris@mail.com" } }
+        ]
+    },
+    12: {
+        functionName: "renameExtract",
+        cases: [
+            { input: [{ status: 200, data: [1, 2] }], expected: { httpStatus: 200, payload: [1, 2] } }
+        ]
+    },
+    13: {
+        functionName: "defaultExtract",
+        cases: [
+            { input: [{ theme: "dark" }], expected: { theme: "dark", fontSize: 16, lang: "en" } },
+            { input: [{ theme: "light", lang: "fr" }], expected: { theme: "light", fontSize: 16, lang: "fr" } }
+        ]
+    },
+    14: {
+        functionName: "deepExtract",
+        cases: [
+            { input: [{ name: "TechCorp", address: { city: "London", zip: "EC1A" } }], expected: "London" }
+        ]
+    },
+    15: {
+        functionName: "swapVariables",
+        cases: [
+            { input: [1, 2], expected: [2, 1] }
+        ]
+    },
+    16: {
+        functionName: "skipItems",
+        cases: [
+            { input: [[10, 20, 30, 40, 50]], expected: [20, 40] }
+        ]
+    },
+    17: {
+        functionName: "headAndTail",
+        cases: [
+            { input: [[1, 2, 3, 4, 5]], expected: [1, [2, 3, 4, 5]] }
+        ]
+    },
+    18: {
+        functionName: "introduce",
+        cases: [
+            { input: [{ name: "Idris", age: 25 }], expected: "Hi, I'm Idris and I'm 25 years old" }
+        ]
+    },
+    19: {
+        functionName: "apiResponse",
+        cases: [
+            { input: [{ status: 200, data: { users: [{ id: 1, name: "Idris" }, { id: 2, name: "Ali" }] } }], expected: "Idris" }
+        ]
+    },
+    20: {
+        functionName: "objectRest",
+        cases: [
+            {
+                input: [{ name: "Idris", email: "a@b.com", password: "123", role: "admin" }],
+                expected: (got) => got.password === undefined && got.name === "Idris" && got.email === "a@b.com" && got.role === "admin"
+            }
+        ]
+    },
+    21: {
+        functionName: "buildUser",
+        cases: [
+            { input: ["Idris", 25, "admin"], expected: { name: "Idris", age: 25, role: "admin" } }
+        ]
+    },
+    22: {
+        functionName: "getMethodShorthand",
+        cases: [
+            {
+                input: [],
+                expected: (got) => got.add(3, 4) === 7 && got.multiply(3, 4) === 12
+            }
+        ]
+    },
+    23: {
+        functionName: "buildCustomObj",
+        cases: [
+            { input: ["email", "idris@mail.com"], expected: { email: "idris@mail.com" } }
+        ]
+    },
+    24: {
+        functionName: "makeUser",
+        cases: [
+            { input: ["Idris"], expected: { name: "Idris", role: "user" } }
+        ]
+    },
+    25: {
+        functionName: "spreadMerge",
+        cases: [
+            { input: [{ theme: "light", lang: "en" }, { theme: "dark" }], expected: { theme: "dark", lang: "en" } }
+        ]
+    },
+    26: {
+        functionName: "userCard",
+        cases: [
+            { input: [{ name: "Idris", age: 25, skills: ["JS", "CSS"] }], expected: "<div><h2>Idris (25)</h2><ul><li>JS</li><li>CSS</li></ul></div>" }
+        ]
+    },
+    27: {
+        functionName: "buildConfig",
+        cases: [
+            { input: [{ fontSize: 20 }], expected: { theme: "dark", lang: "en", fontSize: 20, notifications: true } },
+            { input: [], expected: { theme: "dark", lang: "en", fontSize: 16, notifications: true } }
+        ]
+    },
+    28: {
+        functionName: "cloneAndModify",
+        cases: [
+            {
+                input: [{ name: "Idris", age: 25, email: "a@b.com" }],
+                expected: (got, args) => got !== args[0] && got.age === 26 && got.role === "admin"
+            }
+        ]
+    },
+    29: {
+        functionName: "buildScores",
+        cases: [
+            { input: [["Idris", "Ali"], [90, 85]], expected: { Idris: 90, Ali: 85 } }
+        ]
+    },
+    30: {
+        functionName: "processUsers",
+        cases: [
+            { input: [[{ name: "Idris", age: 25, active: true }, { name: "Ali", age: 30, active: false }]], expected: "Active: Idris (25) | Inactive: Ali (30)" }
+        ]
+    }
+};
+
+function runTest(id) {
+    const padId = id.toString().padStart(2, '0');
+    const code = document.getElementById(`code-${padId}`).value;
+    const testInfo = testCases[id];
+    const resultElement = document.getElementById(`result-${padId}`);
+    const statusElement = document.getElementById(`status-${padId}`);
+    
+    try {
+        // Compile the code into a sandbox function
+        let scriptFunc;
+        if (id === 24) {
+            // For arrow implicit return, the code itself is a variable declaration
+            scriptFunc = new Function(code + `\nreturn makeUser;`);
+        } else {
+            scriptFunc = new Function(code + `\nreturn ${testInfo.functionName};`);
+        }
+        const userFunc = scriptFunc();
+        
+        if (typeof userFunc !== 'function') {
+            throw new Error(`Function is not defined. Make sure you haven't renamed it!`);
+        }
+        
+        // Execute all test cases
+        for (let i = 0; i < testInfo.cases.length; i++) {
+            const tc = testInfo.cases[i];
+            
+            // Deep clone arguments to avoid parameter mutations during assertions
+            const inputArgs = safeClone(tc.input);
+            
+            let got;
+            if (id === 1 || id === 3 || id === 5) {
+                // Special conceptual / block cases where we pass the function itself
+                got = userFunc;
+            } else {
+                got = userFunc(...inputArgs);
+            }
+            
+            if (typeof tc.expected === 'function') {
+                if (!tc.expected(got, inputArgs)) {
+                    throw new Error(`Test Case ${i + 1} Failed!\nInput: ${JSON.stringify(tc.input)}\nGot unexpected result: ${JSON.stringify(got)}`);
+                }
+            } else {
+                if (!deepEqual(got, tc.expected)) {
+                    throw new Error(`Test Case ${i + 1} Failed!\nInput: ${JSON.stringify(tc.input)}\nExpected: ${JSON.stringify(tc.expected)}\nGot: ${JSON.stringify(got)}`);
+                }
+            }
+        }
+        
+        // Mark as passed
+        resultElement.className = "result-message res-success";
+        resultElement.innerHTML = "✅ All tests passed successfully!";
+        statusElement.className = "status-badge status-passed";
+        statusElement.textContent = "Passed";
+        updateProgress();
+        
+    } catch (err) {
+        // Mark as failed
+        resultElement.className = "result-message res-error";
+        resultElement.innerHTML = "❌ " + err.message.replace(/\n/g, '<br>');
+        statusElement.className = "status-badge status-failed";
+        statusElement.textContent = "Failed";
+        updateProgress();
+    }
+}
+
+function updateProgress() {
+    const passed = document.querySelectorAll('.status-badge.status-passed').length;
+    document.getElementById('done').textContent = passed;
+}
+</script>
+</body>
+</html>

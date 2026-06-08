@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Fundamentals — Practice Database: Strings (30 Challenges)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0b0c10; color: #d1d4dc; line-height: 1.6; font-size: 15px; padding: 60px 20px; }
+        .container { max-width: 860px; margin: 0 auto; }
+        .header { margin-bottom: 40px; border-bottom: 1px solid #1f222e; padding-bottom: 24px; }
+        .tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #8e929f; margin-bottom: 6px; }
+        h1 { font-size: 32px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; margin-bottom: 8px; }
+        .subtitle { font-size: 15px; color: #8e929f; }
+        
+        .score { display: flex; gap: 20px; margin: 20px 0 40px; flex-wrap: wrap; }
+        .score-box { background: #121319; border: 1px solid #1f222e; border-radius: 8px; padding: 14px 20px; text-align: center; flex: 1; min-width: 120px; }
+        .score-num { font-size: 28px; font-weight: 800; color: #ffffff; font-family: 'JetBrains Mono', monospace; }
+        .score-label { font-size: 10px; color: #8e929f; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+        .exercise { background-color: #121319; border: 1px solid #1f222e; border-radius: 8px; padding: 24px; margin: 20px 0; }
+        .exercise-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .exercise-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #ffffff; background: #262936; padding: 3px 8px; border-radius: 4px; }
+        .exercise-title { font-size: 16px; font-weight: 600; color: #ffffff; flex: 1; margin-left: 12px; }
+        
+        .status-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; }
+        .status-pending { background: #262936; color: #8e929f; }
+        .status-passed { background: #1c2820; color: #52c480; }
+        .status-failed { background: #2d1a1e; color: #e55361; }
+
+        .description { font-size: 14px; color: #afb2bb; margin-bottom: 16px; }
+        .io-box { background: #07080b; border: 1px solid #181922; border-radius: 6px; padding: 14px 18px; margin: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+        .io-line { display: flex; margin-bottom: 4px; }
+        .io-line:last-child { margin-bottom: 0; }
+        .label { color: #8e929f; width: 80px; flex-shrink: 0; }
+        .value { color: #ffffff; }
+        
+        .code-editor { width: 100%; height: 120px; background: #07080b; border: 1px solid #1f222e; border-radius: 6px; padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #ffffff; margin-top: 12px; resize: vertical; outline: none; }
+        .code-editor:focus { border-color: #3e4255; }
+        
+        .controls { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+        .run-btn { font-family: 'Inter', sans-serif; background: #1f222e; border: 1px solid #2d313f; color: #e1e3eb; font-size: 12px; font-weight: 600; padding: 8px 18px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .run-btn:hover { background: #262936; border-color: #3e4255; }
+        
+        .result-message { font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; flex: 1; }
+        .res-success { color: #52c480; }
+        .res-error { color: #e55361; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <p class="tag">JavaScript Fundamentals</p>
+        <h1>🔤 String Practice Database</h1>
+        <p class="subtitle">Exactly 30 progressive exercises to master string manipulation. Write your solutions inside the code editors, click 'Run Tests', and check your progress in real-time!</p>
+    </div>
+
+    <div class="score">
+        <div class="score-box"><div class="score-num" id="done">0</div><div class="score-label">Completed</div></div>
+        <div class="score-box"><div class="score-num">30</div><div class="score-label">Total</div></div>
+    </div>
+
+    <!-- 01 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">01</span>
+            <h3 class="exercise-title">Reverse a String</h3>
+            <span class="status-badge status-pending" id="status-01">Pending</span>
+        </div>
+        <p class="description">Write a function that takes a string and returns a new string with all characters in reverse order.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"hello"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"olleh"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-01" spellcheck="false">function reverseString(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(1)">Run Tests</button>
+            <span class="result-message" id="result-01"></span>
+        </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">02</span>
+            <h3 class="exercise-title">Count Vowels</h3>
+            <span class="status-badge status-pending" id="status-02">Pending</span>
+        </div>
+        <p class="description">Write a function that counts and returns the number of vowels (a, e, i, o, u) in a given string. Ignore case.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"JavaScript Fundamentals"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">8</span></div>
+        </div>
+        <textarea class="code-editor" id="code-02" spellcheck="false">function countVowels(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(2)">Run Tests</button>
+            <span class="result-message" id="result-02"></span>
+        </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">03</span>
+            <h3 class="exercise-title">Capitalize First Letter</h3>
+            <span class="status-badge status-pending" id="status-03">Pending</span>
+        </div>
+        <p class="description">Write a function that capitalizes the very first character of a string and returns the updated string.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"gymnasium"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Gymnasium"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-03" spellcheck="false">function capitalizeFirst(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(3)">Run Tests</button>
+            <span class="result-message" id="result-03"></span>
+        </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">04</span>
+            <h3 class="exercise-title">Check Palindrome</h3>
+            <span class="status-badge status-pending" id="status-04">Pending</span>
+        </div>
+        <p class="description">Write a function that checks if a string is a palindrome (reads the same backward as forward). Ignore spaces and letter case.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Race Car"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-04" spellcheck="false">function isPalindrome(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(4)">Run Tests</button>
+            <span class="result-message" id="result-04"></span>
+        </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">05</span>
+            <h3 class="exercise-title">Truncate String</h3>
+            <span class="status-badge status-pending" id="status-05">Pending</span>
+        </div>
+        <p class="description">Write a function that cuts a string if it exceeds a specified maximum length and appends "..." to the end. If the string is shorter, return it as is.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Coding is a lot of fun", 10</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Coding is ..."</span></div>
+        </div>
+        <textarea class="code-editor" id="code-05" spellcheck="false">function truncateString(str, maxLength) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(5)">Run Tests</button>
+            <span class="result-message" id="result-05"></span>
+        </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">06</span>
+            <h3 class="exercise-title">Title Case a Sentence</h3>
+            <span class="status-badge status-pending" id="status-06">Pending</span>
+        </div>
+        <p class="description">Write a function that converts a sentence string to Title Case (capitalizes the first letter of every word, while keeping the rest lowercase).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"hello WORLD from JS"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Hello World From Js"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-06" spellcheck="false">function toTitleCase(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(6)">Run Tests</button>
+            <span class="result-message" id="result-06"></span>
+        </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">07</span>
+            <h3 class="exercise-title">Count Characters</h3>
+            <span class="status-badge status-pending" id="status-07">Pending</span>
+        </div>
+        <p class="description">Write a function that counts how many times a target character appears in a given string. Case sensitive.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"banana", "a"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">3</span></div>
+        </div>
+        <textarea class="code-editor" id="code-07" spellcheck="false">function countChar(str, char) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(7)">Run Tests</button>
+            <span class="result-message" id="result-07"></span>
+        </div>
+    </div>
+
+    <!-- 08 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">08</span>
+            <h3 class="exercise-title">First and Last Match</h3>
+            <span class="status-badge status-pending" id="status-08">Pending</span>
+        </div>
+        <p class="description">Write a function that checks if a string starts and ends with the exact same character. Ignore case.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Area"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-08" spellcheck="false">function firstLastMatch(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(8)">Run Tests</button>
+            <span class="result-message" id="result-08"></span>
+        </div>
+    </div>
+
+    <!-- 09 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">09</span>
+            <h3 class="exercise-title">Remove Duplicate Characters</h3>
+            <span class="status-badge status-pending" id="status-09">Pending</span>
+        </div>
+        <p class="description">Write a function that removes all duplicate characters from a string, keeping only the first occurrence of each character.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"alphabetic"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"alphebtc"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-09" spellcheck="false">function removeDuplicates(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(9)">Run Tests</button>
+            <span class="result-message" id="result-09"></span>
+        </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">10</span>
+            <h3 class="exercise-title">Check Anagram</h3>
+            <span class="status-badge status-pending" id="status-10">Pending</span>
+        </div>
+        <p class="description">Write a function that checks if two strings are anagrams of each other (contain the same characters in different order). Ignore case and spaces.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Astronomer", "Moon starer"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-10" spellcheck="false">function isAnagram(str1, str2) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(10)">Run Tests</button>
+            <span class="result-message" id="result-10"></span>
+        </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">11</span>
+            <h3 class="exercise-title">Repeat String</h3>
+            <span class="status-badge status-pending" id="status-11">Pending</span>
+        </div>
+        <p class="description">Write a function that takes a string and a positive integer <code>n</code>, and returns a new string containing the original string repeated <code>n</code> times.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"abc", 3</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"abcabcabc"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-11" spellcheck="false">function repeatStr(str, n) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(11)">Run Tests</button>
+            <span class="result-message" id="result-11"></span>
+        </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">12</span>
+            <h3 class="exercise-title">Extract Username</h3>
+            <span class="status-badge status-pending" id="status-12">Pending</span>
+        </div>
+        <p class="description">Write a function that extracts and returns the username portion of an email address (everything before the <code>@</code> symbol).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"idris.ahmed@gym.com"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"idris.ahmed"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-12" spellcheck="false">function extractUsername(email) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(12)">Run Tests</button>
+            <span class="result-message" id="result-12"></span>
+        </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">13</span>
+            <h3 class="exercise-title">Extract Domain</h3>
+            <span class="status-badge status-pending" id="status-13">Pending</span>
+        </div>
+        <p class="description">Write a function that extracts and returns the domain portion of an email address (everything after the <code>@</code> symbol).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"idris@gym.com"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"gym.com"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-13" spellcheck="false">function extractDomain(email) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(13)">Run Tests</button>
+            <span class="result-message" id="result-13"></span>
+        </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">14</span>
+            <h3 class="exercise-title">Replace All Word Occurrences</h3>
+            <span class="status-badge status-pending" id="status-14">Pending</span>
+        </div>
+        <p class="description">Write a function that replaces all occurrences of a specific target word inside a sentence with a new replacement word.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"I love CSS and CSS", "CSS", "JS"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"I love JS and JS"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-14" spellcheck="false">function replaceAllWords(sentence, target, replacement) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(14)">Run Tests</button>
+            <span class="result-message" id="result-14"></span>
+        </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">15</span>
+            <h3 class="exercise-title">Mask Credit Card</h3>
+            <span class="status-badge status-pending" id="status-15">Pending</span>
+        </div>
+        <p class="description">Write a function that masks a 16-digit credit card string with asterisks (<code>*</code>), leaving only the last 4 digits visible.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"1234567812345678"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"************5678"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-15" spellcheck="false">function maskCard(cardNumber) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(15)">Run Tests</button>
+            <span class="result-message" id="result-15"></span>
+        </div>
+    </div>
+
+    <!-- 16 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">16</span>
+            <h3 class="exercise-title">Check Numeric Only</h3>
+            <span class="status-badge status-pending" id="status-16">Pending</span>
+        </div>
+        <p class="description">Write a function that returns <code>true</code> if a string contains only digit characters (0-9), and <code>false</code> if it contains any spaces or alphabetic symbols.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"45209"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-16" spellcheck="false">function isNumeric(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(16)">Run Tests</button>
+            <span class="result-message" id="result-16"></span>
+        </div>
+    </div>
+
+    <!-- 17 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">17</span>
+            <h3 class="exercise-title">Pad String Left</h3>
+            <span class="status-badge status-pending" id="status-17">Pending</span>
+        </div>
+        <p class="description">Write a function that pads a string with leading zeroes (<code>0</code>) on the left until the string reaches a target length.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"42", 5</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"00042"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-17" spellcheck="false">function padZeroes(str, targetLength) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(17)">Run Tests</button>
+            <span class="result-message" id="result-17"></span>
+        </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">18</span>
+            <h3 class="exercise-title">Swap Character Cases</h3>
+            <span class="status-badge status-pending" id="status-18">Pending</span>
+        </div>
+        <p class="description">Write a function that flips the case of every character inside a string (converts uppercase to lowercase, and lowercase to uppercase).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"HeLlO wOrLd"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"hElLo WoRlD"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-18" spellcheck="false">function swapCases(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(18)">Run Tests</button>
+            <span class="result-message" id="result-18"></span>
+        </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">19</span>
+            <h3 class="exercise-title">Longest Word in Sentence</h3>
+            <span class="status-badge status-pending" id="status-19">Pending</span>
+        </div>
+        <p class="description">Write a function that finds and returns the single longest word in a given sentence. If multiple have the same length, return the first one.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Practicing javascript challenges makes perfect"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"challenges"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-19" spellcheck="false">function findLongestWord(sentence) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(19)">Run Tests</button>
+            <span class="result-message" id="result-19"></span>
+        </div>
+    </div>
+
+    <!-- 20 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">20</span>
+            <h3 class="exercise-title">Validate URL Slug</h3>
+            <span class="status-badge status-pending" id="status-20">Pending</span>
+        </div>
+        <p class="description">Write a function that checks if a string is a valid URL slug. A valid slug contains ONLY lowercase letters, numbers, and hyphens (<code>-</code>). It cannot start or end with a hyphen.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"learn-js-fundamentals-101"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-20" spellcheck="false">function isValidSlug(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(20)">Run Tests</button>
+            <span class="result-message" id="result-20"></span>
+        </div>
+    </div>
+
+    <!-- 21 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">21</span>
+            <h3 class="exercise-title">Generate Initials</h3>
+            <span class="status-badge status-pending" id="status-21">Pending</span>
+        </div>
+        <p class="description">Write a function that takes a full name (at least two or more words) and returns their initials capitalized, separated by periods.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"john fitzgerald kennedy"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"J.F.K"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-21" spellcheck="false">function getInitials(name) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(21)">Run Tests</button>
+            <span class="result-message" id="result-21"></span>
+        </div>
+    </div>
+
+    <!-- 22 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">22</span>
+            <h3 class="exercise-title">Count Sentences</h3>
+            <span class="status-badge status-pending" id="status-22">Pending</span>
+        </div>
+        <p class="description">Write a function that counts the number of sentences in a string by checking punctuation limits (periods <code>.</code>, question marks <code>?</code>, or exclamation marks <code>!</code>).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Hello! Welcome to the gym. Do you like JS?"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">3</span></div>
+        </div>
+        <textarea class="code-editor" id="code-22" spellcheck="false">function countSentences(paragraph) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(22)">Run Tests</button>
+            <span class="result-message" id="result-22"></span>
+        </div>
+    </div>
+
+    <!-- 23 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">23</span>
+            <h3 class="exercise-title">Chop into Chunks</h3>
+            <span class="status-badge status-pending" id="status-23">Pending</span>
+        </div>
+        <p class="description">Write a function that chops a string into an array of smaller string chunks of a specified size <code>n</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"gymnasium", 3</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">["gym", "nas", "ium"]</span></div>
+        </div>
+        <textarea class="code-editor" id="code-23" spellcheck="false">function chopString(str, chunkSize) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(23)">Run Tests</button>
+            <span class="result-message" id="result-23"></span>
+        </div>
+    </div>
+
+    <!-- 24 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">24</span>
+            <h3 class="exercise-title">Word Frequency Count</h3>
+            <span class="status-badge status-pending" id="status-24">Pending</span>
+        </div>
+        <p class="description">Write a function that counts how many times each word appears in a string and returns a dictionary object mapping each word to its frequency. Ignore case.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"Apple banana apple cherry"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">{ apple: 2, banana: 1, cherry: 1 }</span></div>
+        </div>
+        <textarea class="code-editor" id="code-24" spellcheck="false">function wordFrequency(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(24)">Run Tests</button>
+            <span class="result-message" id="result-24"></span>
+        </div>
+    </div>
+
+    <!-- 25 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">25</span>
+            <h3 class="exercise-title">Format Cents to Dollars</h3>
+            <span class="status-badge status-pending" id="status-25">Pending</span>
+        </div>
+        <p class="description">Write a function that takes a number representing an amount of money in cents, and returns a string formatted as dollar bills with decimal cents.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">4250</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"$42.50"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-25" spellcheck="false">function formatToDollars(cents) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(25)">Run Tests</button>
+            <span class="result-message" id="result-25"></span>
+        </div>
+    </div>
+
+    <!-- 26 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">26</span>
+            <h3 class="exercise-title">Check Hex Color</h3>
+            <span class="status-badge status-pending" id="status-26">Pending</span>
+        </div>
+        <p class="description">Write a function that checks if a string represents a valid hexadecimal CSS color code. It must start with <code>#</code> followed by exactly 3 or 6 valid hexadecimal digits (0-9, a-f, A-F).</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"#3F51b5"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">true</span></div>
+        </div>
+        <textarea class="code-editor" id="code-26" spellcheck="false">function isValidHex(colorStr) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(26)">Run Tests</button>
+            <span class="result-message" id="result-26"></span>
+        </div>
+    </div>
+
+    <!-- 27 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">27</span>
+            <h3 class="exercise-title">Run-Length Encoding</h3>
+            <span class="status-badge status-pending" id="status-27">Pending</span>
+        </div>
+        <p class="description">Write a function that compresses a string using Run-Length Encoding (RLE) by replacing sequences of repeating characters with the character followed by the count.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"aaabbc"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"a3b2c1"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-27" spellcheck="false">function compressRLE(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(27)">Run Tests</button>
+            <span class="result-message" id="result-27"></span>
+        </div>
+    </div>
+
+    <!-- 28 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">28</span>
+            <h3 class="exercise-title">Decompress RLE String</h3>
+            <span class="status-badge status-pending" id="status-28">Pending</span>
+        </div>
+        <p class="description">Write a function that does the reverse of Challenge 27. It takes a compressed RLE string and expands it back to the original full-length string.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"a3b2c1"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"aaabbc"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-28" spellcheck="false">function decompressRLE(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(28)">Run Tests</button>
+            <span class="result-message" id="result-28"></span>
+        </div>
+    </div>
+
+    <!-- 29 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">29</span>
+            <h3 class="exercise-title">First Non-Repeating Character</h3>
+            <span class="status-badge status-pending" id="status-29">Pending</span>
+        </div>
+        <p class="description">Write a function that searches a string and returns the very first character that does not repeat anywhere else in the string. If none, return <code>null</code>.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"swiss"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"w"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-29" spellcheck="false">function firstUniqueChar(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(29)">Run Tests</button>
+            <span class="result-message" id="result-29"></span>
+        </div>
+    </div>
+
+    <!-- 30 -->
+    <div class="exercise">
+        <div class="exercise-header">
+            <span class="exercise-num">30</span>
+            <h3 class="exercise-title">Strip HTML Tags</h3>
+            <span class="status-badge status-pending" id="status-30">Pending</span>
+        </div>
+        <p class="description">Write a function that strips all HTML tags (like <code>&lt;h1&gt;</code>, <code>&lt;div&gt;</code>, <code>&lt;/p&gt;</code>) from a string, leaving only raw text content.</p>
+        <div class="io-box">
+            <div class="io-line"><span class="label">Input:</span><span class="value">"&lt;h1&gt;Welcome to &lt;b&gt;Gym&lt;/b&gt;&lt;/h1&gt;"</span></div>
+            <div class="io-line"><span class="label">Output:</span><span class="value">"Welcome to Gym"</span></div>
+        </div>
+        <textarea class="code-editor" id="code-30" spellcheck="false">function stripHTML(str) {
+    // Your code here
+}</textarea>
+        <div class="controls">
+            <button class="run-btn" onclick="runTest(30)">Run Tests</button>
+            <span class="result-message" id="result-30"></span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// Deep equality helper for objects and arrays
+function deepEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (typeof a !== typeof b) return false;
+    if (typeof a === 'object') {
+        if (Array.isArray(a) !== Array.isArray(b)) return false;
+        if (Array.isArray(a)) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (!deepEqual(a[i], b[i])) return false;
+            }
+            return true;
+        } else {
+            const keysA = Object.keys(a);
+            const keysB = Object.keys(b);
+            if (keysA.length !== keysB.length) return false;
+            for (const key of keysA) {
+                if (!keysB.includes(key) || !deepEqual(a[key], b[key])) return false;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+// Test cases database
+const testCases = {
+    1: {
+        functionName: "reverseString",
+        cases: [
+            { input: ["hello"], expected: "olleh" },
+            { input: ["world"], expected: "dlrow" },
+            { input: ["a"], expected: "a" }
+        ]
+    },
+    2: {
+        functionName: "countVowels",
+        cases: [
+            { input: ["JavaScript Fundamentals"], expected: 8 },
+            { input: ["AEIOU"], expected: 5 },
+            { input: ["xyz"], expected: 0 }
+        ]
+    },
+    3: {
+        functionName: "capitalizeFirst",
+        cases: [
+            { input: ["gymnasium"], expected: "Gymnasium" },
+            { input: ["hello"], expected: "Hello" },
+            { input: ["a"], expected: "A" }
+        ]
+    },
+    4: {
+        functionName: "isPalindrome",
+        cases: [
+            { input: ["Race Car"], expected: true },
+            { input: ["hello"], expected: false },
+            { input: ["A man a plan a canal Panama"], expected: true }
+        ]
+    },
+    5: {
+        functionName: "truncateString",
+        cases: [
+            { input: ["Coding is a lot of fun", 10], expected: "Coding is ..." },
+            { input: ["Hi", 10], expected: "Hi" },
+            { input: ["test", 4], expected: "test" }
+        ]
+    },
+    6: {
+        functionName: "toTitleCase",
+        cases: [
+            { input: ["hello WORLD from JS"], expected: "Hello World From Js" },
+            { input: ["GYMNASE"], expected: "Gymnase" },
+            { input: ["a b c"], expected: "A B C" }
+        ]
+    },
+    7: {
+        functionName: "countChar",
+        cases: [
+            { input: ["banana", "a"], expected: 3 },
+            { input: ["hello", "l"], expected: 2 },
+            { input: ["test", "z"], expected: 0 }
+        ]
+    },
+    8: {
+        functionName: "firstLastMatch",
+        cases: [
+            { input: ["Area"], expected: true },
+            { input: ["hello"], expected: false },
+            { input: ["a"], expected: true }
+        ]
+    },
+    9: {
+        functionName: "removeDuplicates",
+        cases: [
+            { input: ["alphabetic"], expected: "alphebtc" },
+            { input: ["aaaaa"], expected: "a" },
+            { input: ["abc"], expected: "abc" }
+        ]
+    },
+    10: {
+        functionName: "isAnagram",
+        cases: [
+            { input: ["Astronomer", "Moon starer"], expected: true },
+            { input: ["hello", "world"], expected: false },
+            { input: ["silent", "listen"], expected: true }
+        ]
+    },
+    11: {
+        functionName: "repeatStr",
+        cases: [
+            { input: ["abc", 3], expected: "abcabcabc" },
+            { input: ["x", 1], expected: "x" },
+            { input: ["", 5], expected: "" }
+        ]
+    },
+    12: {
+        functionName: "extractUsername",
+        cases: [
+            { input: ["idris.ahmed@gym.com"], expected: "idris.ahmed" },
+            { input: ["test@example.com"], expected: "test" },
+            { input: ["a@b.c"], expected: "a" }
+        ]
+    },
+    13: {
+        functionName: "extractDomain",
+        cases: [
+            { input: ["idris@gym.com"], expected: "gym.com" },
+            { input: ["test@example.com"], expected: "example.com" },
+            { input: ["a@b.c"], expected: "b.c" }
+        ]
+    },
+    14: {
+        functionName: "replaceAllWords",
+        cases: [
+            { input: ["I love CSS and CSS", "CSS", "JS"], expected: "I love JS and JS" },
+            { input: ["a a a", "a", "b"], expected: "b b b" },
+            { input: ["hello", "world", "js"], expected: "hello" }
+        ]
+    },
+    15: {
+        functionName: "maskCard",
+        cases: [
+            { input: ["1234567812345678"], expected: "************5678" },
+            { input: ["11112222"], expected: "****2222" },
+            { input: ["4567"], expected: "4567" }
+        ]
+    },
+    16: {
+        functionName: "isNumeric",
+        cases: [
+            { input: ["45209"], expected: true },
+            { input: ["45 2"], expected: false },
+            { input: ["abc"], expected: false }
+        ]
+    },
+    17: {
+        functionName: "padZeroes",
+        cases: [
+            { input: ["42", 5], expected: "00042" },
+            { input: ["123", 3], expected: "123" },
+            { input: ["9", 2], expected: "09" }
+        ]
+    },
+    18: {
+        functionName: "swapCases",
+        cases: [
+            { input: ["HeLlO wOrLd"], expected: "hElLo WoRlD" },
+            { input: ["abc"], expected: "ABC" },
+            { input: ["123"], expected: "123" }
+        ]
+    },
+    19: {
+        functionName: "findLongestWord",
+        cases: [
+            { input: ["Practicing javascript challenges makes perfect"], expected: "challenges" },
+            { input: ["a bb ccc"], expected: "ccc" },
+            { input: ["same len test"], expected: "same" }
+        ]
+    },
+    20: {
+        functionName: "isValidSlug",
+        cases: [
+            { input: ["learn-js-fundamentals-101"], expected: true },
+            { input: ["Learn-JS"], expected: false },
+            { input: ["-slug-"], expected: false }
+        ]
+    },
+    21: {
+        functionName: "getInitials",
+        cases: [
+            { input: ["john fitzgerald kennedy"], expected: "J.F.K" },
+            { input: ["idris ahmed"], expected: "I.A" },
+            { input: ["SingleName"], expected: "S" }
+        ]
+    },
+    22: {
+        functionName: "countSentences",
+        cases: [
+            { input: ["Hello! Welcome to the gym. Do you like JS?"], expected: 3 },
+            { input: ["One sentence."], expected: 1 },
+            { input: ["No punctuation test"], expected: 0 }
+        ]
+    },
+    23: {
+        functionName: "chopString",
+        cases: [
+            { input: ["gymnasium", 3], expected: ["gym", "nas", "ium"] },
+            { input: ["hello", 2], expected: ["he", "ll", "o"] },
+            { input: ["a", 1], expected: ["a"] }
+        ]
+    },
+    24: {
+        functionName: "wordFrequency",
+        cases: [
+            { input: ["Apple banana apple cherry"], expected: { apple: 2, banana: 1, cherry: 1 } },
+            { input: ["test"], expected: { test: 1 } },
+            { input: ["a b a b c"], expected: { a: 2, b: 2, c: 1 } }
+        ]
+    },
+    25: {
+        functionName: "formatToDollars",
+        cases: [
+            { input: [4250], expected: "$42.50" },
+            { input: [99], expected: "$0.99" },
+            { input: [10000], expected: "$100.00" }
+        ]
+    },
+    26: {
+        functionName: "isValidHex",
+        cases: [
+            { input: ["#3F51b5"], expected: true },
+            { input: ["#333"], expected: true },
+            { input: ["#12345"], expected: false }
+        ]
+    },
+    27: {
+        functionName: "compressRLE",
+        cases: [
+            { input: ["aaabbc"], expected: "a3b2c1" },
+            { input: ["abc"], expected: "a1b1c1" },
+            { input: ["aaaaaa"], expected: "a6" }
+        ]
+    },
+    28: {
+        functionName: "decompressRLE",
+        cases: [
+            { input: ["a3b2c1"], expected: "aaabbc" },
+            { input: ["a1b1c1"], expected: "abc" },
+            { input: ["a6"], expected: "aaaaaa" }
+        ]
+    },
+    29: {
+        functionName: "firstUniqueChar",
+        cases: [
+            { input: ["swiss"], expected: "w" },
+            { input: ["racecar"], expected: "e" },
+            { input: ["aabb"], expected: null }
+        ]
+    },
+    30: {
+        functionName: "stripHTML",
+        cases: [
+            { input: ["<h1>Welcome to <b>Gym</b></h1>"], expected: "Welcome to Gym" },
+            { input: ["<p>hello</p>"], expected: "hello" },
+            { input: ["text"], expected: "text" }
+        ]
+    }
+};
+
+function runTest(id) {
+    const padId = id.toString().padStart(2, '0');
+    const code = document.getElementById(`code-${padId}`).value;
+    const testInfo = testCases[id];
+    const resultElement = document.getElementById(`result-${padId}`);
+    const statusElement = document.getElementById(`status-${padId}`);
+    
+    try {
+        // Compile the code into a sandbox function
+        const scriptFunc = new Function(code + `\nreturn ${testInfo.functionName};`);
+        const userFunc = scriptFunc();
+        
+        if (typeof userFunc !== 'function') {
+            throw new Error(`Function '${testInfo.functionName}' is not defined. Make sure you haven't renamed it!`);
+        }
+        
+        // Execute all 3 test cases
+        for (let i = 0; i < testInfo.cases.length; i++) {
+            const tc = testInfo.cases[i];
+            
+            // Deep clone arguments to avoid parameter mutations during assertions
+            const inputArgs = JSON.parse(JSON.stringify(tc.input));
+            const got = userFunc(...inputArgs);
+            
+            if (!deepEqual(got, tc.expected)) {
+                throw new Error(`Test Case ${i + 1} Failed!\nInput: ${JSON.stringify(tc.input)}\nExpected: ${JSON.stringify(tc.expected)}\nGot: ${JSON.stringify(got)}`);
+            }
+        }
+        
+        // Mark as passed
+        resultElement.className = "result-message res-success";
+        resultElement.innerHTML = "✅ All tests passed successfully!";
+        statusElement.className = "status-badge status-passed";
+        statusElement.textContent = "Passed";
+        updateProgress();
+        
+    } catch (err) {
+        // Mark as failed
+        resultElement.className = "result-message res-error";
+        resultElement.innerHTML = "❌ " + err.message.replace(/\n/g, '<br>');
+        statusElement.className = "status-badge status-failed";
+        statusElement.textContent = "Failed";
+        updateProgress();
+    }
+}
+
+function updateProgress() {
+    const passed = document.querySelectorAll('.status-badge.status-passed').length;
+    document.getElementById('done').textContent = passed;
+}
+</script>
+</body>
+</html>

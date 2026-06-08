@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clone Target 01 — The Flexbox Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* BASE RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0c10;
+            color: #d1d4dc;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        /* HEADER INSTRUCTIONS */
+        .clone-header {
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            text-align: center;
+            border-bottom: 1px solid #1f222e;
+            padding-bottom: 24px;
+        }
+
+        .tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #8e929f;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            font-size: 13px;
+            color: #8e929f;
+        }
+
+        /* ======================================================= */
+        /* THE TARGET LAYOUT TO CLONE (Must replicate this below)  */
+        /* ======================================================= */
+
+        .dashboard {
+            max-width: 760px;
+            background-color: #121319;
+            border: 1px solid #1f222e;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* 1. Header Bar using Flexbox */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1f222e;
+            padding-bottom: 16px;
+        }
+
+        .brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 200px; /* Force constraint to test flex-shrink */
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 1px solid #1f222e;
+            /* Flexbox Rule to exercise: prevent avatar squishing */
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            font-size: 12px;
+            color: #afb2bb;
+            /* Truncates text if profile squishes */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* 2. Gallery wrap grid */
+        .cards-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            /* Exercise align-content by giving parent fixed height & space-between row spacing */
+            align-content: space-between;
+        }
+
+        /* 3. The individual card using flex-direction column */
+        .card {
+            flex: 1 1 220px; /* Flex-grow, flex-shrink, flex-basis */
+            background-color: #07080b;
+            border: 1px solid #1f222e;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            min-height: 180px;
+        }
+
+        .card-top {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            color: #8e929f;
+        }
+
+        /* Exercise align-self: specific badge align */
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            color: #ffffff;
+            background-color: #262936;
+            border: 1px solid #3e4255;
+            padding: 3px 8px;
+            border-radius: 4px;
+            /* Flexbox Rule to exercise: aligned to bottom-left instead of stretching */
+            align-self: flex-start;
+        }
+
+        /* Alternative card using align-self: flex-end badge */
+        .badge-special {
+            background-color: #ffffff;
+            color: #07080b;
+            border: none;
+            /* Flexbox Rule to exercise */
+            align-self: flex-end;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #1f222e;
+            padding-top: 12px;
+            font-size: 11px;
+            color: #afb2bb;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="clone-header">
+        <p class="tag">Clone Target 01</p>
+        <h1>⚡ The Flexbox Dashboard</h1>
+        <p class="description">Replicate this modern layout dashboard grid. This challenge will test your ability to center items, wrap galleries responsively, align badges asymmetrical, and prevent image squishing.</p>
+    </div>
+
+    <!-- THE TARGET TO CLONE -->
+    <div class="dashboard">
+        
+        <!-- Header Bar -->
+        <div class="header-bar">
+            <span class="brand">CORE_NET // v1.2</span>
+            <div class="profile">
+                <div class="avatar"></div>
+                <div class="profile-info">
+                    <p class="profile-name">Idris Bello</p>
+                    <p>Core Engineer</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards Gallery wrap grid -->
+        <div class="cards-gallery">
+            
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-top">
+                    <span class="badge">SYS_ONLINE</span>
+                    <h3 class="card-title">Lexer Compiler</h3>
+                    <p class="card-desc">Tokenizing raw character streams into meaningful syntax units instantly.</p>
+                </div>
+                <div class="card-footer">
+                    <span>Performance</span>
+                    <span class="stat-value">99.8%</span>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-top">
+                    <span class="badge badge-special">UPGRADE</span>
+                    <h3 class="card-title">Parser Tree</h3>
+                    <p class="card-desc">Analyzing recursive grammar structures to generate structured abstract trees.</p>
+                </div>
+                <div class="card-footer">
+                    <span>Status</span>
+                    <span class="stat-value">IDLE</span>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-top">
+                    <span class="badge">SEC_LOCK</span>
+                    <h3 class="card-title">Binarizer</h3>
+                    <p class="card-desc">Packing parsed AST node schemas into machine-executable bytecode.</p>
+                </div>
+                <div class="card-footer">
+                    <span>Active Threads</span>
+                    <span class="stat-value">32_x64</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
