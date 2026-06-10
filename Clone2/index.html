@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="./output.css" rel="stylesheet">
+    <title>Clone2</title>
+</head>
+
+<body>
+    <header class="flex flex-col ">
+        <nav
+            class=" bg-[#0DA487]  flex justify-end   text-white md:justify-between md: md:items-center md:p-3  md:px-16">
+
+            <div class=" hidden  md:block md:text-md  md:text-white"> Stay home & delivered your Daily Needs</div>
+            <div class=" flex items-center ">
+                <form action=" ">
+                    <select name="English" id="lang" class=" px-2 flex justify-center ">
+                        <option value="English" class="text-black"> 🇬🇧 English </option>
+                        <option value="Germany" class="text-black"> <img src="" alt="">🇩🇪 Germany</option>
+                        <option value="Turki" class="text-black"> <img src="" alt="">🇹🇷 Turki </option>
+                    </select>
+
+                </form>
+                <form action=" ">
+                    <select name="Currency" id="" class="p-2 ">
+                        <option value="AUD" class="text-black">AUD</option>
+                        <option value="EUR " class="text-black">EURO</option>
+                        <option value="CNY" class="text-black">CNY</option>
+                    </select>
+                </form>
+            </div>
+
+        </nav>
+
+        <nav
+            class=" hidden  md:p-1 md:my-5  md:flex md:justify-between md:relative  md:h-12 md:w-full md:px-14 md:items-center font-bold">
+            <div class=" h-3/4  flex justify-center items-end">
+                <button class="  h-full   p-2 border shadow-slate-900">
+                    <img src="images/menu.png" alt="m" class="h-full ">
+                </button>
+                <h5 class="text-emerald-700 text-4xl bg h-full flex items-end"> Fast <span
+                        class=" text-black font-bold">Kart</span>.</h5>
+                <button class=" h-full border-1 shadow-2xl   ">
+                    <img src="images/user.png" alt="" class="h-full shadow-slate-900 ">
+                </button>
+
+            </div>
+            <div class=" h-3/4  flex justify-around w-1/3">
+                <div class=" h-full "> <img src="images/user.png" class="h-full border-r-2 p-1"></div>
+                <div class=" h-full"><img src="images/user.png" alt="" class="h-full border-r-2 p-1"></div>
+                <div class="h-full"><img src="images/user.png" alt="" class="h-full border-r-2 p-1"></div>
+                <div class="h-full"> <img src="images/user.png" alt="" class="h-full border-r-2 p-1"></div>
+                <div class=" h-full"> <img src="images/user.png" alt="" class="h-full  p-1"></div>
+            </div>
+        </nav>
+            <div class=" hidden md:flex justify-between px-14 h-20 items-center">
+                <div  class=" p-3  h-3/4 flex justify-center items-center bg-emerald-700 text-white rounded-2xl"> 
+                    <button class="h-full"> <img src="images/user.png" alt="" class="h-3/4"></button>
+                    <h5 class="h-full flex items-center justify-center"> All Categories</h5>
+                </div>
+                <div  class=" p-2  h-3/4 flex justify-center items-center">
+                    <button class=" h-full bg-emerald-400  rounded-2xl p-2"> <img src="images/user.png" alt="" class="h-full"></button> 
+                    
+                </div>
+            </div>
+        <nav class=" md:hidden p-5 flex justify-between items-center md:px-12 ">
+
+
+            <div class=" hidden md:block md:text-[#0DA487]   md:text-3xl"> <button
+                    class=" w-1/12  md:w-1/50  bg-sky-400">
+                    <img src="images/menu.png" alt="" class=" ">
+                </button> Fast<span class="text-black">Kart</span>.
+            </div>
+
+            <div class="  justify-center gap-0  text-3xl text-[#0DA487]   md:hidden">
+                Fast<span class=" text-black">Kart</span>.
+            </div>
+            <button class=" w-1/12 md:w-1/30">
+                <img src="images/user.png" alt="">
+            </button>
+        </nav>
+
+
+    </header>
+
+    <main class=" p-6 px-4">
+        <section class=" flex flex-col gap-4">
+
+
+            <div class="  p-2 w-full bg-[#0DA487]  relative">
+                <img src="images/1.jpeg" alt="" class="   h-48 w-full">
+                <div class=" absolute z-0  top-3 left-10 w-1/2 py-6  ">
+                    <h5> Exclusive offer </h5>
+                    <p class=" font-bold text-xl m">Stay home & delivered your <span class="text-[#0DA487]">Daily
+                            Needs</span> </p>
+                    <button class=" bg-[#FF6565]  w-3/4 py-2 rounded-xl flex justify-center items-center text-white">
+                        Shop Now</button>
+                </div>
+
+            </div>
+
+            <div class="  p-2 w-full  bg-[#0DA487]  relative">
+                <img src="images/2.jpeg" alt="" class="h-48 w-full ">
+                <div class=" absolute z-0  top-3 left-10 w-1/2 py-6  ">
+                    <h5> Exclusive offer </h5>
+                    <p class=" font-bold text-xl m">Stay home & delivered your <span class="text-[#0DA487]">Daily
+                            Needs</span> </p>
+                    <button class=" bg-[#FF6565]  w-3/4 py-2 rounded-xl flex justify-center items-center text-white">
+                        Shop Now</button>
+                </div>
+
+            </div>
+            <div class="  p-2 w-full bg-[#0DA487] relative">
+                <img src="images/3.jpeg" alt="" class=" h-48 w-full">
+                <div class=" absolute z-0  top-3     left-8 w-1/2 py-6  ">
+                    <h5> Exclusive offer </h5>
+                    <p class=" font-bold text-xl m">Stay home & delivered your <span class="text-[#0DA487]">Daily
+                            Needs</span> </p>
+                    <button class=" bg-[#FF6565]  w-3/4 py-2 rounded-xl flex justify-center items-center text-white">
+                        Shop Now</button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+</body>
+
+</html>
