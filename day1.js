@@ -15,7 +15,8 @@ const arr= [1, 2, 4, 0];
  //  affect the original if modified.
 
  // 3. first element of an array
- const arr1=  (arr)=> arr[0];
+const arr1= (test,n) => test.slice(0,n);
+console.log(arr1([1, 2, 4, 0],3));
 
  //  4 last element of an array
  const arr1=  (arr)=> arr[-arr.length-1];
