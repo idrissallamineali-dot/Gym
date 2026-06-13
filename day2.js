@@ -101,3 +101,21 @@ function removeDuplicates(arr) {
  */
 const arr1= (test,n) => test.slice(-n);
 console.log(arr1([1, 2, 4, 0],3));
+
+
+// squared 
+const squared = (nums) =>  nums.map((num)=> num *num);
+
+// to uppercase;
+const squared = (words) =>  words.map((word)=> word.toUpperCase());
+
+// users names 
+const users = [
+  { name: "Driss", age: 20 },
+  { name: "Ali",   age: 25 },
+  { name: "Sara",  age: 22 }
+];
+const squared = (users) => users.map((user)=> user.name);
+console.log(squared(users));
+
+
