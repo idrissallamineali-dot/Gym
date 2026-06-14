@@ -38,3 +38,10 @@ const word = words.reduce((acc,current) => acc + " "+ current);
 
 //repeat 
 const arr = [1, 2, 2, 3, 3, 3, 4];
+
+
+// sum of squares
+const nums = [1, 2, 3, 4];
+const sum = (nums.map(num => num*num)).reduce((acc,current) => current+acc , 0)
+console.log (sum);
+
