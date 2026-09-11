@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Tabs Example</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-200 p-10 font-sans flex justify-center items-center h-screen">
+
+    <!-- The Glass Background Wrapper -->
+    <div class="bg-white/40 backdrop-blur-md p-6 rounded-xl shadow-lg w-full max-w-4xl border border-white/50">
+        
+        <!-- THE TABS -->
+        <div class="flex">
+            <!-- University Tab (Blue) -->
+            <button onclick="showPanel('uni')" id="tab-uni" class="px-6 py-3 rounded-t-lg font-bold bg-blue-500 text-white transition-colors">
+                University Programs
+            </button>
+            
+            <!-- Language Tab (Purple) -->
+            <button onclick="showPanel('lang')" id="tab-lang" class="px-6 py-3 rounded-t-lg font-bold bg-white text-gray-600 hover:bg-gray-50 transition-colors">
+                Language Schools
+            </button>
+            
+            <!-- Summer Tab (Pink) -->
+            <button onclick="showPanel('summer')" id="tab-summer" class="px-6 py-3 rounded-t-lg font-bold bg-white text-gray-600 hover:bg-gray-50 transition-colors">
+                Summer Schools
+            </button>
+        </div>
+
+        <!-- THE SEARCH BARS (PANELS) -->
+        <!-- All panels share the same white box style, but we hide/show them -->
+        
+        <!-- Panel 1: University (Shows Institution & Discipline) -->
+        <div id="panel-uni" class="bg-white p-6 rounded-b-lg rounded-tr-lg shadow-md flex justify-between items-center gap-4">
+            <div class="flex-1">
+                <p class="text-xs text-gray-500">Location</p>
+                <select class="w-full bg-transparent outline-none font-medium"><option>Select Location</option></select>
+            </div>
+            <div class="flex-1">
+                <p class="text-xs text-gray-500">Institution</p>
+                <select class="w-full bg-transparent outline-none font-medium"><option>Select Institution</option></select>
+            </div>
+            <div class="flex-1">
+                <p class="text-xs text-gray-500">Discipline</p>
+                <select class="w-full bg-transparent outline-none font-medium"><option>Select Discipline</option></select>
+            </div>
+            <button class="bg-blue-500 text-white p-3 rounded hover:bg-blue-600">Search</button>
+        </div>
+
+        <!-- Panel 2: Language (Shows Course Model & Start Date) - HIDDEN BY DEFAULT -->
+        <div id="panel-lang" class="bg-white p-6 rounded-b-lg shadow-md flex justify-between items-center gap-4 hidden">
+            <div class="flex-1">
+                <p class="text-xs text-gray-500">Location</p>
+                <select class="w-full bg-transparent outline-none font-medium"><option>Select Location</option></select>
+            </div>
+            <div class="flex-1">
+                <p class="text-xs text-gray-500">Course Model</p>
+                <select class="w-full bg-transparent outline-none font-medium"><option>Select Course Model</option></select>
+            </div>
+            <div class="flex-1">
+                <p class="text-xs text-gray-500">Start Date</p>
+                <select class="w-full bg-transparent outline-none font-medium"><option>Select Start Date</option></select>
+            </div>
+            <button class="bg-purple-600 text-white p-3 rounded hover:bg-purple-700">Search</button>
+        </div>
+
+        <!-- Panel 3: Summer (Shows Age & Theme) - HIDDEN BY DEFAULT -->
+        <div id="panel-summer" class="bg-white p-6 rounded-b-lg shadow-md flex justify-between items-center gap-4 hidden">
+            <div class="flex-1">
+                <p class="text-xs text-gray-500">Location</p>
+                <select class="w-full bg-transparent outline-none font-medium"><option>Select Location</option></select>
+            </div>
+            <div class="flex-1">
+                <p class="text-xs text-gray-500">Age</p>
+                <select class="w-full bg-transparent outline-none font-medium"><option>Select Age</option></select>
+            </div>
+            <div class="flex-1">
+                <p class="text-xs text-gray-500">Theme</p>
+                <select class="w-full bg-transparent outline-none font-medium"><option>Select Theme</option></select>
+            </div>
+            <button class="bg-pink-600 text-white p-3 rounded hover:bg-pink-700">Search</button>
+        </div>
+
+    </div>
+
+    <!-- Simple JavaScript to make the tabs work -->
+    <script>
+        function showPanel(panelName) {
+            // 1. Hide all panels
+            document.getElementById('panel-uni').classList.add('hidden');
+            document.getElementById('panel-lang').classList.add('hidden');
+            document.getElementById('panel-summer').classList.add('hidden');
+
+            // 2. Reset all tabs to look unselected (white)
+            document.getElementById('tab-uni').className = "px-6 py-3 rounded-t-lg font-bold bg-white text-gray-600 hover:bg-gray-50 transition-colors";
+            document.getElementById('tab-lang').className = "px-6 py-3 rounded-t-lg font-bold bg-white text-gray-600 hover:bg-gray-50 transition-colors";
+            document.getElementById('tab-summer').className = "px-6 py-3 rounded-t-lg font-bold bg-white text-gray-600 hover:bg-gray-50 transition-colors";
+
+            // 3. Show the correct panel and color the correct tab based on what was clicked
+            if (panelName === 'uni') {
+                document.getElementById('panel-uni').classList.remove('hidden');
+                document.getElementById('tab-uni').className = "px-6 py-3 rounded-t-lg font-bold bg-blue-500 text-white transition-colors";
+            } else if (panelName === 'lang') {
+                document.getElementById('panel-lang').classList.remove('hidden');
+                document.getElementById('tab-lang').className = "px-6 py-3 rounded-t-lg font-bold bg-purple-600 text-white transition-colors";
+            } else if (panelName === 'summer') {
+                document.getElementById('panel-summer').classList.remove('hidden');
+                document.getElementById('tab-summer').className = "px-6 py-3 rounded-t-lg font-bold bg-pink-600 text-white transition-colors";
+            }
+        }
+    </script>
+
+</body>
+</html>

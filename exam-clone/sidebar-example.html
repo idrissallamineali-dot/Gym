@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover Sidebar Example</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans flex h-screen overflow-hidden">
+
+    <!-- The Sidebar (Aside) Menu -->
+    <!-- "w-16" is the small size. "hover:w-64" expands it when you touch it. -->
+    <!-- "transition-all duration-300" makes the expanding animation smooth. -->
+    <aside class="bg-gray-800 text-white h-full w-16 hover:w-64 transition-all duration-300 overflow-hidden shadow-2xl flex flex-col">
+        
+        <!-- Sidebar Header / Logo -->
+        <div class="h-16 flex items-center px-5 bg-gray-900 border-b border-gray-700 whitespace-nowrap">
+            <i class="fa-solid fa-code text-blue-400 text-xl w-6"></i>
+            <span class="ml-4 font-bold text-lg tracking-wider opacity-0 hover-parent-expanded:opacity-100 transition-opacity duration-300" style="transition-delay: 100ms;">DevMenu</span>
+        </div>
+
+        <!-- Sidebar Links -->
+        <nav class="flex-1 py-4">
+            <!-- Link 1 -->
+            <a href="#" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-colors whitespace-nowrap">
+                <i class="fa-solid fa-house text-gray-400 text-xl w-6"></i>
+                <span class="ml-4 font-medium">Dashboard</span>
+            </a>
+            
+            <!-- Link 2 -->
+            <a href="#" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-colors whitespace-nowrap">
+                <i class="fa-solid fa-chart-pie text-gray-400 text-xl w-6"></i>
+                <span class="ml-4 font-medium">Analytics</span>
+            </a>
+
+            <!-- Link 3 -->
+            <a href="#" class="flex items-center px-5 py-3 hover:bg-gray-700 transition-colors whitespace-nowrap">
+                <i class="fa-solid fa-folder text-gray-400 text-xl w-6"></i>
+                <span class="ml-4 font-medium">Projects</span>
+            </a>
+        </nav>
+
+        <!-- Sidebar Footer -->
+        <div class="p-4 bg-gray-900 whitespace-nowrap">
+            <a href="#" class="flex items-center px-1 py-2 hover:text-blue-400 transition-colors">
+                <i class="fa-solid fa-gear text-gray-400 text-xl w-6 text-center"></i>
+                <span class="ml-4 font-medium">Settings</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- The Main Page Content -->
+    <main class="flex-1 p-10">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Expanding Sidebar Layout</h1>
+        <p class="text-gray-600 text-lg">
+            Move your mouse over the dark bar on the left side of the screen.<br>
+            It starts small (showing only icons) and smoothly expands to show the text when you hover!
+        </p>
+    </main>
+
+</body>
+</html>
