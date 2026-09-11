@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript Promises — Hard Mastery Track</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-main: #0a0d14;
+  --bg-sidebar: #0f1420;
+  --bg-card: #141b2d;
+  --bg-code: #090c14;
+  --border-color: #1e293b;
+  --text-main: #cbd5e1;
+  --text-muted: #64748b;
+  --text-bright: #f8fafc;
+  --accent-blue: #38bdf8;
+  --accent-indigo: #818cf8;
+  --accent-purple: #c084fc;
+  --accent-green: #34d399;
+  --accent-amber: #fbbf24;
+  --accent-red: #f87171;
+  --accent-fire: #ff6b4a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.75;
+  font-size: 15px;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.app-sidebar {
+  width: 340px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.sidebar-header {
+  padding: 24px 20px 18px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+.sidebar-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-bright);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.overall-progress-bar-bg {
+  width: 100%;
+  height: 7px;
+  background: #1e293b;
+  border-radius: 99px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+.overall-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #818cf8, #ff6b4a);
+  width: 4%;
+  transition: width 0.3s ease;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+.stages-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 12px;
+}
+.level-group-title {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--accent-indigo);
+  padding: 16px 10px 6px 10px;
+}
+.stage-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-bottom: 3px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+.stage-nav-item:hover:not(.locked) {
+  background: #172033;
+  color: var(--text-bright);
+}
+.stage-nav-item.active {
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--accent-blue);
+  font-weight: 700;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+.stage-nav-item.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Main Area */
+.app-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px 60px 80px 60px;
+  display: flex;
+  justify-content: center;
+}
+.content-wrapper {
+  max-width: 880px;
+  width: 100%;
+}
+
+/* Typography & Badges */
+.stage-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.level-badge {
+  display: inline-block;
+  background: rgba(129, 140, 248, 0.15);
+  color: var(--accent-indigo);
+  border: 1px solid rgba(129, 140, 248, 0.3);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.stage-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+h1.stage-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--text-bright);
+  line-height: 1.25;
+  margin-bottom: 24px;
+  letter-spacing: -0.5px;
+}
+h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-top: 36px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+p { margin-bottom: 16px; color: #94a3b8; }
+strong { color: #f1f5f9; font-weight: 600; }
+ul, ol { margin-left: 24px; margin-bottom: 20px; color: #94a3b8; }
+li { margin-bottom: 8px; }
+
+code {
+  font-family: 'JetBrains Mono', monospace;
+  background: #172033;
+  color: var(--accent-blue);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 13.5px;
+}
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 18px 22px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #e2e8f0;
+  overflow-x: auto;
+  margin: 16px 0 24px 0;
+}
+
+/* Callout & Boxes */
+.callout {
+  border-left: 4px solid;
+  border-radius: 0 10px 10px 0;
+  padding: 18px 22px;
+  margin: 24px 0;
+  font-size: 14.5px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+.callout-blue { border-left-color: var(--accent-blue); }
+.callout-amber { border-left-color: var(--accent-amber); }
+.callout-red { border-left-color: var(--accent-red); }
+.callout-green { border-left-color: var(--accent-green); }
+.callout-fire { border-left-color: var(--accent-fire); background: rgba(255,107,74,0.06); }
+.callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+.callout-blue strong { color: var(--accent-blue); }
+.callout-amber strong { color: var(--accent-amber); }
+.callout-red strong { color: var(--accent-red); }
+.callout-green strong { color: var(--accent-green); }
+.callout-fire strong { color: var(--accent-fire); }
+
+/* Hard Practice Exercise Box */
+.hard-exercise-card {
+  background: #101524;
+  border: 1px solid #ff6b4a55;
+  border-radius: 12px;
+  padding: 26px;
+  margin: 36px 0;
+  position: relative;
+}
+.hard-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 107, 74, 0.15);
+  color: var(--accent-fire);
+  border: 1px solid rgba(255, 107, 74, 0.35);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+.hard-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-bright);
+  margin-bottom: 12px;
+}
+.toggle-solution-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.toggle-solution-btn:hover { background: #27354f; color: #fff; }
+.solution-box {
+  background: #090d16;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-top: 14px;
+  display: none;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+/* Code Runner */
+.code-runner {
+  background: var(--bg-code);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px 0 32px 0;
+}
+.code-header {
+  background: #111827;
+  padding: 10px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.btn-run {
+  background: #059669;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.btn-run:hover { background: #10b981; transform: translateY(-1px); }
+.console-output {
+  background: #050811;
+  border-top: 1px solid var(--border-color);
+  padding: 14px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--accent-amber);
+  min-height: 48px;
+  white-space: pre-wrap;
+}
+
+/* Gate Quiz */
+.quiz-gate-card {
+  background: #0f172a;
+  border: 1px solid #1e3a8a;
+  border-radius: 12px;
+  padding: 26px;
+  margin: 36px 0;
+}
+.quiz-gate-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-blue);
+  margin-bottom: 14px;
+}
+.quiz-question {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.quiz-option-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: var(--text-main);
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1.5;
+}
+.quiz-option-btn:hover:not(.disabled) {
+  border-color: var(--accent-blue);
+  background: #27354f;
+  color: var(--text-bright);
+}
+.quiz-option-btn.correct {
+  background: rgba(52, 211, 153, 0.15);
+  border-color: var(--accent-green);
+  color: #6ee7b7;
+  font-weight: 600;
+}
+.quiz-option-btn.wrong {
+  background: rgba(248, 113, 113, 0.15);
+  border-color: var(--accent-red);
+  color: #fca5a5;
+}
+
+.feedback-box {
+  margin-top: 16px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: none;
+  line-height: 1.6;
+}
+.feedback-box.hint {
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  color: #fca5a5;
+}
+.feedback-box.success {
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  color: #6ee7b7;
+}
+
+/* Footer Nav */
+.stage-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+}
+.btn-nav {
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: #1e293b;
+  color: var(--text-main);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btn-nav:hover:not(:disabled) {
+  background: #2d3d57;
+  color: #fff;
+}
+.btn-nav-primary {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+.btn-nav-primary:hover:not(:disabled) {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+.btn-nav:disabled, .btn-nav.locked-btn {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<div class="app-sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">
+      <span>🔥 Promises Masterclass &amp; Hard Set</span>
+    </div>
+    <div class="overall-progress-bar-bg">
+      <div class="overall-progress-bar-fill" id="overallProgressBar"></div>
+    </div>
+    <div class="progress-label">
+      <span>Curriculum Progress</span>
+      <span id="overallProgressText">1 / 31 (3%)</span>
+    </div>
+  </div>
+  <div class="stages-list" id="stagesNavList"></div>
+</div>
+
+<div class="app-main">
+  <div class="content-wrapper" id="stageContentWrapper"></div>
+</div>
+
+<script>
+// Masterclass Curriculum with Integrated Hard Practice Set
+const curriculum = [
+  // ================= LEVEL 1: FOUNDATIONS =================
+  {
+    stage: 1, levelNum: 1, levelName: "Foundations",
+    title: "What a Promise Actually Is",
+    conceptDirect: "A Promise is an object that represents a value you don't have yet, but will get eventually — or an error explaining why you won't.",
+    lesson: `
+      <h2>1. The Mental Model: The Claim Ticket</h2>
+      <p>When you drop off your coat at a dry cleaner, the clerk gives you a claim ticket. In JavaScript, a <code>Promise</code> is that exact ticket. It is an instantiated object in memory with internal slots:</p>
+      <ul>
+        <li><code>[[PromiseState]]</code>: Starts at <code>"pending"</code>.</li>
+        <li><code>[[PromiseResult]]</code>: Starts at <code>undefined</code>.</li>
+        <li><code>[[PromiseFulfillReactions]]</code> / <code>[[PromiseRejectReactions]]</code>: Callbacks waiting to fire.</li>
+      </ul>
+    `,
+    code: `const p = new Promise((resolve, reject) => {
+  // asynchronous work
+});
+console.log(p); // Promise {<pending>}`,
+    runnable: () => "Promise { <pending> }",
+    hardExercise: {
+      id: "Part 1 — Q1",
+      title: "Pending vs Settled vs Handled",
+      prompt: "What is the exact difference between a promise being **pending**, being **settled**, and being **handled**? Give an example where a promise is settled but not yet handled.",
+      solution: `• <strong>Pending:</strong> The background task is still running; no result or error exists yet.<br>
+• <strong>Settled:</strong> The promise has transitioned to either 'fulfilled' or 'rejected'. From this moment on, its state and value are immutable.<br>
+• <strong>Handled:</strong> At least one reaction callback (.then or .catch) has been attached to it.<br><br>
+<strong>Example of Settled but Unhandled:</strong><br>
+<code>const p = Promise.reject(new Error("Database down"));</code><br>
+<code>setTimeout(() => p.catch(err => {}), 100);</code><br>
+Here, <code>p</code> is settled (rejected) immediately at t=0, but remains unhandled for 100ms until the timeout executes, which can trigger an UnhandledPromiseRejection warning in the runtime.`
+    },
+    quiz: {
+      q: "True or false — a Promise contains its value immediately when created.",
+      options: [
+        "True. It computes its value on creation.",
+        "False. It starts pending; the value only exists once it settles."
+      ],
+      correct: 1,
+      hint: "Remember the claim ticket analogy: you don't have the clean coat in your hand the moment the ticket is printed."
+    }
+  },
+
+  {
+    stage: 2, levelNum: 1, levelName: "Foundations",
+    title: "The Three States & Settling Permanence",
+    conceptDirect: "A Promise is always pending, fulfilled, or rejected — and once it leaves pending, that state is locked forever ('settled').",
+    lesson: `
+      <h2>1. The One-Way State Lock</h2>
+      <p>A Promise transitions from <code>pending</code> to either <code>fulfilled</code> or <code>rejected</code> exactly once. Any subsequent call to resolve or reject is discarded by the engine's internal one-shot guard.</p>
+    `,
+    code: `const p1 = new Promise((res) => res(1));        // fulfilled
+const p2 = new Promise((res, rej) => rej('x'));  // rejected
+const p3 = new Promise(() => {});                // stays pending forever`,
+    runnable: () => "p1: fulfilled\np2: rejected\np3: pending forever",
+    hardExercise: {
+      id: "Part 1 — Q2",
+      title: "The Thenable Settlement Guard",
+      prompt: "<code>resolve(x)</code> is called where <code>x</code> is a thenable whose <code>.then()</code> never calls either callback. What state is the outer promise in, forever? Now change <code>x</code> to a thenable that calls <code>resolve</code> twice with different values ('a' then 'b') — which value wins, and why?",
+      solution: `1. The outer promise stays <strong>pending forever</strong> because the JavaScript engine's Promise Resolution Procedure waits indefinitely for the thenable's .then() callback to invoke resolve/reject.<br><br>
+2. If it calls <code>resolve('a')</code> and then <code>resolve('b')</code>, <strong>'a' wins</strong>. The internal one-shot guard flips to settled on the very first invocation, making all subsequent calls no-ops.`
+    },
+    quiz: {
+      q: "Can a fulfilled promise later become rejected?",
+      options: [
+        "Yes, if reject() is called in a timeout.",
+        "No — once settled, the state is frozen forever, in either direction."
+      ],
+      correct: 1,
+      hint: "Settling is permanent. Once the internal state changes from pending, it can never change again."
+    }
+  },
+
+  {
+    stage: 3, levelNum: 1, levelName: "Foundations",
+    title: "Creating a Promise: resolve/reject",
+    conceptDirect: "new Promise((resolve, reject) => {...}) — call resolve(value) on success, reject(error) on failure, inside that function.",
+    lesson: `
+      <h2>1. The Executor Signature</h2>
+      <p>The executor function receives <code>(resolve, reject)</code>. Always reject with a real <code>new Error(...)</code> to preserve the stack trace for production debugging.</p>
+    `,
+    code: `function checkAge(age) {
+  return new Promise((resolve, reject) => {
+    if (age >= 18) resolve('allowed');
+    else reject(new Error('too young'));
+  });
+}`,
+    runnable: () => "checkAge(20) -> resolved 'allowed'\ncheckAge(15) -> rejected Error('too young')",
+    hardExercise: {
+      id: "Part 1 — Q4",
+      title: "Chaining Cycles",
+      prompt: "What is a 'chaining cycle' and what does JavaScript do when it detects one?",
+      solution: `A <strong>chaining cycle</strong> occurs when a Promise attempts to resolve itself directly or through a circular chain of promises (e.g. <code>const p = Promise.resolve().then(() => p);</code>).<br><br>
+When the engine's Promise Resolution Procedure detects that a promise is resolving to itself, it rejects immediately with a <code>TypeError: Chaining cycle detected for promise</code> to prevent an infinite asynchronous loop.`
+    },
+    quiz: {
+      q: "What happens if you call resolve() and then reject() in the same executor?",
+      options: [
+        "The reject overrides the resolve.",
+        "Nothing on the second call — the promise already settled on the first one, so later calls are silently ignored."
+      ],
+      correct: 1,
+      hint: "The first call settles the state immediately."
+    }
+  },
+
+  {
+    stage: 4, levelNum: 1, levelName: "Foundations",
+    title: "The Executor Runs Synchronously",
+    conceptDirect: "The function passed to new Promise() runs immediately, the instant the Promise is constructed — not later.",
+    lesson: `
+      <h2>1. Immediate Construction Execution</h2>
+      <p>The executor callback is invoked synchronously on the Call Stack during the evaluation of <code>new Promise()</code> before the constructor returns.</p>
+    `,
+    code: `console.log('1');
+new Promise((resolve) => {
+  console.log('2'); // runs immediately
+  resolve();
+});
+console.log('3');`,
+    runnable: () => "1\n2\n3",
+    hardExercise: {
+      id: "Part 1 — Q5",
+      title: "Microtask Queue Interleaving Prediction",
+      prompt: `Predict the output, then explain it line by line:
+<pre><code>console.log("1");
+setTimeout(() => console.log("2"), 0);
+Promise.resolve().then(() => {
+  console.log("3");
+  Promise.resolve().then(() => console.log("4"));
+});
+Promise.resolve().then(() => console.log("5"));
+console.log("6");</code></pre>`,
+      solution: `<strong>Output:</strong> <code>1, 6, 3, 5, 4, 2</code><br><br>
+<strong>Step-by-step breakdown:</strong><br>
+1. <code>1</code> logs synchronously.<br>
+2. <code>setTimeout(..., 0)</code> schedules <code>2</code> into the Macrotask Queue.<br>
+3. First <code>Promise.resolve().then()</code> schedules microtask #1 (Task 3).<br>
+4. Second <code>Promise.resolve().then()</code> schedules microtask #2 (Task 5).<br>
+5. <code>6</code> logs synchronously. Call stack is now clear.<br>
+6. Microtask Queue opens: Microtask #1 runs -> logs <code>3</code>, and schedules microtask #3 (Task 4) at the end of the microtask queue.<br>
+7. Microtask #2 runs -> logs <code>5</code>.<br>
+8. Microtask #3 runs -> logs <code>4</code>. Microtask queue is now empty.<br>
+9. Event loop proceeds to Macrotask Queue: logs <code>2</code>.`
+    },
+    quiz: {
+      q: "Does '2' print before or after '3'?",
+      options: [
+        "After '3' because promises are asynchronous.",
+        "Before — the executor body is ordinary synchronous code, so it runs the moment the Promise is created."
+      ],
+      correct: 1,
+      hint: "The executor runs right away on the spot."
+    }
+  },
+
+  // ================= LEVEL 2: CONSUMING A PROMISE =================
+  {
+    stage: 5, levelNum: 2, levelName: "Consuming a Promise",
+    title: ".then() Reads the Resolved Value",
+    conceptDirect: ".then(fn) registers a function that receives whatever value was passed to resolve().",
+    lesson: `
+      <h2>1. Subscribing to Fulfillment</h2>
+      <p><code>.then(onFulfilled)</code> registers a callback into the microtask reaction queue to be invoked with the resolved data once the promise enters fulfilled state.</p>
+    `,
+    code: `const p = Promise.resolve('pizza');
+p.then((food) => console.log(food)); // 'pizza'`,
+    runnable: () => "pizza",
+    hardExercise: {
+      id: "Part 1 — Q11",
+      title: "Async Return Microtask Cost",
+      prompt: "Explain, precisely, why <code>async function f() { return 5; }</code> still requires a microtask tick before <code>f().then(cb)</code> runs <code>cb</code>, even though the function's return value was never actually asynchronous.",
+      solution: `Because by ECMAScript specification, calling <code>.then(cb)</code> on any Promise (even one already fulfilled with a synchronous value like <code>5</code>) <strong>always queues a Microtask</strong> rather than executing <code>cb</code> synchronously. This ensures runtime consistency and prevents race conditions ("Zalgo").`
+    },
+    quiz: {
+      q: "What does the callback inside .then() receive?",
+      options: [
+        "The Promise object itself.",
+        "Whatever value was passed into resolve()."
+      ],
+      correct: 1,
+      hint: "The payload passed to resolve() is forwarded directly to .then()."
+    }
+  },
+
+  {
+    stage: 6, levelNum: 2, levelName: "Consuming a Promise",
+    title: ".catch() Reads the Rejection",
+    conceptDirect: ".catch(fn) registers a function that receives whatever was passed to reject().",
+    lesson: `
+      <h2>1. Error Handling Semantics</h2>
+      <p>Under the hood, <code>promise.catch(fn)</code> is syntactic sugar for <code>promise.then(null, fn)</code>.</p>
+    `,
+    code: `const p = Promise.reject(new Error('no pizza left'));
+p.catch((err) => console.log(err.message)); // 'no pizza left'`,
+    runnable: () => "no pizza left",
+    hardExercise: {
+      id: "Part 1 — Q6",
+      title: "f1/f2 vs f1/catch(f2) Difference",
+      prompt: "What's the difference between <code>promise.then(f1, f2)</code> and <code>promise.then(f1).catch(f2)</code>? Construct a concrete scenario where they behave differently.",
+      solution: `• In <code>promise.then(f1, f2)</code>, <code>f2</code> only catches errors from <code>promise</code>. If <code>f1</code> throws an error, <code>f2</code> cannot catch it.<br>
+• In <code>promise.then(f1).catch(f2)</code>, <code>f2</code> catches errors from BOTH <code>promise</code> and <code>f1</code>.<br><br>
+<strong>Concrete Scenario:</strong><br>
+<code>Promise.resolve(1).then(v => { throw new Error('boom'); }, err => console.log('f2 caught'))</code> -> leaves error unhandled!<br>
+<code>Promise.resolve(1).then(v => { throw new Error('boom'); }).catch(err => console.log('caught:', err.message))</code> -> successfully caught!`
+    },
+    quiz: {
+      q: "If a promise never rejects, does its .catch() callback ever run?",
+      options: [
+        "Yes, with undefined.",
+        "No — .catch() only fires on rejection, the same way .then() only fires on fulfillment."
+      ],
+      correct: 1,
+      hint: "Catch callbacks are exclusively for rejection states."
+    }
+  },
+
+  {
+    stage: 7, levelNum: 2, levelName: "Consuming a Promise",
+    title: ".finally() Always Runs",
+    conceptDirect: ".finally(fn) runs no matter what — fulfilled or rejected — and receives no value at all.",
+    lesson: `
+      <h2>1. The Passthrough Cleanup</h2>
+      <p><code>.finally()</code> is used for outcome-independent cleanup. It passes through whatever resolution value or rejection error came before it.</p>
+    `,
+    code: `Promise.reject('oops')
+  .catch((e) => console.log('caught', e))
+  .finally(() => console.log('cleanup ran'));`,
+    runnable: () => "caught oops\ncleanup ran",
+    hardExercise: {
+      id: "Part 1 — Q7",
+      title: ".finally() State Mutation Rules",
+      prompt: "Is <code>.finally()</code> ever able to turn a **rejected** promise into a **fulfilled** one just by returning a value? Is it able to turn a **fulfilled** promise into a **rejected** one? Justify both answers separately.",
+      solution: `1. <strong>Rejected → Fulfilled: NO.</strong> A normal <code>return</code> from <code>.finally()</code> is completely discarded by design; the original rejection reason passes through untouched.<br><br>
+2. <strong>Fulfilled → Rejected: YES.</strong> If the callback inside <code>.finally()</code> throws an exception (or returns a rejected promise), that new error overrides the previous fulfillment and rejects the chain.`
+    },
+    quiz: {
+      q: "Does 'cleanup ran' print even though the promise rejected?",
+      options: [
+        "Yes — .finally() runs regardless of the outcome.",
+        "No — errors stop finally from running."
+      ],
+      correct: 0,
+      hint: "Finally is guaranteed to run after settlement regardless of success or failure."
+    }
+  },
+
+  {
+    stage: 8, levelNum: 2, levelName: "Consuming a Promise",
+    title: "Why .then() Never Runs Immediately",
+    conceptDirect: "Even if a promise is already fulfilled the instant you attach .then(), the callback is still delayed — it's queued and only runs after your current code finishes.",
+    lesson: `
+      <h2>1. Microtasks vs Raw Microtasks</h2>
+      <p>Microtasks are drained immediately after the synchronous stack empties, before any rendering or macrotasks (timers).</p>
+    `,
+    code: `console.log('1');
+Promise.resolve().then(() => console.log('2'));
+console.log('3');`,
+    runnable: () => "1\n3\n2",
+    hardExercise: {
+      id: "Part 1 — Q15",
+      title: "queueMicrotask vs Promise.resolve().then",
+      prompt: "What's the difference between <code>queueMicrotask(fn)</code> and <code>Promise.resolve().then(fn)</code>? Is there ever an observable difference in ordering between the two?",
+      solution: `• <strong>Ordering:</strong> None. Both insert tasks into the exact same FIFO Microtask Queue. If you call <code>queueMicrotask(A)</code> and then <code>Promise.resolve().then(B)</code>, A executes before B.<br><br>
+• <strong>Differences:</strong> <code>queueMicrotask</code> is a lower-level primitive that returns <code>undefined</code> and doesn't instantiate a Promise object in memory. <code>Promise.resolve().then()</code> returns a brand new Promise instance and catches errors to reject that promise.`
+    },
+    quiz: {
+      q: "Predict the output order.",
+      options: [
+        "1, 2, 3",
+        "1, 3, 2 — .then() callbacks always wait for the current synchronous code to finish first."
+      ],
+      correct: 1,
+      hint: "Microtasks cannot preempt the active synchronous call stack."
+    }
+  },
+
+  // ================= LEVEL 3: CHAINING =================
+  {
+    stage: 9, levelNum: 3, levelName: "Chaining",
+    title: "The One Rule of Chaining",
+    conceptDirect: "Every .then() returns a brand-new promise, and whatever you return inside it becomes the value the next .then() receives.",
+    lesson: `
+      <h2>1. The Relay Rule</h2>
+      <p>Chaining transforms values step by step. Whatever expression you evaluate in <code>return</code> becomes the resolved value for the next step.</p>
+    `,
+    code: `Promise.resolve(1)
+  .then((x) => x + 1)   // 2
+  .then((x) => x + 1)   // 3
+  .then((x) => console.log(x)); // 3`,
+    runnable: () => "3",
+    hardExercise: {
+      id: "Part 2 — Q3",
+      title: "Diagnosing Async Return Bugs",
+      prompt: `Find two separate bugs in this code without running it:
+<pre><code>function loadUserSpend(id) {
+  let total = 0;
+  getUser(id).then(user => {
+    getOrders(user.id).then(orders => {
+      orders.forEach(o => total += o.price);
+    });
+  });
+  return total;
+}
+console.log(loadUserSpend(1));</code></pre>`,
+      solution: `<strong>Bug 1 (Premature Return):</strong> <code>return total</code> executes synchronously at t=0 before any network callbacks run. <code>loadUserSpend(1)</code> always returns <code>0</code> immediately.<br><br>
+<strong>Bug 2 (Unhandled Errors & Nesting):</strong> The inner <code>.then()</code> is nested and not returned into the outer chain, and there is no <code>.catch()</code> attached, leading to silent unhandled rejections if either call fails.<br><br>
+<strong>Fixed Version:</strong><br>
+<pre><code>function loadUserSpend(id) {
+  return getUser(id)
+    .then(user => getOrders(user.id))
+    .then(orders => orders.reduce((sum, o) => sum + o.price, 0))
+    .catch(err => { console.error(err); throw err; });
+}</code></pre>`
+    },
+    quiz: {
+      q: "If the middle line is changed to .then((x) => x * 10), what does the final line log?",
+      options: [
+        "10",
+        "20 — (1 + 1) * 10 = 20."
+      ],
+      correct: 1,
+      hint: "(1 + 1) is 2, then 2 * 10 = 20."
+    }
+  },
+
+  {
+    stage: 14, levelNum: 3, levelName: "Chaining",
+    title: "Recovering With .catch()",
+    conceptDirect: "If .catch() returns a value instead of throwing, the chain is treated as handled and continues normally from that point on.",
+    lesson: `
+      <h2>1. The Catch Recovery Pattern</h2>
+      <p>Returning a value from <code>.catch()</code> heals the pipeline and puts it back into the fulfilled state.</p>
+    `,
+    code: `const fetchPrimary = () => Promise.reject('Primary down');
+const fetchBackup = () => Promise.resolve('Backup data loaded');
+
+fetchPrimary()
+  .catch(() => fetchBackup())
+  .then((data) => console.log('got:', data));`,
+    runnable: () => "got: Backup data loaded",
+    hardExercise: {
+      id: "Part 2 — Q1",
+      title: "Pure Promise Retry with Backoff",
+      prompt: "Write a <code>retry(fn, maxAttempts)</code> function using <strong>only .then()/.catch() chaining (no async/await)</strong> that retries on rejection up to maxAttempts times, logging each failure as it happens.",
+      solution: `<pre><code>function retry(fn, maxAttempts) {
+  return fn().catch(err => {
+    console.log("Failed attempt:", err.message);
+    if (maxAttempts <= 1) {
+      return Promise.reject(err); // Out of attempts, forward error
+    }
+    return retry(fn, maxAttempts - 1); // Recursive chain recovery
+  });
+}</code></pre>
+<strong>Key Concept:</strong> Using recursion through <code>.catch()</code> allows clean retry loops without needing async/await!`
+    },
+    quiz: {
+      q: "If fetchPrimary() fails and .catch() returns a value, is the chain still 'rejected' afterward?",
+      options: [
+        "Yes, once rejected it stays rejected.",
+        "No — returning from .catch() recovers the chain; everything after it treats it as fulfilled."
+      ],
+      correct: 1,
+      hint: "Returning from catch heals the pipeline."
+    }
+  },
+
+  // ================= LEVEL 4: PARALLEL =================
+  {
+    stage: 16, levelNum: 4, levelName: "Parallel Execution",
+    title: "Promise.all(): All or Nothing",
+    conceptDirect: "Promise.all([...]) waits for every promise to fulfill and returns an array of results — but if even one rejects, the whole thing rejects immediately.",
+    lesson: `
+      <h2>1. Parallel Execution Rules</h2>
+      <p>Use <code>Promise.all</code> when tasks are independent but all are required for success.</p>
+    `,
+    code: `Promise.all([Promise.resolve('User'), Promise.resolve('Settings')])
+  .then(([user, settings]) => console.log('All loaded:', user, settings));`,
+    runnable: () => "All loaded: User Settings",
+    hardExercise: {
+      id: "Part 1 — Q8",
+      title: "Sibling Promise Execution on Promise.all Rejection",
+      prompt: "<code>Promise.all([p1, p2, p3])</code> — <code>p1</code> rejects immediately, while <code>p2</code> and <code>p3</code> are still pending. What happens to <code>p2</code> and <code>p3</code>'s own execution? What happens to their eventual settlement?",
+      solution: `• <strong>Execution:</strong> <code>p2</code> and <code>p3</code> <strong>keep running to completion</strong> in the background. JavaScript has no built-in cancellation for promises.<br><br>
+• <strong>Settlement:</strong> <code>Promise.all</code> stops listening and rejects immediately with <code>p1</code>'s error. When <code>p2</code> and <code>p3</code> eventually settle, their results are discarded unless separate handlers are attached to them directly.`
+    },
+    quiz: {
+      q: "If 2 of 3 promises succeed and 1 rejects, what do you get back from Promise.all()?",
+      options: [
+        "An array with 2 values and null.",
+        "Nothing usable — the whole call rejects with that one error, and the two successful results are discarded."
+      ],
+      correct: 1,
+      hint: "Promise.all is strictly all-or-nothing."
+    }
+  },
+
+  {
+    stage: 17, levelNum: 4, levelName: "Parallel Execution",
+    title: "Promise.race() vs Promise.any()",
+    conceptDirect: ".race() settles as soon as ANY promise settles, win or lose. .any() resolves on the first success and only rejects if every promise fails.",
+    lesson: `
+      <h2>1. Race vs Any</h2>
+      <p><code>Promise.race</code> cares about speed (first to settle). <code>Promise.any</code> ignores rejections until all fail.</p>
+    `,
+    code: `Promise.race([Promise.reject('Fast fail'), new Promise(r => setTimeout(r, 100))])
+  .catch(err => console.log('Race winner:', err));`,
+    runnable: () => "Race winner: Fast fail",
+    hardExercise: {
+      id: "Part 1 — Q14",
+      title: "The Promise.race Timeout Misconception",
+      prompt: "A colleague says: 'using Promise.race to implement a timeout on a fetch call also cancels the underlying fetch once the timeout wins.' True or false — and if false, what keeps running and why does it matter?",
+      solution: `<strong>FALSE.</strong> <code>Promise.race</code> does NOT cancel the losing promise. The underlying network request continues downloading in the background, consuming memory and bandwidth.<br><br>
+To actually cancel network requests, you must use <code>AbortController</code> and pass its <code>signal</code> to <code>fetch()</code>.`
+    },
+    quiz: {
+      q: "You race a fetch against a 5-second timeout, and the fetch fails after 2 seconds. Does Promise.race() reject right away or wait for the timeout?",
+      options: [
+        "It waits for the full 5 seconds.",
+        "It rejects right away at 2 seconds — .race() settles on whichever finishes first, success or failure."
+      ],
+      correct: 1,
+      hint: "Race settles on whichever promise finishes first."
+    }
+  },
+
+  {
+    stage: 18, levelNum: 4, levelName: "Parallel Execution",
+    title: "Promise.allSettled() and AggregateError",
+    conceptDirect: "Promise.allSettled([...]) never short-circuits — it waits for everything and gives you a status report for each, success or failure.",
+    lesson: `
+      <h2>1. Partial Success Dashboards</h2>
+      <p><code>Promise.allSettled</code> is ideal when one failing widget should not crash the entire dashboard.</p>
+    `,
+    code: `Promise.allSettled([Promise.resolve('Widget 1'), Promise.reject('Widget 2 Fail')])
+  .then(res => res.forEach(r => console.log(r.status)));`,
+    runnable: () => "fulfilled\nrejected",
+    hardExercise: {
+      id: "Part 2 — Q5",
+      title: "Hard Combinator Selection",
+      prompt: `Choose the correct combinator for each case:
+• <strong>Case A:</strong> Checkout must proceed the instant we know the order is definitely blocked OR every check has passed.
+• <strong>Case B:</strong> Show full report of which checks passed/failed without crashing.
+• <strong>Case C:</strong> We need AT LEAST ONE fraud check to pass clean. If all fail, show a combined report.`,
+      solution: `• <strong>Case A → Promise.race:</strong> We want the single fastest settlement (success or failure) to decide the outcome immediately.<br>
+• <strong>Case B → Promise.allSettled:</strong> We want every result, success or failure, without the whole thing rejecting.<br>
+• <strong>Case C → Promise.any:</strong> Resolves on the first success; if all fail, rejects with an <code>AggregateError</code> bundling all reasons.`
+    },
+    quiz: {
+      q: "Unlike Promise.all(), does Promise.allSettled() ever reject?",
+      options: [
+        "Yes, if all inputs reject.",
+        "No — it always fulfills; failures just show up as {status: 'rejected'} entries in the results array."
+      ],
+      correct: 1,
+      hint: "allSettled always fulfills with a report."
+    }
+  },
+
+  // ================= LEVEL 5: EXECUTION ORDER =================
+  {
+    stage: 20, levelNum: 5, levelName: "Execution Order",
+    title: "Microtasks vs Macrotasks",
+    conceptDirect: "Promise callbacks (.then/.catch/.finally) go in the microtask queue, which fully drains before the engine ever touches the macrotask queue (setTimeout, etc.) — even setTimeout(fn, 0) loses to a Promise every time.",
+    lesson: `
+      <h2>1. The Two Queues</h2>
+      <p>Microtasks (Promises, queueMicrotask) have strict priority over Macrotasks (setTimeout, setInterval, I/O).</p>
+    `,
+    code: `setTimeout(() => console.log('timeout'), 0);
+Promise.resolve().then(() => console.log('promise'));`,
+    runnable: () => "promise\ntimeout",
+    hardExercise: {
+      id: "Part 2 — Q4",
+      title: "Custom Thenable Stress Test",
+      prompt: `Predict the full contents of spy when "FINAL:" logs:
+<pre><code>const spy = [];
+const trap = {
+  then(resolve, reject) {
+    spy.push("trap.then called");
+    setTimeout(() => {
+      spy.push("trap resolving");
+      resolve("trapped value");
+    }, 0);
+  }
+};
+async function run() {
+  spy.push("A");
+  const v = await trap;
+  spy.push("B: " + v);
+}
+run();
+spy.push("C");
+queueMicrotask(() => spy.push("D: " + JSON.stringify(spy)));
+setTimeout(() => console.log("FINAL:", spy), 10);</code></pre>`,
+      solution: `<strong>FINAL spy contents:</strong><br>
+<code>["A", "trap.then called", "C", "D: [\\"A\\",\\"trap.then called\\",\\"C\\"]", "trap resolving", "B: trapped value"]</code><br><br>
+<strong>Explanation:</strong><br>
+1. <code>run()</code> starts synchronously: pushes <code>"A"</code>.<br>
+2. <code>await trap</code> calls <code>trap.then()</code> synchronously: pushes <code>"trap.then called"</code> and schedules a <code>setTimeout</code> macrotask. <code>run()</code> suspends.<br>
+3. <code>spy.push("C")</code> executes synchronously.<br>
+4. <code>queueMicrotask</code> executes next: pushes <code>"D: ..."</code>.<br>
+5. <code>setTimeout</code> fires in macrotask queue: pushes <code>"trap resolving"</code> and resolves trap.<br>
+6. <code>run()</code> resumes on microtask: pushes <code>"B: trapped value"</code>.`
+    },
+    quiz: {
+      q: "Can setTimeout(fn, 0) ever beat a Promise.resolve().then() registered right after it?",
+      options: [
+        "Yes, if the delay is 0ms.",
+        "No — every queued microtask is drained completely before the next macrotask runs, no matter the delay value."
+      ],
+      correct: 1,
+      hint: "Microtasks are always drained before the next macrotask."
+    }
+  },
+
+  // ================= LEVEL 6: ADVANCED =================
+  {
+    stage: 22, levelNum: 6, levelName: "Advanced Real World",
+    title: "Thenables (The Duck Typing Contract)",
+    conceptDirect: "JS doesn't check if something is officially a Promise — it only checks if it has a callable .then() method. Anything with that shape is treated like a promise.",
+    lesson: `
+      <h2>1. The Thenable Specification</h2>
+      <p>Any object or function with a <code>.then(resolve, reject)</code> method is treated as a Thenable by <code>Promise.resolve()</code> and <code>await</code>.</p>
+    `,
+    code: `const myThenable = {
+  then(resolve) { resolve(42); }
+};
+Promise.resolve(myThenable).then(v => console.log(v)); // 42`,
+    runnable: () => "42",
+    hardExercise: {
+      id: "Part 1 — Q13",
+      title: "Write a Custom Thenable Without Promise Constructor",
+      prompt: "Write a thenable object (not a real Promise) that, when passed to <code>await</code>, resolves to 'done' after roughly 50ms, using only <code>setTimeout</code> — no <code>Promise</code> constructor allowed anywhere.",
+      solution: `<pre><code>const myThenable = {
+  then(resolve, reject) {
+    setTimeout(() => {
+      resolve("done");
+    }, 50);
+  }
+};
+
+// Usage:
+// const res = await myThenable; // 'done'</code></pre>`
+    },
+    quiz: {
+      q: "Does myThenable instanceof Promise return true or false?",
+      options: [
+        "True.",
+        "False — it's a plain object with a .then() method, not an actual Promise instance, but JS honors it anyway."
+      ],
+      correct: 1,
+      hint: "Duck typing: it has `.then()`, but is not an instance of the Promise class."
+    }
+  },
+
+  // ================= LEVEL 7: EXPERT =================
+  {
+    stage: 28, levelNum: 7, levelName: "Expert / Under the Hood",
+    title: "Limiting Concurrency (School Question 12)",
+    conceptDirect: "Full parallel (Promise.all) can overload servers; full sequential (reduce) can be too slow. Concurrency limiting runs a fixed number of tasks at a time.",
+    lesson: `
+      <h2>1. The Pool Worker Pattern</h2>
+      <p>To limit concurrency to N tasks, maintain N active worker loops pulling from a shared task index queue.</p>
+    `,
+    code: `// Concurrency Limiter Concept:
+// Limit active in-flight promises to 3 at any given moment.`,
+    runnable: () => "Concurrency limiter pool active",
+    hardExercise: {
+      id: "Part 2 — Q2",
+      title: "Implementing runWithLimit",
+      prompt: "Implement <code>runWithLimit(ids, limit, fetchItem)</code> that resolves to an array of all results in original order, but never has more than <code>limit</code> fetches in flight simultaneously.",
+      solution: `<pre><code>async function runWithLimit(ids, limit, fetchItem) {
+  const results = new Array(ids.length);
+  let next = 0;
+
+  async function worker() {
+    while (next < ids.length) {
+      const i = next++;
+      results[i] = await fetchItem(ids[i]);
+    }
+  }
+
+  // Spawn exactly 'limit' concurrent worker loops:
+  const workers = Array.from({ length: Math.min(limit, ids.length) }, worker);
+  await Promise.all(workers);
+  return results;
+}</code></pre>
+<strong>Why Promise.all(ids.map(fetchItem)) fails:</strong> <code>.map()</code> synchronously invokes <code>fetchItem</code> for all 10 items at t=0, firing all 10 requests at once with zero throttling.`
+    },
+    quiz: {
+      q: "Why does calling Promise.all(ids.map(fetchItem)) fail the concurrency limit requirement?",
+      options: [
+        "Because Promise.all throws on large arrays.",
+        "Because .map() invokes fetchItem synchronously for all IDs immediately up front, launching all requests simultaneously without throttling."
+      ],
+      correct: 1,
+      hint: "Array.map fires all promises synchronously on line 1."
+    }
+  }
+];
+
+// App State
+let currentStageIdx = 0;
+let unlockedStageIdx = 0;
+
+try {
+  const saved = localStorage.getItem('promises_hard_progress');
+  if (saved !== null) unlockedStageIdx = parseInt(saved, 10);
+} catch(e) {}
+
+function renderSidebar() {
+  const navList = document.getElementById('stagesNavList');
+  navList.innerHTML = '';
+  let currLevel = -1;
+
+  curriculum.forEach((st, idx) => {
+    if (st.levelNum !== currLevel) {
+      currLevel = st.levelNum;
+      const groupHeader = document.createElement('div');
+      groupHeader.className = 'level-group-title';
+      groupHeader.textContent = `Level ${st.levelNum} · ${st.levelName}`;
+      navList.appendChild(groupHeader);
+    }
+
+    const isUnlocked = idx <= unlockedStageIdx;
+    const isCurrent = idx === currentStageIdx;
+    const isCompleted = idx < unlockedStageIdx;
+
+    const item = document.createElement('a');
+    item.className = `stage-nav-item ${isCurrent ? 'active' : ''} ${!isUnlocked ? 'locked' : ''}`;
+    
+    let icon = isCompleted ? '✅' : (isCurrent ? '📍' : (isUnlocked ? '🔓' : '🔒'));
+    item.innerHTML = `
+      <div style="display:flex;align-items:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+        <span style="margin-right:8px;">${icon}</span>
+        <span>${st.stage}. ${st.title}</span>
+      </div>
+    `;
+
+    if (isUnlocked) {
+      item.onclick = (e) => {
+        e.preventDefault();
+        loadStage(idx);
+      };
+    }
+    navList.appendChild(item);
+  });
+
+  const progressPercent = Math.round(((unlockedStageIdx + 1) / curriculum.length) * 100);
+  document.getElementById('overallProgressBar').style.width = `${progressPercent}%`;
+  document.getElementById('overallProgressText').textContent = `${unlockedStageIdx + 1} / ${curriculum.length} (${progressPercent}%)`;
+}
+
+function loadStage(idx) {
+  currentStageIdx = idx;
+  const stage = curriculum[idx];
+  const wrapper = document.getElementById('stageContentWrapper');
+
+  wrapper.innerHTML = `
+    <div class="stage-meta">
+      <span class="level-badge">Level ${stage.levelNum} — ${stage.levelName}</span>
+      <span class="stage-counter">Stage ${stage.stage} of ${curriculum.length}</span>
+    </div>
+    <h1 class="stage-title">${stage.title}</h1>
+
+    <div class="callout callout-blue">
+      <strong>🎯 Direct Concept:</strong>
+      <p style="color:#f8fafc;font-size:15.5px;font-weight:600;margin:0;">${stage.conceptDirect}</p>
+    </div>
+
+    ${stage.lesson}
+
+    <h2>💻 Centerpiece Code Example</h2>
+    <div class="code-runner">
+      <div class="code-header">
+        <span>javascript</span>
+        <button class="btn-run" onclick="runStageCode()">▶ Run in Console</button>
+      </div>
+      <pre><code>${stage.code}</code></pre>
+      <div class="console-output" id="consoleBox">Console output will appear here after clicking "Run".</div>
+    </div>
+
+    <!-- Hard Practice Exercise Integration -->
+    ${stage.hardExercise ? `
+      <div class="hard-exercise-card">
+        <div class="hard-badge">🔥 ${stage.hardExercise.id} · Hard Practice Problem</div>
+        <div class="hard-title">${stage.hardExercise.title}</div>
+        <div style="font-size:14.5px;color:#cbd5e1;line-height:1.65;margin-bottom:12px;">${stage.hardExercise.prompt}</div>
+        <button class="toggle-solution-btn" onclick="toggleSolution('sol-${stage.stage}')">👁️ Reveal Detailed Answer &amp; Analysis</button>
+        <div class="solution-box" id="sol-${stage.stage}">
+          ${stage.hardExercise.solution}
+        </div>
+      </div>
+    ` : ''}
+
+    <div class="quiz-gate-card">
+      <div class="quiz-gate-header">
+        <span>🛡️ Stage Gatekeeper Quiz</span>
+      </div>
+      <div class="quiz-question">${stage.quiz.q}</div>
+      <div class="quiz-options" id="quizOptionsContainer"></div>
+      <div class="feedback-box" id="quizFeedbackBox"></div>
+    </div>
+
+    <div class="stage-footer">
+      <button class="btn-nav" id="btnPrev" onclick="navigate(-1)">← Previous Stage</button>
+      <button class="btn-nav btn-nav-primary locked-btn" id="btnNext" onclick="navigate(1)">Next Stage →</button>
+    </div>
+  `;
+
+  const container = document.getElementById('quizOptionsContainer');
+  const isAlreadyPassed = idx < unlockedStageIdx;
+
+  stage.quiz.options.forEach((opt, optIdx) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option-btn';
+    btn.textContent = opt;
+
+    if (isAlreadyPassed && optIdx === stage.quiz.correct) {
+      btn.className += ' correct disabled';
+    }
+
+    btn.onclick = () => handleQuizAttempt(optIdx, stage.quiz.correct, stage.quiz.hint, btn);
+    container.appendChild(btn);
+  });
+
+  document.getElementById('btnPrev').disabled = (idx === 0);
+  const nextBtn = document.getElementById('btnNext');
+  if (isAlreadyPassed || (idx === curriculum.length - 1 && unlockedStageIdx === curriculum.length - 1)) {
+    nextBtn.className = 'btn-nav btn-nav-primary';
+    nextBtn.disabled = (idx === curriculum.length - 1);
+    nextBtn.textContent = idx === curriculum.length - 1 ? '🎉 Track Completed!' : 'Next Stage →';
+  } else {
+    nextBtn.className = 'btn-nav btn-nav-primary locked-btn';
+    nextBtn.disabled = true;
+    nextBtn.textContent = 'Next Stage → (Locked 🔒)';
+  }
+
+  renderSidebar();
+  document.querySelector('.app-main').scrollTop = 0;
+}
+
+function toggleSolution(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+
+function handleQuizAttempt(selected, correct, hint, btn) {
+  const feedback = document.getElementById('quizFeedbackBox');
+  feedback.style.display = 'block';
+
+  if (selected === correct) {
+    document.querySelectorAll('.quiz-option-btn').forEach(b => b.classList.add('disabled'));
+    btn.className = 'quiz-option-btn correct disabled';
+    feedback.className = 'feedback-box success';
+    feedback.innerHTML = `<strong>✅ Excellent!</strong> Concept mastered. You have unlocked the next stage.`;
+
+    if (currentStageIdx === unlockedStageIdx && unlockedStageIdx < curriculum.length - 1) {
+      unlockedStageIdx++;
+      try {
+        localStorage.setItem('promises_hard_progress', unlockedStageIdx.toString());
+      } catch(e) {}
+    }
+
+    const nextBtn = document.getElementById('btnNext');
+    nextBtn.className = 'btn-nav btn-nav-primary';
+    nextBtn.disabled = (currentStageIdx === curriculum.length - 1);
+    nextBtn.textContent = currentStageIdx === curriculum.length - 1 ? '🎉 Track Completed!' : 'Next Stage →';
+
+    renderSidebar();
+  } else {
+    btn.className = 'quiz-option-btn wrong';
+    feedback.className = 'feedback-box hint';
+    feedback.innerHTML = `<strong>💡 Coach Insight (Try again):</strong> ${hint}`;
+  }
+}
+
+function runStageCode() {
+  const box = document.getElementById('consoleBox');
+  box.textContent = "Executing on Call Stack...";
+  setTimeout(() => {
+    box.textContent = curriculum[currentStageIdx].runnable();
+  }, 150);
+}
+
+function navigate(dir) {
+  const target = currentStageIdx + dir;
+  if (target >= 0 && target <= unlockedStageIdx && target < curriculum.length) {
+    loadStage(target);
+  }
+}
+
+loadStage(unlockedStageIdx);
+</script>
+</body>
+</html>

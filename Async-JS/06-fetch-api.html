@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06 — The fetch() API & Real-World Projects | Async JS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+        .container { max-width: 820px; margin: 0 auto; }
+        .doc-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; margin-bottom: 48px; }
+        .doc-nav span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #5e6e8a; }
+        h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+        h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+        h2 .num { color: #58a6ff; }
+        h3 { font-size: 19px; font-weight: 600; color: #e2e8f0; margin-top: 36px; margin-bottom: 12px; }
+        p { margin-bottom: 18px; color: #b0bac9; }
+        strong { color: #e2e8f0; }
+        em { color: #93aac9; font-style: italic; }
+        code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+        pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 16px 0 24px 0; overflow-x: auto; position: relative; }
+        pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+        .code-label { position: absolute; top: 10px; right: 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #3d4f6f; }
+        .kw { color: #ff7b72; }
+        .str { color: #a5d6ff; }
+        .fn { color: #d2a8ff; }
+        .cm { color: #5e6e8a; font-style: italic; }
+        .num-lit { color: #79c0ff; }
+        .bool { color: #ff7b72; }
+        table { width: 100%; border-collapse: collapse; margin: 18px 0 28px 0; }
+        th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5e6e8a; padding: 12px 18px; border-bottom: 2px solid #1e2d4a; }
+        td { padding: 14px 18px; border-bottom: 1px solid #141a2e; font-size: 15px; }
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(88,166,255,0.03); }
+        .callout { border-left: 4px solid; border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 22px 0; font-size: 14.5px; }
+        .callout-blue { background: rgba(88,166,255,0.06); border-color: #58a6ff; }
+        .callout-amber { background: rgba(245,158,11,0.06); border-color: #f59e0b; }
+        .callout-green { background: rgba(16,185,129,0.06); border-color: #10b981; }
+        .callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-blue strong { color: #58a6ff; }
+        .callout-amber strong { color: #f59e0b; }
+        .callout-green strong { color: #10b981; }
+        .demo-box { background: #161b2e; border: 1px solid #1e2d4a; border-radius: 12px; padding: 30px; margin: 30px 0; text-align: center; overflow: hidden; }
+        hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+        .bottom-nav { margin-top: 64px; padding: 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; text-align: center; }
+        .bottom-nav p { font-size: 14px; color: #5e6e8a; margin-bottom: 4px; }
+        .bottom-nav h3 { margin: 0; color: #58a6ff; }
+
+        /* ── Demo-specific styles ── */
+        .demo-btn {
+            font-family: 'Inter', sans-serif;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #fff;
+        }
+        .demo-btn:hover { transform: translateY(-1px); filter: brightness(1.15); }
+        .demo-btn:active { transform: translateY(0); }
+        .demo-btn-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .demo-btn-green { background: linear-gradient(135deg, #10b981, #059669); }
+        .demo-btn-amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .demo-btn-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .demo-btn-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .demo-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .demo-input {
+            font-family: 'Inter', sans-serif;
+            padding: 10px 16px;
+            background: #0d1117;
+            border: 1px solid #1e2d4a;
+            border-radius: 8px;
+            color: #c9d1d9;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .demo-input:focus { border-color: #58a6ff; }
+        .demo-input::placeholder { color: #3d4f6f; }
+
+        .demo-output {
+            margin-top: 18px;
+            padding: 16px;
+            background: #0d1117;
+            border: 1px solid #1e2d4a;
+            border-radius: 10px;
+            text-align: left;
+            min-height: 60px;
+            font-size: 14px;
+            color: #b0bac9;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            border: 3px solid #1e2d4a;
+            border-top-color: #58a6ff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .dog-img {
+            max-width: 320px;
+            max-height: 320px;
+            border-radius: 14px;
+            border: 2px solid #1e2d4a;
+            object-fit: cover;
+            margin-top: 14px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        .github-card {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            text-align: left;
+            padding: 20px;
+            background: #0d1117;
+            border: 1px solid #1e2d4a;
+            border-radius: 14px;
+            margin-top: 14px;
+        }
+        .github-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #58a6ff;
+        }
+        .github-card .info h4 { color: #f0f6fc; font-size: 20px; margin-bottom: 2px; }
+        .github-card .info .bio { color: #7a8599; font-size: 13px; margin-bottom: 8px; }
+        .github-card .info .stats { display: flex; gap: 14px; flex-wrap: wrap; }
+        .github-card .info .stat-badge {
+            background: #161b2e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #7dd3fc;
+            border: 1px solid #1e2d4a;
+        }
+        .github-card .info a { color: #58a6ff; text-decoration: none; font-size: 13px; }
+        .github-card .info a:hover { text-decoration: underline; }
+
+        .weather-card {
+            display: inline-block;
+            text-align: center;
+            padding: 28px 40px;
+            background: linear-gradient(135deg, #1a1f3a, #0d1117);
+            border: 1px solid #1e2d4a;
+            border-radius: 18px;
+            margin-top: 14px;
+            min-width: 260px;
+        }
+        .weather-card .weather-emoji { font-size: 56px; margin-bottom: 8px; }
+        .weather-card .temp { font-size: 42px; font-weight: 700; color: #f0f6fc; margin-bottom: 2px; }
+        .weather-card .condition { font-size: 16px; color: #7a8599; margin-bottom: 6px; }
+        .weather-card .city-name { font-size: 14px; color: #58a6ff; font-weight: 600; }
+
+        .state-panel {
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 14px;
+            text-align: center;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .state-loading { background: rgba(88,166,255,0.08); border: 1px solid #1e2d4a; }
+        .state-success { background: rgba(16,185,129,0.08); border: 1px solid #10b981; }
+        .state-error   { background: rgba(239,68,68,0.08); border: 1px solid #ef4444; }
+        .state-panel .icon { font-size: 36px; margin-bottom: 8px; }
+        .state-panel .msg { font-size: 14px; color: #b0bac9; }
+
+        .post-result {
+            text-align: left;
+            padding: 16px;
+            background: #0d1117;
+            border: 1px solid #10b981;
+            border-radius: 10px;
+            margin-top: 14px;
+        }
+        .post-result .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #10b981; font-weight: 700; margin-bottom: 6px; }
+        .post-result .field { font-size: 13px; color: #b0bac9; margin-bottom: 4px; }
+        .post-result .field span { color: #7dd3fc; }
+
+        .demo-form-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .error-msg {
+            padding: 14px;
+            background: rgba(239,68,68,0.08);
+            border: 1px solid #ef4444;
+            border-radius: 10px;
+            color: #fca5a5;
+            font-size: 14px;
+            margin-top: 14px;
+        }
+
+        ul, ol { margin: 10px 0 18px 24px; }
+        li { margin-bottom: 8px; color: #b0bac9; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ─── Navigation ─── -->
+    <div class="doc-nav">
+        <span>Async JS</span>
+        <span>Lesson 06 of 06</span>
+    </div>
+
+    <!-- ─── Title ─── -->
+    <h1>06 — The <code>fetch()</code> API &amp; Real-World Projects</h1>
+    <p class="subtitle">The grand finale. You've mastered callbacks, Promises, and async/await — now it's time to talk to the internet. In this lesson, you'll learn the <code>fetch()</code> API and build real projects that pull live data from actual servers.</p>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 1 — What is fetch()?
+         ════════════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">1.</span> What Is <code>fetch()</code>?</h2>
+
+    <p>Every modern web application needs to communicate with servers — loading user data, submitting forms, fetching images, checking weather, searching products. <strong><code>fetch()</code></strong> is the built-in browser function that makes all of this possible.</p>
+
+    <h3>The Old Way vs. The New Way</h3>
+    <p>Before <code>fetch()</code>, developers used <code>XMLHttpRequest</code> (often abbreviated as XHR). It was verbose, callback-heavy, and frankly painful to work with. Here's a quick comparison:</p>
+
+    <pre><code><span class="cm">// ❌ The old way — XMLHttpRequest (painful)</span>
+<span class="kw">const</span> xhr = <span class="kw">new</span> <span class="fn">XMLHttpRequest</span>();
+xhr.<span class="fn">open</span>(<span class="str">'GET'</span>, <span class="str">'https://api.example.com/data'</span>);
+xhr.onreadystatechange = <span class="kw">function</span>() {
+    <span class="kw">if</span> (xhr.readyState === <span class="num-lit">4</span> && xhr.status === <span class="num-lit">200</span>) {
+        <span class="kw">const</span> data = JSON.<span class="fn">parse</span>(xhr.responseText);
+        <span class="fn">console</span>.<span class="fn">log</span>(data);
+    }
+};
+xhr.<span class="fn">send</span>();</code></pre>
+
+    <pre><code><span class="cm">// ✅ The new way — fetch() with async/await (beautiful)</span>
+<span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/data'</span>);
+<span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(data);</code></pre>
+
+    <p>That's it. Two lines to do what used to take ten. And because <code>fetch()</code> returns a <strong>Promise</strong>, it works perfectly with <code>async/await</code> — everything you learned in the previous lessons.</p>
+
+    <div class="callout callout-blue">
+        <strong>💡 Key Insight</strong>
+        <code>fetch()</code> is built into every modern browser. No libraries, no npm packages, no setup — just call it and go.
+    </div>
+
+    <h3>The Basic Syntax</h3>
+    <pre><code><span class="cm">// Simplest possible fetch call</span>
+<span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(url);
+
+<span class="cm">// With options (for POST, PUT, etc.)</span>
+<span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(url, {
+    method: <span class="str">'POST'</span>,
+    headers: { <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> },
+    body: JSON.<span class="fn">stringify</span>(data)
+});</code></pre>
+
+    <p>The first argument is always the <strong>URL</strong> — the address of the server you're talking to. The optional second argument is a <strong>config object</strong> where you specify the HTTP method, headers, body, and more.</p>
+
+    <hr>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 2 — HTTP Methods Explained
+         ════════════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">2.</span> HTTP Methods Explained</h2>
+
+    <p>When your browser talks to a server, it uses <strong>HTTP methods</strong> to communicate its intent. Think of them as <em>verbs</em> — they tell the server what action you want to perform.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Purpose</th>
+                <th>Real-World Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>GET</code></td>
+                <td>Read / request data</td>
+                <td>Load a user's profile page</td>
+            </tr>
+            <tr>
+                <td><code>POST</code></td>
+                <td>Send / create new data</td>
+                <td>Submit a new blog post</td>
+            </tr>
+            <tr>
+                <td><code>PUT</code></td>
+                <td>Replace existing data entirely</td>
+                <td>Update your entire profile</td>
+            </tr>
+            <tr>
+                <td><code>PATCH</code></td>
+                <td>Partially update data</td>
+                <td>Change just your email address</td>
+            </tr>
+            <tr>
+                <td><code>DELETE</code></td>
+                <td>Remove data</td>
+                <td>Delete a comment</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-green">
+        <strong>✅ Best Practice</strong>
+        <code>GET</code> is the default method for <code>fetch()</code>. If you just call <code>fetch(url)</code> without specifying a method, it will automatically use <code>GET</code>. You only need to specify the method for <code>POST</code>, <code>PUT</code>, <code>PATCH</code>, and <code>DELETE</code>.
+    </div>
+
+    <pre><code><span class="cm">// GET is the default — these are identical:</span>
+<span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/posts'</span>);
+<span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/posts'</span>, { method: <span class="str">'GET'</span> });
+
+<span class="cm">// For other methods, you MUST specify:</span>
+<span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/posts'</span>, { method: <span class="str">'POST'</span>, ... });
+<span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/posts/1'</span>, { method: <span class="str">'DELETE'</span> });</code></pre>
+
+    <hr>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 3 — The Response Object
+         ════════════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">3.</span> The Response Object</h2>
+
+    <p>When <code>fetch()</code> resolves, it gives you a <strong>Response object</strong>. This object contains everything about the server's reply — status codes, headers, and the body data.</p>
+
+    <h3>Key Properties &amp; Methods</h3>
+
+    <pre><code><span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/data'</span>);
+
+<span class="cm">// Was the request successful? (status 200-299)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(response.ok);       <span class="cm">// true or false</span>
+
+<span class="cm">// What's the exact status code?</span>
+<span class="fn">console</span>.<span class="fn">log</span>(response.status);   <span class="cm">// 200, 404, 500, etc.</span>
+
+<span class="cm">// Parse the body as JSON (this is ALSO async!)</span>
+<span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();
+
+<span class="cm">// Or parse as plain text</span>
+<span class="kw">const</span> text = <span class="kw">await</span> response.<span class="fn">text</span>();</code></pre>
+
+    <div class="callout callout-amber">
+        <strong>⚠️ Common Gotcha</strong>
+        <code>response.json()</code> returns a <strong>Promise</strong>, not the actual data! You must <code>await</code> it (or use <code>.then()</code>). This is the #1 mistake beginners make with <code>fetch()</code>. Always write <code>const data = await response.json();</code>
+    </div>
+
+    <h3>Common HTTP Status Codes</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Meaning</th>
+                <th>When You'll See It</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code style="color:#10b981;">200</code></td>
+                <td>OK</td>
+                <td>Everything worked perfectly</td>
+            </tr>
+            <tr>
+                <td><code style="color:#10b981;">201</code></td>
+                <td>Created</td>
+                <td>Your POST request created a new resource</td>
+            </tr>
+            <tr>
+                <td><code style="color:#f59e0b;">400</code></td>
+                <td>Bad Request</td>
+                <td>You sent invalid data to the server</td>
+            </tr>
+            <tr>
+                <td><code style="color:#f59e0b;">401</code></td>
+                <td>Unauthorized</td>
+                <td>You need to log in first</td>
+            </tr>
+            <tr>
+                <td><code style="color:#ef4444;">404</code></td>
+                <td>Not Found</td>
+                <td>The resource doesn't exist</td>
+            </tr>
+            <tr>
+                <td><code style="color:#ef4444;">500</code></td>
+                <td>Server Error</td>
+                <td>Something broke on the server's side</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-blue">
+        <strong>💡 Important Detail</strong>
+        <code>fetch()</code> only rejects its Promise on <strong>network failures</strong> (no internet, DNS error, etc.). A <code>404</code> or <code>500</code> response does NOT cause a rejection — the Promise still resolves! That's why you must always check <code>response.ok</code> manually.
+    </div>
+
+    <hr>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 4 — Making a GET Request (Step by Step)
+         ════════════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">4.</span> Making a GET Request (Step by Step)</h2>
+
+    <p>Let's build the <strong>complete, production-quality pattern</strong> for making a GET request. This is the template you'll use in every project:</p>
+
+    <pre><code><span class="kw">async function</span> <span class="fn">fetchData</span>() {
+    <span class="kw">try</span> {
+        <span class="cm">// Step 1: Make the request</span>
+        <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/data'</span>);
+
+        <span class="cm">// Step 2: Check if the request was successful</span>
+        <span class="kw">if</span> (!response.ok) {
+            <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`HTTP error! Status: </span>${response.status}<span class="str">`</span>);
+        }
+
+        <span class="cm">// Step 3: Parse the JSON body</span>
+        <span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();
+
+        <span class="cm">// Step 4: Use the data</span>
+        <span class="fn">console</span>.<span class="fn">log</span>(data);
+
+    } <span class="kw">catch</span> (error) {
+        <span class="cm">// Step 5: Handle errors (network failure OR bad status)</span>
+        <span class="fn">console</span>.<span class="fn">error</span>(<span class="str">'Failed to fetch:'</span>, error.message);
+    }
+}</code></pre>
+
+    <p>Let's break down each step:</p>
+    <ol>
+        <li><strong><code>await fetch(url)</code></strong> — Sends the request and waits for the server to respond.</li>
+        <li><strong><code>if (!response.ok)</code></strong> — Checks the status code. If it's outside 200-299, we throw our own error.</li>
+        <li><strong><code>await response.json()</code></strong> — Parses the response body from raw text into a JavaScript object.</li>
+        <li><strong>Use the data</strong> — Now <code>data</code> is a normal JS object you can work with.</li>
+        <li><strong><code>catch</code></strong> — Handles both network errors AND the errors we threw for bad status codes.</li>
+    </ol>
+
+    <h3>🐶 Live Demo: Random Dog Image</h3>
+    <p>Click the button to fetch a random dog image from <code>dog.ceo</code>. Each click loads a brand-new dog!</p>
+
+    <div class="demo-box" id="dog-demo">
+        <button class="demo-btn demo-btn-blue" id="dog-btn" onclick="fetchDog()">🐶 Fetch a Random Dog</button>
+        <div class="demo-output" id="dog-output" style="text-align:center; min-height: 80px;">
+            <p style="color:#5e6e8a; margin:0;">Click the button to see a random dog!</p>
+        </div>
+    </div>
+
+    <pre><code><span class="cm">// The code powering the demo above ↑</span>
+<span class="kw">async function</span> <span class="fn">fetchDog</span>() {
+    output.innerHTML = <span class="str">'&lt;div class="spinner"&gt;&lt;/div&gt; Loading...'</span>;
+    btn.disabled = <span class="bool">true</span>;
+
+    <span class="kw">try</span> {
+        <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://dog.ceo/api/breeds/image/random'</span>);
+        <span class="kw">if</span> (!response.ok) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`Status: </span>${response.status}<span class="str">`</span>);
+        <span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();
+
+        output.innerHTML = <span class="str">`&lt;img src="</span>${data.message}<span class="str">" class="dog-img"&gt;`</span>;
+    } <span class="kw">catch</span> (err) {
+        output.innerHTML = <span class="str">`&lt;div class="error-msg"&gt;❌ </span>${err.message}<span class="str">&lt;/div&gt;`</span>;
+    } <span class="kw">finally</span> {
+        btn.disabled = <span class="bool">false</span>;
+    }
+}</code></pre>
+
+    <hr>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 5 — Making a POST Request
+         ════════════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">5.</span> Making a POST Request</h2>
+
+    <p><code>GET</code> reads data. <code>POST</code> <em>creates</em> data. When you submit a form, create a new account, or write a comment — that's a POST request.</p>
+
+    <h3>The POST Pattern</h3>
+    <pre><code><span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/posts'</span>, {
+    method: <span class="str">'POST'</span>,
+    headers: {
+        <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>    <span class="cm">// Tell the server we're sending JSON</span>
+    },
+    body: JSON.<span class="fn">stringify</span>({                    <span class="cm">// Convert JS object to JSON string</span>
+        title: <span class="str">'My New Post'</span>,
+        body: <span class="str">'This is the content...'</span>,
+        userId: <span class="num-lit">1</span>
+    })
+});</code></pre>
+
+    <p>Three things are different from a GET request:</p>
+    <ol>
+        <li><strong><code>method: 'POST'</code></strong> — Tells the server we're sending data, not requesting it.</li>
+        <li><strong><code>headers</code></strong> — The <code>Content-Type: application/json</code> header tells the server "the data I'm sending is in JSON format."</li>
+        <li><strong><code>body</code></strong> — The actual data you're sending. Must be a <strong>string</strong>, so we use <code>JSON.stringify()</code> to convert our JavaScript object.</li>
+    </ol>
+
+    <div class="callout callout-amber">
+        <strong>⚠️ Don't Forget JSON.stringify()</strong>
+        The <code>body</code> must be a string. If you pass a raw object like <code>body: { title: 'Hello' }</code>, it will be converted to <code>"[object Object]"</code> and the server won't understand it. Always use <code>JSON.stringify()</code>.
+    </div>
+
+    <h3>📝 Live Demo: Create a Post</h3>
+    <p>Fill in the fields and click "Create Post" to send a POST request to the JSONPlaceholder API. The server will respond with the new post (including a generated <code>id</code>).</p>
+
+    <div class="demo-box" id="post-demo">
+        <div class="demo-form-row">
+            <input type="text" class="demo-input" id="post-title" placeholder="Post title..." style="flex:1; min-width: 200px;">
+        </div>
+        <div class="demo-form-row">
+            <input type="text" class="demo-input" id="post-body" placeholder="Post body..." style="flex:1; min-width: 200px;">
+        </div>
+        <button class="demo-btn demo-btn-green" id="post-btn" onclick="createPost()">📤 Create Post</button>
+        <div class="demo-output" id="post-output">
+            <p style="color:#5e6e8a; margin:0;">Fill in the fields and click "Create Post" to send a POST request.</p>
+        </div>
+    </div>
+
+    <pre><code><span class="cm">// The code powering the POST demo ↑</span>
+<span class="kw">async function</span> <span class="fn">createPost</span>() {
+    <span class="kw">const</span> title = document.<span class="fn">getElementById</span>(<span class="str">'post-title'</span>).value;
+    <span class="kw">const</span> body  = document.<span class="fn">getElementById</span>(<span class="str">'post-body'</span>).value;
+
+    <span class="kw">try</span> {
+        <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://jsonplaceholder.typicode.com/posts'</span>, {
+            method: <span class="str">'POST'</span>,
+            headers: { <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> },
+            body: JSON.<span class="fn">stringify</span>({ title, body, userId: <span class="num-lit">1</span> })
+        });
+
+        <span class="kw">if</span> (!response.ok) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`Status: </span>${response.status}<span class="str">`</span>);
+        <span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();
+
+        <span class="cm">// The API returns the created post with a new id!</span>
+        <span class="fn">console</span>.<span class="fn">log</span>(data);   <span class="cm">// { id: 101, title: "...", body: "...", userId: 1 }</span>
+    } <span class="kw">catch</span> (err) {
+        <span class="fn">console</span>.<span class="fn">error</span>(err.message);
+    }
+}</code></pre>
+
+    <hr>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 6 — Real-World Project: GitHub Profile Viewer
+         ════════════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">6.</span> Real-World Project: GitHub Profile Viewer</h2>
+
+    <p>Time to build something real. The <strong>GitHub API</strong> is free, requires no API key for basic requests, and returns rich user data. Let's build a profile viewer!</p>
+
+    <h3>The GitHub Users API</h3>
+    <pre><code><span class="cm">// Endpoint pattern:</span>
+https://api.github.com/users/{username}
+
+<span class="cm">// Example response for "octocat":</span>
+{
+    <span class="str">"login"</span>: <span class="str">"octocat"</span>,
+    <span class="str">"avatar_url"</span>: <span class="str">"https://avatars.githubusercontent.com/u/583231"</span>,
+    <span class="str">"name"</span>: <span class="str">"The Octocat"</span>,
+    <span class="str">"bio"</span>: <span class="str">null</span>,
+    <span class="str">"public_repos"</span>: <span class="num-lit">8</span>,
+    <span class="str">"location"</span>: <span class="str">"San Francisco"</span>,
+    <span class="str">"html_url"</span>: <span class="str">"https://github.com/octocat"</span>
+}</code></pre>
+
+    <h3>🔍 Live Demo: Search Any GitHub User</h3>
+    <p>Type a GitHub username and click "Search" to see their profile. Try: <code>torvalds</code>, <code>gaearon</code>, <code>octocat</code>, or your own!</p>
+
+    <div class="demo-box" id="github-demo">
+        <div class="demo-form-row">
+            <input type="text" class="demo-input" id="gh-username" placeholder="GitHub username..." value="octocat" style="flex:1; min-width: 200px;">
+            <button class="demo-btn demo-btn-purple" id="gh-btn" onclick="fetchGitHub()">🔍 Search</button>
+        </div>
+        <div class="demo-output" id="gh-output">
+            <p style="color:#5e6e8a; margin:0;">Enter a username and click Search to view their GitHub profile.</p>
+        </div>
+    </div>
+
+    <pre><code><span class="cm">// Full GitHub profile viewer code:</span>
+<span class="kw">async function</span> <span class="fn">fetchGitHub</span>() {
+    <span class="kw">const</span> username = document.<span class="fn">getElementById</span>(<span class="str">'gh-username'</span>).value.trim();
+    <span class="kw">if</span> (!username) <span class="kw">return</span>;
+
+    output.innerHTML = <span class="str">'&lt;div class="spinner"&gt;&lt;/div&gt;'</span>;
+
+    <span class="kw">try</span> {
+        <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`https://api.github.com/users/</span>${username}<span class="str">`</span>);
+
+        <span class="kw">if</span> (response.status === <span class="num-lit">404</span>) {
+            <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`User "</span>${username}<span class="str">" not found`</span>);
+        }
+        <span class="kw">if</span> (!response.ok) {
+            <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`HTTP error: </span>${response.status}<span class="str">`</span>);
+        }
+
+        <span class="kw">const</span> user = <span class="kw">await</span> response.<span class="fn">json</span>();
+
+        <span class="cm">// Build the profile card HTML</span>
+        output.innerHTML = <span class="str">`
+            &lt;div class="github-card"&gt;
+                &lt;img src="</span>${user.avatar_url}<span class="str">" alt="avatar"&gt;
+                &lt;div class="info"&gt;
+                    &lt;h4&gt;</span>${user.name || user.login}<span class="str">&lt;/h4&gt;
+                    &lt;p class="bio"&gt;</span>${user.bio || <span class="str">'No bio available'</span>}<span class="str">&lt;/p&gt;
+                    &lt;div class="stats"&gt;
+                        &lt;span class="stat-badge"&gt;📦 </span>${user.public_repos}<span class="str"> repos&lt;/span&gt;
+                        &lt;span class="stat-badge"&gt;📍 </span>${user.location || <span class="str">'Unknown'</span>}<span class="str">&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;a href="</span>${user.html_url}<span class="str">" target="_blank"&gt;View on GitHub →&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        `</span>;
+    } <span class="kw">catch</span> (err) {
+        output.innerHTML = <span class="str">`&lt;div class="error-msg"&gt;😕 </span>${err.message}<span class="str">&lt;/div&gt;`</span>;
+    }
+}</code></pre>
+
+    <div class="callout callout-green">
+        <strong>✅ Notice the Error Handling</strong>
+        We check for <code>404</code> specifically to give a user-friendly "not found" message. We check <code>response.ok</code> for all other errors. And the <code>catch</code> block handles network failures (no internet). This is <em>production-quality</em> error handling.
+    </div>
+
+    <hr>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 7 — Real-World Project: Weather App
+         ════════════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">7.</span> Real-World Project: Weather App</h2>
+
+    <p>Let's build a beautiful weather card. We'll use the free <strong>wttr.in</strong> API — no API key required. Just fetch <code>https://wttr.in/CityName?format=j1</code> and you get weather data as JSON.</p>
+
+    <h3>The wttr.in API</h3>
+    <pre><code><span class="cm">// Endpoint pattern:</span>
+https://wttr.in/{city}?format=j1
+
+<span class="cm">// The response includes deeply nested weather info.</span>
+<span class="cm">// We'll extract:</span>
+<span class="cm">// - current_condition[0].temp_C         → Temperature</span>
+<span class="cm">// - current_condition[0].weatherDesc[0].value → Condition text</span>
+<span class="cm">// - current_condition[0].FeelsLikeC     → Feels-like temp</span></code></pre>
+
+    <h3>🌤️ Live Demo: Weather Lookup</h3>
+    <p>Type a city name and click "Get Weather" to see the current conditions. Try: <code>Paris</code>, <code>Tokyo</code>, <code>London</code>, <code>New York</code>.</p>
+
+    <div class="demo-box" id="weather-demo">
+        <div class="demo-form-row">
+            <input type="text" class="demo-input" id="weather-city" placeholder="Enter city name..." value="Paris" style="flex:1; min-width:200px;">
+            <button class="demo-btn demo-btn-amber" id="weather-btn" onclick="fetchWeather()">🌤️ Get Weather</button>
+        </div>
+        <div class="demo-output" id="weather-output" style="text-align:center; min-height: 80px;">
+            <p style="color:#5e6e8a; margin:0;">Enter a city name and click "Get Weather".</p>
+        </div>
+    </div>
+
+    <pre><code><span class="cm">// Weather app code:</span>
+<span class="kw">async function</span> <span class="fn">fetchWeather</span>() {
+    <span class="kw">const</span> city = document.<span class="fn">getElementById</span>(<span class="str">'weather-city'</span>).value.trim();
+    <span class="kw">if</span> (!city) <span class="kw">return</span>;
+
+    output.innerHTML = <span class="str">'&lt;div class="spinner"&gt;&lt;/div&gt;'</span>;
+
+    <span class="kw">try</span> {
+        <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`https://wttr.in/</span>${<span class="fn">encodeURIComponent</span>(city)}<span class="str">?format=j1`</span>);
+        <span class="kw">if</span> (!response.ok) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">'City not found'</span>);
+
+        <span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();
+        <span class="kw">const</span> current = data.current_condition[<span class="num-lit">0</span>];
+        <span class="kw">const</span> temp = current.temp_C;
+        <span class="kw">const</span> condition = current.weatherDesc[<span class="num-lit">0</span>].value;
+        <span class="kw">const</span> emoji = <span class="fn">getWeatherEmoji</span>(condition);
+
+        output.innerHTML = <span class="str">`
+            &lt;div class="weather-card"&gt;
+                &lt;div class="weather-emoji"&gt;</span>${emoji}<span class="str">&lt;/div&gt;
+                &lt;div class="temp"&gt;</span>${temp}<span class="str">°C&lt;/div&gt;
+                &lt;div class="condition"&gt;</span>${condition}<span class="str">&lt;/div&gt;
+                &lt;div class="city-name"&gt;📍 </span>${city}<span class="str">&lt;/div&gt;
+            &lt;/div&gt;
+        `</span>;
+    } <span class="kw">catch</span> (err) {
+        output.innerHTML = <span class="str">`&lt;div class="error-msg"&gt;🌧️ </span>${err.message}<span class="str">&lt;/div&gt;`</span>;
+    }
+}
+
+<span class="kw">function</span> <span class="fn">getWeatherEmoji</span>(condition) {
+    <span class="kw">const</span> c = condition.<span class="fn">toLowerCase</span>();
+    <span class="kw">if</span> (c.<span class="fn">includes</span>(<span class="str">'sun'</span>) || c.<span class="fn">includes</span>(<span class="str">'clear'</span>))   <span class="kw">return</span> <span class="str">'☀️'</span>;
+    <span class="kw">if</span> (c.<span class="fn">includes</span>(<span class="str">'cloud'</span>) || c.<span class="fn">includes</span>(<span class="str">'overcast'</span>)) <span class="kw">return</span> <span class="str">'☁️'</span>;
+    <span class="kw">if</span> (c.<span class="fn">includes</span>(<span class="str">'rain'</span>) || c.<span class="fn">includes</span>(<span class="str">'drizzle'</span>))  <span class="kw">return</span> <span class="str">'🌧️'</span>;
+    <span class="kw">if</span> (c.<span class="fn">includes</span>(<span class="str">'snow'</span>))                            <span class="kw">return</span> <span class="str">'❄️'</span>;
+    <span class="kw">if</span> (c.<span class="fn">includes</span>(<span class="str">'thunder'</span>))                         <span class="kw">return</span> <span class="str">'⛈️'</span>;
+    <span class="kw">if</span> (c.<span class="fn">includes</span>(<span class="str">'fog'</span>) || c.<span class="fn">includes</span>(<span class="str">'mist'</span>))      <span class="kw">return</span> <span class="str">'🌫️'</span>;
+    <span class="kw">return</span> <span class="str">'🌤️'</span>;
+}</code></pre>
+
+    <div class="callout callout-blue">
+        <strong>💡 Why encodeURIComponent()?</strong>
+        City names like "New York" contain spaces. URLs can't have spaces, so <code>encodeURIComponent()</code> converts <code>"New York"</code> to <code>"New%20York"</code>. Always encode user input before putting it in a URL.
+    </div>
+
+    <hr>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 8 — Handling Loading States, Errors & Empty States
+         ════════════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">8.</span> Handling Loading, Errors &amp; Empty States</h2>
+
+    <p>Every production app that fetches data has <strong>3 possible states</strong>. If you don't handle all three, your app will feel broken to users.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>State</th>
+                <th>What the User Sees</th>
+                <th>When It Happens</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>⏳ <strong>Loading</strong></td>
+                <td>A spinner or skeleton screen</td>
+                <td>While waiting for the server's response</td>
+            </tr>
+            <tr>
+                <td>✅ <strong>Success</strong></td>
+                <td>The actual data / content</td>
+                <td>When the fetch resolves with good data</td>
+            </tr>
+            <tr>
+                <td>❌ <strong>Error</strong></td>
+                <td>A friendly error message</td>
+                <td>When the network fails or server returns an error</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>The Best-Practice Template</h3>
+    <pre><code><span class="kw">async function</span> <span class="fn">loadData</span>() {
+    <span class="cm">// 1. Show LOADING state</span>
+    <span class="fn">showLoading</span>();
+
+    <span class="kw">try</span> {
+        <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(url);
+        <span class="kw">if</span> (!response.ok) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`HTTP </span>${response.status}<span class="str">`</span>);
+        <span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();
+
+        <span class="kw">if</span> (data.length === <span class="num-lit">0</span>) {
+            <span class="cm">// 2a. Show EMPTY state</span>
+            <span class="fn">showEmpty</span>(<span class="str">'No results found.'</span>);
+        } <span class="kw">else</span> {
+            <span class="cm">// 2b. Show SUCCESS state</span>
+            <span class="fn">showData</span>(data);
+        }
+    } <span class="kw">catch</span> (err) {
+        <span class="cm">// 3. Show ERROR state</span>
+        <span class="fn">showError</span>(err.message);
+    }
+}</code></pre>
+
+    <div class="callout callout-green">
+        <strong>✅ Pro Tip</strong>
+        Always set the loading state <strong>before</strong> the <code>try</code> block (or as the first thing inside it). If you put it inside <code>try</code> after the fetch, the user sees nothing during the request. Setting it first ensures the spinner appears instantly.
+    </div>
+
+    <h3>🔀 Live Demo: Toggle Between States</h3>
+    <p>Click each button to see what Loading, Success, and Error states look like in a real app:</p>
+
+    <div class="demo-box" id="states-demo">
+        <div class="demo-form-row">
+            <button class="demo-btn demo-btn-blue" onclick="showStateDemo('loading')">⏳ Show Loading</button>
+            <button class="demo-btn demo-btn-green" onclick="showStateDemo('success')">✅ Show Success</button>
+            <button class="demo-btn demo-btn-red" onclick="showStateDemo('error')">❌ Show Error</button>
+        </div>
+        <div id="states-output">
+            <div class="state-panel state-loading" style="margin-top:14px;">
+                <div class="icon">👆</div>
+                <div class="msg">Click a button above to see each state.</div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SECTION 9 — Summary & What's Next
+         ════════════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">9.</span> Summary &amp; What's Next</h2>
+
+    <p>You've just completed the <strong>entire Async JavaScript course</strong>. Let's take a moment to see how far you've come:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Lesson</th>
+                <th>You Learned</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>01</strong></td>
+                <td><strong>Callbacks</strong> — The foundation. Functions calling functions when work is done.</td>
+            </tr>
+            <tr>
+                <td><strong>02</strong></td>
+                <td><strong>Promises</strong> — A cleaner way to handle async code with <code>.then()</code> and <code>.catch()</code>.</td>
+            </tr>
+            <tr>
+                <td><strong>03</strong></td>
+                <td><strong>Promise Chaining</strong> — Sequencing multiple async operations without nesting.</td>
+            </tr>
+            <tr>
+                <td><strong>04</strong></td>
+                <td><strong>async/await</strong> — Writing async code that reads like synchronous code.</td>
+            </tr>
+            <tr>
+                <td><strong>05</strong></td>
+                <td><strong>Error Handling &amp; Patterns</strong> — try/catch, Promise.all, Promise.race, and real-world patterns.</td>
+            </tr>
+            <tr>
+                <td><strong>06</strong></td>
+                <td><strong>fetch() &amp; Real Projects</strong> — Talking to live APIs and building real applications.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-green" style="background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(88,166,255,0.08)); border-image: linear-gradient(to bottom, #10b981, #58a6ff) 1;">
+        <strong>🎉 Congratulations!</strong>
+        You now understand how modern JavaScript handles asynchronous operations — from the low-level mechanics of callbacks all the way to fetching real data from live APIs. This is genuinely one of the most important skill sets in web development. You should be proud.
+    </div>
+
+    <h3>What Comes Next?</h3>
+    <p>Now that you've mastered async JavaScript, here are the natural next steps:</p>
+    <ul>
+        <li><strong>Learn a frontend framework</strong> — React, Vue, Svelte, or Angular. Every single one of them uses <code>fetch()</code> and <code>async/await</code> constantly. You'll feel right at home.</li>
+        <li><strong>Learn Node.js</strong> — Use your JavaScript skills on the server side. <code>fetch()</code> is now available in Node.js too (since v18)!</li>
+        <li><strong>Build projects</strong> — A weather dashboard, a movie search app, a chat app with WebSockets. Nothing solidifies knowledge like building real things.</li>
+        <li><strong>Explore advanced patterns</strong> — AbortController for canceling fetch requests, streaming responses, caching strategies, optimistic updates.</li>
+    </ul>
+
+    <div class="callout callout-blue">
+        <strong>💡 Remember</strong>
+        The pattern you learned in this course — <code>try { const res = await fetch(url); const data = await res.json(); } catch (err) { ... }</code> — is the exact same pattern used in production apps at Google, Meta, Netflix, and every modern company. You've learned the real thing.
+    </div>
+
+    <hr>
+
+    <!-- ─── Bottom Nav ─── -->
+    <div class="bottom-nav">
+        <p>🎉 Course Complete</p>
+        <h3>Congratulations! You've completed the Async JS course! 🎉</h3>
+        <p style="margin-top: 10px; color: #7a8599;">From callbacks to fetch() — you've mastered it all.</p>
+    </div>
+
+</div><!-- /container -->
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     JAVASCRIPT — All interactive demos
+     ════════════════════════════════════════════════════════════════════════ -->
+<script>
+
+// ── Demo 1: Random Dog Image ──────────────────────────────────────────
+async function fetchDog() {
+    const output = document.getElementById('dog-output');
+    const btn = document.getElementById('dog-btn');
+
+    output.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:10px;"><div class="spinner"></div><span style="color:#7a8599;">Fetching a good boy...</span></div>';
+    btn.disabled = true;
+
+    try {
+        const response = await fetch('https://dog.ceo/api/breeds/image/random');
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // data.message contains the image URL
+        // data.status should be "success"
+        output.innerHTML = `
+            <img src="${data.message}" class="dog-img" alt="Random dog" onload="this.style.opacity=1" style="opacity:0; transition: opacity 0.4s ease;">
+            <p style="color:#5e6e8a; margin-top:10px; font-size:13px;">
+                Click again for another dog! 🐾
+            </p>
+        `;
+    } catch (err) {
+        output.innerHTML = `
+            <div class="error-msg">
+                ❌ <strong>Failed to fetch dog image</strong><br>
+                ${err.message}<br>
+                <span style="font-size:12px; color:#7a8599;">Check your internet connection and try again.</span>
+            </div>
+        `;
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+
+// ── Demo 2: Create a Post (POST request) ─────────────────────────────
+async function createPost() {
+    const titleInput = document.getElementById('post-title');
+    const bodyInput = document.getElementById('post-body');
+    const output = document.getElementById('post-output');
+    const btn = document.getElementById('post-btn');
+
+    const title = titleInput.value.trim();
+    const body = bodyInput.value.trim();
+
+    if (!title || !body) {
+        output.innerHTML = '<div class="error-msg">⚠️ Please fill in both the title and body fields.</div>';
+        return;
+    }
+
+    output.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:10px;"><div class="spinner"></div><span style="color:#7a8599;">Sending POST request...</span></div>';
+    btn.disabled = true;
+
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: title,
+                body: body,
+                userId: 1
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        output.innerHTML = `
+            <div class="post-result">
+                <div class="label">✅ Post Created Successfully!</div>
+                <div class="field"><strong style="color:#5e6e8a;">ID:</strong> <span>${data.id}</span></div>
+                <div class="field"><strong style="color:#5e6e8a;">Title:</strong> <span>${data.title}</span></div>
+                <div class="field"><strong style="color:#5e6e8a;">Body:</strong> <span>${data.body}</span></div>
+                <div class="field"><strong style="color:#5e6e8a;">User ID:</strong> <span>${data.userId}</span></div>
+                <p style="color:#5e6e8a; font-size:12px; margin-top:10px; margin-bottom:0;">
+                    ↑ This is the actual JSON response from the server. Notice the <code style="font-size:11px;">id: ${data.id}</code> — the server generated that!
+                </p>
+            </div>
+        `;
+    } catch (err) {
+        output.innerHTML = `
+            <div class="error-msg">
+                ❌ <strong>Failed to create post</strong><br>
+                ${err.message}<br>
+                <span style="font-size:12px; color:#7a8599;">Check your internet connection and try again.</span>
+            </div>
+        `;
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+
+// ── Demo 3: GitHub Profile Viewer ─────────────────────────────────────
+async function fetchGitHub() {
+    const usernameInput = document.getElementById('gh-username');
+    const output = document.getElementById('gh-output');
+    const btn = document.getElementById('gh-btn');
+
+    const username = usernameInput.value.trim();
+
+    if (!username) {
+        output.innerHTML = '<div class="error-msg">⚠️ Please enter a GitHub username.</div>';
+        return;
+    }
+
+    output.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:10px;"><div class="spinner"></div><span style="color:#7a8599;">Searching GitHub...</span></div>';
+    btn.disabled = true;
+
+    try {
+        const response = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}`);
+
+        if (response.status === 404) {
+            throw new Error(`User "${username}" not found on GitHub. Double-check the spelling!`);
+        }
+
+        if (response.status === 403) {
+            throw new Error('GitHub API rate limit exceeded. Wait a minute and try again.');
+        }
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const user = await response.json();
+
+        output.innerHTML = `
+            <div class="github-card">
+                <img src="${user.avatar_url}" alt="${user.login}'s avatar">
+                <div class="info">
+                    <h4>${user.name || user.login}</h4>
+                    <p class="bio">${user.bio || 'No bio available'}</p>
+                    <div class="stats">
+                        <span class="stat-badge">📦 ${user.public_repos} repos</span>
+                        <span class="stat-badge">👥 ${user.followers} followers</span>
+                        <span class="stat-badge">📍 ${user.location || 'Unknown'}</span>
+                    </div>
+                    <a href="${user.html_url}" target="_blank" rel="noopener" style="display:inline-block; margin-top:10px;">View on GitHub →</a>
+                </div>
+            </div>
+        `;
+    } catch (err) {
+        output.innerHTML = `
+            <div class="error-msg">
+                😕 <strong>Error</strong><br>
+                ${err.message}
+            </div>
+        `;
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+// Allow pressing Enter in the GitHub input
+document.getElementById('gh-username').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') fetchGitHub();
+});
+
+
+// ── Demo 4: Weather App ───────────────────────────────────────────────
+function getWeatherEmoji(condition) {
+    const c = condition.toLowerCase();
+    if (c.includes('sun') || c.includes('clear'))    return '☀️';
+    if (c.includes('partly'))                         return '⛅';
+    if (c.includes('cloud') || c.includes('overcast')) return '☁️';
+    if (c.includes('rain') || c.includes('drizzle'))  return '🌧️';
+    if (c.includes('snow') || c.includes('blizzard')) return '❄️';
+    if (c.includes('thunder') || c.includes('storm')) return '⛈️';
+    if (c.includes('fog') || c.includes('mist') || c.includes('haze')) return '🌫️';
+    if (c.includes('wind'))                           return '💨';
+    return '🌤️';
+}
+
+async function fetchWeather() {
+    const cityInput = document.getElementById('weather-city');
+    const output = document.getElementById('weather-output');
+    const btn = document.getElementById('weather-btn');
+
+    const city = cityInput.value.trim();
+
+    if (!city) {
+        output.innerHTML = '<div class="error-msg">⚠️ Please enter a city name.</div>';
+        return;
+    }
+
+    output.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:10px;"><div class="spinner"></div><span style="color:#7a8599;">Checking the weather...</span></div>';
+    btn.disabled = true;
+
+    try {
+        const response = await fetch(`https://wttr.in/${encodeURIComponent(city)}?format=j1`);
+
+        if (!response.ok) {
+            throw new Error(`Could not find weather for "${city}". Try a different city name.`);
+        }
+
+        const data = await response.json();
+
+        // Validate the response structure
+        if (!data.current_condition || !data.current_condition[0]) {
+            throw new Error('Unexpected response from weather API.');
+        }
+
+        const current = data.current_condition[0];
+        const temp = current.temp_C;
+        const feelsLike = current.FeelsLikeC;
+        const humidity = current.humidity;
+        const condition = current.weatherDesc[0].value;
+        const emoji = getWeatherEmoji(condition);
+        const windSpeed = current.windspeedKmph;
+
+        output.innerHTML = `
+            <div class="weather-card">
+                <div class="weather-emoji">${emoji}</div>
+                <div class="temp">${temp}°C</div>
+                <div class="condition">${condition}</div>
+                <div style="font-size:13px; color:#5e6e8a; margin: 8px 0;">
+                    Feels like ${feelsLike}°C · 💧 ${humidity}% · 💨 ${windSpeed} km/h
+                </div>
+                <div class="city-name">📍 ${city}</div>
+            </div>
+        `;
+    } catch (err) {
+        // Fallback: simulate weather if API is unreachable
+        if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError') || err.message.includes('TypeError')) {
+            output.innerHTML = `
+                <div class="error-msg" style="margin-bottom: 14px;">
+                    🌐 <strong>Network Error</strong> — Can't reach the weather API. Showing simulated data below.
+                </div>
+                <div class="weather-card">
+                    <div class="weather-emoji">🌤️</div>
+                    <div class="temp">22°C</div>
+                    <div class="condition">Partly Cloudy (Simulated)</div>
+                    <div style="font-size:13px; color:#5e6e8a; margin: 8px 0;">
+                        Feels like 20°C · 💧 55% · 💨 12 km/h
+                    </div>
+                    <div class="city-name">📍 ${city}</div>
+                </div>
+            `;
+        } else {
+            output.innerHTML = `
+                <div class="error-msg">
+                    🌧️ <strong>Error</strong><br>
+                    ${err.message}
+                </div>
+            `;
+        }
+    } finally {
+        btn.disabled = false;
+    }
+}
+
+// Allow pressing Enter in the weather input
+document.getElementById('weather-city').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') fetchWeather();
+});
+
+
+// ── Demo 5: State Management Toggle ──────────────────────────────────
+function showStateDemo(state) {
+    const output = document.getElementById('states-output');
+
+    if (state === 'loading') {
+        output.innerHTML = `
+            <div class="state-panel state-loading">
+                <div class="spinner" style="width:40px; height:40px; border-width:4px;"></div>
+                <div class="msg" style="margin-top:14px;">
+                    <strong style="color:#58a6ff;">Loading...</strong><br>
+                    Fetching data from the server. Please wait.
+                </div>
+            </div>
+        `;
+    } else if (state === 'success') {
+        output.innerHTML = `
+            <div class="state-panel state-success">
+                <div class="icon">✅</div>
+                <div class="msg">
+                    <strong style="color:#10b981;">Data Loaded Successfully!</strong><br>
+                    <div style="display:flex; gap:12px; margin-top:12px; justify-content:center; flex-wrap:wrap;">
+                        <div style="background:#161b2e; padding:12px 18px; border-radius:10px; border:1px solid #1e2d4a;">
+                            <div style="font-size:22px; color:#f0f6fc; font-weight:700;">1,247</div>
+                            <div style="font-size:11px; color:#5e6e8a; text-transform:uppercase; letter-spacing:1px;">Users</div>
+                        </div>
+                        <div style="background:#161b2e; padding:12px 18px; border-radius:10px; border:1px solid #1e2d4a;">
+                            <div style="font-size:22px; color:#f0f6fc; font-weight:700;">89.3%</div>
+                            <div style="font-size:11px; color:#5e6e8a; text-transform:uppercase; letter-spacing:1px;">Uptime</div>
+                        </div>
+                        <div style="background:#161b2e; padding:12px 18px; border-radius:10px; border:1px solid #1e2d4a;">
+                            <div style="font-size:22px; color:#f0f6fc; font-weight:700;">3.2s</div>
+                            <div style="font-size:11px; color:#5e6e8a; text-transform:uppercase; letter-spacing:1px;">Avg Load</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (state === 'error') {
+        output.innerHTML = `
+            <div class="state-panel state-error">
+                <div class="icon">❌</div>
+                <div class="msg">
+                    <strong style="color:#ef4444;">Something Went Wrong</strong><br>
+                    <span style="color:#fca5a5;">Failed to connect to the server. Please check your internet connection and try again.</span>
+                    <div style="margin-top:12px;">
+                        <button class="demo-btn demo-btn-red" onclick="showStateDemo('loading')" style="font-size:12px; padding: 6px 16px;">
+                            🔄 Retry
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+}
+
+</script>
+</body>
+</html>

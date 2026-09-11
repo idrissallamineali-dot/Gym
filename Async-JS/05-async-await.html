@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>05 — async / await</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+.container { max-width: 820px; margin: 0 auto; }
+.doc-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; margin-bottom: 48px; }
+.doc-nav span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #5e6e8a; }
+h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; line-height: 1.2; }
+.subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+h2 .num { color: #58a6ff; }
+h3 { font-size: 19px; font-weight: 600; color: #e2e8f0; margin-top: 36px; margin-bottom: 12px; }
+p { margin-bottom: 18px; color: #b0bac9; }
+strong { color: #e2e8f0; }
+em { color: #93aac9; font-style: italic; }
+code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 16px 0 24px 0; overflow-x: auto; position: relative; }
+pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+.code-label { position: absolute; top: 10px; right: 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #3d4f6f; }
+.kw { color: #ff7b72; }
+.str { color: #a5d6ff; }
+.fn { color: #d2a8ff; }
+.cm { color: #5e6e8a; font-style: italic; }
+.num-lit { color: #79c0ff; }
+.bool { color: #ff7b72; }
+table { width: 100%; border-collapse: collapse; margin: 18px 0 28px 0; }
+th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5e6e8a; padding: 12px 18px; border-bottom: 2px solid #1e2d4a; }
+td { padding: 14px 18px; border-bottom: 1px solid #141a2e; font-size: 15px; }
+tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: rgba(88,166,255,0.03); }
+.callout { border-left: 4px solid; border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 22px 0; font-size: 14.5px; }
+.callout-blue { background: rgba(88,166,255,0.06); border-color: #58a6ff; }
+.callout-amber { background: rgba(245,158,11,0.06); border-color: #f59e0b; }
+.callout-green { background: rgba(16,185,129,0.06); border-color: #10b981; }
+.callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+.callout-blue strong { color: #58a6ff; }
+.callout-amber strong { color: #f59e0b; }
+.callout-green strong { color: #10b981; }
+.demo-box { background: #161b2e; border: 1px solid #1e2d4a; border-radius: 12px; padding: 30px; margin: 30px 0; text-align: center; overflow: hidden; }
+hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+.bottom-nav { margin-top: 64px; padding: 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; text-align: center; }
+.bottom-nav p { font-size: 14px; color: #5e6e8a; margin-bottom: 4px; }
+.bottom-nav h3 { margin: 0; color: #58a6ff; }
+
+/* ── Demo Shared Styles ─────────────────────────────── */
+.demo-btn {
+  font-family: 'Inter', sans-serif;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #58a6ff 0%, #8b5cf6 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.demo-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(88,166,255,0.25); }
+.demo-btn:active { transform: translateY(0); }
+.demo-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+.demo-btn-secondary {
+  background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
+}
+.demo-btn-red {
+  background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+}
+.demo-output {
+  margin-top: 18px;
+  background: #0d1117;
+  border: 1px solid #1e2d4a;
+  border-radius: 10px;
+  padding: 16px 20px;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #c9d1d9;
+  min-height: 48px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.demo-output .log-line { margin-bottom: 4px; }
+.demo-output .log-line.promise { color: #d2a8ff; }
+.demo-output .log-line.value { color: #7dd3fc; }
+.demo-output .log-line.ok { color: #34d399; }
+.demo-output .log-line.err { color: #f87171; }
+.demo-output .log-line.info { color: #fbbf24; }
+.demo-output .log-line.dim { color: #5e6e8a; }
+
+/* Side‑by‑side panels */
+.dual-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left; }
+.panel { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 10px; padding: 18px; }
+.panel-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.panel-title.then-clr { color: #f59e0b; }
+.panel-title.await-clr { color: #58a6ff; }
+
+/* User lookup card */
+.user-card {
+  padding: 18px 22px;
+  border-radius: 10px;
+  margin-top: 14px;
+  text-align: left;
+}
+.user-card.success { background: rgba(16,185,129,0.1); border: 1px solid #10b981; }
+.user-card.error { background: rgba(239,68,68,0.1); border: 1px solid #ef4444; }
+.user-card h4 { margin-bottom: 6px; font-size: 15px; }
+.user-card.success h4 { color: #34d399; }
+.user-card.error h4 { color: #f87171; }
+.user-card p { font-size: 13px; margin-bottom: 4px; }
+
+/* Input field */
+.demo-input {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #1e2d4a;
+  background: #0d1117;
+  color: #c9d1d9;
+  outline: none;
+  width: 220px;
+  transition: border-color 0.2s;
+}
+.demo-input:focus { border-color: #58a6ff; }
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #1e2d4a;
+  border-top-color: #58a6ff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Timer badge */
+.timer-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+.timer-badge.fast { background: rgba(16,185,129,0.15); color: #34d399; }
+.timer-badge.slow { background: rgba(245,158,11,0.15); color: #fbbf24; }
+
+/* User list items */
+.user-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #161b2e;
+  border: 1px solid #1e2d4a;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s, transform 0.35s;
+}
+.user-item.visible { opacity: 1; transform: translateY(0); }
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+  flex-shrink: 0;
+}
+.user-name { font-weight: 600; color: #e2e8f0; font-size: 14px; }
+.user-role { font-size: 12px; color: #5e6e8a; }
+
+@media (max-width: 640px) {
+  .dual-panel { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav class="doc-nav">
+  <span>Async JS</span>
+  <span>Lesson 05 of 06</span>
+</nav>
+
+<h1>05 — <code>async</code> / <code>await</code></h1>
+<p class="subtitle">The modern, clean way to write asynchronous JavaScript. Under the hood it's still Promises — but the syntax reads like regular synchronous code.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 1 — The Problem with .then() Chains
+     ═══════════════════════════════════════════════════════════════ -->
+<h2><span class="num">1.</span> The Problem with .then() Chains</h2>
+
+<p>In Lesson 04 you learned that Promises solve callback hell by giving us <code>.then()</code> chains.
+That was a huge improvement — but chains can <strong>still</strong> get noisy when the logic grows:</p>
+
+<pre><code><span class="code-label">JS</span>
+<span class="fn">fetch</span>(<span class="str">'/api/user/1'</span>)
+  .<span class="fn">then</span>(<span class="kw">response</span> => <span class="kw">response</span>.<span class="fn">json</span>())
+  .<span class="fn">then</span>(<span class="kw">user</span> => {
+    <span class="kw">return</span> <span class="fn">fetch</span>(<span class="str">`/api/posts?userId=</span><span class="kw">${user.id}</span><span class="str">`</span>)
+      .<span class="fn">then</span>(<span class="kw">response</span> => <span class="kw">response</span>.<span class="fn">json</span>())
+      .<span class="fn">then</span>(<span class="kw">posts</span> => {
+        <span class="kw">return</span> <span class="fn">fetch</span>(<span class="str">`/api/comments?postId=</span><span class="kw">${posts[0].id}</span><span class="str">`</span>)
+          .<span class="fn">then</span>(<span class="kw">response</span> => <span class="kw">response</span>.<span class="fn">json</span>())
+          .<span class="fn">then</span>(<span class="kw">comments</span> => {
+            <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">comments</span>);
+          });
+      });
+  })
+  .<span class="fn">catch</span>(<span class="kw">err</span> => <span class="fn">console</span>.<span class="fn">error</span>(<span class="kw">err</span>));</code></pre>
+
+<p>See how each dependent request forces you deeper? You start nesting, and suddenly the pyramid of doom is <em>almost</em> back. The variable scoping is tricky too — <code>user</code> isn't available inside the innermost <code>.then()</code> unless you nest.</p>
+
+<p>Wouldn't it be nice if we could write async code that <strong>looks like normal synchronous code</strong>?</p>
+
+<pre><code><span class="code-label">JS — The dream</span>
+<span class="kw">const</span> response1 = <span class="fn">fetch</span>(<span class="str">'/api/user/1'</span>);      <span class="cm">// wait for this...</span>
+<span class="kw">const</span> user      = response1.<span class="fn">json</span>();              <span class="cm">// then this...</span>
+<span class="kw">const</span> response2 = <span class="fn">fetch</span>(<span class="str">`/api/posts?userId=${user.id}`</span>);
+<span class="kw">const</span> posts     = response2.<span class="fn">json</span>();
+<span class="kw">const</span> response3 = <span class="fn">fetch</span>(<span class="str">`/api/comments?postId=${posts[0].id}`</span>);
+<span class="kw">const</span> comments  = response3.<span class="fn">json</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(comments);                       <span class="cm">// done!</span></code></pre>
+
+<p>That dream is <strong>exactly</strong> what <code>async/await</code> delivers. Let's learn the two keywords that make it happen.</p>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 2 — The async Keyword
+     ═══════════════════════════════════════════════════════════════ -->
+<h2><span class="num">2.</span> The <code>async</code> Keyword</h2>
+
+<p>Place the word <code>async</code> before any function declaration and two things change:</p>
+
+<table>
+  <thead>
+    <tr><th>Rule</th><th>What it means</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Always returns a Promise</td><td>Even if you <code>return 42</code>, the caller receives <code>Promise.resolve(42)</code>.</td></tr>
+    <tr><td>Unlocks <code>await</code></td><td>Inside an <code>async</code> function you can use the <code>await</code> keyword.</td></tr>
+  </tbody>
+</table>
+
+<h3>Syntax Variants</h3>
+
+<pre><code><span class="code-label">JS</span>
+<span class="cm">// 1 — async function declaration</span>
+<span class="kw">async function</span> <span class="fn">getUser</span>() {
+  <span class="kw">return</span> { name: <span class="str">'Alice'</span> };
+}
+
+<span class="cm">// 2 — async arrow function</span>
+<span class="kw">const</span> <span class="fn">getUser</span> = <span class="kw">async</span> () => {
+  <span class="kw">return</span> { name: <span class="str">'Alice'</span> };
+};
+
+<span class="cm">// 3 — async method inside a class</span>
+<span class="kw">class</span> <span class="fn">UserService</span> {
+  <span class="kw">async</span> <span class="fn">fetchUser</span>(id) {
+    <span class="kw">return</span> { id, name: <span class="str">'Alice'</span> };
+  }
+}</code></pre>
+
+<p>All three forms behave identically: calling the function gives you a Promise that resolves to the returned value.</p>
+
+<div class="callout callout-blue">
+  <strong>💡 Key Insight</strong>
+  <code>async</code> doesn't make code run in a background thread. It simply marks a function as "I may use <code>await</code> inside me" and guarantees the return type is always a Promise.
+</div>
+
+<h3>Proof: the return value is always a Promise</h3>
+
+<pre><code><span class="code-label">JS</span>
+<span class="kw">async function</span> <span class="fn">giveFortyTwo</span>() {
+  <span class="kw">return</span> <span class="num-lit">42</span>;  <span class="cm">// looks like a plain number...</span>
+}
+
+<span class="kw">const</span> result = <span class="fn">giveFortyTwo</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(result);           <span class="cm">// Promise {&lt;fulfilled&gt;: 42}</span>
+<span class="fn">console</span>.<span class="fn">log</span>(result <span class="kw">instanceof</span> Promise);  <span class="cm">// true</span>
+
+result.<span class="fn">then</span>(v => <span class="fn">console</span>.<span class="fn">log</span>(v)); <span class="cm">// 42</span></code></pre>
+
+<!-- ── Demo 1 ─────────────────────────────── -->
+<div class="demo-box" id="demo1">
+  <p style="font-size:13px;color:#5e6e8a;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">▶ Live Demo — The async return value</p>
+  <button class="demo-btn" onclick="runDemo1()">Call async function</button>
+  <div class="demo-output" id="demo1-out" style="margin-top:16px;"></div>
+</div>
+
+<script>
+async function giveFortyTwo() {
+  return 42;
+}
+
+function runDemo1() {
+  const out = document.getElementById('demo1-out');
+  out.innerHTML = '';
+
+  const result = giveFortyTwo();
+
+  // Show the raw return value
+  out.innerHTML += `<div class="log-line promise">➜ typeof result  →  ${typeof result}</div>`;
+  out.innerHTML += `<div class="log-line promise">➜ result instanceof Promise  →  ${result instanceof Promise}</div>`;
+  out.innerHTML += `<div class="log-line dim">   (It's a Promise, not the number 42!)</div>`;
+
+  // Now unwrap it
+  result.then(value => {
+    out.innerHTML += `<div class="log-line info" style="margin-top:8px;">⏳ .then() resolved...</div>`;
+    out.innerHTML += `<div class="log-line value">➜ Resolved value  →  <strong style="color:#34d399;font-size:18px;">${value}</strong></div>`;
+    out.innerHTML += `<div class="log-line ok" style="margin-top:4px;">✔ The plain 42 was auto-wrapped in Promise.resolve(42)</div>`;
+  });
+}
+</script>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 3 — The await Keyword
+     ═══════════════════════════════════════════════════════════════ -->
+<h2><span class="num">3.</span> The <code>await</code> Keyword</h2>
+
+<p><code>await</code> is the companion to <code>async</code>. Place it before any expression that returns a Promise and JavaScript will:</p>
+
+<ol style="margin-bottom:18px; padding-left:24px;">
+  <li style="margin-bottom:8px;"><strong>Pause</strong> execution of <em>that specific function</em> until the Promise settles.</li>
+  <li style="margin-bottom:8px;"><strong>Unwrap</strong> the resolved value and hand it to you as a plain variable.</li>
+  <li style="margin-bottom:8px;">If the Promise rejects, <strong>throw</strong> the rejection reason as an error.</li>
+</ol>
+
+<div class="callout callout-amber">
+  <strong>⚠ Important</strong>
+  <code>await</code> does <strong>NOT</strong> block the entire program. Only the <code>async</code> function that contains it pauses. The rest of the page — button clicks, animations, other code — keeps running normally.
+</div>
+
+<h3>Side-by-Side Comparison</h3>
+
+<p>Let's rewrite the same "fetch a user" logic using both approaches so you can see the readability difference.</p>
+
+<pre><code><span class="code-label">JS — .then() style</span>
+<span class="kw">function</span> <span class="fn">loadUser</span>() {
+  <span class="fn">fetch</span>(<span class="str">'/api/user/1'</span>)
+    .<span class="fn">then</span>(<span class="kw">res</span> => <span class="kw">res</span>.<span class="fn">json</span>())
+    .<span class="fn">then</span>(<span class="kw">user</span> => {
+      <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">user</span>.<span class="fn">name</span>);
+    })
+    .<span class="fn">catch</span>(<span class="kw">err</span> => {
+      <span class="fn">console</span>.<span class="fn">error</span>(<span class="kw">err</span>);
+    });
+}</code></pre>
+
+<pre><code><span class="code-label">JS — async / await style</span>
+<span class="kw">async function</span> <span class="fn">loadUser</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> res  = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/user/1'</span>);
+    <span class="kw">const</span> user = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="fn">console</span>.<span class="fn">log</span>(user.name);
+  } <span class="kw">catch</span> (err) {
+    <span class="fn">console</span>.<span class="fn">error</span>(err);
+  }
+}</code></pre>
+
+<p>The <code>async/await</code> version reads top-to-bottom, just like synchronous code. No callbacks, no nesting — just straight-line instructions.</p>
+
+<div class="callout callout-green">
+  <strong>✅ Best Practice</strong>
+  Think of <code>await</code> as saying <em>"wait here for this value, then continue"</em>. It makes async code as easy to read as a recipe: step 1, step 2, step 3.
+</div>
+
+<!-- ── Demo 2 — Side‑by‑side ─────────────── -->
+<div class="demo-box" id="demo2">
+  <p style="font-size:13px;color:#5e6e8a;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px;">▶ Live Demo — .then() vs await</p>
+
+  <div class="dual-panel">
+    <!-- LEFT: .then() -->
+    <div class="panel">
+      <div class="panel-title then-clr">The .then() Way</div>
+      <pre style="margin:0 0 12px 0;font-size:12px;padding:14px;"><code><span class="kw">function</span> <span class="fn">getQuote</span>() {
+  <span class="fn">simulatedFetch</span>()
+    .<span class="fn">then</span>(<span class="kw">data</span> => {
+      <span class="fn">showResult</span>(<span class="kw">data</span>);
+    })
+    .<span class="fn">catch</span>(<span class="kw">err</span> => {
+      <span class="fn">showError</span>(<span class="kw">err</span>);
+    });
+}</code></pre>
+      <button class="demo-btn" style="width:100%;background:linear-gradient(135deg,#f59e0b,#f97316);" onclick="runThenDemo()">Run .then() version</button>
+      <div class="demo-output" id="then-out" style="margin-top:10px;min-height:36px;"></div>
+    </div>
+
+    <!-- RIGHT: await -->
+    <div class="panel">
+      <div class="panel-title await-clr">The await Way</div>
+      <pre style="margin:0 0 12px 0;font-size:12px;padding:14px;"><code><span class="kw">async function</span> <span class="fn">getQuote</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> data = <span class="kw">await</span> <span class="fn">simulatedFetch</span>();
+    <span class="fn">showResult</span>(data);
+  } <span class="kw">catch</span> (err) {
+    <span class="fn">showError</span>(err);
+  }
+}</code></pre>
+      <button class="demo-btn" style="width:100%;" onclick="runAwaitDemo()">Run await version</button>
+      <div class="demo-output" id="await-out" style="margin-top:10px;min-height:36px;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Shared simulated fetch — returns a random quote after 1.2s
+function simulatedFetch() {
+  const quotes = [
+    { text: "Talk is cheap. Show me the code.", author: "Linus Torvalds" },
+    { text: "Any fool can write code that a computer can understand.", author: "Martin Fowler" },
+    { text: "First, solve the problem. Then, write the code.", author: "John Johnson" },
+    { text: "Code is like humor. When you have to explain it, it's bad.", author: "Cory House" },
+    { text: "Simplicity is the soul of efficiency.", author: "Austin Freeman" }
+  ];
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const q = quotes[Math.floor(Math.random() * quotes.length)];
+      resolve(q);
+    }, 1200);
+  });
+}
+
+// .then() version
+function runThenDemo() {
+  const out = document.getElementById('then-out');
+  out.innerHTML = '<div class="log-line info">⏳ Fetching quote...</div>';
+  simulatedFetch()
+    .then(data => {
+      out.innerHTML  = `<div class="log-line ok">✔ Received!</div>`;
+      out.innerHTML += `<div class="log-line value" style="margin-top:6px;">"${data.text}"</div>`;
+      out.innerHTML += `<div class="log-line dim">— ${data.author}</div>`;
+    })
+    .catch(err => {
+      out.innerHTML = `<div class="log-line err">✖ ${err}</div>`;
+    });
+}
+
+// await version
+async function runAwaitDemo() {
+  const out = document.getElementById('await-out');
+  out.innerHTML = '<div class="log-line info">⏳ Fetching quote...</div>';
+  try {
+    const data = await simulatedFetch();
+    out.innerHTML  = `<div class="log-line ok">✔ Received!</div>`;
+    out.innerHTML += `<div class="log-line value" style="margin-top:6px;">"${data.text}"</div>`;
+    out.innerHTML += `<div class="log-line dim">— ${data.author}</div>`;
+  } catch (err) {
+    out.innerHTML = `<div class="log-line err">✖ ${err}</div>`;
+  }
+}
+</script>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 4 — Error Handling with try…catch
+     ═══════════════════════════════════════════════════════════════ -->
+<h2><span class="num">4.</span> Error Handling with <code>try...catch</code></h2>
+
+<p>With <code>.then()</code> chains you handle errors using <code>.catch()</code>. With <code>async/await</code> you use the <strong>standard try…catch…finally</strong> that you already know from synchronous JavaScript:</p>
+
+<pre><code><span class="code-label">JS</span>
+<span class="kw">async function</span> <span class="fn">fetchData</span>(url) {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(url);
+
+    <span class="kw">if</span> (!response.ok) {
+      <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`HTTP error! Status: </span><span class="kw">${response.status}</span><span class="str">`</span>);
+    }
+
+    <span class="kw">const</span> data = <span class="kw">await</span> response.<span class="fn">json</span>();
+    <span class="kw">return</span> data;
+
+  } <span class="kw">catch</span> (error) {
+    <span class="cm">// Handles BOTH network errors AND the thrown error above</span>
+    <span class="fn">console</span>.<span class="fn">error</span>(<span class="str">'Fetch failed:'</span>, error.message);
+
+  } <span class="kw">finally</span> {
+    <span class="cm">// Runs no matter what — perfect for cleanup</span>
+    <span class="fn">hideLoadingSpinner</span>();
+  }
+}</code></pre>
+
+<p>The <code>finally</code> block is your cleanup zone. It runs whether the request succeeds or fails — ideal for hiding spinners, resetting UI states, or closing connections.</p>
+
+<div class="callout callout-blue">
+  <strong>💡 Tip</strong>
+  If a Promise passed to <code>await</code> rejects, the rejection is automatically thrown as an error. You don't need to manually check — just wrap your <code>await</code> calls in <code>try</code>.
+</div>
+
+<!-- ── Demo 3 — User Lookup ──────────────── -->
+<div class="demo-box" id="demo3">
+  <p style="font-size:13px;color:#5e6e8a;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px;">▶ Live Demo — User Lookup with try...catch</p>
+  <p style="font-size:13px;color:#7a8599;margin-bottom:14px;">Type <strong style="color:#34d399;">admin</strong> to find a user, or anything else to trigger the catch block.</p>
+
+  <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;">
+    <input type="text" class="demo-input" id="username-input" placeholder="Enter username..." value="admin">
+    <button class="demo-btn" id="lookup-btn" onclick="runUserLookup()">Search</button>
+    <span id="lookup-spinner" style="display:none;"><span class="spinner"></span></span>
+  </div>
+
+  <div id="lookup-result" style="margin-top:16px;"></div>
+
+  <div class="demo-output" id="lookup-log" style="margin-top:14px;"></div>
+</div>
+
+<script>
+function simulateUserFetch(username) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (username.toLowerCase() === 'admin') {
+        resolve({
+          id: 1,
+          name: 'Admin',
+          email: 'admin@example.com',
+          role: 'Super Administrator',
+          lastLogin: new Date().toLocaleString()
+        });
+      } else {
+        reject(new Error(`User "${username}" not found in database.`));
+      }
+    }, 1500);
+  });
+}
+
+async function runUserLookup() {
+  const input   = document.getElementById('username-input');
+  const btn     = document.getElementById('lookup-btn');
+  const spinner = document.getElementById('lookup-spinner');
+  const result  = document.getElementById('lookup-result');
+  const log     = document.getElementById('lookup-log');
+  const username = input.value.trim();
+
+  if (!username) { input.focus(); return; }
+
+  // Reset
+  result.innerHTML = '';
+  log.innerHTML = '';
+  btn.disabled = true;
+  spinner.style.display = 'inline-block';
+
+  log.innerHTML += `<div class="log-line info">⏳ try: awaiting simulateUserFetch("${username}")...</div>`;
+
+  try {
+    const user = await simulateUserFetch(username);
+
+    log.innerHTML += `<div class="log-line ok">✔ try: Promise resolved! Got user data.</div>`;
+
+    result.innerHTML = `
+      <div class="user-card success">
+        <h4>✔ User Found</h4>
+        <p><strong>Name:</strong> ${user.name}</p>
+        <p><strong>Email:</strong> ${user.email}</p>
+        <p><strong>Role:</strong> ${user.role}</p>
+        <p><strong>Last Login:</strong> ${user.lastLogin}</p>
+      </div>`;
+
+  } catch (error) {
+    log.innerHTML += `<div class="log-line err">✖ catch: ${error.message}</div>`;
+
+    result.innerHTML = `
+      <div class="user-card error">
+        <h4>✖ Error</h4>
+        <p>${error.message}</p>
+        <p style="color:#5e6e8a;font-size:12px;margin-top:4px;">The catch block handled this gracefully.</p>
+      </div>`;
+
+  } finally {
+    log.innerHTML += `<div class="log-line dim">↻ finally: hiding spinner & re-enabling button.</div>`;
+    btn.disabled = false;
+    spinner.style.display = 'none';
+  }
+}
+</script>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 5 — Sequential vs Parallel Execution
+     ═══════════════════════════════════════════════════════════════ -->
+<h2><span class="num">5.</span> Sequential vs Parallel Execution</h2>
+
+<p>When you have multiple independent async tasks, <strong>how you await them matters enormously</strong>.</p>
+
+<h3>Sequential (one after another)</h3>
+
+<pre><code><span class="code-label">JS — Sequential</span>
+<span class="kw">async function</span> <span class="fn">sequential</span>() {
+  <span class="kw">const</span> a = <span class="kw">await</span> <span class="fn">task1</span>();  <span class="cm">// waits 1s</span>
+  <span class="kw">const</span> b = <span class="kw">await</span> <span class="fn">task2</span>();  <span class="cm">// waits 1s AFTER task1</span>
+  <span class="kw">const</span> c = <span class="kw">await</span> <span class="fn">task3</span>();  <span class="cm">// waits 1s AFTER task2</span>
+  <span class="cm">// Total time: ~3 seconds</span>
+}</code></pre>
+
+<p>Each <code>await</code> stalls the function until the previous one resolves. The total time is the <strong>sum</strong> of all tasks.</p>
+
+<h3>Parallel (all at once)</h3>
+
+<pre><code><span class="code-label">JS — Parallel</span>
+<span class="kw">async function</span> <span class="fn">parallel</span>() {
+  <span class="kw">const</span> [a, b, c] = <span class="kw">await</span> Promise.<span class="fn">all</span>([
+    <span class="fn">task1</span>(),  <span class="cm">// starts immediately</span>
+    <span class="fn">task2</span>(),  <span class="cm">// starts immediately</span>
+    <span class="fn">task3</span>()   <span class="cm">// starts immediately</span>
+  ]);
+  <span class="cm">// Total time: ~1 second (the longest task)</span>
+}</code></pre>
+
+<p>All three Promises are created <em>before</em> the <code>await</code>, so they all start at the same time. <code>Promise.all</code> waits until <strong>all</strong> of them resolve. Total time = the <strong>slowest</strong> task.</p>
+
+<div class="callout callout-green">
+  <strong>✅ Rule of Thumb</strong>
+  Use <strong>sequential</strong> when each task depends on the previous result. Use <strong>parallel</strong> when the tasks are independent.
+</div>
+
+<!-- ── Demo 4 — Sequential vs Parallel ───── -->
+<div class="demo-box" id="demo4">
+  <p style="font-size:13px;color:#5e6e8a;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px;">▶ Live Demo — Sequential vs Parallel</p>
+
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:6px;">
+    <button class="demo-btn demo-btn-red" id="seq-btn" onclick="runSequential()">Run Sequential</button>
+    <button class="demo-btn demo-btn-secondary" id="par-btn" onclick="runParallel()">Run Parallel</button>
+  </div>
+
+  <div class="dual-panel" style="margin-top:16px;">
+    <!-- Sequential output -->
+    <div class="panel">
+      <div class="panel-title" style="color:#f87171;">Sequential</div>
+      <div class="demo-output" id="seq-out" style="min-height:60px;"></div>
+      <div id="seq-timer" style="text-align:center;margin-top:8px;"></div>
+    </div>
+    <!-- Parallel output -->
+    <div class="panel">
+      <div class="panel-title" style="color:#34d399;">Parallel</div>
+      <div class="demo-output" id="par-out" style="min-height:60px;"></div>
+      <div id="par-timer" style="text-align:center;margin-top:8px;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function fakeTask(name, ms) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(`${name} done`), ms);
+  });
+}
+
+async function runSequential() {
+  const out   = document.getElementById('seq-out');
+  const timer = document.getElementById('seq-timer');
+  const btn   = document.getElementById('seq-btn');
+  out.innerHTML = '';
+  timer.innerHTML = '';
+  btn.disabled = true;
+
+  const t0 = performance.now();
+
+  out.innerHTML += `<div class="log-line info">⏳ Starting Task A...</div>`;
+  const a = await fakeTask('Task A', 1000);
+  out.innerHTML += `<div class="log-line ok">✔ ${a}  (1.0s)</div>`;
+
+  out.innerHTML += `<div class="log-line info">⏳ Starting Task B...</div>`;
+  const b = await fakeTask('Task B', 1000);
+  out.innerHTML += `<div class="log-line ok">✔ ${b}  (1.0s)</div>`;
+
+  out.innerHTML += `<div class="log-line info">⏳ Starting Task C...</div>`;
+  const c = await fakeTask('Task C', 1000);
+  out.innerHTML += `<div class="log-line ok">✔ ${c}  (1.0s)</div>`;
+
+  const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+  timer.innerHTML = `<span class="timer-badge slow">Total: ${elapsed}s</span>`;
+  btn.disabled = false;
+}
+
+async function runParallel() {
+  const out   = document.getElementById('par-out');
+  const timer = document.getElementById('par-timer');
+  const btn   = document.getElementById('par-btn');
+  out.innerHTML = '';
+  timer.innerHTML = '';
+  btn.disabled = true;
+
+  const t0 = performance.now();
+
+  out.innerHTML += `<div class="log-line info">⏳ Starting Tasks A, B, C simultaneously...</div>`;
+
+  const [a, b, c] = await Promise.all([
+    fakeTask('Task A', 1000),
+    fakeTask('Task B', 1000),
+    fakeTask('Task C', 1000)
+  ]);
+
+  out.innerHTML += `<div class="log-line ok">✔ ${a}</div>`;
+  out.innerHTML += `<div class="log-line ok">✔ ${b}</div>`;
+  out.innerHTML += `<div class="log-line ok">✔ ${c}</div>`;
+
+  const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+  timer.innerHTML = `<span class="timer-badge fast">Total: ${elapsed}s</span>`;
+  btn.disabled = false;
+}
+</script>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 6 — Top-Level await
+     ═══════════════════════════════════════════════════════════════ -->
+<h2><span class="num">6.</span> Top-Level <code>await</code></h2>
+
+<p>Historically, <code>await</code> could <strong>only</strong> appear inside an <code>async function</code>. If you tried using it at the top level of a script, you'd get a syntax error.</p>
+
+<p>Starting with <strong>ES2022</strong>, JavaScript modules support <strong>top-level <code>await</code></strong>:</p>
+
+<pre><code><span class="code-label">JS — module.mjs</span>
+<span class="cm">// No wrapper function needed in an ES module!</span>
+<span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/config'</span>);
+<span class="kw">const</span> config   = <span class="kw">await</span> response.<span class="fn">json</span>();
+
+<span class="fn">console</span>.<span class="fn">log</span>(config);</code></pre>
+
+<p>To use this feature, the file must be an <strong>ES module</strong> — either a <code>.mjs</code> file, or a <code>.js</code> file inside a project with <code>"type": "module"</code> in <code>package.json</code>, or a <code>&lt;script type="module"&gt;</code> in HTML.</p>
+
+<div class="callout callout-amber">
+  <strong>⚠ Caution</strong>
+  Top-level <code>await</code> blocks the loading of the entire module graph. Any module that imports your module will wait until your top-level <code>await</code> resolves. Use it wisely — it's great for config loading and one-time setup, but don't put long-running awaits at the top level.
+</div>
+
+<pre><code><span class="code-label">HTML</span>
+<span class="cm">&lt;!-- In the browser, use type="module" --&gt;</span>
+&lt;<span class="kw">script</span> <span class="fn">type</span>=<span class="str">"module"</span>&gt;
+  <span class="kw">const</span> data = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/data.json'</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>());
+  <span class="fn">console</span>.<span class="fn">log</span>(data);
+&lt;/<span class="kw">script</span>&gt;</code></pre>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 7 — Common Patterns
+     ═══════════════════════════════════════════════════════════════ -->
+<h2><span class="num">7.</span> Common Patterns</h2>
+
+<h3>Pattern A — Looping Sequentially</h3>
+
+<p>Use a <code>for...of</code> loop when each iteration depends on the previous one, or when you want to process items <em>one at a time</em>:</p>
+
+<pre><code><span class="code-label">JS</span>
+<span class="kw">async function</span> <span class="fn">processSequentially</span>(urls) {
+  <span class="kw">for</span> (<span class="kw">const</span> url <span class="kw">of</span> urls) {
+    <span class="kw">const</span> res  = <span class="kw">await</span> <span class="fn">fetch</span>(url);
+    <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="fn">console</span>.<span class="fn">log</span>(data);
+  }
+}</code></pre>
+
+<div class="callout callout-amber">
+  <strong>⚠ Pitfall</strong>
+  Never use <code>await</code> inside <code>.forEach()</code>. The callback passed to <code>forEach</code> is a separate function and <code>forEach</code> doesn't wait for it. Use <code>for...of</code> instead.
+</div>
+
+<h3>Pattern B — Looping in Parallel</h3>
+
+<p>Use <code>Promise.all</code> with <code>.map()</code> when the iterations are independent:</p>
+
+<pre><code><span class="code-label">JS</span>
+<span class="kw">async function</span> <span class="fn">processInParallel</span>(urls) {
+  <span class="kw">const</span> results = <span class="kw">await</span> Promise.<span class="fn">all</span>(
+    urls.<span class="fn">map</span>(<span class="kw">async</span> (url) => {
+      <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(url);
+      <span class="kw">return</span> res.<span class="fn">json</span>();
+    })
+  );
+  <span class="fn">console</span>.<span class="fn">log</span>(results);
+}</code></pre>
+
+<h3>Pattern C — IIFE for Quick Scripts</h3>
+
+<p>Before top-level <code>await</code> existed, the common workaround was an <strong>Immediately Invoked Function Expression</strong>:</p>
+
+<pre><code><span class="code-label">JS</span>
+(<span class="kw">async</span> () => {
+  <span class="kw">const</span> res  = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/data'</span>);
+  <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+  <span class="fn">console</span>.<span class="fn">log</span>(data);
+})();</code></pre>
+
+<p>You'll still see this pattern in codebases that need to support older environments.</p>
+
+<!-- ── Demo 5 — Sequential vs Parallel User Loading ── -->
+<div class="demo-box" id="demo5">
+  <p style="font-size:13px;color:#5e6e8a;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px;">▶ Live Demo — Loading Users: Sequential vs Parallel</p>
+
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;">
+    <button class="demo-btn demo-btn-red" id="usr-seq-btn" onclick="loadUsersSequential()">Load Sequential</button>
+    <button class="demo-btn demo-btn-secondary" id="usr-par-btn" onclick="loadUsersParallel()">Load Parallel</button>
+    <button class="demo-btn" style="background:#374151;" onclick="resetUserDemo()">Reset</button>
+  </div>
+
+  <div id="user-list" style="max-width:420px;margin:0 auto;text-align:left;"></div>
+  <div id="user-timer" style="text-align:center;margin-top:12px;"></div>
+</div>
+
+<script>
+const FAKE_USERS = [
+  { name: 'Alice Johnson',  role: 'Frontend Developer', color: '#58a6ff' },
+  { name: 'Bob Martinez',   role: 'Backend Engineer',   color: '#f97316' },
+  { name: 'Carol Chen',     role: 'UX Designer',        color: '#a78bfa' },
+  { name: 'David Kim',      role: 'DevOps Lead',        color: '#34d399' },
+  { name: 'Erin Okonkwo',   role: 'Product Manager',    color: '#f472b6' }
+];
+
+function fetchUser(user, delay) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(user), delay);
+  });
+}
+
+function renderUser(user, container) {
+  const initials = user.name.split(' ').map(w => w[0]).join('');
+  const div = document.createElement('div');
+  div.className = 'user-item';
+  div.innerHTML = `
+    <div class="user-avatar" style="background:${user.color};">${initials}</div>
+    <div>
+      <div class="user-name">${user.name}</div>
+      <div class="user-role">${user.role}</div>
+    </div>`;
+  container.appendChild(div);
+  // trigger animation
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => { div.classList.add('visible'); });
+  });
+}
+
+function resetUserDemo() {
+  document.getElementById('user-list').innerHTML = '';
+  document.getElementById('user-timer').innerHTML = '';
+}
+
+async function loadUsersSequential() {
+  const list  = document.getElementById('user-list');
+  const timer = document.getElementById('user-timer');
+  const btnS  = document.getElementById('usr-seq-btn');
+  const btnP  = document.getElementById('usr-par-btn');
+
+  list.innerHTML = '';
+  timer.innerHTML = '';
+  btnS.disabled = true;
+  btnP.disabled = true;
+
+  const t0 = performance.now();
+
+  for (const user of FAKE_USERS) {
+    const u = await fetchUser(user, 600);
+    renderUser(u, list);
+  }
+
+  const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+  timer.innerHTML = `<span class="timer-badge slow">Sequential: ${elapsed}s</span>`;
+  btnS.disabled = false;
+  btnP.disabled = false;
+}
+
+async function loadUsersParallel() {
+  const list  = document.getElementById('user-list');
+  const timer = document.getElementById('user-timer');
+  const btnS  = document.getElementById('usr-seq-btn');
+  const btnP  = document.getElementById('usr-par-btn');
+
+  list.innerHTML = '';
+  timer.innerHTML = '';
+  btnS.disabled = true;
+  btnP.disabled = true;
+
+  const t0 = performance.now();
+
+  const users = await Promise.all(
+    FAKE_USERS.map(user => fetchUser(user, 600))
+  );
+
+  users.forEach(u => renderUser(u, list));
+
+  const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+  timer.innerHTML = `<span class="timer-badge fast">Parallel: ${elapsed}s</span>`;
+  btnS.disabled = false;
+  btnP.disabled = false;
+}
+</script>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION 8 — async/await vs .then() — When to Use Which
+     ═══════════════════════════════════════════════════════════════ -->
+<h2><span class="num">8.</span> <code>async/await</code> vs <code>.then()</code> — When to Use Which</h2>
+
+<p>Both approaches use Promises under the hood. Neither is "better" in an absolute sense — but each shines in different situations:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Criteria</th>
+      <th>async / await</th>
+      <th>.then() chains</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Readability</strong></td>
+      <td style="color:#34d399;">Reads like sync code — easy to follow</td>
+      <td style="color:#fbbf24;">Nesting can build up with complex logic</td>
+    </tr>
+    <tr>
+      <td><strong>Error handling</strong></td>
+      <td style="color:#34d399;">Standard try...catch — familiar pattern</td>
+      <td style="color:#fbbf24;">Requires .catch() or second .then() arg</td>
+    </tr>
+    <tr>
+      <td><strong>Debugging</strong></td>
+      <td style="color:#34d399;">Step through with debugger line by line</td>
+      <td style="color:#fbbf24;">Harder to step through chains</td>
+    </tr>
+    <tr>
+      <td><strong>One-liners</strong></td>
+      <td style="color:#fbbf24;">Requires a wrapper function</td>
+      <td style="color:#34d399;">Clean: <code>fetch(url).then(r => r.json())</code></td>
+    </tr>
+    <tr>
+      <td><strong>Parallel execution</strong></td>
+      <td>Use <code>Promise.all()</code> with <code>await</code></td>
+      <td>Use <code>Promise.all().then()</code></td>
+    </tr>
+    <tr>
+      <td><strong>Conditional logic</strong></td>
+      <td style="color:#34d399;">Just use if/else — straightforward</td>
+      <td style="color:#fbbf24;">Conditional chains get messy</td>
+    </tr>
+    <tr>
+      <td><strong>Scope access</strong></td>
+      <td style="color:#34d399;">All variables are in the same scope</td>
+      <td style="color:#fbbf24;">Each .then() has its own scope</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout callout-green">
+  <strong>✅ Rule of Thumb</strong>
+  Use <code>async/await</code> as your default for <strong>most</strong> async code — it's cleaner, easier to debug, and handles errors naturally. Use <code>.then()</code> for simple one-liners where you don't need the resolved value stored in a variable, or when attaching a quick handler to an existing Promise.
+</div>
+
+<h3>Example: When .then() is perfectly fine</h3>
+
+<pre><code><span class="code-label">JS</span>
+<span class="cm">// Quick fire-and-forget — no need for async/await here</span>
+<span class="fn">fetch</span>(<span class="str">'/api/analytics'</span>, { method: <span class="str">'POST'</span>, body: payload })
+  .<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Tracked!'</span>))
+  .<span class="fn">catch</span>(() => {}); <span class="cm">// silently ignore errors</span></code></pre>
+
+<h3>Example: When async/await wins</h3>
+
+<pre><code><span class="code-label">JS</span>
+<span class="kw">async function</span> <span class="fn">checkout</span>(cart) {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> user    = <span class="kw">await</span> <span class="fn">getUser</span>();
+    <span class="kw">const</span> address = <span class="kw">await</span> <span class="fn">getShippingAddress</span>(user.id);
+
+    <span class="kw">if</span> (address.country === <span class="str">'US'</span>) {
+      <span class="kw">const</span> tax = <span class="kw">await</span> <span class="fn">calculateUSTax</span>(cart);
+      cart.tax = tax;
+    }
+
+    <span class="kw">const</span> order = <span class="kw">await</span> <span class="fn">placeOrder</span>(cart, address);
+    <span class="kw">await</span> <span class="fn">sendConfirmationEmail</span>(user.email, order.id);
+
+    <span class="kw">return</span> order;
+  } <span class="kw">catch</span> (err) {
+    <span class="fn">console</span>.<span class="fn">error</span>(<span class="str">'Checkout failed:'</span>, err);
+    <span class="kw">throw</span> err;
+  }
+}</code></pre>
+
+<p>Try writing that with <code>.then()</code> chains — the conditional <code>if (address.country === 'US')</code> alone would turn the chain into a nested mess.</p>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     BOTTOM NAV
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="bottom-nav">
+  <p>Next Lesson →</p>
+  <h3>06: The fetch() API</h3>
+</div>
+
+</div><!-- /.container -->
+</body>
+</html>

@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>04 — Promises | Async JS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+.container { max-width: 820px; margin: 0 auto; }
+.doc-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; margin-bottom: 48px; }
+.doc-nav span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #5e6e8a; }
+h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; line-height: 1.2; }
+.subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+h2 .num { color: #58a6ff; }
+h3 { font-size: 19px; font-weight: 600; color: #e2e8f0; margin-top: 36px; margin-bottom: 12px; }
+p { margin-bottom: 18px; color: #b0bac9; }
+strong { color: #e2e8f0; }
+em { color: #93aac9; font-style: italic; }
+code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 16px 0 24px 0; overflow-x: auto; position: relative; }
+pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+.code-label { position: absolute; top: 10px; right: 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #3d4f6f; }
+.kw { color: #ff7b72; }
+.str { color: #a5d6ff; }
+.fn { color: #d2a8ff; }
+.cm { color: #5e6e8a; font-style: italic; }
+.num-lit { color: #79c0ff; }
+.bool { color: #ff7b72; }
+table { width: 100%; border-collapse: collapse; margin: 18px 0 28px 0; }
+th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5e6e8a; padding: 12px 18px; border-bottom: 2px solid #1e2d4a; }
+td { padding: 14px 18px; border-bottom: 1px solid #141a2e; font-size: 15px; }
+tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: rgba(88,166,255,0.03); }
+.callout { border-left: 4px solid; border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 22px 0; font-size: 14.5px; }
+.callout-blue { background: rgba(88,166,255,0.06); border-color: #58a6ff; }
+.callout-amber { background: rgba(245,158,11,0.06); border-color: #f59e0b; }
+.callout-green { background: rgba(16,185,129,0.06); border-color: #10b981; }
+.callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+.callout-blue strong { color: #58a6ff; }
+.callout-amber strong { color: #f59e0b; }
+.callout-green strong { color: #10b981; }
+.demo-box { background: #161b2e; border: 1px solid #1e2d4a; border-radius: 12px; padding: 30px; margin: 30px 0; text-align: center; overflow: hidden; }
+hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+.bottom-nav { margin-top: 64px; padding: 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; text-align: center; }
+.bottom-nav p { font-size: 14px; color: #5e6e8a; margin-bottom: 4px; }
+.bottom-nav h3 { margin: 0; color: #58a6ff; }
+
+/* ───── Demo Shared Styles ───── */
+.demo-btn {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px;
+    margin: 6px;
+}
+.demo-btn:hover { transform: translateY(-2px); filter: brightness(1.15); }
+.demo-btn:active { transform: translateY(0); }
+.btn-blue { background: #1a5cff; color: #fff; }
+.btn-green { background: #10b981; color: #fff; }
+.btn-red { background: #ef4444; color: #fff; }
+.btn-amber { background: #f59e0b; color: #1a1a2e; }
+.btn-purple { background: #8b5cf6; color: #fff; }
+.demo-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #5e6e8a; margin-bottom: 18px; }
+
+/* ───── Demo 1: Status Tracker ───── */
+.status-badge {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700;
+    padding: 22px 44px; border-radius: 16px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 24px 0;
+}
+.status-pending { background: rgba(245,158,11,0.12); color: #f59e0b; border: 2px solid #f59e0b; }
+.status-fulfilled { background: rgba(16,185,129,0.12); color: #10b981; border: 2px solid #10b981; }
+.status-rejected { background: rgba(239,68,68,0.12); color: #ef4444; border: 2px solid #ef4444; }
+.status-icon { font-size: 28px; }
+.status-value { font-size: 14px; color: #7a8599; margin-top: 8px; font-family: 'JetBrains Mono', monospace; }
+@keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.3); } 50% { box-shadow: 0 0 20px 6px rgba(245,158,11,0.15); } }
+.status-pending { animation: pulse-glow 2s infinite; }
+@keyframes pop-in { 0% { transform: scale(0.7); opacity: 0; } 60% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+.pop { animation: pop-in 0.45s ease-out; }
+
+/* ───── Demo 2: Coin Flip ───── */
+.coin-area { min-height: 120px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px; }
+.coin {
+    width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 36px; font-weight: 700; transition: all 0.3s;
+}
+@keyframes spin-coin { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(1080deg); } }
+.coin-spinning { animation: spin-coin 1.5s ease-in-out; background: linear-gradient(135deg, #f59e0b, #fbbf24); color: #1a1a2e; }
+.coin-heads { background: linear-gradient(135deg, #10b981, #34d399); color: #fff; }
+.coin-tails { background: linear-gradient(135deg, #ef4444, #f87171); color: #fff; }
+.coin-result { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; margin-top: 6px; }
+
+/* ───── Demo 3: Weather API ───── */
+.weather-output { min-height: 140px; display: flex; align-items: center; justify-content: center; }
+@keyframes spin-loader { to { transform: rotate(360deg); } }
+.loader { width: 40px; height: 40px; border: 4px solid #1e2d4a; border-top-color: #58a6ff; border-radius: 50%; animation: spin-loader 0.8s linear infinite; }
+.weather-card {
+    background: linear-gradient(135deg, #1a3a6e, #0d1f42);
+    border: 1px solid #2a4a8a; border-radius: 16px; padding: 28px 36px;
+    display: inline-block; text-align: left; min-width: 260px;
+    animation: pop-in 0.4s ease-out;
+}
+.weather-card .wc-city { font-size: 22px; font-weight: 700; color: #f0f6fc; }
+.weather-card .wc-temp { font-size: 48px; font-weight: 300; color: #58a6ff; margin: 4px 0; }
+.weather-card .wc-desc { font-size: 14px; color: #7a8599; }
+.weather-card .wc-icon { font-size: 44px; float: right; margin-top: -10px; }
+.error-card {
+    background: rgba(239,68,68,0.08); border: 1px solid #ef4444; border-radius: 16px;
+    padding: 24px 32px; display: inline-flex; align-items: center; gap: 14px;
+    animation: pop-in 0.4s ease-out;
+}
+.error-card .ec-icon { font-size: 32px; }
+.error-card .ec-msg { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #ef4444; }
+
+/* ───── Demo 4: Pipeline ───── */
+.pipeline { display: flex; flex-direction: column; gap: 0; align-items: stretch; text-align: left; }
+.pipe-step {
+    display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+    border-left: 3px solid #1e2d4a; margin-left: 20px; position: relative;
+    transition: all 0.4s ease;
+}
+.pipe-step::before {
+    content: ''; position: absolute; left: -9px; top: 50%; transform: translateY(-50%);
+    width: 14px; height: 14px; border-radius: 50%; background: #1e2d4a;
+    border: 2px solid #0f111a; transition: all 0.4s ease; z-index: 1;
+}
+.pipe-step.active { border-left-color: #58a6ff; }
+.pipe-step.active::before { background: #58a6ff; box-shadow: 0 0 10px rgba(88,166,255,0.5); }
+.pipe-step.done { border-left-color: #10b981; }
+.pipe-step.done::before { background: #10b981; box-shadow: 0 0 10px rgba(16,185,129,0.4); }
+.pipe-step .pipe-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #3d4f6f; background: #0d1117; padding: 4px 10px; border-radius: 6px; min-width: 30px; text-align: center; }
+.pipe-step .pipe-label { font-size: 14px; color: #5e6e8a; flex: 1; }
+.pipe-step .pipe-status { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3d4f6f; }
+.pipe-step.active .pipe-label { color: #58a6ff; font-weight: 600; }
+.pipe-step.active .pipe-status { color: #58a6ff; }
+.pipe-step.done .pipe-label { color: #10b981; }
+.pipe-step.done .pipe-status { color: #10b981; }
+.pipe-step.done .pipe-num { color: #10b981; }
+.pipe-step.active .pipe-num { color: #58a6ff; }
+.pipeline-result { margin-top: 18px; padding: 18px; background: #0d1117; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #10b981; text-align: left; display: none; animation: pop-in 0.4s ease-out; }
+
+/* ───── Demo 5: Combinators ───── */
+.race-bars { display: flex; flex-direction: column; gap: 14px; margin: 20px 0; }
+.race-bar-row { display: flex; align-items: center; gap: 12px; }
+.race-bar-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #5e6e8a; min-width: 80px; text-align: right; }
+.race-bar-track { flex: 1; height: 32px; background: #0d1117; border-radius: 8px; overflow: hidden; position: relative; }
+.race-bar-fill { height: 100%; border-radius: 8px; width: 0%; transition: width 0.1s linear; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.8); }
+.bar-1 { background: linear-gradient(90deg, #6366f1, #818cf8); }
+.bar-2 { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.bar-3 { background: linear-gradient(90deg, #ec4899, #f472b6); }
+.race-bar-time { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3d4f6f; min-width: 48px; }
+.combinator-result { margin-top: 16px; padding: 16px; background: #0d1117; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 13px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+
+/* ───── Comparison Layout ───── */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+.compare-col { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 18px; }
+.compare-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.compare-col.bad h4 { color: #ef4444; }
+.compare-col.good h4 { color: #10b981; }
+.compare-col pre { margin: 0; border: none; padding: 0; background: none; }
+
+/* ───── Mistake blocks ───── */
+.mistake-block { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px; margin: 16px 0; }
+.mistake-block h4 { font-size: 14px; font-weight: 700; color: #ef4444; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.mistake-fix h4 { color: #10b981; }
+</style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ═══════════════ NAV ═══════════════ -->
+    <nav class="doc-nav">
+        <span>Async JS</span>
+        <span>Lesson 04 of 06</span>
+    </nav>
+
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <h1>04 — Promises</h1>
+    <p class="subtitle">The foundation of modern async JavaScript. Promises give you a clean, composable way to represent a value that doesn't exist <em>yet</em> — but will, eventually.</p>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 1 — WHAT IS A PROMISE?
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">01</span> — What is a Promise?</h2>
+
+    <h3>The UberEats Analogy</h3>
+
+    <p>Imagine you're hungry. You open <strong>UberEats</strong> and place an order. The moment you tap "Order Now", the app gives you a <strong>receipt</strong>. That receipt is <em>not</em> the food. You can't eat it. But it's a <strong>guarantee</strong> — a <em>promise</em> — that the food is on its way.</p>
+
+    <p>Three things can happen with your order:</p>
+
+    <table>
+        <thead>
+            <tr><th>Status</th><th>UberEats Analogy</th><th>JavaScript</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>⏳ <strong>Pending</strong></td>
+                <td>Restaurant is cooking your food</td>
+                <td>The async operation is still running</td>
+            </tr>
+            <tr>
+                <td>✅ <strong>Fulfilled</strong></td>
+                <td>Food arrived at your door!</td>
+                <td>The operation succeeded — you have a <em>value</em></td>
+            </tr>
+            <tr>
+                <td>❌ <strong>Rejected</strong></td>
+                <td>Restaurant closed. Order cancelled.</td>
+                <td>The operation failed — you have an <em>error</em></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-blue">
+        <strong>💡 Key Insight</strong>
+        A <code>Promise</code> is a JavaScript object that represents the <strong>eventual completion (or failure)</strong> of an asynchronous operation and its resulting value. You don't have the value <em>now</em>, but the Promise lets you attach handlers that will run when the value is ready.
+    </div>
+
+    <p>Here's the formal definition in code:</p>
+
+    <pre><code><span class="cm">// A Promise wraps an async operation and eventually settles</span>
+<span class="kw">const</span> myPromise = <span class="kw">new</span> <span class="fn">Promise</span>((resolve, reject) => {
+  <span class="cm">// ...do some async work...</span>
+  <span class="cm">// call resolve(value) on success</span>
+  <span class="cm">// call reject(error)  on failure</span>
+});</code></pre>
+
+    <p>Once a promise transitions from <strong>Pending</strong> to either <strong>Fulfilled</strong> or <strong>Rejected</strong>, it is considered <strong>settled</strong>. A settled promise <em>cannot</em> change state again — it's a one-way trip.</p>
+
+    <div class="callout callout-green">
+        <strong>🏆 Best Practice</strong>
+        Think of Promises as <strong>containers for future values</strong>. You don't look inside right away — you attach handlers (<code>.then</code>, <code>.catch</code>) that run when the container opens.
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 2 — THE 3 STATES
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">02</span> — The 3 States of a Promise</h2>
+
+    <p>Let's look at the three possible states in detail:</p>
+
+    <table>
+        <thead>
+            <tr><th>State</th><th>Icon</th><th>Meaning</th><th>Property</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>pending</code></td>
+                <td style="font-size:22px;">⏳</td>
+                <td>Initial state. Operation hasn't completed yet.</td>
+                <td>No value, no error</td>
+            </tr>
+            <tr>
+                <td><code>fulfilled</code></td>
+                <td style="font-size:22px;">✅</td>
+                <td>Operation completed <strong>successfully</strong>.</td>
+                <td><code>[[PromiseResult]]</code> = the resolved value</td>
+            </tr>
+            <tr>
+                <td><code>rejected</code></td>
+                <td style="font-size:22px;">❌</td>
+                <td>Operation <strong>failed</strong>.</td>
+                <td><code>[[PromiseResult]]</code> = the error/reason</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code><span class="cm">// A promise that resolves after 2 seconds</span>
+<span class="kw">const</span> p = <span class="kw">new</span> <span class="fn">Promise</span>((resolve, reject) => {
+  <span class="fn">setTimeout</span>(() => {
+    <span class="fn">resolve</span>(<span class="str">'Done!'</span>);  <span class="cm">// state: pending → fulfilled</span>
+  }, <span class="num-lit">2000</span>);
+});
+
+<span class="fn">console.log</span>(p);  <span class="cm">// Promise {&lt;pending&gt;}</span>
+
+<span class="cm">// 2 seconds later...</span>
+<span class="cm">// Promise {&lt;fulfilled&gt;: 'Done!'}</span></code></pre>
+
+    <div class="callout callout-amber">
+        <strong>⚠️ Important</strong>
+        Once a promise is <strong>settled</strong> (fulfilled or rejected), its state is <strong>frozen forever</strong>. You can't change a fulfilled promise to rejected, or vice versa. Calling <code>resolve()</code> after <code>reject()</code> (or the reverse) does nothing.
+    </div>
+
+    <h3>🎮 Live Demo — Promise Status Tracker</h3>
+    <p>Click the buttons below to see how a Promise transitions between states. Watch the badge animate!</p>
+
+    <div class="demo-box" id="demo-status">
+        <div class="demo-label">Interactive · Promise Status Tracker</div>
+
+        <div id="statusBadge" class="status-badge status-pending pop">
+            <span class="status-icon">⏳</span>
+            <span class="status-text">PENDING</span>
+        </div>
+        <div id="statusValue" class="status-value">Waiting for settlement...</div>
+
+        <div style="margin-top: 20px;">
+            <button class="demo-btn btn-green" onclick="resolveDemo()">✅ Resolve</button>
+            <button class="demo-btn btn-red" onclick="rejectDemo()">❌ Reject</button>
+            <button class="demo-btn btn-amber" onclick="resetDemo()" style="margin-left: 12px;">↻ Reset</button>
+        </div>
+    </div>
+
+    <script>
+    function resolveDemo() {
+        const badge = document.getElementById('statusBadge');
+        const val = document.getElementById('statusValue');
+        if (badge.dataset.settled) return;
+        badge.dataset.settled = '1';
+        badge.className = 'status-badge status-fulfilled pop';
+        badge.querySelector('.status-icon').textContent = '✅';
+        badge.querySelector('.status-text').textContent = 'FULFILLED';
+        val.textContent = '[[PromiseResult]]: "Data loaded successfully!"';
+        val.style.color = '#10b981';
+    }
+    function rejectDemo() {
+        const badge = document.getElementById('statusBadge');
+        const val = document.getElementById('statusValue');
+        if (badge.dataset.settled) return;
+        badge.dataset.settled = '1';
+        badge.className = 'status-badge status-rejected pop';
+        badge.querySelector('.status-icon').textContent = '❌';
+        badge.querySelector('.status-text').textContent = 'REJECTED';
+        val.textContent = '[[PromiseResult]]: Error("Network timeout")';
+        val.style.color = '#ef4444';
+    }
+    function resetDemo() {
+        const badge = document.getElementById('statusBadge');
+        const val = document.getElementById('statusValue');
+        delete badge.dataset.settled;
+        badge.className = 'status-badge status-pending pop';
+        badge.querySelector('.status-icon').textContent = '⏳';
+        badge.querySelector('.status-text').textContent = 'PENDING';
+        val.textContent = 'Waiting for settlement...';
+        val.style.color = '#7a8599';
+    }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 3 — CREATING A PROMISE
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">03</span> — Creating a Promise</h2>
+
+    <p>You create a Promise using the <code>new Promise()</code> constructor. It takes a single argument: an <strong>executor function</strong>. The executor receives two callbacks from the engine:</p>
+
+    <table>
+        <thead>
+            <tr><th>Callback</th><th>Purpose</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>resolve(value)</code></td>
+                <td>Mark the promise as <strong>fulfilled</strong></td>
+                <td>Stores the value &amp; triggers <code>.then()</code> handlers</td>
+            </tr>
+            <tr>
+                <td><code>reject(error)</code></td>
+                <td>Mark the promise as <strong>rejected</strong></td>
+                <td>Stores the error &amp; triggers <code>.catch()</code> handlers</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pre><code><span class="kw">const</span> order = <span class="kw">new</span> <span class="fn">Promise</span>((resolve, reject) => {
+  <span class="cm">// Simulate cooking time</span>
+  <span class="fn">setTimeout</span>(() => {
+    <span class="kw">const</span> isOpen = <span class="bool">true</span>;
+
+    <span class="kw">if</span> (isOpen) {
+      <span class="fn">resolve</span>({ dish: <span class="str">'Margherita Pizza'</span>, price: <span class="num-lit">12.99</span> });
+    } <span class="kw">else</span> {
+      <span class="fn">reject</span>(<span class="kw">new</span> <span class="fn">Error</span>(<span class="str">'Restaurant is closed'</span>));
+    }
+  }, <span class="num-lit">2000</span>);
+});
+
+<span class="fn">console.log</span>(order); <span class="cm">// Promise {&lt;pending&gt;}</span></code></pre>
+
+    <p>The executor runs <strong>immediately</strong> when the Promise is constructed. The <code>setTimeout</code> inside simulates an async delay, but the Promise object is returned right away — in its <em>pending</em> state.</p>
+
+    <div class="callout callout-blue">
+        <strong>💡 Tip</strong>
+        The executor function runs <strong>synchronously</strong>. It's the code <em>inside</em> the executor (like <code>setTimeout</code>, <code>fetch</code>, etc.) that is asynchronous. The Promise itself is just a wrapper.
+    </div>
+
+    <h3>Helper shortcuts</h3>
+
+    <p>Sometimes you already have the value and just want to wrap it in a Promise:</p>
+
+    <pre><code><span class="cm">// Instantly resolved promise</span>
+<span class="kw">const</span> quick = <span class="fn">Promise</span>.<span class="fn">resolve</span>(<span class="str">'Already done!'</span>);
+
+<span class="cm">// Instantly rejected promise</span>
+<span class="kw">const</span> fail = <span class="fn">Promise</span>.<span class="fn">reject</span>(<span class="kw">new</span> <span class="fn">Error</span>(<span class="str">'Instant fail'</span>));</code></pre>
+
+    <h3>🎮 Live Demo — Coin Flip Game</h3>
+    <p>This demo creates a real <code>new Promise()</code> each time you click. After a 1.5-second "spin", it randomly resolves (Heads!) or rejects (Tails!). Watch the coin fly!</p>
+
+    <div class="demo-box" id="demo-coin">
+        <div class="demo-label">Interactive · Coin Flip Promise</div>
+
+        <div class="coin-area" id="coinArea">
+            <div class="coin" id="coinDisc" style="background:#1e2d4a;color:#3d4f6f;">?</div>
+            <div class="coin-result" id="coinResult" style="color:#5e6e8a;">Click to flip!</div>
+        </div>
+
+        <button class="demo-btn btn-purple" id="coinBtn" onclick="flipCoin()">🪙 Flip Coin</button>
+    </div>
+
+    <script>
+    function flipCoin() {
+        const disc = document.getElementById('coinDisc');
+        const result = document.getElementById('coinResult');
+        const btn = document.getElementById('coinBtn');
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+
+        disc.className = 'coin coin-spinning';
+        disc.textContent = '🪙';
+        result.textContent = 'Promise is PENDING...';
+        result.style.color = '#f59e0b';
+
+        const coinPromise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (Math.random() > 0.5) {
+                    resolve('Heads!');
+                } else {
+                    reject('Tails!');
+                }
+            }, 1500);
+        });
+
+        coinPromise
+            .then(val => {
+                disc.className = 'coin coin-heads';
+                disc.textContent = '👑';
+                result.textContent = `✅ Resolved: "${val}"`;
+                result.style.color = '#10b981';
+            })
+            .catch(err => {
+                disc.className = 'coin coin-tails';
+                disc.textContent = '💀';
+                result.textContent = `❌ Rejected: "${err}"`;
+                result.style.color = '#ef4444';
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            });
+    }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 4 — CONSUMING PROMISES
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">04</span> — Consuming Promises: .then(), .catch(), .finally()</h2>
+
+    <p>Creating a Promise is only half the story. You also need to <strong>consume</strong> it — tell JavaScript what to do when the value arrives or when an error occurs.</p>
+
+    <h3>.then(onFulfilled)</h3>
+    <p>The <code>.then()</code> method registers a callback that runs when the promise <strong>resolves</strong>. It receives the resolved value as its argument.</p>
+
+    <pre><code><span class="kw">const</span> promise = <span class="fn">fetchUser</span>(<span class="num-lit">42</span>);
+
+promise.<span class="fn">then</span>(<span class="kw">user</span> => {
+  <span class="fn">console.log</span>(user.name);  <span class="cm">// "Alice"</span>
+});</code></pre>
+
+    <h3>.catch(onRejected)</h3>
+    <p>The <code>.catch()</code> method registers a callback that runs when the promise <strong>rejects</strong>. It receives the error as its argument.</p>
+
+    <pre><code>promise.<span class="fn">catch</span>(<span class="kw">error</span> => {
+  <span class="fn">console.error</span>(<span class="str">'Failed:'</span>, error.message);
+});</code></pre>
+
+    <h3>.finally(onSettled)</h3>
+    <p>The <code>.finally()</code> method runs <strong>regardless</strong> of whether the promise fulfilled or rejected. It's perfect for cleanup work — like hiding a loading spinner.</p>
+
+    <pre><code><span class="fn">showSpinner</span>();
+
+<span class="fn">fetchData</span>()
+  .<span class="fn">then</span>(data  => <span class="fn">renderUI</span>(data))
+  .<span class="fn">catch</span>(err  => <span class="fn">showError</span>(err))
+  .<span class="fn">finally</span>(() => <span class="fn">hideSpinner</span>());  <span class="cm">// ← always runs!</span></code></pre>
+
+    <div class="callout callout-green">
+        <strong>🏆 Best Practice</strong>
+        Always use <code>.finally()</code> for cleanup tasks. Loading indicators, disabling buttons, releasing resources — anything that should happen regardless of success or failure.
+    </div>
+
+    <p>Here's a more complete real-world pattern:</p>
+
+    <pre><code><span class="kw">function</span> <span class="fn">loadUserProfile</span>(userId) {
+  <span class="fn">showLoadingSpinner</span>();
+
+  <span class="kw">return</span> <span class="fn">fetch</span>(<span class="str">`/api/users/${userId}`</span>)
+    .<span class="fn">then</span>(response => {
+      <span class="kw">if</span> (!response.ok) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">'User not found'</span>);
+      <span class="kw">return</span> response.<span class="fn">json</span>();
+    })
+    .<span class="fn">then</span>(user => {
+      <span class="fn">displayProfile</span>(user);
+      <span class="kw">return</span> user;
+    })
+    .<span class="fn">catch</span>(error => {
+      <span class="fn">displayError</span>(error.message);
+    })
+    .<span class="fn">finally</span>(() => {
+      <span class="fn">hideLoadingSpinner</span>();  <span class="cm">// runs in BOTH cases</span>
+    });
+}</code></pre>
+
+    <h3>🎮 Live Demo — Simulated Weather API</h3>
+    <p>This demo simulates a <code>fetch()</code> call. Watch the <strong>loading spinner</strong> during the pending phase, and see how <code>.finally()</code> hides it in <em>both</em> outcomes.</p>
+
+    <div class="demo-box" id="demo-weather">
+        <div class="demo-label">Interactive · .then() / .catch() / .finally()</div>
+
+        <div class="weather-output" id="weatherOutput">
+            <span style="color:#3d4f6f; font-size: 14px;">Click the button to fetch weather data</span>
+        </div>
+
+        <div style="margin-top: 16px;">
+            <button class="demo-btn btn-blue" id="weatherBtn" onclick="fetchWeather()">🌤️ Fetch Weather</button>
+        </div>
+    </div>
+
+    <script>
+    function fetchWeather() {
+        const output = document.getElementById('weatherOutput');
+        const btn = document.getElementById('weatherBtn');
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+
+        // Show spinner (.then pending phase)
+        output.innerHTML = '<div class="loader"></div>';
+
+        const cities = [
+            { city: 'Paris', temp: 22, icon: '☀️', desc: 'Clear skies' },
+            { city: 'Tokyo', temp: 18, icon: '🌧️', desc: 'Light rain' },
+            { city: 'New York', temp: 31, icon: '🔥', desc: 'Heat wave' },
+            { city: 'London', temp: 14, icon: '🌫️', desc: 'Foggy morning' },
+            { city: 'Sydney', temp: 9, icon: '❄️', desc: 'Chilly winds' },
+        ];
+
+        const weatherPromise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (Math.random() > 0.35) {
+                    const data = cities[Math.floor(Math.random() * cities.length)];
+                    resolve(data);
+                } else {
+                    reject(new Error('Network Error: API unreachable'));
+                }
+            }, 2000);
+        });
+
+        weatherPromise
+            .then(data => {
+                output.innerHTML = `
+                    <div class="weather-card">
+                        <div class="wc-icon">${data.icon}</div>
+                        <div class="wc-city">${data.city}</div>
+                        <div class="wc-temp">${data.temp}°C</div>
+                        <div class="wc-desc">${data.desc}</div>
+                    </div>`;
+            })
+            .catch(err => {
+                output.innerHTML = `
+                    <div class="error-card">
+                        <div class="ec-icon">⚠️</div>
+                        <div class="ec-msg">${err.message}</div>
+                    </div>`;
+            })
+            .finally(() => {
+                // .finally() hides spinner and re-enables button
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            });
+    }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 5 — PROMISE CHAINING
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">05</span> — Promise Chaining</h2>
+
+    <p>This is <strong>the killer feature</strong> of Promises. Remember the <em>Pyramid of Doom</em> from the callback lesson? Promises solve it by letting you write async steps as a <strong>flat chain</strong> instead of nested callbacks.</p>
+
+    <h3>The Golden Rule</h3>
+    <p>Each <code>.then()</code> returns a <strong>new Promise</strong>. If you <code>return</code> a value from a <code>.then()</code>, the next <code>.then()</code> in the chain receives that value. If you <code>return</code> a Promise, the chain <em>waits</em> for it to settle.</p>
+
+    <pre><code><span class="fn">getUser</span>(<span class="num-lit">1</span>)
+  .<span class="fn">then</span>(user    => <span class="fn">getOrders</span>(user.id))       <span class="cm">// Step 1 → Step 2</span>
+  .<span class="fn">then</span>(orders  => <span class="fn">getDetails</span>(orders[<span class="num-lit">0</span>].id))  <span class="cm">// Step 2 → Step 3</span>
+  .<span class="fn">then</span>(details => <span class="fn">console.log</span>(details))     <span class="cm">// Step 3 → Done!</span>
+  .<span class="fn">catch</span>(err   => <span class="fn">console.error</span>(err));        <span class="cm">// catches ANY error</span></code></pre>
+
+    <div class="callout callout-blue">
+        <strong>💡 Key Insight</strong>
+        The <code>.catch()</code> at the end will catch errors from <strong>any</strong> step in the chain. If Step 1 fails, Steps 2 and 3 are skipped and execution jumps directly to <code>.catch()</code>. This is vastly better than wrapping every callback in its own error handler.
+    </div>
+
+    <h3>Callback Hell vs. Promise Chain</h3>
+
+    <div class="compare-grid">
+        <div class="compare-col bad">
+            <h4>❌ Callback Hell</h4>
+            <pre><code><span class="fn">getUser</span>(<span class="num-lit">1</span>, (user) => {
+  <span class="fn">getOrders</span>(user.id, (orders) => {
+    <span class="fn">getDetails</span>(orders[<span class="num-lit">0</span>], (details) => {
+      <span class="fn">getReview</span>(details.id, (rev) => {
+        <span class="fn">console.log</span>(rev);
+      });
+    });
+  });
+});</code></pre>
+        </div>
+        <div class="compare-col good">
+            <h4>✅ Promise Chain</h4>
+            <pre><code><span class="fn">getUser</span>(<span class="num-lit">1</span>)
+  .<span class="fn">then</span>(user    => <span class="fn">getOrders</span>(user.id))
+  .<span class="fn">then</span>(orders  => <span class="fn">getDetails</span>(orders[<span class="num-lit">0</span>]))
+  .<span class="fn">then</span>(details => <span class="fn">getReview</span>(details.id))
+  .<span class="fn">then</span>(review  => <span class="fn">console.log</span>(review))
+  .<span class="fn">catch</span>(err   => <span class="fn">console.error</span>(err));</code></pre>
+        </div>
+    </div>
+
+    <p>The callback version nests deeper with every step — forming the dreaded <strong>pyramid</strong>. The Promise version stays <strong>flat</strong>. Every step is at the same indentation level. And the single <code>.catch()</code> handles errors for the <em>entire</em> chain.</p>
+
+    <h3>🎮 Live Demo — Async Pipeline</h3>
+    <p>Watch 4 async steps execute one after another. Each <code>.then()</code> waits for the previous one to complete. Notice how the steps stay <strong>flat</strong> — no nesting!</p>
+
+    <div class="demo-box" id="demo-pipeline">
+        <div class="demo-label">Interactive · Promise Chain Pipeline</div>
+
+        <div class="pipeline" id="pipelineSteps">
+            <div class="pipe-step" id="pStep1">
+                <span class="pipe-num">01</span>
+                <span class="pipe-label">Get User</span>
+                <span class="pipe-status">waiting</span>
+            </div>
+            <div class="pipe-step" id="pStep2">
+                <span class="pipe-num">02</span>
+                <span class="pipe-label">Get Orders</span>
+                <span class="pipe-status">waiting</span>
+            </div>
+            <div class="pipe-step" id="pStep3">
+                <span class="pipe-num">03</span>
+                <span class="pipe-label">Get Order Details</span>
+                <span class="pipe-status">waiting</span>
+            </div>
+            <div class="pipe-step" id="pStep4">
+                <span class="pipe-num">04</span>
+                <span class="pipe-label">Display Result</span>
+                <span class="pipe-status">waiting</span>
+            </div>
+        </div>
+
+        <div class="pipeline-result" id="pipeResult"></div>
+
+        <div style="margin-top: 20px;">
+            <button class="demo-btn btn-green" id="pipeBtn" onclick="startPipeline()">▶ Start Pipeline</button>
+        </div>
+    </div>
+
+    <script>
+    function startPipeline() {
+        const btn = document.getElementById('pipeBtn');
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        const result = document.getElementById('pipeResult');
+        result.style.display = 'none';
+
+        // Reset all steps
+        for (let i = 1; i <= 4; i++) {
+            const s = document.getElementById('pStep' + i);
+            s.className = 'pipe-step';
+            s.querySelector('.pipe-status').textContent = 'waiting';
+        }
+
+        function markActive(id) {
+            const s = document.getElementById(id);
+            s.className = 'pipe-step active';
+            s.querySelector('.pipe-status').textContent = 'running...';
+        }
+        function markDone(id, val) {
+            const s = document.getElementById(id);
+            s.className = 'pipe-step done';
+            s.querySelector('.pipe-status').textContent = '✓ ' + val;
+        }
+
+        function simulateStep(id, label, returnVal, delay) {
+            return new Promise(resolve => {
+                markActive(id);
+                setTimeout(() => {
+                    markDone(id, label);
+                    resolve(returnVal);
+                }, delay);
+            });
+        }
+
+        simulateStep('pStep1', 'user: Alice', { id: 1, name: 'Alice' }, 1000)
+            .then(user =>
+                simulateStep('pStep2', '3 orders found', [
+                    { id: 101, item: 'Laptop' },
+                    { id: 102, item: 'Keyboard' },
+                    { id: 103, item: 'Mouse' }
+                ], 1000)
+            )
+            .then(orders =>
+                simulateStep('pStep3', 'order #101 loaded', {
+                    id: 101, item: 'Laptop', price: 1299, status: 'Shipped'
+                }, 1000)
+            )
+            .then(details => {
+                markActive('pStep4');
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        markDone('pStep4', 'rendered!');
+                        result.style.display = 'block';
+                        result.innerHTML =
+                            `<span style="color:#5e6e8a;">// Final result from the chain:</span>\n` +
+                            `{\n` +
+                            `  user:   <span style="color:#a5d6ff;">"Alice"</span>,\n` +
+                            `  order:  <span style="color:#a5d6ff;">"Laptop"</span>,\n` +
+                            `  price:  <span style="color:#79c0ff;">$1,299</span>,\n` +
+                            `  status: <span style="color:#10b981;">"Shipped"</span> ✅\n` +
+                            `}`;
+                        resolve();
+                    }, 800);
+                });
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            });
+    }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 6 — PROMISE COMBINATORS
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">06</span> — Promise Combinators</h2>
+
+    <p>Sometimes you need to run <strong>multiple</strong> async operations in parallel. JavaScript gives you four powerful combinator methods for this:</p>
+
+    <table>
+        <thead>
+            <tr><th>Method</th><th>Behavior</th><th>Use Case</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Promise.all()</code></td>
+                <td>Waits for <strong>ALL</strong> to fulfill. Rejects if <strong>ANY</strong> fails.</td>
+                <td>Loading multiple resources that are all required</td>
+            </tr>
+            <tr>
+                <td><code>Promise.race()</code></td>
+                <td>Settles as soon as the <strong>first</strong> one settles (fulfill or reject)</td>
+                <td>Timeout patterns, fastest response wins</td>
+            </tr>
+            <tr>
+                <td><code>Promise.allSettled()</code></td>
+                <td>Waits for <strong>ALL</strong>, returns status of each (even if some fail)</td>
+                <td>Fire-and-forget calls where partial success is OK</td>
+            </tr>
+            <tr>
+                <td><code>Promise.any()</code></td>
+                <td>Resolves with the first one to <strong>succeed</strong>. Rejects only if ALL fail.</td>
+                <td>Redundant sources, pick the fastest successful one</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Promise.all()</h3>
+
+    <pre><code><span class="kw">const</span> p1 = <span class="fn">fetch</span>(<span class="str">'/api/user'</span>);
+<span class="kw">const</span> p2 = <span class="fn">fetch</span>(<span class="str">'/api/orders'</span>);
+<span class="kw">const</span> p3 = <span class="fn">fetch</span>(<span class="str">'/api/recommendations'</span>);
+
+<span class="fn">Promise</span>.<span class="fn">all</span>([p1, p2, p3])
+  .<span class="fn">then</span>(([user, orders, recs]) => {
+    <span class="cm">// ALL three resolved — render the dashboard</span>
+    <span class="fn">renderDashboard</span>(user, orders, recs);
+  })
+  .<span class="fn">catch</span>(err => {
+    <span class="cm">// If ANY one fails, we land here</span>
+    <span class="fn">console.error</span>(<span class="str">'Dashboard failed:'</span>, err);
+  });</code></pre>
+
+    <h3>Promise.race()</h3>
+
+    <pre><code><span class="cm">// Timeout pattern — race the fetch against a timer</span>
+<span class="kw">const</span> fetchData = <span class="fn">fetch</span>(<span class="str">'/api/slow-endpoint'</span>);
+<span class="kw">const</span> timeout  = <span class="kw">new</span> <span class="fn">Promise</span>((_, reject) =>
+  <span class="fn">setTimeout</span>(() => <span class="fn">reject</span>(<span class="kw">new</span> <span class="fn">Error</span>(<span class="str">'Timeout!'</span>)), <span class="num-lit">5000</span>)
+);
+
+<span class="fn">Promise</span>.<span class="fn">race</span>([fetchData, timeout])
+  .<span class="fn">then</span>(data => <span class="fn">console.log</span>(<span class="str">'Got data:'</span>, data))
+  .<span class="fn">catch</span>(err => <span class="fn">console.error</span>(err.message)); <span class="cm">// "Timeout!"</span></code></pre>
+
+    <h3>Promise.allSettled()</h3>
+
+    <pre><code><span class="fn">Promise</span>.<span class="fn">allSettled</span>([
+  <span class="fn">fetch</span>(<span class="str">'/api/critical'</span>),
+  <span class="fn">fetch</span>(<span class="str">'/api/optional'</span>),
+  <span class="fn">fetch</span>(<span class="str">'/api/analytics'</span>)
+]).<span class="fn">then</span>(results => {
+  results.<span class="fn">forEach</span>((r, i) => {
+    <span class="kw">if</span> (r.status === <span class="str">'fulfilled'</span>) {
+      <span class="fn">console.log</span>(<span class="str">`Request ${i}: ✅`</span>, r.value);
+    } <span class="kw">else</span> {
+      <span class="fn">console.log</span>(<span class="str">`Request ${i}: ❌`</span>, r.reason);
+    }
+  });
+});</code></pre>
+
+    <h3>Promise.any()</h3>
+
+    <pre><code><span class="cm">// Try 3 mirrors — use whichever responds first</span>
+<span class="fn">Promise</span>.<span class="fn">any</span>([
+  <span class="fn">fetch</span>(<span class="str">'https://cdn1.example.com/data'</span>),
+  <span class="fn">fetch</span>(<span class="str">'https://cdn2.example.com/data'</span>),
+  <span class="fn">fetch</span>(<span class="str">'https://cdn3.example.com/data'</span>)
+]).<span class="fn">then</span>(fastest => {
+  <span class="fn">console.log</span>(<span class="str">'Fastest CDN responded!'</span>, fastest);
+});</code></pre>
+
+    <div class="callout callout-amber">
+        <strong>⚠️ Warning</strong>
+        <code>Promise.all()</code> is "all-or-nothing". If even <strong>one</strong> promise rejects, the entire <code>Promise.all()</code> rejects and the successful results are lost. If you need partial results, use <code>Promise.allSettled()</code> instead.
+    </div>
+
+    <h3>🎮 Live Demo — Promise Combinators Race</h3>
+    <p>Three simulated API calls race to complete, each with a random delay (1–4 seconds). Watch the bars fill in real-time, then choose a combinator to see the difference!</p>
+
+    <div class="demo-box" id="demo-combinators">
+        <div class="demo-label">Interactive · Promise.all vs Promise.race</div>
+
+        <div class="race-bars" id="raceBars">
+            <div class="race-bar-row">
+                <span class="race-bar-label">API 1</span>
+                <div class="race-bar-track"><div class="race-bar-fill bar-1" id="bar1"></div></div>
+                <span class="race-bar-time" id="time1">0.0s</span>
+            </div>
+            <div class="race-bar-row">
+                <span class="race-bar-label">API 2</span>
+                <div class="race-bar-track"><div class="race-bar-fill bar-2" id="bar2"></div></div>
+                <span class="race-bar-time" id="time2">0.0s</span>
+            </div>
+            <div class="race-bar-row">
+                <span class="race-bar-label">API 3</span>
+                <div class="race-bar-track"><div class="race-bar-fill bar-3" id="bar3"></div></div>
+                <span class="race-bar-time" id="time3">0.0s</span>
+            </div>
+        </div>
+
+        <div class="combinator-result" id="combinatorResult">
+            <span style="color:#3d4f6f;">Choose a combinator and watch the race</span>
+        </div>
+
+        <div style="margin-top: 16px;">
+            <button class="demo-btn btn-blue" id="btnAll" onclick="runCombinator('all')">Promise.all()</button>
+            <button class="demo-btn btn-purple" id="btnRace" onclick="runCombinator('race')">Promise.race()</button>
+            <button class="demo-btn btn-amber" id="btnSettled" onclick="runCombinator('settled')">Promise.allSettled()</button>
+            <button class="demo-btn btn-green" id="btnAny" onclick="runCombinator('any')">Promise.any()</button>
+        </div>
+    </div>
+
+    <script>
+    let raceAnimFrames = [];
+    function runCombinator(mode) {
+        // Disable buttons
+        const btns = [document.getElementById('btnAll'), document.getElementById('btnRace'), document.getElementById('btnSettled'), document.getElementById('btnAny')];
+        btns.forEach(b => { b.disabled = true; b.style.opacity = '0.5'; });
+
+        // Reset bars
+        raceAnimFrames.forEach(id => cancelAnimationFrame(id));
+        raceAnimFrames = [];
+        for (let i = 1; i <= 3; i++) {
+            document.getElementById('bar' + i).style.width = '0%';
+            document.getElementById('time' + i).textContent = '0.0s';
+            document.getElementById('time' + i).style.color = '#3d4f6f';
+        }
+        const resultEl = document.getElementById('combinatorResult');
+        resultEl.innerHTML = '<span style="color:#f59e0b;">⏳ Running...</span>';
+
+        // Random durations between 1000ms and 4000ms
+        const durations = [
+            1000 + Math.random() * 3000,
+            1000 + Math.random() * 3000,
+            1000 + Math.random() * 3000
+        ];
+
+        // Animate bars
+        const startTime = performance.now();
+        function animateBar(barId, timeId, duration, idx) {
+            function step(now) {
+                const elapsed = now - startTime;
+                const pct = Math.min((elapsed / duration) * 100, 100);
+                const bar = document.getElementById(barId);
+                const timeEl = document.getElementById(timeId);
+                bar.style.width = pct + '%';
+                timeEl.textContent = (elapsed / 1000).toFixed(1) + 's';
+                if (pct < 100) {
+                    raceAnimFrames.push(requestAnimationFrame(step));
+                } else {
+                    timeEl.style.color = '#10b981';
+                    timeEl.textContent = (duration / 1000).toFixed(1) + 's ✓';
+                }
+            }
+            raceAnimFrames.push(requestAnimationFrame(step));
+        }
+
+        for (let i = 0; i < 3; i++) {
+            animateBar('bar' + (i + 1), 'time' + (i + 1), durations[i], i);
+        }
+
+        // Create 3 promises
+        const names = ['API 1', 'API 2', 'API 3'];
+        const colors = ['#818cf8', '#fbbf24', '#f472b6'];
+        const promises = durations.map((d, i) =>
+            new Promise(resolve => {
+                setTimeout(() => resolve({ name: names[i], time: (d / 1000).toFixed(1), color: colors[i] }), d);
+            })
+        );
+
+        if (mode === 'all') {
+            Promise.all(promises).then(results => {
+                const slowest = results.reduce((a, b) => parseFloat(a.time) > parseFloat(b.time) ? a : b);
+                resultEl.innerHTML =
+                    `<span style="color:#10b981;">✅ <strong>Promise.all()</strong> resolved in <strong>${slowest.time}s</strong> — waited for the <em>slowest</em> (${slowest.name})</span>`;
+            }).finally(() => btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; }));
+
+        } else if (mode === 'race') {
+            Promise.race(promises).then(winner => {
+                resultEl.innerHTML =
+                    `<span style="color:${winner.color};">🏆 <strong>Promise.race()</strong> — <strong>${winner.name}</strong> won in <strong>${winner.time}s</strong>!</span>`;
+            }).finally(() => btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; }));
+
+        } else if (mode === 'settled') {
+            Promise.allSettled(promises).then(results => {
+                const summary = results.map((r, i) => {
+                    const val = r.value;
+                    return `<span style="color:${val.color};">${val.name}: ${val.time}s ✓</span>`;
+                }).join('&nbsp;&nbsp;|&nbsp;&nbsp;');
+                resultEl.innerHTML =
+                    `<span style="color:#f59e0b;">📋 <strong>Promise.allSettled()</strong> — All settled:&nbsp;&nbsp;</span>${summary}`;
+            }).finally(() => btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; }));
+
+        } else if (mode === 'any') {
+            Promise.any(promises).then(winner => {
+                resultEl.innerHTML =
+                    `<span style="color:${winner.color};">🥇 <strong>Promise.any()</strong> — <strong>${winner.name}</strong> succeeded first in <strong>${winner.time}s</strong>! <em>(Unlike race, any() ignores rejections)</em></span>`;
+            }).finally(() => btns.forEach(b => { b.disabled = false; b.style.opacity = '1'; }));
+        }
+    }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 7 — COMMON MISTAKES
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">07</span> — Common Mistakes</h2>
+
+    <p>Promises are powerful, but there are a few traps that catch almost every developer at least once. Let's walk through the big three.</p>
+
+    <h3>Mistake 1: Forgetting to <code>return</code> inside <code>.then()</code></h3>
+
+    <p>If you don't <code>return</code> a value from a <code>.then()</code>, the next <code>.then()</code> receives <code>undefined</code>. This is the #1 cause of "Why is my data undefined?"</p>
+
+    <div class="mistake-block">
+        <h4>❌ Broken — Missing return</h4>
+        <pre><code><span class="fn">getUser</span>(<span class="num-lit">1</span>)
+  .<span class="fn">then</span>(user => {
+    <span class="fn">getOrders</span>(user.id);   <span class="cm">// ← No return! Chain is broken</span>
+  })
+  .<span class="fn">then</span>(orders => {
+    <span class="fn">console.log</span>(orders);  <span class="cm">// ← undefined 😱</span>
+  });</code></pre>
+    </div>
+
+    <div class="mistake-block mistake-fix">
+        <h4>✅ Fixed — Return the promise</h4>
+        <pre><code><span class="fn">getUser</span>(<span class="num-lit">1</span>)
+  .<span class="fn">then</span>(user => {
+    <span class="kw">return</span> <span class="fn">getOrders</span>(user.id);  <span class="cm">// ← return it!</span>
+  })
+  .<span class="fn">then</span>(orders => {
+    <span class="fn">console.log</span>(orders);       <span class="cm">// ← actual data ✅</span>
+  });</code></pre>
+    </div>
+
+    <div class="callout callout-green">
+        <strong>🏆 Pro Tip</strong>
+        If your <code>.then()</code> only does one thing, use an <strong>arrow function with implicit return</strong>:<br>
+        <code>.then(user => getOrders(user.id))</code><br>
+        No curly braces = automatic return. No chance of forgetting.
+    </div>
+
+    <h3>Mistake 2: Forgetting <code>.catch()</code></h3>
+
+    <p>If a promise rejects and there is no <code>.catch()</code>, you get an <strong>Unhandled Promise Rejection</strong>. In modern Node.js, this crashes your app. In browsers, you get a console error and subtle bugs.</p>
+
+    <div class="mistake-block">
+        <h4>❌ Dangerous — No error handler</h4>
+        <pre><code><span class="fn">fetchData</span>()
+  .<span class="fn">then</span>(data => <span class="fn">process</span>(data));
+<span class="cm">// If fetchData rejects → UNHANDLED PROMISE REJECTION 💥</span></code></pre>
+    </div>
+
+    <div class="mistake-block mistake-fix">
+        <h4>✅ Safe — Always add .catch()</h4>
+        <pre><code><span class="fn">fetchData</span>()
+  .<span class="fn">then</span>(data => <span class="fn">process</span>(data))
+  .<span class="fn">catch</span>(err => <span class="fn">console.error</span>(<span class="str">'Failed:'</span>, err));  <span class="cm">// ✅</span></code></pre>
+    </div>
+
+    <div class="callout callout-amber">
+        <strong>⚠️ Warning</strong>
+        <strong>Every</strong> Promise chain should end with a <code>.catch()</code>. This is not optional — it's a hard rule in professional codebases. Linters like ESLint can enforce this with the <code>no-floating-promises</code> rule.
+    </div>
+
+    <h3>Mistake 3: Nesting <code>.then()</code> inside <code>.then()</code></h3>
+
+    <p>The whole point of Promises was to escape nested callbacks. But if you nest <code>.then()</code> inside <code>.then()</code>, you're recreating the same pyramid — just with different syntax.</p>
+
+    <div class="mistake-block">
+        <h4>❌ Anti-pattern — Nested .then()</h4>
+        <pre><code><span class="fn">getUser</span>(<span class="num-lit">1</span>).<span class="fn">then</span>(user => {
+  <span class="fn">getOrders</span>(user.id).<span class="fn">then</span>(orders => {      <span class="cm">// ← nested!</span>
+    <span class="fn">getDetails</span>(orders[<span class="num-lit">0</span>]).<span class="fn">then</span>(details => { <span class="cm">// ← double nested!</span>
+      <span class="fn">console.log</span>(details);
+    });
+  });
+});</code></pre>
+    </div>
+
+    <div class="mistake-block mistake-fix">
+        <h4>✅ Correct — Flat chain</h4>
+        <pre><code><span class="fn">getUser</span>(<span class="num-lit">1</span>)
+  .<span class="fn">then</span>(user    => <span class="fn">getOrders</span>(user.id))
+  .<span class="fn">then</span>(orders  => <span class="fn">getDetails</span>(orders[<span class="num-lit">0</span>]))
+  .<span class="fn">then</span>(details => <span class="fn">console.log</span>(details))
+  .<span class="fn">catch</span>(err   => <span class="fn">console.error</span>(err));</code></pre>
+    </div>
+
+    <p>The flat chain is easier to read, easier to debug, and has centralized error handling. Always <strong>return</strong> and keep it <strong>flat</strong>.</p>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 8 — ERROR RECOVERY STRATEGIES
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">08</span> — Error Recovery Strategies</h2>
+
+    <p>In the Common Mistakes section, we covered what <em>not</em> to do. Now let's focus on what <strong>to</strong> do when things go wrong. The key insight: <code>.catch()</code> can <strong>recover</strong> from errors and let the chain continue.</p>
+
+    <h3>Strategy 1: Single .catch() at the end</h3>
+    <p>The simplest and most common pattern. One <code>.catch()</code> handles errors from <strong>any</strong> step in the chain.</p>
+
+    <pre><code><span class="fn">fetch</span>(<span class="str">'/api/user'</span>)
+  .<span class="fn">then</span>(response => response.<span class="fn">json</span>())
+  .<span class="fn">then</span>(user => <span class="fn">displayProfile</span>(user))
+  .<span class="fn">catch</span>(err => {
+    <span class="cm">// catches errors from ANY step above</span>
+    <span class="fn">console.error</span>(<span class="str">'Failed:'</span>, err);
+    <span class="fn">showErrorPage</span>();
+  });</code></pre>
+
+    <h3>Strategy 2: Per-step handling with .then(success, fail)</h3>
+    <p><code>.then()</code> actually accepts <strong>two</strong> callbacks — the second one handles rejections <em>only from the previous step</em>.</p>
+
+    <pre><code><span class="fn">fetch</span>(<span class="str">'/api/user'</span>)
+  .<span class="fn">then</span>(
+    response => response.<span class="fn">json</span>(),       <span class="cm">// onFulfilled</span>
+    err => {                              <span class="cm">// onRejected (fetch failure only)</span>
+      <span class="fn">console.warn</span>(<span class="str">'Network error, using cache'</span>);
+      <span class="kw">return</span> <span class="fn">getCachedUser</span>();            <span class="cm">// ← recover with fallback!</span>
+    }
+  )
+  .<span class="fn">then</span>(user => <span class="fn">displayProfile</span>(user));</code></pre>
+
+    <h3>Strategy 3: .catch() that recovers</h3>
+    <p>This is the most powerful pattern. A <code>.catch()</code> can <strong>return a value</strong>, and the chain continues as if nothing went wrong. The chain only stays broken if you <strong>throw</strong> inside <code>.catch()</code>.</p>
+
+    <pre><code><span class="fn">fetch</span>(<span class="str">'/api/primary-server'</span>)
+  .<span class="fn">catch</span>(err => {
+    <span class="fn">console.warn</span>(<span class="str">'Primary failed, trying backup...'</span>);
+    <span class="kw">return</span> <span class="fn">fetch</span>(<span class="str">'/api/backup-server'</span>);  <span class="cm">// ← recover with backup!</span>
+  })
+  .<span class="fn">then</span>(response => response.<span class="fn">json</span>())
+  .<span class="fn">then</span>(data => <span class="fn">console.log</span>(<span class="str">'Got data:'</span>, data))
+  .<span class="fn">catch</span>(err => <span class="fn">console.error</span>(<span class="str">'Both failed:'</span>, err));</code></pre>
+
+    <div class="callout callout-blue">
+        <strong>💡 Key Insight</strong>
+        Think of <code>.catch()</code> like a <code>catch</code> block in <code>try/catch</code>. If you <strong>return</strong> a value from it, the error is "handled" and execution continues normally. If you <strong>throw</strong> (or return a rejected promise), the error propagates to the next <code>.catch()</code>.
+    </div>
+
+    <h3>🎮 Live Demo — Error Recovery</h3>
+    <p>This demo simulates a primary server that fails 60% of the time. Watch how <code>.catch()</code> recovers by trying a backup server, letting the chain continue successfully.</p>
+
+    <div class="demo-box" id="demo-recovery">
+        <div class="demo-label">Interactive · Error Recovery with .catch()</div>
+
+        <div id="recoveryLog" style="min-height: 120px; text-align: left; padding: 16px; background: #0d1117; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 2;"></div>
+
+        <div style="margin-top: 16px;">
+            <button class="demo-btn btn-blue" id="recoveryBtn" onclick="runRecoveryDemo()">🔄 Fetch with Recovery</button>
+        </div>
+    </div>
+
+    <script>
+    function runRecoveryDemo() {
+        const log = document.getElementById('recoveryLog');
+        const btn = document.getElementById('recoveryBtn');
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        log.innerHTML = '';
+
+        function addLog(text, color) {
+            log.innerHTML += `<div style="color:${color}; animation: pop-in 0.3s ease-out;">${text}</div>`;
+        }
+
+        addLog('⏳ Fetching from primary server...', '#f59e0b');
+
+        const primaryServer = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (Math.random() > 0.6) {
+                    resolve({ source: 'Primary', data: 'User profile loaded' });
+                } else {
+                    reject(new Error('Primary server timeout'));
+                }
+            }, 1200);
+        });
+
+        primaryServer
+            .then(result => {
+                addLog(`✅ Primary server responded: "${result.data}"`, '#10b981');
+                return result;
+            })
+            .catch(err => {
+                addLog(`❌ ${err.message}`, '#ef4444');
+                addLog('🔄 .catch() recovering → trying backup server...', '#f59e0b');
+
+                // RECOVERY: return a new promise from .catch()
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve({ source: 'Backup', data: 'User profile loaded (from cache)' });
+                    }, 1000);
+                });
+            })
+            .then(result => {
+                addLog(`✅ Final result from ${result.source}: "${result.data}"`, '#10b981');
+                addLog(`🏁 Chain completed successfully — .catch() saved the day!`, '#58a6ff');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            });
+    }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 9 — WRAPPING LEGACY APIs
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">09</span> — Wrapping Legacy APIs</h2>
+
+    <p>Not everything in JavaScript uses Promises natively. Many older APIs use <strong>callbacks</strong> or <strong>events</strong>. The skill of "promisifying" — wrapping a non-Promise API in a <code>new Promise()</code> — is essential for real-world development.</p>
+
+    <h3>Pattern: Check if done → otherwise listen</h3>
+    <p>When wrapping event-based APIs, always check if the thing already happened <em>before</em> attaching listeners. Otherwise you might miss events that fired before your listener was added.</p>
+
+    <h3>Wrap setTimeout (timer)</h3>
+
+    <pre><code><span class="kw">function</span> <span class="fn">wait</span>(ms) {
+  <span class="kw">return new</span> <span class="fn">Promise</span>(resolve => {
+    <span class="fn">setTimeout</span>(resolve, ms);
+  });
+}
+
+<span class="cm">// Usage — clean, chainable timer</span>
+<span class="fn">wait</span>(<span class="num-lit">2000</span>)
+  .<span class="fn">then</span>(() => <span class="fn">console.log</span>(<span class="str">'2 seconds passed!'</span>))
+  .<span class="fn">then</span>(() => <span class="fn">wait</span>(<span class="num-lit">1000</span>))
+  .<span class="fn">then</span>(() => <span class="fn">console.log</span>(<span class="str">'3 seconds total!'</span>));</code></pre>
+
+    <h3>Wrap document.readyState</h3>
+
+    <pre><code><span class="kw">function</span> <span class="fn">domReady</span>() {
+  <span class="kw">return new</span> <span class="fn">Promise</span>(resolve => {
+    <span class="cm">// Step 1: Check if already done</span>
+    <span class="kw">if</span> (document.readyState === <span class="str">'complete'</span>) {
+      <span class="fn">resolve</span>();
+      <span class="kw">return</span>;
+    }
+
+    <span class="cm">// Step 2: Otherwise, listen for the event</span>
+    document.<span class="fn">addEventListener</span>(<span class="str">'DOMContentLoaded'</span>, () => {
+      <span class="fn">resolve</span>();
+    });
+  });
+}
+
+<span class="cm">// Usage</span>
+<span class="fn">domReady</span>().<span class="fn">then</span>(() => {
+  <span class="fn">console.log</span>(<span class="str">'DOM is ready — safe to manipulate!'</span>);
+});</code></pre>
+
+    <h3>Wrap XMLHttpRequest (XHR)</h3>
+
+    <pre><code><span class="kw">function</span> <span class="fn">get</span>(url) {
+  <span class="kw">return new</span> <span class="fn">Promise</span>((resolve, reject) => {
+    <span class="kw">const</span> xhr = <span class="kw">new</span> <span class="fn">XMLHttpRequest</span>();
+    xhr.<span class="fn">open</span>(<span class="str">'GET'</span>, url);
+
+    xhr.onload = <span class="kw">function</span>() {
+      <span class="kw">if</span> (xhr.status === <span class="num-lit">200</span>) {
+        <span class="fn">resolve</span>(JSON.<span class="fn">parse</span>(xhr.response));   <span class="cm">// ✅ success</span>
+      } <span class="kw">else</span> {
+        <span class="fn">reject</span>(<span class="kw">new</span> <span class="fn">Error</span>(<span class="str">`HTTP ${xhr.status}`</span>));  <span class="cm">// ❌ HTTP error</span>
+      }
+    };
+
+    xhr.onerror = () => <span class="fn">reject</span>(<span class="kw">new</span> <span class="fn">Error</span>(<span class="str">'Network Error'</span>));
+    xhr.<span class="fn">send</span>();
+  });
+}
+
+<span class="cm">// Usage — now it's chainable!</span>
+<span class="fn">get</span>(<span class="str">'https://api.example.com/users/1'</span>)
+  .<span class="fn">then</span>(user => <span class="fn">console.log</span>(user.name))
+  .<span class="fn">catch</span>(err => <span class="fn">console.error</span>(err));</code></pre>
+
+    <h3>Wrap Image loading</h3>
+
+    <pre><code><span class="kw">function</span> <span class="fn">loadImage</span>(src) {
+  <span class="kw">return new</span> <span class="fn">Promise</span>((resolve, reject) => {
+    <span class="kw">const</span> img = <span class="kw">new</span> <span class="fn">Image</span>();
+    img.onload  = () => <span class="fn">resolve</span>(img);
+    img.onerror = () => <span class="fn">reject</span>(<span class="kw">new</span> <span class="fn">Error</span>(<span class="str">`Failed to load: ${src}`</span>));
+    img.src = src;  <span class="cm">// ← starts loading</span>
+  });
+}
+
+<span class="cm">// Usage — load multiple images in parallel</span>
+<span class="fn">Promise</span>.<span class="fn">all</span>([
+  <span class="fn">loadImage</span>(<span class="str">'hero.jpg'</span>),
+  <span class="fn">loadImage</span>(<span class="str">'logo.png'</span>),
+  <span class="fn">loadImage</span>(<span class="str">'bg.webp'</span>)
+]).<span class="fn">then</span>(([hero, logo, bg]) => {
+  <span class="fn">console.log</span>(<span class="str">'All images loaded!'</span>);
+});</code></pre>
+
+    <div class="callout callout-green">
+        <strong>🏆 Universal Pattern</strong>
+        The pattern is always the same: <code>new Promise((resolve, reject) => { ... })</code>. Put the old-school API call inside. Call <code>resolve()</code> in the success callback, <code>reject()</code> in the error callback. Done — now it's chainable.
+    </div>
+
+    <h3>🎮 Live Demo — Wrap an Image Load</h3>
+    <p>This demo wraps the browser's <code>Image()</code> constructor in a Promise. Watch the pending → fulfilled/rejected transition as the image loads (or fails).</p>
+
+    <div class="demo-box" id="demo-wrap">
+        <div class="demo-label">Interactive · Promisifying Image Loading</div>
+
+        <div id="wrapOutput" style="min-height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px;">
+            <span style="color:#3d4f6f; font-size: 14px;">Click a button to load an image via a Promise</span>
+        </div>
+
+        <div style="margin-top: 16px;">
+            <button class="demo-btn btn-green" onclick="wrapImageDemo(true)">✅ Load Valid Image</button>
+            <button class="demo-btn btn-red" onclick="wrapImageDemo(false)">❌ Load Broken URL</button>
+        </div>
+    </div>
+
+    <script>
+    function wrapImageDemo(valid) {
+        const output = document.getElementById('wrapOutput');
+        output.innerHTML = '<div class="loader"></div><div style="color:#f59e0b; font-size: 13px; font-family: JetBrains Mono, monospace;">Promise { &lt;pending&gt; }</div>';
+
+        function loadImage(src) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = () => reject(new Error(`Failed to load: ${src}`));
+                img.src = src;
+            });
+        }
+
+        const url = valid
+            ? 'https://picsum.photos/280/180?random=' + Date.now()
+            : 'https://invalid.example.com/nope.jpg';
+
+        loadImage(url)
+            .then(img => {
+                img.style.borderRadius = '12px';
+                img.style.maxWidth = '280px';
+                img.style.animation = 'pop-in 0.4s ease-out';
+                output.innerHTML = '';
+                output.appendChild(img);
+                const label = document.createElement('div');
+                label.style.cssText = 'color:#10b981; font-size: 13px; font-family: JetBrains Mono, monospace;';
+                label.textContent = 'Promise { <fulfilled> } ✅';
+                output.appendChild(label);
+            })
+            .catch(err => {
+                output.innerHTML = `
+                    <div class="error-card">
+                        <div class="ec-icon">🖼️</div>
+                        <div class="ec-msg">${err.message}</div>
+                    </div>
+                    <div style="color:#ef4444; font-size: 13px; font-family: JetBrains Mono, monospace; margin-top: 8px;">
+                        Promise { &lt;rejected&gt; } ❌
+                    </div>`;
+            });
+    }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 10 — ARRAY METHODS & PROMISES
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">10</span> — Array Methods &amp; Promises</h2>
+
+    <p>When you need to run the same async operation on <strong>every item in an array</strong>, the choice between <code>.forEach()</code> and <code>.map()</code> makes all the difference.</p>
+
+    <h3>⚠️ The .forEach() Trap</h3>
+
+    <p><code>.forEach()</code> does <strong>NOT</strong> wait for Promises. It fires all of them and immediately moves on. You have no way to know when they finish.</p>
+
+    <div class="mistake-block">
+        <h4>❌ Broken — .forEach() doesn't wait</h4>
+        <pre><code><span class="kw">const</span> urls = [<span class="str">'/api/user'</span>, <span class="str">'/api/orders'</span>, <span class="str">'/api/recs'</span>];
+
+urls.<span class="fn">forEach</span>(url => {
+  <span class="fn">fetch</span>(url)
+    .<span class="fn">then</span>(r => r.<span class="fn">json</span>())
+    .<span class="fn">then</span>(data => <span class="fn">console.log</span>(data));
+});
+
+<span class="fn">console.log</span>(<span class="str">'Done!'</span>);  <span class="cm">// ← runs BEFORE any fetch completes! 😱</span></code></pre>
+    </div>
+
+    <h3>✅ The .map() + Promise.all() Solution</h3>
+
+    <p><code>.map()</code> returns an <strong>array of Promises</strong>. Feed that array into <code>Promise.all()</code> and you can wait for all of them.</p>
+
+    <div class="mistake-block mistake-fix">
+        <h4>✅ Correct — .map() + Promise.all()</h4>
+        <pre><code><span class="kw">const</span> urls = [<span class="str">'/api/user'</span>, <span class="str">'/api/orders'</span>, <span class="str">'/api/recs'</span>];
+
+<span class="cm">// .map() creates an array of Promises</span>
+<span class="kw">const</span> promises = urls.<span class="fn">map</span>(url => {
+  <span class="kw">return</span> <span class="fn">fetch</span>(url).<span class="fn">then</span>(r => r.<span class="fn">json</span>());
+});
+
+<span class="cm">// Promise.all() waits for ALL of them</span>
+<span class="fn">Promise</span>.<span class="fn">all</span>(promises)
+  .<span class="fn">then</span>(([user, orders, recs]) => {
+    <span class="fn">console.log</span>(<span class="str">'All data loaded!'</span>, user, orders, recs);
+  })
+  .<span class="fn">catch</span>(err => <span class="fn">console.error</span>(<span class="str">'One failed:'</span>, err));</code></pre>
+    </div>
+
+    <div class="callout callout-blue">
+        <strong>💡 Rule of Thumb</strong>
+        Need to run async work on an array?<br>
+        <code>.map()</code> → creates an array of Promises<br>
+        <code>Promise.all()</code> → waits for all of them (parallel)<br>
+        <code>.forEach()</code> → <strong>never</strong> use with Promises. It's fire-and-forget.
+    </div>
+
+    <h3>Sequential vs Parallel with Arrays</h3>
+    <p>The <code>.map() + Promise.all()</code> pattern runs everything <strong>in parallel</strong>. If you need <strong>sequential</strong> execution (one after another), use <code>reduce()</code> or a <code>for...of</code> loop with <code>async/await</code> (next lesson!):</p>
+
+    <pre><code><span class="cm">// Sequential with .reduce()</span>
+<span class="kw">const</span> urls = [<span class="str">'/api/1'</span>, <span class="str">'/api/2'</span>, <span class="str">'/api/3'</span>];
+
+urls.<span class="fn">reduce</span>((chain, url) => {
+  <span class="kw">return</span> chain.<span class="fn">then</span>(() => <span class="fn">fetch</span>(url).<span class="fn">then</span>(r => r.<span class="fn">json</span>()));
+}, <span class="fn">Promise</span>.<span class="fn">resolve</span>());
+<span class="cm">// Runs: fetch /api/1 → THEN fetch /api/2 → THEN fetch /api/3</span></code></pre>
+
+    <h3>🎮 Live Demo — forEach vs map</h3>
+    <p>Watch the difference: <code>.forEach()</code> fires 4 tasks and reports "Done" instantly. <code>.map() + Promise.all()</code> waits until all 4 finish before reporting.</p>
+
+    <div class="demo-box" id="demo-array">
+        <div class="demo-label">Interactive · forEach vs map + Promise.all</div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left;">
+            <div>
+                <div style="font-size: 12px; font-weight: 700; color: #ef4444; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">❌ .forEach()</div>
+                <div id="forEachLog" style="background: #0d1117; border-radius: 8px; padding: 12px; min-height: 160px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8;"></div>
+            </div>
+            <div>
+                <div style="font-size: 12px; font-weight: 700; color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">✅ .map() + Promise.all()</div>
+                <div id="mapLog" style="background: #0d1117; border-radius: 8px; padding: 12px; min-height: 160px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8;"></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 16px;">
+            <button class="demo-btn btn-purple" id="arrayBtn" onclick="runArrayDemo()">▶ Run Both</button>
+        </div>
+    </div>
+
+    <script>
+    function runArrayDemo() {
+        const btn = document.getElementById('arrayBtn');
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        const feLog = document.getElementById('forEachLog');
+        const mLog = document.getElementById('mapLog');
+        feLog.innerHTML = '';
+        mLog.innerHTML = '';
+
+        const tasks = ['User', 'Orders', 'Posts', 'Friends'];
+        const delays = [800, 1500, 600, 2000];
+
+        function addLog(el, text, color) {
+            el.innerHTML += `<div style="color:${color};">${text}</div>`;
+        }
+
+        // ─── forEach side ───
+        addLog(feLog, '▶ Starting forEach...', '#5e6e8a');
+        tasks.forEach((task, i) => {
+            new Promise(resolve => {
+                setTimeout(() => {
+                    addLog(feLog, `  ✓ ${task} loaded (${delays[i]}ms)`, '#7a8599');
+                    resolve();
+                }, delays[i]);
+            });
+        });
+        addLog(feLog, '🏁 "Done!" (but tasks still running!)', '#ef4444');
+
+        // ─── map + Promise.all side ───
+        addLog(mLog, '▶ Starting map + Promise.all...', '#5e6e8a');
+        const promises = tasks.map((task, i) => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    addLog(mLog, `  ✓ ${task} loaded (${delays[i]}ms)`, '#7a8599');
+                    resolve();
+                }, delays[i]);
+            });
+        });
+        Promise.all(promises).then(() => {
+            addLog(mLog, '🏁 "Done!" (all tasks actually finished!)', '#10b981');
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        });
+    }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECTION 11 — MICROTASK QUEUE
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">11</span> — Microtask Queue &amp; Execution Order</h2>
+
+    <p>This is the question that comes up in <strong>every JavaScript interview</strong>: why do Promise callbacks run before <code>setTimeout</code> callbacks, even with a 0ms delay?</p>
+
+    <h3>Two Queues</h3>
+    <p>The JavaScript event loop has two task queues, and they are <strong>not</strong> equal:</p>
+
+    <table>
+        <thead>
+            <tr><th>Queue</th><th>Priority</th><th>What goes here</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Microtask Queue</strong></td>
+                <td>🥇 <strong>HIGH</strong> — drains completely before any macrotask</td>
+                <td><code>.then()</code>, <code>.catch()</code>, <code>.finally()</code>, <code>queueMicrotask()</code></td>
+            </tr>
+            <tr>
+                <td><strong>Macrotask Queue</strong></td>
+                <td>🥈 Normal — runs one task per event loop tick</td>
+                <td><code>setTimeout</code>, <code>setInterval</code>, <code>I/O</code>, <code>UI rendering</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>The Classic Interview Question</h3>
+
+    <pre><code><span class="fn">console.log</span>(<span class="str">'1. Synchronous'</span>);
+
+<span class="fn">setTimeout</span>(() => {
+  <span class="fn">console.log</span>(<span class="str">'2. setTimeout (macrotask)'</span>);
+}, <span class="num-lit">0</span>);
+
+<span class="fn">Promise</span>.<span class="fn">resolve</span>().<span class="fn">then</span>(() => {
+  <span class="fn">console.log</span>(<span class="str">'3. Promise .then() (microtask)'</span>);
+});
+
+<span class="fn">console.log</span>(<span class="str">'4. Synchronous'</span>);
+
+<span class="cm">// Output order:</span>
+<span class="cm">// 1. Synchronous</span>
+<span class="cm">// 4. Synchronous</span>
+<span class="cm">// 3. Promise .then() (microtask)    ← runs BEFORE setTimeout!</span>
+<span class="cm">// 2. setTimeout (macrotask)         ← runs LAST</span></code></pre>
+
+    <div class="callout callout-amber">
+        <strong>⚠️ Why?</strong>
+        The event loop processes ALL microtasks before moving to the next macrotask. So even with <code>setTimeout(fn, 0)</code>, the Promise <code>.then()</code> runs first because microtasks have priority.
+    </div>
+
+    <h3>Visual Execution Order</h3>
+
+    <pre><code><span class="cm">// Execution timeline:</span>
+<span class="cm">//</span>
+<span class="cm">// ┌──────────────────────────────────────────┐</span>
+<span class="cm">// │          CALL STACK (synchronous)        │</span>
+<span class="cm">// │  1. console.log('1. Synchronous')        │</span>
+<span class="cm">// │  2. setTimeout → sends to MACROTASK      │</span>
+<span class="cm">// │  3. Promise.then → sends to MICROTASK    │</span>
+<span class="cm">// │  4. console.log('4. Synchronous')        │</span>
+<span class="cm">// │  ─── call stack is now empty ───         │</span>
+<span class="cm">// └──────────────────────────────────────────┘</span>
+<span class="cm">//          ↓ drain microtask queue first</span>
+<span class="cm">// ┌──────────────────────────────────────────┐</span>
+<span class="cm">// │        MICROTASK QUEUE (priority!)       │</span>
+<span class="cm">// │  → console.log('3. Promise .then()')     │</span>
+<span class="cm">// └──────────────────────────────────────────┘</span>
+<span class="cm">//          ↓ then macrotask queue</span>
+<span class="cm">// ┌──────────────────────────────────────────┐</span>
+<span class="cm">// │         MACROTASK QUEUE (normal)         │</span>
+<span class="cm">// │  → console.log('2. setTimeout')          │</span>
+<span class="cm">// └──────────────────────────────────────────┘</span></code></pre>
+
+    <h3>🎮 Live Demo — Execution Order Quiz</h3>
+    <p>Click "Run" to see the actual execution order. Try to predict the output before clicking!</p>
+
+    <div class="demo-box" id="demo-microtask">
+        <div class="demo-label">Interactive · Microtask vs Macrotask Order</div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left;">
+            <div>
+                <div style="font-size: 12px; font-weight: 700; color: #58a6ff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Code</div>
+                <pre style="margin: 0; font-size: 12px; line-height: 1.6;"><code><span class="fn">console.log</span>(<span class="str">'🅰️ Start'</span>);
+
+<span class="fn">setTimeout</span>(() => {
+  <span class="fn">console.log</span>(<span class="str">'🅱️ Timeout 1'</span>);
+}, <span class="num-lit">0</span>);
+
+<span class="fn">Promise</span>.<span class="fn">resolve</span>()
+  .<span class="fn">then</span>(() => <span class="fn">console.log</span>(<span class="str">'🅲 Then 1'</span>))
+  .<span class="fn">then</span>(() => <span class="fn">console.log</span>(<span class="str">'🅳 Then 2'</span>));
+
+<span class="fn">setTimeout</span>(() => {
+  <span class="fn">console.log</span>(<span class="str">'🅴 Timeout 2'</span>);
+}, <span class="num-lit">0</span>);
+
+<span class="fn">console.log</span>(<span class="str">'🅵 End'</span>);</code></pre>
+            </div>
+            <div>
+                <div style="font-size: 12px; font-weight: 700; color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Output</div>
+                <div id="microLog" style="background: #0d1117; border-radius: 8px; padding: 12px; min-height: 200px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 2.2;"></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 16px;">
+            <button class="demo-btn btn-green" id="microBtn" onclick="runMicroDemo()">▶ Run & Reveal</button>
+        </div>
+    </div>
+
+    <script>
+    function runMicroDemo() {
+        const log = document.getElementById('microLog');
+        const btn = document.getElementById('microBtn');
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        log.innerHTML = '';
+
+        const entries = [];
+        let step = 0;
+
+        function showNext() {
+            if (step < entries.length) {
+                const e = entries[step];
+                log.innerHTML += `<div style="color:${e.color}; animation: pop-in 0.3s ease-out;">
+                    <span style="color:#3d4f6f;">${step + 1}.</span> ${e.text}
+                    <span style="color:#3d4f6f; font-size: 11px; margin-left: 8px;">${e.type}</span>
+                </div>`;
+                step++;
+                setTimeout(showNext, 500);
+            } else {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            }
+        }
+
+        // Simulate the actual execution order
+        entries.push({ text: '🅰️ Start', color: '#e2e8f0', type: '← sync' });
+        entries.push({ text: '🅵 End', color: '#e2e8f0', type: '← sync' });
+        entries.push({ text: '🅲 Then 1', color: '#10b981', type: '← microtask' });
+        entries.push({ text: '🅳 Then 2', color: '#10b981', type: '← microtask' });
+        entries.push({ text: '🅱️ Timeout 1', color: '#f59e0b', type: '← macrotask' });
+        entries.push({ text: '🅴 Timeout 2', color: '#f59e0b', type: '← macrotask' });
+
+        showNext();
+    }
+    </script>
+
+    <div class="callout callout-green">
+        <strong>🏆 Takeaway</strong>
+        <strong>Synchronous</strong> code runs first (call stack). Then <strong>all microtasks</strong> (Promise callbacks) are drained. Only then does the next <strong>macrotask</strong> (setTimeout) execute. This cycle repeats forever — that's the event loop.
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════
+         QUICK REFERENCE
+    ═══════════════════════════════════════════════════════ -->
+    <h2><span class="num">📋</span> — Quick Reference</h2>
+
+    <table>
+        <thead>
+            <tr><th>Method / Concept</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>new Promise((res, rej) => {})</code></td>
+                <td>Create a new promise with an executor function</td>
+            </tr>
+            <tr>
+                <td><code>Promise.resolve(val)</code></td>
+                <td>Shortcut to create an instantly resolved promise</td>
+            </tr>
+            <tr>
+                <td><code>Promise.reject(err)</code></td>
+                <td>Shortcut to create an instantly rejected promise</td>
+            </tr>
+            <tr>
+                <td><code>.then(fn)</code></td>
+                <td>Register a callback for when the promise resolves</td>
+            </tr>
+            <tr>
+                <td><code>.catch(fn)</code></td>
+                <td>Register a callback for when the promise rejects</td>
+            </tr>
+            <tr>
+                <td><code>.finally(fn)</code></td>
+                <td>Register a callback that runs regardless of outcome</td>
+            </tr>
+            <tr>
+                <td><code>Promise.all([])</code></td>
+                <td>Parallel — resolve when ALL succeed, reject if any fail</td>
+            </tr>
+            <tr>
+                <td><code>Promise.race([])</code></td>
+                <td>Resolve/reject with whichever settles first</td>
+            </tr>
+            <tr>
+                <td><code>Promise.allSettled([])</code></td>
+                <td>Wait for all; get status array (even if some fail)</td>
+            </tr>
+            <tr>
+                <td><code>Promise.any([])</code></td>
+                <td>Resolve with the first to succeed; reject if all fail</td>
+            </tr>
+            <tr>
+                <td><code>.catch(() => fallback)</code></td>
+                <td>Recover from an error and continue the chain</td>
+            </tr>
+            <tr>
+                <td><code>.then(onOk, onFail)</code></td>
+                <td>Handle success and failure separately for one step</td>
+            </tr>
+            <tr>
+                <td><code>arr.map(fn) + Promise.all()</code></td>
+                <td>Run async work on every array item in parallel</td>
+            </tr>
+            <tr>
+                <td><code>new Promise(…)</code> wrapping</td>
+                <td>Promisify any callback/event API (XHR, Image, etc.)</td>
+            </tr>
+            <tr>
+                <td>Microtask queue</td>
+                <td>.then() runs before setTimeout — microtasks have priority</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-blue">
+        <strong>💡 What's Next?</strong>
+        Promises are powerful, but the chaining syntax can still get verbose for complex flows. In the next lesson, you'll learn <code>async/await</code> — syntax sugar that lets you write Promise-based code as if it were synchronous. Same Promises under the hood, but dramatically cleaner syntax.
+    </div>
+
+    <!-- ═══════════════ BOTTOM NAV ═══════════════ -->
+    <div class="bottom-nav">
+        <p>Up Next</p>
+        <h3>Lesson 05 → async/await</h3>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 — Prerequisites Review | Async JS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f111a; color: #c9d1d9; line-height: 1.8; font-size: 16px; padding: 40px 20px; }
+        .container { max-width: 820px; margin: 0 auto; }
+        .doc-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; margin-bottom: 48px; }
+        .doc-nav span { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #5e6e8a; }
+        h1 { font-size: 38px; font-weight: 700; color: #f0f6fc; margin-bottom: 12px; line-height: 1.2; }
+        .subtitle { font-size: 17px; color: #7a8599; margin-bottom: 48px; border-bottom: 1px solid #1e2d4a; padding-bottom: 32px; }
+        h2 { font-size: 26px; font-weight: 700; color: #f0f6fc; margin-top: 56px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #1e2d4a; }
+        h2 .num { color: #58a6ff; }
+        h3 { font-size: 19px; font-weight: 600; color: #e2e8f0; margin-top: 36px; margin-bottom: 12px; }
+        p { margin-bottom: 18px; color: #b0bac9; }
+        strong { color: #e2e8f0; }
+        em { color: #93aac9; font-style: italic; }
+        code { font-family: 'JetBrains Mono', monospace; background: #1a2035; color: #7dd3fc; padding: 2px 7px; border-radius: 5px; font-size: 14px; }
+        pre { background: #0d1117; border: 1px solid #1e2d4a; border-radius: 12px; padding: 22px 24px; margin: 16px 0 24px 0; overflow-x: auto; position: relative; }
+        pre code { background: none; padding: 0; font-size: 14px; line-height: 1.7; color: #c9d1d9; }
+        .code-label { position: absolute; top: 10px; right: 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #3d4f6f; }
+        .kw { color: #ff7b72; }
+        .str { color: #a5d6ff; }
+        .fn { color: #d2a8ff; }
+        .cm { color: #5e6e8a; font-style: italic; }
+        .num-lit { color: #79c0ff; }
+        .bool { color: #ff7b72; }
+        table { width: 100%; border-collapse: collapse; margin: 18px 0 28px 0; }
+        th { text-align: left; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5e6e8a; padding: 12px 18px; border-bottom: 2px solid #1e2d4a; }
+        td { padding: 14px 18px; border-bottom: 1px solid #141a2e; font-size: 15px; }
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(88,166,255,0.03); }
+        .callout { border-left: 4px solid; border-radius: 0 12px 12px 0; padding: 18px 22px; margin: 22px 0; font-size: 14.5px; }
+        .callout-blue { background: rgba(88,166,255,0.06); border-color: #58a6ff; }
+        .callout-amber { background: rgba(245,158,11,0.06); border-color: #f59e0b; }
+        .callout-green { background: rgba(16,185,129,0.06); border-color: #10b981; }
+        .callout strong { display: block; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .callout-blue strong { color: #58a6ff; }
+        .callout-amber strong { color: #f59e0b; }
+        .callout-green strong { color: #10b981; }
+        .demo-box { background: #161b2e; border: 1px solid #1e2d4a; border-radius: 12px; padding: 30px; margin: 30px 0; text-align: center; overflow: hidden; }
+        hr { border: none; border-top: 1px solid #1e2d4a; margin: 48px 0; }
+        .bottom-nav { margin-top: 64px; padding: 24px; background: #161b2e; border: 1px solid #1e2d4a; border-radius: 14px; text-align: center; }
+        .bottom-nav p { font-size: 14px; color: #5e6e8a; margin-bottom: 4px; }
+        .bottom-nav h3 { margin: 0; color: #58a6ff; }
+
+        /* ── Demo Shared Styles ── */
+        .demo-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 22px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            color: #fff;
+            margin: 6px;
+        }
+        .demo-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 18px rgba(0,0,0,0.35); }
+        .demo-btn:active { transform: translateY(0); }
+        .demo-btn-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .demo-btn-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .demo-btn-green { background: linear-gradient(135deg, #10b981, #059669); }
+        .demo-btn-amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .demo-btn-rose { background: linear-gradient(135deg, #f43f5e, #e11d48); }
+        .demo-btn-cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .demo-output {
+            margin-top: 18px;
+            padding: 16px 20px;
+            background: #0d1117;
+            border: 1px solid #1e2d4a;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            text-align: left;
+            min-height: 48px;
+            color: #c9d1d9;
+            line-height: 1.7;
+        }
+        .demo-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #3d4f6f;
+            margin-bottom: 14px;
+        }
+        .demo-input {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            padding: 10px 16px;
+            background: #0d1117;
+            border: 1px solid #1e2d4a;
+            border-radius: 8px;
+            color: #c9d1d9;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 120px;
+        }
+        .demo-input:focus { border-color: #58a6ff; }
+        .demo-textarea {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            padding: 14px 16px;
+            background: #0d1117;
+            border: 1px solid #1e2d4a;
+            border-radius: 8px;
+            color: #c9d1d9;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+            min-height: 90px;
+            resize: vertical;
+        }
+        .demo-textarea:focus { border-color: #58a6ff; }
+        .tag-pill {
+            display: inline-block;
+            padding: 5px 14px;
+            margin: 4px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 15px;
+            font-weight: 600;
+            background: #1a2035;
+            border: 1px solid #1e2d4a;
+            color: #7dd3fc;
+            transition: all 0.3s;
+        }
+        ul, ol { margin: 0 0 18px 24px; color: #b0bac9; }
+        li { margin-bottom: 6px; }
+        li code { font-size: 13px; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ── Navigation ── -->
+    <nav class="doc-nav">
+        <span>Async JS</span>
+        <span>Lesson 01 of 06</span>
+    </nav>
+
+    <!-- ── Title ── -->
+    <h1>01 — Prerequisites Review</h1>
+    <p class="subtitle">A warm-up lap through every fundamental concept you'll need before we tackle asynchronous JavaScript. If anything here feels unfamiliar, review it first — the rest of the course builds directly on these ideas.</p>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 1 — Why This Review Matters                          -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">1.</span> Why This Review Matters</h2>
+
+    <p>Asynchronous JavaScript is <strong>not</strong> a standalone concept that lives in isolation. It is built <em>on top of</em> several fundamental JavaScript features, and those features must be second nature before you can understand how Promises, <code>async/await</code>, and the Event Loop actually work.</p>
+
+    <p>Here's what async code relies on heavily:</p>
+
+    <ul>
+        <li><strong>Functions as first-class citizens</strong> — you'll be passing functions around as arguments constantly.</li>
+        <li><strong>Callback functions</strong> — the entire history of async JS started with callbacks.</li>
+        <li><strong>Arrow functions</strong> — modern async code uses arrow functions everywhere for conciseness.</li>
+        <li><strong>Array methods</strong> — processing API data means chaining <code>.map()</code>, <code>.filter()</code>, etc.</li>
+        <li><strong>try…catch</strong> — async operations can fail (network down, server error), and you need to handle that.</li>
+        <li><strong>Destructuring &amp; template literals</strong> — API responses are objects; you'll destructure them on every line.</li>
+        <li><strong>JSON</strong> — the universal language of web APIs.</li>
+    </ul>
+
+    <div class="callout callout-amber">
+        <strong>⚠ Warning</strong>
+        If more than two items in the list above feel genuinely unfamiliar, pause here. Go back and work through those topics first. Attempting async concepts without these foundations will feel like learning to run before you can walk.
+    </div>
+
+    <p>If everything feels at least <em>somewhat</em> familiar, that's great — this lesson will solidify your understanding and give you hands-on practice with each concept. Let's begin.</p>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 2 — Functions as First-Class Citizens                -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">2.</span> Functions as First-Class Citizens</h2>
+
+    <p>In JavaScript, <strong>functions are values</strong>. That single sentence changes everything. It means a function is no different from a number, a string, or an object — you can store it in a variable, pass it as an argument to another function, and return it from a function.</p>
+
+    <p>This concept is the bedrock of asynchronous JavaScript. When you write <code>setTimeout(myFunc, 1000)</code>, you're <em>passing a function as a value</em> to <code>setTimeout</code>. Without first-class functions, none of this would be possible.</p>
+
+    <h3>Three Ways to Create Functions</h3>
+
+    <p><strong>1. Function Declaration</strong> — the classic way. Hoisted to the top of its scope, so you can call it before the line where it's written.</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">function</span> <span class="fn">greet</span>(name) {
+  <span class="kw">return</span> <span class="str">`Hello, ${name}!`</span>;
+}
+
+<span class="fn">console.log</span>(<span class="fn">greet</span>(<span class="str">"Alice"</span>)); <span class="cm">// "Hello, Alice!"</span></code></pre>
+
+    <p><strong>2. Function Expression</strong> — store an anonymous function in a variable. <em>Not</em> hoisted.</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> greet = <span class="kw">function</span>(name) {
+  <span class="kw">return</span> <span class="str">`Hey there, ${name}!`</span>;
+};
+
+<span class="fn">console.log</span>(<span class="fn">greet</span>(<span class="str">"Bob"</span>)); <span class="cm">// "Hey there, Bob!"</span></code></pre>
+
+    <p><strong>3. Arrow Function</strong> — the modern, concise syntax introduced in ES6. Also not hoisted.</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> greet = (name) <span class="kw">=></span> <span class="str">`Yo, ${name}!`</span>;
+
+<span class="fn">console.log</span>(<span class="fn">greet</span>(<span class="str">"Charlie"</span>)); <span class="cm">// "Yo, Charlie!"</span></code></pre>
+
+    <div class="callout callout-blue">
+        <strong>💡 Tip</strong>
+        All three of these syntaxes produce a <em>function value</em>. The key insight is that the function itself is just data — you can assign it, reassign it, even put it inside an array. This is what "first-class" means.
+    </div>
+
+    <h3>Passing a Function as an Argument</h3>
+
+    <p>Here's the pattern that unlocks everything in async JS — handing a function to another function:</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">function</span> <span class="fn">doMath</span>(a, b, operation) {
+  <span class="kw">return</span> <span class="fn">operation</span>(a, b);
+}
+
+<span class="kw">const</span> add = (x, y) <span class="kw">=></span> x + y;
+<span class="kw">const</span> multiply = (x, y) <span class="kw">=></span> x * y;
+
+<span class="fn">console.log</span>(<span class="fn">doMath</span>(<span class="num-lit">3</span>, <span class="num-lit">4</span>, add));      <span class="cm">// 7</span>
+<span class="fn">console.log</span>(<span class="fn">doMath</span>(<span class="num-lit">3</span>, <span class="num-lit">4</span>, multiply)); <span class="cm">// 12</span></code></pre>
+
+    <p>Notice: we pass <code>add</code> and <code>multiply</code> <em>without parentheses</em>. We're passing the function itself, not calling it. This is the exact same pattern used by <code>setTimeout</code>, <code>addEventListener</code>, <code>.map()</code>, and every async API in JavaScript.</p>
+
+    <h3>Interactive Demo — Three Function Styles</h3>
+
+    <div class="demo-box" id="demo-functions">
+        <div class="demo-label">▶ Live Demo — First-Class Functions</div>
+        <p style="color:#7a8599; font-size:14px; margin-bottom:18px;">Click each button to call a function created with a different syntax.</p>
+        <div>
+            <button class="demo-btn demo-btn-blue" onclick="demoFnDeclaration()">Declaration</button>
+            <button class="demo-btn demo-btn-purple" onclick="demoFnExpression()">Expression</button>
+            <button class="demo-btn demo-btn-green" onclick="demoFnArrow()">Arrow Function</button>
+        </div>
+        <div class="demo-output" id="fn-output">Click a button above…</div>
+    </div>
+
+    <script>
+        // ── Demo 1: First-Class Functions ──
+        function demoFnDeclaration() {
+            const el = document.getElementById('fn-output');
+            el.innerHTML = '<span style="color:#3b82f6">🔵 Function Declaration:</span> ' +
+                '<span style="color:#93c5fd">greet("Alice") → "Hello, Alice!"</span><br>' +
+                '<span style="color:#5e6e8a; font-size:12px">Created with: function greet(name) { ... }</span>';
+        }
+
+        const demoFnExpression = function() {
+            const el = document.getElementById('fn-output');
+            el.innerHTML = '<span style="color:#a78bfa">🟣 Function Expression:</span> ' +
+                '<span style="color:#c4b5fd">greet("Bob") → "Hey there, Bob!"</span><br>' +
+                '<span style="color:#5e6e8a; font-size:12px">Created with: const greet = function(name) { ... }</span>';
+        };
+
+        const demoFnArrow = () => {
+            const el = document.getElementById('fn-output');
+            el.innerHTML = '<span style="color:#10b981">🟢 Arrow Function:</span> ' +
+                '<span style="color:#6ee7b7">greet("Charlie") → "Yo, Charlie!"</span><br>' +
+                '<span style="color:#5e6e8a; font-size:12px">Created with: const greet = (name) => `Yo, ${name}!`</span>';
+        };
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 3 — Callback Functions                               -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">3.</span> Callback Functions <em style="font-size:16px; color:#7a8599;">(The Most Important Prerequisite)</em></h2>
+
+    <p>A <strong>callback</strong> is simply a function you pass to another function, to be <em>called back</em> (invoked) at a later time. That's it. There's no special keyword or syntax — it's just a function used as an argument.</p>
+
+    <p>Why are callbacks the <em>most important</em> prerequisite? Because the entire history of async JavaScript began with callbacks. Before Promises existed, <strong>callbacks were the only way</strong> to handle asynchronous operations. And even today, Promises are built on top of the same idea.</p>
+
+    <h3>A Simple Callback Example</h3>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">function</span> <span class="fn">processUserInput</span>(callback) {
+  <span class="kw">const</span> name = <span class="str">"Alice"</span>;
+  <span class="fn">callback</span>(name); <span class="cm">// call the function that was passed in</span>
+}
+
+<span class="kw">function</span> <span class="fn">greet</span>(userName) {
+  <span class="fn">console.log</span>(<span class="str">`Welcome, ${userName}!`</span>);
+}
+
+<span class="fn">processUserInput</span>(greet); <span class="cm">// pass greet as a callback</span>
+<span class="cm">// Output: "Welcome, Alice!"</span></code></pre>
+
+    <p>Read that code carefully: <code>greet</code> is passed to <code>processUserInput</code> <em>without parentheses</em>. Inside <code>processUserInput</code>, it's called as <code>callback(name)</code>. The function we passed in gets "called back."</p>
+
+    <h3><code>setTimeout</code> — The Classic Async Callback</h3>
+
+    <p><code>setTimeout</code> is the simplest asynchronous function in JavaScript. It takes two arguments: a <strong>callback function</strong> and a <strong>delay in milliseconds</strong>. It tells the browser: <em>"Wait this many milliseconds, then call this function."</em></p>
+
+    <pre><code><span class="code-label">JS</span><span class="fn">console.log</span>(<span class="str">"Starting..."</span>);
+
+<span class="fn">setTimeout</span>(() <span class="kw">=></span> {
+  <span class="fn">console.log</span>(<span class="str">"3 seconds have passed!"</span>);
+}, <span class="num-lit">3000</span>);
+
+<span class="fn">console.log</span>(<span class="str">"This runs IMMEDIATELY — no waiting."</span>);
+
+<span class="cm">// Output order:</span>
+<span class="cm">// "Starting..."</span>
+<span class="cm">// "This runs IMMEDIATELY — no waiting."</span>
+<span class="cm">// "3 seconds have passed!"   ← appears 3 seconds later!</span></code></pre>
+
+    <div class="callout callout-amber">
+        <strong>⚠ Key Insight</strong>
+        Notice the output order! <code>setTimeout</code> does <strong>not</strong> pause the code. JavaScript keeps running the next lines immediately. The callback runs later, when the timer expires. This is asynchronous behavior — and it's the whole reason this course exists.
+    </div>
+
+    <h3><code>addEventListener</code> — Another Callback Pattern</h3>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> button = document.<span class="fn">querySelector</span>(<span class="str">"#myBtn"</span>);
+
+button.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () <span class="kw">=></span> {
+  <span class="fn">console.log</span>(<span class="str">"Button was clicked!"</span>);
+});
+
+<span class="cm">// The arrow function above is a callback.</span>
+<span class="cm">// It doesn't run now — it runs LATER, when the user clicks.</span></code></pre>
+
+    <p>Same pattern: you pass a function, and the browser calls it later (when the event fires). This is exactly how async code works — you hand off a function and trust that it will be called at the right time.</p>
+
+    <h3>Interactive Demo — Order Pizza</h3>
+
+    <div class="demo-box" id="demo-callback">
+        <div class="demo-label">▶ Live Demo — Callbacks with setTimeout</div>
+        <p style="color:#7a8599; font-size:14px; margin-bottom:18px;">Click "Order Pizza" and watch the async magic: the order is placed immediately, but the pizza arrives 3 seconds later.</p>
+        <button class="demo-btn demo-btn-amber" onclick="orderPizza()" id="pizza-btn">🍕 Order Pizza</button>
+        <div class="demo-output" id="pizza-output">No orders yet…</div>
+    </div>
+
+    <script>
+        // ── Demo 2: Pizza Callback ──
+        let pizzaTimer = null;
+        let countdownInterval = null;
+
+        function orderPizza() {
+            const el = document.getElementById('pizza-output');
+            const btn = document.getElementById('pizza-btn');
+
+            // Clear any previous timers
+            if (pizzaTimer) clearTimeout(pizzaTimer);
+            if (countdownInterval) clearInterval(countdownInterval);
+
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+
+            let seconds = 3;
+            el.innerHTML = '<span style="color:#fbbf24">📋 Order placed!</span> Waiting for delivery…<br>' +
+                '<span id="countdown" style="font-size:28px; color:#f59e0b; font-weight:700">3</span>';
+
+            countdownInterval = setInterval(() => {
+                seconds--;
+                const countdownEl = document.getElementById('countdown');
+                if (seconds > 0 && countdownEl) {
+                    countdownEl.textContent = seconds;
+                } else if (countdownEl) {
+                    countdownEl.textContent = '…';
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+
+            pizzaTimer = setTimeout(() => {
+                el.innerHTML = '<span style="color:#fbbf24">📋 Order placed!</span> Waiting for delivery…<br>' +
+                    '<span style="color:#10b981; font-size:20px; font-weight:700">🍕 Pizza arrived!</span><br>' +
+                    '<span style="color:#5e6e8a; font-size:12px">setTimeout callback executed after 3000ms</span>';
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            }, 3000);
+        }
+    </script>
+
+    <div class="callout callout-green">
+        <strong>✅ Best Practice</strong>
+        When you see a demo that updates in stages like the pizza demo above, you're witnessing the core mental model of async JS: <em>schedule now, execute later</em>. Get comfortable with this pattern — you'll use it in every lesson that follows.
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 4 — Arrow Functions Deep Dive                        -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">4.</span> Arrow Functions Deep Dive</h2>
+
+    <p>Arrow functions (<code>=></code>) are the dominant syntax in modern JavaScript, and you'll see them on virtually every line of async code. Let's make sure you know all the variations.</p>
+
+    <h3>The Full Spectrum of Arrow Syntax</h3>
+
+    <pre><code><span class="code-label">JS</span><span class="cm">// 1. Multiple parameters, with a body block</span>
+<span class="kw">const</span> add = (a, b) <span class="kw">=></span> {
+  <span class="kw">return</span> a + b;
+};
+
+<span class="cm">// 2. Multiple parameters, implicit return (no curly braces)</span>
+<span class="kw">const</span> add = (a, b) <span class="kw">=></span> a + b;
+
+<span class="cm">// 3. Single parameter — parentheses optional</span>
+<span class="kw">const</span> double = n <span class="kw">=></span> n * <span class="num-lit">2</span>;
+
+<span class="cm">// 4. No parameters — parentheses required</span>
+<span class="kw">const</span> sayHi = () <span class="kw">=></span> <span class="str">"Hello!"</span>;
+
+<span class="cm">// 5. Returning an object literal — wrap in parentheses</span>
+<span class="kw">const</span> makeUser = (name) <span class="kw">=></span> ({ name: name, active: <span class="bool">true</span> });</code></pre>
+
+    <div class="callout callout-amber">
+        <strong>⚠ Common Gotcha</strong>
+        If you want to return an object literal with an implicit return, you <em>must</em> wrap it in parentheses: <code>() =&gt; ({ key: value })</code>. Without the parentheses, JavaScript thinks the curly braces are a function body, not an object.
+    </div>
+
+    <h3>Comparison Table</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Regular Function</th>
+                <th>Arrow Function</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Syntax</td>
+                <td><code>function(x) { ... }</code></td>
+                <td><code>(x) =&gt; { ... }</code></td>
+            </tr>
+            <tr>
+                <td>Implicit return</td>
+                <td>❌ Not possible</td>
+                <td>✅ <code>(x) =&gt; x * 2</code></td>
+            </tr>
+            <tr>
+                <td>Hoisted</td>
+                <td>✅ Declarations are hoisted</td>
+                <td>❌ Never hoisted</td>
+            </tr>
+            <tr>
+                <td><code>this</code> binding</td>
+                <td>Gets its own <code>this</code></td>
+                <td>Inherits <code>this</code> from parent</td>
+            </tr>
+            <tr>
+                <td><code>arguments</code> object</td>
+                <td>✅ Available</td>
+                <td>❌ Not available</td>
+            </tr>
+            <tr>
+                <td>Use as method</td>
+                <td>✅ Works correctly</td>
+                <td>⚠ Can cause <code>this</code> issues</td>
+            </tr>
+            <tr>
+                <td>Best for callbacks</td>
+                <td>Works fine</td>
+                <td>✅ Preferred — shorter &amp; cleaner</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-blue">
+        <strong>💡 Tip</strong>
+        For async code, you'll almost always use arrow functions. They're shorter, and the inherited <code>this</code> binding usually does what you want. Use regular functions only when you specifically need your own <code>this</code> (like in object methods or constructors).
+    </div>
+
+    <h3>Interactive Demo — Arrow Function Converter</h3>
+
+    <div class="demo-box" id="demo-arrows">
+        <div class="demo-label">▶ Live Demo — Arrow Functions in Action</div>
+        <p style="color:#7a8599; font-size:14px; margin-bottom:18px;">Enter a number and see three different arrow functions transform it.</p>
+        <div style="margin-bottom:16px;">
+            <input type="number" class="demo-input" id="arrow-input" value="5" min="0" max="9999" style="width:160px; text-align:center; font-size:18px;">
+            <button class="demo-btn demo-btn-cyan" onclick="runArrowDemo()" style="margin-left:8px;">Convert</button>
+        </div>
+        <div class="demo-output" id="arrow-output">
+            <span style="color:#5e6e8a">Enter a number and click Convert…</span>
+        </div>
+    </div>
+
+    <script>
+        // ── Demo 3: Arrow Function Converter ──
+
+        // Style 1: Arrow with block body
+        const doubleIt = (n) => {
+            const result = n * 2;
+            return result;
+        };
+
+        // Style 2: Arrow with implicit return
+        const squareIt = n => n * n;
+
+        // Style 3: Arrow returning an object
+        const toInfo = (n) => ({ original: n, type: typeof n, asString: `"${n}"` });
+
+        function runArrowDemo() {
+            const input = document.getElementById('arrow-input');
+            const el = document.getElementById('arrow-output');
+            const n = Number(input.value) || 0;
+
+            const doubled = doubleIt(n);
+            const squared = squareIt(n);
+            const info = toInfo(n);
+
+            el.innerHTML =
+                `<span style="color:#06b6d4">① Block body</span>  <span style="color:#5e6e8a">const doubleIt = (n) => { return n * 2; }</span>\n` +
+                `   <span style="color:#7dd3fc">doubleIt(${n})</span> → <span style="color:#fbbf24; font-weight:700">${doubled}</span>\n\n` +
+                `<span style="color:#a78bfa">② Implicit return</span>  <span style="color:#5e6e8a">const squareIt = n => n * n</span>\n` +
+                `   <span style="color:#7dd3fc">squareIt(${n})</span> → <span style="color:#fbbf24; font-weight:700">${squared}</span>\n\n` +
+                `<span style="color:#10b981">③ Return object</span>  <span style="color:#5e6e8a">const toInfo = (n) => ({ original: n, type: typeof n })</span>\n` +
+                `   <span style="color:#7dd3fc">toInfo(${n})</span> → <span style="color:#fbbf24; font-weight:700">{ original: ${info.original}, type: "${info.type}", asString: ${info.asString} }</span>`;
+        }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 5 — Array Methods That Use Callbacks                 -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">5.</span> Array Methods That Use Callbacks</h2>
+
+    <p>When you fetch data from an API (which is the entire point of async JS), you'll receive <strong>arrays of objects</strong>. To process that data, you'll chain array methods — and every single one of them takes a <strong>callback function</strong>.</p>
+
+    <h3><code>.map()</code> — Transform Every Element</h3>
+    <p>Creates a <strong>new array</strong> by calling your callback on each element. The original array is untouched.</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> numbers = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">4</span>, <span class="num-lit">5</span>];
+<span class="kw">const</span> doubled = numbers.<span class="fn">map</span>(n <span class="kw">=></span> n * <span class="num-lit">2</span>);
+<span class="fn">console.log</span>(doubled); <span class="cm">// [2, 4, 6, 8, 10]</span></code></pre>
+
+    <h3><code>.filter()</code> — Keep Only Matching Elements</h3>
+    <p>Creates a new array with only the elements where the callback returns <code>true</code>.</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> numbers = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">4</span>, <span class="num-lit">5</span>, <span class="num-lit">6</span>];
+<span class="kw">const</span> evens = numbers.<span class="fn">filter</span>(n <span class="kw">=></span> n % <span class="num-lit">2</span> === <span class="num-lit">0</span>);
+<span class="fn">console.log</span>(evens); <span class="cm">// [2, 4, 6]</span></code></pre>
+
+    <h3><code>.find()</code> — Get the First Match</h3>
+    <p>Returns the <strong>first element</strong> where the callback returns <code>true</code>, or <code>undefined</code> if none match.</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> users = [
+  { name: <span class="str">"Alice"</span>, age: <span class="num-lit">25</span> },
+  { name: <span class="str">"Bob"</span>, age: <span class="num-lit">30</span> },
+  { name: <span class="str">"Charlie"</span>, age: <span class="num-lit">35</span> }
+];
+
+<span class="kw">const</span> found = users.<span class="fn">find</span>(u <span class="kw">=></span> u.age > <span class="num-lit">28</span>);
+<span class="fn">console.log</span>(found); <span class="cm">// { name: "Bob", age: 30 }</span></code></pre>
+
+    <h3><code>.reduce()</code> — Boil Down to a Single Value</h3>
+    <p>Takes a callback with an <strong>accumulator</strong> and the current element. Returns one final value.</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> numbers = [<span class="num-lit">1</span>, <span class="num-lit">2</span>, <span class="num-lit">3</span>, <span class="num-lit">4</span>, <span class="num-lit">5</span>];
+<span class="kw">const</span> sum = numbers.<span class="fn">reduce</span>((acc, n) <span class="kw">=></span> acc + n, <span class="num-lit">0</span>);
+<span class="fn">console.log</span>(sum); <span class="cm">// 15</span></code></pre>
+
+    <h3><code>.forEach()</code> — Do Something With Each Element (No Return)</h3>
+    <p>Runs a callback on each element but <strong>does not return a new array</strong>. Used for side effects (logging, DOM updates).</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>];
+fruits.<span class="fn">forEach</span>(fruit <span class="kw">=></span> <span class="fn">console.log</span>(<span class="str">`I like ${fruit}`</span>));
+<span class="cm">// "I like apple"</span>
+<span class="cm">// "I like banana"</span>
+<span class="cm">// "I like cherry"</span></code></pre>
+
+    <div class="callout callout-green">
+        <strong>✅ Pattern Recognition</strong>
+        Notice how every method above follows the same pattern: <code>array.method(callback)</code>. The callback is always a function that receives the current element and returns something. This is the exact same "pass a function, it gets called later" pattern we saw with <code>setTimeout</code> and <code>addEventListener</code>. It's callbacks all the way down.
+    </div>
+
+    <h3>Interactive Demo — Array Method Playground</h3>
+
+    <div class="demo-box" id="demo-arrays">
+        <div class="demo-label">▶ Live Demo — Array Methods</div>
+        <p style="color:#7a8599; font-size:14px; margin-bottom:14px;">Source array:</p>
+        <div id="source-array" style="margin-bottom:18px;">
+            <!-- Filled by JS -->
+        </div>
+        <div>
+            <button class="demo-btn demo-btn-blue" onclick="demoMap()">Double All <span style="font-weight:400; opacity:0.7">.map()</span></button>
+            <button class="demo-btn demo-btn-purple" onclick="demoFilter()">Only Evens <span style="font-weight:400; opacity:0.7">.filter()</span></button>
+            <button class="demo-btn demo-btn-green" onclick="demoFind()">First &gt; 10 <span style="font-weight:400; opacity:0.7">.find()</span></button>
+            <button class="demo-btn demo-btn-amber" onclick="demoReduce()">Sum All <span style="font-weight:400; opacity:0.7">.reduce()</span></button>
+        </div>
+        <div class="demo-output" id="array-output">Click a button to see the result…</div>
+    </div>
+
+    <script>
+        // ── Demo 4: Array Methods ──
+        const sourceNums = [3, 7, 12, 5, 18, 2, 9, 14];
+
+        // Render source pills
+        (function renderSource() {
+            const container = document.getElementById('source-array');
+            container.innerHTML = sourceNums.map(n =>
+                `<span class="tag-pill">${n}</span>`
+            ).join('');
+        })();
+
+        function demoMap() {
+            const result = sourceNums.map(n => n * 2);
+            const el = document.getElementById('array-output');
+            el.innerHTML =
+                `<span style="color:#3b82f6; font-weight:600">.map(n => n * 2)</span>\n\n` +
+                `<span style="color:#5e6e8a">Input:</span>  [${sourceNums.join(', ')}]\n` +
+                `<span style="color:#fbbf24">Output:</span> [<span style="color:#7dd3fc; font-weight:600">${result.join(', ')}</span>]\n\n` +
+                `<span style="color:#5e6e8a">Each element was doubled. A new array was returned.</span>`;
+        }
+
+        function demoFilter() {
+            const result = sourceNums.filter(n => n % 2 === 0);
+            const el = document.getElementById('array-output');
+            el.innerHTML =
+                `<span style="color:#a78bfa; font-weight:600">.filter(n => n % 2 === 0)</span>\n\n` +
+                `<span style="color:#5e6e8a">Input:</span>  [${sourceNums.join(', ')}]\n` +
+                `<span style="color:#fbbf24">Output:</span> [<span style="color:#7dd3fc; font-weight:600">${result.join(', ')}</span>]\n\n` +
+                `<span style="color:#5e6e8a">Only even numbers passed the test.</span>`;
+        }
+
+        function demoFind() {
+            const result = sourceNums.find(n => n > 10);
+            const el = document.getElementById('array-output');
+            el.innerHTML =
+                `<span style="color:#10b981; font-weight:600">.find(n => n > 10)</span>\n\n` +
+                `<span style="color:#5e6e8a">Input:</span>  [${sourceNums.join(', ')}]\n` +
+                `<span style="color:#fbbf24">Output:</span> <span style="color:#7dd3fc; font-weight:600">${result}</span>\n\n` +
+                `<span style="color:#5e6e8a">Returns the FIRST element greater than 10, not all of them.</span>`;
+        }
+
+        function demoReduce() {
+            const result = sourceNums.reduce((acc, n) => acc + n, 0);
+            const el = document.getElementById('array-output');
+            const steps = [];
+            let runningTotal = 0;
+            sourceNums.forEach(n => {
+                runningTotal += n;
+                steps.push(`${runningTotal}`);
+            });
+            el.innerHTML =
+                `<span style="color:#f59e0b; font-weight:600">.reduce((acc, n) => acc + n, 0)</span>\n\n` +
+                `<span style="color:#5e6e8a">Input:</span>  [${sourceNums.join(', ')}]\n` +
+                `<span style="color:#5e6e8a">Steps:</span>  ${steps.map((s, i) => `<span style="color:#93aac9">${sourceNums[i]}→${s}</span>`).join('  ')}\n` +
+                `<span style="color:#fbbf24">Output:</span> <span style="color:#7dd3fc; font-weight:700; font-size:18px">${result}</span>\n\n` +
+                `<span style="color:#5e6e8a">All elements reduced to a single sum.</span>`;
+        }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 6 — try...catch (Error Handling)                     -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">6.</span> try…catch (Error Handling)</h2>
+
+    <p>When you make async requests — fetching data from an API, loading a file, connecting to a database — things can and <em>will</em> go wrong. The network might be down, the server might return an error, or the URL might be wrong. You need a way to <strong>handle failures gracefully</strong> instead of crashing your entire app.</p>
+
+    <p>That's what <code>try...catch</code> does. It lets you <em>try</em> some risky code, and if it throws an error, you <em>catch</em> that error and handle it however you want.</p>
+
+    <h3>Basic Syntax</h3>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">try</span> {
+  <span class="cm">// Code that might fail</span>
+  <span class="kw">const</span> data = <span class="fn">riskyOperation</span>();
+  <span class="fn">console.log</span>(data);
+} <span class="kw">catch</span> (error) {
+  <span class="cm">// Code that runs ONLY if an error was thrown</span>
+  <span class="fn">console.log</span>(<span class="str">"Something went wrong:"</span>, error.message);
+} <span class="kw">finally</span> {
+  <span class="cm">// Code that ALWAYS runs, error or not</span>
+  <span class="fn">console.log</span>(<span class="str">"Cleanup complete."</span>);
+}</code></pre>
+
+    <h3>The Error Object</h3>
+
+    <p>When JavaScript throws an error, it creates an <strong>Error object</strong> with useful properties:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Description</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>error.message</code></td>
+                <td>Human-readable error description</td>
+                <td><code>"Cannot read property 'name' of undefined"</code></td>
+            </tr>
+            <tr>
+                <td><code>error.name</code></td>
+                <td>Type of error</td>
+                <td><code>"TypeError"</code>, <code>"ReferenceError"</code></td>
+            </tr>
+            <tr>
+                <td><code>error.stack</code></td>
+                <td>Stack trace showing where it happened</td>
+                <td>Full trace with file and line numbers</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Throwing Your Own Errors</h3>
+
+    <p>You can also <strong>throw</strong> errors yourself using the <code>throw</code> keyword. This is useful for validation:</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">function</span> <span class="fn">divide</span>(a, b) {
+  <span class="kw">if</span> (b === <span class="num-lit">0</span>) {
+    <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">"Cannot divide by zero!"</span>);
+  }
+  <span class="kw">return</span> a / b;
+}
+
+<span class="kw">try</span> {
+  <span class="kw">const</span> result = <span class="fn">divide</span>(<span class="num-lit">10</span>, <span class="num-lit">0</span>);
+} <span class="kw">catch</span> (error) {
+  <span class="fn">console.log</span>(error.message); <span class="cm">// "Cannot divide by zero!"</span>
+}</code></pre>
+
+    <div class="callout callout-blue">
+        <strong>💡 Why This Matters for Async</strong>
+        In the upcoming lessons, you'll write code like <code>try { const data = await fetch(url); } catch (error) { ... }</code>. The <code>try...catch</code> pattern is identical — the only difference is that the risky code is asynchronous. Master it now with synchronous code, and the async version will feel natural.
+    </div>
+
+    <h3>Interactive Demo — Risky Code</h3>
+
+    <div class="demo-box" id="demo-trycatch">
+        <div class="demo-label">▶ Live Demo — try…catch in Action</div>
+        <p style="color:#7a8599; font-size:14px; margin-bottom:18px;">Click the button to run code that randomly succeeds or fails. Watch how try…catch handles both outcomes.</p>
+        <button class="demo-btn demo-btn-rose" onclick="runRiskyCode()">🎲 Run Risky Code</button>
+        <div class="demo-output" id="trycatch-output">No runs yet…</div>
+    </div>
+
+    <script>
+        // ── Demo 5: try...catch ──
+        let runCount = 0;
+
+        function runRiskyCode() {
+            const el = document.getElementById('trycatch-output');
+            runCount++;
+
+            const lines = [];
+            lines.push(`<span style="color:#5e6e8a">── Run #${runCount} ──</span>`);
+            lines.push(`<span style="color:#7dd3fc">try {</span>`);
+
+            try {
+                // Randomly throw an error ~50% of the time
+                const random = Math.random();
+                lines.push(`  <span style="color:#5e6e8a">// Math.random() = ${random.toFixed(4)}</span>`);
+
+                if (random < 0.5) {
+                    throw new Error("Server returned 500: Internal Server Error");
+                }
+
+                const data = { user: "Alice", status: "active", id: Math.floor(random * 1000) };
+                lines.push(`  <span style="color:#10b981">✅ Success!</span> Data received:`);
+                lines.push(`  <span style="color:#6ee7b7; font-weight:600">{ user: "${data.user}", status: "${data.status}", id: ${data.id} }</span>`);
+                lines.push(`<span style="color:#7dd3fc">}</span>`);
+            } catch (error) {
+                lines.push(`  <span style="color:#f43f5e">💥 throw new Error("${error.message}")</span>`);
+                lines.push(`<span style="color:#7dd3fc">} catch (error) {</span>`);
+                lines.push(`  <span style="color:#fbbf24">⚠ Caught!</span> <span style="color:#f87171">error.message:</span> <span style="color:#fca5a5">"${error.message}"</span>`);
+                lines.push(`  <span style="color:#fbbf24">⚠ Caught!</span> <span style="color:#f87171">error.name:</span> <span style="color:#fca5a5">"${error.name}"</span>`);
+                lines.push(`<span style="color:#7dd3fc">}</span>`);
+            } finally {
+                lines.push(`<span style="color:#7dd3fc">finally {</span>`);
+                lines.push(`  <span style="color:#93aac9">🧹 Cleanup runs no matter what.</span>`);
+                lines.push(`<span style="color:#7dd3fc">}</span>`);
+            }
+
+            el.innerHTML = lines.join('\n');
+        }
+    </script>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 7 — Destructuring & Template Literals                -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">7.</span> Destructuring &amp; Template Literals</h2>
+
+    <p>These two features are not async-specific, but you'll use them on <strong>every single line</strong> that processes API data. A quick review to make sure they're sharp.</p>
+
+    <h3>Object Destructuring</h3>
+
+    <p>Instead of accessing object properties with dot notation over and over, you can <strong>extract</strong> them into variables in one clean line:</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> user = {
+  name: <span class="str">"Alice"</span>,
+  age: <span class="num-lit">28</span>,
+  email: <span class="str">"alice@example.com"</span>,
+  location: <span class="str">"NYC"</span>
+};
+
+<span class="cm">// ❌ Without destructuring — repetitive</span>
+<span class="fn">console.log</span>(user.name);
+<span class="fn">console.log</span>(user.age);
+<span class="fn">console.log</span>(user.email);
+
+<span class="cm">// ✅ With destructuring — clean</span>
+<span class="kw">const</span> { name, age, email } = user;
+<span class="fn">console.log</span>(name);  <span class="cm">// "Alice"</span>
+<span class="fn">console.log</span>(age);   <span class="cm">// 28</span>
+<span class="fn">console.log</span>(email); <span class="cm">// "alice@example.com"</span></code></pre>
+
+    <h3>Renaming During Destructuring</h3>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> { name: <span class="fn">userName</span>, age: <span class="fn">userAge</span> } = user;
+<span class="fn">console.log</span>(userName); <span class="cm">// "Alice"</span>
+<span class="fn">console.log</span>(userAge);  <span class="cm">// 28</span></code></pre>
+
+    <h3>Default Values</h3>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> { name, role = <span class="str">"user"</span> } = user;
+<span class="fn">console.log</span>(role); <span class="cm">// "user" (property didn't exist, default was used)</span></code></pre>
+
+    <h3>Nested Destructuring</h3>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> apiResponse = {
+  data: {
+    user: { name: <span class="str">"Alice"</span>, id: <span class="num-lit">42</span> },
+    token: <span class="str">"abc123"</span>
+  },
+  status: <span class="num-lit">200</span>
+};
+
+<span class="kw">const</span> { data: { user: { name }, token }, status } = apiResponse;
+<span class="fn">console.log</span>(name);   <span class="cm">// "Alice"</span>
+<span class="fn">console.log</span>(token);  <span class="cm">// "abc123"</span>
+<span class="fn">console.log</span>(status); <span class="cm">// 200</span></code></pre>
+
+    <h3>Array Destructuring</h3>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> colors = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>];
+<span class="kw">const</span> [first, second, third] = colors;
+<span class="fn">console.log</span>(first);  <span class="cm">// "red"</span>
+<span class="fn">console.log</span>(second); <span class="cm">// "green"</span>
+
+<span class="cm">// Skip elements with commas</span>
+<span class="kw">const</span> [, , blue] = colors;
+<span class="fn">console.log</span>(blue); <span class="cm">// "blue"</span></code></pre>
+
+    <h3>Template Literals</h3>
+
+    <p>Template literals use <strong>backticks</strong> (<code>`</code>) instead of quotes, and allow embedded expressions with <code>${...}</code>:</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> name = <span class="str">"Alice"</span>;
+<span class="kw">const</span> age = <span class="num-lit">28</span>;
+
+<span class="cm">// ❌ String concatenation — messy</span>
+<span class="kw">const</span> msg1 = <span class="str">"Hello, "</span> + name + <span class="str">". You are "</span> + age + <span class="str">" years old."</span>;
+
+<span class="cm">// ✅ Template literal — clean</span>
+<span class="kw">const</span> msg2 = <span class="str">`Hello, ${name}. You are ${age} years old.`</span>;
+
+<span class="cm">// You can put any expression inside ${...}</span>
+<span class="kw">const</span> msg3 = <span class="str">`In 5 years you'll be ${age + 5}.`</span>;
+<span class="kw">const</span> msg4 = <span class="str">`Name uppercased: ${name.toUpperCase()}`</span>;</code></pre>
+
+    <div class="callout callout-green">
+        <strong>✅ Real-World Async Pattern</strong>
+        Here's a sneak peek of how destructuring and template literals combine in async code:
+        <br><br>
+        <code style="color:#c9d1d9; background:#0d1117; padding:6px 12px; display:inline-block; border-radius:6px;">const { name, avatar } = await fetch('/api/user').then(r => r.json());</code>
+        <br><br>
+        One line: fetch data, parse JSON, destructure the result. You'll write this exact pattern many times.
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 8 — JSON                                             -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">8.</span> JSON (JavaScript Object Notation)</h2>
+
+    <p>JSON is the <strong>universal format</strong> for sending data over the internet. When you fetch data from an API, the response body is almost always a <em>JSON string</em>. You need to convert it to a JavaScript object before you can use it — and you need <code>JSON.parse()</code> to do that.</p>
+
+    <h3>What JSON Looks Like</h3>
+
+    <p>JSON looks almost identical to a JavaScript object, but with a few strict rules:</p>
+
+    <ul>
+        <li>All keys <strong>must</strong> be double-quoted strings: <code>"name"</code>, not <code>name</code>.</li>
+        <li>Values can be: strings, numbers, booleans, <code>null</code>, arrays, or objects.</li>
+        <li>No trailing commas, no functions, no <code>undefined</code>.</li>
+    </ul>
+
+    <pre><code><span class="code-label">JSON</span>{
+  <span class="str">"name"</span>: <span class="str">"Alice"</span>,
+  <span class="str">"age"</span>: <span class="num-lit">28</span>,
+  <span class="str">"isActive"</span>: <span class="bool">true</span>,
+  <span class="str">"hobbies"</span>: [<span class="str">"coding"</span>, <span class="str">"reading"</span>],
+  <span class="str">"address"</span>: {
+    <span class="str">"city"</span>: <span class="str">"New York"</span>,
+    <span class="str">"zip"</span>: <span class="str">"10001"</span>
+  }
+}</code></pre>
+
+    <h3><code>JSON.stringify()</code> — Object → JSON String</h3>
+
+    <p>Converts a JavaScript object into a JSON string. Used when <em>sending</em> data to a server.</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> user = { name: <span class="str">"Alice"</span>, age: <span class="num-lit">28</span>, active: <span class="bool">true</span> };
+<span class="kw">const</span> jsonString = <span class="fn">JSON.stringify</span>(user);
+<span class="fn">console.log</span>(jsonString);
+<span class="cm">// '{"name":"Alice","age":28,"active":true}'</span>
+<span class="fn">console.log</span>(<span class="kw">typeof</span> jsonString); <span class="cm">// "string"</span>
+
+<span class="cm">// Pretty-print with 2-space indentation</span>
+<span class="kw">const</span> pretty = <span class="fn">JSON.stringify</span>(user, <span class="bool">null</span>, <span class="num-lit">2</span>);
+<span class="fn">console.log</span>(pretty);
+<span class="cm">// {</span>
+<span class="cm">//   "name": "Alice",</span>
+<span class="cm">//   "age": 28,</span>
+<span class="cm">//   "active": true</span>
+<span class="cm">// }</span></code></pre>
+
+    <h3><code>JSON.parse()</code> — JSON String → Object</h3>
+
+    <p>Converts a JSON string back into a JavaScript object. Used when <em>receiving</em> data from a server.</p>
+
+    <pre><code><span class="code-label">JS</span><span class="kw">const</span> jsonString = <span class="str">'{"name":"Alice","age":28,"active":true}'</span>;
+<span class="kw">const</span> user = <span class="fn">JSON.parse</span>(jsonString);
+<span class="fn">console.log</span>(user.name);   <span class="cm">// "Alice"</span>
+<span class="fn">console.log</span>(user.age);    <span class="cm">// 28</span>
+<span class="fn">console.log</span>(<span class="kw">typeof</span> user); <span class="cm">// "object"</span></code></pre>
+
+    <div class="callout callout-amber">
+        <strong>⚠ Common Error</strong>
+        <code>JSON.parse()</code> will <strong>throw an error</strong> if you pass it invalid JSON. This is exactly why you'll wrap your async code in <code>try...catch</code> — the JSON you receive from a server might be malformed.
+    </div>
+
+    <h3>Interactive Demo — JSON Converter</h3>
+
+    <div class="demo-box" id="demo-json">
+        <div class="demo-label">▶ Live Demo — JSON.stringify() &amp; JSON.parse()</div>
+        <p style="color:#7a8599; font-size:14px; margin-bottom:18px;">Type a JavaScript-style object below (or a JSON string), then click a button to convert it.</p>
+        <div style="text-align:left; margin-bottom:14px;">
+            <label style="font-size:12px; font-weight:600; color:#5e6e8a; text-transform:uppercase; letter-spacing:1px;">Input</label>
+            <textarea class="demo-textarea" id="json-input" rows="4">{ name: "Alice", age: 28, hobbies: ["code", "read"] }</textarea>
+        </div>
+        <div style="margin-bottom:14px;">
+            <button class="demo-btn demo-btn-blue" onclick="demoStringify()">JSON.stringify()</button>
+            <button class="demo-btn demo-btn-purple" onclick="demoParse()">JSON.parse()</button>
+        </div>
+        <div style="text-align:left;">
+            <label style="font-size:12px; font-weight:600; color:#5e6e8a; text-transform:uppercase; letter-spacing:1px;">Output</label>
+            <div class="demo-output" id="json-output" style="white-space: pre-wrap;">Click a button to convert…</div>
+        </div>
+    </div>
+
+    <script>
+        // ── Demo 6: JSON Converter ──
+        function demoStringify() {
+            const input = document.getElementById('json-input').value.trim();
+            const el = document.getElementById('json-output');
+            try {
+                // Use eval to handle JS object syntax (non-quoted keys, etc.)
+                // In production you'd never do this — it's just for the demo
+                const obj = eval('(' + input + ')');
+                const result = JSON.stringify(obj, null, 2);
+                el.innerHTML =
+                    `<span style="color:#3b82f6; font-weight:600;">JSON.stringify() result:</span>\n\n` +
+                    `<span style="color:#7dd3fc">${escapeHtml(result)}</span>\n\n` +
+                    `<span style="color:#5e6e8a">Type: <span style="color:#fbbf24">string</span> | Length: <span style="color:#fbbf24">${result.length} chars</span></span>`;
+            } catch (err) {
+                el.innerHTML =
+                    `<span style="color:#f43f5e; font-weight:600;">❌ Error:</span> <span style="color:#fca5a5">${escapeHtml(err.message)}</span>\n\n` +
+                    `<span style="color:#5e6e8a">Make sure you entered a valid JavaScript object.</span>`;
+            }
+        }
+
+        function demoParse() {
+            const input = document.getElementById('json-input').value.trim();
+            const el = document.getElementById('json-output');
+            try {
+                const obj = JSON.parse(input);
+                const pretty = JSON.stringify(obj, null, 2);
+                el.innerHTML =
+                    `<span style="color:#a78bfa; font-weight:600;">JSON.parse() result:</span>\n\n` +
+                    `<span style="color:#7dd3fc">${escapeHtml(pretty)}</span>\n\n` +
+                    `<span style="color:#5e6e8a">Type: <span style="color:#fbbf24">${typeof obj}</span> | Keys: <span style="color:#fbbf24">${Object.keys(obj).join(', ')}</span></span>`;
+            } catch (err) {
+                el.innerHTML =
+                    `<span style="color:#f43f5e; font-weight:600;">❌ Error:</span> <span style="color:#fca5a5">${escapeHtml(err.message)}</span>\n\n` +
+                    `<span style="color:#5e6e8a">JSON.parse() requires <strong>valid JSON</strong> — all keys must be double-quoted.\n` +
+                    `Try pasting this: <span style="color:#7dd3fc">{"name":"Alice","age":28}</span></span>`;
+            }
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+    </script>
+
+    <div class="callout callout-blue">
+        <strong>💡 Try It</strong>
+        Paste the JS object into the input and click <strong>Stringify</strong> — you'll get valid JSON. Then paste that JSON string back and click <strong>Parse</strong> to convert it back to an object. This round-trip (object → JSON string → object) is exactly what happens during every API call.
+    </div>
+
+    <hr>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- Recap                                                        -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <h2><span class="num">✓</span> Recap — Your Async Toolkit</h2>
+
+    <p>Let's summarize everything we reviewed. These are the tools in your belt going into the rest of this course:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Concept</th>
+                <th>Why You Need It</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>First-class functions</strong></td>
+                <td>Async APIs accept functions as arguments — you must be comfortable with this.</td>
+            </tr>
+            <tr>
+                <td><strong>Callbacks</strong></td>
+                <td>The original pattern for async code. Promises and async/await evolved from this.</td>
+            </tr>
+            <tr>
+                <td><strong>Arrow functions</strong></td>
+                <td>Every modern example uses them — they're shorter and have cleaner scoping.</td>
+            </tr>
+            <tr>
+                <td><strong>Array methods</strong></td>
+                <td>API data comes as arrays of objects. You'll <code>.map()</code> and <code>.filter()</code> constantly.</td>
+            </tr>
+            <tr>
+                <td><strong>try…catch</strong></td>
+                <td>Async operations fail. You wrap them in try…catch to handle errors gracefully.</td>
+            </tr>
+            <tr>
+                <td><strong>Destructuring</strong></td>
+                <td>API responses are objects. Destructuring keeps your code clean and readable.</td>
+            </tr>
+            <tr>
+                <td><strong>Template literals</strong></td>
+                <td>Building dynamic strings (URLs, messages, HTML) is painless with backticks.</td>
+            </tr>
+            <tr>
+                <td><strong>JSON</strong></td>
+                <td>The lingua franca of web APIs. <code>parse()</code> and <code>stringify()</code> are essential.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-green">
+        <strong>✅ You're Ready</strong>
+        If you followed along with every demo and every code example made sense, you have all the prerequisite knowledge needed for this course. In the next lesson, we'll dive into the <strong>Event Loop</strong> — the engine that makes async JavaScript possible.
+    </div>
+
+    <!-- ── Bottom Nav ── -->
+    <div class="bottom-nav">
+        <p>Next Lesson →</p>
+        <h3>02 — The Event Loop &amp; Call Stack</h3>
+    </div>
+
+</div>
+</body>
+</html>
